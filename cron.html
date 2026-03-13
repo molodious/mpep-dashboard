@@ -92,7 +92,12 @@
       border-radius: 20px;
       padding: 5px 14px;
       font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
     }
+    .stat-pill:hover { border-color: var(--border2); background: var(--surface2); }
+    .stat-pill.active { border-color: var(--blue); background: var(--blue-bg); }
     .stat-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
     .dot-green  { background: var(--green); }
     .dot-red    { background: var(--red); }
@@ -427,20 +432,7 @@ const autoJobs = [
       { type: "tg", label: "📱 Telegram → Justina" },
     ]
   },
-  {
-    name: "OH Archive Broadcast Check",
-    desc: "One-time: confirms the OH archive Kit broadcast was actually delivered after today's send. Self-destructs after running.",
-    schedule: "One-shot",
-    scheduleExpr: "2026-03-13 · 2:20 PM ET",
-    nextRunMs: 1773426000000,
-    lastRunMs: null,
-    lastDuration: null,
-    status: "oneshot",
-    oneShot: true,
-    notifs: [
-      { type: "tg", label: "📱 Telegram → Dan" },
-    ]
-  },
+
   {
     name: "Office Hours Deck Builder",
     desc: "Every 2 weeks, fetches question submissions from Typeform and builds a formatted slide deck for Office Hours. Sends the PPTX file directly to Dan.",
@@ -511,7 +503,7 @@ const autoJobs = [
     notifs: [
       { type: "email", label: "✉️ Email → Dan" },
       { type: "email", label: "✉️ Email → Justina" },
-      { type: "tg", label: "📱 Telegram → Dan" },
+      { type: "tg", label: "📱 Telegram → Justina" },
     ]
   },
   {
@@ -545,20 +537,7 @@ const autoJobs = [
       { type: "email", label: "✉️ Email → Dan" },
     ]
   },
-  {
-    name: "Office Hours Broadcast Scheduler",
-    desc: "Queues the 3-email Kit sequence for the upcoming OH session (submission reminder, day-before, day-of). Runs once on Mar 17, then self-reschedules every 14 days.",
-    schedule: "One-shot → self-rescheduling",
-    scheduleExpr: "2026-03-17 · 9:00 AM ET",
-    nextRunMs: 1773752400000,
-    lastRunMs: null,
-    lastDuration: null,
-    status: "oneshot",
-    oneShot: true,
-    notifs: [
-      { type: "tg", label: "📱 Telegram → Dan" },
-    ]
-  },
+
   {
     name: "OH Archive Calendar Sync",
     desc: "Every Tuesday at 9 AM ET, pulls the next OH event from Google Calendar and updates the OH Archive website so the \"Next Session\" banner always shows the correct date.",
@@ -687,7 +666,7 @@ function statusHtml(job) {
     ok:       ['dot-ok',     'status-ok',       '✓ Healthy'],
     fixed:    ['dot-ok',     'status-fixed',     '✓ Fixed'],
     error:    ['dot-error',  'status-error',     '✗ Error'],
-    pending:  ['dot-pending','status-pending',   '○ Never Run'],
+    pending:  ['dot-gray',   'status-notbuilt',   '○ Pending'],
     oneshot:  ['dot-purple', 'status-oneshot',   '◆ One-shot'],
     notbuilt: ['dot-gray',   'status-notbuilt',  '— Not Built'],
     partial:  ['dot-orange', 'status-partial',   '⚠ Partial'],
@@ -716,7 +695,7 @@ document.getElementById("auto-tbody").innerHTML = sorted.map(j => {
   const lastRan = j.lastRunMs ? fmtTs(j.lastRunMs) : null;
   const dur = fmtDur(j.lastDuration);
 
-  return `<tr>
+  return `<tr data-status="${j.status}">
     <td class="cell-name">
       <div class="name-label">${j.name}</div>
       <div class="name-desc">${j.desc}</div>
@@ -746,7 +725,7 @@ document.getElementById("manual-count").textContent = manualJobs.length + " work
 document.getElementById("manual-tbody").innerHTML = manualJobs.map(j => {
   const lastRan = j.lastRunMs ? fmtTs(j.lastRunMs) : null;
   const dur = fmtDur(j.lastDuration);
-  return `<tr>
+  return `<tr data-status="${j.status}">
     <td class="cell-name">
       <div class="name-label">${j.name}</div>
       <div class="name-desc">${j.desc}</div>
@@ -764,25 +743,71 @@ document.getElementById("manual-tbody").innerHTML = manualJobs.map(j => {
   </tr>`;
 }).join("");
 
-// ─── Stats ────────────────────────────────────────────────────────────────────
+// ─── Stats & Filters ──────────────────────────────────────────────────────────
 const allJobs = [...autoJobs, ...manualJobs];
 const counts = {
   healthy: allJobs.filter(j => j.status === 'ok' || j.status === 'fixed' || j.status === 'live').length,
   error:   allJobs.filter(j => j.status === 'error').length,
   pending: allJobs.filter(j => j.status === 'pending').length,
-  oneshot: allJobs.filter(j => j.status === 'oneshot').length,
-  manual:  manualJobs.length,
+  partial: allJobs.filter(j => j.status === 'partial').length,
   notbuilt:allJobs.filter(j => j.status === 'notbuilt').length,
 };
 
-document.getElementById("stats-bar").innerHTML = `
-  <div class="stat-pill"><span class="dot dot-blue"></span><span class="num">${allJobs.length}</span><span class="lbl">Total</span></div>
-  <div class="stat-pill"><span class="dot dot-green"></span><span class="num">${counts.healthy}</span><span class="lbl">Healthy</span></div>
-  <div class="stat-pill"><span class="dot dot-yellow"></span><span class="num">${counts.pending}</span><span class="lbl">Never Run</span></div>
-  <div class="stat-pill"><span class="dot dot-purple"></span><span class="num">${counts.oneshot}</span><span class="lbl">One-Shot</span></div>
-  <div class="stat-pill"><span class="dot dot-red"></span><span class="num">${counts.error}</span><span class="lbl">Errors</span></div>
-  <div class="stat-pill"><span class="dot dot-gray"></span><span class="num">${counts.notbuilt}</span><span class="lbl">Not Built</span></div>
-`;
+const pills = [
+  { filter: 'all',     dot: 'dot-blue',   count: allJobs.length, label: 'Total' },
+  { filter: 'healthy', dot: 'dot-green',  count: counts.healthy, label: 'Healthy' },
+  { filter: 'pending', dot: 'dot-gray',   count: counts.pending, label: 'Pending' },
+  { filter: 'error',   dot: 'dot-red',    count: counts.error,   label: 'Errors' },
+  { filter: 'partial', dot: 'dot-orange', count: counts.partial, label: 'Partial' },
+  { filter: 'notbuilt',dot: 'dot-gray',   count: counts.notbuilt,label: 'Not Built' },
+];
+
+document.getElementById("stats-bar").innerHTML = pills.map(p =>
+  `<div class="stat-pill" data-filter="${p.filter}"><span class="dot ${p.dot}"></span><span class="num">${p.count}</span><span class="lbl">${p.label}</span></div>`
+).join("");
+
+// Filter logic
+let activeFilter = 'all';
+// Map filters to data-status values on rows
+const statusGroups = {
+  healthy: ['ok', 'fixed', 'live'],
+  error: ['error'],
+  pending: ['pending'],
+  partial: ['partial'],
+  notbuilt: ['notbuilt'],
+};
+
+function applyFilter(filter) {
+  activeFilter = filter;
+  // Update pill active states
+  document.querySelectorAll('.stat-pill').forEach(pill => {
+    pill.classList.toggle('active', pill.dataset.filter === filter && filter !== 'all');
+  });
+  // Filter rows in both tables using data-status attribute
+  [document.getElementById('auto-tbody'), document.getElementById('manual-tbody')].forEach(tbody => {
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(row => {
+      if (filter === 'all') {
+        row.style.display = '';
+        return;
+      }
+      const rowStatus = row.dataset.status;
+      const statuses = statusGroups[filter] || [];
+      row.style.display = statuses.includes(rowStatus) ? '' : 'none';
+    });
+  });
+}
+
+document.getElementById('stats-bar').addEventListener('click', e => {
+  const pill = e.target.closest('.stat-pill');
+  if (!pill) return;
+  const filter = pill.dataset.filter;
+  if (filter === activeFilter || filter === 'all') {
+    applyFilter('all');
+  } else {
+    applyFilter(filter);
+  }
+});
 
 // ─── Live clock ───────────────────────────────────────────────────────────────
 function updateClock() {
