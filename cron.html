@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cron Jobs — MPEP Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #21262d;
+      --border2: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --dim: #484f58;
+      --green: #3fb950;
+      --green-bg: #0d2e1a;
+      --red: #f85149;
+      --red-bg: #2d0f0e;
+      --yellow: #d29922;
+      --yellow-bg: #2d1f03;
+      --blue: #58a6ff;
+      --blue-bg: #0d1f33;
+      --purple: #a371f7;
+      --purple-bg: #1e0f33;
+      --gray: #6e7681;
+      --gray-bg: #1a1f27;
+      --orange: #e3b341;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 13px;
+    }
+
+    /* ── Header ── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon { font-size: 22px; line-height: 1; }
+    .brand-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .brand-sub { font-size: 11px; color: var(--muted); }
+
+    .topbar-right { display: flex; align-items: center; gap: 14px; }
+    #clock { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+    .btn {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover { background: var(--border2); color: var(--text); }
+
+    /* ── Stat pills ── */
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+    }
+    .stat-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot-green  { background: var(--green); }
+    .dot-red    { background: var(--red); }
+    .dot-yellow { background: var(--yellow); }
+    .dot-blue   { background: var(--blue); }
+    .dot-gray   { background: var(--gray); }
+    .dot-purple { background: var(--purple); }
+
+    .stat-pill .num { font-weight: 700; color: var(--text); }
+    .stat-pill .lbl { color: var(--muted); }
+
+    /* ── Section headers ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px 10px;
+    }
+    .section-icon { font-size: 14px; }
+    .section-title { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .section-count {
+      font-size: 11px;
+      color: var(--dim);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1px 8px;
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      overflow-x: auto;
+      padding: 0 24px 32px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    thead tr {
+      border-bottom: 1px solid var(--border2);
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:hover { background: var(--surface); }
+    tbody tr:last-child { border-bottom: none; }
+
+    td {
+      padding: 12px 12px;
+      vertical-align: top;
+    }
+
+    /* ── Cell types ── */
+    .cell-name { min-width: 180px; max-width: 240px; }
+    .name-label { font-weight: 600; color: var(--text); font-size: 13px; margin-bottom: 3px; }
+    .name-desc  { font-size: 11px; color: var(--muted); line-height: 1.45; }
+
+    .cell-type { white-space: nowrap; }
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    .type-auto   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid #1c3a5e; }
+    .type-manual { background: var(--purple-bg);  color: var(--purple); border: 1px solid #3a1f66; }
+
+    .cell-schedule { min-width: 150px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .schedule-expr { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 10px; color: var(--dim); margin-top: 3px; }
+
+    .cell-next { min-width: 130px; }
+    .next-rel  { font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+    .next-abs  { font-size: 11px; color: var(--muted); }
+    .next-soon  { color: var(--yellow); }
+    .next-normal { color: var(--blue); }
+    .next-ondemand { color: var(--purple); }
+
+    .cell-lastrun { min-width: 120px; font-size: 12px; }
+    .lastrun-time { color: var(--text); margin-bottom: 2px; }
+    .lastrun-dur  { font-size: 11px; color: var(--muted); }
+    .lastrun-never { color: var(--dim); font-style: italic; }
+
+    .cell-status { white-space: nowrap; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+    .status-ok       { background: var(--green-bg);  color: var(--green);  border: 1px solid #173d23; }
+    .status-fixed    { background: var(--green-bg);  color: var(--green);  border: 1px solid #173d23; }
+    .status-error    { background: var(--red-bg);    color: var(--red);    border: 1px solid #4a1a18; }
+    .status-pending  { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #4a3400; }
+    .status-oneshot  { background: var(--purple-bg); color: var(--purple); border: 1px solid #3e1e66; }
+    .status-notbuilt { background: var(--gray-bg);   color: var(--gray);   border: 1px solid #2a2f38; }
+    .status-partial  { background: var(--yellow-bg); color: var(--orange); border: 1px solid #4a3800; }
+    .status-live     { background: var(--green-bg);  color: var(--green);  border: 1px solid #173d23; }
+
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-ok      { background: var(--green); }
+    .dot-error   { background: var(--red); }
+    .dot-pending { background: var(--yellow); }
+    .dot-purple  { background: var(--purple); }
+    .dot-gray    { background: var(--gray); }
+    .dot-orange  { background: var(--orange); }
+
+    .cell-notif { min-width: 140px; }
+    .notif-list { display: flex; flex-direction: column; gap: 3px; }
+    .notif-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .notif-tg    { background: #0d2440; color: #60a5fa; border: 1px solid #1a3a5c; }
+    .notif-email { background: #0d2a0d; color: #86efac; border: 1px solid #1a4a1a; }
+    .notif-silent { background: #1a1a2e; color: #818cf8; border: 1px solid #2a2a4e; }
+
+    .error-note {
+      font-size: 10px;
+      color: var(--red);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .fixed-note {
+      font-size: 10px;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    /* Section divider */
+    .section-divider { height: 1px; background: var(--border2); margin: 8px 24px; }
+
+    @media (max-width: 600px) {
+      .topbar, .stats-bar, .section-header, .table-wrap { padding-left: 14px; padding-right: 14px; }
+    }
+  
+    /* ── Auth overlay ── */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: #0d1117;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .auth-logo  { font-size: 36px; margin-bottom: 12px; }
+    .auth-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .auth-box input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.15s;
+    }
+    .auth-box input:focus { border-color: #58a6ff; }
+    .auth-box button {
+      width: 100%;
+      background: #58a6ff;
+      color: #0d1117;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .auth-box button:hover    { opacity: 0.88; }
+    .auth-box button:disabled { opacity: 0.55; cursor: default; }
+    #pwd-error { display: none; color: #f85149; font-size: 12px; margin-bottom: 10px; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 4px;
+    }
+    .back-link:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth overlay ── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Main content ── -->
+<div id="main-content">
+
+<!-- ── Topbar ── -->
+<div class="topbar">
+  <div class="brand">
+    <a href="index.html" class="back-link">← Dashboard</a>
+    <span class="brand-icon">♠️</span>
+    <div>
+      <div class="brand-name">Cron Jobs &amp; Automations</div>
+      <div class="brand-sub">Mechanical PE Exam Prep</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span id="clock"></span>
+    <button class="btn" onclick="location.reload()">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- ── Stats bar ── -->
+<div class="stats-bar" id="stats-bar"></div>
+
+<!-- ── Automated Jobs ── -->
+<div class="section-header">
+  <span class="section-icon">🤖</span>
+  <span class="section-title">Automated · Cron Jobs</span>
+  <span class="section-count" id="auto-count"></span>
+</div>
+<div class="table-wrap">
+  <table id="auto-table">
+    <thead>
+      <tr>
+        <th>Job Name &amp; Description</th>
+        <th>Type</th>
+        <th>Schedule</th>
+        <th>Next Run</th>
+        <th>Last Run</th>
+        <th>Status</th>
+        <th>Notifications</th>
+      </tr>
+    </thead>
+    <tbody id="auto-tbody"></tbody>
+  </table>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ── Manual Workflows ── -->
+<div class="section-header">
+  <span class="section-icon">👤</span>
+  <span class="section-title">Manual · On-Demand Workflows</span>
+  <span class="section-count" id="manual-count"></span>
+</div>
+<div class="table-wrap">
+  <table id="manual-table">
+    <thead>
+      <tr>
+        <th>Workflow Name &amp; Description</th>
+        <th>Type</th>
+        <th>Trigger</th>
+        <th>Next Run</th>
+        <th>Last Run</th>
+        <th>Status</th>
+        <th>Notifications</th>
+      </tr>
+    </thead>
+    <tbody id="manual-tbody"></tbody>
+  </table>
+</div>
+
+<script>
+const NOW = Date.now();
+
+// ─── Automated cron jobs ────────────────────────────────────────────────────
+const autoJobs = [
+  {
+    name: "Gmail Lead Monitor",
+    desc: "Scans the Gmail inbox every 30 min and classifies emails. Fires a 🚨 Prospect Alert to Dan & Justina when a real prospect appears — filters spam, automated mail, and enrolled students.",
+    schedule: "Every 30 min",
+    scheduleExpr: "0,30 5-21 * * * (America/New_York)",
+    nextRunMs: 1773424800000,
+    lastRunMs: 1773423000008,
+    lastDuration: 11231,
+    status: "ok",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+      { type: "tg", label: "📱 Telegram → Justina" },
+    ]
+  },
+  {
+    name: "OH Archive Broadcast Check",
+    desc: "One-time: confirms the OH archive Kit broadcast was actually delivered after today's send. Self-destructs after running.",
+    schedule: "One-shot",
+    scheduleExpr: "2026-03-13 · 2:20 PM ET",
+    nextRunMs: 1773426000000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "oneshot",
+    oneShot: true,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+  {
+    name: "Office Hours Deck Builder",
+    desc: "Every 2 weeks, fetches question submissions from Typeform and builds a formatted slide deck for Office Hours. Sends the PPTX file directly to Dan.",
+    schedule: "Every 2 weeks",
+    scheduleExpr: "everyMs: 1,209,600,000 ms",
+    nextRunMs: 1773464400000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan (file)" },
+    ]
+  },
+  {
+    name: "Daily Workspace Backup",
+    desc: "Commits the full OpenClaw workspace, config, and cron jobs to GitHub nightly at 2 AM ET. Silent on success — only notifies on failure.",
+    schedule: "Daily · 2:00 AM ET",
+    scheduleExpr: "0 2 * * * (America/New_York)",
+    nextRunMs: 1773468000000,
+    lastRunMs: 1773381601810,
+    lastDuration: 12685,
+    status: "ok",
+    oneShot: false,
+    notifs: [
+      { type: "silent", label: "🔕 Silent (error only → Dan)" },
+    ]
+  },
+  {
+    name: "Weekly Calendar Lookahead",
+    desc: "Every Sunday at noon, pulls the coming week's events from both Google Calendars (business + personal) and sends a color-coded summary to Dan.",
+    schedule: "Sundays · 12:00 PM ET",
+    scheduleExpr: "0 12 * * 0 (America/New_York)",
+    nextRunMs: 1773590400000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+  {
+    name: "OH Cancellation Check",
+    desc: "Runs early Monday morning to count question submissions after the Friday window closes. If fewer than 5 arrived, cancels Office Hours: deletes Kit reminders and schedules a cancellation email.",
+    schedule: "Mondays · 3:00 AM ET",
+    scheduleExpr: "0 3 * * 1 (America/New_York)",
+    nextRunMs: 1773644400000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+  {
+    name: "Weekly Follow-Up Drafts",
+    desc: "Pulls all overdue HubSpot tasks, then writes personalized follow-up email drafts using the MPEP sales playbook. Sends a color-coded HTML email to Dan & Justina, plus a Telegram summary.",
+    schedule: "Mondays · 5:00 AM ET",
+    scheduleExpr: "0 5 * * 1 (America/New_York)",
+    nextRunMs: 1773651600000,
+    lastRunMs: 1773050400010,
+    lastDuration: 134432,
+    status: "fixed",
+    fixedNote: "✓ Fixed — job ran & sent emails. Telegram delivery bug patched today.",
+    oneShot: false,
+    notifs: [
+      { type: "email", label: "✉️ Email → Dan" },
+      { type: "email", label: "✉️ Email → Justina" },
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+  {
+    name: "Exam Good Luck Scheduler",
+    desc: "Scans the Exam Date Typeform for upcoming exams (7-day window) and schedules Kit \"Good Luck\" broadcasts 3 days before each. Sends an email + Telegram digest with a 180-day lookahead.",
+    schedule: "Mondays · 6:00 AM ET",
+    scheduleExpr: "0 6 * * 1 (America/New_York)",
+    nextRunMs: 1773655200000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+      { type: "email", label: "✉️ Email → Dan" },
+    ]
+  },
+  {
+    name: "Zoom OH Download & Process",
+    desc: "Every Monday at 10 PM ET (biweekly check). On OH weeks: downloads the Zoom recording, extracts & names clips using VTT transcript + OCR, updates the OH Archive site, and sends a summary to Dan.",
+    schedule: "Mondays · 10:00 PM ET (biweekly)",
+    scheduleExpr: "0 22 * * 1 (America/New_York)",
+    nextRunMs: 1773712800000,
+    lastRunMs: 1773108000646,
+    lastDuration: 32472,
+    status: "fixed",
+    fixedNote: "✓ Fixed — it was a non-OH week. Telegram delivery bug also patched today.",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+      { type: "email", label: "✉️ Email → Dan" },
+    ]
+  },
+  {
+    name: "Office Hours Broadcast Scheduler",
+    desc: "Queues the 3-email Kit sequence for the upcoming OH session (submission reminder, day-before, day-of). Runs once on Mar 17, then self-reschedules every 14 days.",
+    schedule: "One-shot → self-rescheduling",
+    scheduleExpr: "2026-03-17 · 9:00 AM ET",
+    nextRunMs: 1773752400000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "oneshot",
+    oneShot: true,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+  {
+    name: "OH Archive Calendar Sync",
+    desc: "Every Tuesday at 9 AM ET, pulls the next OH event from Google Calendar and updates the OH Archive website so the \"Next Session\" banner always shows the correct date.",
+    schedule: "Tuesdays · 9:00 AM ET",
+    scheduleExpr: "0 9 * * 2 (America/New_York)",
+    nextRunMs: 1773752400000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+      { type: "email", label: "✉️ Email → Dan" },
+    ]
+  },
+  {
+    name: "Quarterly Habits Report",
+    desc: "On Jan 1, Apr 1, Jul 1, Oct 1 at 8 AM ET, generates a full quarterly review of Dan's habit scorecard — completion rates, streaks, trends — and sends it to Dan.",
+    schedule: "Quarterly · Jan/Apr/Jul/Oct 1 · 8:00 AM ET",
+    scheduleExpr: "0 8 1 1,4,7,10 * (America/New_York)",
+    nextRunMs: 1775044800000,
+    lastRunMs: null,
+    lastDuration: null,
+    status: "pending",
+    oneShot: false,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan" },
+    ]
+  },
+];
+
+// ─── Manual on-demand workflows ─────────────────────────────────────────────
+const manualJobs = [
+  {
+    name: "YouTube Video Uploader",
+    desc: "Dan provides a video file (or Drive path) + title/description. Ace uploads to the MPEP YouTube channel with proper metadata, thumbnail, and playlist assignment.",
+    trigger: "Dan says \"upload this video\" or similar",
+    status: "notbuilt",
+    statusLabel: "Not Built",
+    lastRunMs: null,
+    lastDuration: null,
+    notifs: [
+      { type: "tg", label: "📱 Telegram → Dan (confirmation)" },
+    ]
+  },
+  {
+    name: "MDM Problem Generation",
+    desc: "Dan requests a problem topic/domain. Ace generates 3 candidate problems, Dan selects one, Ace writes the final compliant Markdown and runs the audit script to verify it passes standards.",
+    trigger: "Dan says \"generate a problem\" or gives a topic",
+    status: "live",
+    statusLabel: "Live",
+    lastRunMs: null,
+    lastDuration: null,
+    notifs: [
+      { type: "tg", label: "📱 In-chat delivery" },
+    ]
+  },
+  {
+    name: "Prospect Response Draft",
+    desc: "Dan pastes a prospect message into chat. Ace reads the sales playbook, identifies the lead temperature and context, and drafts a reply in Dan's voice ready to copy-paste.",
+    trigger: "Dan pastes prospect message + asks for a draft",
+    status: "live",
+    statusLabel: "Live",
+    lastRunMs: null,
+    lastDuration: null,
+    notifs: [
+      { type: "tg", label: "📱 In-chat delivery" },
+    ]
+  },
+  {
+    name: "Book Order Processing (Manual Payment)",
+    desc: "The webhook automatically creates Lulu print jobs and sends confirmation emails. First-ever real order requires a manual payment approval at developers.lulu.com — after that, all future orders auto-charge.",
+    trigger: "First real book order arrives via Typeform webhook",
+    status: "partial",
+    statusLabel: "Partial — awaiting 1st order",
+    lastRunMs: null,
+    lastDuration: null,
+    notifs: [
+      { type: "email", label: "✉️ Email → Customer (auto)" },
+      { type: "email", label: "✉️ Email → Dan (auto)" },
+    ]
+  },
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function timeUntil(ms) {
+  const diff = ms - NOW;
+  if (diff <= 0) return "Due now";
+  const m = Math.floor(diff / 60000);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  if (d > 0) return `in ${d}d ${h % 24}h`;
+  if (h > 0) return `in ${h}h ${m % 60}m`;
+  return `in ${m}m`;
+}
+
+function fmtTs(ms, tz = "America/New_York") {
+  if (!ms) return null;
+  return new Date(ms).toLocaleString("en-US", {
+    timeZone: tz,
+    month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit",
+    hour12: true
+  }) + " ET";
+}
+
+function fmtDur(ms) {
+  if (!ms) return null;
+  if (ms < 1000) return `${ms}ms`;
+  if (ms < 60000) return `${(ms/1000).toFixed(1)}s`;
+  const m = Math.floor(ms/60000);
+  const s = Math.round((ms % 60000)/1000);
+  return `${m}m ${s}s`;
+}
+
+function notifHtml(notifs) {
+  return notifs.map(n => {
+    const cls = n.type === "email" ? "notif-email" : n.type === "silent" ? "notif-silent" : "notif-tg";
+    return `<span class="notif-tag ${cls}">${n.label}</span>`;
+  }).join("");
+}
+
+function statusHtml(job) {
+  const s = job.status;
+  const map = {
+    ok:       ['dot-ok',     'status-ok',       '✓ Healthy'],
+    fixed:    ['dot-ok',     'status-fixed',     '✓ Fixed'],
+    error:    ['dot-error',  'status-error',     '✗ Error'],
+    pending:  ['dot-pending','status-pending',   '○ Never Run'],
+    oneshot:  ['dot-purple', 'status-oneshot',   '◆ One-shot'],
+    notbuilt: ['dot-gray',   'status-notbuilt',  '— Not Built'],
+    partial:  ['dot-orange', 'status-partial',   '⚠ Partial'],
+    live:     ['dot-ok',     'status-live',      '✓ Live'],
+  };
+  const [dotCls, badgeCls, label] = map[s] || map['pending'];
+  let extra = '';
+  if (job.fixedNote) extra = `<div class="fixed-note">${job.fixedNote}</div>`;
+  if (job.statusLabel && s !== 'ok' && s !== 'fixed' && s !== 'pending') {
+    return `<span class="status-badge ${badgeCls}"><span class="status-dot ${dotCls}"></span>${job.statusLabel}</span>${extra}`;
+  }
+  return `<span class="status-badge ${badgeCls}"><span class="status-dot ${dotCls}"></span>${label}</span>${extra}`;
+}
+
+// ─── Render auto jobs ─────────────────────────────────────────────────────────
+const sorted = [...autoJobs].sort((a, b) => (a.nextRunMs || 9e15) - (b.nextRunMs || 9e15));
+
+document.getElementById("auto-count").textContent = autoJobs.length + " jobs";
+
+document.getElementById("auto-tbody").innerHTML = sorted.map(j => {
+  const diffMs = j.nextRunMs - NOW;
+  const isSoon = diffMs > 0 && diffMs < 3 * 3600000;
+  const nextRelClass = j.oneShot ? "next-ondemand" : isSoon ? "next-soon" : "next-normal";
+  const nextRel = j.nextRunMs ? timeUntil(j.nextRunMs) : "—";
+  const nextAbs = j.nextRunMs ? fmtTs(j.nextRunMs) : "—";
+  const lastRan = j.lastRunMs ? fmtTs(j.lastRunMs) : null;
+  const dur = fmtDur(j.lastDuration);
+
+  return `<tr>
+    <td class="cell-name">
+      <div class="name-label">${j.name}</div>
+      <div class="name-desc">${j.desc}</div>
+    </td>
+    <td class="cell-type"><span class="type-badge type-auto">🤖 Auto</span></td>
+    <td class="cell-schedule">
+      <div>${j.schedule}</div>
+      <div class="schedule-expr">${j.scheduleExpr}</div>
+    </td>
+    <td class="cell-next">
+      <div class="next-rel ${nextRelClass}">${nextRel}</div>
+      <div class="next-abs">${nextAbs}</div>
+    </td>
+    <td class="cell-lastrun">
+      ${lastRan
+        ? `<div class="lastrun-time">${lastRan}</div><div class="lastrun-dur">${dur || ''}</div>`
+        : `<div class="lastrun-never">Never</div>`}
+    </td>
+    <td class="cell-status">${statusHtml(j)}</td>
+    <td class="cell-notif"><div class="notif-list">${notifHtml(j.notifs)}</div></td>
+  </tr>`;
+}).join("");
+
+// ─── Render manual jobs ───────────────────────────────────────────────────────
+document.getElementById("manual-count").textContent = manualJobs.length + " workflows";
+
+document.getElementById("manual-tbody").innerHTML = manualJobs.map(j => {
+  const lastRan = j.lastRunMs ? fmtTs(j.lastRunMs) : null;
+  const dur = fmtDur(j.lastDuration);
+  return `<tr>
+    <td class="cell-name">
+      <div class="name-label">${j.name}</div>
+      <div class="name-desc">${j.desc}</div>
+    </td>
+    <td class="cell-type"><span class="type-badge type-manual">👤 Manual</span></td>
+    <td class="cell-schedule"><div>${j.trigger}</div></td>
+    <td class="cell-next"><div class="next-rel next-ondemand">On demand</div></td>
+    <td class="cell-lastrun">
+      ${lastRan
+        ? `<div class="lastrun-time">${lastRan}</div><div class="lastrun-dur">${dur || ''}</div>`
+        : `<div class="lastrun-never">Never</div>`}
+    </td>
+    <td class="cell-status">${statusHtml(j)}</td>
+    <td class="cell-notif"><div class="notif-list">${notifHtml(j.notifs)}</div></td>
+  </tr>`;
+}).join("");
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+const allJobs = [...autoJobs, ...manualJobs];
+const counts = {
+  healthy: allJobs.filter(j => j.status === 'ok' || j.status === 'fixed' || j.status === 'live').length,
+  error:   allJobs.filter(j => j.status === 'error').length,
+  pending: allJobs.filter(j => j.status === 'pending').length,
+  oneshot: allJobs.filter(j => j.status === 'oneshot').length,
+  manual:  manualJobs.length,
+  notbuilt:allJobs.filter(j => j.status === 'notbuilt').length,
+};
+
+document.getElementById("stats-bar").innerHTML = `
+  <div class="stat-pill"><span class="dot dot-blue"></span><span class="num">${allJobs.length}</span><span class="lbl">Total</span></div>
+  <div class="stat-pill"><span class="dot dot-green"></span><span class="num">${counts.healthy}</span><span class="lbl">Healthy</span></div>
+  <div class="stat-pill"><span class="dot dot-yellow"></span><span class="num">${counts.pending}</span><span class="lbl">Never Run</span></div>
+  <div class="stat-pill"><span class="dot dot-purple"></span><span class="num">${counts.oneshot}</span><span class="lbl">One-Shot</span></div>
+  <div class="stat-pill"><span class="dot dot-red"></span><span class="num">${counts.error}</span><span class="lbl">Errors</span></div>
+  <div class="stat-pill"><span class="dot dot-gray"></span><span class="num">${counts.notbuilt}</span><span class="lbl">Not Built</span></div>
+`;
+
+// ─── Live clock ───────────────────────────────────────────────────────────────
+function updateClock() {
+  document.getElementById("clock").textContent =
+    new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      weekday: "short", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", second: "2-digit",
+      hour12: true
+    }) + " ET";
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</div><!-- end main-content -->
+<script src="auth.js"></script>
+</body>
+</html>

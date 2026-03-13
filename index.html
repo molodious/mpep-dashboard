@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPEP Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #21262d;
+      --border2: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --dim: #484f58;
+      --blue: #58a6ff;
+      --green: #3fb950;
+      --purple: #a371f7;
+      --yellow: #d29922;
+      --orange: #e3b341;
+      --red: #f85149;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Auth overlay ── */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: #0d1117;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .auth-logo { font-size: 36px; margin-bottom: 12px; }
+    .auth-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+    .auth-box input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.15s;
+    }
+
+    .auth-box input:focus { border-color: var(--blue); }
+
+    .auth-box button {
+      width: 100%;
+      background: var(--blue);
+      color: #0d1117;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .auth-box button:hover  { opacity: 0.88; }
+    .auth-box button:disabled { opacity: 0.55; cursor: default; }
+
+    #pwd-error {
+      display: none;
+      color: #f85149;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* ── Main ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon { font-size: 28px; }
+    .brand-name { font-size: 18px; font-weight: 700; }
+    .brand-sub  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .welcome {
+      margin-bottom: 48px;
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      margin-bottom: 16px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .dash-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.15s, transform 0.12s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dash-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+
+    .dash-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .card-blue::before   { background: var(--blue); }
+    .card-green::before  { background: var(--green); }
+    .card-purple::before { background: var(--purple); }
+    .card-yellow::before { background: var(--yellow); }
+    .card-orange::before { background: var(--orange); }
+    .card-red::before    { background: var(--red); }
+
+    .card-icon  { font-size: 28px; margin-bottom: 14px; }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .card-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .status-live    { background: #0d2e1a; color: #3fb950; border: 1px solid #173d23; }
+    .status-soon    { background: #2d1f03; color: #d29922; border: 1px solid #4a3400; }
+    .status-planned { background: #1a1a2e; color: #818cf8; border: 1px solid #2a2a4e; }
+
+    .card-arrow { font-size: 18px; color: var(--dim); }
+
+    .coming-soon-card {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .divider { height: 1px; background: var(--border); margin: 0 0 32px; }
+
+    #clock { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+    @media (max-width: 600px) {
+      header { padding: 14px 16px; }
+      main { padding: 32px 16px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth overlay ── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only — enter your password to continue</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Main content ── -->
+<div id="main-content">
+  <header>
+    <div class="brand">
+      <span class="brand-icon">♠️</span>
+      <div>
+        <div class="brand-name">MPEP Dashboard</div>
+        <div class="brand-sub">Mechanical PE Exam Prep · Internal</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span id="clock"></span>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="welcome">
+      <h1>Good to see you, Dan 👋</h1>
+      <p>All your MPEP systems and automation dashboards in one place. More sections coming as they're built.</p>
+    </div>
+
+    <!-- Live dashboards -->
+    <div class="section-title">Live Dashboards</div>
+    <div class="card-grid">
+
+      <a href="cron.html" class="dash-card card-blue">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Cron Jobs &amp; Automations</div>
+        <div class="card-desc">All 12 scheduled automations + 4 on-demand workflows. Shows schedule, last run, health status, and notification targets.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="exams.html" class="dash-card card-green">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Student Exam Dates</div>
+        <div class="card-desc">180-day lookahead of upcoming PE exam dates from enrolled students. Sorted by soonest first. Refreshes Monday mornings.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Coming soon -->
+    <div class="section-title">Coming Soon</div>
+    <div class="card-grid">
+
+      <div class="dash-card card-yellow coming-soon-card">
+        <div class="card-icon">💰</div>
+        <div class="card-title">Sales Dashboard</div>
+        <div class="card-desc">HubSpot pipeline, lead temperatures, follow-up cadence, and conversion tracking across HVAC, TFS, and FE products.</div>
+        <div class="card-meta">
+          <span class="card-status status-planned">◌ Planned</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dash-card card-orange coming-soon-card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Financial Dashboard</div>
+        <div class="card-desc">Revenue, enrollment trends, product breakdown, and monthly/quarterly performance at a glance.</div>
+        <div class="card-meta">
+          <span class="card-status status-planned">◌ Planned</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dash-card card-purple coming-soon-card">
+        <div class="card-icon">🎓</div>
+        <div class="card-title">Student Progress</div>
+        <div class="card-desc">Engagement and progress tracking across active students in the HVAC, TFS, and FE programs.</div>
+        <div class="card-meta">
+          <span class="card-status status-planned">◌ Planned</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dash-card card-red coming-soon-card">
+        <div class="card-icon">📹</div>
+        <div class="card-title">Content Pipeline</div>
+        <div class="card-desc">MDM problem tracker, YouTube upload queue, Office Hours archive status, and production milestones.</div>
+        <div class="card-meta">
+          <span class="card-status status-planned">◌ Planned</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  function updateClock() {
+    const el = document.getElementById('clock');
+    if (el) el.textContent = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      weekday: "short", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }) + " ET";
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+</script>
+</body>
+</html>

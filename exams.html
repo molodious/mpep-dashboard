@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Exam Dates — MPEP Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #21262d;
+      --border2: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --dim: #484f58;
+      --green: #3fb950;
+      --green-bg: #0d2e1a;
+      --yellow: #d29922;
+      --yellow-bg: #2d1f03;
+      --blue: #58a6ff;
+      --red: #f85149;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Auth overlay ── */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .auth-logo  { font-size: 36px; margin-bottom: 12px; }
+    .auth-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .auth-box input {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border2); color: var(--text);
+      border-radius: 8px; padding: 11px 14px;
+      font-size: 15px; letter-spacing: 0.08em;
+      outline: none; margin-bottom: 12px;
+      transition: border-color 0.15s;
+    }
+    .auth-box input:focus { border-color: var(--blue); }
+    .auth-box button {
+      width: 100%; background: var(--blue); color: #0d1117;
+      border: none; border-radius: 8px; padding: 11px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .auth-box button:hover    { opacity: 0.88; }
+    .auth-box button:disabled { opacity: 0.55; cursor: default; }
+    #pwd-error { display: none; color: var(--red); font-size: 12px; margin-bottom: 10px; }
+
+    /* ── Header ── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--muted); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+    .brand-icon { font-size: 20px; }
+    .brand-name { font-size: 15px; font-weight: 700; }
+    .brand-sub  { font-size: 11px; color: var(--muted); }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    #clock { font-size: 11px; color: var(--dim); }
+
+    .btn {
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--muted); padding: 5px 12px; border-radius: 6px;
+      font-size: 11px; cursor: pointer; transition: all 0.15s;
+    }
+    .btn:hover { background: var(--border2); color: var(--text); }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+    .btn.green { border-color: #173d23; color: var(--green); background: var(--green-bg); }
+
+    /* ── Body ── */
+    .page { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    .page-header { margin-bottom: 24px; }
+    .page-title  { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .page-sub    { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Stats ── */
+    .stats-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat-pill {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 14px; font-size: 12px;
+    }
+    .stat-pill .num { font-weight: 700; }
+    .stat-pill .lbl { color: var(--muted); }
+
+    /* ── Meta bar ── */
+    .meta-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 16px;
+      font-size: 12px; color: var(--muted);
+      margin-bottom: 16px;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .meta-bar strong { color: var(--text); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead tr { background: var(--surface2); border-bottom: 1px solid var(--border2); }
+    th {
+      padding: 10px 16px; text-align: left;
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--dim); white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface); }
+
+    td { padding: 13px 16px; font-size: 13px; vertical-align: middle; }
+
+    .name-cell { font-weight: 600; color: var(--text); }
+    .email-cell { color: var(--muted); font-size: 12px; }
+
+    .urgency-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 600;
+      padding: 2px 8px; border-radius: 20px;
+    }
+    .urgency-hot    { background: #2d0f0e; color: #f87171; border: 1px solid #4a1a18; }
+    .urgency-soon   { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #4a3400; }
+    .urgency-normal { background: var(--green-bg);  color: var(--green);  border: 1px solid #173d23; }
+    .urgency-far    { background: var(--surface2);  color: var(--muted);  border: 1px solid var(--border); }
+
+    .days-badge { font-size: 11px; color: var(--dim); white-space: nowrap; }
+    .days-soon  { color: var(--yellow); font-weight: 600; }
+    .days-hot   { color: var(--red);    font-weight: 600; }
+
+    .empty-state {
+      padding: 60px 24px; text-align: center;
+      color: var(--muted); font-style: italic; font-size: 14px;
+    }
+
+    .info-note {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .topbar, .page { padding-left: 14px; padding-right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth overlay ── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Main content ── -->
+<div id="main-content">
+
+<div class="topbar">
+  <div class="brand">
+    <a href="index.html" class="back-link">← Dashboard</a>
+    <span class="brand-icon">📅</span>
+    <div>
+      <div class="brand-name">Student Exam Dates</div>
+      <div class="brand-sub">180-day lookahead · Mechanical PE</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span id="clock"></span>
+    <button class="btn" id="refresh-btn" onclick="refreshData()">↻ Refresh</button>
+  </div>
+</div>
+
+<div class="page">
+  <div id="stats-row" class="stats-row"></div>
+  <div class="meta-bar">
+    <span>Generated: <strong id="gen-time">—</strong></span>
+    <span id="meta-right">Data refreshes automatically each Monday morning via the Exam Good Luck Scheduler.</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Exam Date</th>
+          <th>Days Away</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="info-note">
+    ℹ️ Data sourced from the Welcome Typeform and Exam Date Typeform. Students who submitted exam dates appear here. List refreshes each Monday when the Exam Good Luck Scheduler runs. To refresh now, click the ↻ button above (requires server access).
+  </div>
+</div>
+
+</div><!-- end main-content -->
+
+<script src="auth.js"></script>
+<script>
+// ── Exam data (auto-updated by cron every Monday) ─────────────────────────
+// Last updated: Mar 13, 2026 at 02:24 PM ET
+const EXAM_DATA = [
+  {
+    "email": "rrod2777@gmail.com",
+    "date": "2026-03-26",
+    "name": "Rodrigo Rodriguez"
+  },
+  {
+    "email": "rob.baillet@gmail.com",
+    "date": "2026-03-31",
+    "name": "Rob Baillet"
+  },
+  {
+    "email": "zatedford@gmail.com",
+    "date": "2026-04-14",
+    "name": "Zach Tedford"
+  },
+  {
+    "email": "jwmclain@gmail.com",
+    "date": "2026-04-29",
+    "name": "Justin McClain"
+  },
+  {
+    "email": "b.conard05@gmail.com",
+    "date": "2026-05-06",
+    "name": "Bailey Conard"
+  },
+  {
+    "email": "thomas.cochran@southlandind.com",
+    "date": "2026-05-06",
+    "name": "Thomas Cochran"
+  },
+  {
+    "email": "a.nashersarwary@gmail.com",
+    "date": "2026-05-13",
+    "name": "Ahmad Nasher Sarwary"
+  },
+  {
+    "email": "guyestroud@gmail.com",
+    "date": "2026-05-15",
+    "name": "Guy Stroud"
+  },
+  {
+    "email": "sarahhays394@gmail.com",
+    "date": "2026-06-24",
+    "name": "Sarah Thomas"
+  }
+];
+const GENERATED_TIME = "Mar 13, 2026 at 02:24 PM ET";
+// ─────────────────────────────────────────────────────────────────────────────
+
+const NOW = Date.now();
+
+function daysUntil(dateStr) {
+  const d = new Date(dateStr + "T12:00:00");
+  return Math.round((d - NOW) / 86400000);
+}
+
+function fmtDate(dateStr) {
+  const d = new Date(dateStr + "T12:00:00");
+  return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+}
+
+function urgencyBadge(days) {
+  if (days <= 7)  return ['urgency-hot',    '🔴 This Week'];
+  if (days <= 21) return ['urgency-soon',   '🟡 Coming Up'];
+  if (days <= 60) return ['urgency-normal', '🟢 Upcoming'];
+  return              ['urgency-far',    '⚪ Far Out'];
+}
+
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  const future = (EXAM_DATA || [])
+    .filter(s => daysUntil(s.date) >= -1)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  if (future.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No upcoming exams in the next 180 days.</td></tr>`;
+  } else {
+    tbody.innerHTML = future.map((s, i) => {
+      const days = daysUntil(s.date);
+      const [badgeCls, badgeLabel] = urgencyBadge(days);
+      const daysCls = days <= 7 ? 'days-hot' : days <= 21 ? 'days-soon' : 'days-badge';
+      return `<tr>
+        <td style="color:var(--dim);font-size:11px;">${i+1}</td>
+        <td class="name-cell">${s.name || '—'}</td>
+        <td class="email-cell">${s.email || '—'}</td>
+        <td>${fmtDate(s.date)}</td>
+        <td><span class="${daysCls}">${days === 0 ? 'Today!' : days === 1 ? 'Tomorrow' : `${days} days`}</span></td>
+        <td><span class="urgency-badge ${badgeCls}">${badgeLabel}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Stats
+  const total  = future.length;
+  const hot    = future.filter(s => daysUntil(s.date) <= 7).length;
+  const soon   = future.filter(s => { const d = daysUntil(s.date); return d > 7 && d <= 21; }).length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-pill"><span class="num">${total}</span><span class="lbl">Upcoming (180 days)</span></div>
+    ${hot  ? `<div class="stat-pill"><span class="num" style="color:#f87171">${hot}</span><span class="lbl">This Week</span></div>` : ''}
+    ${soon ? `<div class="stat-pill"><span class="num" style="color:#d29922">${soon}</span><span class="lbl">Next 3 Weeks</span></div>` : ''}
+  `;
+
+  document.getElementById('gen-time').textContent = GENERATED_TIME;
+}
+
+function refreshData() {
+  const btn = document.getElementById('refresh-btn');
+  btn.textContent = 'Refreshing…';
+  btn.disabled = true;
+  fetch('/api/refresh-exams', { method: 'POST' })
+    .then(() => { setTimeout(() => location.reload(), 2000); })
+    .catch(() => {
+      btn.textContent = '↻ Refresh';
+      btn.disabled = false;
+      alert('Refresh not available from this browser. Data will update automatically Monday mornings.');
+    });
+}
+
+function updateClock() {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      weekday: "short", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }) + " ET";
+}
+
+function onAuthenticated() {
+  renderTable();
+  updateClock();
+  setInterval(updateClock, 30000);
+}
+</script>
+</body>
+</html>
