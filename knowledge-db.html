@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge DB Build — MPEP Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #21262d;
+      --border2: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --dim: #484f58;
+      --blue: #58a6ff;
+      --blue-bg: #0d1f33;
+      --green: #3fb950;
+      --green-bg: #0d2e1a;
+      --purple: #a371f7;
+      --purple-bg: #1e0f33;
+      --yellow: #d29922;
+      --yellow-bg: #2d1f03;
+      --orange: #e3b341;
+      --orange-bg: #2d1f03;
+      --red: #f85149;
+      --red-bg: #2d0f0e;
+      --gray: #6e7681;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 13px;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon { font-size: 22px; }
+    .brand-name { font-size: 15px; font-weight: 700; }
+    .brand-sub { font-size: 11px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .back-link {
+      font-size: 12px; color: var(--muted); text-decoration: none;
+      padding: 5px 10px; border: 1px solid var(--border2); border-radius: 6px;
+      transition: color .15s, border-color .15s;
+    }
+    .back-link:hover { color: var(--text); border-color: var(--blue); }
+    #clock { font-size: 12px; color: var(--muted); }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
+
+    /* ── Hero stats ── */
+    .hero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+    .pct-ring { text-align: center; min-width: 110px; }
+    .pct-num { font-size: 56px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .pct-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 20px; }
+    .stat { text-align: center; min-width: 70px; }
+    .stat-val { font-size: 24px; font-weight: 700; line-height: 1.1; }
+    .stat-label { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .stat-done .stat-val   { color: var(--green); }
+    .stat-prog .stat-val   { color: var(--blue); }
+    .stat-pend .stat-val   { color: var(--muted); }
+    .stat-fail .stat-val   { color: var(--red); }
+    .stat-rate .stat-val   { color: var(--yellow); }
+    .stat-eta  .stat-val   { color: var(--orange); }
+    .stat-model .stat-val  { color: var(--purple); font-size: 16px; }
+    .divider-v { width: 1px; background: var(--border); align-self: stretch; margin: 0 4px; }
+
+    /* ── Overall bar ── */
+    .overall-bar-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px; margin-bottom: 20px;
+    }
+    .overall-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 10px;
+    }
+    .bar-track {
+      background: var(--bg); border-radius: 8px; height: 14px; overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 8px;
+      background: linear-gradient(90deg, var(--blue) 0%, var(--green) 100%);
+      transition: width .6s ease;
+    }
+    .bar-fill.zero { background: var(--dim); }
+
+    /* ── Section title ── */
+    .section-title {
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em;
+      margin: 28px 0 12px;
+    }
+
+    /* ── Course grid ── */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .course-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .course-card:hover { border-color: var(--border2); }
+    .course-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .course-name { font-size: 13px; font-weight: 600; }
+    .course-pct { font-size: 13px; font-weight: 700; }
+    .course-bar-track {
+      background: var(--bg); border-radius: 4px; height: 7px; overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .course-bar-fill { height: 100%; border-radius: 4px; transition: width .5s ease; }
+    .course-meta {
+      display: flex; gap: 12px; font-size: 11px; color: var(--muted);
+    }
+    .course-done { color: var(--green); }
+    .course-prog { color: var(--blue); }
+    .course-fail { color: var(--red); }
+
+    /* ── Decisions log ── */
+    .decision-log {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .decision-entry {
+      font-family: monospace; font-size: 12px; color: var(--muted);
+      padding: 4px 0; border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .decision-entry:last-child { border-bottom: none; }
+
+    /* ── Status chips ── */
+    .chip {
+      display: inline-block; padding: 2px 8px; border-radius: 12px;
+      font-size: 10px; font-weight: 600; letter-spacing: .04em;
+    }
+    .chip-green  { background: var(--green-bg);  color: var(--green);  }
+    .chip-blue   { background: var(--blue-bg);   color: var(--blue);   }
+    .chip-yellow { background: var(--yellow-bg); color: var(--yellow); }
+    .chip-red    { background: var(--red-bg);    color: var(--red);    }
+    .chip-gray   { background: #1a1f27; color: var(--gray); }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; color: var(--dim); flex-wrap: wrap; gap: 8px;
+    }
+    .refresh-btn {
+      background: none; border: 1px solid var(--border2);
+      color: var(--muted); padding: 4px 12px; border-radius: 6px;
+      cursor: pointer; font-size: 12px; transition: all .15s;
+    }
+    .refresh-btn:hover { color: var(--text); border-color: var(--blue); }
+
+    /* ── Loading ── */
+    #loading {
+      text-align: center; padding: 80px 20px; color: var(--muted);
+    }
+    #error-msg {
+      display: none; background: var(--red-bg); border: 1px solid var(--red);
+      color: var(--red); border-radius: 10px; padding: 16px 20px;
+      margin-bottom: 20px; font-size: 13px;
+    }
+    #content { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">🗄</div>
+    <div>
+      <div class="brand-name">Knowledge Database Build</div>
+      <div class="brand-sub">MPEP Dashboard · Live transcription progress</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="refresh-btn" onclick="load()">↻ Refresh</button>
+    <a href="index.html" class="back-link">← Dashboard</a>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div id="loading">⏳ Loading progress data...</div>
+  <div id="error-msg"></div>
+  <div id="content">
+
+    <!-- Hero stats -->
+    <div class="hero">
+      <div class="pct-ring">
+        <div class="pct-num" id="h-pct">0%</div>
+        <div class="pct-label">Complete</div>
+      </div>
+      <div>
+        <div class="hero-stats">
+          <div class="stat stat-done">
+            <div class="stat-val" id="h-done">—</div>
+            <div class="stat-label">Done</div>
+          </div>
+          <div class="stat stat-prog">
+            <div class="stat-val" id="h-prog">—</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+          <div class="stat stat-pend">
+            <div class="stat-val" id="h-pend">—</div>
+            <div class="stat-label">Pending</div>
+          </div>
+          <div class="stat stat-fail">
+            <div class="stat-val" id="h-fail">—</div>
+            <div class="stat-label">Failed</div>
+          </div>
+          <div class="divider-v"></div>
+          <div class="stat stat-rate">
+            <div class="stat-val" id="h-rate">—</div>
+            <div class="stat-label">Per Hour</div>
+          </div>
+          <div class="stat stat-eta">
+            <div class="stat-val" id="h-eta">—</div>
+            <div class="stat-label">ETA (hrs)</div>
+          </div>
+          <div class="divider-v"></div>
+          <div class="stat stat-model">
+            <div class="stat-val" id="h-model">—</div>
+            <div class="stat-label">Whisper Model</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:var(--muted); font-size:18px;" id="h-workers">—</div>
+            <div class="stat-label">Workers</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:var(--muted); font-size:16px;" id="h-disk">—</div>
+            <div class="stat-label">Disk Free</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall progress bar -->
+    <div class="overall-bar-wrap">
+      <div class="overall-bar-label">
+        <span>Overall Progress</span>
+        <span id="bar-label">0 / 0 lessons</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill zero" id="overall-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Per-course breakdown -->
+    <div class="section-title">By Course</div>
+    <div class="course-grid" id="course-grid"><!-- injected --></div>
+
+    <!-- Watcher decisions -->
+    <div class="section-title">Watcher Log <span style="font-weight:400;text-transform:none;letter-spacing:0;">(last 10 decisions)</span></div>
+    <div class="decision-log" id="decision-log">
+      <div class="decision-entry" style="color:var(--dim);">No decisions yet — watcher hasn't run.</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span>Updated: <span id="updated-time">—</span></span>
+      <span>Auto-refreshes every 2 min · <button class="refresh-btn" onclick="load()">Refresh now</button></span>
+    </div>
+
+  </div><!-- #content -->
+</div><!-- .container -->
+
+<script>
+  // ── Clock ────────────────────────────────────────────────────────────────
+  function updateClock() {
+    const el = document.getElementById('clock');
+    if (el) el.textContent = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      weekday: "short", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }) + " ET";
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  // ── Course bar color ─────────────────────────────────────────────────────
+  function courseColor(pct) {
+    if (pct >= 100) return 'var(--green)';
+    if (pct >= 50)  return 'var(--blue)';
+    if (pct > 0)    return 'var(--yellow)';
+    return 'var(--dim)';
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function render(m) {
+    // Hero
+    const pct = m.pct_complete || 0;
+    document.getElementById('h-pct').textContent    = pct + '%';
+    document.getElementById('h-done').textContent   = (m.done || 0).toLocaleString();
+    document.getElementById('h-prog').textContent   = (m.in_progress || 0).toLocaleString();
+    document.getElementById('h-pend').textContent   = (m.pending || 0).toLocaleString();
+    document.getElementById('h-fail').textContent   = (m.failed || 0).toLocaleString();
+    document.getElementById('h-rate').textContent   = m.throughput_per_hour ? m.throughput_per_hour.toFixed(1) : '—';
+    document.getElementById('h-eta').textContent    = m.eta_hours ? m.eta_hours.toFixed(1) : '—';
+    document.getElementById('h-model').textContent  = m.current_model || '—';
+    document.getElementById('h-disk').textContent   = m.disk_free_gb ? m.disk_free_gb.toFixed(1) + 'GB' : '—';
+
+    const workers = m.current_workers;
+    document.getElementById('h-workers').textContent = workers
+      ? `↓${workers.download} ✏${workers.transcribe}`
+      : '—';
+
+    // Overall bar
+    const bar = document.getElementById('overall-bar');
+    bar.style.width = pct + '%';
+    bar.className   = 'bar-fill' + (pct === 0 ? ' zero' : '');
+    document.getElementById('bar-label').textContent =
+      `${(m.done||0).toLocaleString()} / ${(m.total_lessons||0).toLocaleString()} lessons`;
+
+    // Course grid
+    const grid = document.getElementById('course-grid');
+    const courses = m.per_course || {};
+    const sorted = Object.entries(courses).sort((a, b) => (b[1].done||0) - (a[1].done||0));
+
+    grid.innerHTML = sorted.map(([name, d]) => {
+      const cpct   = d.pct || 0;
+      const color  = courseColor(cpct);
+      const pctStr = cpct.toFixed(1) + '%';
+      return `
+        <div class="course-card">
+          <div class="course-header">
+            <span class="course-name">${name}</span>
+            <span class="course-pct" style="color:${color}">${pctStr}</span>
+          </div>
+          <div class="course-bar-track">
+            <div class="course-bar-fill"
+                 style="width:${cpct}%; background:${color};"></div>
+          </div>
+          <div class="course-meta">
+            <span class="course-done">✓ ${(d.done||0).toLocaleString()}</span>
+            <span class="course-prog">⟳ ${(d.in_progress||0).toLocaleString()}</span>
+            <span>/ ${(d.total||0).toLocaleString()}</span>
+            ${d.failed ? `<span class="course-fail">✗ ${d.failed}</span>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    // Decision log
+    const log   = document.getElementById('decision-log');
+    const decs  = (m.recent_decisions || []).slice().reverse();
+    if (decs.length > 0) {
+      log.innerHTML = decs.map(d => `<div class="decision-entry">${d}</div>`).join('');
+    }
+
+    // Updated time
+    if (m.last_updated) {
+      const d = new Date(m.last_updated + 'Z');
+      document.getElementById('updated-time').textContent =
+        d.toLocaleString("en-US", {
+          timeZone: "America/New_York", month: "short", day: "numeric",
+          hour: "numeric", minute: "2-digit", hour12: true
+        }) + " ET";
+    }
+  }
+
+  // ── Load ─────────────────────────────────────────────────────────────────
+  async function load() {
+    const errEl = document.getElementById('error-msg');
+    try {
+      const resp = await fetch('knowledge-db-progress.json?t=' + Date.now());
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const m = await resp.json();
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      errEl.style.display = 'none';
+      render(m);
+    } catch (e) {
+      document.getElementById('loading').style.display = 'none';
+      errEl.style.display = 'block';
+      errEl.textContent = '⚠️ Could not load progress data. Pipeline may not be running yet. (' + e.message + ')';
+    }
+  }
+
+  load();
+  setInterval(load, 120000); // refresh every 2 min
+</script>
+</body>
+</html>

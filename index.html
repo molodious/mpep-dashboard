@@ -272,6 +272,72 @@
       <p>All your MPEP systems and automation dashboards in one place. More sections coming as they're built.</p>
     </div>
 
+    <!-- Knowledge DB Build Progress Panel -->
+    <div id="kdb-panel" style="display:none; margin-bottom: 32px;">
+      <div class="section-title" style="display:flex; align-items:center; justify-content:space-between;">
+        <span>🗄 Knowledge Database Build</span>
+        <button onclick="dismissKdbPanel()" style="background:none;border:1px solid var(--border2);color:var(--muted);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;">Dismiss</button>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;">
+
+        <!-- Top row: big % + stats -->
+        <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px;">
+          <div style="text-align:center;min-width:100px;">
+            <div id="kdb-pct" style="font-size:48px;font-weight:700;color:var(--blue);line-height:1;">0%</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Complete</div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+            <div style="text-align:center;">
+              <div id="kdb-done" style="font-size:20px;font-weight:600;color:var(--green);">0</div>
+              <div style="font-size:11px;color:var(--muted);">Done</div>
+            </div>
+            <div style="text-align:center;">
+              <div id="kdb-inprog" style="font-size:20px;font-weight:600;color:var(--blue);">0</div>
+              <div style="font-size:11px;color:var(--muted);">In Progress</div>
+            </div>
+            <div style="text-align:center;">
+              <div id="kdb-pending" style="font-size:20px;font-weight:600;color:var(--muted);">0</div>
+              <div style="font-size:11px;color:var(--muted);">Pending</div>
+            </div>
+            <div style="text-align:center;">
+              <div id="kdb-failed" style="font-size:20px;font-weight:600;color:var(--red);">0</div>
+              <div style="font-size:11px;color:var(--muted);">Failed</div>
+            </div>
+            <div style="text-align:center;border-left:1px solid var(--border);padding-left:16px;">
+              <div id="kdb-rate" style="font-size:20px;font-weight:600;color:var(--yellow);">—</div>
+              <div style="font-size:11px;color:var(--muted);">Per Hour</div>
+            </div>
+            <div style="text-align:center;">
+              <div id="kdb-eta" style="font-size:20px;font-weight:600;color:var(--orange);">—</div>
+              <div style="font-size:11px;color:var(--muted);">ETA (hrs)</div>
+            </div>
+            <div style="text-align:center;">
+              <div id="kdb-model" style="font-size:14px;font-weight:600;color:var(--purple);">—</div>
+              <div style="font-size:11px;color:var(--muted);">Whisper</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall progress bar -->
+        <div style="background:var(--bg);border-radius:8px;height:12px;overflow:hidden;margin-bottom:20px;">
+          <div id="kdb-bar" style="height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:8px;transition:width 0.5s ease;width:0%;"></div>
+        </div>
+
+        <!-- Per-course breakdown -->
+        <div id="kdb-courses" style="display:grid;gap:10px;"></div>
+
+        <!-- Latest watcher decision -->
+        <div id="kdb-decision" style="margin-top:16px;font-size:12px;color:var(--muted);font-family:monospace;background:var(--bg);padding:8px 12px;border-radius:6px;min-height:24px;"></div>
+
+        <!-- Updated time -->
+        <div style="margin-top:10px;font-size:11px;color:var(--dim);text-align:right;">
+          Updated: <span id="kdb-updated">—</span> &nbsp;·&nbsp;
+          <a href="#" onclick="loadKdbProgress();return false;" style="color:var(--blue);text-decoration:none;">↻ Refresh</a>
+        </div>
+      </div>
+    </div>
+
     <!-- Live dashboards -->
     <div class="section-title">Live Dashboards</div>
     <div class="card-grid">
@@ -292,6 +358,16 @@
         <div class="card-desc">180-day lookahead of upcoming PE exam dates from enrolled students. Sorted by soonest first. Refreshes Monday mornings.</div>
         <div class="card-meta">
           <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="knowledge-db.html" class="dash-card card-purple">
+        <div class="card-icon">🗄</div>
+        <div class="card-title">Knowledge DB Build</div>
+        <div class="card-desc" id="kdb-card-desc">Transcribing 2,453 video lessons across 7 courses. Live progress by course, watcher decisions, and ETA.</div>
+        <div class="card-meta">
+          <span class="card-status status-live" id="kdb-card-status">● Building</span>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -350,6 +426,90 @@
 
 <script src="auth.js"></script>
 <script>
+  // ── Knowledge DB Progress Panel ──────────────────────────────────────────
+  const KDB_DISMISSED_KEY = "kdb_panel_dismissed";
+
+  function dismissKdbPanel() {
+    localStorage.setItem(KDB_DISMISSED_KEY, "1");
+    document.getElementById("kdb-panel").style.display = "none";
+  }
+
+  function renderCourseRow(name, data) {
+    const pct = data.pct || 0;
+    const color = pct >= 100 ? "var(--green)" : pct > 50 ? "var(--blue)" : pct > 0 ? "var(--yellow)" : "var(--dim)";
+    return `
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+          <span style="color:var(--text)">${name}</span>
+          <span style="color:var(--muted)">${data.done}/${data.total} &nbsp;<span style="color:${color}">${pct}%</span></span>
+        </div>
+        <div style="background:var(--bg);border-radius:4px;height:6px;overflow:hidden;">
+          <div style="height:100%;background:${color};width:${pct}%;transition:width 0.5s ease;border-radius:4px;"></div>
+        </div>
+      </div>`;
+  }
+
+  async function loadKdbProgress() {
+    if (localStorage.getItem(KDB_DISMISSED_KEY) === "1") return;
+
+    try {
+      const resp = await fetch("knowledge-db-progress.json?t=" + Date.now());
+      if (!resp.ok) return; // File doesn't exist yet — hide panel
+      const m = await resp.json();
+
+      if (m.pct_complete >= 100) {
+        // All done — auto-hide after showing 100%
+        document.getElementById("kdb-pct").textContent = "100%";
+        setTimeout(dismissKdbPanel, 5000);
+      }
+
+      // Show panel
+      document.getElementById("kdb-panel").style.display = "block";
+
+      // Update stats
+      document.getElementById("kdb-pct").textContent = (m.pct_complete || 0) + "%";
+      document.getElementById("kdb-bar").style.width = (m.pct_complete || 0) + "%";
+      document.getElementById("kdb-done").textContent = m.done || 0;
+      document.getElementById("kdb-inprog").textContent = m.in_progress || 0;
+      document.getElementById("kdb-pending").textContent = m.pending || 0;
+      document.getElementById("kdb-failed").textContent = m.failed || 0;
+      document.getElementById("kdb-rate").textContent = m.throughput_per_hour ? m.throughput_per_hour.toFixed(1) : "—";
+      document.getElementById("kdb-eta").textContent = m.eta_hours ? m.eta_hours.toFixed(1) : "—";
+      document.getElementById("kdb-model").textContent = m.current_model || "—";
+
+      // Per-course rows
+      const coursesEl = document.getElementById("kdb-courses");
+      if (m.per_course) {
+        coursesEl.innerHTML = Object.entries(m.per_course)
+          .sort((a, b) => (b[1].done || 0) - (a[1].done || 0))
+          .map(([name, data]) => renderCourseRow(name, data))
+          .join("");
+      }
+
+      // Latest decision
+      const decisions = m.recent_decisions || [];
+      if (decisions.length > 0) {
+        document.getElementById("kdb-decision").textContent = decisions[decisions.length - 1];
+      }
+
+      // Updated time
+      if (m.last_updated) {
+        const d = new Date(m.last_updated + "Z");
+        document.getElementById("kdb-updated").textContent = d.toLocaleString("en-US", {
+          timeZone: "America/New_York", month: "short", day: "numeric",
+          hour: "numeric", minute: "2-digit", hour12: true
+        }) + " ET";
+      }
+    } catch (e) {
+      // File not found or error — keep panel hidden
+    }
+  }
+
+  // Load on startup, refresh every 2 minutes
+  loadKdbProgress();
+  setInterval(loadKdbProgress, 120000);
+
+  // ── Clock ────────────────────────────────────────────────────────────────
   function updateClock() {
     const el = document.getElementById('clock');
     if (el) el.textContent = new Date().toLocaleString("en-US", {
