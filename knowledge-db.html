@@ -499,7 +499,7 @@
   <div class="health-card" style="margin-bottom:12px" id="tuner-card">
     <div class="label">Auto-Tuner · Download Workers</div>
     <div style="display:flex;gap:10px;align-items:center;margin-top:4px">
-      <span class="value" id="h-workers">—</span>
+      <span class="value" id="h-tuner-workers">—</span>
       <span style="color:#64748b;font-size:0.8rem">workers active</span>
     </div>
     <div class="reachability-row" id="h-signals" style="margin-top:8px">—</div>
@@ -702,8 +702,8 @@ function renderHealth(h) {
   }
 
   // Auto-tuner signals
-  const workers = h.current_download_workers || h.pipeline_done != null ? (h.current_download_workers || '?') : '—';
-  document.getElementById('h-workers').textContent = workers;
+  const tunerWorkers = h.current_download_workers != null ? h.current_download_workers : '?';
+  document.getElementById('h-tuner-workers').textContent = tunerWorkers;
   const sigs = h.signals || {};
   const sigHtml = [
     sigs.dl_success_rate != null ? pill(`DL ok: ${sigs.dl_success_rate.toFixed(0)}%`, sigs.dl_success_rate >= 80 ? 'green' : sigs.dl_success_rate >= 60 ? 'yellow' : 'red') : '',
