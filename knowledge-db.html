@@ -217,6 +217,7 @@
   <div class="topbar-right">
     <button class="refresh-btn" onclick="load()">↻ Refresh</button>
     <a href="index.html" class="back-link">← Dashboard</a>
+    <span id="next-refresh" style="font-size:12px; color:var(--muted); font-family:monospace;"></span>
     <span id="clock"></span>
   </div>
 </div>
@@ -255,6 +256,14 @@
           <div class="stat stat-rate">
             <div class="stat-val" id="h-rate">—</div>
             <div class="stat-label">Per Hour</div>
+          </div>
+          <div class="stat" style="min-width:70px;">
+            <div class="stat-val" id="h-last-window" style="color:var(--green);">—</div>
+            <div class="stat-label">Last 10 min</div>
+          </div>
+          <div class="stat" style="min-width:70px;">
+            <div class="stat-val" id="h-trailing-avg" style="color:var(--yellow);">—</div>
+            <div class="stat-label">10-win avg</div>
           </div>
           <div class="stat stat-eta">
             <div class="stat-val" id="h-eta">—</div>
@@ -301,7 +310,7 @@
     <!-- Footer -->
     <div class="footer">
       <span>Updated: <span id="updated-time">—</span></span>
-      <span>Auto-refreshes every 2 min · <button class="refresh-btn" onclick="load()">Refresh now</button></span>
+      <span>Auto-refreshes every 10 min · <button class="refresh-btn" onclick="load()">Refresh now</button></span>
     </div>
 
   </div><!-- #content -->
@@ -319,6 +328,21 @@
   }
   updateClock();
   setInterval(updateClock, 30000);
+
+  // ── Countdown timer ───────────────────────────────────────────────────────
+  const REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
+  let nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
+
+  function updateCountdown() {
+    const el = document.getElementById('next-refresh');
+    if (!el) return;
+    const remaining = Math.max(0, nextRefreshAt - Date.now());
+    const m = Math.floor(remaining / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    el.textContent = `↻ ${m}:${String(s).padStart(2,'0')}`;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 
   // ── Course bar color ─────────────────────────────────────────────────────
   function courseColor(pct) {
@@ -338,6 +362,10 @@
     document.getElementById('h-pend').textContent   = (m.pending || 0).toLocaleString();
     document.getElementById('h-fail').textContent   = (m.failed || 0).toLocaleString();
     document.getElementById('h-rate').textContent   = m.throughput_per_hour ? m.throughput_per_hour.toFixed(1) : '—';
+    document.getElementById('h-last-window').textContent =
+      m.last_window_done != null ? '+' + m.last_window_done : '—';
+    document.getElementById('h-trailing-avg').textContent =
+      m.trailing_avg_per_window != null ? m.trailing_avg_per_window.toFixed(1) : '—';
     document.getElementById('h-eta').textContent    = m.eta_hours ? m.eta_hours.toFixed(1) : '—';
     document.getElementById('h-model').textContent  = m.current_model || '—';
     document.getElementById('h-disk').textContent   = m.disk_free_gb ? m.disk_free_gb.toFixed(1) + 'GB' : '—';
@@ -402,6 +430,7 @@
 
   // ── Load ─────────────────────────────────────────────────────────────────
   async function load() {
+    nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
     const errEl = document.getElementById('error-msg');
     try {
       const resp = await fetch('knowledge-db-progress.json?t=' + Date.now());
@@ -420,7 +449,10 @@
   }
 
   load();
-  setInterval(load, 120000); // refresh every 2 min
+  setInterval(() => {
+    nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
+    load();
+  }, REFRESH_INTERVAL_MS);
 </script>
 </body>
 </html>
