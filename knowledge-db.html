@@ -454,5 +454,266 @@
     load();
   }, REFRESH_INTERVAL_MS);
 </script>
+
+<!-- ── Health Panel & STOP Button ─────────────────────────────────────────── -->
+<style>
+  #health-panel {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 900px; margin: 24px auto; padding: 0 16px;
+  }
+  .stop-btn {
+    display: block; width: 100%; padding: 18px;
+    background: #dc2626; color: white; font-size: 1.3rem; font-weight: 800;
+    border: none; border-radius: 10px; cursor: pointer; letter-spacing: 0.05em;
+    box-shadow: 0 4px 14px rgba(220,38,38,0.4);
+    transition: background 0.15s, transform 0.1s;
+    margin-bottom: 20px;
+  }
+  .stop-btn:hover { background: #b91c1c; transform: scale(1.01); }
+  .stop-btn:active { transform: scale(0.99); }
+  .stop-btn.stopped { background: #16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }
+  .health-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-bottom: 16px;
+  }
+  .health-card {
+    background: #1e293b; border-radius: 8px; padding: 14px;
+    border: 1px solid #334155;
+  }
+  .health-card .label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .health-card .value { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; }
+  .health-card .sub { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+  .pill-green { background: #14532d; color: #4ade80; }
+  .pill-yellow { background: #713f12; color: #fbbf24; }
+  .pill-red { background: #7f1d1d; color: #f87171; }
+  .pill-gray { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+  .cb-open { background: #7f1d1d; border: 1px solid #ef4444; }
+  .reachability-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  #health-updated { font-size: 0.7rem; color: #475569; margin-top: 8px; text-align: right; }
+  #health-offline { color: #f87171; font-size: 0.8rem; padding: 8px; text-align: center; display: none; }
+</style>
+
+<div id="health-panel">
+  <!-- BIG STOP / START BUTTON -->
+  <button class="stop-btn" id="stop-btn" onclick="togglePipeline()">
+    ⏹ STOP TRANSCRIPTION
+  </button>
+
+  <div id="health-offline">⚠️ Control server offline (192.168.0.192:5503) — metrics unavailable</div>
+
+  <!-- Vitals row -->
+  <div class="health-grid" id="health-vitals">
+    <div class="health-card">
+      <div class="label">Pipeline</div>
+      <div class="value" id="h-pipeline">—</div>
+      <div class="sub" id="h-pipeline-sub">—</div>
+    </div>
+    <div class="health-card">
+      <div class="label">RAM</div>
+      <div class="value" id="h-ram">—</div>
+      <div class="sub" id="h-ram-sub">—</div>
+    </div>
+    <div class="health-card">
+      <div class="label">System Load</div>
+      <div class="value" id="h-load">—</div>
+      <div class="sub">1-min avg</div>
+    </div>
+    <div class="health-card">
+      <div class="label">Network Connections</div>
+      <div class="value" id="h-net">—</div>
+      <div class="sub">established</div>
+    </div>
+    <div class="health-card">
+      <div class="label">Disk Free</div>
+      <div class="value" id="h-disk">—</div>
+      <div class="sub">root filesystem</div>
+    </div>
+    <div class="health-card" id="h-cb-card">
+      <div class="label">Circuit Breaker</div>
+      <div class="value" id="h-cb">—</div>
+      <div class="sub" id="h-cb-sub">—</div>
+    </div>
+  </div>
+
+  <!-- Reachability row -->
+  <div class="health-card" style="margin-bottom:12px">
+    <div class="label">External Reachability</div>
+    <div class="reachability-row" id="h-reach">—</div>
+    <div class="sub" id="h-reach-age"></div>
+  </div>
+
+  <!-- Cookies row -->
+  <div class="health-card" style="margin-bottom:12px">
+    <div class="label">Session Cookies</div>
+    <div class="reachability-row" id="h-cookies">—</div>
+  </div>
+
+  <div id="health-updated">Health: never</div>
+</div>
+
+<script>
+// ── Control Server ────────────────────────────────────────────────────────────
+const CONTROL = 'http://192.168.0.192:5503';
+let pipelineRunning = null;
+let stopRequested = false;
+
+function pill(text, color) {
+  return `<span class="pill pill-${color}">${text}</span>`;
+}
+
+async function fetchHealth() {
+  try {
+    const r = await fetch(CONTROL + '/health', { signal: AbortSignal.timeout(6000) });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const h = await r.json();
+    document.getElementById('health-offline').style.display = 'none';
+    renderHealth(h);
+  } catch (e) {
+    document.getElementById('health-offline').style.display = 'block';
+  }
+}
+
+function renderHealth(h) {
+  // Pipeline status
+  pipelineRunning = h.pipeline_running;
+  stopRequested = h.stop_requested;
+  const btn = document.getElementById('stop-btn');
+  if (!h.pipeline_running || h.stop_requested) {
+    btn.textContent = '▶ START TRANSCRIPTION';
+    btn.classList.add('stopped');
+  } else {
+    btn.textContent = '⏹ STOP TRANSCRIPTION';
+    btn.classList.remove('stopped');
+  }
+
+  const pEl = document.getElementById('h-pipeline');
+  const pSub = document.getElementById('h-pipeline-sub');
+  if (h.pipeline_running && !h.stop_requested) {
+    pEl.innerHTML = pill('Running', 'green');
+  } else if (h.stop_requested) {
+    pEl.innerHTML = pill('Stop Requested', 'yellow');
+  } else {
+    pEl.innerHTML = pill('Stopped', 'red');
+  }
+  const done = h.pipeline_done || 0;
+  const total = h.pipeline_total || 0;
+  const pct = h.pipeline_pct || 0;
+  pSub.textContent = `${done}/${total} (${pct}%) · ${h.pipeline_throughput || 0}/hr`;
+
+  // RAM
+  const ramEl = document.getElementById('h-ram');
+  const ramSub = document.getElementById('h-ram-sub');
+  const ramPct = h.ram_pct || 0;
+  const ramColor = ramPct > 85 ? 'red' : ramPct > 65 ? 'yellow' : 'green';
+  ramEl.innerHTML = pill(ramPct + '%', ramColor);
+  ramSub.textContent = `${h.ram_used_mb || 0} / ${h.ram_total_mb || 0} MB`;
+
+  // Load
+  const load = h.load_1m;
+  document.getElementById('h-load').textContent = load != null ? load.toFixed(2) : '—';
+
+  // Network
+  const netEl = document.getElementById('h-net');
+  const conn = h.net_established || 0;
+  const netColor = conn > 50 ? 'red' : conn > 20 ? 'yellow' : 'green';
+  netEl.innerHTML = pill(conn, netColor);
+
+  // Disk
+  const diskEl = document.getElementById('h-disk');
+  const diskFree = h.disk_free_gb;
+  const diskColor = diskFree < 5 ? 'red' : diskFree < 20 ? 'yellow' : 'green';
+  diskEl.innerHTML = diskFree != null ? pill(diskFree + ' GB', diskColor) : '—';
+
+  // Circuit breaker
+  const cb = h.circuit_breaker || {};
+  const cbEl = document.getElementById('h-cb');
+  const cbSub = document.getElementById('h-cb-sub');
+  const cbCard = document.getElementById('h-cb-card');
+  if (cb.state === 'open') {
+    cbEl.innerHTML = pill('⚡ OPEN', 'red');
+    cbCard.classList.add('cb-open');
+    const until = cb.open_until_human ? new Date(cb.open_until_human).toLocaleTimeString() : '?';
+    cbSub.textContent = 'Resumes ~' + until;
+  } else {
+    cbEl.innerHTML = pill('Closed', 'green');
+    cbCard.classList.remove('cb-open');
+    cbSub.textContent = 'All clear';
+  }
+
+  // Reachability
+  const reach = h.reachability || {};
+  const reachEl = document.getElementById('h-reach');
+  const reachAge = document.getElementById('h-reach-age');
+  const labels = {
+    anthropic_api: 'Anthropic API',
+    wistia_cdn: 'Wistia CDN',
+    thinkific: 'Thinkific'
+  };
+  reachEl.innerHTML = Object.entries(labels).map(([k, label]) => {
+    const r = reach[k] || {};
+    const ok = r.ok;
+    const ms = r.latency_ms;
+    const text = ok ? `✓ ${label}${ms ? ' ' + ms + 'ms' : ''}` : `✗ ${label}`;
+    return pill(text, ok ? 'green' : 'red');
+  }).join('');
+  if (h.reachability_ts) {
+    const age = Math.round((Date.now()/1000 - h.reachability_ts) / 60);
+    reachAge.textContent = `Checked ${age} min ago (refreshes every 5 min)`;
+  }
+
+  // Cookies
+  const cookies = h.cookies || {};
+  const cookieEl = document.getElementById('h-cookies');
+  const cookieNames = ['remember_user_token', 'graphql_token', '__cf_bm', 'cf_clearance'];
+  const cookieLabels = {
+    remember_user_token: 'Session',
+    graphql_token: 'GraphQL',
+    __cf_bm: 'CF-BM',
+    cf_clearance: 'CF-Clear'
+  };
+  if (Object.keys(cookies).length === 0) {
+    cookieEl.innerHTML = pill('No data', 'gray');
+  } else {
+    cookieEl.innerHTML = cookieNames.map(name => {
+      const c = cookies[name];
+      if (!c) return '';
+      const hrs = c.expires_in_hours;
+      const label = cookieLabels[name] || name;
+      const color = !c.ok ? 'red' : hrs < 2 ? 'yellow' : 'green';
+      const timeStr = !c.ok ? 'EXPIRED' : hrs < 24 ? hrs.toFixed(0) + 'h' : Math.round(hrs/24) + 'd';
+      return pill(`${label}: ${timeStr}`, color);
+    }).join('');
+  }
+
+  document.getElementById('health-updated').textContent =
+    'Health updated: ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+}
+
+async function togglePipeline() {
+  const btn = document.getElementById('stop-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Working...';
+  try {
+    const action = (pipelineRunning && !stopRequested) ? 'stop' : 'start';
+    const r = await fetch(CONTROL + '/' + action, {
+      method: 'POST',
+      signal: AbortSignal.timeout(8000)
+    });
+    const data = await r.json();
+    console.log(action, data);
+    // Refresh health after short delay
+    setTimeout(fetchHealth, 1500);
+  } catch (e) {
+    alert('Could not reach control server at ' + CONTROL + '\n\nMake sure you are on the same network.');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// Initial load + poll every 30s
+fetchHealth();
+setInterval(fetchHealth, 30000);
+</script>
 </body>
 </html>
