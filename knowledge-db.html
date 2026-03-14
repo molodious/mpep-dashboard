@@ -495,6 +495,17 @@
 </style>
 
 <div id="health-panel">
+  <!-- Auto-tuner signals -->
+  <div class="health-card" style="margin-bottom:12px" id="tuner-card">
+    <div class="label">Auto-Tuner · Download Workers</div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:4px">
+      <span class="value" id="h-workers">—</span>
+      <span style="color:#64748b;font-size:0.8rem">workers active</span>
+    </div>
+    <div class="reachability-row" id="h-signals" style="margin-top:8px">—</div>
+    <div class="sub" id="h-last-decision" style="margin-top:6px">—</div>
+  </div>
+
   <!-- BIG STOP / START BUTTON -->
   <button class="stop-btn" id="stop-btn" onclick="togglePipeline()">
     ⏹ STOP TRANSCRIPTION
@@ -689,6 +700,20 @@ function renderHealth(h) {
       return pill(`${label}: ${timeStr}`, color);
     }).join('');
   }
+
+  // Auto-tuner signals
+  const workers = h.current_download_workers || h.pipeline_done != null ? (h.current_download_workers || '?') : '—';
+  document.getElementById('h-workers').textContent = workers;
+  const sigs = h.signals || {};
+  const sigHtml = [
+    sigs.dl_success_rate != null ? pill(`DL ok: ${sigs.dl_success_rate.toFixed(0)}%`, sigs.dl_success_rate >= 80 ? 'green' : sigs.dl_success_rate >= 60 ? 'yellow' : 'red') : '',
+    sigs.avg_download_sec != null ? pill(`DL avg: ${sigs.avg_download_sec.toFixed(0)}s`, sigs.avg_download_sec < 90 ? 'green' : sigs.avg_download_sec < 180 ? 'yellow' : 'red') : '',
+    sigs.ram_pct != null ? pill(`RAM: ${sigs.ram_pct.toFixed(0)}%`, sigs.ram_pct < 50 ? 'green' : sigs.ram_pct < 60 ? 'yellow' : 'red') : '',
+    sigs.api_latency_ms != null ? pill(`API: ${sigs.api_latency_ms}ms`, sigs.api_latency_ms < 500 ? 'green' : sigs.api_latency_ms < 2000 ? 'yellow' : 'red') : '',
+  ].filter(Boolean).join('');
+  document.getElementById('h-signals').innerHTML = sigHtml || pill('No signal data yet', 'gray');
+  const decisions = h.recent_decisions || [];
+  document.getElementById('h-last-decision').textContent = decisions.length ? decisions[decisions.length-1] : '—';
 
   document.getElementById('health-updated').textContent =
     'Health updated: ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
