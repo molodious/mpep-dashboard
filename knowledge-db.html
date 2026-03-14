@@ -499,8 +499,11 @@
   <button class="stop-btn" id="stop-btn" onclick="togglePipeline()">
     ⏹ STOP TRANSCRIPTION
   </button>
+  <div style="text-align:center;font-size:0.72rem;color:#64748b;margin-top:-14px;margin-bottom:16px;">
+    STOP/START requires home WiFi · Metrics work from anywhere
+  </div>
 
-  <div id="health-offline">⚠️ Control server offline (192.168.0.192:5503) — metrics unavailable</div>
+  <div id="health-offline">⚠️ Health data not yet available — refreshes every 60s</div>
 
   <!-- Vitals row -->
   <div class="health-grid" id="health-vitals">
@@ -563,8 +566,9 @@ function pill(text, color) {
 }
 
 async function fetchHealth() {
+  // Always fetch metrics from GitHub Pages (works from any network)
   try {
-    const r = await fetch(CONTROL + '/health', { signal: AbortSignal.timeout(6000) });
+    const r = await fetch('knowledge-db-health.json?t=' + Date.now(), { signal: AbortSignal.timeout(8000) });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const h = await r.json();
     document.getElementById('health-offline').style.display = 'none';
