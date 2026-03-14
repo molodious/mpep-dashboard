@@ -706,10 +706,13 @@ function renderHealth(h) {
   document.getElementById('h-tuner-workers').textContent = tunerWorkers;
   const sigs = h.signals || {};
   const sigHtml = [
-    sigs.dl_success_rate != null ? pill(`DL ok: ${sigs.dl_success_rate.toFixed(0)}%`, sigs.dl_success_rate >= 80 ? 'green' : sigs.dl_success_rate >= 60 ? 'yellow' : 'red') : '',
-    sigs.avg_download_sec != null ? pill(`DL avg: ${sigs.avg_download_sec.toFixed(0)}s`, sigs.avg_download_sec < 90 ? 'green' : sigs.avg_download_sec < 180 ? 'yellow' : 'red') : '',
-    sigs.ram_pct != null ? pill(`RAM: ${sigs.ram_pct.toFixed(0)}%`, sigs.ram_pct < 50 ? 'green' : sigs.ram_pct < 60 ? 'yellow' : 'red') : '',
-    sigs.api_latency_ms != null ? pill(`API: ${sigs.api_latency_ms}ms`, sigs.api_latency_ms < 500 ? 'green' : sigs.api_latency_ms < 2000 ? 'yellow' : 'red') : '',
+    sigs.dl_success_rate   != null ? pill(`DL ok: ${sigs.dl_success_rate.toFixed(0)}%`, sigs.dl_success_rate >= 80 ? 'green' : sigs.dl_success_rate >= 60 ? 'yellow' : 'red') : '',
+    sigs.avg_download_sec  != null ? pill(`DL avg: ${sigs.avg_download_sec.toFixed(0)}s`, sigs.avg_download_sec < 90 ? 'green' : sigs.avg_download_sec < 180 ? 'yellow' : 'red') : '',
+    sigs.avg_transcribe_sec != null ? pill(`TX avg: ${sigs.avg_transcribe_sec.toFixed(0)}s`, 'gray') : '',
+    sigs.ram_pct           != null ? pill(`RAM: ${sigs.ram_pct.toFixed(0)}%`, sigs.ram_pct < 50 ? 'green' : sigs.ram_pct < 60 ? 'yellow' : 'red') : '',
+    sigs.load_1m           != null ? pill(`Load: ${sigs.load_1m.toFixed(1)}`, sigs.load_1m < 9 ? 'green' : sigs.load_1m < 11 ? 'yellow' : 'red') : '',
+    sigs.api_latency_ms    != null ? pill(`API: ${sigs.api_latency_ms}ms`, sigs.api_latency_ms < 500 ? 'green' : sigs.api_latency_ms < 2000 ? 'yellow' : 'red') : '',
+    sigs.permanent_dl_ceiling != null && sigs.permanent_dl_ceiling < 10 ? pill(`DL ceil: ${sigs.permanent_dl_ceiling}`, 'yellow') : '',
   ].filter(Boolean).join('');
   document.getElementById('h-signals').innerHTML = sigHtml || pill('No signal data yet', 'gray');
   const decisions = h.recent_decisions || [];
