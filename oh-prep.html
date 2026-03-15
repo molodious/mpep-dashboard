@@ -667,14 +667,7 @@
         return;
       }
 
-      // Summary
-      if (data.summary) {
-        document.getElementById('summary-content').innerHTML = 
-          `<p>${escapeHtml(data.summary)}</p><p class="source">Source: ${escapeHtml(data.source)}</p>`;
-        document.getElementById('summary-block').classList.remove('hidden');
-      }
-
-      // Check for benchmark data first
+      // Check for benchmark data FIRST
       let enhancedData = null;
       
       if (benchmarkData && benchmarkData.benchmarks) {
@@ -736,8 +729,28 @@
         document.getElementById('solution-block').classList.remove('hidden');
       }
 
-      // Key points
-      if (data.key_points && data.key_points.length) {
+      // Summary (use benchmark statement if available)
+      if (enhancedData && enhancedData.problem && enhancedData.problem.statement) {
+        document.getElementById('summary-content').innerHTML = 
+          `<p>${escapeHtml(enhancedData.problem.statement)}</p>`;
+        document.getElementById('summary-block').classList.remove('hidden');
+      } else if (data.summary) {
+        document.getElementById('summary-content').innerHTML = 
+          `<p>${escapeHtml(data.summary)}</p><p class="source">Source: ${escapeHtml(data.source)}</p>`;
+        document.getElementById('summary-block').classList.remove('hidden');
+      }
+
+      // Key points (use benchmark key points if available)
+      if (enhancedData && enhancedData.key_points && enhancedData.key_points.length) {
+        const list = document.getElementById('keypoints-list');
+        list.innerHTML = '';
+        enhancedData.key_points.forEach(p => {
+          const li = document.createElement('li');
+          li.textContent = p;
+          list.appendChild(li);
+        });
+        document.getElementById('keypoints-block').classList.remove('hidden');
+      } else if (data.key_points && data.key_points.length) {
         const list = document.getElementById('keypoints-list');
         list.innerHTML = '';
         data.key_points.forEach(p => {
