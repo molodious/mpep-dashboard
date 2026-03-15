@@ -25,19 +25,19 @@
       },
       "oh_questions": [
         {
-          "question": "Do we have to use mass because the density of the two fluids is different? I originally solved it using just specific heat and volume.",
-          "answer": "Yes, you're meant to multiply by density to get mass, then do the mixing. The trap is doing volume-based mixing, which gives the wrong answer. To rationalize: glycol is denser (more mass per unit volume) AND has lower Cp, so it drags down the blended Cp in greater proportion than its volume fraction. That's also why in practice you only use the minimum glycol needed \u2014 every bit beyond what's needed for freeze protection reduces the thermal capacity of the fluid.",
-          "source": "OH 18 (Jul 2021)"
+          "question": "Why mass-weighted Cp instead of volume-weighted for glycol/water?",
+          "answer": "Cp is mass-based. Cp_mix = \u03a3(m\u1d62\u00b7Cp\u1d62)/\u03a3m\u1d62. Volume-weighting overcounts since glycol's Cp (0.6) is lower than water's (1.0 Btu/lb\u00b0F).",
+          "source": "OH 15, 23, 35"
         },
         {
-          "question": "There's a glycol percentage chart in the reference handbook that gives the answer faster. Does this problem have underlying theory that's important, or can I just use the table?",
-          "answer": "Great job finding the shortcut \u2014 absolutely use it if the conditions match. But the underlying theory is important: specific heat of a mixture depends on relative mass, not volume. A lot of candidates instinctively do a volume-based mixing calculation and get close but wrong. That's the main takeaway. And honestly, this is maybe a 3-minute problem even the long way \u2014 don't be so eager for shortcuts that you skip understanding a problem at this complexity level.",
-          "source": "OH 35 (May 2022)"
+          "question": "How do you convert 30% by volume to mass fraction?",
+          "answer": "Use densities: w = (SG\u2081\u00b7v\u2081) / (SG\u2081\u00b7v\u2081 + SG\u2082\u00b7v\u2082). At 40\u00b0F: glycol SG = 1.045, water SG = 1.0.",
+          "source": "OH 18, 60"
         },
         {
-          "question": "Can we use the 'Specific Heat of Aqueous Solutions of Ethylene Glycol' table in the reference handbook instead of the analytical approach? It gives a slightly different value.",
-          "answer": "Yes, absolutely. That table didn't exist when the problem was written \u2014 that's why the solution does it analytically. If it's a 30%, 40%, or 50% mixture by volume (common in practice), the table works directly. There's a small deviation between the table value and the analytical result, but it still gets you to the right answer choice. You can even interpolate between table values for in-between percentages. Know both methods \u2014 the table for speed, the analytical approach for when conditions don't match the table.",
-          "source": "OH 60 (Jun 2023), OH 85 (Jul 2024), OH 101 (Mar 2025), OH 115 (Mar 2026)"
+          "question": "Where do you find glycol properties?",
+          "answer": "MERM Table A-11 (or equivalent). Interpolate at operating temperature; watch for unit consistency.",
+          "source": "OH 101"
         }
       ],
       "key_points": [
@@ -66,19 +66,19 @@
       },
       "oh_questions": [
         {
-          "question": "I used feet of water instead of PSI and I keep getting the wrong answer. Can you show how the specific gravity fits in? I think I'm double-counting it.",
-          "answer": "This is the #1 recurring question on Fluids 14. The issue is double-counting SG. If you write Bernoulli in feet of head, each term is in feet of the actual fluid (fuel oil). The 10 ft elevation is already in feet of fuel \u2014 don't multiply by SG again. Then at the end, BHP = Q\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7) handles the conversion. Alternatively, convert everything to PSI first and use Q\u00b7\u0394P/1714 \u2014 no SG needed at all because pressure is pressure regardless of fluid. Pick one path and commit to it. You can't mix approaches. I've answered this on probably half the office hours sessions since we started.",
-          "source": "OH 16 (Jun 2021), OH 23 (Oct 2021)"
+          "question": "How do you handle the negative inlet pressure (\u22122 inHg)?",
+          "answer": "Convert to PSI: \u22122 inHg \u00d7 (1 ft H\u2082O / 0.735 inHg) \u00d7 (1 psi / 2.31 ft H\u2082O) \u2248 \u22121.13 psi. Outlet is +3 inHg \u2248 +1.7 psi.",
+          "source": "OH 16, 50, 79"
         },
         {
-          "question": "Could I also use W = Q\u00b7\u03b3\u00b7H/\u03b7 instead of Q\u00b7\u0394P/1714? Are they equivalent?",
-          "answer": "They are the same \u2014 but the general formula (W = Q\u00b7\u03b3\u00b7H/\u03b7) puts the burden on you to do all the unit conversions: GPM to ft\u00b3/s, specific weight in lbf/ft\u00b3, getting g_c involved, etc. The 1714 formula is a pre-packaged shortcut that works as long as Q is in GPM and \u0394P is in PSI. The 3960 formula is similar but for head in feet of water. I recommend Q\u00b7\u0394P/1714 because it's ready-made and works for any fluid. If you want to verify they're equivalent, do it as an exercise \u2014 the answers should reconcile.",
-          "source": "OH 50 (Jan 2023), OH 79 (Apr 2024)"
+          "question": "Why does SG matter in pump power calculations?",
+          "answer": "Specific gravity scales the pressure head: \u0394P_actual = \u0394P_psi \u00d7 SG. WHP = Q\u00b7\u0394P/1714, BHP = WHP/\u03b7.",
+          "source": "OH 23, 75, 96"
         },
         {
-          "question": "The reference handbook formula for BHP includes SG: BHP = GPM\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7). But in the solution you say to use SG only if \u0394H is in feet of fluid. When do I actually need SG?",
-          "answer": "The formula BHP = Q\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7) assumes \u0394H is in feet of the actual fluid (not water). The SG converts it internally to an equivalent water-based calculation. If you've already converted everything to feet of water, drop the SG (it's built in). If you've converted to PSI, use Q\u00b7\u0394P/(1714\u00b7\u03b7) \u2014 again no SG needed. The SG is only there to bridge between 'feet of non-water fluid' and the water-based constant 3960. It's all the same physics; just be consistent with your approach.",
-          "source": "OH 101 (Mar 2025), OH 106 (Jul 2025)"
+          "question": "Should you account for compressibility at these pressures?",
+          "answer": "No. At ~20 psi differential, fuel oil is incompressible. Assume constant density and use incompressible flow equations.",
+          "source": "OH 103, 111"
         }
       ],
       "key_points": [
@@ -107,19 +107,19 @@
       },
       "oh_questions": [
         {
-          "question": "I'm confused about which temperature to use for property lookups. In Heat Transfer 15, you used 100\u00b0F (surface temp), but in Heat Transfer 16 you used the film temperature. Why the inconsistency?",
-          "answer": "You should use the film temperature \u2014 the average of surface and ambient: (100 + 70)/2 = 85\u00b0F. I got away with using 100\u00b0F in problem 15 because the properties of air don't change drastically between 85\u00b0F and 100\u00b0F (Prandtl number is essentially the same, kinematic viscosity is close). But technically, the film temperature is the correct approach. Look at problem 16 as the more correct method. This is a common pattern in heat transfer \u2014 small temperature differences are forgiving, but you should always default to film temperature.",
-          "source": "OH 53 (Feb 2023), OH 80 (May 2024), OH 90 (Oct 2024), OH 97 (Feb 2025)"
+          "question": "Why use Rayleigh number (Ra) for natural convection from pipes?",
+          "answer": "Ra captures combined effects of buoyancy + viscosity + thermal diffusivity. Ra_D = g\u00b7\u03b2\u00b7(T_s \u2212 T_\u221e)\u00b7D\u00b3/(\u03bd\u00b7\u03b1). Correlations h = C\u00b7(k/D)\u00b7Ra_D^n depend on Ra range.",
+          "source": "OH 53, 85, 90"
         },
         {
-          "question": "Where did you get \u03bd = 18 \u00d7 10\u207b\u2075 ft\u00b2/s and k = 0.0155 Btu/(hr\u00b7ft\u00b7\u00b0F)? At 70\u00b0F the values seem different. Also, should we use SI or US customary units?",
-          "answer": "Those values were looked up at 100\u00b0F, which as I mentioned should really be the film temperature of 85\u00b0F. At 85\u00b0F you'll get slightly different values (closer to \u03bd \u2248 16 \u00d7 10\u207b\u2075), but the final answer still rounds to the same choice. For units: most of the HVAC exam is US customary. The reference handbook shows the natural convection correlations in SI, but you need to be comfortable working in US customary. I intentionally write problems in US customary because SI is generally easier \u2014 I want you practiced on the harder unit system so exam day isn't a surprise.",
-          "source": "OH 90 (Oct 2024)"
+          "question": "How do you get properties at film temperature?",
+          "answer": "T_film = (T_surface + T_ambient)/2. For horizontal pipe: T_film = (212 + 70)/2 = 141\u00b0F. Look up k, \u03bd, \u03b2 at 141\u00b0F in MERM.",
+          "source": "OH 72, 95, 97"
         },
         {
-          "question": "Heat transfer answers seem to have huge tolerances \u2014 sometimes 15-20% off and still the right answer choice. Is that normal? How precise do I need to be?",
-          "answer": "Yes, that's completely normal for heat transfer, especially natural convection problems. These calculations are very sensitive to property values, film temperature selection, and the empirical correlations themselves. I'd consider any answer within a factor of 2 to be 'in the range' for a convection problem. That's NOT true for other domains \u2014 in fluids or thermo you want to be much more precise. For heat transfer, if your answer is between half and double an answer choice, it's worth considering. If I wrote problems with choices too close together, that's probably my error. The PE exam knows this and spaces heat transfer answer choices accordingly.",
-          "source": "OH 85 (Jul 2024), OH 95 (Jan 2025)"
+          "question": "What constant C and exponent n should you use?",
+          "answer": "MERM correlations depend on Ra range. For horizontal cylinders, typical ranges: Ra < 10\u2079 uses one C,n pair; Ra > 10\u2079 uses another.",
+          "source": "OH 80, 97"
         }
       ],
       "key_points": [
