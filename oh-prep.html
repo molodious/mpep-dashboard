@@ -502,19 +502,27 @@
         }
         result.key_points = ['Review solution methodology', 'Practice similar problems'];
       } else {
-        // Try label lookup
-        const labelKey = problem.toLowerCase();
-        if (labelKey in searchIndex.labels) {
-          const matchKey = searchIndex.labels[labelKey];
-          if (matchKey in searchIndex.problems) {
-            result.found = true;
-            result.source = `${course} — ${module}`;
-            result.summary = searchIndex.problems[matchKey].summary;
-            result.solution = 'See your practice problem materials for solution details.';
-            if (matchKey in searchIndex.oh_questions) {
-              result.past_questions = searchIndex.oh_questions[matchKey];
+        // Try label lookup (try multiple variations)
+        const labelVariations = [
+          problem.toLowerCase(),
+          `problem ${problem}`.toLowerCase(),
+          `${module.toLowerCase()} ${problem}`.toLowerCase(),
+        ];
+        
+        for (const labelKey of labelVariations) {
+          if (labelKey in searchIndex.labels) {
+            const matchKey = searchIndex.labels[labelKey];
+            if (matchKey in searchIndex.problems) {
+              result.found = true;
+              result.source = `${course} — ${module}`;
+              result.summary = searchIndex.problems[matchKey].summary;
+              result.solution = 'See your practice problem materials for solution details.';
+              if (matchKey in searchIndex.oh_questions) {
+                result.past_questions = searchIndex.oh_questions[matchKey];
+              }
+              result.key_points = ['Review solution methodology', 'Practice similar problems'];
+              break;  // Found it!
             }
-            result.key_points = ['Review solution methodology', 'Practice similar problems'];
           }
         }
       }
@@ -546,6 +554,32 @@
           Object.assign(result, exactResult);
           result.question = questionText;
         }
+      } else if (program && problem) {
+        // If only program + problem, search all modules
+        const course = program === 'HVAC' ? 'HVAC-Practice' : 'TFS-Practice';
+        
+        // Try label lookup across all modules
+        const labelVariations = [
+          problem.toLowerCase(),
+          `problem ${problem}`.toLowerCase(),
+        ];
+        
+        for (const labelKey of labelVariations) {
+          if (labelKey in searchIndex.labels) {
+            const matchKey = searchIndex.labels[labelKey];
+            if (matchKey in searchIndex.problems && matchKey.startsWith(course)) {
+              result.found = true;
+              result.summary = searchIndex.problems[matchKey].summary;
+              result.solution = 'See your practice problem materials for solution details.';
+              result.source = matchKey.replace(course + '_', '').replace(`_${problem}`, '').replace(`_Problem ${problem}`, '');
+              if (matchKey in searchIndex.oh_questions) {
+                result.past_questions = searchIndex.oh_questions[matchKey];
+              }
+              result.key_points = ['Review solution methodology', 'Practice similar problems'];
+              break;
+            }
+          }
+        }
       }
 
       return result;
@@ -569,10 +603,18 @@
     }
 
     function extractProblem(text) {
-      const matches = text.match(/(?:problem|thermo|p)\s*(\d+)/i);
+      // Try "problem 11", "Problem 11", "thermo 7", "HVAC 5" style
+      let matches = text.match(/(?:problem|thermo|p)\s*(\d+)/i);
       if (matches) return matches[1];
-      const matches2 = text.match(/\b([A-Z])\s*(\d+)\b/);
-      if (matches2) return matches2[2];
+      
+      // Try "Practice Exam 64" style
+      matches = text.match(/practice\s+exam\s+(\d+)/i);
+      if (matches) return `Practice${matches[1]}`;
+      
+      // Try single letter + number like "P7", "T23"
+      matches = text.match(/\b([A-Z])\s*(\d+)\b/);
+      if (matches) return matches[2];
+      
       return null;
     }
 
