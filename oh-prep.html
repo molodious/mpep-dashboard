@@ -675,12 +675,40 @@
       }
 
       // Check for benchmark data first
-      const benchmarkKey = `${data.program}_${data.module}_${data.problem}`;
       let enhancedData = null;
       
-      if (benchmarkData && benchmarkData.benchmarks && benchmarkData.benchmarks[benchmarkKey]) {
-        enhancedData = benchmarkData.benchmarks[benchmarkKey];
-        console.log(`✅ Found benchmark data for ${benchmarkKey}`);
+      if (benchmarkData && benchmarkData.benchmarks) {
+        // Try to find benchmark using multiple key patterns
+        const benchmarkKeys = [
+          `${data.program}_${data.module}_${data.problem}`,
+          `${data.program}_${data.module.replace(/[&]/g, 'and')}_${data.problem}`,
+          `${data.program}_${data.module.replace(/&/g, '&')}_${data.problem}`
+        ];
+        
+        for (const key of benchmarkKeys) {
+          if (benchmarkData.benchmarks[key]) {
+            enhancedData = benchmarkData.benchmarks[key];
+            console.log(`✅ Found benchmark data for ${key}`);
+            break;
+          }
+        }
+        
+        // Also try reverse-searching by problem content
+        if (!enhancedData && data.problem) {
+          for (const bkey in benchmarkData.benchmarks) {
+            // Extract problem number from benchmark key (e.g., "8" from "HVAC_Thermodynamics_8")
+            const parts = bkey.split('_');
+            const benchProbNum = parts[parts.length - 1];
+            
+            if (benchProbNum === String(data.problem) && 
+                bkey.includes(data.program) && 
+                bkey.includes(data.module.split(' ')[0])) {
+              enhancedData = benchmarkData.benchmarks[bkey];
+              console.log(`✅ Found benchmark data (fuzzy match): ${bkey}`);
+              break;
+            }
+          }
+        }
       }
 
       // Solution
