@@ -293,6 +293,28 @@
       .buttons { flex-direction: column; }
       .tab-buttons { flex-wrap: wrap; }
     }
+    .solution-summary, .solution-video {
+      background: var(--surface2);
+      padding: 12px;
+      margin: 10px 0;
+      border-left: 3px solid var(--green);
+      border-radius: 4px;
+    }
+
+    .solution-steps {
+      line-height: 1.8;
+      margin-top: 8px;
+    }
+
+    .step {
+      margin-bottom: 12px;
+      padding-left: 16px;
+      line-height: 1.6;
+    }
+
+    .step:first-child {
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -733,10 +755,18 @@
       // Solution
       if (enhancedData && enhancedData.solution) {
         const sol = enhancedData.solution;
+        
+        // Format summary with line breaks before each step
+        let summarySteps = sol.summary.split(/(?=Step \d+:)/);
+        let stepsHtml = summarySteps
+          .filter(step => step.trim())
+          .map(step => `<div class="step">${escapeHtml(step)}</div>`)
+          .join('');
+        
         document.getElementById('solution-content').innerHTML = `
           <div class="solution-summary">
             <strong>Summary:</strong>
-            <p>${escapeHtml(sol.summary)}</p>
+            <div class="solution-steps">${stepsHtml}</div>
           </div>
           ${sol.video_synthesis ? `<div class="solution-video">
             <strong>Video Approach:</strong>
