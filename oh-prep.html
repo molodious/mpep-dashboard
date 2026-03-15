@@ -503,12 +503,13 @@
         result.key_points = ['Review solution methodology', 'Practice similar problems'];
       } else {
         // Try label lookup (exact match only)
-        // Labels in the index are stored as lowercase, e.g., "problem 1", "thermo 7"
+        // Labels are stored as lowercase: "problem 1", "thermo 7", "fluids 1", etc.
         const labelVariations = [
-          `problem ${problem}`.toLowerCase(),  // "problem 1"
+          `problem ${problem}`.toLowerCase(),  // "problem 1" — most specific
           `thermo ${problem}`.toLowerCase(),   // "thermo 7"
-          `p${problem}`.toLowerCase(),         // "p1"
-          problem.toLowerCase(),               // fallback to raw (e.g., "1")
+          `fluids ${problem}`.toLowerCase(),   // "fluids 1"  
+          `heat transfer ${problem}`.toLowerCase(),  // "heat transfer 5"
+          // DO NOT use "p${problem}" — P1 means position 1, not problem 1
         ];
         
         for (const labelKey of labelVariations) {
