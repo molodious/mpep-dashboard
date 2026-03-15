@@ -48,8 +48,6 @@
       display: inline-block;
     }
 
-    a.back-link:hover { text-decoration: underline; }
-
     .query-section {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -60,11 +58,47 @@
 
     .query-section h2 { font-size: 1.2em; margin-bottom: 20px; color: var(--blue); }
 
+    /* Tab styling */
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 10px 15px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+
+    .tab-btn:hover { color: var(--text); }
+
+    /* Form styling */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
     .form-group {
       margin-bottom: 15px;
       display: flex;
       flex-direction: column;
     }
+
+    .form-row > .form-group { margin-bottom: 0; }
 
     .form-group label {
       font-weight: 600;
@@ -73,7 +107,8 @@
     }
 
     .form-group select,
-    .form-group input {
+    .form-group input,
+    .form-group textarea {
       padding: 10px 12px;
       background-color: var(--bg);
       border: 1px solid var(--border);
@@ -84,20 +119,17 @@
     }
 
     .form-group select:focus,
-    .form-group input:focus {
+    .form-group input:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: var(--blue);
       box-shadow: 0 0 0 3px #0d1f33;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
     }
-
-    .form-row > .form-group { margin-bottom: 0; }
 
     .buttons {
       display: flex;
@@ -131,9 +163,9 @@
 
     .btn-copy:hover { background-color: #1f6feb; }
 
-    .results-section {
-      animation: slideIn 0.3s ease-out;
-    }
+    .hidden { display: none !important; }
+
+    .results-section { animation: slideIn 0.3s ease-out; }
 
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(-10px); }
@@ -149,9 +181,7 @@
     }
 
     .result-block h3 { color: var(--blue); margin-bottom: 12px; font-size: 1.1em; }
-
     .result-block p { margin-bottom: 10px; }
-
     .result-block pre {
       background-color: var(--bg);
       border: 1px solid var(--border);
@@ -162,13 +192,8 @@
       color: var(--muted);
     }
 
-    .result-block ul {
-      margin-left: 20px;
-    }
-
-    .result-block li {
-      margin-bottom: 8px;
-    }
+    .result-block ul { margin-left: 20px; }
+    .result-block li { margin-bottom: 8px; }
 
     .source {
       font-size: 0.85em;
@@ -186,16 +211,8 @@
       margin-bottom: 12px;
     }
 
-    .pq-header {
-      color: var(--yellow);
-      font-size: 0.9em;
-      margin-bottom: 6px;
-    }
-
-    .pq-text {
-      font-size: 0.95em;
-      line-height: 1.5;
-    }
+    .pq-header { color: var(--yellow); font-size: 0.9em; margin-bottom: 6px; }
+    .pq-text { font-size: 0.95em; line-height: 1.5; }
 
     .notfound {
       background: linear-gradient(135deg, var(--surface), var(--bg));
@@ -235,10 +252,20 @@
       border: 1px solid var(--green);
     }
 
+    .extracted-info {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 0.9em;
+    }
+
     @media (max-width: 768px) {
       .form-row { grid-template-columns: 1fr; }
       header h1 { font-size: 1.6em; }
       .buttons { flex-direction: column; }
+      .tab-buttons { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -248,78 +275,101 @@
 
     <header>
       <h1>♠️ Office Hours Prep Notes</h1>
-      <p>Query the knowledge base for problem summaries, solution approaches, and past Q&A</p>
+      <p>Query the knowledge base for problem summaries, solution approaches, and past Q&A. Search by exact problem or paste a student question.</p>
     </header>
 
     <section class="query-section">
       <h2>Search Problem</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="program">Program:</label>
-          <select id="program" onchange="updateModules()">
-            <option value="HVAC">HVAC & Refrigeration</option>
-            <option value="TFS">Thermal & Fluids Systems</option>
-          </select>
+      
+      <!-- Tab toggle -->
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('exact')">Exact Lookup</button>
+        <button class="tab-btn" onclick="switchTab('question')">Ask a Question</button>
+      </div>
+
+      <!-- Mode 1: Exact lookup -->
+      <div id="exact-mode">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="program">Program:</label>
+            <select id="program" onchange="updateModules()">
+              <option value="HVAC">HVAC & Refrigeration</option>
+              <option value="TFS">Thermal & Fluids Systems</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="module">Module/Chapter:</label>
+            <select id="module"></select>
+          </div>
+          <div class="form-group">
+            <label for="problem">Problem #:</label>
+            <input type="text" id="problem" placeholder="e.g., 7, Thermo 7" />
+          </div>
         </div>
-        <div class="form-group">
-          <label for="module">Module/Chapter:</label>
-          <select id="module"></select>
-        </div>
-        <div class="form-group">
-          <label for="problem">Problem Number:</label>
-          <input type="number" id="problem" placeholder="e.g., 23" min="1">
+        <div class="buttons">
+          <button class="btn-primary" onclick="queryExact()">Get Prep Notes</button>
         </div>
       </div>
-      <div class="buttons">
-        <button class="btn-primary" onclick="queryPrep()">Get Prep Notes</button>
+
+      <!-- Mode 2: Question -->
+      <div id="question-mode" class="hidden">
+        <div class="form-group">
+          <label for="question-text">Paste the student's question:</label>
+          <textarea id="question-text" placeholder="E.g., In an R134a refrigeration cycle, the compressor discharge is 20 psi with 20 degrees of superheat. What's the entropy? Is this HVAC Thermodynamics Problem 7?"></textarea>
+        </div>
+        <div class="buttons">
+          <button class="btn-primary" onclick="queryQuestion()">Find Answer</button>
+        </div>
       </div>
     </section>
 
-    <div id="status" class="status" style="display: none;"></div>
+    <div id="status" class="status hidden"></div>
 
-    <section id="results-section" class="results-section" style="display: none;">
+    <section id="results-section" class="results-section hidden">
       <div style="margin-bottom: 20px;">
         <h2 id="result-title" style="color: var(--blue); margin-bottom: 12px;"></h2>
         <button class="btn-copy" onclick="copyToClipboard()" style="width: auto;">📋 Copy for Slide Notes</button>
       </div>
 
-      <div id="summary-block" class="result-block" style="display: none;">
+      <div id="extracted-info" class="extracted-info hidden" style="margin-bottom: 20px;"></div>
+
+      <div id="summary-block" class="result-block hidden">
         <h3>Problem Summary</h3>
         <div id="summary-content"></div>
       </div>
 
-      <div id="solution-block" class="result-block" style="display: none;">
+      <div id="solution-block" class="result-block hidden">
         <h3>Solution Approach</h3>
         <div id="solution-content"></div>
       </div>
 
-      <div id="keypoints-block" class="result-block" style="display: none;">
+      <div id="keypoints-block" class="result-block hidden">
         <h3>Key Points to Emphasize</h3>
         <ul id="keypoints-list"></ul>
       </div>
 
-      <div id="pastq-block" class="result-block" style="display: none;">
+      <div id="pastq-block" class="result-block hidden">
         <h3>Past OH Questions</h3>
         <div id="pastq-content"></div>
       </div>
 
-      <div id="notfound-block" class="result-block notfound" style="display: none;">
+      <div id="notfound-block" class="result-block notfound hidden">
         <p>We don't have information on this problem in our current knowledge base.</p>
-        <p>Try checking related problems or searching different keywords.</p>
+        <p>Try a different problem number or search by module.</p>
       </div>
     </section>
   </div>
 
   <script>
-    // Module lists (hardcoded for performance)
     const MODULES = {
       'HVAC': ['Thermodynamics', 'Fluids', 'Psychrometrics', 'Heat Transfer', 'HVAC', 'Systems & Components', 'Supporting Topics', 'Practice Exam #1', 'Practice Exam #2'],
       'TFS': ['Thermodynamics', 'Heat Transfer', 'Hydraulic & Fluids Applications', 'Energy & Power Systems', 'Supporting Topics', 'Practice Exam I', 'Practice Exam II']
     };
 
     let searchIndex = null;
+    let currentTab = 'exact';
 
-    // Load search index on page load
+    // Load index on page load
     window.addEventListener('DOMContentLoaded', async () => {
       console.log('Loading OH Prep search index...');
       try {
@@ -328,11 +378,32 @@
         searchIndex = await response.json();
         console.log(`✅ Index loaded: ${searchIndex.metadata.problems_indexed} problems`);
       } catch (err) {
-        console.error('Failed to load search index:', err);
+        console.error('Failed to load index:', err);
         showStatus(`Could not load search index: ${err.message}`, 'error');
       }
       updateModules();
     });
+
+    // Tab switching
+    function switchTab(tab) {
+      currentTab = tab;
+      const exactBtn = document.querySelectorAll('.tab-btn')[0];
+      const qBtn = document.querySelectorAll('.tab-btn')[1];
+      const exactMode = document.getElementById('exact-mode');
+      const qMode = document.getElementById('question-mode');
+
+      if (tab === 'exact') {
+        exactBtn.classList.add('active');
+        qBtn.classList.remove('active');
+        exactMode.classList.remove('hidden');
+        qMode.classList.add('hidden');
+      } else {
+        exactBtn.classList.remove('active');
+        qBtn.classList.add('active');
+        exactMode.classList.add('hidden');
+        qMode.classList.remove('hidden');
+      }
+    }
 
     // Update modules dropdown
     function updateModules() {
@@ -349,8 +420,8 @@
       });
     }
 
-    // Query for prep notes
-    function queryPrep() {
+    // Query by exact problem
+    function queryExact() {
       if (!searchIndex) {
         showStatus('Search index still loading...', 'info');
         return;
@@ -366,11 +437,9 @@
       }
 
       showStatus('Searching...', 'info');
-
-      // Simulate async for UX
       setTimeout(() => {
         try {
-          const result = searchLocally(program, module, problem);
+          const result = searchByExact(program, module, problem);
           displayResults(result);
           hideStatus();
         } catch (err) {
@@ -379,14 +448,38 @@
       }, 200);
     }
 
-    // Local search (no network needed)
-    function searchLocally(program, module, problem) {
+    // Query by question
+    function queryQuestion() {
+      if (!searchIndex) {
+        showStatus('Search index still loading...', 'info');
+        return;
+      }
+
+      const questionText = document.getElementById('question-text').value.trim();
+      if (!questionText) {
+        showStatus('Please paste or type a question', 'error');
+        return;
+      }
+
+      showStatus('Analyzing question...', 'info');
+      setTimeout(() => {
+        try {
+          const result = searchByQuestion(questionText);
+          displayResults(result);
+          hideStatus();
+        } catch (err) {
+          showStatus(`Error: ${err.message}`, 'error');
+        }
+      }, 200);
+    }
+
+    // Exact search logic
+    function searchByExact(program, module, problem) {
       const course = program === 'HVAC' ? 'HVAC-Practice' : 'TFS-Practice';
       const problemKey = `${course}_${module}_${problem}`;
 
-      const result = {
-        found: problemKey in searchIndex.problems,
-        problem_id: problemKey,
+      let result = {
+        found: false,
         program,
         module,
         problem,
@@ -395,35 +488,117 @@
         past_questions: [],
         key_points: [],
         source: null,
+        extracted: null,
       };
 
-      if (result.found) {
+      // Try exact key first
+      if (problemKey in searchIndex.problems) {
+        result.found = true;
         result.source = `${course} — ${module}`;
-        result.summary = `Problem ${problem} from ${module}`;
-        result.solution = 'See your practice problem materials for detailed solution steps.';
-        
-        // Get past Q&A if available
+        result.summary = searchIndex.problems[problemKey].summary;
+        result.solution = 'See your practice problem materials for solution details.';
         if (problemKey in searchIndex.oh_questions) {
           result.past_questions = searchIndex.oh_questions[problemKey];
         }
-
-        result.key_points = ['Review solution methodology', 'Practice similar problems', 'Understand underlying concepts'];
+        result.key_points = ['Review solution methodology', 'Practice similar problems'];
+      } else {
+        // Try label lookup
+        const labelKey = problem.toLowerCase();
+        if (labelKey in searchIndex.labels) {
+          const matchKey = searchIndex.labels[labelKey];
+          if (matchKey in searchIndex.problems) {
+            result.found = true;
+            result.source = `${course} — ${module}`;
+            result.summary = searchIndex.problems[matchKey].summary;
+            result.solution = 'See your practice problem materials for solution details.';
+            if (matchKey in searchIndex.oh_questions) {
+              result.past_questions = searchIndex.oh_questions[matchKey];
+            }
+            result.key_points = ['Review solution methodology', 'Practice similar problems'];
+          }
+        }
       }
 
       return result;
     }
 
+    // Question analysis & search
+    function searchByQuestion(questionText) {
+      // Extract metadata
+      const program = extractProgram(questionText);
+      const module = extractModule(questionText, program);
+      const problem = extractProblem(questionText);
+
+      let result = {
+        found: false,
+        question: questionText,
+        extracted: { program, module, problem },
+        summary: null,
+        solution: null,
+        past_questions: [],
+        key_points: [],
+      };
+
+      // Search with extracted info
+      if (program && module && problem) {
+        const exactResult = searchByExact(program, module, problem);
+        if (exactResult.found) {
+          Object.assign(result, exactResult);
+          result.question = questionText;
+        }
+      }
+
+      return result;
+    }
+
+    // Extraction helpers
+    function extractProgram(text) {
+      const lower = text.toLowerCase();
+      if (/hvac|refrigeration/.test(lower)) return 'HVAC';
+      if (/tfs|thermal|fluids/.test(lower)) return 'TFS';
+      return null;
+    }
+
+    function extractModule(text, program) {
+      const lower = text.toLowerCase();
+      const chapters = program === 'HVAC' ? MODULES.HVAC : MODULES.TFS;
+      for (const ch of chapters) {
+        if (lower.includes(ch.toLowerCase())) return ch;
+      }
+      return null;
+    }
+
+    function extractProblem(text) {
+      const matches = text.match(/(?:problem|thermo|p)\s*(\d+)/i);
+      if (matches) return matches[1];
+      const matches2 = text.match(/\b([A-Z])\s*(\d+)\b/);
+      if (matches2) return matches2[2];
+      return null;
+    }
+
     // Display results
     function displayResults(data) {
       const resultsSection = document.getElementById('results-section');
-      document.querySelectorAll('.result-block').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.result-block').forEach(el => el.classList.add('hidden'));
       
-      document.getElementById('result-title').textContent = 
-        `${data.program} — ${data.module} — Problem ${data.problem}`;
+      // Title
+      if (data.extracted) {
+        document.getElementById('result-title').textContent = 
+          `${data.extracted.program} — ${data.extracted.module} — Problem ${data.extracted.problem}`;
+        
+        // Show extraction
+        const infoDiv = document.getElementById('extracted-info');
+        infoDiv.innerHTML = `<strong>Extracted from question:</strong> ${data.extracted.program} / ${data.extracted.module} / Problem ${data.extracted.problem}`;
+        infoDiv.classList.remove('hidden');
+      } else {
+        document.getElementById('result-title').textContent = 
+          `${data.program} — ${data.module} — Problem ${data.problem}`;
+        document.getElementById('extracted-info').classList.add('hidden');
+      }
 
       if (!data.found) {
-        document.getElementById('notfound-block').style.display = 'block';
-        resultsSection.style.display = 'block';
+        document.getElementById('notfound-block').classList.remove('hidden');
+        resultsSection.classList.remove('hidden');
         return;
       }
 
@@ -431,32 +606,32 @@
       if (data.summary) {
         document.getElementById('summary-content').innerHTML = 
           `<p>${escapeHtml(data.summary)}</p><p class="source">Source: ${escapeHtml(data.source)}</p>`;
-        document.getElementById('summary-block').style.display = 'block';
+        document.getElementById('summary-block').classList.remove('hidden');
       }
 
       // Solution
       if (data.solution) {
         document.getElementById('solution-content').innerHTML = 
-          `<pre>${escapeHtml(data.solution)}</pre>`;
-        document.getElementById('solution-block').style.display = 'block';
+          `<p>${escapeHtml(data.solution)}</p>`;
+        document.getElementById('solution-block').classList.remove('hidden');
       }
 
-      // Key Points
-      if (data.key_points && data.key_points.length > 0) {
+      // Key points
+      if (data.key_points && data.key_points.length) {
         const list = document.getElementById('keypoints-list');
         list.innerHTML = '';
-        data.key_points.forEach(point => {
+        data.key_points.forEach(p => {
           const li = document.createElement('li');
-          li.textContent = point;
+          li.textContent = p;
           list.appendChild(li);
         });
-        document.getElementById('keypoints-block').style.display = 'block';
+        document.getElementById('keypoints-block').classList.remove('hidden');
       }
 
-      // Past Questions
-      if (data.past_questions && data.past_questions.length > 0) {
-        const pastqContent = document.getElementById('pastq-content');
-        pastqContent.innerHTML = '';
+      // Past Q&A
+      if (data.past_questions && data.past_questions.length) {
+        const content = document.getElementById('pastq-content');
+        content.innerHTML = '';
         data.past_questions.forEach(pq => {
           const div = document.createElement('div');
           div.className = 'past-question';
@@ -464,21 +639,18 @@
             <div class="pq-header"><strong>${pq.session}</strong> (${pq.date})</div>
             <div class="pq-text">${escapeHtml(pq.question)}</div>
           `;
-          pastqContent.appendChild(div);
+          content.appendChild(div);
         });
-        document.getElementById('pastq-block').style.display = 'block';
+        document.getElementById('pastq-block').classList.remove('hidden');
       }
 
-      resultsSection.style.display = 'block';
+      resultsSection.classList.remove('hidden');
     }
 
     // Copy to clipboard
     function copyToClipboard() {
-      const program = document.getElementById('program').value;
-      const module = document.getElementById('module').value;
-      const problem = document.getElementById('problem').value;
-
-      let text = `## Problem Prep: ${program} - ${module} - ${problem}\n\n`;
+      const title = document.getElementById('result-title').textContent;
+      let text = `## ${title}\n\n`;
 
       const summary = document.getElementById('summary-content').textContent;
       if (summary) text += `**Problem Summary**\n${summary}\n\n`;
@@ -487,18 +659,18 @@
       if (solution) text += `**Solution Approach**\n${solution}\n\n`;
 
       const keypoints = document.getElementById('keypoints-list');
-      if (keypoints.children.length > 0) {
-        text += `**Key Points to Emphasize**\n`;
+      if (keypoints.children.length) {
+        text += `**Key Points**\n`;
         Array.from(keypoints.children).forEach(li => {
           text += `- ${li.textContent}\n`;
         });
         text += '\n';
       }
 
-      const pastqContent = document.getElementById('pastq-content');
-      if (pastqContent.textContent.trim()) {
+      const pastq = document.getElementById('pastq-content');
+      if (pastq.textContent.trim()) {
         text += `**Past OH Questions**\n`;
-        Array.from(pastqContent.querySelectorAll('.past-question')).forEach(pq => {
+        Array.from(pastq.querySelectorAll('.past-question')).forEach(pq => {
           const header = pq.querySelector('.pq-header').textContent;
           const qtext = pq.querySelector('.pq-text').textContent;
           text += `- ${header}: ${qtext}\n`;
@@ -518,11 +690,11 @@
       const status = document.getElementById('status');
       status.textContent = msg;
       status.className = `status ${type}`;
-      status.style.display = 'block';
+      status.classList.remove('hidden');
     }
 
     function hideStatus() {
-      document.getElementById('status').style.display = 'none';
+      document.getElementById('status').classList.add('hidden');
     }
 
     // Escape HTML
@@ -532,10 +704,11 @@
       return div.innerHTML;
     }
 
-    // Allow Enter to submit
+    // Enter to submit
     document.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && e.target.id === 'problem') {
-        queryPrep();
+      if (e.key === 'Enter' && (e.target.id === 'problem' || e.target.id === 'question-text')) {
+        if (currentTab === 'exact') queryExact();
+        else queryQuestion();
       }
     });
   </script>
