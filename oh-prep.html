@@ -370,6 +370,8 @@
     let currentTab = 'exact';
 
     // Load index on page load
+    let benchmarkData = null;
+
     window.addEventListener('DOMContentLoaded', async () => {
       console.log('Loading OH Prep search index...');
       try {
@@ -381,6 +383,19 @@
         console.error('Failed to load index:', err);
         showStatus(`Could not load search index: ${err.message}`, 'error');
       }
+
+      // Load benchmark data
+      console.log('Loading benchmark data...');
+      try {
+        const response = await fetch('oh-prep-data.json');
+        if (response.ok) {
+          benchmarkData = await response.json();
+          console.log(`✅ Benchmark data loaded: ${Object.keys(benchmarkData.benchmarks || {}).length} problems`);
+        }
+      } catch (err) {
+        console.warn('Could not load benchmark data:', err);
+      }
+
       updateModules();
     });
 
@@ -659,8 +674,35 @@
         document.getElementById('summary-block').classList.remove('hidden');
       }
 
+      // Check for benchmark data first
+      const benchmarkKey = `${data.program}_${data.module}_${data.problem}`;
+      let enhancedData = null;
+      
+      if (benchmarkData && benchmarkData.benchmarks && benchmarkData.benchmarks[benchmarkKey]) {
+        enhancedData = benchmarkData.benchmarks[benchmarkKey];
+        console.log(`✅ Found benchmark data for ${benchmarkKey}`);
+      }
+
       // Solution
-      if (data.solution) {
+      if (enhancedData && enhancedData.solution) {
+        const sol = enhancedData.solution;
+        document.getElementById('solution-content').innerHTML = `
+          <div class="solution-summary">
+            <strong>Summary:</strong>
+            <p>${escapeHtml(sol.summary)}</p>
+          </div>
+          ${sol.video_synthesis ? `<div class="solution-video">
+            <strong>Video Approach:</strong>
+            <p>${escapeHtml(sol.video_synthesis)}</p>
+          </div>` : ''}
+          <button onclick="toggleFullSolution()" class="expand-btn">Expand Full Solution</button>
+          <div id="full-solution" class="hidden">
+            <strong>Complete Solution:</strong>
+            <p>${escapeHtml(sol.full)}</p>
+          </div>
+        `;
+        document.getElementById('solution-block').classList.remove('hidden');
+      } else if (data.solution) {
         document.getElementById('solution-content').innerHTML = 
           `<p>${escapeHtml(data.solution)}</p>`;
         document.getElementById('solution-block').classList.remove('hidden');
@@ -678,8 +720,22 @@
         document.getElementById('keypoints-block').classList.remove('hidden');
       }
 
-      // Past Q&A
-      if (data.past_questions && data.past_questions.length) {
+      // Past Q&A (use benchmark data if available)
+      if (enhancedData && enhancedData.oh_questions) {
+        const content = document.getElementById('pastq-content');
+        content.innerHTML = '';
+        enhancedData.oh_questions.forEach((pq, idx) => {
+          const div = document.createElement('div');
+          div.className = 'past-question';
+          div.innerHTML = `
+            <div class="pq-header"><strong>Q${idx + 1}:</strong> <span class="source">${escapeHtml(pq.source)}</span></div>
+            <div class="pq-q"><strong>Student:</strong> ${escapeHtml(pq.question)}</div>
+            <div class="pq-a"><strong>Dan:</strong> ${escapeHtml(pq.answer)}</div>
+          `;
+          content.appendChild(div);
+        });
+        document.getElementById('pastq-block').classList.remove('hidden');
+      } else if (data.past_questions && data.past_questions.length) {
         const content = document.getElementById('pastq-content');
         content.innerHTML = '';
         data.past_questions.forEach(pq => {

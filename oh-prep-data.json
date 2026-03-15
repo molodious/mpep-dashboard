@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "generated": "2026-03-15",
+    "description": "Front-end data package for oh-prep.html — 3 benchmark problems with solutions, video synthesis, and Office Hours Q&A",
+    "version": "1.0"
+  },
+  "benchmarks": {
+    "HVAC_Thermodynamics_8": {
+      "problem": {
+        "id": "HVAC-Practice_Thermodynamics_8",
+        "title": "Thermodynamics 8 — Glycol/Water Mixture Specific Heat",
+        "statement": "A chiller plant producing a low chilled water supply temperature of 40°F uses a glycol/water mixture of 30% glycol by volume. At 40°F, glycol has a specific heat capacity of 0.56 Btu/(lbm·°F) and a specific gravity of 1.15. What is the specific heat capacity of the mixture?",
+        "choices": {
+          "A": "0.86 Btu/(lbm·°F)",
+          "B": "0.87 Btu/(lbm·°F)",
+          "C": "0.88 Btu/(lbm·°F)",
+          "D": "0.89 Btu/(lbm·°F)"
+        },
+        "answer": "A"
+      },
+      "solution": {
+        "summary": "• Key trap: Must do mass-weighted average, NOT volume-weighted average — answer choices are intentionally close to catch volume-mixing errors.\n• Step 1: Find density of glycol using specific gravity: ρ_glycol = SG × ρ_water = 1.15 × 62.4 = 71.76 lb/ft³.\n• Step 2: Assume a convenient total volume (e.g., 100 ft³) → 30 ft³ glycol, 70 ft³ water.\n• Step 3: Find masses: m_glycol = 71.76 × 30 = 2152.8 lb; m_water = 62.4 × 70 = 4368 lb.\n• Step 4: Weighted average: Cp_mix = (Cp_glycol × m_glycol + Cp_water × m_water) / (m_glycol + m_water).\n• Step 5: Cp_mix = (0.56 × 2152.8 + 1.0 × 4368) / (2152.8 + 4368) = 0.855 Btu/(lbm·°F) → closest to A (0.86).\n• Key equation: Cp_mix = Σ(mᵢ × Cpᵢ) / Σmᵢ",
+        "full": "This is a mixing problem where we need the specific heat of a 30/70 glycol-water blend. The critical insight is that the mixing must be done by mass, not volume.\n\nStart with specific gravity to find glycol density: ρ_glycol = SG × ρ_water = 1.15 × 62.4 lb/ft³ = 71.76 lb/ft³.\n\nAssume a total volume of 100 ft³ for convenience (the ratio is all that matters). Then:\n- Volume of glycol = 30 ft³, Volume of water = 70 ft³\n- Mass of glycol = 71.76 × 30 = 2,152.8 lb\n- Mass of water = 62.4 × 70 = 4,368.0 lb\n\nThe specific heat of the mixture is the mass-weighted average:\nCp_mix = (m_glycol × Cp_glycol + m_water × Cp_water) / (m_glycol + m_water)\nCp_mix = (2,152.8 × 0.56 + 4,368.0 × 1.00) / (2,152.8 + 4,368.0)\nCp_mix = (1,205.6 + 4,368.0) / 6,520.8 = 5,573.6 / 6,520.8 ≈ 0.855 Btu/(lbm·°F)\n\nThe answer choices are tightly spaced (0.86, 0.87, 0.88, 0.89), so precision matters. Best answer: A (0.86).\n\nWhy not volume-weighted? Because glycol is denser than water (SG = 1.15), it contributes more mass per unit volume. A volume-based calculation gives ~0.87, which is answer B — the classic trap.",
+        "video_synthesis": "Dan's solution video emphasizes that the common trap is doing a volume-weighted average (0.3 × 0.56 + 0.7 × 1.0 = 0.868 → wrong answer B). The correct approach requires converting volumes to masses via density. Since glycol has SG = 1.15, it has 15% more mass per unit volume than water, which means glycol drags down the blended Cp more than you'd expect from volume alone. The video walks through assuming 100 ft³ total, computing masses, then applying Cp_mix = Σ(mᵢCpᵢ)/Σmᵢ to get 0.855, closest to answer A."
+      },
+      "oh_questions": [
+        {
+          "question": "Do we have to use mass because the density of the two fluids is different? I originally solved it using just specific heat and volume.",
+          "answer": "Yes, you're meant to multiply by density to get mass, then do the mixing. The trap is doing volume-based mixing, which gives the wrong answer. To rationalize: glycol is denser (more mass per unit volume) AND has lower Cp, so it drags down the blended Cp in greater proportion than its volume fraction. That's also why in practice you only use the minimum glycol needed — every bit beyond what's needed for freeze protection reduces the thermal capacity of the fluid.",
+          "source": "OH 18 (Jul 2021)"
+        },
+        {
+          "question": "There's a glycol percentage chart in the reference handbook that gives the answer faster. Does this problem have underlying theory that's important, or can I just use the table?",
+          "answer": "Great job finding the shortcut — absolutely use it if the conditions match. But the underlying theory is important: specific heat of a mixture depends on relative mass, not volume. A lot of candidates instinctively do a volume-based mixing calculation and get close but wrong. That's the main takeaway. And honestly, this is maybe a 3-minute problem even the long way — don't be so eager for shortcuts that you skip understanding a problem at this complexity level.",
+          "source": "OH 35 (May 2022)"
+        },
+        {
+          "question": "Can we use the 'Specific Heat of Aqueous Solutions of Ethylene Glycol' table in the reference handbook instead of the analytical approach? It gives a slightly different value.",
+          "answer": "Yes, absolutely. That table didn't exist when the problem was written — that's why the solution does it analytically. If it's a 30%, 40%, or 50% mixture by volume (common in practice), the table works directly. There's a small deviation between the table value and the analytical result, but it still gets you to the right answer choice. You can even interpolate between table values for in-between percentages. Know both methods — the table for speed, the analytical approach for when conditions don't match the table.",
+          "source": "OH 60 (Jun 2023), OH 85 (Jul 2024), OH 101 (Mar 2025), OH 115 (Mar 2026)"
+        }
+      ]
+    },
+    "HVAC_Fluids_14": {
+      "problem": {
+        "id": "HVAC-Practice_Fluids_14",
+        "title": "Fluids 14 — Fuel Oil Pump Power (Non-Water Fluid, Mixed Units)",
+        "statement": "10,000 gal/hr of fuel oil with a specific gravity of 0.86 is delivered to an emergency generator by a 90% efficient pump. The pressure gauge near the pump inlet reads −2.0 in Hg. The pressure gauge on the discharge side of the pump reads 30 psig and is located 10 ft above the pump. What is the input power to the pump?",
+        "choices": {
+          "A": "1.6 hp",
+          "B": "3.2 hp",
+          "C": "3.4 hp",
+          "D": "3.8 hp"
+        },
+        "answer": "D"
+      },
+      "solution": {
+        "summary": "• Step 1: Convert flow rate: Q = 10,000 gal/hr ÷ 60 = 166.7 GPM.\n• Step 2: Convert inlet pressure to PSI: −2.0 inHg × 13.6 inH₂O/inHg × (1 ft/12 in) × (1 PSI/2.31 ftH₂O) = −0.98 PSI.\n• Step 3: Convert discharge elevation to PSI: 10 ft fuel × 0.86 (SG) = 8.6 ft water; 8.6/2.31 = 3.72 PSI. Total P₂ = 30 + 3.72 = 33.72 PSI.\n• Step 4: ΔP = 33.72 − (−0.98) = 34.7 PSI.\n• Step 5: WHP = Q × ΔP / 1714 = 166.7 × 34.7 / 1714 = 3.37 hp.\n• Step 6: BHP = WHP / η = 3.37 / 0.90 = 3.74 hp → Answer D (3.8 hp).\n• Key pitfall: Don't double-count specific gravity — either adjust heads OR use SG in the final formula, not both.",
+        "full": "This problem combines several fluids concepts: unit conversion, Bernoulli equation for a non-water fluid, and pump power.\n\nFlow rate: Q = 10,000 gal/hr × (1 hr/60 min) = 166.67 GPM.\n\nInlet pressure (P₁): Given as −2.0 inches of mercury (gauge, vacuum). Convert:\n−2.0 inHg × (13.6 inH₂O / 1 inHg) = −27.2 inH₂O\n−27.2 inH₂O × (1 ft / 12 in) = −2.267 ftH₂O\n−2.267 ftH₂O × (1 PSI / 2.31 ftH₂O) = −0.98 PSI (gauge)\n\nDischarge pressure (P₂): 30 psig at 10 ft above pump. The 10 ft column is fuel oil, not water:\n10 ft fuel × SG(0.86) = 8.6 ft equivalent water\n8.6 ftH₂O / 2.31 = 3.72 PSI\nP₂ = 30 + 3.72 = 33.72 PSI (gauge)\n\nΔP = P₂ − P₁ = 33.72 − (−0.98) = 34.7 PSI\n\nHydraulic horsepower: WHP = Q × ΔP / 1714 = 166.67 × 34.7 / 1714 = 3.37 hp.\n(This formula works for any fluid when ΔP is in PSI — no SG needed.)\n\nBreak horsepower: BHP = WHP / η_pump = 3.37 / 0.90 = 3.74 hp → Answer D.\n\nCommon mistake: dividing by 3960 instead of 1714 (3960 is for head in feet of water), or multiplying by efficiency instead of dividing (which gives 3.0 hp → wrong answer).",
+        "video_synthesis": "Dan's video solution lays out the three approaches clearly:\n\n1. **PSI method (recommended):** Convert everything to PSI, use WHP = Q·ΔP/1714. No SG term needed because pressure already accounts for fluid density. This is the cleanest path.\n\n2. **Feet-of-water method:** Convert pressures to feet of water, use WHP = Q·ΔH/3960. Must ensure all heights are in equivalent feet of water.\n\n3. **Feet-of-fluid method:** Keep everything in feet of the actual fluid, then use BHP = Q·ΔH·SG/(3960·η).\n\nThe video stresses: pick ONE approach and commit. The classic error is double-counting SG — adjusting the 10 ft column AND including SG in the final formula. Also notes: divide by efficiency (not multiply) because BHP > WHP. Multiplying by 0.9 gives ~3.0 hp (wrong); dividing gives 3.74 hp → answer D."
+      },
+      "oh_questions": [
+        {
+          "question": "I used feet of water instead of PSI and I keep getting the wrong answer. Can you show how the specific gravity fits in? I think I'm double-counting it.",
+          "answer": "This is the #1 recurring question on Fluids 14. The issue is double-counting SG. If you write Bernoulli in feet of head, each term is in feet of the actual fluid (fuel oil). The 10 ft elevation is already in feet of fuel — don't multiply by SG again. Then at the end, BHP = Q·ΔH·SG/(3960·η) handles the conversion. Alternatively, convert everything to PSI first and use Q·ΔP/1714 — no SG needed at all because pressure is pressure regardless of fluid. Pick one path and commit to it. You can't mix approaches. I've answered this on probably half the office hours sessions since we started.",
+          "source": "OH 16 (Jun 2021), OH 23 (Oct 2021)"
+        },
+        {
+          "question": "Could I also use W = Q·γ·H/η instead of Q·ΔP/1714? Are they equivalent?",
+          "answer": "They are the same — but the general formula (W = Q·γ·H/η) puts the burden on you to do all the unit conversions: GPM to ft³/s, specific weight in lbf/ft³, getting g_c involved, etc. The 1714 formula is a pre-packaged shortcut that works as long as Q is in GPM and ΔP is in PSI. The 3960 formula is similar but for head in feet of water. I recommend Q·ΔP/1714 because it's ready-made and works for any fluid. If you want to verify they're equivalent, do it as an exercise — the answers should reconcile.",
+          "source": "OH 50 (Jan 2023), OH 79 (Apr 2024)"
+        },
+        {
+          "question": "The reference handbook formula for BHP includes SG: BHP = GPM·ΔH·SG/(3960·η). But in the solution you say to use SG only if ΔH is in feet of fluid. When do I actually need SG?",
+          "answer": "The formula BHP = Q·ΔH·SG/(3960·η) assumes ΔH is in feet of the actual fluid (not water). The SG converts it internally to an equivalent water-based calculation. If you've already converted everything to feet of water, drop the SG (it's built in). If you've converted to PSI, use Q·ΔP/(1714·η) — again no SG needed. The SG is only there to bridge between 'feet of non-water fluid' and the water-based constant 3960. It's all the same physics; just be consistent with your approach.",
+          "source": "OH 101 (Mar 2025), OH 106 (Jul 2025)"
+        }
+      ]
+    },
+    "HVAC_Heat_Transfer_15": {
+      "problem": {
+        "id": "HVAC-Practice_Heat Transfer_15",
+        "title": "Heat Transfer 15 — Natural Convection from Horizontal Pipe",
+        "statement": "How much heat does a 3-inch horizontal hot water pipe lose to the ambient space per unit length by natural convection if the surrounding room has an average temperature of 70°F, the surface temperature of the pipe is 100°F, and the coefficient of thermal expansion for air is 1.79 × 10⁻³ per °F?",
+        "choices": {
+          "A": "19 Btu/(hr·ft)",
+          "B": "29 Btu/(hr·ft)",
+          "C": "45 Btu/(hr·ft)",
+          "D": "72 Btu/(hr·ft)"
+        },
+        "answer": "A"
+      },
+      "solution": {
+        "summary": "• Step 1: Start with Newton's law of cooling: Q̇ = h·A·ΔT. Rearrange for per-unit-length: Q̇/L = π·D·h·ΔT.\n• Step 2: Find h using natural convection correlation: h̄ = C·(k/D)·Ra_D^n.\n• Step 3: Compute Rayleigh number: Ra_D = g·β·(Ts−T∞)·D³·Pr / ν².\n  - g = 32.2 ft/s², β = 1.79×10⁻³/°F, ΔT = 30°F, D = 3 in = 0.25 ft\n  - Look up air properties (at film temp 85°F): ν ≈ 18×10⁻⁵ ft²/s, Pr ≈ 0.71, k ≈ 0.0155 Btu/(hr·ft·°F)\n  - Ra_D ≈ 592,000\n• Step 4: From tables: C = 0.48, n = 0.25 for this Ra_D range.\n• Step 5: h̄ = 0.48 × (0.0155/0.25) × 592,000^0.25 = 0.825 Btu/(hr·ft²·°F).\n• Step 6: Q̇/L = π × 0.25 × 0.825 × 30 = 19.4 Btu/(hr·ft) → Answer A.",
+        "full": "This is a natural (free) convection problem for a long horizontal cylinder in a large body of stationary fluid (air).\n\nStart with Newton's law of cooling: Q̇ = h·A·ΔT. Since we want heat loss per unit length, and A = π·D·L for a cylinder:\nQ̇/L = π·D·h·(Ts − T∞)\n\nThe challenge is finding h, the convection coefficient. For natural convection from a horizontal cylinder, the reference handbook gives:\nh̄ = C·(k/D)·Ra_D^n\n\nwhere C and n are constants that depend on the Rayleigh number range.\n\nCompute Rayleigh number:\nRa_D = g·β·(Ts − T∞)·D³·Pr / ν²\n\nwhere:\n- g = 32.2 ft/s² (gravitational acceleration)\n- β = 1.79 × 10⁻³ per °F (given, coefficient of thermal expansion)\n- Ts − T∞ = 100 − 70 = 30°F\n- D = 3 in = 0.25 ft\n- Pr ≈ 0.71 (Prandtl number for air, from properties table)\n- ν ≈ 18 × 10⁻⁵ ft²/s (kinematic viscosity of air)\n- Properties should be evaluated at film temperature T_film = (100 + 70)/2 = 85°F\n\nRa_D = (32.2)(1.79 × 10⁻³)(30)(0.25³)(0.71) / (18 × 10⁻⁵)²\n     ≈ 592,000 (dimensionless, as expected)\n\nFor Ra_D ≈ 592,000, the constants are C = 0.48, n = 0.25.\n\nh̄ = 0.48 × (0.0155 / 0.25) × 592,000^0.25\n   = 0.48 × 0.062 × 27.7\n   ≈ 0.825 Btu/(hr·ft²·°F)\n\nFinally:\nQ̇/L = π × 0.25 × 0.825 × 30 = 19.4 Btu/(hr·ft)\n\nBest answer: A (19 Btu/(hr·ft)).\n\nUnit check: The Rayleigh number is dimensionless (ft, s, and °F all cancel). h̄ has units of Btu/(hr·ft²·°F), which combined with π·D (ft) and ΔT (°F) gives Btu/(hr·ft) — heat per unit length per unit time.",
+        "video_synthesis": "Dan's video walks through the full roadmap before diving into calculations — a useful exam strategy. Key points from the video:\n\n1. **Rearrange first:** Recognize that the problem asks for Q̇/L (per unit length), not total Q̇. Rewrite Newton's law as Q̇/L = π·D·h·ΔT immediately.\n\n2. **Finding h is the real problem:** If h were given, this would be trivial. Since it's not, you need the natural convection correlation → Rayleigh number → air property lookups.\n\n3. **Search terms for the reference handbook:** 'Newton's law of cooling', 'natural (free) convection', or 'long horizontal cylinder in large body of stationary fluid.' Use 'properties of air at atmospheric pressure' or 'properties of air at low pressure' for property lookups.\n\n4. **Unit checking is critical:** The Rayleigh number must be dimensionless. Walk through each unit to verify — this catches conversion errors (like forgetting to convert inches to feet for diameter).\n\n5. **The constants C and n** come from a table in the reference handbook based on the magnitude of Ra_D. For ~592,000: C = 0.48, n = 0.25."
+      },
+      "oh_questions": [
+        {
+          "question": "I'm confused about which temperature to use for property lookups. In Heat Transfer 15, you used 100°F (surface temp), but in Heat Transfer 16 you used the film temperature. Why the inconsistency?",
+          "answer": "You should use the film temperature — the average of surface and ambient: (100 + 70)/2 = 85°F. I got away with using 100°F in problem 15 because the properties of air don't change drastically between 85°F and 100°F (Prandtl number is essentially the same, kinematic viscosity is close). But technically, the film temperature is the correct approach. Look at problem 16 as the more correct method. This is a common pattern in heat transfer — small temperature differences are forgiving, but you should always default to film temperature.",
+          "source": "OH 53 (Feb 2023), OH 80 (May 2024), OH 90 (Oct 2024), OH 97 (Feb 2025)"
+        },
+        {
+          "question": "Where did you get ν = 18 × 10⁻⁵ ft²/s and k = 0.0155 Btu/(hr·ft·°F)? At 70°F the values seem different. Also, should we use SI or US customary units?",
+          "answer": "Those values were looked up at 100°F, which as I mentioned should really be the film temperature of 85°F. At 85°F you'll get slightly different values (closer to ν ≈ 16 × 10⁻⁵), but the final answer still rounds to the same choice. For units: most of the HVAC exam is US customary. The reference handbook shows the natural convection correlations in SI, but you need to be comfortable working in US customary. I intentionally write problems in US customary because SI is generally easier — I want you practiced on the harder unit system so exam day isn't a surprise.",
+          "source": "OH 90 (Oct 2024)"
+        },
+        {
+          "question": "Heat transfer answers seem to have huge tolerances — sometimes 15-20% off and still the right answer choice. Is that normal? How precise do I need to be?",
+          "answer": "Yes, that's completely normal for heat transfer, especially natural convection problems. These calculations are very sensitive to property values, film temperature selection, and the empirical correlations themselves. I'd consider any answer within a factor of 2 to be 'in the range' for a convection problem. That's NOT true for other domains — in fluids or thermo you want to be much more precise. For heat transfer, if your answer is between half and double an answer choice, it's worth considering. If I wrote problems with choices too close together, that's probably my error. The PE exam knows this and spaces heat transfer answer choices accordingly.",
+          "source": "OH 85 (Jul 2024), OH 95 (Jan 2025)"
+        }
+      ]
+    }
+  }
+}
