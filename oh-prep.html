@@ -502,26 +502,33 @@
         }
         result.key_points = ['Review solution methodology', 'Practice similar problems'];
       } else {
-        // Try label lookup (try multiple variations)
+        // Try label lookup (exact match only)
+        // Labels in the index are stored as lowercase, e.g., "problem 1", "thermo 7"
         const labelVariations = [
-          problem.toLowerCase(),
-          `problem ${problem}`.toLowerCase(),
-          `${module.toLowerCase()} ${problem}`.toLowerCase(),
+          `problem ${problem}`.toLowerCase(),  // "problem 1"
+          `thermo ${problem}`.toLowerCase(),   // "thermo 7"
+          `p${problem}`.toLowerCase(),         // "p1"
+          problem.toLowerCase(),               // fallback to raw (e.g., "1")
         ];
         
         for (const labelKey of labelVariations) {
+          // Only match if label exists exactly in the labels dict
           if (labelKey in searchIndex.labels) {
             const matchKey = searchIndex.labels[labelKey];
             if (matchKey in searchIndex.problems) {
-              result.found = true;
-              result.source = `${course} — ${module}`;
-              result.summary = searchIndex.problems[matchKey].summary;
-              result.solution = 'See your practice problem materials for solution details.';
-              if (matchKey in searchIndex.oh_questions) {
-                result.past_questions = searchIndex.oh_questions[matchKey];
+              // Verify the matched problem is in the correct module
+              const probData = searchIndex.problems[matchKey];
+              if (probData.module === module) {  // Only return if module matches
+                result.found = true;
+                result.source = `${course} — ${module}`;
+                result.summary = probData.summary;
+                result.solution = 'See your practice problem materials for solution details.';
+                if (matchKey in searchIndex.oh_questions) {
+                  result.past_questions = searchIndex.oh_questions[matchKey];
+                }
+                result.key_points = ['Review solution methodology', 'Practice similar problems'];
+                break;  // Found it!
               }
-              result.key_points = ['Review solution methodology', 'Practice similar problems'];
-              break;  // Found it!
             }
           }
         }
