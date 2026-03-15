@@ -25,18 +25,18 @@
       },
       "oh_questions": [
         {
-          "question": "Why mass-weighted Cp instead of volume-weighted for glycol/water?",
-          "answer": "Cp is mass-based. Cp_mix = \u03a3(m\u1d62\u00b7Cp\u1d62)/\u03a3m\u1d62. Volume-weighting overcounts since glycol's Cp (0.6) is lower than water's (1.0 Btu/lb\u00b0F).",
+          "question": "Can I just look up the Cp of a 30% glycol mixture in the table?",
+          "answer": "No \u2014 MERM doesn't have tables for every mixture. You must calculate using mass-weighted average: Cp_mix = \u03a3(m\u1d62\u00b7Cp\u1d62)/\u03a3m\u1d62. Convert % by volume to mass fraction first using densities at operating temperature.",
           "source": "OH 15, 23, 35"
         },
         {
-          "question": "How do you convert 30% by volume to mass fraction?",
-          "answer": "Use densities: w = (SG\u2081\u00b7v\u2081) / (SG\u2081\u00b7v\u2081 + SG\u2082\u00b7v\u2082). At 40\u00b0F: glycol SG = 1.045, water SG = 1.0.",
+          "question": "Why can't I just weight by volume percentages the way they're given?",
+          "answer": "Because Cp is an intensive property per unit MASS, not per unit volume. The answer choices are intentionally close (0.86\u20130.89) to catch this exact error. Using volume fractions gives the wrong mass fractions.",
           "source": "OH 18, 60"
         },
         {
-          "question": "Where do you find glycol properties?",
-          "answer": "MERM Table A-11 (or equivalent). Interpolate at operating temperature; watch for unit consistency.",
+          "question": "How do I convert from % by volume to % by mass?",
+          "answer": "Use densities at your operating temperature: mass fraction w = (SG\u2081\u00b7v\u2081) / (SG\u2081\u00b7v\u2081 + SG\u2082\u00b7v\u2082). At 40\u00b0F: glycol SG \u2248 1.045, water \u2248 1.0. Then use mass-weighted Cp with properties from MERM.",
           "source": "OH 101"
         }
       ],
@@ -66,18 +66,18 @@
       },
       "oh_questions": [
         {
-          "question": "How do you handle the negative inlet pressure (\u22122 inHg)?",
-          "answer": "Convert to PSI: \u22122 inHg \u00d7 (1 ft H\u2082O / 0.735 inHg) \u00d7 (1 psi / 2.31 ft H\u2082O) \u2248 \u22121.13 psi. Outlet is +3 inHg \u2248 +1.7 psi.",
+          "question": "Do I need to convert inHg and inH\u2082O to the same units, or can I just use them as-is?",
+          "answer": "You MUST convert to the same units (usually PSI). Negative inlet pressure (\u22122 inHg) and positive outlet (+3 inHg) are measured in different ways. Convert both to PSI using standard conversions, then find \u0394P in consistent units before calculating WHP.",
           "source": "OH 16, 50, 79"
         },
         {
-          "question": "Why does SG matter in pump power calculations?",
-          "answer": "Specific gravity scales the pressure head: \u0394P_actual = \u0394P_psi \u00d7 SG. WHP = Q\u00b7\u0394P/1714, BHP = WHP/\u03b7.",
+          "question": "Does the specific gravity (0.86) affect both pressure AND flow, or just one?",
+          "answer": "It affects ONLY the pressure (head). The flow Q is already in GPM. The SG scales the pressure term: \u0394P_actual = \u0394P_water \u00d7 SG. Then WHP = Q(gpm)\u00b7\u0394P(psi)/1714, BHP = WHP/\u03b7. Common error: counting SG twice.",
           "source": "OH 23, 75, 96"
         },
         {
-          "question": "Should you account for compressibility at these pressures?",
-          "answer": "No. At ~20 psi differential, fuel oil is incompressible. Assume constant density and use incompressible flow equations.",
+          "question": "Should I account for fuel oil compressibility at ~20 psi differential?",
+          "answer": "No. Liquids are incompressible at these pressures. Use constant density throughout. Compressibility only matters for high-pressure/high-temperature applications (e.g., >1000 psi).",
           "source": "OH 103, 111"
         }
       ],
@@ -107,18 +107,18 @@
       },
       "oh_questions": [
         {
-          "question": "Why use Rayleigh number (Ra) for natural convection from pipes?",
-          "answer": "Ra captures combined effects of buoyancy + viscosity + thermal diffusivity. Ra_D = g\u00b7\u03b2\u00b7(T_s \u2212 T_\u221e)\u00b7D\u00b3/(\u03bd\u00b7\u03b1). Correlations h = C\u00b7(k/D)\u00b7Ra_D^n depend on Ra range.",
+          "question": "Can I just use the bulk temperature (70\u00b0F) for property lookups, or do I need to use film temperature?",
+          "answer": "You MUST use film temperature: T_film = (T_surface + T_\u221e)/2 = (212 + 70)/2 = 141\u00b0F. This accounts for the temperature-dependent variation of fluid properties across the boundary layer. Properties at bulk temp will give wrong results.",
           "source": "OH 53, 85, 90"
         },
         {
-          "question": "How do you get properties at film temperature?",
-          "answer": "T_film = (T_surface + T_ambient)/2. For horizontal pipe: T_film = (212 + 70)/2 = 141\u00b0F. Look up k, \u03bd, \u03b2 at 141\u00b0F in MERM.",
+          "question": "How do I know which Rayleigh correlation to use \u2014 do different sources have different formulas?",
+          "answer": "Yes. MERM gives h = C\u00b7(k/D)\u00b7Ra_D^n where C and n depend on the Ra range (e.g., 10\u2074\u201310\u2077 vs 10\u2077\u201310\u00b9\u00b9 have different C,n). Calculate Ra_D first, then select the appropriate correlation from the table.",
           "source": "OH 72, 95, 97"
         },
         {
-          "question": "What constant C and exponent n should you use?",
-          "answer": "MERM correlations depend on Ra range. For horizontal cylinders, typical ranges: Ra < 10\u2079 uses one C,n pair; Ra > 10\u2079 uses another.",
+          "question": "If my Ra calculation puts me right on the boundary between two correlation ranges, which one do I use?",
+          "answer": "Use the correlation for the higher Ra range (more conservative). Or interpolate if the ranges are close. MERM usually specifies what to do at boundaries. When in doubt, use the formula that gives the HIGHER h value.",
           "source": "OH 80, 97"
         }
       ],
