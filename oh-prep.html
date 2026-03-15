@@ -203,6 +203,32 @@
       border-top: 1px solid var(--border);
     }
 
+    .answer-choices {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .choice {
+      padding: 10px 0;
+      font-size: 0.95em;
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .choice:last-child {
+      border-bottom: none;
+    }
+
+    .choice strong {
+      color: var(--blue);
+      margin-right: 8px;
+      min-width: 20px;
+      display: inline-block;
+    }
+
     .past-question {
       background: var(--bg);
       border-left: 3px solid var(--yellow);
@@ -731,8 +757,18 @@
 
       // Summary (use benchmark statement if available)
       if (enhancedData && enhancedData.problem && enhancedData.problem.statement) {
-        document.getElementById('summary-content').innerHTML = 
-          `<p>${escapeHtml(enhancedData.problem.statement)}</p>`;
+        let html = `<p>${escapeHtml(enhancedData.problem.statement)}</p>`;
+        
+        // Add answer choices if available
+        if (enhancedData.problem.choices) {
+          html += '<div class="answer-choices">';
+          for (const [letter, choice] of Object.entries(enhancedData.problem.choices)) {
+            html += `<div class="choice"><strong>${letter}.</strong> ${escapeHtml(choice)}</div>`;
+          }
+          html += '</div>';
+        }
+        
+        document.getElementById('summary-content').innerHTML = html;
         document.getElementById('summary-block').classList.remove('hidden');
       } else if (data.summary) {
         document.getElementById('summary-content').innerHTML = 
