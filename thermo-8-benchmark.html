@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thermo 8 — OH Prep Benchmark</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 { font-size: 28px; margin-bottom: 8px; color: #1a1a1a; }
+    .subtitle { color: #666; font-size: 14px; }
+    
+    .layout-container {
+      display: flex;
+      gap: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .sidebar-left {
+      flex: 0 0 45%;
+      padding: 24px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      max-height: 800px;
+    }
+    
+    .sidebar-right {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: 800px;
+    }
+    
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 8px;
+    }
+    
+    .problem-statement {
+      background: #f0f4ff;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    
+    .problem-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #0066cc;
+    }
+    
+    .choices {
+      margin-top: 14px;
+    }
+    
+    .choice {
+      padding: 10px 12px;
+      margin: 8px 0;
+      background: white;
+      border-left: 3px solid #ddd;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+    
+    .choice.correct {
+      background: #e6ffe6;
+      border-left-color: #22c55e;
+      font-weight: 500;
+    }
+    
+    .solution-steps {
+      background: white;
+      padding: 16px;
+      border-radius: 6px;
+      border-left: 3px solid #0066cc;
+      margin-bottom: 16px;
+    }
+    
+    .solution-steps ol {
+      margin-left: 20px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    
+    .solution-steps li {
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .solution-button {
+      display: inline-block;
+      padding: 8px 14px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    
+    .solution-button:hover {
+      background: #0052a3;
+    }
+    
+    .oh-section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #f59e0b;
+      padding-bottom: 8px;
+    }
+    
+    .qa-group {
+      background: #fffbf0;
+      border-left: 3px solid #f59e0b;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+    
+    .qa-theme {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #d97706;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    
+    .qa-question {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .qa-answer {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.6;
+      padding-left: 10px;
+      border-left: 2px solid #ddd;
+    }
+    
+    .qa-quote {
+      background: #fef3c7;
+      padding: 8px 10px;
+      border-left: 3px solid #fbbf24;
+      border-radius: 3px;
+      margin-top: 8px;
+      font-size: 12px;
+      font-style: italic;
+      color: #78350f;
+      line-height: 1.5;
+    }
+    
+    .qa-source {
+      font-size: 11px;
+      color: #999;
+      margin-top: 6px;
+    }
+    
+    @media (max-width: 1024px) {
+      .layout-container {
+        flex-direction: column;
+      }
+      .sidebar-left {
+        flex: 1;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        max-height: none;
+      }
+      .sidebar-right {
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>HVAC Thermodynamics 8</h1>
+      <p class="subtitle">Glycol/Water Mixture Specific Heat — Option 3 Layout Benchmark</p>
+      <p class="subtitle" style="margin-top: 8px; color: #999;">This is a working benchmark. Review the three-section layout (Problem | Solution | Office Hours Context) and approve for full implementation.</p>
+    </header>
+    
+    <div class="layout-container">
+      <!-- LEFT SIDEBAR: Problem & Solution -->
+      <div class="sidebar-left">
+        <div class="section-title">Problem Statement</div>
+        <div class="problem-title">Thermodynamics 8 — Glycol/Water Mixture Specific Heat</div>
+        <div class="problem-statement">
+          A chiller plant producing a low chilled water supply temperature of 40°F uses a glycol/water mixture of 30% glycol by volume. At 40°F, glycol has a specific heat capacity of 0.56 Btu/(lbm·°F) and a specific gravity of 1.15. What is the specific heat capacity of the mixture?
+        </div>
+        <div class="choices">
+          <div class="choice">A) 0.86 Btu/(lbm·°F)</div>
+          <div class="choice">B) 0.87 Btu/(lbm·°F)</div>
+          <div class="choice">C) 0.88 Btu/(lbm·°F)</div>
+          <div class="choice correct">D) 0.89 Btu/(lbm·°F) ✓ CORRECT</div>
+        </div>
+        
+        <div style="margin-top: 24px;">
+          <div class="section-title">Solution (High-Level Steps)</div>
+          <div class="solution-steps">
+            <ol>
+              <li><strong>Find density of glycol:</strong> ρ_glycol = SG × ρ_water = 1.15 × 62.4 = 71.76 lb/ft³</li>
+              <li><strong>Convert volume % to mass %:</strong> Assume 100 ft³ total → 30 ft³ glycol, 70 ft³ water</li>
+              <li><strong>Calculate masses:</strong> m_glycol = 71.76 × 30 = 2,152.8 lb; m_water = 62.4 × 70 = 4,368 lb</li>
+              <li><strong>Apply mass-weighted average:</strong> Cp_mix = (m₁·Cp₁ + m₂·Cp₂) / (m₁ + m₂)</li>
+              <li><strong>Compute:</strong> Cp_mix = (0.56 × 2,152.8 + 1.0 × 4,368) / 6,520.8 = 0.855 → <strong>A (0.86)</strong></li>
+            </ol>
+          </div>
+          <button class="solution-button">📖 See Full Solution (PDF)</button>
+        </div>
+      </div>
+      
+      <!-- RIGHT SIDEBAR: Office Hours Context -->
+      <div class="sidebar-right">
+        <div class="oh-section-title">Office Hours Context</div>
+        <p style="font-size: 13px; color: #666; margin-bottom: 14px;">Questions students asked about this problem across multiple sessions. Grouped by theme but preserving all nuance.</p>
+        
+        <div class="qa-group">
+          <div class="qa-theme">Why Mass-Weighted, Not Volume-Weighted?</div>
+          <div class="qa-question"><strong>Q:</strong> How do you know that the specific heat is a mass-weighted average? I couldn't find that in the reference handbook. Is this something I need to memorize?</div>
+          <div class="qa-answer">You won't find this spelled out in the reference handbook. We have to get away from expecting the handbook to serve up every fundamental idea—we bring that understanding to the exam, and the handbook is a tool to help with formulas we might not memorize. Here's how I think about it: density is mass over volume, and density changes with temperature. But the mass doesn't change—you still have the same amount of stuff. If volume shifts slightly with temperature but mass stays constant, you want specific heat tied to the thing that's constant (mass), not the thing that varies (volume). If Cp depended on volume, your mixture's performance characteristics would drift with temperature, and that would not be great. So it's not memorization—it's understanding why mass is the right basis. Once you understand it, you won't forget it.</div>
+          <div class="qa-quote">"I don't recommend you memorize this. What I would invite you to do is to try to really understand it."</div>
+          <div class="qa-source">OH 15 (May 2021)</div>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-theme">The Volume-Mixing Trap</div>
+          <div class="qa-question"><strong>Q:</strong> Do we have to use mass because the density of the two fluids is different? I originally solved it just using specific heat and volume.</div>
+          <div class="qa-answer">Yes—you need to multiply by density to get mass, then do the mixing. The trap is doing a volume-based mix (0.3 × 0.56 + 0.7 × 1.0 = 0.868), which gives answer B. But the correct answer is A (0.855). The answer choices are intentionally close together to weed out candidates who use volume mixing. Here's the physical intuition: glycol is denser than water (SG = 1.15), so it has more mass per unit volume AND lower Cp. It drags down the blended Cp in greater proportion than its volume fraction would suggest. That's why in practice you use the minimum glycol needed for freeze protection—every bit beyond that reduces the thermal capacity of the fluid.</div>
+          <div class="qa-quote">"I selected the answer choices to be close enough together to distinguish intentionally whether you did a volume weighted mixture or a mass weighted mixture."</div>
+          <div class="qa-source">OH 15 (May 2021), OH 18 (Jul 2021)</div>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-theme">Step-by-Step: Volume to Mass Conversion</div>
+          <div class="qa-question"><strong>Q:</strong> Can you walk through the actual conversion from volume percentages to masses? I know I need density but I'm getting confused by the steps.</div>
+          <div class="qa-answer">The approach is straightforward—assume a convenient total volume (100 ft³ works nicely). Then: 30 ft³ glycol, 70 ft³ water. Find masses using m = ρ × V. For glycol: ρ = SG × ρ_water = 1.15 × 62.4 = 71.76 lb/ft³, so m_glycol = 71.76 × 30 = 2,152.8 lb. For water: m_water = 62.4 × 70 = 4,368 lb. Then Cp_mix = (m₁·Cp₁ + m₂·Cp₂) / (m₁ + m₂). Both volumes are known, both densities are known—this is maybe a 3-minute problem. It's not particularly complex as PE questions go.</div>
+          <div class="qa-source">OH 35 (May 2022), OH 18 (Jul 2021)</div>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-theme">Why Glycol Drags Down Cp Disproportionately</div>
+          <div class="qa-question"><strong>Q:</strong> Why does adding glycol reduce the mixture Cp by more than you'd expect from the volume fraction alone?</div>
+          <div class="qa-answer">Two effects compound: glycol is denser than water (SG = 1.15, so 15% more mass per unit volume), AND it has a much lower specific heat (0.56 vs 1.0). So not only does glycol drag down the blended Cp, it does so in greater proportion than its volume fraction because each unit volume of glycol contributes more mass. This is exactly why in HVAC applications, you use the minimum glycol concentration needed for freeze protection and not more—every additional percent of glycol reduces the thermal capacity of the loop fluid. The problem is designed to make you reckon with this interaction between density and Cp.</div>
+          <div class="qa-quote">"Glycol is going to drag down the blended specific heat capacity of the mixture... in greater proportion than its respective volume, because it has more mass per unit volume."</div>
+          <div class="qa-source">OH 18 (Jul 2021), OH 35 (May 2022)</div>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-theme">Using the Handbook: Aqueous Solutions Table</div>
+          <div class="qa-question"><strong>Q:</strong> Can we use the 'Specific Heat of Aqueous Solutions of Ethylene Glycol' table in the reference handbook instead of working it analytically? It gives a slightly different value.</div>
+          <div class="qa-answer">Yes, absolutely—that table didn't exist when this problem was written, which is why the solution does it analytically. If it's a 30%, 40%, or 50% mixture by volume, the table works directly. You can interpolate for in-between percentages, and probably even extrapolate a little below 30% or above 50%. The values reconcile—there's a small deviation between the table and analytical result, but it still gets you to the right answer choice. One caution though: there are separate tables for ethylene glycol and propylene glycol, and they give different values. If the problem just says 'glycol' without specifying which type, that's ambiguous. Make sure you pick the right table if you go that route. Know both methods—the table for speed, the analytical approach for when conditions don't match the table or the glycol type isn't specified.</div>
+          <div class="qa-source">OH 60 (Jun 2023), OH 85 (Jul 2024), OH 101 (Mar 2025)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
