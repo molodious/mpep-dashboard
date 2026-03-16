@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 14 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 14</span>
+  <span class="nav-badge">⭐ 1 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH sessions · Answer: D</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 14</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Water enters a closed feedwater heater at 100◦F and 200psia. After being heated at constant pressure, the water exits as superheated steam at 500◦F. What heat transfer per unit mass is required? lb lb lb lb 26
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>844Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>914Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1124Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>1194Btu ✓</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">of a storage tank held at atmospheric pressure from which water is supplied. The suction piping is made up of 50 feet equivalent length of 2 inch schedule 40 steel. The stored water is never warmer than 60◦F. What is the net positive suction head available? A. 0ft B. 16ft C. 28ft D. 46ft Start by looking up Net Positive Suction Head Available in the Reference Handbook and stating theformula,whereh istheatmosphericpressureatthesourcereservoirsurface,h istheheightof p z the(cid:29)uidcolumnonthesuctioninlet,h isthevaporpressureatthetemperatureofthe(cid:29)uid,and vpa h is the friction loss from the (cid:29)uid source to the pump inlet. Note this formula is best suited for f design purposes. After a system is installed and fitted with gauges and sensors, it may be suitable to use the Existing Conditions formula instead. In this case, there is no known pressure gauge on thesuctionside, thereforethebestformulaistheoneselected. Forconsistency, alltermsshouldbe converted to units of ft. NPSH =h +h −h −h A p z vpa f Convert h to units of ft using the rule of thumb conversion factor for water 2.31ft. p psi   ft h =14.7psi 2.31 =33.96ft p psi Sincethepumpislocatedbelowthetopofthestoragetank,h hasapositivevalue. Thecolumn z of (cid:29)uid exerts pressure on the pump inlet. Note that if the pump were placed above the source, this term would be subtracted. 239 h =15ft z Look up the saturation pressure of water at 60◦F by searching Properties of Saturated Water and Steam and using the steam table organized by temperature. The vapor pressure reduces the NPSH , thus is it subtracted in the formula. Convert units from psi to ft. A   ft h =.26psi 2.31 =0.6ft vpa@T=60◦F psi For the losses, write the Darcy-Weisbach Equation, find the Kinematic Viscosity by looking up PropertiesofWater,findthediameterandvelocityintheSteelPipeFrictionTables,anddetermine the friction factor from the Moody Diagram. The equivalent length of piping from the s</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Water enters a closed feed water heater at 100 degrees and 200 psi a. After being heated at constant pressure, the water exits as superheated steam at 500 degrees. What heat transfer per unit mass is required. So when they say what heat transfer per unit mass, that&#x27;s basically just what&#x27;s the difference in enthalpy between these two states. Right, that&#x27;s the amount of heat that needs to be added per unit mass. And fortunately, we have a fully defined state for state 1, which is 100 degrees in 200 psi. So that&#x27;s far lower than the boiling point of water and the pressure is much higher. So that&#x27;s compressed. That&#x27;s definitely going to be a subcooled condition. We can tell just at a glance. So I have to do some conversion there to find the enthalpy.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • And maybe you&#x27;re hoping that would go away, but of course we&#x27;re going to reinforce the concepts that we learned earlier in the program and make sure we&#x27;re using them throughout and intermixing them with the other topics like fluids and heat transfer.<br>
+        • Water enters a closed feed water heater at 100 degrees and 200 psi a.<br>
+        • After being heated at constant pressure, the water exits as superheated steam at 500 degrees.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">1 questions from 1 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 10</div>
+      <div class="qa-question"><strong>Q:</strong> What is stopping us from instead using that same formula to find the Delta H between the superheated steam and the subcooled water?</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 14 · 1 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
