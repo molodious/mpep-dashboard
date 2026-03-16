@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 19 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 19</span>
+  <span class="nav-badge">⭐ 9 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions · Answer: C</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 19</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An 18in×24in uninsulated duct runs through a 100ft auditorium. Air in the duct has an initial temperature of 55◦F and a veloc- ity of 800ft per min. The auditorium is maintained at 75◦F by a dedicated system. The outside (cid:28)lm coe(cid:30)cient for the duct is 1.4 Btu . What is the temperature of the air in the duct as it hr·ft2·◦F exits the room?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>57◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>58◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>59◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>60◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">Air in the duct has an initial temperature of 55◦F and a veloc- ity of 800ft per min. The auditorium is maintained at 75◦F by a dedicated system. The outside film coefficient for the duct is 1.4 Btu . What is the temperature of the air in the duct as it hr·ft2·◦F exits the room? A. 57◦F B. 58◦F C. 59◦F D. 60◦F This is a convection problem involving heat gain into a duct from a room held at constant temper- ature. The duct is not circular but the hydraulic diameter may be determined such that circular duct formulas may be used: 4A 4(1.5ft)(2ft) 12ft2 D = = = =1.71ft h P [(2)(2ft)+(2)(1.5ft)] 7ft Next find the Reynolds Number to determine whether the (cid:29)ow is laminar or turbulent. Use the (cid:176) tablePropertiesofAiratAtmosphericPressureandchoosethetemperatureof60 Fforconvenience.  800 ft (cid:0)1min(cid:1) (1.71ft) Re= vD = min 60sec ≈144,300&gt;10,000 (turbulent)   ν 15.8×10−5ft2 s Having established that the (cid:29)ow is turbulent and that the duct may be treated as round, use theSieder-TateequationfoundintheReferenceHandbookbysearchingTurbulentFlowinCircular Tubes. This equation specifies the Nusselt Number, Nu, which will be useful for determining the convection heat transfer coefficient. Use the table Properties of Air at Low Pressure to look up the value for the Prantl Number, Pr. Since the air temperatures inside and outside the duct are not dramatically di(cid:27)erent, assume the dynamic viscosity of air at the bulk temperature, µ , is b approximately equal to the dynamic viscosity of air at the inside surface temperature of the duct, µ . Calculate Nu: s  µ 0.14 Nu =0.023Re0.8Pr1/3 b D D µ s µ µ ≈µ → b ≈1→Nu ≈0.023Re0.8Pr1/3 b s µ D D s 260 Nu =(0.023)(144,300)0.8(.715)1/3 =275.8 D A formula that is o(cid:27)ered in a few di(cid:27)erent scenarios in the Reference Handbook but never statedgenerallyistheequationfortheNusseltNumberandhowitcanberelatedtotheconvection heat transfer</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Heat transfer 19. In 18 inch by 24 inch, uninsulated duct runs through 100 foot auditory. Air in the duct has an initial temperature of 55 degrees and a velocity of 800 feet per minute. The auditory is maintained at 75 degrees by a dedicated system. The outside film coefficient for the duct is 1.4 BTU per hour foot squared degrees F. What is the temperature of the air in the duct as it exits the room? So let&#x27;s draw this duct. We have a rectangular duct. First let&#x27;s draw the cross section. Not to do anything too interesting about an 18 by 24 inch cross section, but just to get our head wrapped around this problem. Then we can draw the side section. I&#x27;m not going to draw it in 3D. Pretty sure you can envision 18 by 24.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • And that&#x27;s important because we&#x27;re about to use formulas that are for turbulent flow and circular tubes.<br>
+        • For duct work and air distribution systems, it&#x27;s almost always going to be turbulent.<br>
+        • So this part of the equation basically just drops out, and then we only have to deal with the Reynolds number in the parental number, which is a nice little simplification.<br>
+        • Let&#x27;s develop the right side of the equation, which is going to come out of here.<br>
+        • So the key insights here, we&#x27;re doing the forced convection heat transfer analysis to find the overall coefficient of heat transfer, which is what gave us this first equation.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">9 sessions</span>
+    </div>
+    <p class="oh-subtitle">This problem was discussed in 9 office hours session(s), but no specific Q&A was extracted.</p>
+    <div class="qa-group">
+      <div class="qa-session">Sessions covering this problem:</div>
+      <div class="qa-answer">OH 18 OH 19 OH 65 OH 70 OH 95 OH 97 OH 105 OH 106 OH 112 </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 19 · 9 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
