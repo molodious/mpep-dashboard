@@ -444,22 +444,22 @@ function render(p) {
   if (p.benchmark && (p.solution_summary || p.solution_full || p.solution_video)) {
     const ansTag = p.answer ? `<span class="answer-tag">Answer: ${esc(p.answer)}</span>` : '';
     
-    // Summary section (if available)
+    // Summary section with line breaks preserved
     const summaryHtml = p.solution_summary ? `
-      <div style="background:#f9f9f9;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.6;border-left:3px solid #0066cc;">
-        <strong>Quick Overview:</strong><br>${esc(p.solution_summary)}
+      <div style="background:#f9f9f9;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.8;border-left:3px solid #0066cc;">
+        <strong>Quick Overview:</strong><br><br>${p.solution_summary.split('\n\n').map(para => esc(para)).join('<br><br>')}
       </div>` : '';
     
-    // Video synthesis section (if available)
+    // Video synthesis (formatted as bullets)
     const videoHtml = p.solution_video ? `
-      <div style="background:#f0f4ff;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.6;border-left:3px solid #7c3aed;">
-        <strong>📹 Video Solution Synthesis:</strong><br>${esc(p.solution_video)}
+      <div style="background:#f0f4ff;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.7;border-left:3px solid #7c3aed;">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>${p.solution_video.split('\n').filter(line => line.trim()).map(line => esc(line)).join('<br>')}
       </div>` : '';
     
-    // Key points (if available)
+    // Key points (qualitative, no math)
     const keyPointsHtml = p.key_points && p.key_points.length > 0 ? `
       <div style="background:#fffbf0;padding:12px;border-radius:4px;margin-top:10px;border-left:3px solid #f59e0b;">
-        <strong>Key Points:</strong><br>${p.key_points.map(pt => `• ${esc(pt)}`).join('<br>')}
+        <strong>⭐ Key Takeaways:</strong><br>${p.key_points.map(pt => `• ${esc(pt)}`).join('<br>')}
       </div>` : '';
     
     solutionHtml = `
@@ -502,16 +502,27 @@ function render(p) {
   let rightHtml;
 
   if (ohQs.length > 0) {
-    const cards = ohQs.map(q => {
-      const hasTheme = q.theme && q.theme !== 'Additional Student Question';
-      const hasAnswer = q.answer && q.answer.includes('[');
+    // Sort by recency (newest first) — assumes recent sessions have higher OH numbers
+    const sortedQs = [...ohQs].sort((a, b) => {
+      const aMatch = a.source?.match(/OH (\d+)/);
+      const bMatch = b.source?.match(/OH (\d+)/);
+      const aNum = aMatch ? parseInt(aMatch[1]) : 0;
+      const bNum = bMatch ? parseInt(bMatch[1]) : 0;
+      return bNum - aNum; // Descending (newest first)
+    });
+
+    const cards = sortedQs.map((q, idx) => {
+      const hasTheme = q.theme && q.theme !== 'Additional Student Question' && q.theme !== undefined;
+      const hasAnswer = q.answer && !q.answer.includes('[Pending]') && q.answer !== undefined;
+      const hasDanQuote = q.dan_quote && !q.dan_quote.includes('[Pending]') && q.dan_quote !== undefined;
+      
       return `
       <div class="qa-group" style="margin-bottom:14px;">
         ${hasTheme ? `<div style="font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🎯 ${esc(q.theme)}</div>` : ''}
-        <div class="qa-session">${esc(q.session)}</div>
+        <div class="qa-session">${esc(q.source || q.session)}</div>
         <div class="qa-question"><strong>Q:</strong> ${esc(q.question)}</div>
-        ${hasAnswer ? `<div style="margin-top:6px;font-size:12px;color:#555;font-style:italic;">${esc(q.answer)}</div>` : ''}
-        ${q.dan_quote ? `<div style="margin-top:6px;padding:8px;background:#e6f3ff;border-left:2px solid #0066cc;font-size:12px;font-style:italic;color:#1a1a1a;">"${esc(q.dan_quote)}"</div>` : ''}
+        ${hasAnswer ? `<div style="margin-top:6px;font-size:12px;line-height:1.5;color:#444;">${esc(q.answer)}</div>` : ''}
+        ${hasDanQuote ? `<div style="margin-top:6px;padding:8px;background:#e6f3ff;border-left:2px solid #0066cc;font-size:12px;font-style:italic;color:#1a1a1a;">"${esc(q.dan_quote)}"</div>` : ''}
       </div>`}).join('');
 
     rightHtml = `
@@ -519,8 +530,7 @@ function render(p) {
         Office Hours Q&A
         <span class="oh-count">${ohQs.length}</span>
       </div>
-      <p class="oh-subtitle">Common student questions about this problem.</p>
-      <input class="oh-search" id="oh-search" type="text" placeholder="Search…" oninput="filterOH()" style="margin-bottom:12px;">
+      <p class="oh-subtitle">Student questions asked in live office hours sessions.</p>
       ${cards}`;
   } else {
     rightHtml = `

@@ -1057,7 +1057,7 @@
    ],
    "has_oh": true,
    "solution_full": "This problem combines several fluids concepts: unit conversion, Bernoulli equation for a non-water fluid, and pump power.\n\nFlow rate: Q = 10,000 gal/hr \u00d7 (1 hr/60 min) = 166.67 GPM.\n\nInlet pressure (P\u2081): Given as \u22122.0 inches of mercury (gauge, vacuum). Convert:\n\u22122.0 inHg \u00d7 (13.6 inH\u2082O / 1 inHg) = \u221227.2 inH\u2082O\n\u221227.2 inH\u2082O \u00d7 (1 ft / 12 in) = \u22122.267 ftH\u2082O\n\u22122.267 ftH\u2082O \u00d7 (1 PSI / 2.31 ftH\u2082O) = \u22120.98 PSI (gauge)\n\nDischarge pressure (P\u2082): 30 psig at 10 ft above pump. The 10 ft column is fuel oil, not water:\n10 ft fuel \u00d7 SG(0.86) = 8.6 ft equivalent water\n8.6 ftH\u2082O / 2.31 = 3.72 PSI\nP\u2082 = 30 + 3.72 = 33.72 PSI (gauge)\n\n\u0394P = P\u2082 \u2212 P\u2081 = 33.72 \u2212 (\u22120.98) = 34.7 PSI\n\nHydraulic horsepower: WHP = Q \u00d7 \u0394P / 1714 = 166.67 \u00d7 34.7 / 1714 = 3.37 hp.\n(This formula works for any fluid when \u0394P is in PSI \u2014 no SG needed.)\n\nBreak horsepower: BHP = WHP / \u03b7_pump = 3.37 / 0.90 = 3.74 hp \u2192 Answer D.\n\nCommon mistake: dividing by 3960 instead of 1714 (3960 is for head in feet of water), or multiplying by efficiency instead of dividing (which gives 3.0 hp \u2192 wrong answer).",
-   "solution_summary": "\u2022 Step 1: Convert flow rate: Q = 10,000 gal/hr \u00f7 60 = 166.7 GPM.\n\u2022 Step 2: Convert inlet pressure to PSI: \u22122.0 inHg \u00d7 13.6 inH\u2082O/inHg \u00d7 (1 ft/12 in) \u00d7 (1 PSI/2.31 ftH\u2082O) = \u22120.98 PSI.\n\u2022 Step 3: Convert discharge elevation to PSI: 10 ft fuel \u00d7 0.86 (SG) = 8.6 ft water; 8.6/2.31 = 3.72 PSI. Total P\u2082 = 30 + 3.72 = 33.72 PSI.\n\u2022 Step 4: \u0394P = 33.72 \u2212 (\u22120.98) = 34.7 PSI.\n\u2022 Step 5: WHP = Q \u00d7 \u0394P / 1714 = 166.7 \u00d7 34.7 / 1714 = 3.37 hp.\n\u2022 Step 6: BHP = WHP / \u03b7 = 3.37 / 0.90 = 3.74 hp \u2192 Answer D (3.8 hp).\n\u2022 Key pitfall: Don't double-count specific gravity \u2014 either adjust heads OR use SG in the final formula, not both.",
+   "solution_summary": "Step 1: Convert flow rate: Q = 10,000 gal/hr \u00f7 60 = 166.7 GPM\n\nStep 2: Convert inlet pressure to PSI: \u22122.0 inHg \u2192 \u221227.2 inH\u2082O \u2192 \u22120.98 PSI (vacuum)\n\nStep 3: Account for discharge elevation: 10 ft of fuel oil (SG 0.86) = 8.6 ft equivalent water = 3.72 PSI. Total discharge: 30 + 3.72 = 33.72 PSI\n\nStep 4: Calculate pressure differential: \u0394P = 33.72 \u2212 (\u22120.98) = 34.7 PSI\n\nStep 5: Find water horsepower: WHP = Q \u00d7 \u0394P / 1714 = 166.7 \u00d7 34.7 / 1714 = 3.37 hp\n\nStep 6: Find break horsepower (input power): BHP = WHP / \u03b7 = 3.37 / 0.90 = 3.74 hp \u2192 Answer D (3.8 hp)",
    "video_synthesis": "Dan's video solution lays out the three approaches clearly:\n\n1. **PSI method (recommended):** Convert everything to PSI, use WHP = Q\u00b7\u0394P/1714. No SG term needed because pressure already accounts for fluid density. This is the cleanest path.\n\n2. **Feet-of-water method:** Convert pressures to feet of water, use WHP = Q\u00b7\u0394H/3960. Must ensure all heights are in equivalent feet of water.\n\n3. **Feet-of-fluid method:** Keep everything in feet of the actual fluid, then use BHP = Q\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7).\n\nThe video stresses: pick ONE approach and commit. The classic error is double-counting SG \u2014 adjusting the 10 ft column AND including SG in the final formula. Also notes: divide by efficiency (not multiply) because BHP > WHP. Multiplying by 0.9 gives ~3.0 hp (wrong); dividing gives 3.74 hp \u2192 answer D.",
    "oh_questions_full": [
     {
@@ -1096,46 +1096,35 @@
      "dan_quote": "The break horsepower is all of the mechanical work... the water horse power is only a fraction of the breakhorse power, and that fraction is the efficiency."
     },
     {
-     "question": "Could you also use W equals Q gamma H over N instead of Q delta P over 1714?",
-     "session": "66-OH 79-April-15th-2024",
-     "answer": "[Full transcript: 66-Office-Hours-79-April-15th-2024]",
-     "source": "66-Office-Hours-79-April-15th-2024",
-     "theme": "Additional Student Question",
-     "dan_quote": null
+     "theme": "Three formula variants \u2014 which one to use and when",
+     "question": "Could you also use W = Q\u00b7\u03b3\u00b7H / \u03b7 instead of Q\u00b7\u0394P / 1714?",
+     "answer": "Both are mathematically equivalent, but the PSI method is strongly preferred. It's 'ready made'\u2014requires only GPM and PSI, works for any fluid, and avoids the gamma and specific weight unit conversion headaches.",
+     "source": "OH 79 (April 2024)",
+     "dan_quote": "This formula is preferred because it's just ready made as long as you have the volume flow rate in GPM and the delta P in PSI. Doesn't matter what the fluid is, you can use this formula."
     },
     {
-     "question": "86 feet of water to one foot of head come from in the specific gravity given?",
-     "session": "73-OH 87-September-2nd-2024",
-     "answer": "[Full transcript: 73-Office-Hours-87-September-2nd-2024]",
-     "source": "73-Office-Hours-87-September-2nd-2024",
-     "theme": "Additional Student Question",
-     "dan_quote": null
+     "theme": "Specific gravity application: 0.86 \u2192 8.6 feet of water equivalent",
+     "question": "Where does the conversion 0.86 feet of water per foot of head come from in the specific gravity?",
+     "answer": "Specific gravity (SG) = (density of fluid) / (density of water). If oil has SG = 0.86, then 100 feet of oil exerts the same pressure as 86 feet of water. So 10 ft of oil (SG 0.86) = 10 \u00d7 0.86 = 8.6 feet of water equivalent. Not a conversion factor; it's the definition of specific gravity applied to pressure calculations.",
+     "source": "OH 87 (September 2024)",
+     "dan_quote": "If we have a column of oil, it's 100 feet of oil. Or we could say it's 86 feet of water. Oil has a specific gravity of 86% that of water. So we could say that it's 100 feet of oil, or we could say that it's 86 feet of water."
     },
     {
-     "question": "The reference handbook has the formula for breakhorse power has breakhorse power equals GPM delta H specific gravity ove...",
-     "session": "86-OH 101-March-31st-2025",
-     "answer": "[Full transcript: 86-Office-Hours-101-March-31st-2025]",
-     "source": "86-Office-Hours-101-March-31st-2025",
-     "theme": "Additional Student Question",
-     "dan_quote": null
-    },
-    {
-     "question": "Can you guys see my arrow on the screen?",
-     "session": "91-OH 106-July-7th-2025",
-     "answer": "[Full transcript: 91-Office-Hours-106-July-7th-2025]",
-     "source": "91-Office-Hours-106-July-7th-2025",
-     "theme": "Additional Student Question",
-     "dan_quote": null
+     "theme": "Reference handbook formula variations and why they differ",
+     "question": "The handbook shows BHP = GPM\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7). How does this relate to Q\u00b7\u0394P/1714 for a non-water fluid?",
+     "answer": "Same physics, three equivalent forms: (1) BHP = Q\u00b7H\u00b7SG/3960/\u03b7 (feet of fluid head); (2) BHP = Q\u00b7H/3960/\u03b7 (feet of water only, SG=1); (3) BHP = Q\u00b7\u0394P/1714/\u03b7 (PSI, works for any fluid). The constants 3960 and 1714 differ because 3960/1714 = 2.31 (PSI-to-feet conversion). Never include SG in the PSI formula; always include it in the head formula when fluid \u2260 water.",
+     "source": "OH 101 (March 2025)",
+     "dan_quote": "The big takeaway is that if you want to use Q\u00b7\u0394H/3960 and exclude the specific gravity, it has to be water. If it's not water, you have to include the specific gravity. Why? Because the height of a column of fluid that isn't water will exert different pressure."
     }
    ],
    "key_points": [
-    "Step 1: Convert flow rate: Q = 10,000 gal/hr \u00f7 60 = 166.7 GPM.",
-    "Step 2: Convert inlet pressure to PSI: \u22122.0 inHg \u00d7 13.6 inH\u2082O/inHg \u00d7 (1 ft/12 in) \u00d7 (1 PSI/2.31 ftH\u2082O) = \u22120.98 PSI.",
-    "Step 3: Convert discharge elevation to PSI: 10 ft fuel \u00d7 0.86 (SG) = 8.6 ft water; 8.6/2.31 = 3.72 PSI. Total P\u2082 = 30 + 3.72 = 33.72 PSI."
+    "Unit consistency is non-negotiable: Pick pressure units (PSI) or head units (feet), then commit. Mixing approaches causes most errors.",
+    "Specific gravity is your guide for which formula to use: If working in feet of non-water fluid, you MUST include SG. If in PSI, never include it.",
+    "The three power equations are mathematically identical, but each requires different unit setup. Master one; understand why the others work."
    ],
    "benchmark": true,
-   "solution_video": "Dan's video solution lays out the three approaches clearly:\n\n1. **PSI method (recommended):** Convert everything to PSI, use WHP = Q\u00b7\u0394P/1714. No SG term needed because pressure already accounts for fluid density. This is the cleanest path.\n\n2. **Feet-of-water method:** Convert pressures to feet of water, use WHP = Q\u00b7\u0394H/3960. Must ensure all heights are in equivalent feet of water.\n\n3. **Feet-of-fluid method:** Keep everything in feet of the actual fluid, then use BHP = Q\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7).\n\nThe video stresses: pick ONE approach and commit. The classic error is double-counting SG \u2014 adjusting the 10 ft column AND including SG in the final formula. Also notes: divide by efficiency (not multiply) because BHP > WHP. Multiplying by 0.9 gives ~3.0 hp (wrong); dividing gives 3.74 hp \u2192 answer D.",
-   "oh_count": 9
+   "solution_video": "\u2022 **The PSI method is universal**: Q \u00d7 \u0394P / 1714 works for any fluid (water, fuel oil, etc.) as long as you have GPM and PSI. No specific gravity term needed.\n\n\u2022 **Three equivalent approaches exist**: (1) PSI method (Q\u00b7\u0394P/1714) \u2014 preferred, simplest; (2) Feet-of-water method (Q\u00b7\u0394H/3960) \u2014 only for water; (3) Feet-of-fluid method (Q\u00b7\u0394H\u00b7SG/(3960\u00b7\u03b7)) \u2014 requires unit conversions.\n\n\u2022 **Common trap: Double-counting specific gravity**: If you use feet of head, don't multiply the 10 ft column by SG AND include SG in the formula. Pick one approach and commit.\n\n\u2022 **Pressure unit conversions are critical**: \u22122.0 inHg is NOT \u22122.0 feet of water. Use the chain: inHg \u2192 inH\u2082O (\u00d713.6) \u2192 ftH\u2082O (\u00f712) \u2192 PSI (\u00f72.31). Each step matters.\n\n\u2022 **Efficiency always divides (never multiplies)**: BHP = WHP / \u03b7 because the pump loses power to inefficiency. Input > Output. Many students multiply by 0.9 and get wrong answer.\n\n\u2022 **Elevation affects pressure only if you're tracking head**: In the PSI method, the discharge gauge already reads 30 psig\u2014elevation is already in that reading. Just add the 10 ft pressure column separately.",
+   "oh_count": 8
   },
   {
    "id": "HVAC-Practice_Fluids_15",
