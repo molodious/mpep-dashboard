@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 4 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 4</span>
+  <span class="nav-badge">⭐ 5 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: A</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 4</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An air handling system to be used at 6500ft above sea level is de- signed for outside air at 65◦F and 60% relative humidity. What is the density of the outside air? ft3 ft3 ft3 ft3
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.058lbm ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.062lbm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.074lbm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.076lbm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">signed for outside air at 65◦F and 60% relative humidity. What is the density of the outside air? A. 0.058lbm ft3 B. 0.062lbm ft3 C. 0.074lbm ft3 D. 0.076lbm ft3 This problem requires performing an elevation correction. Start by finding the density of air for sea level conditions using the psychrometric chart. As sea level: T =65◦F 0 φ =60% 0 ft3 v =13.4 0 lb The air density at sea level is the inverse of the specific volume: 1 1 lb ρ = = =.0746 0 v 0 13.4ft3 ft3 lb To set up the elevation correction equation properly, recall the relationship between pressure and density by considering the ideal gas law: PV =nRT →Pv =mRT →P =ρRT →P ∼p Since R is a constant and T is not changing, it is clear that the pressure and density are proportional i.e. they change linearly together, as below: ρ 6500 = P 6500 = (cid:2) 1−(elevation) (cid:0) 6.875×10−6(cid:1)(cid:3)5.256 ρ P 0 0 (cid:2) 1−(6500) (cid:0) 6.875×10−6(cid:1)(cid:3)5.256 =0.786 Solve for the density at 6500ft using the sea level density ρ : 0 ρ 6500 =0.786 ρ 0  lb  ft3 ρ = 0.0746 (0.786)=0.0587 6500 ft3 lb Alternatively,usethetableTemperatureandAltitudeCorrectionsforAirtoobtainthedensifty factor at 6,500ft elevation, and multiply by the sea level density per the final step shown. Answer A 225</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Psychometric&#x27;s problem for, an air handling system to be used as 6,500 feet above sea level is designed for outside air at 65 degrees and 60% relative humidity. What is the density of the outside air? Well, normally this problem would be pretty easy because density is the reciprocal of specific volume, so we could just use the psychometric chart to look up the specific volume, and then take the inverse, and we would be done. However, the psychometric chart is generally based on sea level, and there is a psychometric chart in the reference handbook for 5,000 feet above sea level, but for an odd elevation like this 6,500 feet, there is no psychometric chart, so we have to do an elevation correction.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • If not you might remember the ideal gas law and those relationships we always say pv equals nrt or sometimes we say p little v equals mrt and if you divide mass by specific volume then you get density so we could say p equals rhort.<br>
+        • Psychometric&#x27;s problem for, an air handling system to be used as 6,500 feet above sea level is designed for outside air at 65 degrees and 60% relative humidity.<br>
+        • Well, normally this problem would be pretty easy because density is the reciprocal of specific volume, so we could just use the psychometric chart to look up the specific volume, and then take the inverse, and we would be done.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">5 sessions</span>
+    </div>
+    <p class="oh-subtitle">This problem was discussed in 5 office hours session(s), but no specific Q&A was extracted.</p>
+    <div class="qa-group">
+      <div class="qa-session">Sessions covering this problem:</div>
+      <div class="qa-answer">OH 15 OH 36 OH 71 OH 109 OH 112 </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 4 · 5 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
