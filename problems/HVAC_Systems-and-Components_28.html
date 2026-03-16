@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 28 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 28</span>
+  <span class="nav-badge">⭐ 4 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions · Answer: B</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 28</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An engineer is specifying a 1000cfm dedicated outside air unit for a 24 hour gym which is to be maintained at 72◦F with 50% relative humidity by supplying 55◦F saturated supply air. The average outdoor conditions for the region are 88◦F and 55% rela- tive humidity. The unit manufacturer o(cid:27)ers an option to include an enthalpy wheel with 60% e(cid:27)ectiveness for an additional cost of $10,000. If it costs the tenant $0.50 per ton hour to produce chilled water, what is the simple payback for the enthalpy wheel? Neglect maintenance and assume installation and commissioning add no additional upfront cost. 70
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3 months</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>10 months ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>2 years</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>3 years</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">for a 24 hour gym which is to be maintained at 72◦F with 50% relative humidity by supplying 55◦F saturated supply air. The average outdoor conditions for the region are 88◦F and 55% rela- tive humidity. The unit manufacturer o(cid:27)ers an option to include an enthalpy wheel with 60% e(cid:27)ectiveness for an additional cost of $10,000. If it costs the tenant $0.50 per ton hour to produce chilled water, what is the simple payback for the enthalpy wheel? Neglect maintenance and assume installation and commissioning add no additional upfront cost. A. 3 months B. 10 months C. 2 years D. 3 years An enthalpy wheel is capable of recovering both sensible and latent heat. Contrast this with an air-to-air heat exchanger which captures only sensible heat. The enthalpy wheel provides the opportunity to cool and dehumify the entering outside air by rejecting heat and moisture to the room air being exhausted. If the enthalpy wheel had 100% e(cid:27)ectivenss, the enthalpy of the air supplied by the enthalpy wheel would be equal to the enthalpy of the room air. Further cooling anddehumficationwouldalwayshavetobeprovidedbytheoutsideairhandlingunit’scoolingcoil. Therefore, the e(cid:27)ectiveness of the enthalpy wheel, and thus the opportunity to produce savings, applies only to the enthalpy di(cid:27)erential between the outside air and the room air. The OAHU discharge conditions are to be ignored. ConsidertheoutsideairasState1andtheroomairasState2. UsethePsychrometricChartto look up the enthalpy for both states. Use the total cooling rule of thumb to calculate the amount of energy removed by the enthalpy wheel if it was 100% e(cid:27)ective, and take 60% of that value to account for the given e(cid:27)ectiveness. T =88◦F 1 φ =55% 1 Btu h =38.4 1 lb T =72◦F 2 φ =50% 2 Btu h =26.4 2 lb 343 Q˙ =4.5cfm∆h t Btu Q˙ =(0.6)(4.5)(1000)(38.4−26.4)=32,400 t hr This is the total avoided cooling load. Convert this value to refrigerationtons and calculate the annual ton·hours:</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        An engineer is specifying a 1000 CFM dedicated outside air unit for a 24-hour gym which is three maintained at 72 degrees with 50% relative humidity by supplying 55 degrees saturated supply air. The average outdoor conditions for the region are 88 degrees and 55% relative humidity. The unit manufacturer offers an option to include an enthalpy wheel with 60% effectiveness for an additional cost of $10,000. If it costs the tenant 50 cents per ton of hour to produce chilled water, what is the simple payback for the enthalpy wheel? The neglect maintenance and assume installation and commissioning add no additional upfront cost. So let&#x27;s start by talking about the enthalpy wheel and I&#x27;ll bring up this diagram from the reference handbook of the typical convention for an enthalpy wheel.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • I&#x27;m not always crazy about the words that they choose but that&#x27;s okay.<br>
+        • It&#x27;s important that we have this concept in mind, but it&#x27;s really the reduction enthalpy from one to two that&#x27;s going to drive our savings.<br>
+        • Make sure you&#x27;re looking those values up on your own.<br>
+        • So let&#x27;s convert that value.<br>
+        • This is energy pre unit time right be Thuse per hour, so we can convert that to refrigeration tons.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">1 questions from 4 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 81</div>
+      <div class="qa-question"><strong>Q:</strong> How do I know which given information is important in word problems like these?</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 28 · 4 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>

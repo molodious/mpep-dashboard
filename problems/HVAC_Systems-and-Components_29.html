@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 29 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 29</span>
+  <span class="nav-badge">⭐ 1 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH sessions · Answer: D</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 29</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A low-stage refrigeration system using R-22 operates with a satu- rated suction temperature of −50◦F and a discharge temperature of 10◦F. The discharge line is a 13/ 8 in type L copper tube with a length of 100ft. What is the capacity of the discharge line? 7113 Supporting Topics 13.1 Machine A produces a sound pressure of 58dB, and machine B pro- duces a sound pressure of 52dB. What is the combined sound pres- sure? 13.2 The background noise in an o(cid:30)ce has a sound pressure level of 38dB. An overhead fan coil unit with a sound pressure level of 43dB turns on. What is the combined sound pressure level? 13.3 Four identical fans produce a combined sound pressure level of 90dBA as measured at a point that is equidistant from each fan. What is the sound pressure level if three fans are shut down? 7213.4 The background noise in a factory prior to any equipment turning on has a sound pressure level of 40dB. Once the equipment is oper- ating, the sound pressure level is 46dB. What is the sound pressure level attributable to the machinery only? 13.5 The octave band measurements of a fan are: 63Hz, 64dB; 125Hz, 67dB; 250Hz, 63dB; 500Hz, 63dB; 1000Hz, 59dB; 2000Hz, 54dB; 4000Hz, 50dB; 8000Hz, 46dB. What is the NC rating? 13.6 A 5000lb machine rotates at 1800rpm and is mounted on vibration m lb isolators with a combined sti(cid:27)ness of 40,000 f. In parallel with the in springs, a damper has been included. The damping ratio is 0.3. An unbalanced force of 2000lb is caused by the machine. What is the f maximum force transmitted through the base? f f f f 13.7 A 1.5in diameter steel shaft (E = 2.9 × 107psi) is 4ft long and sup- ported by two frictionless bearings at its ends. A 200lb (cid:29)ywheel is m mounted on the center of the shaft. The shaft weight is negligible and there is no damping. What is the critical speed of the shaft? 7313.8 A 200lb compressor rotates at 1750rpm and generates a disturbing m force due to unbalance during each rotation. The compressor is mounted on 4 identical, equally loaded springs at the corners of its base. What individual spring sti(cid:27)ness is required to limit the transmitted force to 70% of the disturbing force? 10,000lbf in 15,000lbf in 17,000lbf in 41,000lbf in 13.9 A 3in diameter steel threaded rod (Poisson’s Ratio = 0.3) has been 8 installed to support a 300lb load to be hung 4ft below. The lateral strain on the rod is −0.1%. How much will the rod elongate when the load is added? 7413.10 The handle of a large manual valve is secured with a square bolt pattern, as shown. The handle is 18in long and the force applied to the end of the handle during valve opration is 30lb . The bolts have f a nominal diameter of 1/ 4 in and a cross-sectional area of 0.03in2. When the valve is being closed, which statement can be made about the shear stress experienced by the bolts? 13.11 A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i (cid:28)lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a speci(cid:28)c weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum de(cid:29)ection of the in2 pipe? 7513.12 The displacement of a hydraulic press is 3in3 per revolution and the pump speed is 1800rpm. The hydraulic pressure is 600psig. The positive displacement pump is 80% e(cid:30)cient and is driven by a 3- phase, 208V AC motor that is 95% e(cid:30)cient. The power factor is 0.9. What size circuit breaker should be selected to protect the system? 13.13 90◦F, 20% relative humidity air is cooled using a 75% e(cid:27)ective evaporative cooler. What is the temperature of the air after being cooled? 13.14 A company is considering whether to invest in a piece of equipment that will have an initial cost of $100,000 and will produce $50,000 per year in revenue for the next 3 years before maintenance costs and taxes. Maintenence will cost $5000 per year. The tax rate is 30% and straight line depreciation is used for the equipment. The equipment has a salvage value of $20,000 to be realized at the end of year 3. What is the present value of the initiaitve using a 10% rate of return? 7613.15 A company purchases a factory for $1M. The factory will generate a gross annual revenue of $140K and incur annual expenses of $60K. The facility has an expected life of 20 years and no salvage value. Assuming straight-line depreciation and a 30% e(cid:27)ective tax rate, what is the after tax rate of return if the company sells the factory for $800K and exits the investment after 5 years? Ignore tax implications of capital losses at the time of sale. 13.16 A project has an initial cost of $200K and generates $30K per year in net pro(cid:28)ts. After 15 years there is a salvage value of $40K. What is the return on investment for the project? 13.17 A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return? 7713.18 A contractor leases a piece of equipment for $50K down and $30K per year for a project expected to take 3 years. After the third year, the equipment is still needed due to a schedule delay and the contractor must pay $40K per year to continue to lease for the fourth and (cid:28)fth years. After the (cid:28)fth year, the project is com- pleted and the equipment is returned. How much annual revenue is required to ensure the project has a 18% return on investment? 13.19 Acompanyundertakesanenergysavinginitiativethatcosts$100,000 up front and $1000 per month for recurring service. The project will save $30,000 per year. The equipment involved in the upgrade will have a salvage value of $40,000 after 12 years. What is the annual savings for the project if the interest rate is 7%? 13.20 A company invests $100K to make a product which will generate $25K of annual revenue over the next 12 years. Expenses will be $5,000 per year. The manufactured product is depreciated over the 12 years using straight-line depreciation. There is no salvage value as all the product is expected to be sold. The income tax rate is 35%. What is the after-tax rate of return? 7813.21 A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next 6 years, and by $20,000 per year (from the original baseline) for the following 6 years. Assuming no maintenance costs and no salvage value, what is the present value of investing in this equipment if the e(cid:27)ective annual interest rate is 6%? 13.22 A piece of equipment is purchased for $20K and will be sold 5 years later for $5K. The (cid:28)rst year maintenance costs $2500, then increases by $500 per year. The e(cid:27)ective interest rate is 8%. What is the present worth? 13.23 What is the partial pressure of water in atmostpheric air at 120◦F and 70% RH? 13.24 A 2500ft2 conference center with 14ft ceilings is maintained at 72◦F and 50% relative humidity. What is the total mass of water vapor in the air? 7913.25 Condenser water returns to a cooling tower at 95◦F and leaves at 85◦F. The outside conditions are 84◦F and 60% relative humidity. What is the cooling tower e(cid:27)ectiveness? 13.26 A cooling tower has a range of 15◦F and a volume (cid:29)ow rate of 50gpm. Air enters at 88◦F dry bulb and 75◦F wet bulb and exits at 92◦F and 75% relative humidity. Assuming no losses, what is the required volume (cid:29)ow rate of air? 13.27 What is the relative humidity of moist air at 6000ft above sea level with a dry bulb temperature of 70◦F and a partial pressure of dry air of 11.5psia? 8014 Practice Exam #1 14.1 A fan supplies air through a 12in by 18in rectangular sheet metal duct with 1in (cid:28)berglass insulation. The duct run is 15ft long. Local octave band measurements of the sound power level for the fan are 125Hz, 95dB; 250Hz, 94dB; 500Hz, 92dB; 1000Hz, 90dB; 2000Hz, 85dB; 4000Hz, 69dB. What is the expected sound power level for the 1000Hz octave band at the end of the duct run? 14.2 A normal shock wave in air has a Mach number of 3. The pressure upstream is 1atm, what is the pressure downsteam? 14.3 A company purchases a factory for $1M with a salvage value of $300Kin15years. Operationsandmaintenancecostsare$40K/year. At an interest rate of 8%, what is the equivalent uniform annual cost of the factory over the next 15 years? 8114.4 A commercial tenant entering into a 17 year lease has the option to make a down payment to lower the monthly rent. Assuming a 6% interest rate, which option has the best present value? 14.5 A group of machines are maintained under a contract which costs $50,000 this year. The contract cost will inrease by $1000 per year over the next 10 years. What is the present value of the entire 10 years of maintenance using an e(cid:27)ctive annual interest rate of 12%. 14.6 A pump delivers 200 GPM of water at 130 feet of total dynamic head, operating from 7am-7pm Monday through Friday. The pump is 80% e(cid:30)cient and the motor is 93% e(cid:30)cient. What is the annual cost of operation at $0.13 per kWh? 8214.7 A 7.5hp single phase 230V motor drawing 40A at full load is lo- cated 50meters from the voltage source. The motor is wired with 8AWG wire which has a cross sectional area of 16,509circularmils (1circularmil = 5.066×10−10m2) and a resistivity of 1.724×10−8Ω·m. What is the percent voltage drop for the wiring in the circuit? 14.8 1000cfm of 350◦F, 80psia air is supplied by an air compressor. What is the standard volume (cid:29)ow rate (SCFM)? 14.9 40gpm of water (cid:29)ows through a parallel piping network with two branches, A and B. Branch A consists of 100ft of straight Schedule 40 2in steel pipe. Branch B consists of 60ft of Schedule 40 2in steel pipe, several valves with a total equivalent length of 35ft, and six 90-degree elbows. What is the (cid:29)ow rate through branch A? 8314.10 What is the maximum COP of a Carnot refrigerator operating between 40◦F and 95◦F? 14.11 10,000cfm of air enters a cooling coil at 78◦F and 60% relative hu- midity and exits at 58◦F db / 54◦F wb. At what rate is condensate removed? hr hr hr hr 14.12 55◦F chilled water at 150psig enters a 10ton cooling coil and leaves at 65◦F and 135psig after passing through the coil and the control valve located on the return side. Under these conditions, the cooling coil control valve is backed o(cid:27) by 50% and the coil is providing half of its rated capacity . The pressure drop through the coil is 10ft of water. What is the required control valve (cid:29)ow coe(cid:30)cient? 8414.13 2000cfm of 55◦F conditioned air with 40% relative humidity en- ters a kitchen where it collects heat and moisture before being extracted as 80◦F air with 70% relative humidity. What is the rate of moisture removal from the kitchen? min min min min 14.14 Water traveling at 2fps in a nominal 5in pipe is combined with water traveling at 5fps in a nominal 3in pipe at a tee connection. Downstream of the tee, the piping has a nominal 6in diameter. What is the velocity downstream of the tee? 14.15 A 100lb mass rests on 4 springs, each with a spring constant of m lb 15 f. The mass is initially displaced from its equilibrium position, in then released. What is the resulting period of oscillation? 14.16 Methane is burned with 20% excess air. What is the air-to-fuel ratio? lb lb lb lb 8514.17 A refrigeration cycle using R-134a has a refrigeration e(cid:27)ect of 8000Btu and a coe(cid:30)cient of performance of 11. What is the power hr required to run the compressor? 14.18 100,000lbmof steam at 5psig with quality χ = 0.9 (cid:29)ows through a hr pipe with an inside diameter of 20in. What is the velocity? s s s s 14.19 What is the maximum theoretical e(cid:30)ciency of a power cycle op- erating with a minimum temperature of 70◦F and a maximum temperature of 900◦F? 14.20 What is the thermal e(cid:30)ciency of a reversible heat engine operating between a cold and hot reservoir with temperatures of 100◦F and 500◦F, respectively? 8614.21 10,000cfm of atmospheric air is compressed adiabatically to 40psia by a 70% e(cid:30)cient compressor. What brake horsepower is required to drive the compressor? 14.22 A 1.5hp motor drives a re-circulation fan serving a room with a 7500ft3volume of room temperature air. The fan and fan motor are located in an adjacent mechanical room which is a return plenum for the conditioned space. What is the maximum possible increase in the room air temperature if the fan is left to run for 30 minutes? 14.23 In a steam heat exchanger, 750lb of 500◦F steam at atmospheric hr pressure is used to heat 80gpm of cold water initally at 50◦F. If the steam exits as a saturated liquid, what is the (cid:28)nal temperature of the water assuming there are no losses? 8714.24 Air enters a compressor at 80◦F and 14.7psia and exits at 180psia. What is the change in enthalpy during the compression process? lb lb lb lb 14.25 A steam boiler uses 50lb of 40psia saturated steam to heat 10gpm hr of water. What is the expected increase in temperature for the water? 14.26 200lb of 5psig saturated steam enters a heating coil which supplies hr 100MBH. What percent of the exiting steam is in a liquid phase? 14.27 A 5lbm mass hangs from a spring with a spring constant of 15lbf. in What is the linear frequency of vibration for the system? 8814.28 A museum is maintained at 68◦F and 45% relative humidity. What is the vapor pressure of the space? 14.29 Saturted liquid water at 50psig is boiled in a sealed vessel at con- stant pressure until one third of the water by mass has changed to a vapor phase. What is the change in entropy of the mixture during this process? lbm·◦R lbm·◦R lbm·◦R lbm·◦R 14.30 A counter(cid:29)ow heat exchanger is used to cool a (cid:29)uid from 180◦F to 140◦F. The cooling medium temperature increases from 60◦F to 120◦F. What is the log mean temperature di(cid:27)erence? 8914.31 A heat sink is designed to remove 25W from a computer CPU. The ambient air inside the machine is 90◦F and the surface temperature of the heat sink is not to exceed 140◦F. The combined heat transfer coe(cid:30)cient, including both convection and radiation, is 3 Btu . hr·ft2·◦F What is the minimum required surface area for the heat sink? 14.32 5000cfm of air at 75◦F db / 68◦F wb enters a spray chamber using 90◦F water. The bypass factor for the spray chamber is 0.15. What is the dry bulb temperature of the leaving air? 14.33 A pizza oven has a (cid:29)ame temperature of 1000◦F and the internal walls are 700◦F. Assuming all surfaces are considered to be black, what is the rate of heat transfer per square foot due to radiation? hr·ft2 hr·ft2 hr·ft2 hr·ft2 9014.34 A 50ft length of hot water piping with 1inO.D. runs uninsulated through an open basement. The ambient temperature and av- erage temperature of the walls and other surfaces is 60◦F. The convective heat transfer coe(cid:30)cient is 6 Btu . The average sur- hr·ft2·◦F face temperature of the pipe is 120◦F. The emissivity for the pipe is 0.9. What is the total heat loss? hr hr hr hr 14.35 A variable frequnecy drive producing 100Wof waste heat during continuous operation is housed in an insulated sheet matal enclo- sure mounted in a machine room. The insulation is 1in thick with 8 a thermal conductivity of 0.2 Btu . The thermal resistance of the hr·ft·◦F sheet metal is negligible. The surface area of the enclosure is 8ft2. The machine room is maintained at 76◦F. The (cid:28)lm coe(cid:30)cients both inside and outside the enclosure are 4 Btu . What is the hr·ft2·◦F steady state temperature inside the enclosure? 14.36 In a counter(cid:29)ow heat exchanger, the cold (cid:29)uid increases in temper- ature from 50◦F to 100◦F and the warm (cid:29)uid is cooled from 180◦F to 145◦F. What is the logarithmic mean temperature di(cid:27)erence? 9114.37 A composite wall is composed of 3in of stucco, 8in normal weight 4 concrete blocks, and 1in gypsum board. The inside and out- 2 side surface conductances are 6 Btu and 1.5 Btu , respectively. hr·ft2·◦F hr·ft2·◦F What is the U-factor for the wall? hr·ft2·◦F hr·ft2·◦F hr·ft2·◦F hr·ft2·◦F 14.38 A (cid:29)uid with a kinematic viscosity of 3centistokes and a speci(cid:28)c gravity of 0.88 (cid:29)ows through a nominal 3in pipe at 4fps. What is the Reynolds number? 14.39 What is the quality of 1300psia steam produced by a boiler that adds 600Btu to 250◦F saturated liquid feedwater? lb 9214.40 Equal mass (cid:29)ow rates of water and a 50/50 glycol-water mixture with speci(cid:28)c heat capacity 0.75 Btu (cid:29)ow on either side of a shell and tube heat exchanger. Wat lb e m r ◦F enters at 90◦F and the glycol mixture enters at 38◦F. What could be the leaving temperatures of the water and glycol-water mixture, respectively? 14.41 A 7lb cast iron pan (c = 0.1 Btu ) is heated uniformly to 500◦F durin m g cooking, then pl p aced in lbm a ◦F sink (cid:28)lled with 4 gallons of 60◦F water. Neglecting losses, what is the (cid:28)nal equilibrium tempera- ture? 14.42 A refrigeration system using R-22 operates between 80◦F condens- ing and 0◦F evaporation. The refrigerant exits the evaporator as a dry, saturated vapor. What is the speci(cid:28)c work done by the compressor assuming isentropic compression? lb lb lb lb 9314.43 The operating pressure in a hydronic system is 15ft of head and the required (cid:29)ow is 120gpm. The system has been designed with 3 pumps operating in parallel. Referring to the pump curves below, what is the minimum impeller size su(cid:30)cient for the system? 9414.44 Ahydronic systemoperatesaccorinding to thesystemcurve shown below. The system is being designed to include two pumps in parallel, each with the characteristics of the pump curve shown below. What is the maximum hydraulic horsepower available to the system? 9514.45 A 70% e(cid:30)cient pump driven by a 93% e(cid:30)cient motor delivers 150gpm of 120◦F hot water at a head of 40ft with a rotational speed of 1800rpm. The pump runs from 7am-7pm Monday-Friday year round. The average cost of electricity is $0.12/kWh. What is the annual cost to run the pump? 14.46 A condenser water pump is located 5ft below the top of the wa- terline of a cooling tower basin. The leaving water temperature is 75◦F. The friction loss on the suction side of the pump is 9ft of head. What is the net positive suction head available? 14.47 The (cid:29)ow of a centrifugal pump developing 150ft of head is reduced from 500gpm to 300gpm. After the speed reduction, what is the head added by the pump? 9614.48 A manometer uses mercury to measure the pressure inside a gas storage tank. One end of the manometer is open to the atmost- phere. The height of the column of mercury is 18in. What is the pressure inside the tank? 14.49 The SR-71 Blackbird aircraft travels at 2193mph at an an altitude of 70,000ft where the temperature is −70◦F. What is the Mach number? 9714.50 The (cid:29)ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 14.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 9814.52 The pressure drop through a chilled water coil at the design (cid:29)ow rate of 25gpm is 8psi. During normal operation, the actual (cid:29)ow rate is 4gpm. What is the pressure drop in normal operation? 14.53 Air exits a nozzle at 500ft into a 70◦F room at atmospheric pres- s sure. What is the Mach number? 14.54 20gpm of oil with speci(cid:28)c gravity 0.88 (cid:29)ows through a valve with a valve coe(cid:30)cient of 4.5. What is the pressure drop across the valve? 9914.55 1000gpm of water is pumped up an incline of 200ft. The suction pressure is 50psig and the pressure at the extent of the discharge piping is 250psig. The head loss through the discharge piping is 40ft, and losses through the suction piping are negligible. The suc- tion and discharge piping diameters are 12in and 8in, respectively. How much horsepower is supplied by the pump? 14.56 A threaded 3in pipe has (4) 90-degree long radius elbows and (6) 4 45-degree elbows. The volume (cid:29)ow rate is 5gpm. What is the minor head loss for the system? 14.57 A 6in gate valve with (cid:29)ow coe(cid:30)cient 150 permits 500gpm of oil (SG = 0.88) to (cid:29)ow through a piping system. What is the pressure drop across the valve? 10014.58 An air handler uses 52◦F chilled water to cool and dehumidify a room which is maintained at 78◦F and 50% relative humidity. The AHU has a single chilled water coil from which air is discharged at 60◦F db / 58◦F wb. The unit also has a bypass damper which is modulated to allow 25% of the required air(cid:29)ow to bypass the coil under normal operating conditions. The unit provides 10,000cfm of supply air to the space. Prior to returning to the unit, 10% of the air is exhausted and outside air at 95◦F db / 75◦F wb is mixed into the return stream for ventilation. What is the total cooling load provided by the air handler? 14.59 A fan rated for 15bhp is controlled by a variable frequency drive and runs at 900rpm which is 50% of its maximum speed, supplying 20,000cfm of air against a system pressure of 1.5inwg. The exist- ing (cid:28)lters are replaced with new high e(cid:30)ciency (cid:28)lters increasing the pressure drop by 0.75inwg. What is the required fan speed following this upgrade? 10114.60 An atypical hydronic system permits the velocity of water to reach a maximum of 12ft when required. What is the smallest nominal s schedule 40 steel pipe size that should be selected for a (cid:29)ow rate of 50gpm? 14.61 1200gpm of water (cid:29)ows through a 50ft length of pipe with a 8in inside diameter and a friction factor of 0.02. What is the pressure drop? 14.62 A pump delivers 250gpm and produces 125ft of head. The (cid:29)uid being distributed has a density of 71lbm and the pump is 80% ft3 e(cid:30)cient. What is the brake horsepower required to drive the pump? 10214.63 A heat pump operated in cooling mode has a capacity of 2 refrig- eration tons and uses a 1500W compressor. What is the coe(cid:30)cient of performance? 14.64 A centrifugal pump consumes 200hp when operating at 1800rpm. What is the electrical power demand when the pump speed is reduced to 1200rpm? Assume 100% motor e(cid:30)ciency. 14.65 During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90◦F entering air to 65◦F. The unit uses 56◦F supply chilled water to drive the coil temperature to an apparatus dew point of 60◦F. The coil is designed for a maximum air side delta T of 25◦F. After an increase in heat load, the same unit is met with 95◦F return air. In order to stay safely within the coil’s temperature limits, operators raise the chilled water supply temperature to 63◦F such that the apparatus dew point becomes 67◦F. What is the expected discharge air temper- ature based on the new operating conditions? 10314.66 Water (cid:29)ows at 4fps through a 200ft pipe with inside diameter of 1.45in. The Moody friction factor is 0.028. What is the pressure drop? 14.67 An energy recovery device is used to pre-cool 5000cfm of outside air at 95◦F db / 75◦F wb. An equivalent volume of return air enters the device at 76◦F and 50% relative humidity. After passing through the device the exhaust air is discharged outside at 84◦F db / 70◦F wb. What is the reduction in cooling demand provided by the energy recovery wheel? 14.68 A 75% e(cid:27)ective enthalpy wheel supplies 2000cfm of tempered air by recovering energy from a return air stream at 74◦F and 50% relative humidity. The entering outside air is 96◦F db / 76◦F wb. What is the dry bulb temperature of the tempered air? 14.69 10,000cfm of air at 90◦F db / 54◦F wb enters an evaporative cooler using a 50◦F water spray to produce 60◦F leaving air. What is the saturation e(cid:30)ciency? 10414.70 Steam enters a 75% e(cid:30)cient turbine at a pressure of 800psia and a temperature of 700◦F and exits at atmospheric pressure. What is the speci(cid:28)c work produced by the turbine? lb lb lb lb 14.71 The overall e(cid:30)ciency of a gas turbine combined cycle is 55%. The gas turbine cycle standing alone has an e(cid:30)ciency of 40%. What is the e(cid:30)ciency of the Rankine cycle? 14.72 Water is pumped from an open tank by a pump located 15ft below the top of the tank’s waterline. The pump adds 50ft of total head. The discharge pressure is 28psig. Neglecting losses on the suction side of the pump, what is the velocity of the (cid:29)owing water? s s s s 14.73 A boiler produces saturated steam at atmospheric pressure. 20gpm of feedwater enters at 160◦F and 14.7psia. What is the boiler horse- power rating? 10514.74 A three-phase AC generator supplies 700A at 480V with a power factor of 0.8 and an e(cid:30)ciency of 90%. The engine speed is 3600rpm. What is the torque needed to drive the generator? f f f f 14.75 The output shaft of an engine accelerates from 1000rpm at idle to 6000rpm at red line in 5seconds. What is the rotational accelera- tion? s2 s2 s2 s2 14.76 Superheated steam at 400psia and 700◦F is expanded in a 85% e(cid:30)cient turbine to atmospheric pressure. What is the enthalpy of the saturated mixture exiting the turbine? lb lb lb lb 14.77 A room with a volume of 50,000ft3is maintained at 72◦F and 40% relative humidity. The space requires (cid:28)ve air changes per hour of ventilation. On a winter design day, the outdoor temperature is 0◦F. What is the required humidi(cid:28)cation capacity to satisfy this application? hr hr hr hr 10614.78 A 7.5hp motor is 93% e(cid:30)cient. How much waste heat is generated due to losses? hr hr hr hr 14.79 25gpm of water at 300psia and 250◦F goes through a boiler where it is converted to 500psia steam at 1000◦F. What is the heat load being delivered by the boiler? 14.80 1lbm of saturated liquid water at 50psia enters a mixing chamber s along with 1lbm of superheated steam at 50psia and 500◦F. 2lbm of s s the resulting mixture is discharged after thorough mixing. What is the quality of the mixture? 10715 Practice Exam #2 15.1 A plant room contains a generator with a noise level of 95dBA, an air compressor with a noise level of 88dBA, and a pump with a noise level of 77dBA. What is the overall noise level? 15.2 A data center developer has a choice between (1) building a $50M data center that will have a 30 year lifespan and cost $1M per year to maintain, and (2) building a $15M data center that will have a 10 year lifespan and cost $3M per year to maintain. If the interest rate is 8%, which alternative is superior? 15.3 A company with a tax rate of 30% makes a $50,000 one time pur- chase that drives $8,000 of annual revenue and carries $1200 of an- nual maintenance costs. The salvage value after 10 years is $5000. What is the present value of the investment over 10 years at a 6% interest rate? 10815.4 A company pays $500K for a warehouse that it plans to hold for 15 years. The warehouse will save the company $5000 per month in shipping costs, boosting pro(cid:28)t. Maintenance and taxes cost $10,000 per year. At the end of 15 years, what sale price is needed to realize an 8% rate of return? 15.5 A power plant upgrade project takes two years to implement and has an initial cost of $500,000 plus an additional $250,000 at the end of year 1 and year 2. An additional $100,000 retainage will be paid at the end of the one-year defects &amp; liability period following project completion. The life cycle of the upgrade is expected to be 20 years from completion and the salvage value will be $300,000. At an interest rate of 6%, what is the annualized cost of the venture? 15.6 The air horsepower produced by a fan is 6.3hp. The fan has a mechanical e(cid:30)ciency of 80% and the fan motor has an e(cid:30)ciency of 95%. The fan runs for 12 hours per day. What is annual electricity consumption for the fan? 10915.7 A fan delivers 10,000cfm of 70◦F air at sea level. How much volume will the same fan deliver when used at 4000ft elevation to distribute 50◦F air? 15.8 A heat recovery ventilator is used to pre-heat 30◦F, 40% RH outside air with 75◦F, 50% RH exhaust air. The HRV e(cid:27)ectiveness is 60%. What quantity of heat is recovered? lb lb lb lb 15.9 The maximum pressure achieved in the cylinder of a car engine is 800psi. How much force will be exerted on a 3.7in piston? f f f f 15.10 A spring with 10 coils has squared ends and a shear modulus of 10×106psi. The diameter of the wire is 0.15in and the average coil diameter is 1in. What is the spring constant? 52lbf in 63lbf in 79lbf in 105lbf in 11015.11 An air handling unit uses 10% outside air at 88◦F and 60% RH and 90% recirculated air returned from the space, which is maintained at 76◦F and 50% RH. What is the dew point temperature of the air entering the coil? 15.12 2000cfm of outside air at 95◦F dry bulb and 78◦F wet bulb is cooled to 68◦F and 60% relative humidity. What quantity of latent heat is removed? hr hr hr hr 15.13 What is the equivalent diameter of a 18in × 24in rectangular duct? 15.14 An unoccupied space has 10KW of computer equipment and light- ing and a moisture load of 12lb of water vapor. What is the sensible hr heat ratio? 11115.15 A 10lb mass hangs from a spring and damper assembly. The m lb spring has a spring constant of 100 f. The damping ratio is 0.6. in What is the damped frequency of the system? 15.16 A carnot heat pump operates during winter when the outisde air temperature is 20◦F and inside temperature is 68◦F. During sum- mer, the unit runs in reverse to provide cooling when the outisde air temperature is 100◦F and inside temperature is 72◦F. What is the coe(cid:30)cient of performance during summer operation? 15.17 A refrigeration cycle using R-123 operates between 30psia and 125psia with no subcooling and isenthalpic expansion. What is the quality of the mixture entering the evaporator? 15.18 A kitchen contains lighting and cooking equipment which draws 30KW. There is also a moisture load of 2 lb . What is the sensible min heat ratio? 11215.19 How much power is required to isentropically compress 100 lb of min air at atmospheric pressure and 80◦F to 150psia? Assume air is an ideal gas with constant speci(cid:28)c heat capacity. 15.20 A refrigeration cycle using R-123 operates between 75psia and 220psia with no sub-cooling. During isenthalpic expansion, what is the change in entropy of the refrigerant? lb·◦F lb·◦F lb·◦F lb·◦F 15.21 A (cid:29)ash distilation vessel boils seawater to make potable water. The pressure in the vessel is held at 10 in Hg vacuum. What temperasure does the seawater boil at? 15.22 5lb of 80◦F air is compressed at constant temperature from 15psia m to 90psia. How much work is done on the closed system? 11315.23 300psia superheated steam enters an isentropic turbine and exits at 170◦F with 10% moisture content. What is the temperature of the entering steam? 15.24 Outside air conditions are 85◦F and 50% relative humidity. What is the partial pressure of water vapor in the air? 15.25 2000gpm of 68◦F water is transported to an open reservoir 140ft above the pump via 1500ft of 12in nominal steel pipe. Pressure on the suction side of the pump is measured as 15psig. The Darcy friction factor for this application is assumed to be approximately 0.015. What is the operating head of the pump? 15.26 1000Btu of heat is added to 70◦F , 14.7psia air. What is the tem- lb perature after heating? 11415.27 400lbm of 62◦F, 60% relative humidity air is heated to 96◦F without hr changing the moisture content. How much heat is needed? hr hr hr hr 15.28 Air at 75◦F db / 64◦F wb enters a cooling coil with an ADP of 45◦F and a bypass factor of 15%. What is the wet bulb temperature of the leaving air? 15.29 A 230V, single-phase, 5-hp motor operates at full load with a power factor of 0.8. The motor e(cid:30)ciency is 75%. What is the current drawn? 15.30 The bedroom of a pre-war apartment contains a steam radiator which provides up to 40,000Btu at full load. Building steam is hr supplied at 4psig saturated. The radiator discharge is a saturated liquid. Neglecting losses, what mass (cid:29)ow rate of steam is required to satisfy the heating demand? hr hr hr hr 11515.31 A heated indoor swimming pool is maintained at 78◦F. Evapora- tion of pool water introduces moisture into the surrounding space at a rate of 4 lb . The room is maintained at 80◦F and 60% rel- min ative humidity by exhausting a constant volume of room air and replacing it with outside air at 85◦F db / 65◦F wb. What vol- ume (cid:29)ow rate of outside air is required to achieve the intended dehumidi(cid:28)cation? 15.32 A refrigeration cycle provides 8tons of cooling with a COP of 4.2. What is the required compressor horsepower? 15.33 A 4in thick composite wall has an R-value of of 8hr·ft2·◦F. The inside Btu and outside convective heat transfer coe(cid:30)cients are 1.5 Btu and hr·ft2·◦F 3 Btu , respectively. What is the total thermal resistance? hr·ft2·◦F 0.1hr·ft2·◦F Btu 0.9hr·ft2·◦F Btu 1.1hr·ft2·◦F Btu 9.0hr·ft2·◦F Btu 11615.34 An object with a surface area of 10ft2 and a surface temperature of 40◦F gains 1000Btu through a combination of radiation and con- hr vection. The ambient temperature as well as the temperature of the surrounding surfaces is 80◦F. The emmissivity is 0.8. What is the convection (cid:28)lm coe(cid:30)cient? hr·ft2◦F hr·ft2◦F hr·ft2◦F hr·ft2◦F 15.35 A hot water heat exchanger is supplied with 55◦C LTHW which is used to heat 2Lof domestic water from 20◦C to 50◦C . The return s LTHW temperature is 47◦C. What is the volume (cid:29)ow rate of LTHW required? s s s s 15.36 500,000L of water is discharged from a reservoir and falls 30meters. s How much power is released due to the change in elevation? 11715.37 An air handling unit uses a hot water coil to produce 20,000cfm of 120◦F supply air. The entering air is composed of 5000cfm of 25◦F outside air and 15,000cfm of 75◦F return air. The hot water supply and return temperatures to and from the coil are 135◦F and 105◦F, respectively. What volume (cid:29)ow rate of hot water is required? 15.38 A radiator is designed for 100◦F entering air and 150◦F leaving air. The inlet water is expected to enter at 212◦F and leave at 195◦F. The radiator may be treated as a counter(cid:29)ow heat exchanger with a heat transfer surface area of 10ft2 and an overall coe(cid:30)eient of heat transfer of 11 Btu . What is the rate of heat transfer? hr·ft2·◦F hr hr hr hr 15.39 An 8ft long, 1in diameter solid aluminum alloy rod with coe(cid:30)cient of linear thermal expansion of
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>5000Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>8100Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>8500Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>10,500Btu ✓</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">rated suction temperature of −50◦F and a discharge temperature of 10◦F. The discharge line is a 13/ 8 in type L copper tube with a length of 100ft. What is the capacity of the discharge line? A. 4.5tons B. 5.6tons C. 6.6tons D. 7.9tons Look up Discharge and Liquid Line Capacities in the Reference Handbook and find the table for Refrigerant 22, specifically Intermediate or Low-Stage Duty. The suction temperature is extra information and is not needed for determining the capacity of the discharge line. Based on Type L Copper tube with the diameter given, obtain the discharge line capacity from the table as 6.6tons. This assumes a 100ft length which is consistent with the problem statement. Read note #5 below the table and recognize the condensing temperature is assumed to be 0◦F. However, there is a small table of correction factors for other condensing temperatures. For the condensing temperature given, 10◦F, it is necessary to multiply the table capacity by a factor of 1.2. DischargeCapacity =(6.6tons)(1.2)=7.92tons Answer D 345</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Systems 29, a low-stage refrigeration system using R22 operates with a saturated suction temperature of minus 50 degrees Fahrenheit and a discharge temperature of 10 degrees. The discharge line is a 1 and 3-8 inch type L copper tube with a length of 100 feet. What is the capacity of the discharge line? Well this problem is predominantly a look-up and I&#x27;m going to jump over to the reference of the camboc here. If we search for discharge and liquid line capacities, we&#x27;ll find this table for R22. But this is for single or high-stage applications and we have a low-stage refrigeration system. So if you go to the very next page, you&#x27;ll see this chart, suction discharge and liquid line capacities for intermediate or low-stage duty. So this is the one we want to use.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • 6 is going to get us the capacity for our scenario and that is a pretty straightforward problem but it does require us to be careful and look at all the notes and figure out what to apply.<br>
+        • See if you can figure out where the tricks were hidden and get through it on your own.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">1 questions from 1 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 58</div>
+      <div class="qa-question"><strong>Q:</strong> So if the equivalent length is in a hundred, what are the inputs for the equation and note two to accommodate the change?</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 29 · 1 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
