@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 22 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 22</span>
+  <span class="nav-badge">⭐ 9 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions · Answer: A</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 22</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      80gpm of 60◦F water is pumped from 100ft below the surface of a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? 29
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct"><span class="choice-letter">A.</span><span>3hp ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? A. 3hp B. 6hp C. 7hp D. 10hp Write the form of the Bernoulli Equation suited for pumping applications: P −P v2−v2 h = 2 1 + 2 1 +z −z +h A γ 2g 2 1 f For the static pressure term, observe the lake and the open storage tank are both exposed to atmospheric pressure, so the only di(cid:27)erence in static pressure is the hydrostatic pressure associ- ated with the height of the water column comprising the lake. Since the lake is 100ft deep and the medium is liquid water, it is permissible to skip the calculation using specific weight and go immediately to length units, as below: P 2 =1atm γ P 2 =100ftH O+1atm γ 2 P −P 2 1 =(1atm)−(100ftH O+1atm)=100ftH O γ 2 2 The velocity of water in the lake and the storage tank is negligible: v =v =0 1 2 Find the di(cid:27)erence in height between the bottom of the lake and the tank: ∆z =z −z =(100ft)−(−100ft)=200ft 2 1 Friction losses include both major losses as handled by the Darcy Equation and minor losses to address the fittings: fLv2 v2  fL  v2 h =h +h = +K = +K f f,major f,minor 2gD 2g D 2g FindtheReynoldsNumberandrelativeroughnessinordertodeterminethefrictionfactorusing the Moody Diagram. Look up thekinematic viscosity usingthe Propertiesof Watertable. Getthe diameter from the steel pipe friction tables. 210 Q=80gpm   1ft D =3.068in =.2557ft 12in ft v =3.47 s   3.47ft (.2557ft) Re= vD = s ≈73,000 ν 1.217×10−5ft2 s (cid:15) .0002ft = ≈.0008 D .2557ft (cid:15) f =f(Re, )≈.0225 D The length of pipe to be used for the major losses is 400ft. This excludes fittings losses, which can be looked up using the phrase Welded Pipe Fittings. K factors summarized below: Welded Pipe Fittin</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Fluids 22. 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above ground, through 400 feet of 3-inch nominal schedule 40 welded steel pipe. The piping run contains 4 90 degree elbows and a glow valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? So we have water being pumped up from a lake. Let&#x27;s draw ourselves a little lake here and it says it&#x27;s being pumped from the bottom so we can create some state 1 that&#x27;s right at the bottom of the lake. We&#x27;re going to solve some water going across and then there&#x27;s a pump. I&#x27;m drawing it floating in space since it&#x27;s just kind of a schematic concept.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above ground, through 400 feet of 3-inch nominal schedule 40 welded steel pipe.<br>
+        • The piping run contains 4 90 degree elbows and a glow valve.<br>
+        • The storage tank is at atmospheric pressure.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">6 questions from 9 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 03</div>
+      <div class="qa-question"><strong>Q:</strong> Are we assuming at 68 degrees outside?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 51</div>
+      <div class="qa-question"><strong>Q:</strong> When time is critical, is it really necessary to include the extra sig figs or are there scenarios, pipe sizes that can yield significant differences?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 62</div>
+      <div class="qa-question"><strong>Q:</strong> How can you rearrange the Bernoulli equation to solve for the head loss H sub A?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 73</div>
+      <div class="qa-question"><strong>Q:</strong> Won&#x27;t there be radiation between duct work and the surrounding air as well?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 81</div>
+      <div class="qa-question"><strong>Q:</strong> Why is P100 feet when we factor in the 100 feet of H20 in the Z term?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 88</div>
+      <div class="qa-question"><strong>Q:</strong> Then what would delta P be?</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 22 · 9 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
