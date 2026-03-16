@@ -5,146 +5,315 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OH Prep | MPEP Dashboard</title>
 <style>
-:root {
-  --bg: #0d1117;
-  --bg2: #161b22;
-  --bg3: #21262d;
-  --border: #30363d;
-  --text: #e6edf3;
-  --text2: #8b949e;
-  --accent: #58a6ff;
-  --green: #3fb950;
-  --orange: #d29922;
-  --red: #f85149;
-  --purple: #bc8cff;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; }
 
-/* Header */
-.header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.header-logo { font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-.header-logo span { color: var(--accent); }
-.back-link { color: var(--text2); text-decoration: none; font-size: 13px; margin-right: auto; }
-.back-link:hover { color: var(--text); }
-
-/* Nav Bar */
-.nav-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.nav-bar label { color: var(--text2); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-.nav-bar select, .nav-bar input[type=number] {
-  background: var(--bg3); color: var(--text); border: 1px solid var(--border);
-  padding: 6px 10px; border-radius: 6px; font-size: 13px; outline: none;
+/* ── Nav Bar ── */
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
-.nav-bar select:focus, .nav-bar input:focus { border-color: var(--accent); }
-.nav-bar select { min-width: 200px; }
-.nav-bar input[type=number] { width: 80px; }
-.btn { padding: 6px 14px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
-.btn:hover { opacity: 0.85; }
-.btn-primary { background: var(--accent); color: #0d1117; }
-.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
-.nav-info { color: var(--text2); font-size: 12px; margin-left: auto; }
+.nav-bar a.back { color: #0066cc; text-decoration: none; font-size: 13px; align-self: center; margin-right: 4px; }
+.nav-bar a.back:hover { text-decoration: underline; }
+.nav-field { display: flex; flex-direction: column; gap: 3px; }
+.nav-field label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+.nav-field select,
+.nav-field input[type=number] {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 13px;
+  background: white;
+  color: #333;
+  outline: none;
+}
+.nav-field select:focus,
+.nav-field input:focus { border-color: #0066cc; }
+.nav-field select { min-width: 210px; }
+.nav-field input[type=number] { width: 80px; }
+.btn { padding: 7px 16px; border-radius: 4px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-primary { background: #0066cc; color: white; }
+.btn-primary:hover { background: #0052a3; }
+.btn-secondary { background: white; color: #333; border: 1px solid #ddd; }
+.btn-secondary:hover { border-color: #aaa; background: #f8f8f8; }
+.nav-info { font-size: 12px; color: #888; align-self: center; margin-left: auto; }
 
-/* Main Layout */
-.main { display: flex; height: calc(100vh - 97px); overflow: hidden; }
+/* ── Main Layout ── */
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
 
-/* Left Panel */
-.left-panel { width: 45%; min-width: 320px; border-right: 1px solid var(--border); overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-.problem-header { display: flex; align-items: baseline; gap: 8px; }
-.problem-badge { background: var(--accent); color: #0d1117; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
-.problem-program { color: var(--text2); font-size: 12px; }
-.problem-statement { line-height: 1.65; color: var(--text); }
-.choices-grid { display: flex; flex-direction: column; gap: 8px; }
-.choice { display: flex; align-items: flex-start; gap: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
-.choice-letter { font-weight: 700; color: var(--accent); min-width: 18px; }
-.choice.correct { border-color: var(--green); background: rgba(63, 185, 80, 0.08); }
-.choice.correct .choice-letter { color: var(--green); }
-.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); margin-bottom: 4px; }
-.solution-toggle { background: none; border: 1px solid var(--border); color: var(--text2); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
-.solution-toggle:hover { border-color: var(--accent); color: var(--text); }
-.solution-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; line-height: 1.65; color: var(--text2); display: none; margin-top: 8px; }
+/* ── Left Panel ── */
+.sidebar-left {
+  flex: 0 0 45%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct {
+  background: #e6ffe6;
+  border-left-color: #22c55e;
+}
+.choice.correct .choice-letter { color: #16a34a; }
+
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 .solution-box.open { display: block; }
-.answer-badge { display: inline-block; background: rgba(63, 185, 80, 0.15); color: var(--green); border: 1px solid var(--green); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 
-/* Right Panel */
-.right-panel { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.oh-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.oh-title { font-size: 15px; font-weight: 700; }
-.oh-badge { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; }
-.oh-search { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none; min-width: 200px; }
-.oh-search:focus { border-color: var(--accent); }
-.oh-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-.oh-card-session { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--purple); margin-bottom: 6px; }
-.oh-card-question { line-height: 1.6; color: var(--text); }
-.oh-empty { color: var(--text2); background: var(--bg2); border: 1px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; font-size: 13px; }
+/* ── Right Panel ── */
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
 
-/* Empty state */
-.empty-state { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; gap: 12px; color: var(--text2); }
-.empty-state h2 { color: var(--text); }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
 
-/* Footer */
-.footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text2); }
-.footer a { color: var(--accent); text-decoration: none; }
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
 
-/* Loading */
-.loading { color: var(--text2); text-align: center; padding: 40px; }
+.oh-search {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  outline: none;
+}
+.oh-search:focus { border-color: #f59e0b; }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+}
 
-@media (max-width: 768px) {
-  .main { flex-direction: column; height: auto; }
-  .left-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
-  .nav-bar select { min-width: 150px; }
+.oh-empty {
+  background: #f9f9f9;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px;
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+}
+
+/* ── Footer ── */
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  margin-top: 0;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+
+/* ── Empty / Loading ── */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  flex-direction: column;
+  gap: 8px;
+  color: #888;
+}
+.empty-state h3 { color: #333; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+  .nav-field select { min-width: 160px; }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <a href="https://dashboard.mechanicalpeexamprep.com" class="back-link">← Dashboard</a>
-  <a href="#" class="header-logo">MPEP <span>OH Prep</span></a>
-</div>
-
 <div class="nav-bar">
-  <div>
-    <label for="sel-program">Program</label><br>
+  <a href="https://dashboard.mechanicalpeexamprep.com" class="back">← Dashboard</a>
+
+  <div class="nav-field">
+    <label for="sel-program">Program</label>
     <select id="sel-program" onchange="onProgramChange()">
       <option value="HVAC">HVAC &amp; Refrigeration</option>
       <option value="TFS">Thermal &amp; Fluid Systems</option>
     </select>
   </div>
-  <div>
-    <label for="sel-chapter">Module</label><br>
+
+  <div class="nav-field">
+    <label for="sel-chapter">Module</label>
     <select id="sel-chapter" onchange="onChapterChange()"></select>
   </div>
-  <div>
-    <label for="inp-num">Problem #</label><br>
+
+  <div class="nav-field">
+    <label for="inp-num">Problem #</label>
     <input type="number" id="inp-num" min="1" value="1">
   </div>
-  <div style="padding-top:18px">
+
+  <div style="padding-bottom:1px">
     <button class="btn btn-primary" onclick="loadProblem()">Load</button>
   </div>
-  <div style="padding-top:18px; display:flex; gap:6px;">
+  <div style="display:flex;gap:6px;padding-bottom:1px">
     <button class="btn btn-secondary" onclick="navPrev()">◀ Prev</button>
     <button class="btn btn-secondary" onclick="navNext()">Next ▶</button>
   </div>
-  <div class="nav-info" id="nav-info"></div>
+
+  <span class="nav-info" id="nav-info"></span>
 </div>
 
-<div class="main">
-  <div class="left-panel" id="left-panel">
-    <div class="empty-state">
-      <h2>Loading problems…</h2>
-      <p>Fetching the index…</p>
-    </div>
+<div class="layout-container">
+  <div class="sidebar-left" id="left-panel">
+    <div class="empty-state"><h3>Loading…</h3><p>Fetching problem index…</p></div>
   </div>
-  <div class="right-panel" id="right-panel">
-    <div class="empty-state">
-      <h2>Office Hours History</h2>
-      <p>Select a problem to see past OH questions.</p>
-    </div>
+  <div class="sidebar-right" id="right-panel">
+    <div class="empty-state"><h3>Office Hours History</h3><p>Select a problem to view past student questions.</p></div>
   </div>
 </div>
 
@@ -154,199 +323,174 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 </div>
 
 <script>
-let ALL_PROBLEMS = [];
+let ALL = [];
 let currentIdx = -1;
+let solutionOpen = false;
 
-// Load data
 fetch('oh-prep-index-v2.json')
   .then(r => r.json())
   .then(data => {
-    ALL_PROBLEMS = data.problems;
+    ALL = data.problems;
     const m = data.meta;
     document.getElementById('footer-stats').textContent =
-      `${m.total} problems indexed · ${m.with_oh} with OH questions · HVAC: ${m.hvac_count} · TFS: ${m.tfs_count} · Updated ${m.generated}`;
+      `${m.total} problems · ${m.with_oh} with OH questions · HVAC: ${m.hvac_count} · TFS: ${m.tfs_count} · Updated ${m.generated}`;
     populateChapters();
-    // Load first problem
-    const first = getFilteredProblems()[0];
-    if (first) {
-      currentIdx = ALL_PROBLEMS.indexOf(first);
-      renderProblem(first);
-    }
+    const first = filtered()[0];
+    if (first) { currentIdx = ALL.indexOf(first); render(first); }
     updateNavInfo();
   })
-  .catch(err => {
+  .catch(e => {
     document.getElementById('left-panel').innerHTML =
-      '<div class="empty-state"><h2>Error loading data</h2><p>' + err.message + '</p></div>';
+      `<div class="empty-state"><h3>Error</h3><p>${e.message}</p></div>`;
   });
 
-function getProgram() { return document.getElementById('sel-program').value; }
-function getChapter() { return document.getElementById('sel-chapter').value; }
-function getProblemNum() { return parseInt(document.getElementById('inp-num').value) || 1; }
+const esc = s => String(s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function getFilteredProblems(program, chapter) {
-  const p = program || getProgram();
-  const c = chapter || getChapter();
-  return ALL_PROBLEMS.filter(x => x.program === p && x.chapter === c);
+function prog() { return document.getElementById('sel-program').value; }
+function chap() { return document.getElementById('sel-chapter').value; }
+function num()  { return parseInt(document.getElementById('inp-num').value) || 1; }
+
+function filtered(p, c) {
+  return ALL.filter(x => x.program === (p||prog()) && x.chapter === (c||chap()));
 }
 
-function populateChapters(program) {
-  const p = program || getProgram();
-  const sel = document.getElementById('sel-chapter');
-  const chapters = [...new Set(ALL_PROBLEMS.filter(x => x.program === p).map(x => x.chapter))];
-  sel.innerHTML = chapters.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+function populateChapters(p) {
+  const chapters = [...new Set(ALL.filter(x => x.program === (p||prog())).map(x => x.chapter))];
+  document.getElementById('sel-chapter').innerHTML =
+    chapters.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
 }
 
 function onProgramChange() {
   populateChapters();
   document.getElementById('inp-num').value = 1;
-  const probs = getFilteredProblems();
-  if (probs.length > 0) {
-    currentIdx = ALL_PROBLEMS.indexOf(probs[0]);
-    renderProblem(probs[0]);
-  }
+  const probs = filtered();
+  if (probs[0]) { currentIdx = ALL.indexOf(probs[0]); render(probs[0]); }
   updateNavInfo();
 }
 
 function onChapterChange() {
   document.getElementById('inp-num').value = 1;
-  const probs = getFilteredProblems();
-  if (probs.length > 0) {
-    currentIdx = ALL_PROBLEMS.indexOf(probs[0]);
-    renderProblem(probs[0]);
-  }
+  const probs = filtered();
+  if (probs[0]) { currentIdx = ALL.indexOf(probs[0]); render(probs[0]); }
   updateNavInfo();
 }
 
 function loadProblem() {
-  const num = getProblemNum();
-  const probs = getFilteredProblems();
-  const p = probs.find(x => x.problem_num === num);
-  if (p) {
-    currentIdx = ALL_PROBLEMS.indexOf(p);
-    renderProblem(p);
-    updateNavInfo();
-  } else {
-    alert(`Problem #${num} not found in this module. (Max: ${probs.length})`);
-  }
+  const n = num();
+  const p = filtered().find(x => x.problem_num === n);
+  if (p) { currentIdx = ALL.indexOf(p); render(p); updateNavInfo(); }
+  else alert(`Problem #${n} not found. (${filtered().length} problems in this module)`);
 }
 
 function navPrev() {
-  const probs = getFilteredProblems();
-  const posInChapter = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
-  if (posInChapter > 0) {
-    const prev = probs[posInChapter - 1];
-    currentIdx = ALL_PROBLEMS.indexOf(prev);
-    document.getElementById('inp-num').value = prev.problem_num;
-    renderProblem(prev);
-    updateNavInfo();
+  const probs = filtered();
+  const pos = probs.findIndex(x => ALL.indexOf(x) === currentIdx);
+  if (pos > 0) {
+    const p = probs[pos - 1];
+    currentIdx = ALL.indexOf(p);
+    document.getElementById('inp-num').value = p.problem_num;
+    render(p); updateNavInfo();
   }
 }
 
 function navNext() {
-  const probs = getFilteredProblems();
-  const posInChapter = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
-  if (posInChapter < probs.length - 1) {
-    const next = probs[posInChapter + 1];
-    currentIdx = ALL_PROBLEMS.indexOf(next);
-    document.getElementById('inp-num').value = next.problem_num;
-    renderProblem(next);
-    updateNavInfo();
+  const probs = filtered();
+  const pos = probs.findIndex(x => ALL.indexOf(x) === currentIdx);
+  if (pos < probs.length - 1) {
+    const p = probs[pos + 1];
+    currentIdx = ALL.indexOf(p);
+    document.getElementById('inp-num').value = p.problem_num;
+    render(p); updateNavInfo();
   }
 }
 
 function updateNavInfo() {
-  const probs = getFilteredProblems();
-  const pos = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
+  const probs = filtered();
+  const pos = probs.findIndex(x => ALL.indexOf(x) === currentIdx);
   document.getElementById('nav-info').textContent =
-    pos >= 0 ? `${pos + 1} / ${probs.length} in this module` : `${probs.length} problems in this module`;
+    pos >= 0 ? `${pos+1} / ${probs.length} in this module` : `${probs.length} problems`;
 }
 
 function toggleSolution() {
-  const box = document.getElementById('solution-box');
-  const btn = document.getElementById('solution-toggle');
-  if (box.classList.contains('open')) {
-    box.classList.remove('open');
-    btn.textContent = 'Show Solution ▼';
-  } else {
-    box.classList.add('open');
-    btn.textContent = 'Hide Solution ▲';
-  }
+  solutionOpen = !solutionOpen;
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  if (box) { box.classList.toggle('open', solutionOpen); }
+  if (btn) { btn.innerHTML = solutionOpen ? 'Hide Solution ▲' : 'Show Solution ▼'; }
 }
 
 function filterOH() {
-  const q = document.getElementById('oh-search').value.toLowerCase();
-  document.querySelectorAll('.oh-card').forEach(card => {
-    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  const q = document.getElementById('oh-search')?.value.toLowerCase() || '';
+  document.querySelectorAll('.qa-group').forEach(c => {
+    c.style.display = c.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function render(p) {
+  solutionOpen = false;
 
-function renderProblem(p) {
-  // Left panel
-  const choicesHtml = Object.entries(p.choices || {}).map(([letter, text]) => {
-    const isCorrect = p.answer && p.answer.toUpperCase() === letter;
-    return `<div class="choice${isCorrect ? ' correct' : ''}">
-      <span class="choice-letter">${escHtml(letter)}</span>
-      <span>${escHtml(text)}</span>
+  // ── Left Panel ──
+  const choicesHtml = Object.entries(p.choices || {}).map(([l, t]) => {
+    const correct = p.answer && p.answer.toUpperCase() === l;
+    return `<div class="choice${correct ? ' correct' : ''}">
+      <span class="choice-letter">${esc(l)}.</span>
+      <span>${esc(t)}${correct ? ' ✓' : ''}</span>
     </div>`;
   }).join('');
 
-  const solutionHtml = p.solution
-    ? `<button class="solution-toggle" id="solution-toggle" onclick="toggleSolution()">Show Solution ▼</button>
-       <div class="solution-box" id="solution-box">
-         ${p.answer ? `<div class="answer-badge">Answer: ${escHtml(p.answer)}</div>` : ''}
-         <div>${escHtml(p.solution)}</div>
-       </div>`
-    : p.answer
-    ? `<div class="answer-badge">Answer: ${escHtml(p.answer)}</div>`
-    : `<div style="color:var(--text2);font-size:12px;">Solution not yet available.</div>`;
+  let solutionHtml = '';
+  if (p.solution) {
+    const ansTag = p.answer ? `<span class="answer-tag">Answer: ${esc(p.answer)}</span><br>` : '';
+    solutionHtml = `
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Solution ▼</button>
+      <div class="solution-box" id="sol-box">
+        ${ansTag}${esc(p.solution)}
+      </div>`;
+  } else if (p.answer) {
+    solutionHtml = `<div style="margin-top:8px"><span class="answer-tag">Answer: ${esc(p.answer)}</span></div>`;
+  } else {
+    solutionHtml = `<p style="color:#aaa;font-size:13px;margin-top:8px;">Solution not available for this problem.</p>`;
+  }
 
   document.getElementById('left-panel').innerHTML = `
-    <div class="problem-header">
-      <span class="problem-badge">${escHtml(p.program)} · ${escHtml(p.chapter)} · #${p.problem_num}</span>
-    </div>
-    <div>
-      <div class="section-label">Problem Statement</div>
-      <div class="problem-statement">${escHtml(p.statement)}</div>
-    </div>
-    <div>
-      <div class="section-label">Answer Choices</div>
-      <div class="choices-grid">${choicesHtml}</div>
-    </div>
-    <div>
-      <div class="section-label">Solution</div>
+    <div class="problem-meta">${esc(p.program)} · ${esc(p.chapter)} · Problem ${p.problem_num}</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">${esc(p.statement)}</div>
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">${choicesHtml}</div>
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
       ${solutionHtml}
     </div>
   `;
 
-  // Right panel
+  // ── Right Panel ──
   const ohQs = p.oh_questions || [];
-  const ohCardsHtml = ohQs.map(q => `
-    <div class="oh-card">
-      <div class="oh-card-session">${escHtml(q.session || 'Office Hours')}</div>
-      <div class="oh-card-question">${escHtml(q.question)}</div>
-    </div>
-  `).join('');
+  let rightHtml;
 
-  const rightContent = ohQs.length > 0
-    ? `<div class="oh-header">
-        <div>
-          <div class="oh-title">Office Hours History</div>
-        </div>
-        <span class="oh-badge">${ohQs.length} question${ohQs.length !== 1 ? 's' : ''}</span>
-        <input class="oh-search" id="oh-search" type="text" placeholder="Search questions…" oninput="filterOH()">
-      </div>
-      ${ohCardsHtml}`
-    : `<div class="oh-header">
-        <div class="oh-title">Office Hours History</div>
-        <span class="oh-badge">0 questions</span>
-      </div>
-      <div class="oh-empty">No office hours questions recorded for this problem.</div>`;
+  if (ohQs.length > 0) {
+    const cards = ohQs.map(q => `
+      <div class="qa-group">
+        <div class="qa-session">${esc(q.session)}</div>
+        <div class="qa-question"><strong>Q:</strong> ${esc(q.question)}</div>
+      </div>`).join('');
 
-  document.getElementById('right-panel').innerHTML = rightContent;
+    rightHtml = `
+      <div class="oh-section-title">
+        Office Hours History
+        <span class="oh-count">${ohQs.length} question${ohQs.length !== 1 ? 's' : ''}</span>
+      </div>
+      <p class="oh-subtitle">Student questions asked about this problem in live office hours sessions.</p>
+      <input class="oh-search" id="oh-search" type="text" placeholder="Search questions…" oninput="filterOH()">
+      ${cards}`;
+  } else {
+    rightHtml = `
+      <div class="oh-section-title">Office Hours History</div>
+      <div class="oh-empty">No office hours questions have been recorded for this problem.</div>`;
+  }
+
+  document.getElementById('right-panel').innerHTML = rightHtml;
 }
 </script>
 </body>
