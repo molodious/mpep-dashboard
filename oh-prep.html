@@ -1,929 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OH Prep — MPEP Dashboard</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OH Prep | MPEP Dashboard</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #21262d;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --orange: #d29922;
+  --red: #f85149;
+  --purple: #bc8cff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; }
 
-    :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface2: #1c2330;
-      --border: #21262d;
-      --border2: #30363d;
-      --text: #e6edf3;
-      --muted: #8b949e;
-      --dim: #484f58;
-      --blue: #58a6ff;
-      --green: #3fb950;
-      --yellow: #d29922;
-    }
+/* Header */
+.header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.header-logo { font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.header-logo span { color: var(--accent); }
+.back-link { color: var(--text2); text-decoration: none; font-size: 13px; margin-right: auto; }
+.back-link:hover { color: var(--text); }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 24px;
-    }
+/* Nav Bar */
+.nav-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.nav-bar label { color: var(--text2); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.nav-bar select, .nav-bar input[type=number] {
+  background: var(--bg3); color: var(--text); border: 1px solid var(--border);
+  padding: 6px 10px; border-radius: 6px; font-size: 13px; outline: none;
+}
+.nav-bar select:focus, .nav-bar input:focus { border-color: var(--accent); }
+.nav-bar select { min-width: 200px; }
+.nav-bar input[type=number] { width: 80px; }
+.btn { padding: 6px 14px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.85; }
+.btn-primary { background: var(--accent); color: #0d1117; }
+.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+.nav-info { color: var(--text2); font-size: 12px; margin-left: auto; }
 
-    .container { max-width: 1000px; margin: 0 auto; }
-    
-    header {
-      margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-    }
+/* Main Layout */
+.main { display: flex; height: calc(100vh - 97px); overflow: hidden; }
 
-    header h1 { font-size: 2.2em; margin-bottom: 8px; color: var(--blue); }
-    header p { color: var(--muted); font-size: 0.95em; }
+/* Left Panel */
+.left-panel { width: 45%; min-width: 320px; border-right: 1px solid var(--border); overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.problem-header { display: flex; align-items: baseline; gap: 8px; }
+.problem-badge { background: var(--accent); color: #0d1117; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+.problem-program { color: var(--text2); font-size: 12px; }
+.problem-statement { line-height: 1.65; color: var(--text); }
+.choices-grid { display: flex; flex-direction: column; gap: 8px; }
+.choice { display: flex; align-items: flex-start; gap: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+.choice-letter { font-weight: 700; color: var(--accent); min-width: 18px; }
+.choice.correct { border-color: var(--green); background: rgba(63, 185, 80, 0.08); }
+.choice.correct .choice-letter { color: var(--green); }
+.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); margin-bottom: 4px; }
+.solution-toggle { background: none; border: 1px solid var(--border); color: var(--text2); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+.solution-toggle:hover { border-color: var(--accent); color: var(--text); }
+.solution-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; line-height: 1.65; color: var(--text2); display: none; margin-top: 8px; }
+.solution-box.open { display: block; }
+.answer-badge { display: inline-block; background: rgba(63, 185, 80, 0.15); color: var(--green); border: 1px solid var(--green); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
 
-    a.back-link {
-      color: var(--blue);
-      text-decoration: none;
-      font-size: 0.9em;
-      margin-bottom: 16px;
-      display: inline-block;
-    }
+/* Right Panel */
+.right-panel { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.oh-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.oh-title { font-size: 15px; font-weight: 700; }
+.oh-badge { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; }
+.oh-search { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none; min-width: 200px; }
+.oh-search:focus { border-color: var(--accent); }
+.oh-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.oh-card-session { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--purple); margin-bottom: 6px; }
+.oh-card-question { line-height: 1.6; color: var(--text); }
+.oh-empty { color: var(--text2); background: var(--bg2); border: 1px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; font-size: 13px; }
 
-    .query-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
-      margin-bottom: 30px;
-    }
+/* Empty state */
+.empty-state { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; gap: 12px; color: var(--text2); }
+.empty-state h2 { color: var(--text); }
 
-    .query-section h2 { font-size: 1.2em; margin-bottom: 20px; color: var(--blue); }
+/* Footer */
+.footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text2); }
+.footer a { color: var(--accent); text-decoration: none; }
 
-    /* Tab styling */
-    .tab-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-    }
+/* Loading */
+.loading { color: var(--text2); text-align: center; padding: 40px; }
 
-    .tab-btn {
-      padding: 10px 15px;
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-weight: 600;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-    }
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-    .tab-btn.active {
-      color: var(--blue);
-      border-bottom-color: var(--blue);
-    }
-
-    .tab-btn:hover { color: var(--text); }
-
-    /* Form styling */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-row > .form-group { margin-bottom: 0; }
-
-    .form-group label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 0.95em;
-    }
-
-    .form-group select,
-    .form-group input,
-    .form-group textarea {
-      padding: 10px 12px;
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 1em;
-      font-family: inherit;
-    }
-
-    .form-group select:focus,
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px #0d1f33;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background-color: var(--green);
-      color: white;
-      flex: 1;
-    }
-
-    .btn-primary:hover { background-color: #2da44e; }
-    .btn-primary:active { transform: scale(0.98); }
-
-    .btn-copy {
-      background-color: var(--blue);
-      color: white;
-    }
-
-    .btn-copy:hover { background-color: #1f6feb; }
-
-    .hidden { display: none !important; }
-
-    .results-section { animation: slideIn 0.3s ease-out; }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .result-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .result-block h3 { color: var(--blue); margin-bottom: 12px; font-size: 1.1em; }
-    .result-block p { margin-bottom: 10px; }
-    .result-block pre {
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 12px;
-      overflow-x: auto;
-      font-size: 0.85em;
-      color: var(--muted);
-    }
-
-    .result-block ul { margin-left: 20px; }
-    .result-block li { margin-bottom: 8px; }
-
-    .source {
-      font-size: 0.85em;
-      color: var(--muted);
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-    }
-
-    .answer-choices {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 15px;
-    }
-
-    .choice {
-      padding: 10px 0;
-      font-size: 0.95em;
-      line-height: 1.5;
-      border-bottom: 1px solid var(--border2);
-    }
-
-    .choice:last-child {
-      border-bottom: none;
-    }
-
-    .choice strong {
-      color: var(--blue);
-      margin-right: 8px;
-      min-width: 20px;
-      display: inline-block;
-    }
-
-    .past-question {
-      background: var(--bg);
-      border-left: 3px solid var(--yellow);
-      border-radius: 4px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-
-    .pq-header { color: var(--yellow); font-size: 0.9em; margin-bottom: 6px; }
-    .pq-text { font-size: 0.95em; line-height: 1.5; }
-
-    .notfound {
-      background: linear-gradient(135deg, var(--surface), var(--bg));
-      border-color: #f85149;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .status {
-      padding: 12px 16px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      font-weight: 500;
-      animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .status.info {
-      background-color: #0d1f33;
-      color: var(--blue);
-      border: 1px solid var(--blue);
-    }
-
-    .status.error {
-      background-color: rgba(248, 81, 73, 0.1);
-      color: #f85149;
-      border: 1px solid #f85149;
-    }
-
-    .status.success {
-      background-color: rgba(63, 185, 80, 0.1);
-      color: var(--green);
-      border: 1px solid var(--green);
-    }
-
-    .extracted-info {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 16px;
-      font-size: 0.9em;
-    }
-
-    @media (max-width: 768px) {
-      .form-row { grid-template-columns: 1fr; }
-      header h1 { font-size: 1.6em; }
-      .buttons { flex-direction: column; }
-      .tab-buttons { flex-wrap: wrap; }
-    }
-    .solution-summary, .solution-video {
-      background: var(--surface2);
-      padding: 12px;
-      margin: 10px 0;
-      border-left: 3px solid var(--green);
-      border-radius: 4px;
-    }
-
-    .solution-steps {
-      line-height: 1.8;
-      margin-top: 8px;
-    }
-
-    .step {
-      margin-bottom: 12px;
-      padding-left: 16px;
-      line-height: 1.6;
-    }
-
-    .step:first-child {
-      margin-top: 8px;
-    }
-  </style>
+@media (max-width: 768px) {
+  .main { flex-direction: column; height: auto; }
+  .left-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+  .nav-bar select { min-width: 150px; }
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="back-link">← Back to Dashboard</a>
 
-    <header>
-      <h1>♠️ Office Hours Prep Notes</h1>
-      <p>Query the knowledge base for problem summaries, solution approaches, and past Q&A. Search by exact problem or paste a student question.</p>
-    </header>
+<div class="header">
+  <a href="https://dashboard.mechanicalpeexamprep.com" class="back-link">← Dashboard</a>
+  <a href="#" class="header-logo">MPEP <span>OH Prep</span></a>
+</div>
 
-    <section class="query-section">
-      <h2>Search Problem</h2>
-      
-      <!-- Tab toggle -->
-      <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab('exact')">Exact Lookup</button>
-        <button class="tab-btn" onclick="switchTab('question')">Ask a Question</button>
-      </div>
-
-      <!-- Mode 1: Exact lookup -->
-      <div id="exact-mode">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="program">Program:</label>
-            <select id="program" onchange="updateModules()">
-              <option value="HVAC">HVAC & Refrigeration</option>
-              <option value="TFS">Thermal & Fluids Systems</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="module">Module/Chapter:</label>
-            <select id="module"></select>
-          </div>
-          <div class="form-group">
-            <label for="problem">Problem #:</label>
-            <input type="text" id="problem" placeholder="e.g., 7, Thermo 7" />
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="btn-primary" onclick="queryExact()">Get Prep Notes</button>
-        </div>
-      </div>
-
-      <!-- Mode 2: Question -->
-      <div id="question-mode" class="hidden">
-        <div class="form-group">
-          <label for="question-text">Paste the student's question:</label>
-          <textarea id="question-text" placeholder="E.g., In an R134a refrigeration cycle, the compressor discharge is 20 psi with 20 degrees of superheat. What's the entropy? Is this HVAC Thermodynamics Problem 7?"></textarea>
-        </div>
-        <div class="buttons">
-          <button class="btn-primary" onclick="queryQuestion()">Find Answer</button>
-        </div>
-      </div>
-    </section>
-
-    <div id="status" class="status hidden"></div>
-
-    <section id="results-section" class="results-section hidden">
-      <div style="margin-bottom: 20px;">
-        <h2 id="result-title" style="color: var(--blue); margin-bottom: 12px;"></h2>
-        <button class="btn-copy" onclick="copyToClipboard()" style="width: auto;">📋 Copy for Slide Notes</button>
-      </div>
-
-      <div id="extracted-info" class="extracted-info hidden" style="margin-bottom: 20px;"></div>
-
-      <div id="summary-block" class="result-block hidden">
-        <h3>Problem Summary</h3>
-        <div id="summary-content"></div>
-      </div>
-
-      <div id="solution-block" class="result-block hidden">
-        <h3>Solution Approach</h3>
-        <div id="solution-content"></div>
-      </div>
-
-      <div id="pastq-block" class="result-block hidden">
-        <h3>Past OH Questions</h3>
-        <div id="pastq-content"></div>
-      </div>
-
-      <div id="keypoints-block" class="result-block hidden">
-        <h3>Key Points to Emphasize</h3>
-        <ul id="keypoints-list"></ul>
-      </div>
-
-      <div id="notfound-block" class="result-block notfound hidden">
-        <p>We don't have information on this problem in our current knowledge base.</p>
-        <p>Try a different problem number or search by module.</p>
-      </div>
-    </section>
+<div class="nav-bar">
+  <div>
+    <label for="sel-program">Program</label><br>
+    <select id="sel-program" onchange="onProgramChange()">
+      <option value="HVAC">HVAC &amp; Refrigeration</option>
+      <option value="TFS">Thermal &amp; Fluid Systems</option>
+    </select>
   </div>
+  <div>
+    <label for="sel-chapter">Module</label><br>
+    <select id="sel-chapter" onchange="onChapterChange()"></select>
+  </div>
+  <div>
+    <label for="inp-num">Problem #</label><br>
+    <input type="number" id="inp-num" min="1" value="1">
+  </div>
+  <div style="padding-top:18px">
+    <button class="btn btn-primary" onclick="loadProblem()">Load</button>
+  </div>
+  <div style="padding-top:18px; display:flex; gap:6px;">
+    <button class="btn btn-secondary" onclick="navPrev()">◀ Prev</button>
+    <button class="btn btn-secondary" onclick="navNext()">Next ▶</button>
+  </div>
+  <div class="nav-info" id="nav-info"></div>
+</div>
 
-  <script>
-    const MODULES = {
-      'HVAC': ['Thermodynamics', 'Fluids', 'Psychrometrics', 'Heat Transfer', 'HVAC', 'Systems & Components', 'Supporting Topics', 'Practice Exam #1', 'Practice Exam #2'],
-      'TFS': ['Thermodynamics', 'Heat Transfer', 'Hydraulic & Fluids Applications', 'Energy & Power Systems', 'Supporting Topics', 'Practice Exam I', 'Practice Exam II']
-    };
+<div class="main">
+  <div class="left-panel" id="left-panel">
+    <div class="empty-state">
+      <h2>Loading problems…</h2>
+      <p>Fetching the index…</p>
+    </div>
+  </div>
+  <div class="right-panel" id="right-panel">
+    <div class="empty-state">
+      <h2>Office Hours History</h2>
+      <p>Select a problem to see past OH questions.</p>
+    </div>
+  </div>
+</div>
 
-    let searchIndex = null;
-    let currentTab = 'exact';
+<div class="footer">
+  <span id="footer-stats">Loading…</span>
+  <a href="https://dashboard.mechanicalpeexamprep.com">← Main Dashboard</a>
+</div>
 
-    // Load index on page load
-    let benchmarkData = null;
+<script>
+let ALL_PROBLEMS = [];
+let currentIdx = -1;
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      console.log('Loading OH Prep search index...');
-      try {
-        const response = await fetch('oh-prep-index.json');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        searchIndex = await response.json();
-        console.log(`✅ Index loaded: ${searchIndex.metadata.problems_indexed} problems`);
-      } catch (err) {
-        console.error('Failed to load index:', err);
-        showStatus(`Could not load search index: ${err.message}`, 'error');
-      }
-
-      // Load benchmark data
-      console.log('Loading benchmark data...');
-      try {
-        const response = await fetch('oh-prep-data.json');
-        if (response.ok) {
-          benchmarkData = await response.json();
-          console.log(`✅ Benchmark data loaded: ${Object.keys(benchmarkData.benchmarks || {}).length} problems`);
-        }
-      } catch (err) {
-        console.warn('Could not load benchmark data:', err);
-      }
-
-      updateModules();
-    });
-
-    // Tab switching
-    function switchTab(tab) {
-      currentTab = tab;
-      const exactBtn = document.querySelectorAll('.tab-btn')[0];
-      const qBtn = document.querySelectorAll('.tab-btn')[1];
-      const exactMode = document.getElementById('exact-mode');
-      const qMode = document.getElementById('question-mode');
-
-      if (tab === 'exact') {
-        exactBtn.classList.add('active');
-        qBtn.classList.remove('active');
-        exactMode.classList.remove('hidden');
-        qMode.classList.add('hidden');
-      } else {
-        exactBtn.classList.remove('active');
-        qBtn.classList.add('active');
-        exactMode.classList.add('hidden');
-        qMode.classList.remove('hidden');
-      }
+// Load data
+fetch('oh-prep-index-v2.json')
+  .then(r => r.json())
+  .then(data => {
+    ALL_PROBLEMS = data.problems;
+    const m = data.meta;
+    document.getElementById('footer-stats').textContent =
+      `${m.total} problems indexed · ${m.with_oh} with OH questions · HVAC: ${m.hvac_count} · TFS: ${m.tfs_count} · Updated ${m.generated}`;
+    populateChapters();
+    // Load first problem
+    const first = getFilteredProblems()[0];
+    if (first) {
+      currentIdx = ALL_PROBLEMS.indexOf(first);
+      renderProblem(first);
     }
+    updateNavInfo();
+  })
+  .catch(err => {
+    document.getElementById('left-panel').innerHTML =
+      '<div class="empty-state"><h2>Error loading data</h2><p>' + err.message + '</p></div>';
+  });
 
-    // Update modules dropdown
-    function updateModules() {
-      const program = document.getElementById('program').value;
-      const moduleSelect = document.getElementById('module');
-      const modules = MODULES[program] || [];
-      
-      moduleSelect.innerHTML = '';
-      modules.forEach(mod => {
-        const option = document.createElement('option');
-        option.value = mod;
-        option.textContent = mod;
-        moduleSelect.appendChild(option);
-      });
-    }
+function getProgram() { return document.getElementById('sel-program').value; }
+function getChapter() { return document.getElementById('sel-chapter').value; }
+function getProblemNum() { return parseInt(document.getElementById('inp-num').value) || 1; }
 
-    // Query by exact problem
-    function queryExact() {
-      if (!searchIndex) {
-        showStatus('Search index still loading...', 'info');
-        return;
-      }
+function getFilteredProblems(program, chapter) {
+  const p = program || getProgram();
+  const c = chapter || getChapter();
+  return ALL_PROBLEMS.filter(x => x.program === p && x.chapter === c);
+}
 
-      const program = document.getElementById('program').value;
-      const module = document.getElementById('module').value;
-      const problem = document.getElementById('problem').value;
+function populateChapters(program) {
+  const p = program || getProgram();
+  const sel = document.getElementById('sel-chapter');
+  const chapters = [...new Set(ALL_PROBLEMS.filter(x => x.program === p).map(x => x.chapter))];
+  sel.innerHTML = chapters.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+}
 
-      if (!program || !module || !problem) {
-        showStatus('Please fill in all fields', 'error');
-        return;
-      }
+function onProgramChange() {
+  populateChapters();
+  document.getElementById('inp-num').value = 1;
+  const probs = getFilteredProblems();
+  if (probs.length > 0) {
+    currentIdx = ALL_PROBLEMS.indexOf(probs[0]);
+    renderProblem(probs[0]);
+  }
+  updateNavInfo();
+}
 
-      showStatus('Searching...', 'info');
-      setTimeout(() => {
-        try {
-          const result = searchByExact(program, module, problem);
-          displayResults(result);
-          hideStatus();
-        } catch (err) {
-          showStatus(`Error: ${err.message}`, 'error');
-        }
-      }, 200);
-    }
+function onChapterChange() {
+  document.getElementById('inp-num').value = 1;
+  const probs = getFilteredProblems();
+  if (probs.length > 0) {
+    currentIdx = ALL_PROBLEMS.indexOf(probs[0]);
+    renderProblem(probs[0]);
+  }
+  updateNavInfo();
+}
 
-    // Query by question
-    function queryQuestion() {
-      if (!searchIndex) {
-        showStatus('Search index still loading...', 'info');
-        return;
-      }
+function loadProblem() {
+  const num = getProblemNum();
+  const probs = getFilteredProblems();
+  const p = probs.find(x => x.problem_num === num);
+  if (p) {
+    currentIdx = ALL_PROBLEMS.indexOf(p);
+    renderProblem(p);
+    updateNavInfo();
+  } else {
+    alert(`Problem #${num} not found in this module. (Max: ${probs.length})`);
+  }
+}
 
-      const questionText = document.getElementById('question-text').value.trim();
-      if (!questionText) {
-        showStatus('Please paste or type a question', 'error');
-        return;
-      }
+function navPrev() {
+  const probs = getFilteredProblems();
+  const posInChapter = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
+  if (posInChapter > 0) {
+    const prev = probs[posInChapter - 1];
+    currentIdx = ALL_PROBLEMS.indexOf(prev);
+    document.getElementById('inp-num').value = prev.problem_num;
+    renderProblem(prev);
+    updateNavInfo();
+  }
+}
 
-      showStatus('Analyzing question...', 'info');
-      setTimeout(() => {
-        try {
-          const result = searchByQuestion(questionText);
-          displayResults(result);
-          hideStatus();
-        } catch (err) {
-          showStatus(`Error: ${err.message}`, 'error');
-        }
-      }, 200);
-    }
+function navNext() {
+  const probs = getFilteredProblems();
+  const posInChapter = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
+  if (posInChapter < probs.length - 1) {
+    const next = probs[posInChapter + 1];
+    currentIdx = ALL_PROBLEMS.indexOf(next);
+    document.getElementById('inp-num').value = next.problem_num;
+    renderProblem(next);
+    updateNavInfo();
+  }
+}
 
-    // Exact search logic
-    function searchByExact(program, module, problem) {
-      const course = program === 'HVAC' ? 'HVAC-Practice' : 'TFS-Practice';
-      const problemKey = `${course}_${module}_${problem}`;
+function updateNavInfo() {
+  const probs = getFilteredProblems();
+  const pos = probs.findIndex(x => ALL_PROBLEMS.indexOf(x) === currentIdx);
+  document.getElementById('nav-info').textContent =
+    pos >= 0 ? `${pos + 1} / ${probs.length} in this module` : `${probs.length} problems in this module`;
+}
 
-      let result = {
-        found: false,
-        program,
-        module,
-        problem,
-        summary: null,
-        solution: null,
-        past_questions: [],
-        key_points: [],
-        source: null,
-        extracted: null,
-      };
+function toggleSolution() {
+  const box = document.getElementById('solution-box');
+  const btn = document.getElementById('solution-toggle');
+  if (box.classList.contains('open')) {
+    box.classList.remove('open');
+    btn.textContent = 'Show Solution ▼';
+  } else {
+    box.classList.add('open');
+    btn.textContent = 'Hide Solution ▲';
+  }
+}
 
-      // Try exact key first
-      if (problemKey in searchIndex.problems) {
-        result.found = true;
-        result.source = `${course} — ${module}`;
-        result.summary = searchIndex.problems[problemKey].summary;
-        result.solution = 'See your practice problem materials for solution details.';
-        if (problemKey in searchIndex.oh_questions) {
-          result.past_questions = searchIndex.oh_questions[problemKey];
-        }
-        result.key_points = ['Review solution methodology', 'Practice similar problems'];
-      } else {
-        // Try label lookup (exact match only)
-        // Labels are stored as lowercase: "problem 1", "thermo 7", "fluids 1", etc.
-        const labelVariations = [
-          `problem ${problem}`.toLowerCase(),  // "problem 1" — most specific
-          `thermo ${problem}`.toLowerCase(),   // "thermo 7"
-          `fluids ${problem}`.toLowerCase(),   // "fluids 1"  
-          `heat transfer ${problem}`.toLowerCase(),  // "heat transfer 5"
-          // DO NOT use "p${problem}" — P1 means position 1, not problem 1
-        ];
-        
-        for (const labelKey of labelVariations) {
-          // Only match if label exists exactly in the labels dict
-          if (labelKey in searchIndex.labels) {
-            const matchKey = searchIndex.labels[labelKey];
-            if (matchKey in searchIndex.problems) {
-              // Verify the matched problem is in the correct module
-              const probData = searchIndex.problems[matchKey];
-              if (probData.module === module) {  // Only return if module matches
-                result.found = true;
-                result.source = `${course} — ${module}`;
-                result.summary = probData.summary;
-                result.solution = 'See your practice problem materials for solution details.';
-                if (matchKey in searchIndex.oh_questions) {
-                  result.past_questions = searchIndex.oh_questions[matchKey];
-                }
-                result.key_points = ['Review solution methodology', 'Practice similar problems'];
-                break;  // Found it!
-              }
-            }
-          }
-        }
-      }
+function filterOH() {
+  const q = document.getElementById('oh-search').value.toLowerCase();
+  document.querySelectorAll('.oh-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
 
-      return result;
-    }
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-    // Question analysis & search
-    function searchByQuestion(questionText) {
-      // Extract metadata
-      const program = extractProgram(questionText);
-      const module = extractModule(questionText, program);
-      const problem = extractProblem(questionText);
+function renderProblem(p) {
+  // Left panel
+  const choicesHtml = Object.entries(p.choices || {}).map(([letter, text]) => {
+    const isCorrect = p.answer && p.answer.toUpperCase() === letter;
+    return `<div class="choice${isCorrect ? ' correct' : ''}">
+      <span class="choice-letter">${escHtml(letter)}</span>
+      <span>${escHtml(text)}</span>
+    </div>`;
+  }).join('');
 
-      let result = {
-        found: false,
-        question: questionText,
-        extracted: { program, module, problem },
-        summary: null,
-        solution: null,
-        past_questions: [],
-        key_points: [],
-      };
+  const solutionHtml = p.solution
+    ? `<button class="solution-toggle" id="solution-toggle" onclick="toggleSolution()">Show Solution ▼</button>
+       <div class="solution-box" id="solution-box">
+         ${p.answer ? `<div class="answer-badge">Answer: ${escHtml(p.answer)}</div>` : ''}
+         <div>${escHtml(p.solution)}</div>
+       </div>`
+    : p.answer
+    ? `<div class="answer-badge">Answer: ${escHtml(p.answer)}</div>`
+    : `<div style="color:var(--text2);font-size:12px;">Solution not yet available.</div>`;
 
-      // Search with extracted info
-      if (program && module && problem) {
-        const exactResult = searchByExact(program, module, problem);
-        if (exactResult.found) {
-          Object.assign(result, exactResult);
-          result.question = questionText;
-        }
-      } else if (program && problem) {
-        // If only program + problem, search all modules
-        const course = program === 'HVAC' ? 'HVAC-Practice' : 'TFS-Practice';
-        
-        // Try label lookup across all modules
-        const labelVariations = [
-          problem.toLowerCase(),
-          `problem ${problem}`.toLowerCase(),
-        ];
-        
-        for (const labelKey of labelVariations) {
-          if (labelKey in searchIndex.labels) {
-            const matchKey = searchIndex.labels[labelKey];
-            if (matchKey in searchIndex.problems && matchKey.startsWith(course)) {
-              result.found = true;
-              result.summary = searchIndex.problems[matchKey].summary;
-              result.solution = 'See your practice problem materials for solution details.';
-              result.source = matchKey.replace(course + '_', '').replace(`_${problem}`, '').replace(`_Problem ${problem}`, '');
-              if (matchKey in searchIndex.oh_questions) {
-                result.past_questions = searchIndex.oh_questions[matchKey];
-              }
-              result.key_points = ['Review solution methodology', 'Practice similar problems'];
-              break;
-            }
-          }
-        }
-      }
+  document.getElementById('left-panel').innerHTML = `
+    <div class="problem-header">
+      <span class="problem-badge">${escHtml(p.program)} · ${escHtml(p.chapter)} · #${p.problem_num}</span>
+    </div>
+    <div>
+      <div class="section-label">Problem Statement</div>
+      <div class="problem-statement">${escHtml(p.statement)}</div>
+    </div>
+    <div>
+      <div class="section-label">Answer Choices</div>
+      <div class="choices-grid">${choicesHtml}</div>
+    </div>
+    <div>
+      <div class="section-label">Solution</div>
+      ${solutionHtml}
+    </div>
+  `;
 
-      return result;
-    }
+  // Right panel
+  const ohQs = p.oh_questions || [];
+  const ohCardsHtml = ohQs.map(q => `
+    <div class="oh-card">
+      <div class="oh-card-session">${escHtml(q.session || 'Office Hours')}</div>
+      <div class="oh-card-question">${escHtml(q.question)}</div>
+    </div>
+  `).join('');
 
-    // Extraction helpers
-    function extractProgram(text) {
-      const lower = text.toLowerCase();
-      if (/hvac|refrigeration/.test(lower)) return 'HVAC';
-      if (/tfs|thermal|fluids/.test(lower)) return 'TFS';
-      return null;
-    }
+  const rightContent = ohQs.length > 0
+    ? `<div class="oh-header">
+        <div>
+          <div class="oh-title">Office Hours History</div>
+        </div>
+        <span class="oh-badge">${ohQs.length} question${ohQs.length !== 1 ? 's' : ''}</span>
+        <input class="oh-search" id="oh-search" type="text" placeholder="Search questions…" oninput="filterOH()">
+      </div>
+      ${ohCardsHtml}`
+    : `<div class="oh-header">
+        <div class="oh-title">Office Hours History</div>
+        <span class="oh-badge">0 questions</span>
+      </div>
+      <div class="oh-empty">No office hours questions recorded for this problem.</div>`;
 
-    function extractModule(text, program) {
-      const lower = text.toLowerCase();
-      const chapters = program === 'HVAC' ? MODULES.HVAC : MODULES.TFS;
-      for (const ch of chapters) {
-        if (lower.includes(ch.toLowerCase())) return ch;
-      }
-      return null;
-    }
-
-    function extractProblem(text) {
-      // Try "problem 11", "Problem 11", "thermo 7", "HVAC 5" style
-      let matches = text.match(/(?:problem|thermo|p)\s*(\d+)/i);
-      if (matches) return matches[1];
-      
-      // Try "Practice Exam 64" style
-      matches = text.match(/practice\s+exam\s+(\d+)/i);
-      if (matches) return `Practice${matches[1]}`;
-      
-      // Try single letter + number like "P7", "T23"
-      matches = text.match(/\b([A-Z])\s*(\d+)\b/);
-      if (matches) return matches[2];
-      
-      return null;
-    }
-
-    // Display results
-    function displayResults(data) {
-      const resultsSection = document.getElementById('results-section');
-      document.querySelectorAll('.result-block').forEach(el => el.classList.add('hidden'));
-      
-      // Title
-      if (data.extracted) {
-        document.getElementById('result-title').textContent = 
-          `${data.extracted.program} — ${data.extracted.module} — Problem ${data.extracted.problem}`;
-        
-        // Show extraction
-        const infoDiv = document.getElementById('extracted-info');
-        infoDiv.innerHTML = `<strong>Extracted from question:</strong> ${data.extracted.program} / ${data.extracted.module} / Problem ${data.extracted.problem}`;
-        infoDiv.classList.remove('hidden');
-      } else {
-        document.getElementById('result-title').textContent = 
-          `${data.program} — ${data.module} — Problem ${data.problem}`;
-        document.getElementById('extracted-info').classList.add('hidden');
-      }
-
-      if (!data.found) {
-        document.getElementById('notfound-block').classList.remove('hidden');
-        resultsSection.classList.remove('hidden');
-        return;
-      }
-
-      // Check for benchmark data FIRST
-      let enhancedData = null;
-      
-      if (benchmarkData && benchmarkData.benchmarks) {
-        // Try to find benchmark using multiple key patterns
-        const benchmarkKeys = [
-          `${data.program}_${data.module}_${data.problem}`,
-          `${data.program}_${data.module.replace(/[&]/g, 'and')}_${data.problem}`,
-          `${data.program}_${data.module.replace(/&/g, '&')}_${data.problem}`
-        ];
-        
-        for (const key of benchmarkKeys) {
-          if (benchmarkData.benchmarks[key]) {
-            enhancedData = benchmarkData.benchmarks[key];
-            console.log(`✅ Found benchmark data for ${key}`);
-            break;
-          }
-        }
-        
-        // Also try reverse-searching by problem content
-        if (!enhancedData && data.problem) {
-          for (const bkey in benchmarkData.benchmarks) {
-            // Extract problem number from benchmark key (e.g., "8" from "HVAC_Thermodynamics_8")
-            const parts = bkey.split('_');
-            const benchProbNum = parts[parts.length - 1];
-            
-            if (benchProbNum === String(data.problem) && 
-                bkey.includes(data.program) && 
-                bkey.includes(data.module.split(' ')[0])) {
-              enhancedData = benchmarkData.benchmarks[bkey];
-              console.log(`✅ Found benchmark data (fuzzy match): ${bkey}`);
-              break;
-            }
-          }
-        }
-      }
-
-      // Solution
-      if (enhancedData && enhancedData.solution) {
-        const sol = enhancedData.solution;
-        
-        // Format summary with line breaks before each step
-        let summarySteps = sol.summary.split(/(?=Step \d+:)/);
-        let stepsHtml = summarySteps
-          .filter(step => step.trim())
-          .map(step => `<div class="step">${escapeHtml(step)}</div>`)
-          .join('');
-        
-        document.getElementById('solution-content').innerHTML = `
-          <div class="solution-summary">
-            <strong>Summary:</strong>
-            <div class="solution-steps">${stepsHtml}</div>
-          </div>
-          ${sol.video_synthesis ? `<div class="solution-video">
-            <strong>Video Approach:</strong>
-            <p>${escapeHtml(sol.video_synthesis)}</p>
-          </div>` : ''}
-          <button onclick="toggleFullSolution()" class="expand-btn">Expand Full Solution</button>
-          <div id="full-solution" class="hidden">
-            <strong>Complete Solution:</strong>
-            <p>${escapeHtml(sol.full)}</p>
-          </div>
-        `;
-        document.getElementById('solution-block').classList.remove('hidden');
-      } else if (data.solution) {
-        document.getElementById('solution-content').innerHTML = 
-          `<p>${escapeHtml(data.solution)}</p>`;
-        document.getElementById('solution-block').classList.remove('hidden');
-      }
-
-      // Summary (use benchmark statement if available)
-      if (enhancedData && enhancedData.problem && enhancedData.problem.statement) {
-        let html = `<p>${escapeHtml(enhancedData.problem.statement)}</p>`;
-        
-        // Add answer choices if available
-        if (enhancedData.problem.choices) {
-          html += '<div class="answer-choices">';
-          for (const [letter, choice] of Object.entries(enhancedData.problem.choices)) {
-            html += `<div class="choice"><strong>${letter}.</strong> ${escapeHtml(choice)}</div>`;
-          }
-          html += '</div>';
-        }
-        
-        document.getElementById('summary-content').innerHTML = html;
-        document.getElementById('summary-block').classList.remove('hidden');
-      } else if (data.summary) {
-        document.getElementById('summary-content').innerHTML = 
-          `<p>${escapeHtml(data.summary)}</p><p class="source">Source: ${escapeHtml(data.source)}</p>`;
-        document.getElementById('summary-block').classList.remove('hidden');
-      }
-
-      // Key points (use benchmark key points if available)
-      if (enhancedData && enhancedData.key_points && enhancedData.key_points.length) {
-        const list = document.getElementById('keypoints-list');
-        list.innerHTML = '';
-        enhancedData.key_points.forEach(p => {
-          const li = document.createElement('li');
-          li.textContent = p;
-          list.appendChild(li);
-        });
-        document.getElementById('keypoints-block').classList.remove('hidden');
-      } else if (data.key_points && data.key_points.length) {
-        const list = document.getElementById('keypoints-list');
-        list.innerHTML = '';
-        data.key_points.forEach(p => {
-          const li = document.createElement('li');
-          li.textContent = p;
-          list.appendChild(li);
-        });
-        document.getElementById('keypoints-block').classList.remove('hidden');
-      }
-
-      // Past Q&A (use benchmark data if available)
-      if (enhancedData && enhancedData.oh_questions) {
-        const content = document.getElementById('pastq-content');
-        content.innerHTML = '';
-        enhancedData.oh_questions.forEach((pq, idx) => {
-          const div = document.createElement('div');
-          div.className = 'past-question';
-          div.innerHTML = `
-            <div class="pq-header"><strong>Q${idx + 1}:</strong> <span class="source">${escapeHtml(pq.source)}</span></div>
-            <div class="pq-q"><strong>Student:</strong> ${escapeHtml(pq.question)}</div>
-            <div class="pq-a"><strong>Dan:</strong> ${escapeHtml(pq.answer)}</div>
-          `;
-          content.appendChild(div);
-        });
-        document.getElementById('pastq-block').classList.remove('hidden');
-      } else if (data.past_questions && data.past_questions.length) {
-        const content = document.getElementById('pastq-content');
-        content.innerHTML = '';
-        data.past_questions.forEach(pq => {
-          const div = document.createElement('div');
-          div.className = 'past-question';
-          div.innerHTML = `
-            <div class="pq-header"><strong>${pq.session}</strong> (${pq.date})</div>
-            <div class="pq-text">${escapeHtml(pq.question)}</div>
-          `;
-          content.appendChild(div);
-        });
-        document.getElementById('pastq-block').classList.remove('hidden');
-      }
-
-      resultsSection.classList.remove('hidden');
-    }
-
-    // Copy to clipboard
-    function copyToClipboard() {
-      const title = document.getElementById('result-title').textContent;
-      let text = `## ${title}\n\n`;
-
-      const summary = document.getElementById('summary-content').textContent;
-      if (summary) text += `**Problem Summary**\n${summary}\n\n`;
-
-      const solution = document.getElementById('solution-content').textContent;
-      if (solution) text += `**Solution Approach**\n${solution}\n\n`;
-
-      const keypoints = document.getElementById('keypoints-list');
-      if (keypoints.children.length) {
-        text += `**Key Points**\n`;
-        Array.from(keypoints.children).forEach(li => {
-          text += `- ${li.textContent}\n`;
-        });
-        text += '\n';
-      }
-
-      const pastq = document.getElementById('pastq-content');
-      if (pastq.textContent.trim()) {
-        text += `**Past OH Questions**\n`;
-        Array.from(pastq.querySelectorAll('.past-question')).forEach(pq => {
-          const header = pq.querySelector('.pq-header').textContent;
-          const qtext = pq.querySelector('.pq-text').textContent;
-          text += `- ${header}: ${qtext}\n`;
-        });
-      }
-
-      navigator.clipboard.writeText(text).then(() => {
-        showStatus('✅ Copied to clipboard!', 'success');
-        setTimeout(hideStatus, 2000);
-      }).catch(err => {
-        showStatus(`Copy failed: ${err.message}`, 'error');
-      });
-    }
-
-    // Status messages
-    function showStatus(msg, type) {
-      const status = document.getElementById('status');
-      status.textContent = msg;
-      status.className = `status ${type}`;
-      status.classList.remove('hidden');
-    }
-
-    function hideStatus() {
-      document.getElementById('status').classList.add('hidden');
-    }
-
-    // Escape HTML
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Enter to submit
-    document.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && (e.target.id === 'problem' || e.target.id === 'question-text')) {
-        if (currentTab === 'exact') queryExact();
-        else queryQuestion();
-      }
-    });
-  </script>
+  document.getElementById('right-panel').innerHTML = rightContent;
+}
+</script>
 </body>
 </html>
