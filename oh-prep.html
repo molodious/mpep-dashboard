@@ -439,8 +439,40 @@ function render(p) {
     </div>`;
   }).join('');
 
+  // Build solution HTML (benchmark-quality version)
   let solutionHtml = '';
-  if (p.solution) {
+  if (p.benchmark && (p.solution_summary || p.solution_full || p.solution_video)) {
+    const ansTag = p.answer ? `<span class="answer-tag">Answer: ${esc(p.answer)}</span>` : '';
+    
+    // Summary section (if available)
+    const summaryHtml = p.solution_summary ? `
+      <div style="background:#f9f9f9;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.6;border-left:3px solid #0066cc;">
+        <strong>Quick Overview:</strong><br>${esc(p.solution_summary)}
+      </div>` : '';
+    
+    // Video synthesis section (if available)
+    const videoHtml = p.solution_video ? `
+      <div style="background:#f0f4ff;padding:12px;border-radius:4px;margin-top:10px;font-size:13px;line-height:1.6;border-left:3px solid #7c3aed;">
+        <strong>📹 Video Solution Synthesis:</strong><br>${esc(p.solution_video)}
+      </div>` : '';
+    
+    // Key points (if available)
+    const keyPointsHtml = p.key_points && p.key_points.length > 0 ? `
+      <div style="background:#fffbf0;padding:12px;border-radius:4px;margin-top:10px;border-left:3px solid #f59e0b;">
+        <strong>Key Points:</strong><br>${p.key_points.map(pt => `• ${esc(pt)}`).join('<br>')}
+      </div>` : '';
+    
+    solutionHtml = `
+      ${ansTag}
+      ${summaryHtml}
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()" style="margin-top:10px;">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">
+        <strong>Detailed Solution:</strong><br><br>${esc(p.solution_full || p.solution || '')}</div>
+      ${videoHtml}
+      ${keyPointsHtml}`;
+  } else if (p.solution) {
     const ansTag = p.answer ? `<span class="answer-tag">Answer: ${esc(p.answer)}</span><br>` : '';
     solutionHtml = `
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Solution ▼</button>
@@ -454,7 +486,7 @@ function render(p) {
   }
 
   document.getElementById('left-panel').innerHTML = `
-    <div class="problem-meta">${esc(p.program)} · ${esc(p.chapter)} · Problem ${p.problem_num}</div>
+    <div class="problem-meta">${esc(p.program)} · ${esc(p.chapter)} · Problem ${p.problem_num}${p.benchmark ? ' ⭐ Premium' : ''}</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">${esc(p.statement)}</div>
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -465,29 +497,35 @@ function render(p) {
     </div>
   `;
 
-  // ── Right Panel ──
-  const ohQs = p.oh_questions || [];
+  // ── Right Panel ── (use full OH questions if available, otherwise raw)
+  const ohQs = p.oh_questions_full || p.oh_questions || [];
   let rightHtml;
 
   if (ohQs.length > 0) {
-    const cards = ohQs.map(q => `
-      <div class="qa-group">
+    const cards = ohQs.map(q => {
+      const hasTheme = q.theme && q.theme !== 'Additional Student Question';
+      const hasAnswer = q.answer && q.answer.includes('[');
+      return `
+      <div class="qa-group" style="margin-bottom:14px;">
+        ${hasTheme ? `<div style="font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">🎯 ${esc(q.theme)}</div>` : ''}
         <div class="qa-session">${esc(q.session)}</div>
         <div class="qa-question"><strong>Q:</strong> ${esc(q.question)}</div>
-      </div>`).join('');
+        ${hasAnswer ? `<div style="margin-top:6px;font-size:12px;color:#555;font-style:italic;">${esc(q.answer)}</div>` : ''}
+        ${q.dan_quote ? `<div style="margin-top:6px;padding:8px;background:#e6f3ff;border-left:2px solid #0066cc;font-size:12px;font-style:italic;color:#1a1a1a;">"${esc(q.dan_quote)}"</div>` : ''}
+      </div>`}).join('');
 
     rightHtml = `
       <div class="oh-section-title">
-        Office Hours History
-        <span class="oh-count">${ohQs.length} question${ohQs.length !== 1 ? 's' : ''}</span>
+        Office Hours Q&A
+        <span class="oh-count">${ohQs.length}</span>
       </div>
-      <p class="oh-subtitle">Student questions asked about this problem in live office hours sessions.</p>
-      <input class="oh-search" id="oh-search" type="text" placeholder="Search questions…" oninput="filterOH()">
+      <p class="oh-subtitle">Common student questions about this problem.</p>
+      <input class="oh-search" id="oh-search" type="text" placeholder="Search…" oninput="filterOH()" style="margin-bottom:12px;">
       ${cards}`;
   } else {
     rightHtml = `
       <div class="oh-section-title">Office Hours History</div>
-      <div class="oh-empty">No office hours questions have been recorded for this problem.</div>`;
+      <div class="oh-empty">No office hours questions have been recorded for this problem yet.</div>`;
   }
 
   document.getElementById('right-panel').innerHTML = rightHtml;
