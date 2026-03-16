@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · HVAC Problem 4 | OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 45%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.summary-box {
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.8;
+  border-left: 3px solid #0066cc;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-theme {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.qa-quote {
+  margin-top: 6px;
+  padding: 8px;
+  background: #e6f3ff;
+  border-left: 2px solid #0066cc;
+  font-size: 12px;
+  font-style: italic;
+  color: #1a1a1a;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 4</span>
+  <span class="nav-badge">⭐ Premium</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">14 OH sessions · Answer: D</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 4 ⭐ Premium</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      During winter operation a 2000 cfm outside air handling unit uses steam to humidify an office. The design outside conditions are 10°F, 50% RH. The inside conditions are maintained at 74°F, 50% RH. How much water is required to humidify for a 24 hour period during design conditions? Neglect internal latent load.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>10 gal</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>110 gal</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>210 gal</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>240 gal ✓</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+
+      <div class="summary-box">
+        <strong>Quick Overview:</strong><br><br>
+        Step 1: Identify psychrometric states. State 1 (outside): 10°F, 50% RH. State 2 (inside): 74°F, 50% RH. The psych chart doesn't go below ~32°F, so use the "Thermodynamic Properties of Moist Air" table below it.<br><br>
+        Step 2: Find humidity ratios. From the table: ω₁ ≈ 0.00065 lb_w/lb_da (half of saturation value at 10°F). From psych chart: ω₂ = 0.00893 lb_w/lb_da.<br><br>
+        Step 3: Find specific volume at entering condition. v₁ = 11.85 ft³/lb (from the moist air table at 10°F).<br><br>
+        Step 4: Calculate mass flow rate of water added. ṁ_w = (V̇/v₁) × (ω₂ − ω₁) = (2000/11.85) × (0.00893 − 0.00065) = 1.4 lb_w/min.<br><br>
+        Step 5: Convert to gallons over 24 hours. Volume = 1.4 lb/min × 60 min/hr × 24 hr × (1 ft³/62.4 lb) × (7.48 gal/ft³) = 242 gal → Answer D (240 gal).
+      </div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">
+        <strong>Detailed Solution:</strong><br><br>Both the inside and outside conditions are fully defined; however, the humidity ratio at the low temperature (outside) condition cannot be looked up on the psychrometric chart in the Reference Handbook. Use the "Thermodynamic Properties of Moist Air" table below the psych charts, or take the humidity ratio outside as approximately zero because air at 10°F can hold very little moisture.
+
+Let the entering air condition be State 1 and the room condition be State 2.
+
+State 1 (Outside): T₁ = 10°F, φ₁ = 50%, ω₁ = 0.00065 lb_w/lb_da ≈ 0, v₁ = 11.85 ft³/lb
+State 2 (Inside): T₂ = 74°F, φ₂ = 50%, ω₂ = 0.00893 lb_w/lb_da
+
+Find the mass flow rate of water vapor being added using:
+ṁ_w = ṁ_a × (ω₂ − ω₁)
+
+where ṁ_a = V̇/v₁ (volume flow rate ÷ specific volume).
+
+Substituting:
+ṁ_w = (V̇/v₁) × (ω₂ − ω₁)
+ṁ_w = (2000 ft³/min ÷ 11.85 ft³/lb) × (0.00893 − 0.00065) lb_w/lb_da
+ṁ_w = 168.8 lb_a/min × 0.00828 lb_w/lb_da = 1.4 lb_w/min
+
+Convert to gallons over 24 hours:
+1.4 lb/min × 60 min/hr × 24 hr × (1 ft³/62.4 lb) × (7.48 gal/ft³) = 242 gal
+
+Answer D (240 gal).
+
+Note: If the humidity ratio at State 1 is taken as zero, the result is overstated by about 7%, but still leads to the correct answer choice.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • <strong>The psych chart doesn't go low enough</strong>: At 10°F, you're well below the ~32°F lower limit of the Reference Handbook's psychrometric chart. Don't panic — use the "Thermodynamic Properties of Moist Air" table just a few pages below.<br><br>
+        • <strong>Three ways to handle the low-temperature humidity ratio</strong>: (1) Use the moist air table — find ω at saturation, take 50% of it. (2) Extrapolate the psych chart — possible but risky and imprecise. (3) Assume ω₁ ≈ 0 — cold air holds almost no moisture, so it's a rounding error. You'll overstate humidification by ~7%, still get the right answer.<br><br>
+        • <strong>The key formula is ṁ_w = ṁ_a × (ω₂ − ω₁)</strong>: Mass flow rate of water = mass flow rate of air × change in humidity ratio. This comes from the definition of humidity ratio and should be memorized.<br><br>
+        • <strong>Convert volume flow to mass flow using specific volume</strong>: ṁ_a = V̇ / v₁. Use the specific volume at the entering (outdoor) condition — that's where you know the volume flow rate.<br><br>
+        • <strong>Unit conversion chain matters</strong>: lb/min → lb/day (×60×24) → ft³/day (÷62.4) → gal/day (×7.48). Each step is straightforward but missing one gives a wrong answer.<br><br>
+        • <strong>Common trap: Using the wrong formula entirely</strong>: Some students reach for 1.08·CFM·ΔT (sensible heat rule of thumb). That's for sensible heating/cooling, NOT humidification. This problem is about adding moisture, not temperature change.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Know where the low-temperature moist air table is: scroll past the three psych charts in the Reference Handbook to find "Thermodynamic Properties of Moist Air." This is essential for temperatures below ~32°F.<br>
+        • Always use the entering condition for specific volume when converting CFM to mass flow rate. Using the wrong state's specific volume is the most common computational error on this problem.<br>
+        • The core formula ṁ_w = ṁ_a × (ω₂ − ω₁) comes directly from the definition of humidity ratio. Memorize it — it appears in nearly every humidification and dehumidification problem.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">8 themes from 14 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions, synthesized by theme.</p>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Finding humidity ratio at very low temperatures — the #1 question on this problem</div>
+      <div class="qa-session">OH 20 (Aug 2021), OH 40 (Jul 2022), OH 64 (Jul 2023), OH 68 (Sep 2023), OH 89 (Oct 2024), OH 105 (Jun 2025), OH 109 (Nov 2025)</div>
+      <div class="qa-question"><strong>Q:</strong> The psychrometric chart only goes down to about 32°F. How do I find the humidity ratio at 10°F and 50% RH?</div>
+      <div class="qa-answer">This comes up on almost every office hours where HVAC-4 is discussed. The psych chart in the Reference Handbook doesn't go low enough, but there's a table called "Thermodynamic Properties of Moist Air" just a few pages below it. That table gives the humidity ratio at saturation (100% RH) for low temperatures. For 50% RH, take half of the saturation value — it's not technically exact, but it's more than close enough. The saturation humidity ratio at 10°F is about 0.0013, so at 50% RH you'd use 0.00065. Alternatively, you can just assume ω₁ ≈ 0 because cold air holds almost no moisture.</div>
+      <div class="qa-quote">"If the air is that cold, then it can barely hold any moisture at all. And it's only holding 50% of what it could if it was saturated. So we can just say that it's a rounding error."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Which specific volume to use — entering vs. leaving conditions</div>
+      <div class="qa-session">OH 49 (Nov 2022), OH 53 (Feb 2023), OH 73 (Jan 2024)</div>
+      <div class="qa-question"><strong>Q:</strong> How do you determine which specific volume of air to use? I used the indoor condition initially and got the wrong answer.</div>
+      <div class="qa-answer">Always use the specific volume that corresponds to where you know the volume flow rate. In this problem, the 2000 CFM is the outside air entering the unit, so use the specific volume at the outdoor (entering) condition — v₁ = 11.85 ft³/lb. If you use the indoor specific volume (~13.5 ft³/lb), you'll underestimate the mass flow rate of air and get a lower answer (~209 gal instead of 242).</div>
+      <div class="qa-quote">"Always use the entering conditions. The sooner you kind of just adopt this method of always using the entering conditions for the specific volume, this is a problem that will go away and things will be very smooth for you."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Using the wrong formula — sensible heat rule of thumb instead of humidification</div>
+      <div class="qa-session">OH 47 (Oct 2022)</div>
+      <div class="qa-question"><strong>Q:</strong> I used Q_s = 1.08 × CFM × ΔT and got 103 gallons. What does that number actually represent?</div>
+      <div class="qa-answer">The 1.08·CFM·ΔT formula is for sensible heating or cooling — it tells you the rate of temperature change, not moisture addition. This problem is about humidification (adding water to air), which is a latent process. The correct approach is ṁ_w = ṁ_a × (ω₂ − ω₁). The broader lesson: before diving into equations, take a moment to frame what the question is actually asking.</div>
+      <div class="qa-quote">"There's no reason to reach for 1.08·CFM·ΔT. The problem was about finding how much water is needed for humidification. Don't be too hasty to reach for an equation and start down a path."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Using the reference handbook humidification equation (Section 9.3.10)</div>
+      <div class="qa-session">OH 71 (Dec 2023)</div>
+      <div class="qa-question"><strong>Q:</strong> I used the humidification load equation from Section 9.3.10 and got 209 gallons instead of 240. Why the discrepancy?</div>
+      <div class="qa-answer">The Section 9.3.10 equation is perfectly valid — it's algebraically equivalent to the solution video approach. The discrepancy came from using ρ = 0.074 lb/ft³ (indoor condition, ~13.5 ft³/lb) instead of the entering outdoor air density. With v₁ = 11.85 ft³/lb (ρ ≈ 0.084 lb/ft³), you'd get the same 242 gallons. Both methods work; the key is using the correct density for the entering condition.</div>
+      <div class="qa-quote">"I have no objection to that equation. I did it a little bit differently because I just think about it on a more intuitive level. I'm always hesitant to just go for a plug-in-chug equation."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Finding specific volume at low temperature — the moist air table has two values</div>
+      <div class="qa-session">OH 89 (Oct 2024), OH 105 (Jun 2025), OH 109 (Nov 2025)</div>
+      <div class="qa-question"><strong>Q:</strong> The table gives specific volume for dry air and saturated air at 10°F. Which one do I use?</div>
+      <div class="qa-answer">At very low temperatures, the difference between specific volume of dry air and saturated air is minuscule — around 0.025 ft³/lb. For 50% RH, you could interpolate halfway, but honestly, just pick either one. Dan used 11.85 ft³/lb. The precision difference is negligible and won't affect your answer choice.</div>
+      <div class="qa-quote">"They're separated by a minuscule amount. If you want to take the average, be my guest. If you want to just eyeball that and pick something in the middle, you're going to be okay either way."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Understanding the humidity ratio formula</div>
+      <div class="qa-session">OH 49 (Nov 2022), OH 53 (Feb 2023)</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain why the mass flow rate of water equals mass flow rate of air times the change in humidity ratio?</div>
+      <div class="qa-answer">It comes directly from the definition of humidity ratio: ω = mass of water / mass of dry air. For a flow process, mass becomes mass flow rate, and the water added is the difference: ṁ_w = ṁ_a × (ω₂ − ω₁). Dimensionally: lb_water/lb_air × lb_air/min = lb_water/min. This formula is used frequently in psychrometrics and should be memorized.</div>
+      <div class="qa-quote">"If you divide the mass flow rate of air to both sides, now you have humidity ratio on one side. The units kind of check out — pounds of water over pounds of air."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Can you assume ω₁ = 0 for very cold air?</div>
+      <div class="qa-session">OH 20 (Aug 2021), OH 64 (Jul 2023), OH 89 (Oct 2024), OH 105 (Jun 2025)</div>
+      <div class="qa-question"><strong>Q:</strong> Is it really okay to just assume the entering humidity ratio is zero? That feels too aggressive.</div>
+      <div class="qa-answer">Yes, for very cold air (like 10°F), the humidity ratio is so small that treating it as zero introduces only about a 7% error — which won't change your answer choice. You'll slightly overstate the humidification requirement, so look for an answer slightly lower than your calculation. Dan recommends getting the actual value when possible, but in a pinch on exam day, ω₁ ≈ 0 is perfectly defensible.</div>
+      <div class="qa-quote">"I'm not encouraging you to just be a cowboy and do whatever you want, but you can do that and a lot of times you'll be okay."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-theme">🎯 Mass flow rate changes during humidification — does that matter?</div>
+      <div class="qa-session">OH 53 (Feb 2023)</div>
+      <div class="qa-question"><strong>Q:</strong> If we're adding water to the air stream, doesn't the mass flow rate change from state 1 to state 2?</div>
+      <div class="qa-answer">Technically yes — ṁ_air,2 = ṁ_air,1 + ṁ_water. But the water addition is less than 1% of the air mass (humidity ratios are in the thousandths). Using the entering condition avoids trial-and-error and the error is negligible. This is another reason to use the entering specific volume — it keeps things clean.</div>
+      <div class="qa-quote">"I don't want to end up in a trial and error situation where I guess what this is, calculate ṁ_a at state 2, if I'm assuming we know the volume flow rate at state 2."</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 4 · 14 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <a href="../oh-prep.html?program=HVAC&chapter=HVAC&problem=4">Open in Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
