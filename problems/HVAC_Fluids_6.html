@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 6 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 6</span>
+  <span class="nav-badge">⭐ 2 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 6</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Bu hr·ft2 12.19 An R-1234yf chiller operates between 50psia on the low pressure side and 150psia on the high pressure side with no subcooling and no superheat. What is the quality of refrigerant entering the evap- orator? 12.20 An outside air handler tempers outside air of 90◦F dry bulb and 80◦F wet bulb using return air at 74◦F and 50% relative humidity using an air-to-air heat exchanger. The heat exchanger e(cid:27)ective- ness is 72%. What is the enthalpy of the air leaving the heat exchanger? lb lb lb lb 6712.21 What is the friction loss for 1000cfm being delivered by a 14in×8in duct? Assume a friction factor of 0.015. 12.22 30lb of 5psig steam is supplied to a heating coil for an air handler hr delivering 1000cfm of outside air. The entering outside air is 50◦F dry bulb and 45◦F wet bulb. The coil bypass factor is 0.1. What is the temperature of the air leaving the heating coil? 12.23 A cooling coil with a sensible capacity of 10tons is designed for a 20◦F delta T. The air handler is installed in a facility at 5000ft elevation and must produce a total static pressure of 2.5inwg. As- suming the fan is 92% e(cid:30)cient, what should be the nominal size of the fan motor? 6812.24 What is the size of a refrigeration system required to freeze 100lbs of raspberries initially at 65◦F to 15◦F in 3hrs? hr hr hr hr 12.25 The top of the waterline of an open cooling tower basin is located 13ft above the centerline of the associated 50gpm condenser wa- ter pump. The entering condenser water for the tower is 92◦F. The outdoor conditions are 68◦F and 60% relative humidity. The cooling tower e(cid:27)ectiveness is 70%. The suction piping between the basin and the condenser pump is comprised of an equivalent length of 25ft of 21/ 2 in standard weight steel pipe. What is the net positive suction head available to the condenser water pump in feet of water? 12.26 On a day with outside conditions of 80◦F dry bulb and 50% relative humidity, a cooling tower operates with an e(cid:27)ectiveness of 70%. The return condenser water enters the tower at 96◦F. What is the approach? 6912.27 An energy e(cid:30)ciency initiative being evaluated for a 2500ton chiller plant running 24/7 is expected to improve the total average annu- alized COP from 4 to 5. The project budget is $800,000. Capital can be borrowed at an interest rate of 5%. Electricity costs are es- timated at $0.14 per kwH. What is the loan duration that should be used if the initiative is required to be cash (cid:29)ow neutral? 12.28 An engineer is specifying a 1000cfm dedicated outside air unit for a 24 hour gym which is to be maintained at 72◦F with 50% relative humidity by supplying 55◦F saturated supply air. The average outdoor conditions for the region are 88◦F and 55% rela- tive humidity. The unit manufacturer o(cid:27)ers an option to include an enthalpy wheel with 60% e(cid:27)ectiveness for an additional cost of $10,000. If it costs the tenant $0.50 per ton hour to produce chilled water, what is the simple payback for the enthalpy wheel? Neglect maintenance and assume installation and commissioning add no additional upfront cost. 7012.29 A low-stage refrigeration system using R-22 operates with a satu- rated suction temperature of −50◦F and a discharge temperature of 10◦F. The discharge line is a 13/ 8 in type L copper tube with a length of 100ft. What is the capacity of the discharge line? 7113 Supporting Topics 13.1 Machine A produces a sound pressure of 58dB, and machine B pro- duces a sound pressure of 52dB. What is the combined sound pres- sure? 13.2 The background noise in an o(cid:30)ce has a sound pressure level of 38dB. An overhead fan coil unit with a sound pressure level of 43dB turns on. What is the combined sound pressure level? 13.3 Four identical fans produce a combined sound pressure level of 90dBA as measured at a point that is equidistant from each fan. What is the sound pressure level if three fans are shut down? 7213.4 The background noise in a factory prior to any equipment turning on has a sound pressure level of 40dB. Once the equipment is oper- ating, the sound pressure level is 46dB. What is the sound pressure level attributable to the machinery only? 13.5 The octave band measurements of a fan are: 63Hz, 64dB; 125Hz, 67dB; 250Hz, 63dB; 500Hz, 63dB; 1000Hz, 59dB; 2000Hz, 54dB; 4000Hz, 50dB; 8000Hz, 46dB. What is the NC rating? 13.6 A 5000lb machine rotates at 1800rpm and is mounted on vibration m lb isolators with a combined sti(cid:27)ness of 40,000 f. In parallel with the in springs, a damper has been included. The damping ratio is 0.3. An unbalanced force of 2000lb is caused by the machine. What is the f maximum force transmitted through the base? f f f f 13.7 A 1.5in diameter steel shaft (E = 2.9 × 107psi) is 4ft long and sup- ported by two frictionless bearings at its ends. A 200lb (cid:29)ywheel is m mounted on the center of the shaft. The shaft weight is negligible and there is no damping. What is the critical speed of the shaft? 7313.8 A 200lb compressor rotates at 1750rpm and generates a disturbing m force due to unbalance during each rotation. The compressor is mounted on 4 identical, equally loaded springs at the corners of its base. What individual spring sti(cid:27)ness is required to limit the transmitted force to 70% of the disturbing force? 10,000lbf in 15,000lbf in 17,000lbf in 41,000lbf in 13.9 A 3in diameter steel threaded rod (Poisson’s Ratio = 0.3) has been 8 installed to support a 300lb load to be hung 4ft below. The lateral strain on the rod is −0.1%. How much will the rod elongate when the load is added? 7413.10 The handle of a large manual valve is secured with a square bolt pattern, as shown. The handle is 18in long and the force applied to the end of the handle during valve opration is 30lb . The bolts have f a nominal diameter of 1/ 4 in and a cross-sectional area of 0.03in2. When the valve is being closed, which statement can be made about the shear stress experienced by the bolts? 13.11 A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i (cid:28)lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a speci(cid:28)c weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum de(cid:29)ection of the in2 pipe? 7513.12 The displacement of a hydraulic press is 3in3 per revolution and the pump speed is 1800rpm. The hydraulic pressure is 600psig. The positive displacement pump is 80% e(cid:30)cient and is driven by a 3- phase, 208V AC motor that is 95% e(cid:30)cient. The power factor is 0.9. What size circuit breaker should be selected to protect the system? 13.13 90◦F, 20% relative humidity air is cooled using a 75% e(cid:27)ective evaporative cooler. What is the temperature of the air after being cooled? 13.14 A company is considering whether to invest in a piece of equipment that will have an initial cost of $100,000 and will produce $50,000 per year in revenue for the next 3 years before maintenance costs and taxes. Maintenence will cost $5000 per year. The tax rate is 30% and straight line depreciation is used for the equipment. The equipment has a salvage value of $20,000 to be realized at the end of year 3. What is the present value of the initiaitve using a 10% rate of return? 7613.15 A company purchases a factory for $1M. The factory will generate a gross annual revenue of $140K and incur annual expenses of $60K. The facility has an expected life of 20 years and no salvage value. Assuming straight-line depreciation and a 30% e(cid:27)ective tax rate, what is the after tax rate of return if the company sells the factory for $800K and exits the investment after 5 years? Ignore tax implications of capital losses at the time of sale. 13.16 A project has an initial cost of $200K and generates $30K per year in net pro(cid:28)ts. After 15 years there is a salvage value of $40K. What is the return on investment for the project? 13.17 A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>7.8%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>14.2%</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>15.1% ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>16.0%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">2gpm during peak rainfall. The channel is 6in wide and is pitched such that the height of the (cid:29)owing water is 2in. Assuming 60◦F rainwater, what is the friction factor for the gutter? A. 0.01 B. 0.02 C. 0.04 D. 0.08 OftentimeswhenaskedtofindthefrictionfactorisitappropriatetousetheDarcyEquation,which is fairly accurate over a wide range of turbulent and laminar (cid:29)ow situations. However, if the (cid:29)ow is determined to be laminar, it may be more convenient to use the equation where f is specified directly as a function of the Reynolds number. This formula is shown on the Moody Diagram: f = 64 where Re&lt;2000. Re For open channel (cid:29)ow, find the hydraulic diameter via the formula below. Note the use of the hydraulic diameter and not the equivalent diameter which is reserved for closed rectangular ducts. 4A (4)(6in)(2in) 48in2  1ft  D = = = =4.8in =0.4ft h P [(2)(2in)+6in] 10in 12in wetted Find the velocity of the water (cid:29)ow by using the volume (cid:29)ow rate and the cross-sectional area of the (cid:29)ow:  2gallons (cid:0)1min(cid:1) 1ft3  Q min 60sec 7.48gallons ft Q=vA→v = = =.0535   A [(6in)(2in)] 1ft2 sec 144in2 Lookup the kinematic viscosity @60◦F by searching properties of water: ft2 ν =1.217×10−5 sec Calculate the Reynolds Number and conclude the (cid:29)ow is laminar.   .0535ft (.4ft) vD sec Re= = =1758&lt;2000(laminar)   ν 1.217×10−5ft2 sec Calculate the friction factor for laminar (cid:29)ow: 64 64 f = = =.036 Re 1758 Answer C 191</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Fluids number 6, a residential gutter with a rectangular cross section transports 2GPM during peak rainfall. The channel is 6 inches wide and is pitched such that the height of the flowing water is 2 inches. Assuming 60 degree rain water, what is the friction factor for the gutter? So what&#x27;s interesting about this problem right off the bat is that we have a gutter so it&#x27;s an open channel. It&#x27;s this 6 inch wide channel. It&#x27;s not a round pipe. So some of the things that we already know about how to find the friction factor are still applicable, but one of the typical first steps is to find the diameter. And we&#x27;re not going to be able to do that if we have a rectangle.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • If you ever encounter a low Reynolds number, we have to remember that it may be laminar or it may be in the transition range between laminar and turbulent.<br>
+        • Fluids number 6, a residential gutter with a rectangular cross section transports 2GPM during peak rainfall.<br>
+        • The channel is 6 inches wide and is pitched such that the height of the flowing water is 2 inches.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">2 sessions</span>
+    </div>
+    <p class="oh-subtitle">This problem was discussed in 2 office hours session(s), but no specific Q&A was extracted.</p>
+    <div class="qa-group">
+      <div class="qa-session">Sessions covering this problem:</div>
+      <div class="qa-answer">OH 95 OH 103 </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 6 · 2 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 1 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 1</span>
+  <span class="nav-badge">⭐ 5 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: C</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 1</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      14.64 A centrifugal pump consumes 200hp when operating at 1800rpm. What is the electrical power demand when the pump speed is reduced to 1200rpm? Assume 100% motor e(cid:30)ciency. 14.65 During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90◦F entering air to 65◦F. The unit uses 56◦F supply chilled water to drive the coil temperature to an apparatus dew point of 60◦F. The coil is designed for a maximum air side delta T of 25◦F. After an increase in heat load, the same unit is met with 95◦F return air. In order to stay safely within the coil’s temperature limits, operators raise the chilled water supply temperature to 63◦F such that the apparatus dew point becomes 67◦F. What is the expected discharge air temper- ature based on the new operating conditions?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>6</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>59KW</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>66KW ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>89KW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">ft3 What is the kinematic viscosity of blood? A. 1.0×10−6ft2 s B. 2.3×10−6ft2 s C. 3.4×10−5ft2 s D. 1.1×10−3ft2 s Look up kinematic viscosity and dynamic viscosity in the reference handbook and use the formula: µ ν = ρ where ν is kinetic viscosity, µ is dynamic viscosity, and ρ is density. The dynamic viscosity has been given in units of cP. For the final answer to be in the desired units, convert the dynamic viscosityto lbf·sec . Usetheconversionfactorsinthereferencehandbookbysearchingmeasurement ft2 relationships as necessary.  0.001Pa·sec (cid:32) 14.7lbf (cid:33) 144in2 lb ·sec µ=(3.3cP) in2 =6.9×10−5 f 1cP 101,325Pa 1ft2 ft2 Apply the kinematic viscosity formula. In order to eliminate lb and lb from the units, it is m f 32.2lbm·ft necessary to multiply by sec2 , an expression that is equal to 1. 1lbf µ (cid:32) 6.9×10−5lbf·sec(cid:33)(cid:32) 32.2lbm·ft (cid:33) ft2 ν = = ft2 sec2 =3.4×10−5 ρ 66.2l f b t m 3 1lb f sec Answer C 186</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Welcome to Mechanical PE exam prep, Extra Practice Module on Fluids on Dan Malay. As with all the Extra Practice modules in this series, the purpose is to hit all the most important topics from every direction and give you lots of variety in repetition until you can&#x27;t miss. And ultimately save you time and stress as you study for the PE exam. Let&#x27;s jump right into the first problem. Fluids 1. Blood has a dynamic viscosity of 3.3 CP and a density of 66.2 pounds mass per cubic foot. What is the kinematic viscosity of blood? So a couple of things to note here to get started. First of all, what is CP? If that&#x27;s not a unit you&#x27;re familiar with, we&#x27;ll have to figure that out. And then the density of water is 62.4. So blood is apparently a bit more dense if this is accurate.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • As with all the Extra Practice modules in this series, the purpose is to hit all the most important topics from every direction and give you lots of variety in repetition until you can&#x27;t miss.<br>
+        • If you are watching this in 2019 and you&#x27;re taking the PE exam paper and pencil, you can certainly use these questions as extra practice with the only caveat being that the formulas you use may be slightly different.<br>
+        • And this is the formula that we&#x27;re going to use viscosity kinematic viscosity equals absolute viscosity divided by the density.<br>
+        • If you don&#x27;t remember, 101,325 is the number of Pascal&#x27;s in 1 atmosphere.<br>
+        • And I find this difficult to remember sometimes.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&A
+      <span class="oh-count">7 questions from 5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 04</div>
+      <div class="qa-question"><strong>Q:</strong> Is there something I&#x27;m missing?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 26</div>
+      <div class="qa-question"><strong>Q:</strong> How did you know you used standard steel pipe?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 38</div>
+      <div class="qa-question"><strong>Q:</strong> Why do we need to use the Pascal second conversion in the context of this problem?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 55</div>
+      <div class="qa-question"><strong>Q:</strong> How does that line up with?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 80</div>
+      <div class="qa-question"><strong>Q:</strong> It went from CP straight to pound mass per hour foot Is there something fundamentally wrong with this application?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 88</div>
+      <div class="qa-question"><strong>Q:</strong> 419 pound per hour foot conversion here?</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 99</div>
+      <div class="qa-question"><strong>Q:</strong> Am I supposed to use gravity and not the constant?</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 1 · 5 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>

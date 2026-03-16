@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 23 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 23</span>
+  <span class="nav-badge">⭐ 4 OH lessons</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions · Answer: B</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 23</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      500lbm of superheated steam at 900◦F and 500psia enters a turbine hr and expands to atmospheric pressure. The turbine is 70% e(cid:30)cient and powers a 90% e(cid:30)cient generator. What is the output power? 228 Fluids 8.1 Blood has a dynamic viscosity of 3.3cP and a density of 66.2lbm . ft3 What is the kinematic viscosity of blood? 1.0×10−6ft2 s 2.3×10−6ft2 s 3.4×10−5ft2 s 1.1×10−3ft2 s 8.2 A pump delivers 200gpm of water at 130ft of total dynamic head, operating from 7am-7pm Monday through Friday. The pump is 80% e(cid:30)cient and the motor is 93% e(cid:30)cient. What is the annual cost of operation at $0.13 per kWh? 8.3 900gpm of water (cid:29)ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe? 8.4 30gpm of 120◦F water (cid:29)ows through a nominal 11/ 2 in schedule 40 steel pipe. What is the Reynolds number? 238.5 A pump designed to operate at 100gpm and 50ft of head is determined to be oversized. The pump’s impeller diameter is decreased by 20%. What is the resulting pressure developed by the pump after this change? 8.6 A residential gutter with a rectangular cross section transports 2gpm during peak rainfall. The channel is 6in wide and is pitched such that the height of the (cid:29)owing water is 2in. Assuming 60◦F rainwater, what is the friction factor for the gutter? 8.7 A tee connection receives 4gpm of water from a 3/ 4 inch schedule 40 steel pipe and 3ft of water from a 11/ 4 in schedule 40 steel pipe. Water s exits into a 11/ 2 in schedule 40 steel pipe. What is the velocity in the outlet pipe? Ignore friction loss. s s s s 248.8 What is the kinematic viscosity of 140◦F air at 50psia? 1×10−5ft2 s 5×10−5ft2 s 6×10−5ft2 s 3×10−3ft2 s 8.9 50gpm of cold water at 60◦F enters a 100ft tall building via 3in sched- ule 40 steel supply piping. Street pressure prior to the service en- trance to the building is 85psig. The equivalent length of piping on the longest run to the top (cid:29)oor is 500ft. What pressure is available to (cid:28)xtures on the top (cid:29)oor? 8.10 A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coe(cid:30)cient of C = 130. The minimum required pressure for all (cid:28)xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 258.11 What is the friction loss per hundred feet for 800gpm of 80◦F water (cid:29)owing through an 8in nominal schedule 40 steel pipe? 8.12 200gpm of 90◦F water (cid:29)ows through 500ft of 4in nominal schedule 40 steel pipe, with a discharge that is 30ft higher than the entrance. The pipe contains the following (cid:29)anged welded pipe (cid:28)ttings: (4) 90(cid:176) elbows, (2) 90(cid:176) long radius elbows, (2) gate valves, and (1) globe valve. What is the pressure di(cid:27)erence between the two ends of the pipe? 8.13 Room temperature atmospheric air (cid:29)ows at 100ft in a 400ft long s nominal 3in schedule 40 threaded steel pipe containing (12) 90(cid:176) long radius elbows and (2) gate valves. Air leaves the pipe at an elevation 200ft lower than the pipe inlet. What is the pressure di(cid:27)erence between the two ends of the pipe? 268.14 10,000gal of fuel oil with a speci(cid:28)c gravity of 0.86 is delivered to an hr emergency generator by a 90% e(cid:30)cient pump. The pressure gauge near the pump inlet reads −2.0inHg. The pressure gauge on the discharge side of the pump reads 30psig and is located 10ft above the pump. What is the input power to the pump? 8.15 20,000gpm of water (cid:29)ows through a turbine in a hydroelectric power application. The inlet pressure is 50psig and the exit pressure is 1atm. The turbines have an overall e(cid:30)ciency of 80%. What is the electrical capacity of the hydroelectric plant? 8.16 A 1600rpm centrifugal pump with an 8in impeller requires
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>350KW</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>435KW ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>470KW</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>540KW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">hr and expands to atmospheric pressure. The turbine is 70% efficient and powers a 90% efficient generator. What is the output power? A. 29KW B. 33KW C. 36KW D. 52KW The energy delivered by the turbine generator is a function of the enthalpy given up by the steam during expansion in the turbine, the turbine efficiency, and the generator efficiency. To start, bring up the steam table in the reference handbook by searching for Properties of Superheated Steam and Properties of Saturated Water (Pressure) and determine the enthalpy entering and leaving the turbine. Call the entering condition State 1 and the leaving condition State 2. State 1, The superheated steam is fully defined since the temperature and pressure are known. In addition to the enthalpy, note the entropy for State 1. T =900◦F 1 P =500psia 1 Btu h =1466.9 1 lb Btu s =1.699 1 lb◦F State 2, Start by assuming isentropic (ideal) expansion in the turbine. Use the entropy to determine the quality, and use the quality to determine the enthalpy for State 2 ideal. In the subsequent step we will distinguish State 2 actual. P =14.7psia 2 Btu s =s =1.699 2 1 lb◦F Btu Btu s =0.3122 ; s =1.4443 f lb◦F fg lb◦F s −s 1.699Btu −0.3122Btu χ = 2 f = lb◦F lb◦F =0.96 2 s 1.4443Btu fg lb◦F Btu Btu h =180.2 ; h =970.1 f lb fg lb 184   Btu Btu Btu h =h +χ h =180.2 +(0.96) 970.1 =1111.7 2 f 2 fg lb lb lb Unlike with a compressor or a pump, a turbine efficiency is the ratio of the actual energy that comes out divided by the energy that goes in. Since the goal is to produce output power, a less efficientturbinewillputoutlessthanitcouldifitwere100%efficient. Therefore, wecanwritethe turbine efficiency and calculate the actual change in enthalpy for the expansion process. ∆h h −h(cid:48) η = actual = 1 2 t ∆h h −h ideal 1 2 ∆h Btu 0.7= actual →∆h =248.7 (cid:0) 1466.9Btu −1111.7Btu(cid:1) actual lb lb lb Finally,usetheknownmass(cid:29)owrateandthechangeinenthalpytodetermine</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        Thermal 23, 500 pounds per hour of superheated steam at 900 degrees and 500 psi a enters a turbine and expands to atmospheric pressure. The turbine is 70% efficient and powers a 90% efficient generator was the output power. So we know the mass flow rate of steam and we know the temperature and pressure entering the turbine. And then we know the efficiency of the turbine and the efficiency of the generator that the output shaft of the turbine is then powering and we want to know the overall output power. So let&#x27;s draw a little sketch. We haven&#x27;t talked about turbines yet, but it is an important part of thermodynamics. So we will just sketch this out.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • We haven&#x27;t talked about turbines yet, but it is an important part of thermodynamics.<br>
+        • Thermal 23, 500 pounds per hour of superheated steam at 900 degrees and 500 psi a enters a turbine and expands to atmospheric pressure.<br>
+        • The turbine is 70% efficient and powers a 90% efficient generator was the output power.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">4 sessions</span>
+    </div>
+    <p class="oh-subtitle">This problem was discussed in 4 office hours session(s), but no specific Q&A was extracted.</p>
+    <div class="qa-group">
+      <div class="qa-session">Sessions covering this problem:</div>
+      <div class="qa-answer">OH 15 OH 56 OH 63 OH 95 </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 23 · 4 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
