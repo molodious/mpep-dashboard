@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy &amp; Power System Applications · Problem 3 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Energy &amp; Power System Applications · Problem 3</span>
+  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH Coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Energy &amp; Power System Applications · Problem 3</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      1000 lb of saturated liquid water at atmospheric pressure enters a min closed feedwater heater and exits as saturated steam after being heated at constant pressure. The heat source is superheated steam at 100psia and 500◦F, which exits as a saturated liquid after constant pressure cooling. What is the volume (cid:29)ow rate of saturated liquid water exiting the feedwater heater from the heating stream? 51
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>17gpm</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>131gpm ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>680gpm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1300gpm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">min closed feedwater heater and exits as saturated steam after being heated at constant pressure. The heat source is superheated steam at 100psia and 500◦F, which exits as a saturated liquid after constant pressure cooling. What is the volume (cid:29)ow rate of saturated liquid water exiting the feedwater heater from the heating stream? A. 17gpm B. 131gpm C. 680gpm D. 1300gpm Consider the entering saturated liquid as State 1, the leaving saturated steam as State 2, the entering superheated steam as State 3, and the leaving saturated liquid as State 4. Since the feedwater heater is closed, there is no mixing between of the stream from 1 to 2 with the stream from 3 to 4. All states are fully defined. Write the energy balance for the feedwater heater. Q˙ =Q˙ in out m˙ h +m˙ h =m˙ h +m˙ h 1 1 3 3 2 2 4 4 Since the streams are kept separate, m˙ =m˙ , and m˙ =m˙ . Substitute for m˙ and m˙ . Then 1 2 3 4 2 3 solve for m˙ . 4 m˙ h +m˙ h =m˙ h +m˙ h 1 1 4 3 1 2 4 4   h −h m˙ =m˙ 2 1 4 1 h −h 3 4 Use the Saturated Water and Steam table to obtain the enthalpies at States 1, 2, and 4. Also obtain the specific volume for State 4 for use in the subsequent step. Use the Superheated Steam table the obtain the enthalpy for State 3. Evaluate m˙ . 4 (cid:32) (cid:33) lb 1150.25Btu −180.18Btu lb m˙ =1000 lb lb =989 4 min 1279.5Btu −298.51Btu min lb lb Use the specific volume to find the volume (cid:29)ow rate at State 4. Convert units to gpm. lb  ft3 7.48gal  Q =m˙ v =989 0.0177 =130.9gpm 4 4 4 min lb ft3 Answer B 299</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Walkthrough:</strong><br><br>
+        A thousand pounds per minute of saturated liquid water at atmospheric pressure enters a closed-feed water heater and exits as saturated steam after being heated at constant pressure. The heat source is super heated steam at a hundred PSIA and 500 degrees, which exits as a saturated liquid after constant pressure cooling. What is the volume flow rate of saturated liquid water exiting the feed water heater from the heating steam or the heating stream rather? It is steam. It&#x27;s a stream of steam. So the only way to really unpack questions like this are to draw a picture.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • So there&#x27;s different ways to draw a closed-feed water heater, but I&#x27;m just going to stick with the basic heat exchanger model with the understanding that I think the key thing to recognize here is that these streams do not mix and that comes out of the fact that it&#x27;s a closed-feed water heater.<br>
+        • 7 PSIA and we also know that it saturated liquid water saturated liquid that&#x27;s important.<br>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title" style="border-bottom-color:#ccc;">
+      Office Hours Q&A
+      <span class="oh-count" style="background:#f0f0f0;color:#888;">Not Yet Covered</span>
+    </div>
+    <p class="oh-subtitle">This problem hasn't been discussed in office hours yet. Check back after future sessions!</p>
+    <div style="text-align:center;padding:40px;color:#ccc;font-size:48px;">📋</div>
+    <p style="text-align:center;color:#999;font-size:13px;">No office hours Q&A available for this problem.</p>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Energy &amp; Power System Applications · Problem 3 · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+</body>
+</html>
