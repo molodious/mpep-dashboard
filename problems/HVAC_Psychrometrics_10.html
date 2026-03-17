@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 10 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 10</span>
+  <span class="nav-badge">⭐ 7 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">7 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 10</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the specic heat capacity of atmospheric air at 90°F dry bulb and 70°F wet bulb? lbm°F lbm°F lbm°F lbm°F 34
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.238 Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.240 Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.242 Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.245 Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+Psychometric problem 10. What is the specific ecapacity of atmospheric air at 90 degrees dry bulb and 70 degrees web bulb? Well, moist air is a mixture of dry air and water vapor. So the specific ecapacity of moist air is a weighted average of mixing together those two contributing components. Now most of the air is dry air. So the specific ecapacity of dry air is 0.24 B2 is per pound but the specific ecapacity of water vapor is higher than that. It&#39;s about 0.45 and that&#39;s the number that we can look up but that&#39;s going to have the net effect of dragging up the specific ecapacity of moist air above 0.24. How much above 0.24 maybe not very much maybe not enough to make a difference so it might not get from B to C it may still round off to be we&#39;ll find out but we can be confident that it&#39;s not going to drag the specific ecapacity down so we can eliminate choice a right off the bat and we can explore it with a little more rigor whether it&#39;s going to be B, C or D but we should expect that the specific ecapacity of this mixture and you really have to think of moist air as a mixture of dry air and water vapor that&#39;s going to be a function of the specific ecapacity of dry air the specific ecapacity of water vapor and the relative masses of the two so the mass of dry air and the mass of water vapor all of those factors taken together are what will drive the specific ecapacity of this mixture so let&#39;s start with the psychometric chart and we&#39;ll use the humidity ratio as a way of figuring out what the relative masses are of dry air to water vapor and I&#39;ll show you what I mean by that so we know the wet bulb and dry bulb temperature the dry bulb temperature is 90 degrees Fahrenheit and the wet bulb temperature is 70 degrees Fahrenheit so we&#39;ll take those two together we&#39;ll go to the psychometric chart and we&#39;ll look up the humidity ratio for that condition 90 and 70 90 is here and 70 is here so the corresponding humidity ratio then horizontally to the right is about 0,0112 let&#39;s say I also have a lot of one one two let&#39;s say I also use the psychometric calculator just to get that extra precise totally understand if you don&#39;t have that level of precision when you&#39;re just pulling the number off the chart but that&#39;s okay probably not needed for most cases and that has units of pounds of water per pound of dry air so what does that really mean well let&#39;s imagine we have a box and that box is a mixture of this kind of air and it has exactly one pound of dryer then if has this humidity ratio there must be along with that dryer 0,0112 pounds of water such that the total mass in the box is the sum 1.0 1,1,2 that&#39;s the total mass so most of the mass is made up of dryer but there&#39;s a little bit of water vapor and that can have an effect on the specific heat capacity so now let&#39;s turn this into a mass fraction of water and a mass fraction of air so the mass fraction of water vapor is going to be the mass of water vapor 0,1,1,2 divided by the total mass which is 1 plus 0,1,1,2 so that&#39;s 1.0,1,1,2 and that works out to 1.1 percent not surprising you can almost do that in your head and then in a similar manner the mass fraction of dry air is going to be 1 over 1.0,1,1,2 which works out to 0.98,9 percent which is not surprising you could do 100 percent minus 1.1 and that would get you 98.9 as well so now that we have those mass fractions we can do a mixing calculation and say that the specific heat capacity of this mixture is equal to 0.24 and this has units of BTU propound degrees Fahrenheit which I&#39;m going to skip because we&#39;ll do everything in the same units times the mass fraction of dry air 0.989 plus the specific heat capacity of water vapor which if you don&#39;t know that number off the top of your head check out the reference handbook and search specific heat of water vapor and that takes us right to this value here 0.45 so good one to memorize if you can but the corresponding mass fraction for that water vapor is very small it&#39;s only 1.1 percent...</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • What is the specific ecapacity of atmospheric air at 90 degrees dry bulb and 70 degrees web bulb.<br><br><br><br>• Well, moist air is a mixture of dry air and water vapor.<br><br><br><br>• So the specific ecapacity of moist air is a weighted average of mixing together those two contributing components.<br><br><br><br>• So the specific ecapacity of dry air is 0.24 B2 is per pound but the specific ecapacity of water vapor is higher than that.<br><br><br><br>• It&#39;s about 0.45 and that&#39;s the number that we can look up but that&#39;s going to have the net effect of dragging up the specific ecapacity of moist air a.<br><br><br><br>• How much above 0.24 maybe not very much maybe not enough to make a difference so it might not get from B to C it may still round off to be we&#39;ll find .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">7 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 80 · May 13th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 80</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 10. What is the specific heat capacity of atmospheric air at 90 degrees dry and 70 degrees Wepple based on the answer choices and the CP of air and standard conditions I realized the answer could not be 0.24 B2 per pound degree Fahrenheit or anything lower so I eliminated a and b I tried using the formula in the handbook on their nine dot one dot seven for sensible heat gain Where QS is 60 times 0.075 times 0.24 plus 0.45 W Times sensible heat times delta T. I found the humidity ratio at 90 degrees drybulb 70 degrees Wepple and Try to find the specific heat capacity using the 0.24 plus 0.45 times humidity ratio term But I got 0.245 and I got answered choice D. Why is this approach wrong? I would think the humidity ratio time CP of water vapor would make sense since dry air has a CP of 0.24 Is there a case where my approach would be valid? I love this question. This is a great question and I&#39;m really glad you asked it. I don&#39;t know that I have satisfying answer to it, but yeah, it&#39;s first of all It&#39;s a brilliant idea to take and use the piece of that formula that basically says this Exactly what you did 0.24 plus so 0.24 is the specific heat capacity of dry air as you </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> The rate of heat removed from the air is most nearly what?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics, can you please explain why the rule of thumb, Q equals 4.5 CFM Delta H, doesn&#39;t work here. It&#39;s dehumidifying and removing heat. Thanks. Dehumidifier takes 5,000 CFM of air at 95 dribbled and 70 relative humidity and discharges at 60 dribbled and 95 relative humidity. The dehumidifier uses a wet R12 refrigeration cycle, operating between 100 saturated and 50 degrees. The rate of heat removed from the air is most nearly what? So, it&#39;s a fair question. Why wouldn&#39;t 4.5 CFM Delta H work? It&#39;s dehumidifying and removing heat. So, let&#39;s take a look. We have it here on Psychometric. It is going from 1 to 2. Clearly, cooling as we go to the left and dehumidifying as we go down. So, we should be able to use the real thumb. Before we look at the details of the problem, does anybody want to throw out a suggestion or a guess? Where might things go a little bit off if we use this real thumb? Before you even go, it was just in your gut before we really look at it. What comes to mind? Specific volume, maybe? Specific volume. Why do you say that? Because of various with temperature. Yeah, it varies with temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 59</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-45679321
+
+Okay, first one&#39;s kind of a general question of systems and components Explain how effectiveness is calculated in ERVs and HRVs so this pretty common question that comes up Distinguishing energy recovery from heat recovery So he recovery would be something like an air-to-air heat exchanger where we have the exchange of sensible heat such driving temperature change Whereas energy recovery would be a case where there&#39;s an exchange of not only sensible heat, but also latent heat And that allows us to calculate the effectiveness in terms of the The enthalpy which incorporates both the sensible and the latent so we call that the total effectiveness So let&#39;s draw a little picture of what that looks like and I&#39;m not necessarily committed to drawing exactly What&#39;s in the reference handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, first one&#39;s kind of a general question of systems and components Explain how effectiveness is calculated in ERVs and HRVs so this pretty common question that comes up Distinguishing energy recovery from heat recovery So he recovery would be something like an air-to-air heat exchanger where we have the exchange of sensible heat such driving temperature change Whereas energy recovery would be a case where there&#39;s an exchange of not only sensible heat, but also latent heat And that allows us to calculate the effectiveness in terms of the The enthalpy which incorporates both the sensible and the latent so we call that the total effectiveness So let&#39;s draw a little picture of what that looks like and I&#39;m not necessarily committed to drawing exactly What&#39;s in the reference handbook? I don&#39;t want any of us to get too attached to the exact way that things are presented there What I&#39;m more interested in is that we have concepts in our head That we can draw upon at any time.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> How do you know to use properties of air low pressure rather than properties of air at atmospheric pressure?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, onto fluids eight. How do you know to use properties of air low pressure rather than properties of air at atmospheric pressure? Well, this one was specifically about a situation where the pressure was 50 PSIA. So it would not be appropriate to use atmospheric pressure for that condition. That&#39;s no good 50, 50, too much higher than 14.72 apply. So we have to dismiss that table. The harder question is, how do you know you can use the properties of air at low pressure when the pressure is 50 PSIA? Like, what&#39;s low pressure? What&#39;s high pressure? And what I found, it&#39;s hard for me to put a quantified answer on this, but I&#39;ve just done so many PE, mechanical engineering problems over the years. And it seems like low pressure goes very high, like higher than you would expect. So definitely 50 PSIA is still in the realm of low pressure. It&#39;s probably north of 10 atmospheres, or maybe it&#39;s 20 atmospheres. I don&#39;t know where the limit is, where the low pressure assumption breaks down. But unless the pressure is extremely high, and again, I can&#39;t give you a number of what exactly extremely high is.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> The rate of heat removed from the air is most nearly what?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics, can you please explain why the rule of thumb, Q equals 4.5 CFM Delta H, doesn&#39;t work here. It&#39;s dehumidifying and removing heat. Thanks. Dehumidifier takes 5,000 CFM of air at 95 dribbled and 70 relative humidity and discharges at 60 dribbled and 95 relative humidity. The dehumidifier uses a wet R12 refrigeration cycle, operating between 100 saturated and 50 degrees. The rate of heat removed from the air is most nearly what? So, it&#39;s a fair question. Why wouldn&#39;t 4.5 CFM Delta H work? It&#39;s dehumidifying and removing heat. So, let&#39;s take a look. We have it here on Psychometric. It is going from 1 to 2. Clearly, cooling as we go to the left and dehumidifying as we go down. So, we should be able to use the real thumb. Before we look at the details of the problem, does anybody want to throw out a suggestion or a guess? Where might things go a little bit off if we use this real thumb? Before you even go, it was just in your gut before we really look at it. What comes to mind? Specific volume, maybe? Specific volume. Why do you say that? Because of various with temperature. Yeah, it varies with temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 59</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-45679321
+
+Okay, first one&#39;s kind of a general question of systems and components Explain how effectiveness is calculated in ERVs and HRVs so this pretty common question that comes up Distinguishing energy recovery from heat recovery So he recovery would be something like an air-to-air heat exchanger where we have the exchange of sensible heat such driving temperature change Whereas energy recovery would be a case where there&#39;s an exchange of not only sensible heat, but also latent heat And that allows us to calculate the effectiveness in terms of the The enthalpy which incorporates both the sensible and the latent so we call that the total effectiveness So let&#39;s draw a little picture of what that looks like and I&#39;m not necessarily committed to drawing exactly What&#39;s in the reference handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, first one&#39;s kind of a general question of systems and components Explain how effectiveness is calculated in ERVs and HRVs so this pretty common question that comes up Distinguishing energy recovery from heat recovery So he recovery would be something like an air-to-air heat exchanger where we have the exchange of sensible heat such driving temperature change Whereas energy recovery would be a case where there&#39;s an exchange of not only sensible heat, but also latent heat And that allows us to calculate the effectiveness in terms of the The enthalpy which incorporates both the sensible and the latent so we call that the total effectiveness So let&#39;s draw a little picture of what that looks like and I&#39;m not necessarily committed to drawing exactly What&#39;s in the reference handbook? I don&#39;t want any of us to get too attached to the exact way that things are presented there What I&#39;m more interested in is that we have concepts in our head That we can draw upon at any time.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> How do you know to use properties of air low pressure rather than properties of air at atmospheric pressure?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, onto fluids eight. How do you know to use properties of air low pressure rather than properties of air at atmospheric pressure? Well, this one was specifically about a situation where the pressure was 50 PSIA. So it would not be appropriate to use atmospheric pressure for that condition. That&#39;s no good 50, 50, too much higher than 14.72 apply. So we have to dismiss that table. The harder question is, how do you know you can use the properties of air at low pressure when the pressure is 50 PSIA? Like, what&#39;s low pressure? What&#39;s high pressure? And what I found, it&#39;s hard for me to put a quantified answer on this, but I&#39;ve just done so many PE, mechanical engineering problems over the years. And it seems like low pressure goes very high, like higher than you would expect. So definitely 50 PSIA is still in the realm of low pressure. It&#39;s probably north of 10 atmospheres, or maybe it&#39;s 20 atmospheres. I don&#39;t know where the limit is, where the low pressure assumption breaks down. But unless the pressure is extremely high, and again, I can&#39;t give you a number of what exactly extremely high is.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 10 · 7 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
