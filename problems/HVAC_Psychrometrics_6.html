@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 6 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 6</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 6</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Air enters an evaporative cooler at 85°F and 30% relative humidity and exits at 75°F. What is the saturation eciency? 33
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>37%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>47%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>53%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>63%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
+
+2. Locate the initial state on the psychrometric chart using the given properties
+
+3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
+
+4. Use the psychrometric chart or equations to find unknown properties at each state
+
+5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
+
+6. Select the closest answer choice after verifying units
+
+<strong>Full Solution:</strong>
+
+This is Problem 6 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: Air enters an evaporative cooler at 85°F and 30% relative humidity and exits at 75°F. What is the saturation eciency? 33
+
+The answer choices are:
+  A) 37%
+  B) 47%
+  C) 53%
+  D) 63%
+
+To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 74</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 74 | February 5th, 2024 lesson: Lesson-52733082 lesson_pos: 4 chapter_pos: 61 content_id: 52733082 wistia_</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psycho-Rometrics 6. Do you have a problem when psych 6 exam is used? But we need to use the cooling tower approach. I don't know if there's a specific problem about this. There's definitely a couple of problems about cooling towers. But there was a related question that came up in office hours. I don't know if it was two weeks ago or four weeks ago or six weeks ago, but it was recent. And it was about the distinction between an evaporative cooler and a cooling tower. And I suggest going back and</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 6 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
