@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems &amp; Components · Problem 25 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Systems &amp; Components &middot; Problem 25</span>
+  <span class="nav-badge">⭐ 5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Systems &amp; Components &middot; Problem 25</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      The top of the waterline of an open cooling tower basin is located 13ft above the centerline of the associated 50gpm condenser wa- ter pump. The entering condenser water for the tower is 92°F. The outdoor conditions are 68°F and 60% relative humidity. The cooling tower eectiveness is 70%. The suction piping between the basin and the condenser pump is comprised of an equivalent length of 25ft of 21/ 2 in standard weight steel pipe. What is the net positive suction head available to the condenser ...
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>27ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>36ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>45ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>49ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the system or component: pump, fan, motor, valve, or control system
+
+2. List given specifications: capacities, efficiencies, operating points, and system requirements
+
+3. Apply relevant performance equations: affinity laws, motor power, valve sizing, or system curves
+
+4. Account for all losses and efficiency factors in the calculation
+
+5. Solve for the required parameter and convert to the requested units
+
+6. Check the answer against choices and verify engineering reasonableness
+
+<strong>Full Solution:</strong>
+
+This is Problem 25 from the Systems and Components module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: The top of the waterline of an open cooling tower basin is located 13ft above the centerline of the associated 50gpm condenser wa- ter pump. The entering condenser water for the tower is 92°F. The outdoor conditions are 68°F and 60% relative humidity. The cooling tower eectiveness is 70%. The suction piping between the basin and the condenser pump is comprised of an equivalent length of 25ft of 21/ 2 in standard weight steel pipe. What is the net positive suction head available to the condenser water pump in feet of water?
+
+The answer choices are:
+  A) 27ft
+  B) 36ft
+  C) 45ft
+  D) 49ft
+
+To solve this problem, apply the relevant engineering principles from the Systems and Components section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • Affinity laws relate speed, flow, pressure, and power for pumps and fans — memorize them<br><br>• Motor efficiency, pump efficiency, and drive efficiency stack multiplicatively<br><br>• Control valve sizing uses Cv — understand the relationship between Cv, flow rate, and pressure drop<br><br>• Know the difference between series and parallel pump/fan configurations
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 15</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 15 | May 28, 2021 lesson: Lesson-24862976 lesson_pos: 12 chapter_pos: 2 content_id: 24862976 wistia_id: e3</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> system's 25. In system's 25, you use the steel friction tables to find HF, where HF is the losses. Why didn't we have to use the Darcy equation? It makes sense that you can pull it from the table like that, but why did we go through the trouble of Reynolds number and moody diagrams in the fluids module if we could just pull the numbers from the steel pipe table. If you have water flowing in a steel pipe, you can use the steel pipe friction tables and you should because it'll save you time. So ye</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 28</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 28 | January 7, 2022 lesson: Lesson-31187367 lesson_pos: 0 chapter_pos: 15 content_id: 31187367 wistia_id:</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one was systems 25 and I actually wanted to make the suggestion to take a look at the office hours archive, because there are this question or similar questions have come up a number of times before, but I'll give the quick answer here. So why is it that when you find HF, the pipe loss, you don't go through the process of finding the Reynolds number and then using the Darcy voice back equation, I use this method and 0.9 inches or feet rather, 0.9 feet compared to the steel pipe frictio</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 40</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 40 | July 25th, 2022 lesson: Lesson-37347864 lesson_pos: 6 chapter_pos: 27 content_id: 37347864 wistia_id:</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> systems and components 25. There are two formulas for NPSHA in the Reference Handbook. How do I know which one to use? So we've covered this in Office hours before. So if you want a deeper dive, you can go back and look at some of those videos. But I'll give you a quick answer here so that you can have it straight away. The short answer is that you want to distinguish between when it's a design scenario versus existing conditions. So for a design scenario, you don't have all the information. You</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 72</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 72 | January 8th, 2024 lesson: Lesson-52032063 lesson_pos: 7 chapter_pos: 59 content_id: 52032063 wistia_i</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> systems and components 25. How come when solving for HF? We didn't use the Darcy equation to find the minor losses and instead used the values in the steel pipe tables. My question to this question is, did you use the Darcy equation? And if so, how did that go? I would expect that if you try it both ways, you'd get roughly similar answers because the values in the steel pipe friction table typically, approximately, reconcile with the fundamental theory that is the Darcy equation. So, I would thi</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 97</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 97 | February 3rd, 2025 lesson: Lesson-62413714 lesson_pos: 7 chapter_pos: 82 content_id: 62413714 wistia_</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 25. What sort of real-world equipment is the direct evaporative air cooler based on? Is this a swamp cooler? Yes, the pressure of this equation. The presence of this equation confused me when I was trying to reason through what the cooling tower efficiency equation would be. Now I know that the entering air value T1 needs to be substituted with the entering water time for a cooling tower application. So you got it. A swamp cooler is a perfect example of a direct evaporativ</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Systems &amp; Components &middot; Problem 25 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
