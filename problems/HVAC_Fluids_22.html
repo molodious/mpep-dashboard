@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 22 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 22</span>
+  <span class="nav-badge">⭐ 5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 22</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      80gpm of 60°F water is pumped from 100ft below the surface of a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? 29
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the fluid system: pipe flow, pump, valve, or open channel
+
+2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
+
+3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
+
+4. Look up required fluid properties and pipe data from reference tables
+
+5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
+
+6. Check the result against answer choices and verify reasonableness
+
+<strong>Full Solution:</strong>
+
+This is Problem 22 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: 80gpm of 60°F water is pumped from 100ft below the surface of a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? 29
+
+The answer choices are:
+  A) 3hp
+  B) 6hp
+  C) 7hp
+  D) 10hp
+
+To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 16</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 16 | June 18, 2021 lesson: Lesson-25478228 lesson_pos: 3 chapter_pos: 3 content_id: 25478228 wistia_id: v7</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, fluids 22, how do you know you can use water horse power equals our favorite formula, QdL to H over 30960 for problem 22 in the fluid section. I'm getting confused by the at 68 degrees Fahrenheit water has the density of statement. This is from the reference handbook. Are we assuming at 68 degrees outside? No, this is the temperature of water. So yeah, that's going to be, that's just making sure that the water temperature is based on assumption. So at 68 degrees water temperature, water ha</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 35 | May 2, 2022 lesson: Lesson-34862701 lesson_pos: 4 chapter_pos: 22 content_id: 34862701 wistia_id: 8nq</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Flood's 22. Hello there are three parts to my question. First I tried to use the Hesian Williams equation to calculate friction laws but it gave me a different result than what you calculated is there a reason why it wouldn't work here. Also why do you set the starting pressure P1 as 100 feet of water plus 1ATM? I thought it would be 200 feet of water plus 1ATM. Finally why don't you multiply by multiply the Z2-MNC1 and HF terms in the Bernoulli equations. By the specific weight when solving for</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 46 | October 19, 2022 lesson: Lesson-39706862 lesson_pos: 3 chapter_pos: 33 content_id: 39706862 wistia_id</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Flood's 22. This is one about a pumping situation. I'll bring that one up as well. I actually have your work up on the screen if you wanna kind of talk through. Okay. Yeah. So I think looking back at it. All the hours. Again, PE guy. I'm sorry. I got, I'm sorry. Yeah, I'm sorry. I think I went to the right. I went straight for Delta P. I'd like to know if this method I chose is probably the method that a cinnamon system says. I chose to solve for Delta P and plug that into our water horsepower e</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 64 | July 31st, 2023 lesson: Lesson-47456806 lesson_pos: 0 chapter_pos: 51 content_id: 47456806 wistia_id:</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So first up fluids 22, this is a general question that applies to problems using the steel pipe friction tables. In most cases, values from the steel pipe friction tables for pipe size and pipe diameter are extremely close and solving this problem using three inches instead of 3.068 inches still rounds to the correct answer. When time is critical, is it really necessary to include the extra sig figs or are there scenarios, pipe sizes that can yield significant differences? So my guidance here is</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 75</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 75 | February 19th, 2024 lesson: Lesson-53125197 lesson_pos: 3 chapter_pos: 62 content_id: 53125197 wistia</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, so let's do it to 22. Can you explain about P2 and P1 term? When we calculate P1 from the reference line, we added 100 feet of water, but when we calculate for P2, we are not adding 100 feet of air to it. Why? Okay, so we want the delta P, so we're interested in P1 and P2. Now keep in mind the data misarbitrary. So this reference line is arbitrary. We didn't have to put it here. You could redo this problem with the data and being at the top of the water tank. You can redo this problem with</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 22 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
