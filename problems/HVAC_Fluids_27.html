@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 27 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 27</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 27</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      100,000gpm of water falls 900ft through a hydroelectric turbine sys- tem with 90% eciency. The friction loss through the system is 100ft. How much power is generated by the system?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>13MW</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>15MW</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>17MW</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>19MW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. A lot of times we&#39;ve been writing hydrolychorous power WHP divided by efficiency.
+
+2. And then we can substitute that into this formula so that we have it all wrapped up in one convenient way.
+
+3. Well it falls 900 feet so there&#39;s a huge change in elevation and then there are some losses and they&#39;ve given us the los.
+
+4. But let&#39;s write it all out so we can be really clear with what&#39;s being plugged in where we have p2-p1 over gamma.
+
+5. So first that feels a bit wrong in the sense that z2 minus z1 is a negative number.
+
+<strong>Full Solution:</strong>
+
+Fluids 27, 100,000 GPM of water falls 900 feet through a hydroelectric turbine system with 90% efficiency. The friction loss through the system is 100 feet. How much power is generated by the system? So we have a hydroelectric turbine which we can treat sort of like the opposite of a pump instead of it receiving Breachhorse power to turn it and producing hydrolychorous power, it&#39;s actually receiving hydrolychorous power. So let&#39;s draw that. It&#39;s got this flow of water from above, some state 1, and it&#39;s hitting the turbine. I don&#39;t know how to draw this. And that turbine has some efficiency of 90%. And it&#39;s producing electrical power. Now maybe there&#39;s a little more to it. It may be producing Breachhorse power in the turning of generator which produces electrical power, but we&#39;re just going to abstract that away and say this thing has hydrolychorous power coming in. And electrical power KW coming out. And that is some state 2 at the exit. So based on that we could say the electric power is the hydrolychorous power times the efficiency. Now we&#39;re not used to writing it that way. A lot of times we&#39;ve been writing hydrolychorous power WHP divided by efficiency. But that&#39;s because we&#39;ve been finding the Breachhorse power of a pump. So in a pump you have Breachhorse power entering. You only get a fraction of that power coming out as hydrolychorous power. Here it&#39;s the other way around. You&#39;re using hydrolychorous power to make electricity. So it&#39;s the hydrolychorous power that enters and only a fraction of that. The efficiency exits as electrical power. Hopefully that makes intuitive sense. So we know the efficiency. We need an expression for the hydrolychorous power. We can use the same expression that we&#39;ve been using for pumps. Even though it&#39;s a turbine we can say it&#39;s devaluing flow rate in GPM times the head and feet. And we&#39;ll have to figure out what that is. Divide it by 3960. And then we can substitute that into this formula so that we have it all wrapped up in one convenient way. The efficiency of the turbine times volume flow rate in GPM times delta H for the pump. Divide it by 3960. And we know this and this and we need to go and find the head. So what would be the head added if we use that modified Bernoulli approach for this arrangement where one is the entering state and two is leaving? Well it falls 900 feet so there&#39;s a huge change in elevation and then there are some losses and they&#39;ve given us the losses and feet. But let&#39;s write it all out so we can be really clear with what&#39;s being plugged in where we have p2-p1 over gamma. Plus v2 squared minus v1 squared over 2G plus the difference in height z2 minus z1 plus hf. Now notice we always write it this way we write 2 minus 1 and in my diagram I&#39;ve labeled 1 is the entering state and 2 is the leaving state. So first that feels a bit wrong in the sense that z2 minus z1 is a negative number. But maybe hf should be a negative number in the sense that head is not being added by the turbine just the opposite. It&#39;s consuming hydraulic horsepower. So maybe it should be a negative and then we&#39;ll just take its opposite before we plug it in to the formula. I don&#39;t want to get too hung up on positive and negative. I want to focus on the direction and get the right magnitude and then we&#39;ll plug it in. So let&#39;s try that on for a moment. So the pressure at both 1 and 2 this is a waterfall right so it&#39;s from a static pressure perspective it&#39;s at atmospheric pressure at 1. And then at 2 it&#39;s discharge after the fact so other than the change in elevation which I think we can neglect 900 feet of atmospheric air as contributing any pressure we can say that p1 is approximately equal to p2 which is approximately equal to 1 atmosphere. So this term goes to 0. The velocity is not going to be a significant contribution presumably it slows down in the turbine but we don&#39;t know how fast it&#39;s moving at 1 anyway.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids 27, 100,000 GPM of water falls 900 feet through a hydroelectric turbine system with 90% efficiency.<br><br><br><br>• The friction loss through the system is 100 feet.<br><br><br><br>• How much power is generated by the system.<br><br><br><br>• So we have a hydroelectric turbine which we can treat sort of like the opposite of a pump instead of it receiving Breachhorse power to turn it and pro.<br><br><br><br>• It&#39;s got this flow of water from above, some state 1, and it&#39;s hitting the turbine.<br><br><br><br>• And that turbine has some efficiency of 90%.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 27 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
