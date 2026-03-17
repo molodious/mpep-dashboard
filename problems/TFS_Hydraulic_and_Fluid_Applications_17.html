@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 17 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 17</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A pumping system delivers water to a factory through a standard weight steel piping supply line (surface roughness C = 120) with 3 outlets delivering 100gpm to each outlet. The main pipe initially has a 5 inch nominal diameter, reducing to 4 inch and 3 inch after each branch outlet. The rst outlet is located 50 feet from the pumping station; the second outlet is 100 ft downstream of the rst, and the third outlet is 100 feet downstream of the second. What is the pressure loss for the system? Ignore minor losses.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>7ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>10ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>14ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>20ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. The first outlet is located 50 feet from the pumping station, the second outlet is 100 feet down stream of the first and.
+
+2. So we&#39;ve done a lot of problems up to now where we had to go through the Darcy equation to find the losses and I think w.
+
+3. I won&#39;t say we&#39;ve seen the last of that, I think far from it, but there is an easier way to solve a fair number of probl.
+
+4. So what we&#39;ll do instead is we&#39;ll just take advantage of the fact that we know the volume flow rate at each of these sec.
+
+<strong>Full Solution:</strong>
+
+A pumping system delivers water to a factory through a standard weight steel piping supply line, surface roughness, c equals 120. With three outlets delivering 100GPMT, the main pipe initially has a 5-inch nominal diameter reducing to 4-inch and 3-inch after each branch outlet. The first outlet is located 50 feet from the pumping station, the second outlet is 100 feet down stream of the first and the third is 100 feet down stream of the second. What is the pressure loss for the system, ignore minor losses? We&#39;ve got some pumping station, which I&#39;ll simplify by just drawing a pump and then there&#39;s this main supply line and it&#39;s changing in diameter as there&#39;s branch piping. So there&#39;s some 50 feet of length where it&#39;s a 5-inch nominal pipe and that 50 feet takes us to some point where there&#39;s branch and then there&#39;s this branch takeoff which is applying 100GPM which is the third of what this system is producing in total, right? There&#39;s three outlets delivering 100GPMT each outlet. So after that, the diameter reduces down to 4 inches and it goes for another 100 feet before you get to a second outlet and the second outlet also gets served with 100GPM. And then another 100 feet and another reduction down to a 3-inch nominal diameter and finally we get to the last branch. I don&#39;t even have to draw it as a branch. I could just say it&#39;s right here as long as it&#39;s 100 feet either way. You could say this is the last 100GPM. So we&#39;ve done a lot of problems up to now where we had to go through the Darcy equation to find the losses and I think we&#39;ve gotten a fair amount of practice on that. I won&#39;t say we&#39;ve seen the last of that, I think far from it, but there is an easier way to solve a fair number of problems using the steel pipe friction tables and we&#39;re definitely going to take advantage of that here because we&#39;ve got three different sections to analyze and we certainly don&#39;t want to do the Darcy equation three times or our chances of staying in the vicinity of six minutes are vanishingly small if we have to go through that process several times in one problem. So what we&#39;ll do instead is we&#39;ll just take advantage of the fact that we know the volume flow rate at each of these sections after the pumping station and before the first outlet this section has to carry 300GPM. Then after this branch it&#39;s only 200GPM, along through the second section and after the second branch it&#39;s only 100GPM all the way to the end including the final outlet. So if we know the volume flow rate and we know the nominal diameter then we can just find the head loss per 100 feet and if we know how many feet which we do we know the length&#39;s 500, then we can find the losses in each one of these sections and then add them up. And the only other thing that we have to deal with is the surface roughness being 120. Similarly there&#39;s an unstated assumption that the surface roughness is c equals 100 which means that those head loss values in the steel pipe friction table can be taken exactly as they are. However if there&#39;s a surface roughness that&#39;s not 100 and that&#39;s given then we have to adapt by multiplying by a conversion factor. We&#39;ll do that at the end. So let&#39;s pretend c is 100 for the time being and we&#39;ll just take each one of these sections one at a time. So for the first section the nominal diameter is 5 inches. Obviously we could look up what the actual diameter is knowing that the 5 inches just nominal but we don&#39;t actually need to. We know the length is 50 feet. We know the volume flow rate is 300 gpm and head loss from the steel pipe friction table is 300 feet per 100 feet. So let&#39;s find the major losses where neglecting minor losses. It&#39;s going to be the total linear feet that we have 50 feet times the head loss per foot which is 300 feet per 100. So feet cancels numerator and denominator and we just end up with head loss in feet and actually didn&#39;t calculate what that is. I think I just saved it for the end. So let&#39;s do this in three stages.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A pumping system delivers water to a factory through a standard weight steel piping supply line, surface roughness, c equals 120.<br><br><br><br>• With three outlets delivering 100GPMT, the main pipe initially has a 5-inch nominal diameter reducing to 4-inch and 3-inch after each branch outlet.<br><br><br><br>• The first outlet is located 50 feet from the pumping station, the second outlet is 100 feet down stream of the first and the third is 100 feet down st.<br><br><br><br>• What is the pressure loss for the system, ignore minor losses.<br><br><br><br>• We&#39;ve got some pumping station, which I&#39;ll simplify by just drawing a pump and then there&#39;s this main supply line and it&#39;s changing in diameter as the.<br><br><br><br>• So there&#39;s some 50 feet of length where it&#39;s a 5-inch nominal pipe and that 50 feet takes us to some point where there&#39;s branch and then there&#39;s this .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

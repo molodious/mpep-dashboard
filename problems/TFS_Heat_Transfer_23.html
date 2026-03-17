@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 23 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 23</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 23</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      50°F water has a thermal conductivity of 0.334 Btu . What is the hr·ft·°F Prandtl number? 29
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.3</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.7</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7.6</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>9.5</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. That was more so the case in the days of the mechanical engineering reference manual.
+
+2. Now with the reference handbook, it can still be looked up in a table in some cases and other times we&#39;re going to be us.
+
+3. The Prantle number is a function of specific key capacity dynamic viscosity and thermal conductivity, so as long as we c.
+
+4. So that&#39;s how we&#39;re going to search for the formula that we need here.
+
+5. Just go into the reference handbook and search Prantle number and you&#39;ll find this formula here.
+
+6. CP times mu divided by k.
+
+<strong>Full Solution:</strong>
+
+50 degree water has a thermal conductivity of 0.334 BT per hour foot degree F. What is the Prantle number? Well, the Prantle number is often determined by looking it up in a table. That was more so the case in the days of the mechanical engineering reference manual. Now with the reference handbook, it can still be looked up in a table in some cases and other times we&#39;re going to be using a formula, which is fine. It&#39;s not a big hardship to do that. The Prantle number is a function of specific key capacity dynamic viscosity and thermal conductivity, so as long as we can find those three values, then we can calculate the Prantle number. Perhaps the hardest part is remembering how to spell it. So that&#39;s how we&#39;re going to search for the formula that we need here. Just go into the reference handbook and search Prantle number and you&#39;ll find this formula here. CP times mu divided by k. And in this particular case we&#39;re talking about water. So we know it has specific key capacity of 1 BTU per pound degree Fahrenheit. Thermal conductivity is given, so that&#39;s no big deal. And the dynamic viscosity or absolute viscosity, if you prefer, is given in units of pound force per second per foot squared. And the reference handbook, which is not ideal, we really love to have an impound mass per foot per hour, but it&#39;s not available that way, so we&#39;re going to have to do some unit conversion here. So let&#39;s take it the way it&#39;s given. It&#39;s going to be 2.735 times 10 to the negative 5 with units of pound force times seconds over a foot squared. And then the denominator is the thermal conductivity 0.334 BTU per hour foot degree F. So let&#39;s see where we are here. We don&#39;t have pound, this is actually pound mass, right, in the specific heat capacity. And over here we have pound force and BTU&#39;s cancel, so that&#39;s good. But the time doesn&#39;t really work out, we&#39;re probably going to have to get hours and seconds aligned. What we really love to do is be able to get rid of this pound mass in this pound force. The insight here is that we need to multiply by the gravitational constant. But how do we justify multiplying by something? We can&#39;t just go and throw in a multiplier and have the resulting outcomes still be equal to what it was in the first place. And less what we&#39;re multiplying by is ultimately equal to 1. So the way I remember this is yes it&#39;s true that GC is 32.2, but what are the units of GC? GC is 32.2 pound mass foot per second squared per pound force. So what I&#39;m saying the same thing is that 1 pound force equals 32.2 pound mass foot per second squared. So we are multiplying by 1 when we use GC. We&#39;re multiplying by 32.2 pound mass foot per second squared over 1 pound force, which equals 1, believe it or not. And oh, it&#39;s a little weird to think about it that way, but if you can buy it and you can put that into the numerator, the rest is history here because look what&#39;s going to happen. So we&#39;re going to lose pound mass from the denominator there. We&#39;re going to lose pound force from the numerator here. And this fee is going to come up to the numerator with this foot that makes foot squared and we&#39;ve got foot squared denominator. So that&#39;s gone. And second squared, one of these, this is going to cancel and one of these is going to cancel. So now we have hours in the denominator of the denominator and seconds in the denominator of the numerator. So the only other thing we need to do is just change the time. So if we can do one hour divided by 3600 seconds, that&#39;ll get rid of hours. And that will also get rid of seconds. So the ultimate result of all that is a unitless calculation. And the parental number turns out to be 9.49, which is pretty close to answer choice. The hardest part is justifying the inclusion of GC. And I found this pretty annoying. The first couple times I encountered it, which is the exact reason why I&#39;m including a problem like this for you to go through.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 50 degree water has a thermal conductivity of 0.334 BT per hour foot degree F.<br><br><br><br>• Well, the Prantle number is often determined by looking it up in a table.<br><br><br><br>• That was more so the case in the days of the mechanical engineering reference manual.<br><br><br><br>• Now with the reference handbook, it can still be looked up in a table in some cases and other times we&#39;re going to be using a formula, which is fine.<br><br><br><br>• It&#39;s not a big hardship to do that.<br><br><br><br>• The Prantle number is a function of specific key capacity dynamic viscosity and thermal conductivity, so as long as we can find those three values, th.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 23 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

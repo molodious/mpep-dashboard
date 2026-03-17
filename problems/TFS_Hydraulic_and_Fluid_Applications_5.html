@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 5 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 5</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 5</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      50gpm of cold water at 60°F enters a 100ft tall building via 3in sched- ule 40 steel supply piping. Street pressure prior to the service en- trance to the building is 85psig. The equivalent length of piping on the longest run to the top oor is 500feet. What pressure is available to xtures on the top oor?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>40psig</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>42psig</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>45psig</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>55psig</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So for this we&#39;re going to write the Bernoulli equation and we&#39;re going to balance what&#39;s happening at the street level.
+
+2. So let&#39;s write the Bernoulli equation for this situation.
+
+3. This happens pretty often with the Bernoulli equation especially with water which is really common in fluids problems.
+
+4. The other thing I just want to mention at this stage is you&#39;ll see me use P2 over gamma and sometimes I may or may not w.
+
+<strong>Full Solution:</strong>
+
+50GPM of cold water at 60 degrees enters a 100 foot tall building via 3-inch schedule 40 steel supply piping. Street pressure prior to the service entrance to the building is 85 PSIG. The equivalent length of piping on the longest run to the top floor is 500 feet. What pressure is available to fixtures on the top floor. So for this we&#39;re going to write the Bernoulli equation and we&#39;re going to balance what&#39;s happening at the street level that&#39;ll be our state 1 with what&#39;s happening at the top floor of the building. There&#39;s no pumps involved so we don&#39;t have to have an HA term or anything like that but we are going to have an HF term because there are losses. So let&#39;s write the Bernoulli equation for this situation. So state 1 will be the street pressure. We&#39;ll do P1 over the specific weight plus the velocity at state 1 over 2G plus the height at state 1 which is street level so that&#39;s basically going to be zero. And for the right side we have P2 which is the height on the top floor over specific weight plus V2 squared over 2G plus Z2 which is the height of the building plus HF. The losses live on the right side because that&#39;s going to reduce how much pressure is actually available at 2 so if this is a positive number which it almost certainly will be the losses are never in the other direction then that gets subtracted over and yeah and the pressure at state 2 is correspondingly lower. So let&#39;s get P2 by itself since that&#39;s what we&#39;re going to be after here. I&#39;ll come over here and do that. P2 over gamma equals P1 over gamma and let&#39;s just say right now we&#39;re going to cancel out the velocity terms because that tends to be insignificant. This happens pretty often with the Bernoulli equation especially with water which is really common in fluids problems. If you have air or something compressible then there&#39;s a better chance that it would be in play but for most problems with water we&#39;re going to cross it out so you&#39;ll see that pretty often and then the difference between Z1 and Z2. Well let&#39;s carry both Z1 and Z2 for the time being and we&#39;ll let the substitution do the work for us so this will be plus Z1 minus Z2 and then also minus HF because that&#39;s coming from the other side and let&#39;s make sure all that algebra makes sense so the left side over here is the right side over here so Z1 minus Z2 makes sense and then minus HF everything&#39;s getting away from P2. The other thing I just want to mention at this stage is you&#39;ll see me use P2 over gamma and sometimes I may or may not write it or I won&#39;t make a big deal but whether it&#39;s there or not and the reason for that is when we&#39;re dealing with water we have a rule of thumb 2.31 feet per psi which allows us to go seamlessly back and forth between feet and psi and we&#39;re going to do that many times in both directions to the point where you&#39;re going to be so fluent or if I tell you you have X number of feet of water then you can say fine I&#39;m just going to divide by 2.31 and then I know how many psi of water and multiply if you want to go in the other direction so at the end of the problem we&#39;ll use that rule of thumb and you&#39;ll see that at work and then you&#39;ll see it many many times throughout the rest of this chapter so next we really need to turn our attention to finding HF the losses because that&#39;s the main work of this problem so search the reference handbook for Darcy Weiss back equation and there&#39;s a hyphen in there you can just search the word Darcy that might be the fastest way but it&#39;s Darcy hyphen Weiss back which is WESBACH equation and we&#39;re going to use that many times so I&#39;m confident that you&#39;ll be able to find it when you need it that is FL v squared over 2DG and this is our first time applying this so far in this chapter so we&#39;ll take it slow for the first one the steel pipe friction tables we&#39;ll get us the diameter we need we&#39;ve been told this is nominal 3 inch schedule 40 steel pipe so the actual diameter is going to be well you can find it two ways you can look in th...</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 50GPM of cold water at 60 degrees enters a 100 foot tall building via 3-inch schedule 40 steel supply piping.<br><br><br><br>• Street pressure prior to the service entrance to the building is 85 PSIG.<br><br><br><br>• The equivalent length of piping on the longest run to the top floor is 500 feet.<br><br><br><br>• What pressure is available to fixtures on the top floor.<br><br><br><br>• So for this we&#39;re going to write the Bernoulli equation and we&#39;re going to balance what&#39;s happening at the street level that&#39;ll be our state 1 with wh.<br><br><br><br>• There&#39;s no pumps involved so we don&#39;t have to have an HA term or anything like that but we are going to have an HF term because there are losses.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 114 · February 16th 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 114</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS fluids 5? Why can we not use the friction loss given in the table? Is it because we cannot assume C? My H sub F ended up being 6.2 feet, which was almost double, H sub F, which you got, which was 3.3 feet. I followed how you did it, but for speed purposes I was wondering when we were allowed to use the table values. Yeah, this is an uncomfortable truth and it&#39;s come up many times, not just in TFS, but also in the HVAC program. The fact that if you use the Darcy equation, you&#39;ll get one value for the major losses. And if you use the steel pipe friction tables as you did here, you may get a different value. And it&#39;s definitely uncomfortable. They&#39;re supposed to be compatible. I do suspect that the discrepancy may be with the surface roughness, but I don&#39;t have a better way of deciding what, you know, how you should modify that assumption, do something differently. In my experience, I&#39;ve never gotten a problem wrong as a result of using the table, so I think to your point about speed purposes. If you prefer to use the table, you should. And I think even in this problem, you would be okay. I know the relative error, so this is what I kind of encourage people to think about. The rel</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 5 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

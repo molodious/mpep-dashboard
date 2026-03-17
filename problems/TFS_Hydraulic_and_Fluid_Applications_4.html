@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 4 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 4</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 4</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A tee connection receives 4gpm of water from a  inch schedule 40 steel pipe and 3ft of water from a 1-… inch schedule 40 steel pipe. s Water exits into a 1-‰ inch schedule 40 steel pipe. What is the velocity in the outlet pipe? Ignore friction loss. s s s s 31
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>2.4ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2.8ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3.3ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>4.8ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. But before we can go fast, we have to go slow and dig those grooves and I think having some of these tools at your dispo.
+
+2. So I&#39;m going to start by drawing a picture and I&#39;m sure it won&#39;t be a perfect picture, but we&#39;ll make a T.
+
+3. And you can turn that into a little table, depending on how much time you want to spend, and let&#39;s populate some of the.
+
+4. Let&#39;s actually do that off to the side, so we&#39;ll keep everything in this table in cubic feet per second for the units of.
+
+5. We just want to be clear on what the units are.
+
+6. So if we know that the 3-quarter coming in has a flow rate of 4GPM, then we can use Q equal, actually this is not even a.
+
+<strong>Full Solution:</strong>
+
+A T-connection receives 4GPM of water from a 3-quarter inch schedule 40 steel pipe and 3 feet per second of water from a 1-1-1-4 inch schedule 40 steel pipe. What is the velocity of the outlet pipe ignore friction losses? A couple of the best ways to work through problems like this is to draw a picture and make a table. That may not be the fastest way, so if you see a quick way to the solution and you want to save time, you can jump right in and do that. We have the luxury here of going slow and taking our time, there will be plenty of time to go faster later. But before we can go fast, we have to go slow and dig those grooves and I think having some of these tools at your disposal will help you become more flexible, more creative and just overall better problem solvers. So take the time to build those skills as we go here through these modules. So I&#39;m going to start by drawing a picture and I&#39;m sure it won&#39;t be a perfect picture, but we&#39;ll make a T. And this is kind of a small pipe, this will be our 3-quarter inch, and then we have a slightly larger pipe also entering. Maybe I&#39;ll just do straight across the top here, but I&#39;ll make the second one bigger. That&#39;s an inch and a quarter, and then we have a really large pipe, not really large, but slightly larger. It&#39;s going to be an inch and a half coming down. So we&#39;re entering, entering, and exiting. And what else do we know? Let&#39;s actually use the table for this part of it. But one line will put the volume flow rate on another line, we&#39;ll put the velocity, and then we&#39;ll put the diameter and we&#39;ll put the area. And I&#39;m not sure that we&#39;ll need to populate all of these values, but we&#39;ll have fields available for each of them should we want to do that. And then across the top, I&#39;ll put the 3-quarter inch here, the inch and a quarter, and the 1.5. And you can turn that into a little table, depending on how much time you want to spend, and let&#39;s populate some of the given information. So we have 4GPM from the water, and we can turn that into cubic feet per second. So this is 4GPM. Let&#39;s actually do that off to the side, so we&#39;ll keep everything in this table in cubic feet per second for the units of volume flow rate. And the velocity will always keep it in feet per second, and the diameter will always keep it in inches, and the area will keep it in feet square. No need to necessarily do inches here. You could do feet, or you could do this in inches square. There&#39;s no right or wrong here as long as you&#39;re consistent. We just want to be clear on what the units are. So if we know that the 3-quarter coming in has a flow rate of 4GPM, then we can use Q equal, actually this is not even a formula, we&#39;re just converting that Q, that 4GPM into cubic feet per second. So we&#39;re going to multiply by 1 cubic foot over 7.48 gallons, getting ready to gallons, and then we&#39;re going to multiply by 1 minute. Over 60 seconds, getting ready to minutes, and we end up with a volume flow rate of 0, 0, 0, 8, 9, 0, 0, 0, 8, 9, feet squared, Fe cubed per second. So let&#39;s pop that right in here, 0, 0, 0, 8, 9, and now what else do we know? We know the 3 feet per second velocity for the inch and a quarter, so we can just put that right here. And we also know these are all schedule 40 steel pipes, so we can find out the diameters or the areas of any of them. That we need. Well, let&#39;s figure out the area for each of them, and let&#39;s jot down the diameters while so looking the reference handbook for schedule 40 steel pipe, or you can also look at the steel pipe friction tables, whatever is more efficient for you. And we can get those diameters 1.38 inches for the inch and a quarter, 1.61 for the inch and a half. And then the corresponding areas in feet squared, this is why I like the schedule 40 steel pipe table, because you can just get these directly, 0.0404 and 0.0141 for this one here. And now for the inch and a quarter, if we know the velocity is 3 feet per second, we can find the volume flow rate.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A T-connection receives 4GPM of water from a 3-quarter inch schedule 40 steel pipe and 3 feet per second of water from a 1-1-1-4 inch schedule 40 stee.<br><br><br><br>• What is the velocity of the outlet pipe ignore friction losses.<br><br><br><br>• A couple of the best ways to work through problems like this is to draw a picture and make a table.<br><br><br><br>• That may not be the fastest way, so if you see a quick way to the solution and you want to save time, you can jump right in and do that.<br><br><br><br>• We have the luxury here of going slow and taking our time, there will be plenty of time to go faster later.<br><br><br><br>• But before we can go fast, we have to go slow and dig those grooves and I think having some of these tools at your disposal will help you become more .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 4 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

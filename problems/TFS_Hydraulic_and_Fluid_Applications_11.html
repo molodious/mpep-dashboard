@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 11 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 11</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      80gpm of 60°F water is pumped from 100 ft below the surface of a lake to a storage tank 100 ft above ground through 400 ft of 3 inch nominal schedule 40 welded steel pipe. The piping run contains four 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So that&#39;ll help us frame out the problem as we go and we&#39;ve seen the Bernoulli equation from a couple different angles n.
+
+2. So you don&#39;t have to derive this every time if you&#39;re able to just start from this one that will definitely help you out.
+
+3. Let&#39;s start by looking at the static pressure.
+
+4. Well, first of all is a helping or hurting.
+
+5. Now obviously we could convert units here so that&#39;s possible to add these up.
+
+6. So this first term is going to be a hundred feet minus hundred feet rather.
+
+<strong>Full Solution:</strong>
+
+80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank 100 feet above ground through 400 feet of 3-inch nominal schedule 40 welded steel pipe. The piping run contains 490 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? So let&#39;s draw a lake and we know that this water is being pumped from 100 feet below the lanks. The lake so maybe we have some location here. We&#39;ll call that state one and then we&#39;re pumping up from there to a tank and that tank. I&#39;m drawing this way at the top of the page here because I want to make the top of that water level at state two. The location we&#39;re going to is a hundred feet above the surface of the water and then it&#39;s another hundred feet below the water level to where we&#39;re pumping from. So that&#39;ll help us frame out the problem as we go and we&#39;ve seen the Bernoulli equation from a couple different angles now and we&#39;re going to start directly from the version that gets the head out of by the pump by itself and this problem. So you don&#39;t have to derive this every time if you&#39;re able to just start from this one that will definitely help you out when you&#39;re dealing with the pumping calculation. So P2-P1 over gamma plus velocity 2- velocity 1 squared over 2G plus z2- z1 plus hf. And we&#39;ll use a little bit of intuition and a little bit of calculation here as we go. Let&#39;s start by looking at the static pressure. What&#39;s going to be the difference between the static pressure at state two and state one? Well, first of all is a helping or hurting. You&#39;re actually getting some help from the fact that sitting on top of the source location you&#39;ve got a hundred foot column of water pressing down on that. That&#39;s actually going to help you out in terms of making it easier for the pump. So this terms going to turn out to be negative. That&#39;s the expectation. But what&#39;s the math behind that? Well, we can say that P2 contains just the pressure of the atmosphere that&#39;s the only thing that&#39;s sitting on P2. And then P1 in contrast is the atmosphere plus a hundred feet of water. Now obviously we could convert units here so that&#39;s possible to add these up. But we&#39;re just going to be subtracting P2 minus P1. So one atmosphere minus quantity one atmosphere plus a hundred feet of water is clearly negative 100 feet. So let&#39;s actually just go straight to that. Keep things moving here. We&#39;re going to have to find a few other things. So this first term is going to be a hundred feet minus hundred feet rather. Why is it minus? It&#39;s minus because it&#39;s helping. Anything that&#39;s positive losses a difference in height that has to be overcome does the velocity need to increase by the end. Does the static pressure need to increase? If those things are increasing, that&#39;s more work. It&#39;s more energy that needs to be provided by the pump. In this case, having a column of water sitting on that source is actually helping. So that&#39;s why that turns out to be negative. For the difference in height, Z2 is much higher than the location at one in fact. It&#39;s 200 feet higher. So that&#39;s going to be a positive 200 feet. And the velocity is not only is it negligible, but there&#39;s probably no real movement in the lake or in the in the storage tank. So we&#39;ll definitely cross that term out. And now we&#39;re back to finding the losses which is so often the main work to be done in a lot of these Bernoulli problems. And because we&#39;ve been given information about fittings, we have to treat HF as being both the major and minor losses. And I&#39;ll use the formula that we used previously, but I want to build on what we did before we said we could write the Darcy equation. And then we could write K v squared over 2 g for the fittings. And we&#39;re able to factor out the v squared over 2 g. So let&#39;s jump straight to that. This is something that I don&#39;t expect you to be able to do right out of the gate.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank 100 feet above ground through 400 feet of 3-inch nomina.<br><br><br><br>• The piping run contains 490 degree elbows and a globe valve.<br><br><br><br>• The storage tank is at atmospheric pressure.<br><br><br><br>• What is the required hydraulic horsepower for this application.<br><br><br><br>• So let&#39;s draw a lake and we know that this water is being pumped from 100 feet below the lanks.<br><br><br><br>• The lake so maybe we have some location here.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 11 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
