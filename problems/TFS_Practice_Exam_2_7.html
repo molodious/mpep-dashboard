@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 7 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 7</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 7</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A fan delivers 10,000cfm of 70°F air at sea level. How much volume will the same fan deliver when used at 4000ft elevation to distribute 50°F air?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>8,000cfm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>9,000cfm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>11,000cfm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>12,000cfm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So before we dig into the details here, let&#39;s start with our intuition.
+
+2. So it&#39;s easier to move more mass per unit volume.
+
+3. So right away I&#39;m looking at answer choices, C and D as being my preferred options.
+
+4. Well the way we can start is by looking at the reference handbook at the table that you can find by searching temperatur.
+
+5. Let&#39;s start with the altitude driven density factor because that&#39;s the easiest to just pick right out of the table.
+
+6. Multiply by that on both sides.
+
+<strong>Full Solution:</strong>
+
+A fan delivers 10,000 CFM of 70 degree air at sea level. How much volume will the same fan deliver when used at 4,000 feet elevation to distribute 50 degree air? So before we dig into the details here, let&#39;s start with our intuition. What is your expectation for how this fan will perform at a higher elevation? Do we think that if it can produce 10,000 CFM at sea level, it&#39;s going to do more or less at 4,000 feet? Turns out to be a little bit harder of a question than you might think. And here&#39;s why my intuition was that it&#39;s going to have more capacity and higher elevation because the density is lower. So it&#39;s easier to move more mass per unit volume. Therefore the capacity will go up. So right away I&#39;m looking at answer choices, C and D as being my preferred options. However, the temperature is colder at higher elevation and that tends to have a density factor that goes in the other direction. In other words, when air is colder, it&#39;s more dense. So now we have these competing factors. We have the reduced density by virtue of being a high elevation. We have the increased density by virtue of having a lower temperature. So which of these factors is going to win out into what degree? How do we put some real numbers in analysis around that? Well the way we can start is by looking at the reference handbook at the table that you can find by searching temperature and altitude corrections. And in that table, there&#39;s a density factor for temperature and there&#39;s a density factor for elevation. Let&#39;s start with the altitude driven density factor because that&#39;s the easiest to just pick right out of the table. For 4,000 feet, there&#39;s a density factor and I&#39;ll use the subscript A density factor based on the altitude of 4,000 feet is 0.864. Make sure you&#39;re actually finding that in the table and not just taking my word for it. Now for the temperature, unfortunately, 50 degrees is not offered in the table. So we&#39;ll have to interpolate between the values that are offered which would be 0 and 70 degrees. So let&#39;s make a quick little table for that. Temperature and degrees Fahrenheit and the corresponding density factor. If it was 0 degrees, the density factor would be 1.152 at 50 degrees. We don&#39;t know what it is. So we&#39;ll call that DF sub T for temperature. That&#39;s at 50 degrees and then at 70 degrees, that&#39;s the default. That&#39;s the standard with which it was measured at sea level. So the density factor would be 1. No change. So let&#39;s interpolate between and find out what the density factor would be for 50 degrees. So do 70 minus 50 over 70 minus 0. equals 1 minus DFT over 1 minus 1.152. And this ratio on the left is 20 over 70. That equals 0.2857. We can find out what this denominator equals. It&#39;s going to be a negative number. Multiply by that on both sides. We&#39;ll get 1 minus DFT equals negative 0.0434. And then we&#39;re going to add that over to the left, add DFT over. And we find out that the density factor is 1.043. So notice these two factors are pulling in different directions. The density factor for altitude is less than 1. And the density factor for temperature is greater than 1. So when we multiply or divide by these, they&#39;re going to serve to make the volume flow rate larger or smaller in different directions. But the density factor for the altitude deviates from 1 more. It&#39;s 14% off whereas this is only 4% off. So it&#39;s the altitude factor that is more significant to consider than the temperature. So I&#39;m going to stick to my guns here and say that C and D are better options than A and B. But the last step is to multiply the CFM 10,000 or divide it. And I wasn&#39;t sure when I did a similar problem for the first time either, whether we should be multiplying or dividing by these factors. So we&#39;ll use our intuition there as well to make sure we make the right decision. So let&#39;s imagine we&#39;re trying to find the volume flow rate for 4,000 feet. And we&#39;re doing that based on a known volume flow rate at C level. That&#39;s the 10,000.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A fan delivers 10,000 CFM of 70 degree air at sea level.<br><br><br><br>• How much volume will the same fan deliver when used at 4,000 feet elevation to distribute 50 degree air.<br><br><br><br>• So before we dig into the details here, let&#39;s start with our intuition.<br><br><br><br>• What is your expectation for how this fan will perform at a higher elevation.<br><br><br><br>• Do we think that if it can produce 10,000 CFM at sea level, it&#39;s going to do more or less at 4,000 feet.<br><br><br><br>• Turns out to be a little bit harder of a question than you might think.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 7 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

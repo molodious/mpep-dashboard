@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 17 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 17</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A refrigeration cycle using R-123 operates between 30psia and 125psia with no subcooling and isenthalpic expansion. What is the quality of the mixture entering the evaporator?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.20</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.26</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.32</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.38</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+A refrigeration cycle using R123 operates between 30 PSIA and 125 PSIA with no sub cooling and isynthopic expansion. What is the quality of the mixture entering the evaporator? So we&#39;re going to want to analyze R123 so you can look in the reference handle for R-123 or you could also search for the phrase, pressure versus enthalpy curves for refrigerant 123. And I&#39;m not going to bring that chart up on the screen here. I want you to do this on your own so that you can see it and try it and feel your way through the process without me spoon feeding it to you. I want you to do that on your own, but I&#39;ll talk about the numbers and the steps and some of the things to look out for as you go. So in general, and I&#39;ll draw a kind of a cartoon version of it here. We&#39;re using this pH diagram. We have a saturation curve for that particular refrigerant. In this case, it&#39;s R123A. And we expect to have a pretty typical refrigeration cycle because it says there&#39;s no sub-cooling and no isentopic expansion. So we don&#39;t know what&#39;s happening on the right side around the compressor. There may or may not be super heating. That&#39;s not the part of the cycle we&#39;re concerned with. So I&#39;ll just draw state 1 entering the compressor directly on the saturation curve and then state 2 leaving the compressor will be out here in the super heater region, which it always is. And it will be a constant pressure cooling process as we go through the condenser to state 3. And since it says there&#39;s no sub-cooling, we&#39;re going to bring that point directly to the left edge of the saturation curve and not farther because that would imply sub-cooling. And then it says the expansion is isentopic, which is very typical that we would have a constant enthalpy expansion process from 3 to 4. And then when we get to state 4, that&#39;s the entering condition for the evaporator. So that&#39;s what we want to know, the quality at state 4. So since we know that there&#39;s no sub-cooling and state 3 is on the edge of the saturation curve, if we can find H sub-F, the enthalpy of the saturated liquid for the high pressure condition, that is to say the enthalpy at state 3. And the expansion is isentopic, then we can say H4 equals H3. And then at the low pressure condition, we can find out HF and HG, the enthalpy of the saturated liquid and the enthalpy of the saturated vapor at the low pressure condition, and we can use that to find the quality. So that&#39;s the roadmap for this problem. And you can do all of that off of the pH chart. And that&#39;s what I recommend. Now what I will say is that right below the chart, there&#39;s a table and that table lends itself to probably a bit more precision than the pH diagram does. But the cost there is that you probably have to interpolate if we don&#39;t have exact values. And that&#39;s going to add time to your solution. So I like to see candidates take a shot here, just using the pH chart. And I&#39;ll show you what I got based on my best shot, and we&#39;ll see if we&#39;re in the same ballpark. So starting with H3 and making the assumption, not the assumption. It&#39;s a statement here that it&#39;s isentopic expansion from 3 to 4. You can say that H4 is equal to H3, where H3 is HF at the high pressure condition, which is 125 PSIA. Now the other thing I just want to caution you about when you&#39;re using this pH chart, the left axis, the pressure on the vertical axis is logarithmic. So what you&#39;re looking at and you may think is halfway between two values is actually closer to the lower value than the higher value. So yeah, logarithmic charts can be a little bit tricky in that regard. So just make sure you&#39;re careful in spotting that point on the vertical axis. But I tend to think that that enthalpy at state 3 and consequently at state 4 is about 64.3. And if you have the luxury of time, since we&#39;re only studying here, and we&#39;re not actually in an exam environment, we can take more than six minutes. Take a look at the table and do the interpolation and see how close you came out.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A refrigeration cycle using R123 operates between 30 PSIA and 125 PSIA with no sub cooling and isynthopic expansion.<br><br><br><br>• What is the quality of the mixture entering the evaporator.<br><br><br><br>• So we&#39;re going to want to analyze R123 so you can look in the reference handle for R-123 or you could also search for the phrase, pressure versus enth.<br><br><br><br>• And I&#39;m not going to bring that chart up on the screen here.<br><br><br><br>• I want you to do this on your own so that you can see it and try it and feel your way through the process without me spoon feeding it to you.<br><br><br><br>• I want you to do that on your own, but I&#39;ll talk about the numbers and the steps and some of the things to look out for as you go.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

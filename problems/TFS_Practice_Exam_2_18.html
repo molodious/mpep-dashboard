@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 18 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 18</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 18</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A kitchen contains lighting and cooking equipment which draws 30KW. There is also a moisture load of 2 lb . What is the sensible min heat ratio? 98
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.02</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.45</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.55</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.98</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So let&#39;s start with the sensible.
+
+2. So we&#39;ll multiply that by 3412, BTU per hour per KW.
+
+3. So we&#39;ve got a multiply that mass flow rate times the change in enthalpy or the enthalpy of vaporization is a better way.
+
+4. So we multiply by six minutes over one hour, 60 minutes, getting rid of minutes, and now we&#39;ve got BTU per hour.
+
+<strong>Full Solution:</strong>
+
+A kitchen contains lighting and cooking equipment which draws 30kW. There&#39;s also a moisture load of 2 pounds per minute. What is the sensible heat ratio? Well the sensible heat ratio, we can search the rf and tan book for sensible heat ratio. But that simply equals the ratio of sensible heat, call that QS to the amount of total heat, call that QT. And what is QT? QT is sensible plus latent. Those are all of the types, right? So QS over QS plus QL. We&#39;ve already got quite a bit of information about what&#39;s happening in this kitchen. We&#39;ve got 30kW that&#39;s going to be pure sensible. And then there&#39;s also a moisture load of 2 pounds per minute. That&#39;s the latent. But we&#39;ve got to turn that into BTU per hour instead of pounds per minute. So let&#39;s start with the sensible. We have QS equals 30kW, but we really prefer that to be in BTU per hour. So we&#39;ll multiply that by 3412, BTU per hour per KW. So that gets rid of KW and that gets us 102,000 BTU per hour. So that&#39;s our QS. Now for QL, we really got a mass flow rate of water here, not a latent load in BTU per hour. So we&#39;ve got a multiply that mass flow rate times the change in enthalpy or the enthalpy of vaporization is a better way to think about it. Because that moisture is just being added to the air. So the way we can handle that is we can do QL is equal to the mass flow rate times the change in enthalpy or better yet the mass flow rate times the enthalpy of vaporization that&#39;s HFG that&#39;s the enthalpy that&#39;s being added by going from liquid water to water vapor. All of the energy of that water vapor is being added to the air. And then the question becomes, well, how do I actually find out what HFG is? We don&#39;t know anything else about this kitchen. Well, we can take a typical value. Let&#39;s say the kitchen is about 80 degrees. Then we can go into the steam table, a little properties are saturated water by temperature, and go to the row for 80 degrees Fahrenheit, and we can find out what HFG is. Turns out that equals about 1050 BTU per pound. So we&#39;ll just take our two pounds per minute, times 1050 BTU per pound. And that gets rid of pounds. And now we&#39;ve got BTU per minute, but we really want BTU per hour. So we multiply by six minutes over one hour, 60 minutes, getting rid of minutes, and now we&#39;ve got BTU per hour. So we had to make an assumption there. We had to say, okay, you know, assume the kitchen is 80 degrees. Maybe you wouldn&#39;t know to do that. If you&#39;re really in a pinch or you&#39;re in a rush, if you just want to know what the latent heat of a position is for steam, choosing a value, anything between 970 and 1100 is probably reasonable. Oftentimes I&#39;ll just go with a thousand. If I want to do a quick and dirty solution, a thousand BTU per pound is a good number for the latent heat of a position for water at a typical range of temperatures and pressures. So we&#39;re not going to get blocked by that. If we have a mass flow rate of water, we can turn that into the associated latent heat. And the opposite is true as well. If we have a latent heat of water and BTU per hour, we should be able to change that into a mass flow rate of water or a volume flow rate, whatever the case may be. So that works out to 126,000 BTU per hour. So that&#39;s actually more than the sensible. We&#39;ve got more latent load than sensible load. So we should expect that the sensible heat ratio is going to be less than 50%. So we&#39;re looking at B&amp;A now already before doing the math. But let&#39;s do the math now. So we&#39;ll jump down here and pick up the sensible heat ratio equation. And we&#39;re plugging in QS 100,000 in the numerator, divided by 102,000 plus 126,000. And that equals 0.448, which is close to 45% the best answer choice is B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A kitchen contains lighting and cooking equipment which draws 30kW.<br><br><br><br>• There&#39;s also a moisture load of 2 pounds per minute.<br><br><br><br>• What is the sensible heat ratio.<br><br><br><br>• Well the sensible heat ratio, we can search the rf and tan book for sensible heat ratio.<br><br><br><br>• But that simply equals the ratio of sensible heat, call that QS to the amount of total heat, call that QT.<br><br><br><br>• Those are all of the types, right.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 18 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
