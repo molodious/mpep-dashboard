@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 9 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 9</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 9</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      How much condensate is produced by a 10,000cfm air handling unit supplying 60°F dry bulb, 58°F wet bulb air? The return air condi- tions are 76°F and 60% relative humidity.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.002gpm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.11gpm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.16gpm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1.3gpm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. How much condensate is produced by 10,000 CFM air handling unit.
+
+2. This is an air handling unit so it&#39;s not going to be above the room.
+
+3. There&#39;s this air handling unit and this air handling unit is supplying the room and then the room is returning air to th.
+
+4. And the governing formula that will allow us to work that out is that the mass flow rate of water is equal to the mass f.
+
+5. So let&#39;s record some of those values humidity ratio at state one, 0.0016 and that has units of pounds of water per pound.
+
+6. So now let&#39;s come right back to this formula up here.
+
+<strong>Full Solution:</strong>
+
+Psychometrics Problem 9. How much condensate is produced by 10,000 CFM air handling unit? Supplying 60 degree dry bulb 58 degree wet bulb air. The return air conditions are 76 degrees and 60% relative humidity. So let&#39;s draw a quick sketch. This is an air handling unit so it&#39;s not going to be above the room. It&#39;s probably in its own room dedicated mechanical room. Let&#39;s say, so we&#39;ll just put it next door. This will be our room and then somewhere nearby. There&#39;s this air handling unit and this air handling unit is supplying the room and then the room is returning air to the unit and if there&#39;s some latent load in the room then the HU has to do some dehumidification and as a result of that condensate will be removed from the air. This problem wants us to quantify how much condensate what is the flow rate of condensate that&#39;s being removed from that 10,000 CFM air stream in GPN. So really that&#39;s going to be driven by the difference in the humidity ratio between the supply and return stream. And the governing formula that will allow us to work that out is that the mass flow rate of water is equal to the mass flow rate of air times the delta of the humidity ratios between the room return and the supply condition. So let&#39;s analyze both of those streams. The room condition, which is a proxy for the return if you&#39;d like to think of it that way, we&#39;ll call that state one and then separately we&#39;ll consider the supply condition and we&#39;ll call that state two. We know the return condition has a temperature of 76 degrees and humidity of 60% and the supply condition has a dry bulb temperature of 60 degrees and a wet bulb temperature of 58 degrees. So let&#39;s use the psychometric chart to find out what the humidity ratios are for each of those conditions. And let&#39;s also grab the specific volume for the return air such that the air entering coil. So for 76 and 60% that&#39;s here that humidity ratio is 0.0116 and the specific volume is 13.8 and it&#39;s our state one and then the supply condition is 60 and 58. Let&#39;s about right here. That&#39;s just shy of 0.01. Let&#39;s say 0.0098. So let&#39;s record some of those values humidity ratio at state one, 0.0016 and that has units of pounds of water per pound of drier and at state two 0.0098 same units and then the specific volume at state one is 13.8 cubic feet per pound. So now let&#39;s come right back to this formula up here. We&#39;re saying that the mass flow rate of water or condensate being removed from the air is given by the mass flow rate of air. We know the volume of air if we divide the volume flow rate of air by the specific volume will have a mass flow rate of air and then we multiply that by the difference in the humidity ratio between the two streams and that will give us a mass flow rate of water which we can turn into a volume flow rate of condensate. So picking up with this formula mass flow rate of water is equal to 10,000 CFM which is cubic feet per minute divided by 13.8 feet cubed per pound. So that turns into pounds per minute multiplied by 0.0016 minus sorry this is 0116 as you can see here. So make that correction 0116 minus 0.0098 and that has units of pounds of water per pound of drier and this down here is also pounds of drier so that will cancel and we&#39;ll end up with pounds of water per minute and that&#39;s 1.3 pounds of water per minute. Don&#39;t get tricked into choosing choice. The D we still have to turn that into GPM. How do we do that? We multiply by a cubic foot of water is 62.4 pounds. That&#39;s the density. So that gets rid of pounds of water and we have cubic feet of water. At least it&#39;s a volume flow rate and now we want to get that into gallons. There are 7.48 gallons in a cubic foot and if you plug all of that in that works out to 0.16 gallons per minute or GPM. Best choice is C.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • How much condensate is produced by 10,000 CFM air handling unit.<br><br><br><br>• Supplying 60 degree dry bulb 58 degree wet bulb air.<br><br><br><br>• The return air conditions are 76 degrees and 60% relative humidity.<br><br><br><br>• This is an air handling unit so it&#39;s not going to be above the room.<br><br><br><br>• It&#39;s probably in its own room dedicated mechanical room.<br><br><br><br>• Let&#39;s say, so we&#39;ll just put it next door.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">9 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 36 · May 16 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 36</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, psychometrics 9. Perhaps I&#39;m overthinking this, however, why are we using the specific volume of state 1 versus state 2? Yeah, this is a problem that comes up for pretty much everyone when they&#39;re studying for this exam. So I&#39;m just going to draw a simple case which is suitable for this problem, psychometrics 9, but it&#39;s also really typical case as well. So imagine inside your air handler, you have some coil. And we have a return from a room. And then supply out of that unit into the room, so supply return. And in this problem, we want to know, I don&#39;t even know what this problem was about whether it&#39;s calculating a heat load or whatever. But it&#39;s pretty much always the entering coil condition. That&#39;s where we take the specific volume. So it&#39;s just something that comes up again and again and again. You can have this with outside air handlers. You can have it where there&#39;s mixed air before. Basically any configuration you can imagine, but we&#39;re analyzing that coil. And we want to know what is the mass flow rate of air entering. And mass flow rate of air is the product of the density and the volume flow rate. Or to say the same thing, the volume flow rate over the specific</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74 · February 5th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 74</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psycho-Metrics 9, air entering the coil, can you help me elaborate on selecting the density at room temperature and why not at supply condition? I&#39;ve solved this question by using the standard specific volume value 13.34 and still got the answer as a matter of fact, I want to be accurate so that I don&#39;t make any mistakes during the exam. Yeah, absolutely, that&#39;s the goal. So, this one was about humidifying or dehumidifying, let&#39;s see, W1 is 0.01, must be dehumidifying so it&#39;s a cooling process and you used the values for the air, the density for the air entering the coil which is aligned with my typical guidance. So, if you did that, you should get only regardless actually of whether you used the entering or the leaving, the delta and the answer choices because I know you&#39;re concerned about accuracy here. It&#39;s only going to be about 3% because the density isn&#39;t changing that much across this process. So, while I see your commitment to accuracy and I want you to be accurate, I don&#39;t want you to like lose sleep over it. It&#39;s not too big of a deal one way or the other. It should only be a small, small change so, but you&#39;re right to use the entering condition. So, that&#39;s good. But the </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 104 · June 9th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 104</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 9. There were two questions about psychometrics 9, so I just put them on the same slide here. The first one is why do we use the high temperature psych chart for this problem? I use chart 1 and got .12 GPM as my answer. I don&#39;t remember referencing the high temperature chart on this one unless I&#39;m mistaken. I took a look at the video and the written solution and it looks like I also use the regular psychometric chart. I&#39;m not sure if we need to use the high temperature. There&#39;s no high temperature condition in the problem so we shouldn&#39;t need to. It was the short answer there. As far as your answer it does seem a little bit off so maybe take a look back through the solution there. And then the second question was, I am curious if it&#39;s optional to take density at state 1 and 2 and take the average density and find the GPM added. Yeah, this is a common question too that comes up anytime we have air flowing over a coil. You sort of have a decision to make or you&#39;re going to use the specific volume or the density for the entering condition or the leaving condition or an average condition. And the short answer is 95% of the time it doesn&#39;t matter. So just pick one and move</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 47</div>
+      <div class="qa-question"><strong>Q:</strong> How much energy do you need?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Exam one, 26. I feel as if I have seen the term saturated steam being used as HFG and HG in various solutions. Not really a question there, but let&#39;s speak to that. So, saturated steam generally refers to steam that is at the boundary of the saturated mixture region at the upper end of that boundary, which is the lower end of the superheated steam boundary. HFG is the latent heat of a position. HG is the enthalpy of saturated steam. So, let&#39;s draw that on a P. I guess we&#39;ll draw a vapor dome, kind of situation on TS, TS vapor dome. I have the saturated region in the middle, the sub cooled region to the left, so sub cooled, saturated, and superheated. And then this point right here, somebody just says saturated steam. My brain goes right there. Now, you could have saturated steam, which is part of a mixture, although it really would be better to say saturated mixture, which could be anywhere in here. And then out here, it&#39;s superheated steam. So, it&#39;s some of the saturated steam. I&#39;m assuming they&#39;re right here. Saturated steam. So, let&#39;s talk about HF, HG and HFG.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> 86 because we want to knock that down Reduce it by almost 14 percent because it&#39;s less oxygen in the air or the air is less dense at elevation How much less dense 14 percent less dense and if we have less oxygen Then we&#39;re going to have less combustion and therefore less heat So that was kind of the the rationale for it and then I wanted to just further verify that from myself So I started Googling How much oxygen is in the air at sea level?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up was from the HVAC full practice exam number two and it was a question that relates to two different problems It was number seven and number 80 from the same exam and this is an interesting question I was kind of scratching my head on this yesterday, but I&#39;ll take a shot and feel free to kind of unmute and chime in and see if we can Make this somewhat of a satisfying answer. So Problem seven and 80 both are essentially the same type of problem but solved differently one divides DF which is the density factor and the other multiplies the DF not clear to me, which is the right way So I took a look at both of these problems. I&#39;m gonna start by talking about number 80 number 80 Was a problem about a hot water heating system Which is Running a combustion cycle So it&#39;s burning some fuel and the amount of energy that&#39;s added to the water is a function of some combustion process And the argument that I make in the solution video So the amount of heat. Let&#39;s call it Q dot is a function of some combustion process and I don&#39;t go into what the fuel is or the higher heating value or kind of any of the Background combustion information.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> How much work is done on the air in the room?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and kind of a related question here, three problems later in the same module thermo. This question pertains to thermo-12. A 1200 square foot room is filled with atmospheric air at 95 degrees. The room is, the room air is cooled to 70 degrees under constant pressure. How much work is done on the air in the room? And the question is, while solving the problem, Massive air was needed to calculate the work done on the air. Mass was calculated at 95 degrees. It is my understanding that Mass is a function of temperature. So, similar question, Mass being a function of temperature. Why has the Mass only been calculated at 95 degrees? So, we&#39;re using the ideal gas law, PV equals MRT, and that&#39;s been rearranged for M, such that M is PV over RT, and that&#39;s shown in the solution here as well. So, to say Mass is a function of temperature. I guess strictly speaking that&#39;s true. Mass is a function of all of those things, right? It&#39;s a function of pressure, volume, a specific gas constant for air, and the temperature. So, yeah, it&#39;s a function of all those things.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 47</div>
+      <div class="qa-question"><strong>Q:</strong> How much energy do you need?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Exam one, 26. I feel as if I have seen the term saturated steam being used as HFG and HG in various solutions. Not really a question there, but let&#39;s speak to that. So, saturated steam generally refers to steam that is at the boundary of the saturated mixture region at the upper end of that boundary, which is the lower end of the superheated steam boundary. HFG is the latent heat of a position. HG is the enthalpy of saturated steam. So, let&#39;s draw that on a P. I guess we&#39;ll draw a vapor dome, kind of situation on TS, TS vapor dome. I have the saturated region in the middle, the sub cooled region to the left, so sub cooled, saturated, and superheated. And then this point right here, somebody just says saturated steam. My brain goes right there. Now, you could have saturated steam, which is part of a mixture, although it really would be better to say saturated mixture, which could be anywhere in here. And then out here, it&#39;s superheated steam. So, it&#39;s some of the saturated steam. I&#39;m assuming they&#39;re right here. Saturated steam. So, let&#39;s talk about HF, HG and HFG.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> 86 because we want to knock that down Reduce it by almost 14 percent because it&#39;s less oxygen in the air or the air is less dense at elevation How much less dense 14 percent less dense and if we have less oxygen Then we&#39;re going to have less combustion and therefore less heat So that was kind of the the rationale for it and then I wanted to just further verify that from myself So I started Googling How much oxygen is in the air at sea level?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up was from the HVAC full practice exam number two and it was a question that relates to two different problems It was number seven and number 80 from the same exam and this is an interesting question I was kind of scratching my head on this yesterday, but I&#39;ll take a shot and feel free to kind of unmute and chime in and see if we can Make this somewhat of a satisfying answer. So Problem seven and 80 both are essentially the same type of problem but solved differently one divides DF which is the density factor and the other multiplies the DF not clear to me, which is the right way So I took a look at both of these problems. I&#39;m gonna start by talking about number 80 number 80 Was a problem about a hot water heating system Which is Running a combustion cycle So it&#39;s burning some fuel and the amount of energy that&#39;s added to the water is a function of some combustion process And the argument that I make in the solution video So the amount of heat. Let&#39;s call it Q dot is a function of some combustion process and I don&#39;t go into what the fuel is or the higher heating value or kind of any of the Background combustion information.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> How much work is done on the air in the room?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and kind of a related question here, three problems later in the same module thermo. This question pertains to thermo-12. A 1200 square foot room is filled with atmospheric air at 95 degrees. The room is, the room air is cooled to 70 degrees under constant pressure. How much work is done on the air in the room? And the question is, while solving the problem, Massive air was needed to calculate the work done on the air. Mass was calculated at 95 degrees. It is my understanding that Mass is a function of temperature. So, similar question, Mass being a function of temperature. Why has the Mass only been calculated at 95 degrees? So, we&#39;re using the ideal gas law, PV equals MRT, and that&#39;s been rearranged for M, such that M is PV over RT, and that&#39;s shown in the solution here as well. So, to say Mass is a function of temperature. I guess strictly speaking that&#39;s true. Mass is a function of all of those things, right? It&#39;s a function of pressure, volume, a specific gas constant for air, and the temperature. So, yeah, it&#39;s a function of all those things.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 9 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
