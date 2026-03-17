@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 3 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 3</span>
+  <span class="nav-badge">⭐ 5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 3</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      900gpm of water ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.1ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.2ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1.2ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1.4ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the fluid system: pipe flow, pump, valve, or open channel
+
+2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
+
+3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
+
+4. Look up required fluid properties and pipe data from reference tables
+
+5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
+
+6. Check the result against answer choices and verify reasonableness
+
+<strong>Full Solution:</strong>
+
+This is Problem 3 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: 900gpm of water ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe?
+
+The answer choices are:
+  A) 0.1ft
+  B) 0.2ft
+  C) 1.2ft
+  D) 1.4ft
+
+To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 21 | September 10, 2021 lesson: Lesson-27921749 lesson_pos: 0 chapter_pos: 8 content_id: 27921749 wistia_i</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 3, what exactly tip you off that it was still pipe table to find the values that you were needing? This problem did not explicitly state that it was still pipe, but it's so common and fluids problems that it's still pipe that it's just assumed. I mean, I think there's a table in the reference handbook for copper pipe. I don't know if there's any other materials that went in doubt if it doesn't specifically say steel, you should probably assume it's steel. I wouldn't go out of my way to as</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 39</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 39 | June 27th, 2022 lesson: Lesson-36540660 lesson_pos: 1 chapter_pos: 26 content_id: 36540660 wistia_id:</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next stop fluids three and there's a series of three fluids questions in a row here, so they'll definitely be a theme to all three of these. How did you know you used standard steel pipe? No material was mentioned, so I soon did diameter of eight inches. This put my answer at 1.34 feet, which really put me between two answers. So this question was a little bit ambiguous, and then I didn't say in the problem statement that it was standard weight steel pipe, I just said it's an eight in</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 65 | August 14th , 2023 lesson: Lesson-47857150 lesson_pos: 0 chapter_pos: 52 content_id: 47857150 wistia_</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So starting off fluids module number three, why do you assume it's a steel pipe? So this was a friction loss, Darcy equation problem. And it's a fair question, I think when you're getting started on these problems, you are not necessarily used to some of the common assumptions that are made and the problem doesn't explicitly say that it's a steel pipe. So why would we assume that it is? One answer and this is kind of a cop out, but it's just very common that we're dealing with water flowing and </div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 66</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 66 | August 28th , 2023 lesson: Lesson-48221010 lesson_pos: 1 chapter_pos: 53 content_id: 48221010 wistia_</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one's from Fluids 3. I believe I have found a problem with this problem. The friction factor 0.0175 used in the video explanation corresponds to Reynolds number of 4 million and relative roughness of 0.004. I believe the correct friction factor for this problem should be 0.0225 for the values of Reynolds 400,000 and relative roughness of 0.004. Stayed in the problem. This is something that comes up from time to time. I think it's a little bit confusing the way they've labeled the horizontal</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 86</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 86 | August 5th, 2024 lesson: Lesson-57653726 lesson_pos: 0 chapter_pos: 72 content_id: 57653726 wistia_id</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And in the first one it was from Fluids 3. In the solution module, you refer to the Moody diagram and get friction factor to be around 0.0175 and get pressure loss per 100 feet to be around 1.36 feet. I got the friction factor loss from the Moody diagram, H217, to be around 0.016. The friction loss per 100 feet was 1.23 feet. Should the answer be 1.2 since it's closer to 1.23 feet? So it sounds like we got a different friction factor from the Moody chart. There's a few different scenarios that p</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 3 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
