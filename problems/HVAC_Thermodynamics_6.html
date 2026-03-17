@@ -132,10 +132,19 @@ body {
   line-height: 1.75;
   color: #444;
   display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .solution-box.open { display: block; }
+.solution-box ol { margin: 10px 0 10px 20px; }
+.solution-box ol li { margin-bottom: 6px; }
+.solution-box p { margin: 10px 0; }
+.solution-box .formula { 
+  background: #f8f8f8; 
+  padding: 8px 12px; 
+  border-radius: 4px; 
+  margin: 8px 0; 
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
 .video-box {
   background: #f0f4ff;
   padding: 12px;
@@ -145,6 +154,8 @@ body {
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
 }
+.video-box ul { margin: 8px 0 0 16px; }
+.video-box ul li { margin-bottom: 8px; }
 .takeaway-box {
   background: #fffbf0;
   padding: 12px;
@@ -152,6 +163,8 @@ body {
   margin-top: 10px;
   border-left: 3px solid #f59e0b;
 }
+.takeaway-box ul { margin: 8px 0 0 16px; }
+.takeaway-box ul li { margin-bottom: 6px; }
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -230,8 +243,8 @@ body {
 <div class="nav-bar">
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 6</span>
-  <span class="nav-badge">⭐ 18 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">18 OH sessions</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
 </div>
 
 <div class="layout-container">
@@ -240,50 +253,84 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 6</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Saturated liquid water at 50psia is cooled to 80°F at constant pres- sure. What is the change in enthalpy during cooling? lbm lbm lbm lbm
+      Saturated liquid water at 50 psia is cooled to 80°F at constant pressure. What is the change in enthalpy during cooling?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>50Btu</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>200Btu</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>660Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>920Btu</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>50 Btu/lb<sub>m</sub></span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>200 Btu/lb<sub>m</sub></span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>660 Btu/lb<sub>m</sub></span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>920 Btu/lb<sub>m</sub></span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
+      <span class="answer-tag">✔ Answer: B &mdash; 200 Btu/lb<sub>m</sub></span>
 
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+      <button class="solution-toggle" id="overview-toggle" onclick="toggleSection('overview')">
+        Show Quick Overview &#9660;
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+      <div class="solution-box" id="overview-box">
+        <strong>Quick Overview — How to Approach This Problem:</strong>
+        <ol>
+          <li>Identify the initial thermodynamic state: saturated liquid at a known pressure means quality = 0, so the state is fully defined.</li>
+          <li>Look up the saturation temperature corresponding to 50 psia using the saturated steam table (organized by pressure).</li>
+          <li>Recognize that cooling at constant pressure takes the water from the saturated liquid line into the subcooled (compressed) liquid region.</li>
+          <li>Use the relationship Δh = c<sub>p</sub> · ΔT to calculate the change in specific enthalpy, since liquid water has a nearly constant specific heat capacity.</li>
+          <li>Plug in c<sub>p</sub> = 1 Btu/(lb<sub>m</sub>·°F) for liquid water, and compute the temperature difference from the saturation temperature to 80°F.</li>
+          <li>Match the result to the closest answer choice.</li>
+        </ol>
+      </div>
 
-1. So what we&#39;re starting with is already saturated liquid.
+      <button class="solution-toggle" id="full-toggle" onclick="toggleSection('full')" style="margin-top:8px">
+        Show Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="full-box">
+        <strong>Full Solution:</strong>
 
-2. So let&#39;s draw that on the saturation curve vapor dome just to remind ourselves where this is where at some point here ha.
+        <p>We start at State 1: saturated liquid water at 50 psia. "Saturated liquid" means quality x = 0, placing us right on the left edge of the vapor dome. With pressure known and quality defined, the state is fully determined.</p>
 
-3. We don&#39;t know the starting temperature at state 1, but we do know the pressure is 50 PSIA and we know that it&#39;s a satura.
+        <p><strong>Step 1 — Find T<sub>1</sub> from the steam table.</strong><br>
+        Open the Properties of Saturated Water and Steam table organized by pressure (PE Reference Handbook). At 50 psia, the saturation temperature is:</p>
+        <div class="formula">T<sub>sat</sub> at 50 psia = 281°F → T<sub>1</sub> = 281°F</div>
 
-4. So based on the pressure at state 1 and the quality at state 1, both being known, which is to say saturated liquid, that.
+        <p><strong>Step 2 — Define State 2.</strong><br>
+        The water is cooled to 80°F at constant pressure (still 50 psia). Since 80°F is well below the saturation temperature of 281°F, the water is now subcooled (compressed) liquid. On a T-s diagram, we have moved left along the 50 psia isobar from the saturated liquid line into the subcooled region.</p>
 
-5. But if you don&#39;t remember that formula, which is fine, you may not remember it.
+        <p><strong>Step 3 — Calculate the change in enthalpy.</strong><br>
+        For liquid water at moderate pressures, the specific heat capacity is essentially constant at c<sub>p</sub> = 1 Btu/(lb<sub>m</sub>·°F). This holds well below approximately 400°F. We use the relationship:</p>
+        <div class="formula">Δh = c<sub>p</sub> · ΔT</div>
 
-6. You&#39;ll probably will remember these two formulas.
+        <p>This comes from equating Q = m·c<sub>p</sub>·ΔT and Q = m·Δh, then dividing both sides by mass m to get Δh = c<sub>p</sub>·ΔT.</p>
 
-<strong>Full Solution:</strong>
+        <p><strong>Step 4 — Substitute and solve.</strong></p>
+        <div class="formula">Δh = 1 Btu/(lb<sub>m</sub>·°F) × (281°F − 80°F) = 201 Btu/lb<sub>m</sub></div>
 
-Thermo 6 saturated liquid water at 50 psi a is cooled to 80 degrees Fahrenheit at constant pressure. What is the change in enthalpy during cooling? So what we&#39;re starting with is already saturated liquid. It&#39;s not a saturated mixture. It&#39;s right on the boundary of the saturated region and the subcooled liquid region. So let&#39;s draw that on the saturation curve vapor dome just to remind ourselves where this is where at some point here has a starting point at state 1 and this is on T.S. temperature entropy. And we&#39;re cooling from 1 to 2. So we&#39;re going further into that subcooled region as we cool. And that&#39;s a line of constant pressure on T.S. A line of constant pressure and isobar, so to speak, has a shape like this. So in the saturated region, it&#39;s constant temperature and constant pressure. And then outside of that region as you change the temperature at constant pressure, you get the slope line. In any case, we know that it&#39;s cooled to 80 degrees. So we know the final temperature at state 2 is 80 degrees. We don&#39;t know the starting temperature at state 1, but we do know the pressure is 50 PSIA and we know that it&#39;s a saturated liquid, which is to say that the quality at state 1 is zero. So based on the pressure at state 1 and the quality at state 1, both being known, which is to say saturated liquid, that&#39;s enough for us to look up in this team table and find out what T1 is. So let&#39;s do that. Concerge saturated water. And we want it organized by pressure. We know it&#39;s 50 PSIA. And the saturation temperature that corresponds to 50 PSIA is 280.98. I&#39;ll just call it 281. So now we know the temperature at state 1 and state 2. And it&#39;s happening at constant pressure. So we can just use the specific heat capacity of water, which we know of liquid water, which is 1, BTO, per pound, degree F. So there&#39;s a relationship between the change and enthalpy and the specific heat capacity and the change in temperature. But if you don&#39;t remember that formula, which is fine, you may not remember it. You&#39;ll probably will remember these two formulas. Q equals MCP delta T. Most people have a pretty easy time remembering that because it comes up so often. But we don&#39;t know the mass, right? That&#39;s the problem with this formula. But then if we&#39;re dealing with enthalpy, then we tend to use this equally well known formula M delta H. So if we equate these two, we can divide by M on both sides and say Q equals BQ over M. And then this side just becomes Q equals CP delta T. And this guy becomes Q equals delta H. And now we equate them and say delta H equals CP delta T. So the change in enthalpy, that&#39;s what we&#39;re looking for, that&#39;s delta H, is just CP delta T. So it&#39;s basically the same as using MCP delta T, except we don&#39;t know the mass. So it&#39;s not the total amount of energy in BTO&#39;s. It&#39;s the amount of energy per unit mass. Since we&#39;re dividing by the mass, it&#39;s BTO&#39;s per pound mass. And we&#39;ll see those units will work out. So since it&#39;s just liquid water now, and we know the delta T, we can just use the specific incapacity of water, which is one BTO per pound degree Fahrenheit. And that&#39;s pound minus times the change in temperature, which is 281 minus 80. So that&#39;s 201 times 1. And the Fahrenheit cancels with this Fahrenheit. So we get 201 BTO per pound mass, which is close enough to answer choice B.</div>
+        <p>This rounds to approximately <strong>200 Btu/lb<sub>m</sub></strong>, matching answer choice <strong>B</strong>.</p>
+
+        <p><em>Note:</em> An alternative approach is to look up h<sub>f</sub> values at both states directly from the steam table (h<sub>f</sub> at 50 psia ≈ 250 Btu/lb<sub>m</sub>, and h<sub>f</sub> at 80°F ≈ 48 Btu/lb<sub>m</sub>), giving Δh ≈ 202 Btu/lb<sub>m</sub>. This works because liquid water is nearly incompressible, so the enthalpy of subcooled liquid at a given temperature is approximately equal to h<sub>f</sub> at that temperature regardless of pressure. Both methods are valid on the exam.</p>
+      </div>
 
       <div class="video-box">
-        <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermo 6 saturated liquid water at 50 psi a is cooled to 80 degrees Fahrenheit at constant pressure.<br><br><br><br>• What is the change in enthalpy during cooling.<br><br><br><br>• So what we&#39;re starting with is already saturated liquid.<br><br><br><br>• It&#39;s right on the boundary of the saturated region and the subcooled liquid region.<br><br><br><br>• So let&#39;s draw that on the saturation curve vapor dome just to remind ourselves where this is where at some point here has a starting point at state 1 .<br><br><br><br>• So we&#39;re going further into that subcooled region as we cool.
+        <strong>📹 Video Solution Synthesis:</strong>
+        <ul>
+          <li><strong>Visualize on the vapor dome:</strong> Dan sketches the T-s diagram, placing State 1 on the saturated liquid line and showing the constant-pressure cooling path moving left into the subcooled region. This visual helps you see why State 2 is compressed liquid.</li>
+          <li><strong>Key formula derivation:</strong> Start with Q = m·c<sub>p</sub>·ΔT and Q = m·Δh. Divide both by mass to get Δh = c<sub>p</sub>·ΔT. Dan emphasizes this derivation so you understand where the formula comes from, not just how to use it.</li>
+          <li><strong>Why c<sub>p</sub> = 1 works:</strong> The specific heat capacity of liquid water is nearly constant at 1 Btu/(lb<sub>m</sub>·°F) for temperatures below about 400°F. Above that, it increases and the approximation breaks down.</li>
+          <li><strong>Saturated liquid means quality = 0:</strong> This is a defined state — knowing pressure plus quality gives you the temperature from the steam table in one lookup.</li>
+          <li><strong>Units drive the answer:</strong> Because we are dividing by mass (not given), the result is in Btu/lb<sub>m</sub> (specific enthalpy), not total Btu. Read the answer choices carefully to confirm units.</li>
+        </ul>
       </div>
 
       <div class="takeaway-box">
-        <strong>⭐ Key Takeaways:</strong><br>
-        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+        <strong>⭐ Key Takeaways:</strong>
+        <ul>
+          <li>When you see "saturated liquid" in a problem, immediately recognize that quality equals zero and the state is fully defined by a single additional property (pressure or temperature). This lets you go straight to the steam table.</li>
+          <li>The relationship Δh = c<sub>p</sub>·ΔT is one of the most frequently used building blocks in PE exam thermodynamics — know it cold, and know where it comes from.</li>
+          <li>Liquid water is nearly incompressible, which means subcooled liquid properties at a given temperature are approximately equal to the saturated liquid properties at that same temperature. This is a useful shortcut for steam table lookups when the subcooled tables are not available.</li>
+          <li>On the exam, there are often multiple valid paths to the answer. Being comfortable with both the c<sub>p</sub>·ΔT method and the direct steam table subtraction method gives you flexibility and a way to verify your result.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -293,115 +340,41 @@ Thermo 6 saturated liquid water at 50 psi a is cooled to 80 degrees Fahrenheit a
 
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">18 questions from 4 sessions</span>
+      <span class="oh-count">3 questions from 3 sessions</span>
     </div>
     <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
 
     <div class="qa-group">
-      <div class="qa-session">OH 115 · March 2nd 2026</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 115</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermo6, the problem states that we have saturated liquid water as state 1, went to the table on page 322, used the pressure at 50 psi a and got the temperature. We were able to make this association just because it was saturated liquid water, quality equals zero. If the problem stated that it was a mix of saturated water vapor inside the dome, could you have made the same association plus where you find the equation Q equals m delta H and we have let&#39;s pause there and adjust that and then we&#39;ll read the stuff at the bottom. So to your first question, how do we use the pressure to get the temperature? Yeah, so that is the defining feature of the steam table and how we use them. So let&#39;s draw a miniature version and we drew this earlier, right? But let&#39;s redraw that and let&#39;s just draw a part of it. Only this part. And I&#39;m going to change the horizontal axis sometimes they draw this on T.S. This is the classic version of the vapor dome. So the thing on the vapor dome that we keep drawing is just three segments of this bigger picture. So this is kind of more zoomed out. This is the part that goes from liquid to saturated mixture to a vapor. And we use the pressure to get the temperat</div>
+      <div class="qa-session">OH 115 · March 2nd, 2026</div>
+      <div class="qa-question"><strong>Q:</strong> The problem says saturated liquid water — quality equals zero. If the problem stated it was a saturated mixture (inside the dome), could we still use pressure alone to find the temperature? Also, where do you find Q = m·Δh, and is it safe to use c<sub>p</sub> = 1 every time we have liquid water?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Yes — for any quality between 0 and 1 (inside the vapor dome), there is only one temperature for a given pressure. That's the defining feature of the saturation region and why the steam tables are organized both by pressure and by temperature. As for Q = m·Δh, it's such a fundamental building block that you will internalize it through practice — it's one of a small handful of relationships I'd call "must-know." And yes, c<sub>p</sub> = 1 Btu/(lb<sub>m</sub>·°F) is safe for liquid water even at elevated pressures because liquid water is essentially incompressible. The specific heat is primarily a function of temperature, and it stays very close to 1 up to several hundred degrees. You can check Engineering Toolbox to see where it starts to deviate, but for exam purposes you're good. (OH #115)</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 39 · June 27th 2022</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 39</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> First one is thermo 3. Using extrapolation from table 1.2.8, I would expect the K value to be around 1.38. So this was a problem that was about finding the K value based on CP and CV. The specific E-Cocity based on constant pressure or constant volume. And I went through a process to do that, which was a little bit different than using this table. But the candidate asking this question wanted to try a different way using the table, which I think is a really neat idea. And actually is probably a lot quicker than the method that I did. So I&#39;m really glad it came up. I think the mistake here was actually something really silly, but easy to make. And it was that temperature we were dealing with was a 1,020F. So to get that in absolute temperature units, you do have to add 460. And then you get 1480 rank-in. And then you really could go ahead and use this table. So the SNP that had been provided only went up to 1,300 rank-in. So I just grabbed an X-FU Rose from the reference handbook. And if you look at 1,500, which is maybe close enough, it&#39;s about 1.35. And that&#39;s closer to the correct answer. And that&#39;s very much consistent with the answer that I had presented using that more analyti</div>
+      <div class="qa-session">OH 71 · December 18th, 2023</div>
+      <div class="qa-question"><strong>Q:</strong> You used Δh = c<sub>p</sub>·ΔT in the solution video. I saw "saturated liquid" and went straight to the steam tables — looked up h<sub>f</sub> at 50 psia (≈250) and h<sub>f</sub> at 80°F (≈48), subtracted, and got 202. Was I lucky, or is this a legitimate approach?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> You weren't lucky — it's a perfectly valid approach. State 1 is fully defined (saturated liquid at 50 psia), so h<sub>f</sub> ≈ 250 is exact. For State 2, you're in the subcooled region, but since liquid water is nearly incompressible, h<sub>f</sub> at 80°F is a close approximation of the actual enthalpy at 80°F and 50 psia. The small difference between 201 and 202 is just rounding. That said, I recommend knowing both methods. The c<sub>p</sub>·ΔT approach is slightly more precise and is the better tool when the steam table shortcut doesn't work as cleanly. Know it both ways so you have maximum flexibility. (OH #71)</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 51 · January 30th 2023</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 51</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, now we&#39;re over to some HVAC thermo number six. Can you just look up the enthalpy on the steam table and subtract to get the change? So this question was saturated liquid water at a known pressure and temperature. Or we don&#39;t know the temperature. We know that it&#39;s saturated liquid and we know the pressure. So it is a fully defined state, but we got to look up the temperature. Is cooled to 80 degrees at constant pressure? What&#39;s the change in enthalpy? So, I&#39;m going to give you the answer first and then I&#39;ll explain why. So the answer is yes, you can do it that way by just looking up the enthalpy and the steam table and subtracting. You&#39;ll be very close, but technically, so I&#39;m fine with you doing that. I just want you to know, again, this goes back to the earlier point that&#39;s making on the first couple of questions about you&#39;re making a judgment call and you&#39;re making a decision to be in precise. So if you&#39;re okay with it and you&#39;re confident it&#39;s going to work out, which you can be in this case, then I&#39;m totally fine with it. But I really want it to use this example as an opportunity to show you this delta H equals Cp delta T idea. In case this isn&#39;t always true. So let me s</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 71 · December 18th 2023</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 71</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> First question was from thermo number six. You utilized the delta H equals CP delta T formula to software the problem. I saw saturated liquid and went to the tables for 50 psi and 80 degrees and took the difference of the HF values, which was 250 minus 48. And came up with two or two was I lucky at the resulting value. Or was this another path toward the correct answer? I think the answer in the solution was 201. And so very close. And this problem was about compressing water. So we&#39;re trying to find the delta between saturated water and compressed water. And the state one is fully defined. We know the pressure and the temperature. So I think we were able to get that one exactly. So no real uncertainty around that 250 number. It should be a good number. The question comes with the other number, after the compression, we have this subcooled liquid or compressed water. In the old days, we used to have access to the compressed water table in the mechanical engineering reference manual. But that&#39;s no longer a thing in the reference handbook. So we&#39;re forced to find another method. And there are two methods. And the method used here was kind of to just basically assume that the enthalpy</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> And the question is, could you provide examples for water in other states, liquid saturated mixture and saturated vapor?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Water at 400 psi and 700f is in what thermodynamic state. So this question is probably simpler than what you might actually be asked on the PE exam. It&#39;s really a foundational question. You&#39;ll probably find yourself answering questions like this over and over again while solving more involved problems. And the question is, could you provide examples for water in other states, liquid saturated mixture and saturated vapor? So I actually challenged the individual who asked this question to come up with some answers on their own. And now I&#39;ll take a couple of minutes to talk about how you would do that. We can look in the steam tables and show that. So first of all, just answering the question, how do you know that water at 400 psi and 700f? What state that&#39;s in? So we can look in the saturated steam table and you can use either the saturated steam or the superheated steam either way will be able to get there. And in this case, the pressure was 400 and the temperature was 700. So we&#39;ll go down. This is two tables as you probably know the one organized by temperature and one organized by pressure.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 16</div>
-      <div class="qa-question"><strong>Q:</strong> Do you know why that is?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> I worked on practice problems, this one&#39;s also from another source. Solving mass flow rate, it gives a Q, a suction temperature, 25 degree saturated, and this charge pressure of 173 PSIA with no condenser sub cooling, and ask you to find the mass flow rate. I understand we needed to find a change in enthalpy, but it wasn&#39;t sure where to pull from. I chose state 1 and 2 because they talked about the compressor, but they choose state 1 and either 3 or 4. Do you know why that is? So I think the tricky part of this question is just the way they started it off, and I think that&#39;s probably what kind of might have caught you off guard here. They say a compressor right at the beginning, which makes it sound like the compressor is more important than it would normally be in our Friduration cycle, but the reality is, there&#39;s always a compressor and a refrigeration cycle, and it&#39;s not the compressor. The compressor is always the thing that&#39;s doing work that&#39;s making the refrigeration cycle happen, but it&#39;s the refrigeration cycle that causes there to be a refrigeration effect, and the refrigeration effect is always between H4 and H1.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 31</div>
-      <div class="qa-question"><strong>Q:</strong> 1 water cooled condenser equation?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Usually when you have to find the makeup water, you would use real thumb for humidity ratio. Let me read the problem first. Make the question. Make more sense. And ideal vapor compression refrigeration system uses R134A. Or sensible heat load is 100,000. Sensible heat ratio is 0.7. Or refrigeration cycle operates between evaporator pressure of 20 and a condenser pressure of 100 and the temperature rise of the cooling water is limited to 10. And the water, we want to know the water flow rate needed in the condenser. Okay, so we&#39;ve got our refrigeration cycle and has a water cooling denser. All right. Usually when you have to find the makeup water, you would use real thumb for humidity ratio of finding CFM and work your way through the problem. In this question, it&#39;s using R134A. You can only find the enthalpy using 134A using enthalpy chart. How would you do a problem like this without using 8.3.1 water cooled condenser equation? Okay, yeah, I think we can do it without that equation. But I have some questions about the question. Make up water, makes me nervous because that makes it sound like we think it&#39;s a cooling tower, which it&#39;s not.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 44</div>
-      <div class="qa-question"><strong>Q:</strong> Is that right?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, I think we have one on TFS, so let&#39;s hit this one. This is from one of the practice exams. This is relevant for HVDC folks too, so don&#39;t tune out. You&#39;re talking about the point of intersection of the curve for 7.5 horsepower, which is the dashed line of 300gpm. But instead, you got the point of intersection of the 8 inch impeller curve with the vertical lines at 300gpm. So the correct answer should be 72 feet. Is that right? Yeah, I had the same reaction to a similar problem, which is precisely why this problem is in the program. It&#39;s kind of a trap. I sort of hate this question that I have to put it in here, but it got me as getting you and here we are. So yeah, you go to 7.5 horsepower and it says the operating point of a 7.5 horsepower pump. So you&#39;re drawn into the tempting approach of just following that dotted line up and then finding the intersection with the flow rate 300gpm. And that&#39;s here. And then followed that to the left to read the head and you&#39;re getting 72. So I would do the same thing. But the counter argument is that you have to select the pump based on the power and then you have to read the corresponding pump curve.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 53</div>
-      <div class="qa-question"><strong>Q:</strong> Is it okay to use the HF value at 200 F?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transfer 15 for 200 F given and 1000 PSIA given the PSAT saturation pressure is 11.54 PSIA from the temp steam table. By the way, this is a problem about liquid water entering a boiler and then being heated to make steam just for context. And we need to know the enthalpy of the entering water which is 200 F and 1000 PSIA. Given that 1000 PSIA given is greater than PSAT 11.54. Is it okay to use the HF value at 200 F? I was told it was okay to approximate HF values if P given is greater than PSAT which would fall in the compressed liquid region. P given equals PSAT saturated liquid and P given is less than PSAT would be super heated. Or should I get used to delta H equal CP delta T for finding H1? Just trying to find ways to speed up if approximations are okay. Let me know your thoughts here. So I really wanted to look into this one before I just gave a quick answer because my gut reaction was to kind of stick with the way it&#39;s done in the solution video and do CP delta T. And oftentimes making this simplifying assumption is less accurate than doing CP delta T. But that tends to be more true at moderate pressures.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 82</div>
-      <div class="qa-question"><strong>Q:</strong> Is that helpful?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Yeah, well, this is really good. Let me read this one for everyone. So I know you&#39;re probably moving slower, so you can explain it as you go through. This problem takes eight minutes. Yeah, the video solution was eight minutes. There&#39;s a lot of values to look up right down and a lot of opportunities for mistakes in that process. Why not just use the Muller diagram and save yourself a lot of time and trouble. Same thing. Absolutely use the Muller diagram and save yourself lots of time and trouble. And go through that entire process and make sure you can do it that way too. Because you just never know how the question is going to be formulated. It could be it could start in the middle. It could right. So like every step in that process that I&#39;m trying to show you is valuable. It just may not be absolutely required for this particular problem, but it could be required for a different one. So when it comes to analyzing steam, Muller diagram is definitely valid and useful and fast. And go into the steam tables and finding the entropy and interpolating and figuring out what&#39;s happening. If it&#39;s isentropic, that whole process also very valuable.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 108</div>
-      <div class="qa-question"><strong>Q:</strong> For the PE exam, what systematic approach or quick decision rules can I use to instantly know whether water is an mixed saturated or superheated state?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 5. And Thermal 5 you mentioned using gut instinct to determine which steam table to use when finding water properties. For the PE exam, what systematic approach or quick decision rules can I use to instantly know whether water is an mixed saturated or superheated state? I want to avoid wasting time flipping between tables. Okay, so similar, similar themes here to the previous problems about being concerned about time and wasting time. So at the risk of being a broken record, we don&#39;t want to worry too much about time when we&#39;re studying. What will probably happen is you&#39;ll learn your way around the tables and then you&#39;ll become very good at looking for what you want and finding it quickly. But you get faster by doing it slowly to figure it out and then you do it a little faster and then a little faster and a little faster and a little faster. And then one day you wake up and you&#39;re like man, I&#39;m quick. But you know, you don&#39;t just get fast without that without going to the steam tables a lot of times. I don&#39;t think there&#39;s a real shortcut there, but anyway, as it relates to this particular question about how to inst...</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> And the question is, could you provide examples for water in other states, liquid saturated mixture and saturated vapor?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Water at 400 psi and 700f is in what thermodynamic state. So this question is probably simpler than what you might actually be asked on the PE exam. It&#39;s really a foundational question. You&#39;ll probably find yourself answering questions like this over and over again while solving more involved problems. And the question is, could you provide examples for water in other states, liquid saturated mixture and saturated vapor? So I actually challenged the individual who asked this question to come up with some answers on their own. And now I&#39;ll take a couple of minutes to talk about how you would do that. We can look in the steam tables and show that. So first of all, just answering the question, how do you know that water at 400 psi and 700f? What state that&#39;s in? So we can look in the saturated steam table and you can use either the saturated steam or the superheated steam either way will be able to get there. And in this case, the pressure was 400 and the temperature was 700. So we&#39;ll go down. This is two tables as you probably know the one organized by temperature and one organized by pressure.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 16</div>
-      <div class="qa-question"><strong>Q:</strong> Do you know why that is?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> I worked on practice problems, this one&#39;s also from another source. Solving mass flow rate, it gives a Q, a suction temperature, 25 degree saturated, and this charge pressure of 173 PSIA with no condenser sub cooling, and ask you to find the mass flow rate. I understand we needed to find a change in enthalpy, but it wasn&#39;t sure where to pull from. I chose state 1 and 2 because they talked about the compressor, but they choose state 1 and either 3 or 4. Do you know why that is? So I think the tricky part of this question is just the way they started it off, and I think that&#39;s probably what kind of might have caught you off guard here. They say a compressor right at the beginning, which makes it sound like the compressor is more important than it would normally be in our Friduration cycle, but the reality is, there&#39;s always a compressor and a refrigeration cycle, and it&#39;s not the compressor. The compressor is always the thing that&#39;s doing work that&#39;s making the refrigeration cycle happen, but it&#39;s the refrigeration cycle that causes there to be a refrigeration effect, and the refrigeration effect is always between H4 and H1.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 31</div>
-      <div class="qa-question"><strong>Q:</strong> 1 water cooled condenser equation?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Usually when you have to find the makeup water, you would use real thumb for humidity ratio. Let me read the problem first. Make the question. Make more sense. And ideal vapor compression refrigeration system uses R134A. Or sensible heat load is 100,000. Sensible heat ratio is 0.7. Or refrigeration cycle operates between evaporator pressure of 20 and a condenser pressure of 100 and the temperature rise of the cooling water is limited to 10. And the water, we want to know the water flow rate needed in the condenser. Okay, so we&#39;ve got our refrigeration cycle and has a water cooling denser. All right. Usually when you have to find the makeup water, you would use real thumb for humidity ratio of finding CFM and work your way through the problem. In this question, it&#39;s using R134A. You can only find the enthalpy using 134A using enthalpy chart. How would you do a problem like this without using 8.3.1 water cooled condenser equation? Okay, yeah, I think we can do it without that equation. But I have some questions about the question. Make up water, makes me nervous because that makes it sound like we think it&#39;s a cooling tower, which it&#39;s not.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 44</div>
-      <div class="qa-question"><strong>Q:</strong> Is that right?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, I think we have one on TFS, so let&#39;s hit this one. This is from one of the practice exams. This is relevant for HVDC folks too, so don&#39;t tune out. You&#39;re talking about the point of intersection of the curve for 7.5 horsepower, which is the dashed line of 300gpm. But instead, you got the point of intersection of the 8 inch impeller curve with the vertical lines at 300gpm. So the correct answer should be 72 feet. Is that right? Yeah, I had the same reaction to a similar problem, which is precisely why this problem is in the program. It&#39;s kind of a trap. I sort of hate this question that I have to put it in here, but it got me as getting you and here we are. So yeah, you go to 7.5 horsepower and it says the operating point of a 7.5 horsepower pump. So you&#39;re drawn into the tempting approach of just following that dotted line up and then finding the intersection with the flow rate 300gpm. And that&#39;s here. And then followed that to the left to read the head and you&#39;re getting 72. So I would do the same thing. But the counter argument is that you have to select the pump based on the power and then you have to read the corresponding pump curve.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 53</div>
-      <div class="qa-question"><strong>Q:</strong> Is it okay to use the HF value at 200 F?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transfer 15 for 200 F given and 1000 PSIA given the PSAT saturation pressure is 11.54 PSIA from the temp steam table. By the way, this is a problem about liquid water entering a boiler and then being heated to make steam just for context. And we need to know the enthalpy of the entering water which is 200 F and 1000 PSIA. Given that 1000 PSIA given is greater than PSAT 11.54. Is it okay to use the HF value at 200 F? I was told it was okay to approximate HF values if P given is greater than PSAT which would fall in the compressed liquid region. P given equals PSAT saturated liquid and P given is less than PSAT would be super heated. Or should I get used to delta H equal CP delta T for finding H1? Just trying to find ways to speed up if approximations are okay. Let me know your thoughts here. So I really wanted to look into this one before I just gave a quick answer because my gut reaction was to kind of stick with the way it&#39;s done in the solution video and do CP delta T. And oftentimes making this simplifying assumption is less accurate than doing CP delta T. But that tends to be more true at moderate pressures.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 82</div>
-      <div class="qa-question"><strong>Q:</strong> Is that helpful?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Yeah, well, this is really good. Let me read this one for everyone. So I know you&#39;re probably moving slower, so you can explain it as you go through. This problem takes eight minutes. Yeah, the video solution was eight minutes. There&#39;s a lot of values to look up right down and a lot of opportunities for mistakes in that process. Why not just use the Muller diagram and save yourself a lot of time and trouble. Same thing. Absolutely use the Muller diagram and save yourself lots of time and trouble. And go through that entire process and make sure you can do it that way too. Because you just never know how the question is going to be formulated. It could be it could start in the middle. It could right. So like every step in that process that I&#39;m trying to show you is valuable. It just may not be absolutely required for this particular problem, but it could be required for a different one. So when it comes to analyzing steam, Muller diagram is definitely valid and useful and fast. And go into the steam tables and finding the entropy and interpolating and figuring out what&#39;s happening. If it&#39;s isentropic, that whole process also very valuable.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 108</div>
-      <div class="qa-question"><strong>Q:</strong> For the PE exam, what systematic approach or quick decision rules can I use to instantly know whether water is an mixed saturated or superheated state?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 5. And Thermal 5 you mentioned using gut instinct to determine which steam table to use when finding water properties. For the PE exam, what systematic approach or quick decision rules can I use to instantly know whether water is an mixed saturated or superheated state? I want to avoid wasting time flipping between tables. Okay, so similar, similar themes here to the previous problems about being concerned about time and wasting time. So at the risk of being a broken record, we don&#39;t want to worry too much about time when we&#39;re studying. What will probably happen is you&#39;ll learn your way around the tables and then you&#39;ll become very good at looking for what you want and finding it quickly. But you get faster by doing it slowly to figure it out and then you do it a little faster and then a little faster and a little faster and a little faster. And then one day you wake up and you&#39;re like man, I&#39;m quick. But you know, you don&#39;t just get fast without that without going to the steam tables a lot of times. I don&#39;t think there&#39;s a real shortcut there, but anyway, as it relates to this particular question about how to inst...</div>
+      <div class="qa-session">OH 51 · January 30th, 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Can you just look up the enthalpy in the steam table and subtract to get the change in enthalpy?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Yes, you can — and you'll get very close. But technically you're making a simplifying assumption. State 2 is subcooled liquid, not saturated, so you can't look it up directly in the saturated steam table. What you're really doing is assuming that the enthalpy of compressed water at a given temperature is approximately equal to h<sub>f</sub> at that temperature. This works because water is incompressible — the pressure doesn't meaningfully change the enthalpy. You'll get about 202 vs. the 201 from the c<sub>p</sub>·ΔT method. I'm fine with you using this shortcut, but I want you to also absorb the Δh = c<sub>p</sub>·ΔT relationship from the solution video. It's a more general tool. The question of "how much accuracy do I need?" is itself part of the work of studying — playing on that line of precision vs. speed is exactly what the PE exam rewards. (OH #51)</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 6 · 18 OH sessions · Generated 2026-03-17</span>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 6 · 3 OH sessions · Generated 2026-03-17</span>
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 
 <script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const btn = document.getElementById('sol-toggle');
+function toggleSection(id) {
+  const box = document.getElementById(id + '-box');
+  const btn = document.getElementById(id + '-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  const label = id === 'overview' ? 'Quick Overview' : 'Full Solution';
+  btn.innerHTML = open ? 'Hide ' + label + ' &#9650;' : 'Show ' + label + ' &#9660;';
 }
 </script>
 </body>
