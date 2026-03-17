@@ -1039,27 +1039,30 @@ h1 {{ font-size: 22px; margin-bottom: 6px; }}
         f.write(html)
 
 
-def git_commit_push(files, message):
-    """Git add, commit, push."""
+def git_commit_push(files, message, do_push=True):
+    """Git add, commit, and optionally push."""
     try:
         os.chdir(DASHBOARD)
-        for f in files:
-            subprocess.run(["git", "add", f], check=True, capture_output=True)
+        subprocess.run(["git", "add"] + files, check=True, capture_output=True)
         result = subprocess.run(
             ["git", "commit", "-m", message],
             capture_output=True, text=True
         )
         if result.returncode != 0 and "nothing to commit" not in result.stdout:
-            log(f"  Git commit warning: {result.stderr[:200]}")
+            log(f"  Git commit warning: {result.stderr[:100]}")
         
-        result = subprocess.run(
-            ["git", "push", "origin", "main"],
-            capture_output=True, text=True, timeout=30
-        )
-        if result.returncode != 0:
-            log(f"  Git push warning: {result.stderr[:200]}")
-            # Retry once
-            subprocess.run(["git", "push", "origin", "main"], capture_output=True, timeout=30)
+        if do_push:
+            # Pull rebase first to handle competing refs
+            subprocess.run(
+                ["git", "pull", "--rebase", "origin", "main"],
+                capture_output=True, text=True, timeout=60
+            )
+            result = subprocess.run(
+                ["git", "push", "origin", "main"],
+                capture_output=True, text=True, timeout=60
+            )
+            if result.returncode != 0:
+                log(f"  Git push warning: {result.stderr[:100]}")
         
         return True
     except Exception as e:
@@ -1106,7 +1109,10 @@ def main():
     # Process each problem
     problems_built = 0
     failures = []
-    batch_count = 0
+    batch_files = []  # Accumulate files for batch git commit
+    BATCH_SIZE = 25  # Commit every 25 problems
+    
+    os.chdir(DASHBOARD)
     
     for i in range(start_idx, len(problem_sequence)):
         prog, ch, num, pdata = problem_sequence[i]
@@ -1146,17 +1152,13 @@ def main():
                 failures.append(pid)
                 continue
             
-            # Step 6: Git commit problem file
-            git_commit_push(
-                [f"problems/{fname}"],
-                f"Build: {pid} ({oh_count} OH sessions)"
-            )
+            # Track for batch commit
+            batch_files.append(f"problems/{fname}")
             
-            # Step 7: Update progress
+            # Update progress
             update_progress(progress, prog, ch, num, pid)
             completed_set.add(pid)
             problems_built += 1
-            batch_count += 1
             
             # Set next problem
             if i + 1 < len(problem_sequence):
@@ -1170,15 +1172,17 @@ def main():
             
             log(f"✓ Problem {progress['completed']} ({pid}): {file_size/1024:.1f} KB, {oh_count} OH sessions")
             
-            # Regenerate dashboards every 5 problems
-            if batch_count % 5 == 0:
+            # Batch git commit every BATCH_SIZE problems
+            if len(batch_files) >= BATCH_SIZE:
+                # Regenerate dashboards
                 index = regenerate_index()
                 regenerate_dashboard_html(index)
-                git_commit_push(
-                    ["progress.json", "oh-prep-index-v2.json", "oh-prep.html"],
-                    f"Update: {progress['completed']}/660 problems complete"
-                )
-                log(f"  Dashboard updated at {progress['completed']}/660")
+                
+                # Batch commit
+                all_files = batch_files + ["progress.json", "oh-prep-index-v2.json", "oh-prep.html"]
+                git_commit_push(all_files, f"Build batch: {progress['completed']}/660 complete ({len(batch_files)} problems)")
+                log(f"  Git batch committed: {len(batch_files)} files, dashboard updated at {progress['completed']}/660")
+                batch_files = []
             
             # Checkpoint every 50 problems
             if problems_built % 50 == 0:
@@ -1187,19 +1191,19 @@ def main():
                 success_rate = (problems_built / (problems_built + len(failures))) * 100 if (problems_built + len(failures)) > 0 else 100
                 log(f"  Success rate: {success_rate:.1f}%")
                 log(f"  Failed problems: {failures}")
+                sys.stdout.flush()
         
         except Exception as e:
             log(f"✗ Problem ({pid}): ERROR - {str(e)[:200]}")
             failures.append(pid)
             continue
     
-    # Final dashboard update
-    index = regenerate_index()
-    regenerate_dashboard_html(index)
-    git_commit_push(
-        ["progress.json", "oh-prep-index-v2.json", "oh-prep.html", "BUILD_LOG.txt"],
-        f"Final update: {progress['completed']}/660 complete"
-    )
+    # Final batch commit
+    if batch_files:
+        index = regenerate_index()
+        regenerate_dashboard_html(index)
+        all_files = batch_files + ["progress.json", "oh-prep-index-v2.json", "oh-prep.html", "BUILD_LOG.txt"]
+        git_commit_push(all_files, f"Final update: {progress['completed']}/660 complete")
     
     log(f"COMPLETE: {problems_built} problems built ({len(failures)} failures)")
     if failures:
