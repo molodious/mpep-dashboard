@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 26 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 26</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 26</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      3 lb of 500°F saturated steam enters an open feedwater heater in min addition to 1gpm of 60°F water at 14.7psia. What is the enthalpy of the exit stream after mixing? lb lb lb lb
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>230Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>340Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>450Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>560Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+3 pounds per minute of 500 degrees saturated steam enters an open feed water heater in addition to 1GPM of 60 degree water at 14.7 psi a. What is the enthalpy of the exit stream after mixing? So let&#39;s draw our feed water heater as a box and we got state one coming in that is going to be the water. Actually let&#39;s make it saturated steam since that was the first one mentioned so that&#39;ll be the steam and then state two coming in will be the water and then state three coming out is the mixture will call that state three and we want to know the enthalpy at state three. Fortunately states one and two are fully defined so let&#39;s start with the steam and our goal here is to find the enthalpy so we know the mass flow rate is three pounds per minute we don&#39;t really need that to find the enthalpy but it&#39;s good to know we&#39;ll need it later the temperature is 500 degrees and we know that it&#39;s saturated steam so we actually have two choices as to where we&#39;re going to go for the answer we could go into the superheated steam table by searching properties of superheated steam or we could go into the saturated steam table by searching properties of saturated water and steam and just looking at HG so either way we&#39;ll get the same value and that&#39;s our H1 which is 12.2.32 B2 you&#39;ve performed now for the mass flow rate at two we&#39;ve been given the volume flow rate in GPM so let&#39;s convert that to a mass flow rate at state two that&#39;s going to be the density times the volume flow rate so the density is 62.4 pounds per cubic foot per water and then the volume flow rate is just one GPM so we&#39;ll write that as one gallon per minute and now we want to get rid of cubic feet so we&#39;ll multiply by one cubic foot per 7.48 gallons you can definitely look that up but it is one that I think you will ultimately memorize from repetition and I&#39;d be very surprised if you do all the practice problems in this program and have not memorized that number so gallons cancels cubic feet cancels and we end up with pounds per minute which is exactly what we want for a mass flow rate that&#39;s 8.34 pounds per minute and now for the enthalpy at state two we&#39;re going to have another situation that we&#39;ve seen before where when we go to look this up at that pressure 14.7 and 60 degrees we&#39;re going to find that the saturation temperature is much higher than the actual temperature that we have in other words the boiling point of water at atmosphere pressure is 212 hour water is 60 degrees as far colder than 212 so it&#39;s way below the saturation point and therefore we have to subtract the change in temperature to find the final enthalpy so the form of way of doing that and by now if you&#39;re willing to to take the shortcut you can do 212 minus 60 get that delta and that&#39;s what you&#39;re going to subtract from hf which is the enthalpy at 14.7 but I&#39;m going to show it out formally for those of you that haven&#39;t seen yet or if you need more repetition on it what we&#39;re doing is we&#39;re saying that the change in enthalpy the reduction in enthalpy below hf which is the enthalpy at saturation is equal to cp delta t and then we&#39;re expanding that by saying hf and sometimes you can write hs if you prefer minus h2 is equal to cp times t sat aka the boiling point of water at that pressure minus t2 and we know the temperatures and we know hf or at least we can look up hf at that pressure so we&#39;re ready to make substitutions here but let&#39;s get h2 by itself so h2 is going to equal hf minus cp times t sat minus t2 so h2 is 180.2 that&#39;s hf at a pressure of 14.7 psia minus the specific heat capacity of water which is 1b2 per pound degree Fahrenheit times the change in temperature 212 is t sat it&#39;s the boiling point of water minus 60 degrees and that gives us an enthalpy for state 2 of 28.2 so now we know the enthalpy at state 1 the enthalpy at state 2 and we want to know the enthalpy at state 3 this is going to be coming down to an energy and mass balance so let&#39;s start with the mass balance the mass flow rate 1 plus ...</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 3 pounds per minute of 500 degrees saturated steam enters an open feed water heater in addition to 1GPM of 60 degree water at 14.7 psi a.<br><br><br><br>• What is the enthalpy of the exit stream after mixing.<br><br><br><br>• So let&#39;s draw our feed water heater as a box and we got state one coming in that is going to be the water.<br><br><br><br>• Actually let&#39;s make it saturated steam since that was the first one mentioned so that&#39;ll be the steam and then state two coming in will be the water a.<br><br><br><br>• Fortunately states one and two are fully defined so let&#39;s start with the steam and our goal here is to find the enthalpy so we know the mass flow rate.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 26 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

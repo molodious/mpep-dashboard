@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 11 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 11</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      1lbm of pure oxygen at 14.7psia and 68°F will be distributed on an min aircraft during an emergency through a 3in diameter main duct. What is the velocity? min min min min
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>30 ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>250 ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>270 ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>310 ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So to start, let&#39;s come up with a representation of the velocity based on a couple of common equations that you may have.
+
+2. First is a relationship between mass flow rate and density and volume flow rate.
+
+3. So density is mass per unit volume, volume flow rate is volume per unit time.
+
+4. So if you multiply it together, that turns it into mass per unit time.
+
+5. Velocity is length per unit time and an area is length squared.
+
+6. So you end up with like cubed per unit time, which is a volume flow rate.
+
+<strong>Full Solution:</strong>
+
+One pound per minute of pure oxygen at 14.7 PSIA and 68 degrees Fahrenheit will be distributed on an aircraft during an emergency through a three inch diameter main dock. What is the velocity? So to start, let&#39;s come up with a representation of the velocity based on a couple of common equations that you may have memorized or you may not have, but they&#39;re easy to find and easy to use, so you&#39;ll be familiar with them depending on how far along you are in the process. First is a relationship between mass flow rate and density and volume flow rate. So the mass flow rate equals density times volume flow rate. So density is mass per unit volume, volume flow rate is volume per unit time. So if you multiply it together, that turns it into mass per unit time. So that&#39;s one relationship. And then another is the volume flow rate and how that&#39;s related to velocity times area. Velocity is length per unit time and an area is length squared. So you end up with like cubed per unit time, which is a volume flow rate. So this is just two common ideas that we use over and over. And if we want to find velocity, then we really want to solve this second one and say that the velocity is equal to the volume flow rate over the area. But then if we were to get volume flow rate by itself over here, we could say that q equals m dot over rho over the density. So then we could substitute that in to this equation. And we could say that velocity equals mass flow rate divided by density times area. And that&#39;s going to be the equation that we want to apply in order to find the velocity in this situation. So what do we need? Well, we actually have the mass flow rate already given. The density we&#39;re going to have to look into the ideal gas will hold on that for a moment. Area, we know the diameter of the duct so we can go ahead and find that now. And it doesn&#39;t say anything about nominal and worrying about thickness, the ducts are pretty thin walled. So we&#39;ll just actually use the 3-inch diameter to find the internal area. So area equals pi over 4 d squared. So in this case, pi over 4. And let&#39;s get this in feet squared. So I&#39;m going to take three inches and divide it by 12 inches per foot, or you can think of it as three-twelfths of a foot. That&#39;s oftentimes how I like to think about it. And that way the answer comes out in feet squared. That value is 0.049 feet squared. So that gives us a. Now for the density, this is where it gets a bit interesting. We can use the ideal gas law, but it&#39;s pure oxygen. So what&#39;s the implication of that? We&#39;re going to have a bit of trouble finding the gas constant. So we can say pv equals mrt. But usually when we do this, this r is the specific gas constant for the gas we&#39;re talking about. And a lot of times we&#39;re talking about air. So that&#39;s a value that you can look up. But now we&#39;re talking about pure oxygen. There&#39;s a table in the reference handbook where you can look up gas constants for different gases. And unfortunately oxygen is not included in that list. So what do we do? Well we can use the definition of a gas constant and how it relates to the universal gas constant. So the specific gas constant for any gas will talk specifically about oxygen here. But for any gas is the universal gas constant, which is often represented as our bar. Sometimes it&#39;s our star back in chemistry. But we&#39;re in thermonow, so we&#39;ll use our bar. And that&#39;s divided by the molecular weight of that gas or the atomic mass of that gas. So what&#39;s the mass of O2? So if we can take the universal gas constant and divide it by the atomic weight of oxygen, we can get the specific gas constant for oxygen. And that&#39;s what we need to use in pv equals mrt. So let&#39;s do that for oxygen. The universal gas constant, you can actually search the reference handbook for universal gas constant. And you&#39;ll get this number. 1,545. And that has units of foot pound force divided by pound mole degree ranking.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • One pound per minute of pure oxygen at 14.7 PSIA and 68 degrees Fahrenheit will be distributed on an aircraft during an emergency through a three inch.<br><br><br><br>• So to start, let&#39;s come up with a representation of the velocity based on a couple of common equations that you may have memorized or you may not have.<br><br><br><br>• First is a relationship between mass flow rate and density and volume flow rate.<br><br><br><br>• So the mass flow rate equals density times volume flow rate.<br><br><br><br>• So density is mass per unit volume, volume flow rate is volume per unit time.<br><br><br><br>• So if you multiply it together, that turns it into mass per unit time.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 11 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 12 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 12</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 12</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A steam condensate drain is designed to accomodate 50,000lb of hr 5psig water containing 5% vapor by mass. The maximum allowable velocity for liquid and vapor are 15ft and 100ft,respectively. What s s is the minimum diameter of a schedule 40 steel pipe suitible for this application? 16
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3in</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>4in</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>5in</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>6in</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So let&#39;s find out the exact mass flow rates of liquid and vapor separately as a first step and just for convenience we&#39;l.
+
+2. So we can say that the mass flow rate of liquid is 95% so 0.95 of the 50,000 pounds per hour and let&#39;s divide that by 36.
+
+3. One way is just by substituting for the volume flow rate velocity times area into the mass flow rate equation so then we.
+
+4. And then we can solve for area area would then be mass flow rate over density times velocity.
+
+5. So if we know the mass flow rate of each of these liquid and vapor and we can find out the specific volume and we were g.
+
+6. It&#39;s a condensate in this application and we can use the properties of saturated water and steam table so just search th.
+
+<strong>Full Solution:</strong>
+
+A steam condensate drain is designed to accommodate 50,000 pounds per hour of 5 PSIG water containing 5% vapor by mass. The maximum allowable velocity for liquid and vapor are 15 feet per second and 100 feet per second respectively. What is the minimum diameter of a schedule 40 steel pipe suitable for this application? So we need to size the pipe to accommodate both the liquid water and the vapor. So there is 50,000 pounds per hour of total mass flow rate but 95% of that is liquid and up to 5% of that or exactly 5% of that is going to be vapor. So let&#39;s find out the exact mass flow rates of liquid and vapor separately as a first step and just for convenience we&#39;ll convert the units to pounds per second so the numbers will be a little smaller and that&#39;s going to be useful to us toward the end of the problem. So we can say that the mass flow rate of liquid is 95% so 0.95 of the 50,000 pounds per hour and let&#39;s divide that by 3600 seconds per hour. So hours cancels and we end up with pounds per second and that&#39;s 13.19 pounds per second. And by the same reasoning we can find the mass of vapor, mass flow rate of vapor is going to be 5% so 0.05 times 50,000 times 1 over 3600 is going to give us 0.6. 9 pound per second. And now we can use these two relationships that we often use. The mass flow rate is density times volume flow rate and the volume flow rate is velocity times area. So we can kind of put these together in different ways. One way is just by substituting for the volume flow rate velocity times area into the mass flow rate equation so then we would get mass flow rate equals density times velocity times area m dot equals rho v a we use that a lot. And then we can solve for area area would then be mass flow rate over density times velocity. And then the density is the inverse of the specific volume so we can rewrite that as m dot little v where a little v is specific volume over big v which is velocity. So if we know the mass flow rate of each of these liquid and vapor and we can find out the specific volume and we were given the maximum velocities then we can find the areas. And since we&#39;re going to use the maximum velocities that&#39;s going to make the denominator as large as possible that will guarantee that we find the minimum required area. So as long as the velocities are not more than these 15 and 100 respectively the area will be sufficient because we&#39;re assuming the worst case by assuming the maximum velocities. So the only thing we need then since this is known for both and this is known for both mass flow rate and velocity we need the specific volume for both. Well we know that we&#39;re dealing with steam and it will water and it&#39;s going to be mostly liquid water with a bit of vapor. So it&#39;s definitely a saturated mixture. It&#39;s a condensate in this application and we can use the properties of saturated water and steam table so just search the reference handbook for properties of saturated water and steam going to the steam table. And we&#39;re going to look at the table that&#39;s organized by pressure. In this case the pressure is known to be 5 psi g but everything in the table is by psi a so we can add 14.7 to that. We&#39;ll get 19.7 psi a which I&#39;ll round off to 20 and we&#39;ll accept that we&#39;re potentially introducing just a tiny bit of error there. So let&#39;s say pressure equals 20 psi a and then using the steam table we can look up and find out that the specific volume that&#39;s little v sub f for the liquid water is 0.016 a cubic feet per pound and for the vapor it&#39;s 20.09 cubic feet per pound. So interestingly the vapor has much more volume that it takes up right because it expands but the speed the velocity that&#39;s allowed to go up to is considerably higher. So those are kind of competing forces. The question is which one is going to be the bigger driver of the area and I&#39;ll leave you to consider that for a moment as we go to the next step.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A steam condensate drain is designed to accommodate 50,000 pounds per hour of 5 PSIG water containing 5% vapor by mass.<br><br><br><br>• The maximum allowable velocity for liquid and vapor are 15 feet per second and 100 feet per second respectively.<br><br><br><br>• What is the minimum diameter of a schedule 40 steel pipe suitable for this application.<br><br><br><br>• So we need to size the pipe to accommodate both the liquid water and the vapor.<br><br><br><br>• So there is 50,000 pounds per hour of total mass flow rate but 95% of that is liquid and up to 5% of that or exactly 5% of that is going to be vapor.<br><br><br><br>• So let&#39;s find out the exact mass flow rates of liquid and vapor separately as a first step and just for convenience we&#39;ll convert the units to pounds .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 12 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

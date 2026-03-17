@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 21 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 21</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 21</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      500lbm of 300psia, 800°F steam is mixed with 1200lbm of 300psia steam hr hr with quality 50%. What is the quality of the resulting mixture?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.69</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.73</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.77</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.81</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. The first one state one appears to be superheated steam.
+
+2. Since we want to know the ental piece we&#39;re going to need to use the saturated steam table so search the reference handb.
+
+3. So for p2 which is also 300 psi and I guess we could be specific and say it&#39;s psia and there the temperature is not know.
+
+4. So h2 is going to be hf plus the quality at state two times hfg all of what you&#39;re known so let&#39;s plug it right in 393.9.
+
+5. So now the name of the game is to do an energy and mass balance which means that there are two equations we can write.
+
+6. The first one is that the mass has to balance so we say that m.1 plus m.2 equals m.3 or m.3 is the resulting mixture of.
+
+<strong>Full Solution:</strong>
+
+500 pounds per hour of 300 psi, 800 degree steam is mixed with 1200 pounds per hour of 300 psi steam or the quality of 50%. What is the quality of the resulting mixture? So this is a classic energy and mass balance problem. We need the masses which we have. We need the mass flow rates. We need the ental piece which we can find. We have fully defined states for one and two and we should be able to find the ental piece at state three using that information. We&#39;re going to need the steam tables both superheated and the saturated steam table. So let&#39;s go right into it. The first one state one appears to be superheated steam. I can&#39;t tell that at a glance but we can quickly check in the steam table to verify as we&#39;re looking up the ental piece. So we have a pressure p1 of 300 psi and a temperature t1 of 800 degrees and now we go into the steam table and we find that in fact for 300 psi table 800 degrees is listed so we know it is superheated steam and we can collect the ental be value h1 1421.3 B2 per pound and the mass flow rate is known as well. Now for state two it says the quality is 50% so that implies that it&#39;s a saturated mixture. Since we want to know the ental piece we&#39;re going to need to use the saturated steam table so search the reference handbook for properties of saturated water and steam and look up the values for hf and hfg and then we use the quality to find the ental piece. So for p2 which is also 300 psi and I guess we could be specific and say it&#39;s psia and there the temperature is not known but the quality is known so quality at state two is 0.5 and we can look up in the table hf which is 393.93 B2 per pound and hfg which is 809.42 B2 per pound. Now we can use hf and hfg and the definition of the quality to find the ental piece state two. So h2 is going to be hf plus the quality at state two times hfg all of what you&#39;re known so let&#39;s plug it right in 393.93 and I&#39;ll skip the units plus the quality 0.5 times 809.42 and that gives us an ental p at state two of 798.64 B2 per pound. So now the name of the game is to do an energy and mass balance which means that there are two equations we can write. The first one is that the mass has to balance so we say that m.1 plus m.2 equals m.3 or m.3 is the resulting mixture of the two incoming streams and we know the mass flow rate at 1 and 2 so we can find the mass flow rate at 3. Let&#39;s actually go right ahead and do that. That&#39;s going to be 500 pounds per hour plus 1200 pounds per hour which is 1700 pounds per hour. The second equation that we&#39;re going to write is the product of the mass flow rate and the ental piece and this is what I&#39;ll normally just kind of quickly refer to as a mixing calculation because the sort of gets burned into your brain after you&#39;ve done it a few times but to do it formally for the first time what we&#39;re saying is that the mass flow rate at 1 times the ental p at state 1 plus the mass flow rate at 2 times the ental p at state 2 equals the mass flow rate at 3 times ental p at state 3. So in our case we now know all the mass flow rates and we&#39;ve gone away and found the ental p&#39;s at states 1 and 2 so the only thing we don&#39;t know in this equation is h3. So let&#39;s just algebraically solve for h3. It&#39;s going to be everything on the left divided by m3 so h3 equals m.1 h1 plus m.2 h2 all over m.3 and now substituting and solving for h3 we get the 500 pounds per hour times 1421.3 b2 per pound plus 1200 pounds per hour times 798.64 b2 per pound all divided by 1700 pounds per hour and the pounds per hour will cancel out we&#39;re going to end up with b2 per pound which is the right units for enthalpy and that turns out to be 981.8 and now just to make sure we&#39;re answering the question what is the quality of the resulting mixture? Well the quality is going to be dependent on the final enthalpy which we now know and hf and hg for the pressure that we&#39;re at.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 500 pounds per hour of 300 psi, 800 degree steam is mixed with 1200 pounds per hour of 300 psi steam or the quality of 50%.<br><br><br><br>• What is the quality of the resulting mixture.<br><br><br><br>• So this is a classic energy and mass balance problem.<br><br><br><br>• We need the masses which we have.<br><br><br><br>• We need the ental piece which we can find.<br><br><br><br>• We have fully defined states for one and two and we should be able to find the ental piece at state three using that information.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 91 · November 11th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> If the pressures of the two mixing streams were not the same, how would you determine the pressure of the mixed stream?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS thermodynamics 21. If the pressures of the two mixing streams were not the same, how would you determine the pressure of the mixed stream? So this problem we had two streams of steam mixing. One was saturated and one was super heated and they were the same pressure. So the question of how to work with these streams if they were different pressures and you wanted to find the final pressure. That&#39;s a pretty different question. So that&#39;s sort of a hypothetical, but I was trying to think about how you would deal with that. And if you knew that the final result was saturated, it wouldn&#39;t be too bad because we can use the enthalpys of the two streams to find the final stream enthalpy and we only need one piece of information if we know that it&#39;s saturated. So for example, let&#39;s suppose that we knew the temperature and the pressure of the first stream. So T1 and P1, that would enable us to get H1 from the steam table even if it&#39;s super heated. And then the other stream was saturated. So if we knew T2 and the quality of two, then that would enable us to find the enthalpy of the second stream. And then these two mixed together and because we have H1 and H2 and we know both of the mass f</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 21 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

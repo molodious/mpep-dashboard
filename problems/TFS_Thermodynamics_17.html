@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 17 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 17</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 60% ecient steam generating turbine system generates 5MW using 1100psia steam at 850°F. The exhaust pressure is 200psia. What mass ow rate of steam is required for the cycle? hr hr hr hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>150,000lb</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>250,000lb</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>420,000lb</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>660,000lb</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. I think the reference handbook uses the midter changeably and other references probably do as well.
+
+2. So now the key assumption here is that we start by thinking the turbine&#39;s isentropic which is to say s2 the entropy the.
+
+3. Now oftentimes when you&#39;re dealing with state 2 the exhaust of a turbine you&#39;ll be in the saturated steam table because.
+
+<strong>Full Solution:</strong>
+
+A 60% efficient steam generating turbine system generates five megawatts using a 1100 PSIA steam at 850 degrees. The exhaust pressure is 200 PSIA. What mass flow rate of steam is required for the cycle? So the process of analyzing turbines is something we&#39;re going to see again and again throughout this program. It&#39;s very common for thermal fluid systems of course turbines are our major emphasis. So this example will be no different than a lot. We&#39;re going to have this fundamental idea that will come back to at the very end which is that the work generated by turbine which can sometimes be W dot O or W dot T. I think I&#39;ll use the midter changeably. I think the reference handbook uses the midter changeably and other references probably do as well. But in general it&#39;s going to come down to a mass flow rate of steam times a change in enthalpy. And the key is that that change in enthalpy has to be the actual change in enthalpy which is only a percentage of the ideal change in enthalpy which would be observed if the process were isentropic. So if the turbine is 100% isentropicly efficient then the actual change in enthalpy is assumed to be the ideal change in enthalpy. And this all hinges on the entropy at the outlet being the same as the entropy at the inlet. So let&#39;s go into the analysis and I think this will become clear. We&#39;re going to use the steam table. So search for properties of super heated steam because our state 1 entering the turbine struttle turbine so we have something to kind of refer to. We have some entering conditions state 1 and some exit condition state 2. At state 1 we know the pressure is 1100 psi i and we know the temperature is 850 degrees. So that gives us enough information that we can find the enthalpy at state 1 which we can do some rough interpolating from the table if needed. I&#39;ll say it&#39;s approximately 1415b2 per pound and we can also grab the entropy from the same table at state 1 which we can say is approximately 1.578b2 per pound degree Fahrenheit. So now the key assumption here is that we start by thinking the turbine&#39;s isentropic which is to say s2 the entropy the exit condition is the same as s1 which is 1.578. We know that&#39;s not the case we&#39;re going to apply this 60% efficiency down the line but we want to find the enthalpy as though that entropy was equal. And now what do we know about the exit condition? We know the exhaust pressure is 200 psi a so that is now fully defined state we have p2 equals 200 psi a. Now oftentimes when you&#39;re dealing with state 2 the exhaust of a turbine you&#39;ll be in the saturated steam table because the steam has cooled down and it started to condense so you have a saturated mixture. But you&#39;ll notice that in this case it&#39;s actually still super heated steam and you can tell that by checking the entropy 1.578 and looking at this pressure in the super heated steam table and you&#39;ll find that it is still very much in the table and to find the enthalpy we just have to interpolate between two values so I&#39;ll make a little table here so that we can work through that and I&#39;ll skip the unit here we have the h values and the s values I&#39;ll grab the one before in the one after so we have 1223.2 is the one before and then 1235.2 is the one after and we&#39;re interested in h2 which is somewhere in between and then for the entropys we have 1.574 and 1.588 and we know that our entropy is in between it&#39;s this 1.578 so you can kind of eyeball this if you want and see how close it comes but I want to head into the actual math so if time allows do the math if not then take your best shot so it&#39;s going to be h2 minus 1223.2 divided by 1235.2 minus 1223.2 equals now for the entropy 1.578 minus 1.574 divided by 1.588 minus 1.574 and then we can work out h2 which turns out to be 1226.6 and that has units of B2 per pound so now we know h1 and h2 where h2 is the ideal exit condition assuming isentropic expansion which we know is not actually the case but let&#39;s find out to h ideal anyway as a sta...</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 60% efficient steam generating turbine system generates five megawatts using a 1100 PSIA steam at 850 degrees.<br><br><br><br>• The exhaust pressure is 200 PSIA.<br><br><br><br>• What mass flow rate of steam is required for the cycle.<br><br><br><br>• So the process of analyzing turbines is something we&#39;re going to see again and again throughout this program.<br><br><br><br>• It&#39;s very common for thermal fluid systems of course turbines are our major emphasis.<br><br><br><br>• So this example will be no different than a lot.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 113 · February 2nd 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 113</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So, TFS Thermal 17, I did an extra step in the solution and my answer is off and I don&#39;t understand why. In the reference handbook it shows turbine efficiency using temperature, so I assumed S1 equals S2 and then found the temperature at that point. I then plugged in that temp as TES, which is temperature at the exit for an isentropic process. And found the actual temp using the reference handbook equation. That temp gives me an entropy that was too high, so my final answer was closer to 180,000, which works for this problem, but it&#39;s still way off. I don&#39;t understand why. So hold that fuck.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 17 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
