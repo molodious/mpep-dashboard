@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 7 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 7</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 7</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      During winter operation, 5000cfm of outside air at 40°F and 60% relative humidity is pre-heated with a 50KW electric coil, then hu- midied to 50% relative humidity. What is the total increase in heat? hr hr hr hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>46,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>124,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>170,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>300,000Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. We&#39;re starting at some state 1, which is on the colder side.
+
+2. And that&#39;s a formula that is a common rule of thumb.
+
+3. And we know the amount of heat that&#39;s being transferred into the air per unit time, because we know the KW of that elect.
+
+4. We know the starting temperature T1, we do not know T2, that&#39;s what we want.
+
+5. So let&#39;s just solve for delta T, delta T equals 50KW for QS times 3412 BTU per hour per KW.
+
+6. And divide by 1.08 and 5,000 CFM.
+
+<strong>Full Solution:</strong>
+
+Psychometrics Problem 7. During winter operation, 5,000 CFM of outside air at 40 degrees and 60% relative humidity is preheated with a 50KW electric coil, then humidified to 50% relative humidity. What is the total increase in heat? So let&#39;s map out what&#39;s happening with this process on a simplified, psychometric chart. We&#39;re starting at some state 1, which is on the colder side. We know the temperature and relative humidity at that point. And we&#39;re heating with electric coil, so we&#39;re heating sensibly to some temperature at a state 2, which we don&#39;t know exactly what the temperature of that state 2 is. And then from there, we&#39;re going to humidify, so we&#39;re going to lay and heating up to some state 3. And at state 3, we know the relative humidity again is 50%. But we don&#39;t know the dribble temperature, so we have to figure out what the dribble temperature is at state 2, based on the amount of sensible heating that we&#39;re doing with the electric coil. And then from there, we can just jump vertically up to the 50% humidity. Once we have those 2 points, 1 and 3 identified, we want to find the total increase in heat. So we&#39;re going to want to find the corresponding enthalpy values for those 2 points, H1 and H3. And it&#39;s that delta that will tell us the total increase in heat. And that&#39;s a formula that is a common rule of thumb. It&#39;s 4.5 times CFM, times delta H. Again, in this case, that&#39;s going to be H3 minus H1. So that&#39;s the roadmap for where we&#39;re going. Now, let&#39;s jump over to the psychometric chart and find the enthalpy for state 1. Since we have 2 pieces of information about state 1, we should be able to do that. We know the temperature is 40 degrees, and we know the relative humidity is 60%. So we can find H1. 40 degrees is here, 60% is here. Corresponding enthalpy is 13B2 per pound. And now the process of going from 1 to 2 via this electric reheat coil is purely sensible heating. So it&#39;s horizontal to the right. In order to find out what that dry bulb temperature is at state 2, we can use the rule of thumb for sensible heating, which says that QS is 1.08 CFM delta T. And we know the amount of heat that&#39;s being transferred into the air per unit time, because we know the KW of that electric coil, we can change that into BTU&#39;s power, because that&#39;s just energy per unit time. So we know that. And we know the CFM is 5,000. We know the starting temperature T1, we do not know T2, that&#39;s what we want. So let&#39;s just solve for delta T, delta T equals 50KW for QS times 3412 BTU per hour per KW. And that gets rid of KW, just turns it into BTU per hour. And divide by 1.08 and 5,000 CFM. That gives us a delta T of 31.6. So in this case, the delta T is T2 minus T1 since it&#39;s sensible heating, so it&#39;s getting hotter as we go from T1 to T2. And that equals 31.6, so we can rearrange that and solve for T2. It&#39;s just going to be T1 plus the 31.6. And T1 is 40 degrees, so T2 is 40 plus 31.6, which is 71.6 degrees. So that&#39;s the temperature at state 2. Now once you get to state 2, the air is then humidified to increase the relative humidity up to 50%. But that&#39;s purely late in heating, so the process from 2 to 3 is purely late in heating. It has no effect on the dry bulb temperature. So T3 is equal to T2, which is equal to 71.6 degrees F. So we don&#39;t really need to analyze state 2 anymore than we already have. We can really just jump to state 3, where we know the temperature at state 3 is 71.6. And the RH after that late in heating, however much late in heating that is, we don&#39;t even care. We just know that it gets up to the point where it&#39;s 50%. No need to quantify it, that&#39;s where it ultimately ends up. So state 3 is fully defined. We can go back to the psychometric chart and find the enthalpy at state 3 that corresponds to that temperature and relative humidity. So 71.6 is somewhere around here, and we have an RH of 50%. So if we go from here, the enthalpy there is 26.2 BTU per pound.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • During winter operation, 5,000 CFM of outside air at 40 degrees and 60% relative humidity is preheated with a 50KW electric coil, then humidified to 5.<br><br><br><br>• What is the total increase in heat.<br><br><br><br>• So let&#39;s map out what&#39;s happening with this process on a simplified, psychometric chart.<br><br><br><br>• We&#39;re starting at some state 1, which is on the colder side.<br><br><br><br>• We know the temperature and relative humidity at that point.<br><br><br><br>• And we&#39;re heating with electric coil, so we&#39;re heating sensibly to some temperature at a state 2, which we don&#39;t know exactly what the temperature of .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 21 · September 10 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 21</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometric 7, I originally solved the problem, calcine heat from state 1 to state 2, 50 KW. I&#39;m going to actually skip through reading some of this, because this was just a silly error right at the end. I got 13 beats you per pound for the enthalpy, and 28 beats you per pound for the enthalpy at the other state. I think you just misread the problem. The second state was meant to be 50%. So that would change the enthalpy to 26.2. Instead of 28, and that&#39;s what&#39;s throwing your answer off by, I don&#39;t know, 10 or 15%. Something like that. So just check your enthalpy, look it up again, based on 50% and that should straighten it out. I think you were looking for a more interesting explanation, but it was just a simple silly thing there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 80 · May 13th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 80</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Cycrometrics 7. I was able to calculate the answer to this question, however, just reading the question and looking at the answer choices, I realized the answer would be 300,000 BTUS per hour, choice D. The sensible load is 50KW, which is 170,000 BTUS per hour, meaning the total would have to be higher. Would you say this was just a coincidence, or there might be some problems where the answer can be determined by the given information and no calculations? So I just want to be clear, you said that you were able to calculate the answer, so I guess my question to your question is, did you go through the process of working the solution and calculating the answer in addition to just using your intuition and engineering judgment as you pointed out to realize that it has to be higher than just the 50KW? It&#39;s got to be the 300,000 because that&#39;s the only choice that&#39;s larger. Obviously, your engineering judgment is incredibly valuable, and we don&#39;t want to turn that off, or absolutely going to take advantage of every opportunity to be clever and eliminate choices using that judgment. And you&#39;ve done that, and that&#39;s like I said, that&#39;s valuable. But one more studying, we absolutely w</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 7 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
