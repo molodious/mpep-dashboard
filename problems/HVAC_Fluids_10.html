@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 10 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 10</span>
+  <span class="nav-badge">⭐ 13 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">13 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 10</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coecient of C = 130. The minimum required pressure for all xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 25
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>93psig</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>108psig</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>128psig</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>180psig</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Fluids 10, a hotel with 400 units requires a maximum cold water supply of 5GPM per unit with a diversity factor of 60%.
+
+2. The start of the supply line is 100 feet above the delivery end at the hotel.
+
+3. What is the minimum pressure required at the start of the line.
+
+4. Let&#39;s start by drawing a picture of what&#39;s going on in the scenario.
+
+5. And it says the start of the supply line is 100 feet above the delivery end at the hotel.
+
+6. Well, we know the flow rate per unit is 5GPM per unit and is 400 units so we can just multiply.
+
+<strong>Full Solution:</strong>
+
+Fluids 10, a hotel with 400 units requires a maximum cold water supply of 5GPM per unit with a diversity factor of 60%. The supply line is 5,000 feet long and made of 8 inch standard weight steel with a roughness coefficient of C equals 130. The minimum required pressure for all fixtures in the hotel is 80 psi g. The start of the supply line is 100 feet above the delivery end at the hotel. What is the minimum pressure required at the start of the line? Let&#39;s start by drawing a picture of what&#39;s going on in the scenario. So we have our building like so. And it says the start of the supply line is 100 feet above the delivery end at the hotel. So if we draw the delivery end here, let&#39;s say that&#39;s state 2. Then the supply comes from some distance away at state 1. And there&#39;s an elevation difference between the supply line and the delivery end of 100 feet. So it&#39;s 100 feet higher. And the length of that line is 5,000 feet. So it&#39;s coming quite a great distance from 1 to 2. Draw a little arrow here so we know where it&#39;s coming from. Okay, and how much water needs to come through this pipe? Well, we know the flow rate per unit is 5GPM per unit and is 400 units so we can just multiply. But then there&#39;s this diversity factor of 60%. So basically what that means is that the peak volume flow rate is only 60% of what it could be if all the units were using their entire allocated capacity given time. So Q total for this building will be 400 units times 5GPM per unit times that diversity factor of 60% or 0.6. So units cancel and we get a total flow rate of 1200GPM. So we know the length of this supply line, we know that it&#39;s 100 feet above the service entrance to the building. We know the volume flow rate and we also know that it&#39;s in 8 inch nominal standard away it&#39;s steel pipe. And we know this roughness coefficient which is not something we&#39;ve talked about yet, but we will in just a moment. And we know the pressure that&#39;s required for all fixtures in the hotel and minimum is 80 PSIG. Now we don&#39;t know the height of the building and how much has to be overcome to pump it up to the top, but there might be booster pumps. If it&#39;s a very tall building. So for the sake of this problem, we&#39;re going to assume that that minimum required pressure for the entire hotel is p2. That&#39;s the pressure at state 2. It has to be 80 PSIG when it enters the building for everything to work the way it&#39;s supposed to. So the question is what&#39;s the minimum pressure at the start of the line at state 1 in order for the pressure to still be 80 PSIG at state 2. Now it&#39;s getting a little bit of help from that elevation change right by virtue of the fact that it&#39;s starting off 100 feet higher. That should help, but it also has to travel 5,000 feet through a pipe which has some resistance which we can quantify and we will. So those are sort of the factors that play into what the pressure will need to be at one. And the way we&#39;re going to analyze that is using the Bernoulli equation. So let&#39;s search for that in the reference handbook. It&#39;s this equation here. So let&#39;s write that down. And the only difference here being that on the right side of the equation we have hf which is the friction loss through the pipe. Now the velocity isn&#39;t changing very much because it&#39;s a fixed volume flow rate. We assume 1200 gpm throughout the whole thing. And the diameter is the same. It&#39;s 8 inches at 1. It&#39;s 8 inches at 2. So we can assume v1 is roughly the same as v2. And the velocity affects 10 to be negligible anyway. So we will omit that from our analysis. And our goal is to find the pressure at 1. So p2 is known. That&#39;s the 80 psi g. And the difference between z1 and z2 is also known. So it&#39;s really going to be quantifying the losses hf which makes this problem interesting. But in the meantime let&#39;s get p1 over gamma by itself. And I&#39;ll put z2 minus z1 together. And z2 is lower than z1.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids 10, a hotel with 400 units requires a maximum cold water supply of 5GPM per unit with a diversity factor of 60%.<br><br><br><br>• The supply line is 5,000 feet long and made of 8 inch standard weight steel with a roughness coefficient of C equals 130.<br><br><br><br>• The minimum required pressure for all fixtures in the hotel is 80 psi g.<br><br><br><br>• The start of the supply line is 100 feet above the delivery end at the hotel.<br><br><br><br>• What is the minimum pressure required at the start of the line.<br><br><br><br>• Let&#39;s start by drawing a picture of what&#39;s going on in the scenario.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">13 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Should they have been closer together?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> fluids can. On problem 10 for fluids this morning out of curiosity, I calculated head loss from Darcy equation to see how close it would be to the same answer as using the roughness coefficient. The answer I got was remarkably different and it&#39;s very possible I messed up something in the Darcy equation, but I looked through a couple times and I don&#39;t see where I would have messed up, at least to significant amount that I did. So, it&#39;s more in this isn&#39;t there. From this I have a couple questions. One, should they have been closer together, my Darcy equation yielded well over double the head loss compared to the roughness method. And two, if they aren&#39;t always that close, is the Darcy equation assumed to be the solution method on the exam unless explicitly given the roughness coefficient. Yeah, good questions, common questions as well. These do come up a lot in the case of fluids. Should they have been closer together? Yes and no, and I&#39;ll explain this in two ways. The short answer is yes, they should reconcile. Should they have been closer together in this particular case, not necessarily, I would invite you to consider the absolute as well as the relative error. And the reason I s</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 53 · February 27th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Are we able to use the hazelnut Williams equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next up, this is a question that comes up from time to time, so pretty free question, fluids, module, number 10. Are we able to use the hazelnut Williams equation? My thought was yes, but I produced different results, would love to hear your reasoning. So the answer is yes, you are able to use hazelnut Williams. My general guidance on this, I&#39;m not against it, but I find that more often than not, a lot of the PE exam questions really want to test your fundamentals. So they tend to favor the Darcy equation, if they want you to calculate friction loss, because it&#39;s just more fundamental, or they&#39;re giving you a more general fluids problem, where you need to include the losses, but it&#39;s part of a broader solution process, and they give you water and a steel pipe. So you&#39;ll use the steel pipe friction tables to do all of your lookups. So I find those just come up more often, but hazelnut Williams is very much a possibility, and it&#39;s in the reference handbook, and it&#39;s not too hard to use. So by all means, it&#39;s on the table, and there are some dead giveaways that you might get. If they give you a C value in the problem statement, if they say use the hazelnut Williams coefficient, if the</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 55 · March 27th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 55</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So the first one, and this is a super common question that comes up from fluids here, why does pressure divided by gamma equal pressure? I keep getting stuck on the units. I think in every Bernoulli problem. So some frustration there, and we&#39;ve all been there with the Bernoulli equation and fluid. So let&#39;s take a step back on that. And you can also roll back into the archive, into fluids, and see some of the earlier office hours videos about this. It&#39;s addressed in the solution videos as well, but it&#39;s never a bad time to kind of step back and just talk about that again. So your question is, how does pressure over gamma equal pressure? Strictly speaking, it doesn&#39;t. So we should be really clear about what we mean by pressure, and we also want to distinguish SI units from US customary units. So in SI units, we say pressure equals rho gh. But in US customary units, we cannot say the same. Instead, we have to say pressure equals rho gh over g sub c, the gravitational constant. And since the p exam is in US customary units, this is the one that you&#39;re more often dealing with. So this is for US customary system. Okay, so that&#39;s the first thing. So what ends up happening with this? We ha</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> So why do we use 20 degrees superheat?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, we got a few of us here. I think we get started and if others join us in progress, all the better. Got a bunch of good questions. Sean, I know you sent a bunch through on HVAC, so that&#39;ll kind of be the main focus for today. And if anyone else joins and has additional comments or questions, we can add those in. But I&#39;m excited, this is the sixth office hours and I didn&#39;t know exactly what would happen when I started adding this into the program. And it&#39;s been, in my opinion, a wild success, the feedbacks been good and the questions have been fantastic. So hopefully it&#39;s been helpful. And I plan to keep it going every two weeks for the foreseeable future. So exciting stuff. And for those of you guys that are here, this is obviously a big goal for you in 2021 to get this thing done and done right. So I&#39;m excited to be a part of that. All right, so yeah, let&#39;s jump in. So starting with Thermo, I&#39;m confused about finding super heat subcooling on the pressure and it will be curved. I can&#39;t wrap my head around why we use minus 20 degrees instead of 20 degrees. I think there might be some confusion with the distinction between subcooling and super heat.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> 5 CFM delta H because we have this latent load to address?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, office hours 11. We got about five or six problems today of varying levels of complexity. Nothing too complex, but some good questions. We&#39;ve got a few miscellaneous questions from sources outside of my program. We&#39;ve got a lot of fluids three, mini test 10, HVSC solutions 36. So let&#39;s jump right in with the first one. I was working on a problem from the NC sample problem is 2001 and got tripped up just curious how you would approach this. A room in a building has these characteristics, sensible and latent, and we know the supplier temperature. We know the room conditions, and we know the outdoor air conditions, and the ventilation rate. So let me annotate. So the solution to this problem was more straightforward than expected. It was really just based on a sensible heat load calculation. So if we can&#39;t, if we say 2.08 CFM Delta T. We know the sensible heat gain here, and we&#39;re looking to find the CFM. And we actually know the Delta T because we know the supplier, and we know the room condition. So we can basically solve for CFM, make those substitutions, and I ran the numbers on that. So I&#39;ll put it in.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 25</div>
+      <div class="qa-question"><strong>Q:</strong> How did you know to keep the velocity term on problem 810?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And fluids 10. How did you know to keep the velocity term on problem 810? Also, you include the head added by the pump. How would I know to add that when the reference manual doesn&#39;t have that term in it? Only the HF, which is the loss has been on HA, head added by the pump. Yeah, you&#39;re right. It&#39;s interesting. The reference handbook doesn&#39;t explicitly give that version of the Bernoulli equation. I guess the way that you know that is that the problem is asking for the input power to the pump. And you have no other way of finding that without knowing the, I mean, what does the pump do, right? It adds pressure or it adds head if you want to think of it that way. So without knowing either the delta P or the head added by the pump, we have no way to find power. But to kind of go a little deeper into it, we have the Bernoulli equation in its raw form. And I don&#39;t think it&#39;s too much of a stretch. I wouldn&#39;t call it a derivation, right? Let&#39;s just say you have a situation where there&#39;s no pump that&#39;s just appear analysis and you&#39;re comparing two different states and a hydronic system one and two. We could say the static pressure divided by gamma plus v squared over 2g plus z.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-42920921
+
+is from a relatively new joiner.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> is from a relatively new joiner. So welcome. I was wondering if there&#39;s any study guide available for this course. I plan to take the P exam in May and I have three months left of preparation. Yes. The road map that was in the welcome email. That&#39;s not just marketing collateral. That&#39;s actually the study guide. So if you&#39;re just starting out, you just enrolled and registered my first order business for you as to watch the fundamentals and then you can roll around into the alien sites. Those two taken together represent about 12 hours of video that you can just passively watch. And the hope there is that you&#39;ll hit 90 or 95% of the background and kind of fundamentals. The groundwork that you need to start solving problems. But most of the program is actually solving practice problems. And this is for the HVAC, but the TFS is very similar. There&#39;s most of the time about 10 weeks I like to see, but really potentially more dedicated to the core topics. And this is all active problem solving. So inside find the module called practice problems. If you&#39;re in the HVAC bundle, it&#39;s practice problems for the HVAC exam. If you&#39;re in TFS, obviously it&#39;s for thermal fluids.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> But if you&#39;ve seen it once, you&#39;ve seen it as many times as you ever need to see it, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids eight. No issues with the problem or your answer, but when you look up the dynamic viscosity of air in the reference handbook, the units are shown in the table as 10 to the 7th. And when you solve the problem, you show the units as 10 to the minus 7th. I&#39;m assuming this is a problem with the reference manual that you may want to call out. Yeah, this has come up a few times before and you may want to check out the office hours archive for a question. If you&#39;re ever going to ask question, if you just want to check before you submit it, you can see if anyone else has asked a similar question. I just know this one&#39;s come up a handful of times. But it&#39;s not actually a problem with the reference handbook. It&#39;s just awkward. So I find myself apologizing for the author&#39;s similar reference handbook on this one over and over again. But in the table, in the column header of the table, they write, the number of the numbers was like 39.1. So that&#39;s not wrong, but that&#39;s positive 7th. Because they&#39;re saying, mu times 10 to the 7th equals 39.1. So if mu times 10 to the 7th equals 39.1, then we can divide by 10 to the 7th, which is the same as multiplying by 10 to the 7th.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> So why do we use 20 degrees superheat?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, we got a few of us here. I think we get started and if others join us in progress, all the better. Got a bunch of good questions. Sean, I know you sent a bunch through on HVAC, so that&#39;ll kind of be the main focus for today. And if anyone else joins and has additional comments or questions, we can add those in. But I&#39;m excited, this is the sixth office hours and I didn&#39;t know exactly what would happen when I started adding this into the program. And it&#39;s been, in my opinion, a wild success, the feedbacks been good and the questions have been fantastic. So hopefully it&#39;s been helpful. And I plan to keep it going every two weeks for the foreseeable future. So exciting stuff. And for those of you guys that are here, this is obviously a big goal for you in 2021 to get this thing done and done right. So I&#39;m excited to be a part of that. All right, so yeah, let&#39;s jump in. So starting with Thermo, I&#39;m confused about finding super heat subcooling on the pressure and it will be curved. I can&#39;t wrap my head around why we use minus 20 degrees instead of 20 degrees. I think there might be some confusion with the distinction between subcooling and super heat.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> 5 CFM delta H because we have this latent load to address?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, office hours 11. We got about five or six problems today of varying levels of complexity. Nothing too complex, but some good questions. We&#39;ve got a few miscellaneous questions from sources outside of my program. We&#39;ve got a lot of fluids three, mini test 10, HVSC solutions 36. So let&#39;s jump right in with the first one. I was working on a problem from the NC sample problem is 2001 and got tripped up just curious how you would approach this. A room in a building has these characteristics, sensible and latent, and we know the supplier temperature. We know the room conditions, and we know the outdoor air conditions, and the ventilation rate. So let me annotate. So the solution to this problem was more straightforward than expected. It was really just based on a sensible heat load calculation. So if we can&#39;t, if we say 2.08 CFM Delta T. We know the sensible heat gain here, and we&#39;re looking to find the CFM. And we actually know the Delta T because we know the supplier, and we know the room condition. So we can basically solve for CFM, make those substitutions, and I ran the numbers on that. So I&#39;ll put it in.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 25</div>
+      <div class="qa-question"><strong>Q:</strong> How did you know to keep the velocity term on problem 810?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And fluids 10. How did you know to keep the velocity term on problem 810? Also, you include the head added by the pump. How would I know to add that when the reference manual doesn&#39;t have that term in it? Only the HF, which is the loss has been on HA, head added by the pump. Yeah, you&#39;re right. It&#39;s interesting. The reference handbook doesn&#39;t explicitly give that version of the Bernoulli equation. I guess the way that you know that is that the problem is asking for the input power to the pump. And you have no other way of finding that without knowing the, I mean, what does the pump do, right? It adds pressure or it adds head if you want to think of it that way. So without knowing either the delta P or the head added by the pump, we have no way to find power. But to kind of go a little deeper into it, we have the Bernoulli equation in its raw form. And I don&#39;t think it&#39;s too much of a stretch. I wouldn&#39;t call it a derivation, right? Let&#39;s just say you have a situation where there&#39;s no pump that&#39;s just appear analysis and you&#39;re comparing two different states and a hydronic system one and two. We could say the static pressure divided by gamma plus v squared over 2g plus z.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-42920921
+
+is from a relatively new joiner.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> is from a relatively new joiner. So welcome. I was wondering if there&#39;s any study guide available for this course. I plan to take the P exam in May and I have three months left of preparation. Yes. The road map that was in the welcome email. That&#39;s not just marketing collateral. That&#39;s actually the study guide. So if you&#39;re just starting out, you just enrolled and registered my first order business for you as to watch the fundamentals and then you can roll around into the alien sites. Those two taken together represent about 12 hours of video that you can just passively watch. And the hope there is that you&#39;ll hit 90 or 95% of the background and kind of fundamentals. The groundwork that you need to start solving problems. But most of the program is actually solving practice problems. And this is for the HVAC, but the TFS is very similar. There&#39;s most of the time about 10 weeks I like to see, but really potentially more dedicated to the core topics. And this is all active problem solving. So inside find the module called practice problems. If you&#39;re in the HVAC bundle, it&#39;s practice problems for the HVAC exam. If you&#39;re in TFS, obviously it&#39;s for thermal fluids.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> But if you&#39;ve seen it once, you&#39;ve seen it as many times as you ever need to see it, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids eight. No issues with the problem or your answer, but when you look up the dynamic viscosity of air in the reference handbook, the units are shown in the table as 10 to the 7th. And when you solve the problem, you show the units as 10 to the minus 7th. I&#39;m assuming this is a problem with the reference manual that you may want to call out. Yeah, this has come up a few times before and you may want to check out the office hours archive for a question. If you&#39;re ever going to ask question, if you just want to check before you submit it, you can see if anyone else has asked a similar question. I just know this one&#39;s come up a handful of times. But it&#39;s not actually a problem with the reference handbook. It&#39;s just awkward. So I find myself apologizing for the author&#39;s similar reference handbook on this one over and over again. But in the table, in the column header of the table, they write, the number of the numbers was like 39.1. So that&#39;s not wrong, but that&#39;s positive 7th. Because they&#39;re saying, mu times 10 to the 7th equals 39.1. So if mu times 10 to the 7th equals 39.1, then we can divide by 10 to the 7th, which is the same as multiplying by 10 to the 7th.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 10 · 13 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
