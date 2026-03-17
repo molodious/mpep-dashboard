@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 24 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 24</span>
+  <span class="nav-badge" style="background:#fff3e0;color:#e65100;border-color:#ff9800;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 24</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      The average temperature of a (cid:29)uid (cid:29)owing in a 8in nominal schedule 80 steel pipe is 40◦F. The surface temperature on the outside of the pipe is 43◦F. The thermal conductivity of steel is 30 Btu . hr·ft·◦F What is the rate of heat transfer per linear foot into the water by conduction? hr·ft hr·ft hr·ft hr·ft
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>4500 Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>5900 Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7100 Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>8700 Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from Heat Transfer apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the Heat Transfer chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this Heat Transfer problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within Heat Transfer are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in Heat Transfer problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> How do I use each of these as I continue studying the section?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 04</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-25883089
+
+Could you explain the best way of determining the properties of the mixed-are conditions along a process line?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 17 | July 2, 2021 transcribed_at: 2026-03-14T23:00:41.434681 Could you explain the best way of determining the properties of the mixed-are conditions along a process line? In this example, you took the proportion of the temperature and plotted against the process line, two pieces of information to plot. Could you also take the proportion of the enthalpy and use that number directly? And I think the answer is yes, so I&#x27;m going to e...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 08</div>
+      <div class="qa-question"><strong>Q:</strong> Why does the solution use the HF instead of the HG here?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 18</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-32619252
+
+How do you know what to use for the temperature of the air entering the coil?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 31 | February 18, 2022 transcribed_at: 2026-03-14T22:37:04.335586 How do you know what to use for the temperature of the air entering the coil? This question was originally submitted and it said, how do you know what to use for the temperature of the supplier? But the supplier is pretty clearly given. So I didn&#x27;t have much to add to that. I&#x27;m assuming that the question is about the air entering the coil, because that&#x27;s a bit more ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 25</div>
+      <div class="qa-question"><strong>Q:</strong> Can I use like a average, I forget the rule of town, made to, in order to determine, forget, how we call this?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 28</div>
+      <div class="qa-question"><strong>Q:</strong> How did you determine the humidity ratio at the low temperature?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 41 | August 8th, 2022 transcribed_at: 2026-03-14T22:52:19.788395 This is some components one. This question actually came up last week as well. How did you determine the humidity ratio at the low temperature? The handbook only provides the psychometric chart for standard and high temperature, but no low temperature conditions. You want to search thermodynamic properties of moist air. There&#x27;s a table right underneath the second psy...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 38</div>
+      <div class="qa-question"><strong>Q:</strong> Is this the average of values shown in the reference handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 51 | January 30th, 2023 transcribed_at: 2026-03-14T23:08:57.442980 So the first one was the TFS program. It was from the Hydraulic and Fluent applications module. And it was number eight. And it was a three-part question. This one, just as context, was a Bernoulli equation for air flowing in a pipe. So they were fittings. And it was about finding the pressure loss in that piping that work. So basically the process was to use the B...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 41</div>
+      <div class="qa-question"><strong>Q:</strong> Or is it a case of use the film tab, 10, ultimately curious why the surface temperature selected for physical properties of the air that&#x27;s freely convecting?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 54 | March 13th, 2023 transcribed_at: 2026-03-14T23:13:16.209463 As once he transferred 15, we&#x27;re given a temperature, 100 degrees and a bulk temperature of 70. This one actually came up something very similar as last week. When pulling parental kinematic viscosity thermal conductivity, I initially assumed to go with 70 degrees and look up the associated values. I ultimately got 19.2 using this way. So maybe it&#x27;s in material, but ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> So if we do the average of both temperatures, shouldn&#x27;t it be 70 plus 50 over 2 is 60?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:30:32.419675 Okay, HVC19. My question is regarding the mean temperature for the air gap. Usually mean temperature means the average temperature. So if we do the average of both temperatures, shouldn&#x27;t it be 70 plus 50 over 2 is 60? And we select, we selected 50 as our mean temperature. Any reason behind that? No, no reason. You&#x27;re right. It&#x27;s the mean temperature should be 50. It...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 80</div>
+      <div class="qa-question"><strong>Q:</strong> Why not use the film temperature for properties of moving fluid?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 95 | January 6th, 2025 transcribed_at: 2026-03-15T01:06:21.722762 He transfer 15. Why not use the film temperature for properties of moving fluid? Yes, I should have used the film temperature in this one. This one has come up a number of times in office hours as well The temperature differential is between 70 and 100 and I used one of the endpoints I don&#x27;t remember which one if it was 70 or 100, but I should be using 85 in that pr...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 81</div>
+      <div class="qa-question"><strong>Q:</strong> Why don&#x27;t you factor in the lift of BIFE into P1?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 96 | January 22nd, 2025 transcribed_at: 2026-03-15T01:09:48.564840 So, let&#x27;s do 24. Why don&#x27;t you factor in the lift of BIFE into P1? So this one was a pump question as well. And we were pumping, I don&#x27;t remember the whole question, but the situation was that we were pumping from a reservoir that was five feet below. So the difference between the center line of the pump. And the top of the reservoir was five feet. We call that the...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 83</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-62881645
+
+E will you ever use average load instead of max?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 89</div>
+      <div class="qa-question"><strong>Q:</strong> What&#x27;s the idea for this problem in using the film temperature instead of using the surface temperature of 140?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 104 | June 9th, 2025 transcribed_at: 2026-03-15T03:43:55.085957 He transferred 16. What&#x27;s the idea for this problem in using the film temperature instead of using the surface temperature of 140? This was a convection problem and we had a hot plate with a temperature of 140 and we had liquid water which was 60 degrees. So in order to calculate the convection coefficient, we need to take into consideration the fluid properties. So t...</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 24 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
