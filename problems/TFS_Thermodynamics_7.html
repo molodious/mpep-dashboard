@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 7 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Thermodynamics &middot; Problem 7</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 7</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      12.50 The (cid:29)ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 8412.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 12.52 The pressure drop through a chilled water coil at the design (cid:29)ow rate of 25gpm is 8psi. During normal operation, the actual (cid:29)ow rate is 4gpm. What is the pressure drop in normal operation? 12.53 Air exits a nozzle at 500ft into a 70◦F room at atmospheric pres- s sure. What is the Mach number? 12.54 20gpm of oil with speci(cid:28)c gravity 0.88 (cid:29)ows through a valve with a valve coe(cid:30)cient of 4.5. What is the pressure drop across the valve? 8512.55 1000gpm of water is pumped up an incline of 200ft. The suction pressure is 50psig and the pressure at the extent of the discharge piping is 250psig. The head loss through the discharge piping is 40ft, and losses through the suction piping are negligible. The suc- tion and discharge piping diameters are 12in and 8in, respectively. How much horsepower is supplied by the pump? 12.56 A threaded 3in pipe has (4) 90-degree long radius elbows and (6) 4 45-degree elbows. The volume (cid:29)ow rate is 5gpm. What is the minor head loss for the system? 12.57 A 6in gate valve with (cid:29)ow coe(cid:30)cient 150 permits 500gpm of oil (SG = 0.88) to (cid:29)ow through a piping system. What is the pressure drop across the valve? 8612.58 The product of a cyclist’s coe(cid:30)cient of drag and frontal area, C × A, is 3.2ft2. How much power must the cyclist generate to D maintain 20mph on a (cid:29)at, smooth road at sea level with no wind? Consider only aerodynamic drag. Ignore rolling resistance and power chain losses. 12.59 A nozzle produces a 200ft stream of water with 500gpm that drives s the wheel of an impulse turbine. The water jet strikes the turbine wheel at a radial distance of 3ft. What is the maximum power produced by the turbine? 12.60 An atypical hydronic system permits the velocity of water to reach a maximum of 12ft when required. What is the smallest nominal s schedule 40 steel pipe size that should be selected for a (cid:29)ow rate of 50gpm? 12.61 1200gpm of water (cid:29)ows through a 50ft length of pipe with a 8in inside diameter and a friction factor of 0.02. What is the pressure drop? 8712.62 A pump delivers 250gpm and produces 125ft of head. The (cid:29)uid being distributed has a density of 71lbm and the pump is 80% ft3 e(cid:30)cient. What is the brake horsepower required to drive the pump? 12.63 30gpm of 120◦F water (cid:29)ows through a nominal 1-‰ inch schedule 40 steel pipe. What is the Reynolds number? 12.64 A pump designed to operate at 100gpm and 50 feet of head is deter- mined to be oversized. The pump’s impeller diameter is decreased by 20%. What is the resulting pressure developed by the pump after this change? 12.65 What is the kinematic viscosity of 140◦F air at 50psia? 1×10−5ft2 s 5×10−5ft2 s 6×10−5ft2 s 3×10−3ft2 s 8812.66 10,000 gallons per hour of fuel oil with a speci(cid:28)c gravity of 0.86 is delivered to an emergency generator by a 90% e(cid:30)cient pump. The pressure gauge near the pump inlet reads -2.0 inches of Hg. The pressure gauge on the discharge side of the pump reads 30psig and is located 10 feet above the pump. What is the input power to the pump? 12.67 Which of the following is not a reason for pumps to be placed in parallel? 12.68 Three 90% e(cid:30)cient secondary chilled water pumps operate in a parallel redundant N+1 con(cid:28)guration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted (cid:29)ow to the cooling loads. During a pump failure, what brake horsepower is required to drive the two running pumps? 8912.69 A hydronic piping system is re-designed to improve e(cid:30)ciency. The 250gpm pump is re-selected from 200ft TDH to 175ft TDH to suit the reduction in pressure loss throughout the system and capture savings. Both the old and new pump selections have an e(cid:30)ciency of 85% and are driven by a 94% e(cid:30)cient motor. The pump will run 9AM-5PM Monday through Friday year round. Electricity costs $0.18 per kWh. What are the annual savings? 12.70 Steam enters a 75% e(cid:30)cient turbine at a pressure of 800psia and a temperature of 700◦F and exits at atmospheric pressure. What is the speci(cid:28)c work produced by the turbine? lb lb lb lb 12.71 The overall e(cid:30)ciency of a gas turbine combined cycle is 55%. The gas turbine cycle standing alone has an e(cid:30)ciency of 40%. What is the e(cid:30)ciency of the Rankine cycle? 9012.72 The inlet and exhaust enthalpies for the turbine of a gas turbine engine are 800Btu and 450Btu, respectively. The mass (cid:29)ow rate lb lb through the turbine is 20,000lb. What is the gross work output of hr the cycle? 12.73 A boiler produces saturated steam at atmospheric pressure. 20gpm of feedwater enters at 160◦F and 14.7psia. What is the boiler horse- power rating? 12.74 A three-phase AC generator supplies 700A at 480V with a power factor of 0.8 and an e(cid:30)ciency of 90%. The engine speed is 3600rpm. What is the torque needed to drive the generator? f f f f 12.75 The output shaft of an engine accelerates from 1000rpm at idle to 6000rpm at red line in 5seconds. What is the rotational accelera- tion? s2 s2 s2 s2 9112.76 1000lb of fuel with a heating value of 5000Btu is burned in a co- hr lb generation plant that produces 600KW of electricity. How much energy is avaialble to be harnessed from the waste steam exiting the turbine? hr hr hr hr 12.77 A Brayton cycle uses a 30KW compressor and a turbine that pro- duces 100KW. Fuel burned in the combustor adds 5×105Btu. What hr is the maximum e(cid:30)ciency of the cycle? 12.78 A
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>20%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>30%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>48%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>68%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from Thermodynamics apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the Thermodynamics chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this Thermodynamics problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within Thermodynamics are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in Thermodynamics problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 107</div>
+      <div class="qa-question"><strong>Q:</strong> course: Office Hours with Dan Molloy, PE</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course_short: Office-Hours chapter: Office Hours 107 | July 21st, 2025 lesson: Lesson-67325946 lesson_pos: 1</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 106</div>
+      <div class="qa-question"><strong>Q:</strong> course: Office Hours with Dan Molloy, PE</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course_short: Office-Hours chapter: Office Hours 106 | July 7th, 2025 lesson: Lesson-66900145 lesson_pos: 0</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 7 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
