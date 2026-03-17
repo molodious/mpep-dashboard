@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 12 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 12</span>
+  <span class="nav-badge">⭐ 8 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">8 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 12</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Steam at 40psia has a quality of 75%. What is the density? ft3 ft3 ft3 ft3
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.13lbm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.17lbm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.19lbm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.38lbm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So this is kind of a steam table look up and definitions.
+
+2. And if you&#39;re hunting through the reference manual for equations, you might want to ask yourself, should I be memorizing.
+
+3. Or you had to kind of step back and go look through the reference manual and figure it out how quickly are some of these.
+
+4. So enough for me I&#39;ll get off my soapbox, but how do we solve this one.
+
+5. So we can look up in the steam table to specific volume at that pressure.
+
+6. Density is the reciprocal of the specific volume and the specific volume can be calculated as the volume of a saturated.
+
+<strong>Full Solution:</strong>
+
+Heat transfer 12 steam at 40 PSIA has a quality of 75% what is the density. So you may be wondering how is this a heat transfer problem and fair enough, maybe it&#39;s not. It&#39;s important to be able to do lookups really quickly and we do a lot of harder problems you probably noticed in this section so far. We&#39;ve had some challenging problems. I wanted to do a couple here that you will get easy and medium difficulty problems on the exam as well. And one of the things you want to stress here is that you&#39;re able to quickly get in and out of these sorts of problems because that&#39;s how you&#39;re going to bank time for the harder ones that are going to take more than six minutes. There will be those problems out there. It will take eight, ten or even twelve minutes. And you can only really have a chance at those problems if you&#39;ve knocked out the easy ones in, you know, like a minute or less. And we&#39;ll spend more than the minimum possible time here because we want to talk through and explain. But the idea is for you to go very fast and that&#39;s what I&#39;m trying to do here is reinforce things from psychometrics from fluids from earlier so that when you get to the problems that put all of these things together, the system level problems, you&#39;re able to quickly fly through. So this is kind of a steam table look up and definitions. And if you&#39;re hunting through the reference manual for equations, you might want to ask yourself, should I be memorizing some of these equations? Maybe not memorizing in the sense of rope memorization, but can you pretty quickly apply the idea of quality to a question like this one to find density or are there quantum leaps in here? Or you had to kind of step back and go look through the reference manual and figure it out how quickly are some of these things getting connected. So enough for me I&#39;ll get off my soapbox, but how do we solve this one? We have steam with a known pressure and known quality. So we can look up in the steam table to specific volume at that pressure. And if we can find the specific volume for a saturated fluid and we can use the definition of quality to find the specific volume of this particular steam with its quality being what it is, then we can find the density because density is the reciprocal or inverse of specific volume. So that&#39;s the key idea here. Density is the reciprocal of the specific volume and the specific volume can be calculated as the volume of a saturated liquid quality zero. Plus the quality of the steam that we have times the specific volume sub FG which is the difference between the specific volume of a pure gas saturated vapor and saturated liquid. So we&#39;re going to go into the steam table and look up these two values. And I won&#39;t show that portion because I&#39;m assuming at this stage you know how to do that and you know how to do that quickly. So the specific volume is 0.0171 foot cube per pound plus 0.75 times 10.49. So you&#39;ll notice that the specific volume of a saturated liquid is barely anything as a percentage of the specific volume of a saturated vapor. So if you&#39;re really in a hurry you could just take 75% of the saturated vapor specific volume and ignore this because it&#39;s approximately zero. But easy enough to look out and look up and not that much additional time to compute. So we end up with a specific volume for a quality of 0.75 will be 7.88 cubic feet per pound. And the density is then the reciprocal of that which is 1 over 7.88 cubic feet per pound which is 0.127 pounds per cubic foot.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Heat transfer 12 steam at 40 PSIA has a quality of 75% what is the density.<br><br><br><br>• So you may be wondering how is this a heat transfer problem and fair enough, maybe it&#39;s not.<br><br><br><br>• It&#39;s important to be able to do lookups really quickly and we do a lot of harder problems you probably noticed in this section so far.<br><br><br><br>• We&#39;ve had some challenging problems.<br><br><br><br>• I wanted to do a couple here that you will get easy and medium difficulty problems on the exam as well.<br><br><br><br>• And one of the things you want to stress here is that you&#39;re able to quickly get in and out of these sorts of problems because that&#39;s how you&#39;re going.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">8 questions from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> What is that?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supply airflow dribble temperature. What is that? And how do you find it? I see when you plot the 2.75 F-50 and 52-51 the room sensible heat ratio line obtained by also using the sensible heat ratio pro-track there is 0.66 connects these 2 points correct? Yes. The solution seems to just magically select 62 as the supply airflow dribble temperature. And yeah, this one&#39;s interesting. Actually, it&#39;s not that big of a deal once you see it. This is unclear to me at the moment. How 62 is selected in the solution. And let&#39;s read the problem as well. A room is maintained at 75 and 50. The room sensible heat ratio is 0.66, 80 PS38, the AC unit discharge air temperatures 5251 wet bulb. If 10,000 CFM is needed to satisfy the room cooling load, then the reheat required at the design is mostly what? And this is from the answer. We&#39;ll circle back to this, but I made a picture for you. Let me get another color. How about some blue? All right. So I plotted the room condition for you. That&#39;s state 175 and 50%. And then the ADP is this 38 and the room sensible heat ratio is up here on the pro-track there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 41</div>
+      <div class="qa-question"><strong>Q:</strong> What does this not work?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 22. When I first looked at this problem, I calculated the external natural convection and radiation heat gain and then applied 1.0 ACFM Delta T to determine the temperature rise due to the heat absorption. What does this not work? I think it could work. So I guess I almost have to apologize for this problem because it&#39;s just really overcooked. I should separate it into like three problems. It might be the hardest problem in the program. It&#39;s definitely excessive. But anyway, the reason why it&#39;s in there is I wanted you to get some exposure to dealing with forced convection. There probably won&#39;t be a lot of that in the exam, but there&#39;s a chance there might be one. And I really wanted you to have the part of the solution where we go through that whole process and I&#39;m not going to re-gurgitate that here. But I wanted you to have at least one pass through it. So it&#39;s in the written solution. It&#39;s in the video. I think it&#39;s worth kind of just taking what you can from that. I am kind of curious though, if the 1.08 CFM Delta T approach might end up in the ballpark of actually analyzing the forced convection.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 43</div>
+      <div class="qa-question"><strong>Q:</strong> 04 is mostly what?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transfer. I don&#39;t fully understand how to calculate the film coefficient and when to use the film temperature. The context of my question comes from a practice exam question that uses an inside air film coefficient of .92. But the solution doesn&#39;t provide much information about where this value came from. I have attached the question for review. So this one is about A roof ceiling constructed a shown for summer conditions of 90 degrees. The required R value of the roof deck installation to achieve an overall value of 0.04 is mostly what? So I think it was probably clear that you had to add up the resistances of each of the layers. What maybe wasn&#39;t so clear was what to do about the films. And I&#39;m going to jump right to the meat of your question here, which is when to use the film temperature. And over here you wrote, Does the film coefficient need to be applied when the bulk temperature is given instead of the surface temperature? And the answer is yes. So if you use the surface temperature of the outside of the roof and you need the surface temperature on the inside, then you do not need to get involved in the films.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 43</div>
+      <div class="qa-question"><strong>Q:</strong> So what is row 2?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And lastly, practice exam 2, number 7. When calculating the different flow rates, you just divided by the two density factors. Why did you not use the fan affinity law to A, the takes the square of the density ratio. The answer I calculated was 10,530 CFM using this equation. So I used the density factor table for this. And it actually didn&#39;t occur to me to use the affinity laws. But it makes sense that you would explore that. So yeah, I used the density factors. And I got one for temperature. And I actually had to interpolate to get the temperature one. And then I had to, well, the density one was just based on the elevation. And that made it pretty straightforward. And that&#39;s how I got the answer of about 11,000. Trish choice C. And you&#39;re saying you got 10,5 and used the affinity law which is pretty interesting. So I&#39;m sure we agree that the diameter doesn&#39;t change. The pressure, I assume that you&#39;re taking the pressure ratio as 1, if you want to repeat 2, no change, because this would be like the differential pressure across the fan. So I guess we&#39;ll just assume that&#39;s a non-factor. And then we&#39;re really just basically taking the density ratio and the square root of that.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 49</div>
+      <div class="qa-question"><strong>Q:</strong> Is that what you&#39;re driving at or something else?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This is my name. Oh yeah. I was a little, I was a little salty when I wrote this, so I apologize. Yeah, okay, I took a look at this for you Luke, and I looked at all three. I found that for a number, 78, that you&#39;re referencing here and for a number seven, that work. The work done by the motor was outside the condition space, so we only considered the losses in the cooling calculation. And in number 17, which you noted is different, does not seem to follow the logic and explanation of 78, I agree, because the machinery driven by the motor is inside the condition space. Is that what you&#39;re driving at or something else? I think it&#39;s close. I can remember problem 17 from, I think the HVAC module, and I know in that particular video, you did give a good disclaimer that the energy from that motor could be more. So that was a problem where the motor and the pump were in the condition space, and it had like a 93% efficiency. So in that scenario, we want to take all of that into consideration, the motor, the pump, all that heat, that 93%, it&#39;s going to the condition space.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 67</div>
+      <div class="qa-question"><strong>Q:</strong> Can you demonstrate what this should look like?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And lastly, we have a psychrometric question. I&#39;m struggling to figure out how to arrive at the appropriate supplier temperature. The solution indicates the S-H-R, since we&#39;re here at ratio, I was plotted along with the reheat process line and the intersect at 62. Can you demonstrate what this should look like? I&#39;ve tried backing into the answer through sensible and late and heat calculations and I&#39;m off by about 10% when solving through that method. So the written answer to this one from the source doesn&#39;t draw a picture. So it just tells you that there&#39;s these lines, and it should intersect at 62. And if you know that, then everything else should follow from that. But it&#39;s not really much of an explanation at all. So let&#39;s read the question. A room is maintained that 75 dry bulb and 50% are age. The room sensible here ratio is 0.66 which corresponds to an apparatus dew point or ADP of 38. The air conditioning unit discharge air temperature is 51 dry bulb, 51 wet bulb. If 10,000 CFM is needed to satisfy the design room cooling load, the reheat required at design conditions is mostly nearly what. So I drew this on the psychometric chart ahead of time.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> What am I missing?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 22, Thermal 22 mentions that a cycle operates between zero and 80 degrees. At 257 into your answer explanation, you mentioned that we know state three is a saturated vapor 80 degrees. When I read the question, I assume that the max temperature cycle must be 80 degrees. If that assumption is true, the max temperature current state two when the process line follows constant entropy, line two state of super heat, with an absolute temperature of 80 degrees in which case state three would not equal 80 degrees, but some small amount less than 80 degrees. What am I missing? Yeah, nothing at all. You&#39;re absolutely right. And I realized there was this ambiguity in the question. Someone asked a similar question, probably quite a while ago. So I put a clarification statement right underneath the solution video. Without having read that statement, you&#39;re probably thinking, okay, you know, state two is 80, state three has to be something lower and you would be right. I think what my clarification statement points out is that that 80 degrees does correspond to state three specifically. So this is beyond pH. On pH, it&#39;s a constant line because the condenser operates at constant pressure.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111</div>
+      <div class="qa-question"><strong>Q:</strong> Anyway, what is this exists?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This was an interesting one. Systems in Components 11. The reference book states that a cooling tower ton is 15,000 BTUs per hour, accounting for chill or heat rejection and heat compression of 0.88 kWh per refrigeration ton of a assumed efficiency for the chiller. Based on this, should a hundred ton cooling tower be calculated using 15,000 BTUs per hour. When I use this value, my calculated flow came out to be 2.3GPM, please confirm if this is correct. I hadn&#39;t heard this one before, but it is in the reference handbook. So I&#39;m glad it came up. So yeah, I mean, just looking at this specific problem and making sure we have clarity on this one, it kind of comes down to the semantics. So let&#39;s be absolutely clear that cooling ton, we talked about tons all the time, but the definition of a cooling ton is of course 12,000 BTU per hour. That&#39;s not changing unless otherwise stated. So this industry term that I just learned about because the question came through of the 15,000 BTUs per hour is, and I&#39;m glad you provided the SNAP from the reference handbook. This is unchanged in version 2.0. I did check it. It says, let&#39;s get the exact wording here, cooling tower ton.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 12 · 8 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
