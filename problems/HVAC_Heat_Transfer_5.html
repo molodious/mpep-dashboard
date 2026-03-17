@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 5 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 5</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 5</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An uninsulated 8in chilled water pipe carries 55°F chilled water through a factory maintained at 80°F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3500Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>4000Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>40,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>120,000Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So you can search radiation in the reference handbook.
+
+2. And you&#39;ll eventually reach what I consider to be kind of the most classic radiation formula that you&#39;ll come back to ag.
+
+3. And the emissivity is something we can also look up.
+
+4. So if you search in the reference handbook for emissivity or if you search for non-metallic, let&#39;s actually do this.
+
+5. But if you know something about the surface, you should look up what the material is and try to estimate what the emissi.
+
+6. And sigma is a constant that we can look up.
+
+<strong>Full Solution:</strong>
+
+Heat transfer 5 in uninsulated 8 inch chilled water pipe carries 55 degree chilled water through a factory maintained to 80 degrees. The length of the run is 75 feet. The pipe is painted with non-metallic paint. What is the net heat transfer by radiation? So we have an uninsulated chilled water pipe which by the way is a bad idea. Unless this is in a part of the country or the world where the air is very dry, you have an uninsulated chilled water pipe. You&#39;re probably going to have conensation. But we&#39;ll go with it. So it&#39;s 55 degree water. And the length of the run is 75 feet and the diameter of the pipe is 8 inches. The ambient temperature in the factory is maintained 80 degrees. All that Tambient. Okay, so we want to find the net heat transfer by radiation. So you can search radiation in the reference handbook. And you can also search net energy exchange between two bodies. But you&#39;ll probably forget that. So just search radiation. And you&#39;ll eventually reach what I consider to be kind of the most classic radiation formula that you&#39;ll come back to again and again. Probably three quarters of all radiation problems will involve referring to this. So the heat transfer between two bodies by radiation is epsilon, which is the emissivity, times sigma, which is the Stefan Boltzmann constant times the area, times not the delta T but the difference between the temperatures and the temperature. The rate is to the fourth power. And the temperatures have to be in rank and not Fahrenheit. They have to be in absolute terms. So we know the temperatures already. He&#39;d always moved from hot to cold. So 80 will be RT1 and 55 will be RT2. But we&#39;ve got to change them to absolute terms. Rankin before we proceed. And the area is the entire outside surface area of this pipe along the 75 degree run. And the emissivity is something we can also look up. So if you search in the reference handbook for emissivity or if you search for non-metallic, let&#39;s actually do this. Emissivity of surfaces and effective aminces. So if you have something painted with non-metallic paint, then the average emissivity is 0.9. But if it&#39;s a lot of other things, it can be very different from that. So you shouldn&#39;t assume that the emissivity is 1 necessarily. If you have no other information or if you&#39;re told that it&#39;s a black body radiation situation, then you can assume that the emissivity is 1. But if you know something about the surface, you should look up what the material is and try to estimate what the emissivity might be. Okay, so based on that, we know it&#39;s 0.9. And sigma is a constant that we can look up. So let&#39;s deal with the area in an isolated manner. So the area of the outside of a cylinder is given by its circumference pi D times the length. So pi D L. In this case D is nominally 8 inches, we&#39;ll go with it. It might have an outside diameter that&#39;s slightly more than that. But we&#39;ll just call it 8 inches. Really, we want to be in feet. So it&#39;s 8 over 12 feet. Times the total length, which is 75 feet. And that equals about 157 square feet. And we found out that the emissivity was 0.9. Sigma is just a constant. And the temperatures we got to turn into rank. And so let&#39;s do that as well. T1 is the ambient room temperature. 80 degrees. And to get it to rank. And we&#39;re going to add 460, which brings it to 540. Rankin. And then T2 is the 55. And the reason we&#39;re assuming that the surface of the pipe is 55 degrees is because it&#39;s an uninsulated pipe, which, by the way, is why the problem statement is that it&#39;s uninsulated, which would never really happen. But in this case, it&#39;s a steel pipe. The thickness of the pipe is minimal, not negligible, but small enough that the temperature of the water flowing inside the pipe is very quickly absorbing heat through the pipe. And it&#39;s highly conductive because it&#39;s steel or metal, at least.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Heat transfer 5 in uninsulated 8 inch chilled water pipe carries 55 degree chilled water through a factory maintained to 80 degrees.<br><br><br><br>• The length of the run is 75 feet.<br><br><br><br>• The pipe is painted with non-metallic paint.<br><br><br><br>• What is the net heat transfer by radiation.<br><br><br><br>• So we have an uninsulated chilled water pipe which by the way is a bad idea.<br><br><br><br>• Unless this is in a part of the country or the world where the air is very dry, you have an uninsulated chilled water pipe.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 76 · March 4th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 76</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was on heat transfer five. According to their reference handbook for the radiation equation, the T1 absolute temperature of the body surface, T2 is the absolute temperature of the surroundings. Based on those descriptions, T1 should be 55, which is 512 rank and T2 should be 80, which is 540 rank and why did you switch them around? I&#39;m not sure, but you have the right idea. It always has to be, heat always has to move from hot to cold. That&#39;s the zero flow of thermodynamics. So as long as you subtract the small number from the larger number, so that you get a positive result, then you&#39;re gonna be good. So if I interchange the variables, I&#39;m not too particular about, well, I know that the subscripts are arbitrary. What&#39;s called T1, what&#39;s called T2? I apologize if that caused any confusion in the solution, but you absolutely have to subtract the small number from the larger number. You have to get a positive result. Heat has to move from hot to cold. And as long as you&#39;re comfortable and confident that those conditions are met, you can almost ignore the subscripts because it did really only one way it can go. If you&#39;re getting a negative result, then warning bells</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> Can you go over any pressure versus enthalpy diagram for refrigerants?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, first up, thermos 7. Can you go over any pressure versus enthalpy diagram for refrigerants? Second question, not related to any problem. Do you know if the handbook has interpolation equation? So it&#39;s kind of an open question as far as going over pressure versus enthalpy diagram. If you haven&#39;t already watched the fundamentals in the daily insights, I definitely definitely definitely recommend going back because I can go through right now just like, you know, what comes to mind? Off at the top of my head about pressure enthalpy diagrams, but you&#39;re getting the answer to the question of what comes to the top of my mind as opposed to, you know, everything that I would have planned to include as it relates to like what you need to know about pressure enthalpy diagrams, which is definitely in the fundamentals. So I think the person asked this is at the beginning of the program, so maybe haven&#39;t worked through the whole fundamentals yet. You&#39;re definitely fine more on this there. But in the meantime, I&#39;m happy to go through just kind of the basics of what these are about, and I think the best way to do that is just to talk about what parameters are here.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> Has anyone come across this problem already, or if you haven&#39;t, maybe you have some ideas about where we might look for some clues in the reference handbook, a search term, maybe that we can use?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This next one is from NC6M. It&#39;s an acoustic question. So, in our handler, Ford curved fan generates the following Soundpower levels in decibels. And it gives us the Soundpower level for each octavand, each level of frequency. And for 10,000 CFM flowing in a 36 by 36 inch duct, lined with 1 inch liner for 10 feet in a 25 foot long duct. So, it&#39;s a 25 foot long duct, but it&#39;s only lined for 10 feet. The resulting Soundpower level, in decibels at the end of the line segment, will be most nearly what. And we have four options. Has anyone come across this problem already, or if you haven&#39;t, maybe you have some ideas about where we might look for some clues in the reference handbook, a search term, maybe that we can use? Yeah, I came across this last night. Okay, awesome. Didn&#39;t know anything about what to do. Okay, search for like the FPL. And like, I think it had like mind segment. There wasn&#39;t really gain anything. Okay, this is a timely question. Anybody else got any ideas? Search terms we can use in the reference handbook? Going once going twice? Insertion loss. Insertion loss. Insertion loss for rectangular sheet metal docks with. One inch fiberglass lining.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 5 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
