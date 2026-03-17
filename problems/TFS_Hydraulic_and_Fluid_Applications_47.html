@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 47 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 47</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 47</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Lubricating oil at a temperature of 30°C has a specic gravity of 0.89 and a kinematic viscosity of 50cSt. What is the absolute viscosity?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.00005Pa·s</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.003Pa·s</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.04Pa·s</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.1Pa·s</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if you search the reference handbook for absolute dynamic viscosity or kinematic viscosity, either way you&#39;ll get to.
+
+2. So if we want to find mu, the absolute viscosity, then we want to multiply the kinematic viscosity by the density.
+
+3. So search the reference handbook for specific gravity and we&#39;ll be reminded of this definition, SG equals density over t.
+
+4. So the specific gravity of in this case lubricating oil is the density of the oil divided by the density of water.
+
+5. It&#39;s just the water is just a reference to compare the density of anything else to and then that ratio is specific gravi.
+
+6. So if we want to find the density of lubricating oil by itself, we&#39;ve got to take the density of water and multiply by t.
+
+<strong>Full Solution:</strong>
+
+Lubricating oil at a temperature of 30 degrees C has a specific gravity of 0.89 and a kinematic viscosity of 50 CST which is senty-stokes. What is the absolute viscosity? So we have the kinematic viscosity, we want the absolute viscosity, or sometimes called the dynamic viscosity. So if you search the reference handbook for absolute dynamic viscosity or kinematic viscosity, either way you&#39;ll get to the same section and we can remind ourselves, you might recall this already, that the kinematic viscosity is defined as the absolute viscosity over the density. So if we want to find mu, the absolute viscosity, then we want to multiply the kinematic viscosity by the density. So mu equals kinematic viscosity times density. Now we don&#39;t know the density of the slew locating oil, but we do know the specific gravity and we can use the definition of the specific gravity. So search the reference handbook for specific gravity and we&#39;ll be reminded of this definition, SG equals density over the density of water. And the understanding here is that the numerator, the density is the density of whatever substance you&#39;re interested in. So the specific gravity of in this case lubricating oil is the density of the oil divided by the density of water. It&#39;s just the water is just a reference to compare the density of anything else to and then that ratio is specific gravity. So if we want to find the density of lubricating oil by itself, we&#39;ve got to take the density of water and multiply by the specific gravity. So density of oil equals specific gravity of oil times the density of water. The density of water you have two choices here. You can just take it as a thousand kilograms per cubic meter. That&#39;s a pretty typical value to use. If you look it up in the table called properties of water and you find it for exactly 30 degrees C, you&#39;ll determine that it&#39;s 995.7 kilograms per meter cubed, which is close enough. So we&#39;ll go with the number from the table just to be as precise as possible. And let&#39;s go ahead and find the density of lubricating oil. That&#39;s going to be 995.7 kilograms per meter cubed times the specific gravity 0.89, which equals 886.2. So now we multiply the kinematic viscosity by the density. Mu equals 50 centi stoics CST. It&#39;s not a unit that you&#39;re probably super familiar with and that&#39;s okay. We can do some unit conversion after this. Being multiplied by the density 886.2 kilogram per meter cubed. And now what are we going to do to get rid of CST? Go into the reference handbook and search for measurement relationships and you&#39;ll find a conversion from CST to meters squared per second, which is a huge step in the right direction even if you don&#39;t notice right away why that is. We&#39;ll go with that because we&#39;ve got to get out of CST if we&#39;re going to end up with Pascal seconds as the final units. So my suggestion here is to multiply by that number which is one times 10 to the negative 6 meters squared per second per CST. So that gets rid of senti stoics and this meter squared goes away and we just keep one of the meters in the denominator and we end up with a dynamic viscosity of 0.044 kilogram per meter times second. And 0.04 is an answer choice. So C is looking interesting and I think if you were in a hurry you might just circle it and go and then you&#39;d be wondering what was that the right decision are these the same units as Pascal&#39;s time seconds. And I don&#39;t expect you to know that off the top of your head but we have to have an avenue for getting there and I know we don&#39;t work with SI units at ton but what we can do is just remember some of the common units and what&#39;s actually inside of them and then we can map away through to compare the units. So two things that I think are are useful to know are that a Newton is a kilogram meter per second squared.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Lubricating oil at a temperature of 30 degrees C has a specific gravity of 0.89 and a kinematic viscosity of 50 CST which is senty-stokes.<br><br><br><br>• So we have the kinematic viscosity, we want the absolute viscosity, or sometimes called the dynamic viscosity.<br><br><br><br>• So if you search the reference handbook for absolute dynamic viscosity or kinematic viscosity, either way you&#39;ll get to the same section and we can re.<br><br><br><br>• So if we want to find mu, the absolute viscosity, then we want to multiply the kinematic viscosity by the density.<br><br><br><br>• So mu equals kinematic viscosity times density.<br><br><br><br>• Now we don&#39;t know the density of the slew locating oil, but we do know the specific gravity and we can use the definition of the specific gravity.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 47 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 49 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 49</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 49</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A car is designed to have a top speed of 120mph. The drag coecient is 0.4 and the frontal area is 28ft2. What is the minimum required motor size? 46
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>16hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>129hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>160hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>404hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. We want to start by just finding the drag force.
+
+2. So, search the reference handbook for drag force and we&#39;ll find this equation FD, force of drag is equal to CD, the drag.
+
+3. Times of velocity squared, times the area which is the frontal area of the car divided by two and we also need Gc.
+
+4. The units don&#39;t work for this one unless we have Gc included.
+
+5. In any case, we&#39;re not given any other information.
+
+6. If you just go to measurement relationships in the reference handbook, somehow.
+
+<strong>Full Solution:</strong>
+
+A car is designed to have a top speed of 120 miles per hour. The drag coefficient is 1.4 and the frontal area is 28 square feet. What is the minimum required motor size? Well, the motor size is the amount of power that the motor needs to produce to overcome this drag and drag is a force and it&#39;s a function of velocity squared and then power is a function of velocity cubed. It&#39;s the force times the velocity, but we&#39;ll get to that toward the end of the problem. We want to start by just finding the drag force. So, search the reference handbook for drag force and we&#39;ll find this equation FD, force of drag is equal to CD, the drag coefficient times the density, that&#39;s the density of air. That&#39;s the fluid medium that&#39;s causing there to be drag. That&#39;s the car moves through it. Times of velocity squared, times the area which is the frontal area of the car divided by two and we also need Gc. The units don&#39;t work for this one unless we have Gc included. So, the assumption here is that the velocity is the driving force for the drag and that overall that&#39;s the driving force for resisting motion as the car moves forward. So, I&#39;m sure there&#39;s other sources of resistance like static friction of the tires, creating rolling resistance and things of that nature. But because the car is going so fast, the drag force probably becomes the dominant factor and we can ignore some of those other things. In any case, we&#39;re not given any other information. So, we&#39;re basically going to pretend this thing is an airplane and ignore those other factors. So, with that, we actually have a fair amount of information here. We know the velocities, 120 miles per hour. We really want to get that in feet per second. So, let&#39;s do that. We&#39;ll save velocity is 120 miles per hour and there are 3600 seconds in an hour. So, I think it&#39;s right of hours. And then there&#39;s 5,288 feet in a mile. That&#39;s the number that I memorized at some point. If you didn&#39;t know that, you might recall that there&#39;s 1600 meters in a mile from running around a track, which is 400 meters per lap and this four laps in a mile. And then you can go for a meter to feet. I&#39;m sure there&#39;s a few different work around there. If you just go to measurement relationships in the reference handbook, somehow. And you might also just be able to go with a rack for a mile-stow or a few per second. So, whatever works for you as long as in the end, you get 176 feet per second here. So, that&#39;s the velocity. The density of air, we know we can just take the standard density, which is 0.075. And the frontal area is been given and the drag coefficients been given and we know G subsy. So, let&#39;s find the drag force. 1.4 for the drag coefficient times the density 0.075 pound mass per cubic foot. And that&#39;s your first clue that Gc has to get included because we&#39;ve got pound mass here and there&#39;s no way we&#39;re going to end up with pound force at the end because there&#39;s no pound force coming from any other variable that&#39;s going into this. The velocity 176 feet per second and that squared times the frontal area 28 feet squared divided by 2 times 32.2 and Gc has units of pound mass per pound force times feet per second squared and now let&#39;s check out all the units here. We&#39;re going to lose pound mass, we&#39;re going to gain pound force, which is going to come up into the numerator and stay. We&#39;re going to have feet squared times feet squared is feet to the fourth. Then that&#39;s divided by feet cubed is just feet one time and then we have feet one time here. So, all the feet go away and then we have second squared and the denominator up top and second squared and denominator at the bottom. So, that all goes away. So, we&#39;ll just end up with pound force at the end, which is perfect. So, 404 pound force. And then next, we want the motor size so we&#39;ve got to figure out the power to produce that force.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A car is designed to have a top speed of 120 miles per hour.<br><br><br><br>• The drag coefficient is 1.4 and the frontal area is 28 square feet.<br><br><br><br>• What is the minimum required motor size.<br><br><br><br>• Well, the motor size is the amount of power that the motor needs to produce to overcome this drag and drag is a force and it&#39;s a function of velocity .<br><br><br><br>• It&#39;s the force times the velocity, but we&#39;ll get to that toward the end of the problem.<br><br><br><br>• We want to start by just finding the drag force.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 49 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
