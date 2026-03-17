@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 30 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 30</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 30</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A counterow heat exchanger is used to cool a uid from 180°F to 140°F. The cooling medium temperature increases from 60°F to 120°F. What is the log mean temperature dierence? 89
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>56◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>60◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>64◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>70◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And we&#39;re starting with the saturated liquid.
+
+2. So we&#39;re starting on the left side of the vapor dome.
+
+3. Quality is the mass of vapor in a mixture divided by the total mass.
+
+4. So in this case, we&#39;re starting out with 100% liquid.
+
+5. So we&#39;ll convert that.
+
+6. And entropy has units of BTU per pound mass ranking.
+
+<strong>Full Solution:</strong>
+
+Saturated liquid water at 50 psi g is boiled in a sealed vessel at constant pressure until one-third of the water by mass has changed to a vapor phase. What is the change in entropy of the mixture during this process? So let&#39;s draw on a pH diagram just to get a sense of what&#39;s going on in this problem. We can draw a classic vapor dome. This is pressure on the vertical axis and enthalpy on the horizontal. And we have a situation where we&#39;re boiling at constant pressure. And we&#39;re starting with the saturated liquid. So we&#39;re starting on the left side of the vapor dome. We&#39;ll call that state one. And then we&#39;re going to be traveling to the right at constant pressure to some state two. And we&#39;re not going to be traveling all the way across because it doesn&#39;t say that it becomes saturated vapor or super-givier vapor. It says that one-third of the water by mass will have changed to vapor. So that line doesn&#39;t even go halfway across the dome. And we&#39;re being asked to figure out what is the change in entropy during this process. So how do we find the entropy at states one and two? And then we&#39;ll take the difference at the end. So the change in entropy is going to be S2 minus S1. With the understanding that entropy always increases. So as we go from one to two, there&#39;s going to be more. We expect S2 to be greater than S1. Also we&#39;re adding heat for boiling something. So more energy, more entropy is expected. The molecules are spreading out. And that&#39;s the direction we expect things to move in. So the other piece of information that we have, it&#39;s not stated explicitly. But we can infer the quality. What is the definition of quality? Quality is the mass of vapor in a mixture divided by the total mass. And the total mass can be expressed as the mass of vapor plus the mass of liquid. So in this case, we&#39;re starting out with 100% liquid. And then a third of the mass has changed to vapor. So by definition, the quality at state two, I should use a subscript here. Quality at state two is one third because one third of the mass will have changed to a vapor. So that&#39;s another fact that&#39;s useful to know. Now let&#39;s talk about S1. We can use the steam table. And since it&#39;s a saturated liquid, we know that S1, the entropy at state one, is just going to be SF at that pressure. What is that pressure? Well it&#39;s 50 psi G, but the steam table is organized by PSIA. So we&#39;ll convert that. Let&#39;s add 14.7, but we can round off and just add 15. We&#39;ll say that 65 psi A. And looking that up, that turns out to be 0.4344. And entropy has units of BTU per pound mass ranking. And while we&#39;re on that line, let&#39;s also find the entropy of vaporization S sub FG at the same pressure, which we&#39;re going to use in the next step. That&#39;s 1.2035, the same units. And now we&#39;ll apply the definition of the quality. And you can find this formula and a few others like it in the reference handbook by searching properties for 2-phase. And then a parentheses that says vapor dash liquid systems. So it&#39;s properties for 2-phase vapor liquid systems. The tricky thing there is that they have dashes and parentheses. So it makes it a little bit hard to just crank out that search term. But I think a lot of folks will find that you&#39;re going to use these formulas so many times. You might just end up being able to recall them right off the bat. But you should know that they&#39;re in the reference handbook as well and be able to find them if you need. In this case, we&#39;re going to say S2. And I&#39;m adding the subscript to the formula and the reference handbook won&#39;t have this because it doesn&#39;t know the specific application. So it&#39;s your job to be able to know a that this formula exists and where to find it and b how to apply it and use it for the specific situation. So the version the reference handbook is just going to say S equals S sub F plus quality times S F G. What I&#39;m adding is that I&#39;m talking about S2 since we define state 2 as the endpoint for this process and it&#39;s the quality at state 2.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Saturated liquid water at 50 psi g is boiled in a sealed vessel at constant pressure until one-third of the water by mass has changed to a vapor phase.<br><br><br><br>• What is the change in entropy of the mixture during this process.<br><br><br><br>• So let&#39;s draw on a pH diagram just to get a sense of what&#39;s going on in this problem.<br><br><br><br>• We can draw a classic vapor dome.<br><br><br><br>• This is pressure on the vertical axis and enthalpy on the horizontal.<br><br><br><br>• And we have a situation where we&#39;re boiling at constant pressure.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 30 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
