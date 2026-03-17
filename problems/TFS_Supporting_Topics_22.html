@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 22 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Supporting Topics · Problem 22</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Supporting Topics · Problem 22</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next 6 years, and by $20,000 per year (from the original baseline) for the following 6 years. Assuming no maintenance costs and no salvage value, what is the present value of investing in this equipment if the eective annual interest rate is 6%?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$43,000</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$56,000</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$145,000</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$195,000</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. First let&#39;s get our head around the problem by drawing a cashflow diagram.
+
+2. And the reason why that&#39;s better is because now this negative cash flow over 6 years is at least starting at year 1 and.
+
+3. And all of these economic cash flow factor formulas, it&#39;s all set up on the basis that things start happening at year 1.
+
+4. If things don&#39;t start happening until year 7, those all have to be dealt with individually as a.
+
+<strong>Full Solution:</strong>
+
+A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next six years and by 20,000 per year from the original baseline for the following six years, assuming no maintenance costs and no salvage value, what is the present value of investing in the equipment if the effective annual interest rate is 6%. So we want to know the present value so we can write a present value expression. First let&#39;s get our head around the problem by drawing a cashflow diagram. We&#39;ve got an initial cost of $100,000 and then it&#39;s going to increase revenue. We don&#39;t actually know what the revenue is now but we know it&#39;s going to increase by $15,000 and we&#39;re really interested in that increase in revenue because if there&#39;s currently revenue but we don&#39;t have to take on any additional cost in order to get it then that&#39;s part of the current economic situation. So in analyzing the initiative we&#39;re really interested in the $100,000 we&#39;re going to invest. What is that going to do? How much is that going to change the revenue in the future? Well it&#39;s going to increase it by $15,000 a year for six years so we would do plus $15,000 and that&#39;s going to hold for the next six years so we could take that from 1 to 6. And then in year 7 through 12 it&#39;s going to go up by 20,000 from the original baseline. So it&#39;s not going to go 15 and then go plus 35 it&#39;s just going to go another 5 to get to 20. So that&#39;s kind of going to look like this out from year 7 to 12. So this is year 1 through 6. I should probably put a little space in between those two. So I really would be here. This would be 7 out through 12. 7, 12, 1, 6. Connect these with a line if you like. If you like you think about it as the area under the lines. So that&#39;s fine but the question then becomes how are we going to deal with this because now we&#39;ve got these six cash flows in the future 7, 8, 9, 10, 11 and 12. But are individually going to have to be discounted back to a present value which is six separate terms in the calculation and that&#39;s a bit cumbersome. So even though that&#39;s totally a valid way to do it, it&#39;s just more work than it&#39;s worth. So what I&#39;m going to suggest instead is that we overstate the revenue in years 1 through 6. So we&#39;ll replace 1 through 6 with the 20,000 there and have that go straight across to year 12. So that entire thing is 20k. But then to compensate for the fact that we did that will reflect the negative 5,000 in years 1 through 6 only 1 through 6. So that&#39;s equal in area to the area that would have been up here. So we&#39;re just taking that and shifting it down. And the reason why that&#39;s better is because now this negative cash flow over 6 years is at least starting at year 1 and then the other is a 20k that goes for 12 years also starts at year 1. And all of these economic cash flow factor formulas, it&#39;s all set up on the basis that things start happening at year 1. If things don&#39;t start happening until year 7, those all have to be dealt with individually as a p-given f term. So that&#39;s why this is a faster method. So now let&#39;s write our pv expression. We&#39;re going to take the negative 100,000. That&#39;s already a present value. And then we&#39;re going to add 20,000 and we&#39;ll do a p-given a, had an interest rate of 6% which was given for n years and the years is going to be 12 because that&#39;s going to happen now in years 1 through 12. And then we&#39;re going to subtract from that 5,000 a year and again we&#39;re doing p-given a, but now it&#39;s 6% over only 6 years. And we can look up both of these factors in the reference handbook search for a factor table, find the 6% factor table. And this first one equals 8.3838. And the second one equals 4.9173. And the present value equals 43,090. Best answer choice is a.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next six years and by 20,000 per year from the original base.<br><br><br><br>• So we want to know the present value so we can write a present value expression.<br><br><br><br>• First let&#39;s get our head around the problem by drawing a cashflow diagram.<br><br><br><br>• We&#39;ve got an initial cost of $100,000 and then it&#39;s going to increase revenue.<br><br><br><br>• We don&#39;t actually know what the revenue is now but we know it&#39;s going to increase by $15,000 and we&#39;re really interested in that increase in revenue b.<br><br><br><br>• So in analyzing the initiative we&#39;re really interested in the $100,000 we&#39;re going to invest.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Supporting Topics · Problem 22 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

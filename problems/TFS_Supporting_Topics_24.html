@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 24 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Supporting Topics · Problem 24</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Supporting Topics · Problem 24</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the partial pressure of water in atmostpheric air at 120°F and 70% RH?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.3psi</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.8psi</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1.2psi</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1.7psi</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So this is an opportunity for you to get some exposure to psychromatrix.
+
+2. So let&#39;s start with the first one.
+
+3. So if you search for properties of saturated water by temperature and you get the table that&#39;s organized by temperature.
+
+4. And the reference handbook calls that P sub WS.
+
+5. And I want to make sure I use the exact normal clature they use in the reference handbook here.
+
+6. If you search relative humidity, you&#39;ll find this equation.
+
+<strong>Full Solution:</strong>
+
+What is the partial pressure of water in atmospheric air at 120 degrees and 70% RH? So if you&#39;re doing these problems in order, you&#39;re probably relieved to be getting away from some economic calculations and back into some good mechanical engineering with some psychromatrix problems. If you are watching this as part of the thermal fluid systems relaxes, bundled in psychromatrix is a supporting topic for you. So this is an opportunity for you to get some exposure to psychromatrix. And if you&#39;re watching this as part of the HVC and refrigeration full access bundle, then psychromatrix is in your will house, so a bit of extra practice is never a bad thing. So this problem is actually a few different ways to do it. I&#39;m going to go through three different methods and we&#39;ll do them in order of increasing complexity. But I&#39;d like you to have all three at your disposal and I think to really understand psychromatrix any of these three should be available to you at any time. So let&#39;s start with the first one. How do you find the partial pressure of water in atmospheric air at some temperature and relative humidity? Well, what we can do is we can go to the steam table. So if you search for properties of saturated water by temperature and you get the table that&#39;s organized by temperature for 120 degrees, then you can directly look up the saturation pressure. And the reference handbook calls that P sub WS. So we&#39;d be looking up the saturation pressure at a temperature of 120 degrees. That equals 1.7 PSIA. But we don&#39;t have saturated air. We have 70% humid air. So now we want to apply the definition of the relative humidity, which is that. And I want to make sure I use the exact normal clature they use in the reference handbook here. If you search relative humidity, you&#39;ll find this equation. P sub W, the partial pressure of water vapor divided by P sub WS, the saturation pressure of water vapor at a particular temperature. In this case, the temperature of 120. So the actual partial pressure of water is only a percentage of what it could be at that temperature. What could it be? It could be 1.7. But it&#39;s only going to be 70% of that. So let&#39;s rearrange this for P sub W equals RH times the saturation pressure. 0.7 times 1.7 PSIA. And that equals about 1.19. That&#39;s closest to answer to choice C. So if you just want to get the answer, you could stop there. But I want to give you the opportunity to see two other methods of finding that same value. So that&#39;s method 1. And we&#39;ll go for method 2. Method 2, let&#39;s take a look at the high temperature psychometric chart. So search the reference handbook for psychometric chart, find the high temperature version, and look up the dew point. So just go horizontally to the left from that point once you find it. And you&#39;ll find the dew point temperature to be approximately 107 degrees. So another way of defining the partial pressure of water vapor is that it&#39;s the same as the partial pressure of water vapor at saturation, but not at the actual temperature 100 degrees, but rather at the dew point temperature. So if we had looked up the partial pressure in the previous one, instead of looking up at 120, if we looked it up at 107, we would have found the partial pressure of water directly instead of having to find it and then multiply it by 70%. That&#39;s a key key insight. Hopefully you take a moment to sit back and appreciate that these two ideas connect up. So if we use the dew point temperature, which we now have, it&#39;s 107 for these conditions, is fully defined state, it&#39;s just the dew point. And then we just look up the saturation pressure at that dew point from the exact same table in the steam table. And we directly get the value of 1.17 psi A, which is still closest to answer showy C. So that&#39;s method 2. Now method 3 is the most involved in it. It requires us to remember some things from chemistry, but I think it&#39;s equally valuable to know for a few different reasons, but let&#39;s just take a look.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • What is the partial pressure of water in atmospheric air at 120 degrees and 70% RH.<br><br><br><br>• So if you&#39;re doing these problems in order, you&#39;re probably relieved to be getting away from some economic calculations and back into some good mechan.<br><br><br><br>• If you are watching this as part of the thermal fluid systems relaxes, bundled in psychromatrix is a supporting topic for you.<br><br><br><br>• So this is an opportunity for you to get some exposure to psychromatrix.<br><br><br><br>• And if you&#39;re watching this as part of the HVC and refrigeration full access bundle, then psychromatrix is in your will house, so a bit of extra pract.<br><br><br><br>• So this problem is actually a few different ways to do it.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 89</div>
+      <div class="qa-question"><strong>Q:</strong> My approach led to an incorrect answer much smaller than any of the selections, but why can&#39;t I solve the problem this way?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 24, I understand your answer by using the definition of humidity ratio and using the specific volume. But when I first attempted this problem, I multiplied the humidity ratio by the density of air, which I assumed at sea level 075. Then I multiplied by the volume of the room, which should leave the units as pounds of water. My approach led to an incorrect answer much smaller than any of the selections, but why can&#39;t I solve the problem this way? Using the density of air to cancel out the pounds of drier term. Yeah, I had to think about this one for a while. This was about calculating the mass of water in a room full of moisture when you&#39;re the volume of the room. And the way you started out by saying you multiplied the humidity ratio by the density, I had a hard time with that at first, but we&#39;re multiplying the same three numbers together. So let me write this out. In my solution, I wanted to start with the volume in the room. I like to start with something macro. How much air do we have in the room? So I divided the volume by the specific volume, which is the same as multiplying by the density, which is what you did. And that gives us the mass.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Supporting Topics · Problem 24 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
