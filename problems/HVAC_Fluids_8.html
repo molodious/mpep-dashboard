@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 8 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 8</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 8</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the kinematic viscosity of 140°F air at 50psia? 1×10−5ft2 s 5×10−5ft2 s 6×10−5ft2 s 3×10−3ft2 s
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So the way we&#39;re going to approach this problem is to look up the dynamic viscosity mu based on this temperature that we.
+
+2. And then we have to figure out what the density of air is at this temperature and pressure and use that to plug into the.
+
+3. And the way that we find the dynamic viscosity as a function of temperature is by looking in the reference handbook and.
+
+4. And all the temperatures are given in rank and so be careful.
+
+5. So we can divide both sides of this thing by volume that&#39;ll cancel on the left.
+
+6. And when we divide by volume on the right, mass over volume becomes density.
+
+<strong>Full Solution:</strong>
+
+Fluid&#39;s number eight, what is the kinematic viscosity of 140 degree air at 50 psi a? This is an interesting question because the absolute viscosity or dynamic viscosity mu, as we talked about a bit earlier, can be approximated as a function of the temperature only. However, kinematic viscosity can&#39;t because it&#39;s also depending on the density and the density is to some degree a function of temperature for air. So the way we&#39;re going to approach this problem is to look up the dynamic viscosity mu based on this temperature that we were given. And then we have to figure out what the density of air is at this temperature and pressure and use that to plug into the equation, new equals mu over row. So that&#39;s the way we&#39;re going to come at this. And the way that we find the dynamic viscosity as a function of temperature is by looking in the reference handbook and we&#39;re going to search for a proper adhesive air at low pressure. And if you didn&#39;t know that, you might be searching for a bit, and that&#39;s understandable. But you would eventually stumble on this page, properties of air at low pressure. And all the temperatures are given in rank and so be careful. We have 140 degrees here. You have to add 460 to get rank in from Fahrenheit. So 140 and 460, we&#39;ll get you to 600 and we have this viscosity, 134.9 times 10 to the 7th pound mass per second foot. So 140 plus 460 is 600 rank in and mu at 600 rank in is 134.9 times 10 to the negative 7th pound mass. Over second foot. So that gives us our numerator. Now the denominator, the density, how are we going to find that? We have air at some temperature and pressure. Well, you may remember the ideal gas law. And there&#39;s a few different versions of the ideal gas law. One of them is PV equals NRT and is in Nancy. And in that case R is the universal gas constant. And N is the number of moles. And then there&#39;s a version we actually use more often in thermodynamics and HVAC refrigeration, which is PV equals MRT, M is in Mark, where M is the mass, and R is the specific gas constant for that gas. In this case, air. And what&#39;s neat about this is since we&#39;re after the density, density is mass over volume. So we can divide both sides of this thing by volume that&#39;ll cancel on the left. And when we divide by volume on the right, mass over volume becomes density. So this thing becomes pressure equals rho RT. And now if we want to get the density by itself, we can write it as rho equals pressure divided by RT. And we now have an expression for density, which is the function of pressure and temperature. And those are exactly the two things we have. And the specific gas constant for air, which we can look up. So let&#39;s do that first. You can search for specific gas. This is finding the specific gas constant. In general, it&#39;s the universal gas constant divided by the molecular weight. Which you could do with that way. But you can also look it up in a table and here it is. Air. 53.3. I think in some of the books, it&#39;s actually 53.35 if you want to be particular. But the units are important. So note the units. And now we can go ahead and plug that in. We have 50 psi. Let&#39;s write out what that actually is. Pound force per inch squared. And we&#39;re going to want this in feet. So we&#39;ll multiply by 144 inches squared over one foot squared. And then we&#39;re dividing by RT. R being the specific gas constant for air 53.35 with units of foot, pound force divided by pound mass and degree ranking. And then divided by the temperature, which has to be in rank and we said it&#39;s 600. So rank and cancels inches squared cancels and just square it up here. Pound force cancels with pound force. And then we end up with feet cubed in the denominator and pound mass in the numerator. And that&#39;s exactly what we want for a density. It should be pound mass per unit volume. And that works out to 0.225 pound mass per cubic foot. And now we&#39;re ready to come back up here and find the kinematic viscosity.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluid&#39;s number eight, what is the kinematic viscosity of 140 degree air at 50 psi a.<br><br><br><br>• This is an interesting question because the absolute viscosity or dynamic viscosity mu, as we talked about a bit earlier, can be approximated as a fun.<br><br><br><br>• However, kinematic viscosity can&#39;t because it&#39;s also depending on the density and the density is to some degree a function of temperature for air.<br><br><br><br>• So the way we&#39;re going to approach this problem is to look up the dynamic viscosity mu based on this temperature that we were given.<br><br><br><br>• And then we have to figure out what the density of air is at this temperature and pressure and use that to plug into the equation, new equals mu over .<br><br><br><br>• So that&#39;s the way we&#39;re going to come at this.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">9 questions from 7 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 16</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> fluids eight. I&#39;m working on the fluid section and I came across a discrepancy in the properties of air at low pressure per pound table. I&#39;m working on the third version of the handbook that is the latest version to my knowledge. And in the table, the units for viscosity are pound mass per second per foot squared, see snip below. Looking at your video, the units do not have the feet squared. I know your video has the correct units because the units work out to get the kinematic viscosity, but I&#39;m confused on why they changed the units if they initially had them correct. I don&#39;t know. For my sanity, can you please confirm that I should ignore the squared in the feet? Yes, confirmed. I don&#39;t know why they changed that either. It was right. And they updated it now. It&#39;s wrong. So yeah, good times with the reference. Look. Now your second question here is one that&#39;s come up a couple of times before. Also, are we supposed to just know that the tendency 7th is supposed to be 10 to the negative 7th? Sort of not really. I&#39;m a little confused about that as well. So I think what they mean here is that mu times 10 to the 7th equals this number. Right. So then if you do the algebra behind that</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 36 · May 16 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 36</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So let&#39;s say, as the reference manual have a typo, it appears the reference viscosity to a positive value and a negative value. It&#39;s not a negative value, it&#39;s a positive value, but it&#39;s a small number. This is another question that comes up pretty much every month. So, usually, though, I think what you mean is a negative exponent, because when you first look at this, most folks are expecting this to be 10 to the negative 7. And it is, it&#39;s just awkward. It&#39;s not wrong. I&#39;ll explain what I mean. So, like, let&#39;s say, I think in this problem we&#39;re dealing with this line here. So, the dynamic viscosity mu, times 10 to the 7, the way they&#39;re writing it, equals 134.9. So, to get mu by itself, you would have to divide by 10 to the 7th, or multiply by 10 to the negative 7th, which would give you 1 on the left side. And on the right side, it would give you 134.9 times 10 to the negative 7th. So, they&#39;re not saying, take 10 to the 7th and put it at the end of these. They&#39;re saying, mu times 10 to the 7th equals each of these. So, we got to divide 10 to the 7th over to get mu by itself. And the sort of obvious sense check for that is that viscosity is a small number. So, it should be a numbe</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70 · November 6th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 70</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids eight. No issues with the problem or your answer, but when you look up the dynamic viscosity of air in the reference handbook, the units are shown in the table as 10 to the 7th. And when you solve the problem, you show the units as 10 to the minus 7th. I&#39;m assuming this is a problem with the reference manual that you may want to call out. Yeah, this has come up a few times before and you may want to check out the office hours archive for a question. If you&#39;re ever going to ask question, if you just want to check before you submit it, you can see if anyone else has asked a similar question. I just know this one&#39;s come up a handful of times. But it&#39;s not actually a problem with the reference handbook. It&#39;s just awkward. So I find myself apologizing for the author&#39;s similar reference handbook on this one over and over again. But in the table, in the column header of the table, they write, the number of the numbers was like 39.1. So that&#39;s not wrong, but that&#39;s positive 7th. Because they&#39;re saying, mu times 10 to the 7th equals 39.1. So if mu times 10 to the 7th equals 39.1, then we can divide by 10 to the 7th, which is the same as multiplying by 10 to the 7th. So if </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> But times 10 to the 7th, but in your example, the units should be pounds per second per foot times 10 to the minus 7th, is there a mistake in the reference handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, Fluids 8, this question comes up probably once a month. So when I&#39;m looking up the properties of air in the handbook, the units for the dynamic viscosity are pounds per second. But times 10 to the 7th, but in your example, the units should be pounds per second per foot times 10 to the minus 7th, is there a mistake in the reference handbook? The answer is no, it&#39;s just a little weird how they have it, but it&#39;s not wrong. So in that table, they say mu times 10 to the 7th, and then they put numbers there. So let&#39;s say the number in the column was like 37. So we&#39;d have mu times 10 to the 7th equals 37. Then you could divide by 10 to the 7th on both sides, or you could multiply by 10 to the minus 7th. Either one is the same thing. And then you would get mu equals 37 times 10 to the minus 7th. So it&#39;s not saying that the number is 37 times 10 to the 7th. It&#39;s saying mu times 10 to the 7th equals 37. So we divide by 10 to the 7th to get to the other side. And I don&#39;t expect you to do that algebraically. You&#39;ll just having heard this explanation once. You&#39;ll just do this automatically, and you&#39;ll take the value in the column and put times 10 to the minus 7th after it. So yeah, a</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 83 · June 24th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> What exactly is low pressure in regard to this table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 8. This problem is easy if you know what to do. However, this is the first time I have ever had to use the air at low pressure tables. I searched all of the handbook trying to find a way to calculate kinematic or dynamic viscosity. I knew those tables existed so I went to them after my exhaustive search. Looking at it, I was unsure if the table apply. One, there is no corresponding temperature and pressure listed. Two, the table is for air at low pressure. It&#39;s 50 psi not higher than atmospheric pressure. Finally, give up trying to find slash determine the dynamic viscosity and watch the video. What exactly is low pressure in regard to this table? Yeah, this is a good question and this does come up from time to time. Your right, 50 psi is obviously more than atmospheric pressure. I am a atmospheric pressure would be 14.7 at sea level for US customer units and it would be less at any elevation. So that&#39;s triple, more than triple, the atmospheric pressure. I don&#39;t have an exact number to give you in terms of saying what the threshold is of what&#39;s considered low pressure. I&#39;m not comfortable putting a specific number on it, but what I found from experience is that it&#39;s a lot hi</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 89 · October 14th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 89</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads A, why are we using low pressure data for air? Why couldn&#39;t we interpolate from properties of air at atmosphere pressure? Since absolute viscosity is pressure independent. So this problem was about finding the kinematic viscosity based on temperature and pressure that were known. And the question is why are we using the low pressure data for air? Actually the low pressure air data is surprisingly useful. It&#39;s applicable to a lot more than you would probably expect. This question is actually come up before related to a different problem. What exactly is low pressure? Because probably most of us see low pressure when we think it&#39;s lower than atmosphere, at least. Which is not a crazy thing to think, but that&#39;s not what it means in the reference handbook. Low pressure air includes, I don&#39;t have a specific number to tell you what&#39;s the limit, but it&#39;s much higher than you think. So most air that we deal with is low pressure air. And those data tables can be used for a very large number of problems. I won&#39;t say everything. I don&#39;t want to speak too strongly, but it&#39;s, I&#39;m pretty confident. It&#39;s multiple atmospheres like tens of atmospheres before you get into the range that would </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92 · November 25th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 92</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, onto fluids eight. How do you know to use properties of air low pressure rather than properties of air at atmospheric pressure? Well, this one was specifically about a situation where the pressure was 50 PSIA. So it would not be appropriate to use atmospheric pressure for that condition. That&#39;s no good 50, 50, too much higher than 14.72 apply. So we have to dismiss that table. The harder question is, how do you know you can use the properties of air at low pressure when the pressure is 50 PSIA? Like, what&#39;s low pressure? What&#39;s high pressure? And what I found, it&#39;s hard for me to put a quantified answer on this, but I&#39;ve just done so many PE, mechanical engineering problems over the years. And it seems like low pressure goes very high, like higher than you would expect. So definitely 50 PSIA is still in the realm of low pressure. It&#39;s probably north of 10 atmospheres, or maybe it&#39;s 20 atmospheres. I don&#39;t know where the limit is, where the low pressure assumption breaks down. But unless the pressure is extremely high, and again, I can&#39;t give you a number of what exactly extremely high is. You can use the properties of air at low pressure, most of the time, more times tha</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 100</div>
+      <div class="qa-question"><strong>Q:</strong> Also, it states that the motor is located outside of the air stream, then why is the BHP considered as the cooling load in the scenario?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> See, and my understanding this question correctly is asking for cooling load due to supply fan heat, so that is air horsepower. Also, it states that the motor is located outside of the air stream, then why is the BHP considered as the cooling load in the scenario? So let&#39;s talk about this kind of related to the one we had earlier, but let&#39;s draw the picture that we saw often do for these types of problems. We&#39;ve got our motor, we&#39;ve got our fan, we&#39;ve got electrical energy driving that motor, we&#39;ve got BHP as the output of that motor, the input power to the fan, and then air horsepower being produced by the fan. The motor has some efficiency, the fan has some efficiency, and that&#39;s what&#39;s going to the room. So then there&#39;s this issue of the room. It states that the motor is located outside of the air stream, then why is the BHP considered as the total cooling load in the scenario? Well, the motor is outside the air stream, but the fan is in the air stream, and where is the room? The room is like this, the fan is in the room, right? So this is actually similar to the previous question in terms of it set up.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 100</div>
+      <div class="qa-question"><strong>Q:</strong> Also, it states that the motor is located outside of the air stream, then why is the BHP considered as the cooling load in the scenario?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> See, and my understanding this question correctly is asking for cooling load due to supply fan heat, so that is air horsepower. Also, it states that the motor is located outside of the air stream, then why is the BHP considered as the cooling load in the scenario? So let&#39;s talk about this kind of related to the one we had earlier, but let&#39;s draw the picture that we saw often do for these types of problems. We&#39;ve got our motor, we&#39;ve got our fan, we&#39;ve got electrical energy driving that motor, we&#39;ve got BHP as the output of that motor, the input power to the fan, and then air horsepower being produced by the fan. The motor has some efficiency, the fan has some efficiency, and that&#39;s what&#39;s going to the room. So then there&#39;s this issue of the room. It states that the motor is located outside of the air stream, then why is the BHP considered as the total cooling load in the scenario? Well, the motor is outside the air stream, but the fan is in the air stream, and where is the room? The room is like this, the fan is in the room, right? So this is actually similar to the previous question in terms of it set up.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 8 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
