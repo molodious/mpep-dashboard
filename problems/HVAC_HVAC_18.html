@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 18 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 18</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 18</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Boston typically has 5,630 heating degree days in the winter based on a non-standard internal design temperature of 70°F. A build- ing in Boston designed for an inside temperature of 70°F and an outside temperature of 0°F loses 5MMBtu on a design day. The hr building is heated with natural gas which has an average heating value of 1,000Btu and an average cost of $0.90 per CCF. The boiler ft3 eciency is 80%. What is the annual cost of heating? 56
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$87,000</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$94,000</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$109,000</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$117,000</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So the annual cost of heating is going to depend on how much fuel which depends on how much energy and we know the heati.
+
+2. So what have we been given here.
+
+3. So this is going to be kind of a delta T and day is a unit of time.
+
+4. I think we&#39;re just going to kind of look at the units and model our way through.
+
+5. And by the way, what the BTUs are looking for, it&#39;s not BTU pre unit time.
+
+6. If you have Q dot, let&#39;s start with something kind of basic just to start our ourselves thinking on this.
+
+<strong>Full Solution:</strong>
+
+HVAC-18. Boston, sorry to all the New York people, had to do it. Typically has 5,630 heating degrees in the winter. A building in Boston designed for an inside temperature 70 degrees and an outside temperature of zero degrees loses 5 million BTU per hour on a design day. The building is heated with natural gas which has an average heating value of a thousand BTU per cubic foot and an average cost of 90 cents per CCF which is 100 cubic feet. The boiler efficiency is 80% what is the annual cost of heating. So the annual cost of heating is going to depend on how much fuel which depends on how much energy and we know the heating value of the fuel so if we can find out how much energy BTUs are needed for the entire heating season then that will be a good starting point. So what have we been given here? We have heating degree days, we have the delta T and we know the heat loss on a design day. So we know the heat loss when it&#39;s actually zero outside and needs to be 70 inside. So how can we put all that together? Well let&#39;s think for a second about what a heating degree day really is. Heating degree day is a degree times day. That&#39;s awkward. It&#39;s not degrees per day or days per degree. It&#39;s degrees times day. So this is going to be kind of a delta T and day is a unit of time. So degree day then what does it really do? It quantifies how much heating needs to be done over the course of the season. So in a way it already is a measure of the amount of heat needed throughout the season. It&#39;s just not in BTUs. It&#39;s in degree days but we should be able to turn degree days into BTUs. How do we do that? I think we&#39;re just going to kind of look at the units and model our way through. And by the way, what the BTUs are looking for, it&#39;s not BTU pre unit time. If you have Q dot, let&#39;s start with something kind of basic just to start our ourselves thinking on this. Q dot, the energy pre unit time, is Q over time or to say the same thing another way. The amount of energy, total amount of energy in BTUs is the rate of energy loss out of the building times time. Well, this number right here, five million BTUs per hour is Q dot on a design day. Right. This is Q dot. So I&#39;m going to propose and I don&#39;t know if you would necessarily leap straight to this because I&#39;m kind of writing a formula and you won&#39;t find this in the reference handbook. Not because it&#39;s a secret but just because I kind of puzzled it out and maybe you could do the same. But if I put this down, would you try on the idea that heating degree day is times Q dot, which is the rate of energy loss for the building. That&#39;s going to be that five million BTUs per hour. Make sure we get that dot divided by the delta t that this formulation could give us energy. Since this basically is energy and this is energy pre unit time and this has degrees we&#39;re getting rid of that delta t. So let&#39;s see what happens when we substitute the values in the units. The heating degree day for the whole winter is 5630 and that has units of degrees times days. And now we want hours so we can multiply by 24 hours in a day. That would get rid of days. So now we have degree hours. And now we can multiply by that Q dot, the rate of energy loss on a design day. That&#39;s going to be five million BTU per hour. That gets rid of hours. So now what do we have? We have degree BTUs, which aren&#39;t usually multiplied like that. But now we&#39;re going to divide by the delta t. Well the delta t that&#39;s associated with this rate of energy loss, five million BTU per hour, that&#39;s based on a 70 degree delta. 70 minus zero. And this is degrees F and that&#39;s degrees F. So that&#39;s going to cancel out degrees. So then all we&#39;re left with is BTU. And that&#39;s exactly what we wanted to happen. That number comes out to 9.65 times 10 to the 9th BTU. So now that we have that number and then we know the total amount of energy that needs to be supplied to the building for heating throughout the entire season.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Boston, sorry to all the New York people, had to do it.<br><br><br><br>• Typically has 5,630 heating degrees in the winter.<br><br><br><br>• A building in Boston designed for an inside temperature 70 degrees and an outside temperature of zero degrees loses 5 million BTU per hour on a design.<br><br><br><br>• The building is heated with natural gas which has an average heating value of a thousand BTU per cubic foot and an average cost of 90 cents per CCF wh.<br><br><br><br>• The boiler efficiency is 80% what is the annual cost of heating.<br><br><br><br>• So the annual cost of heating is going to depend on how much fuel which depends on how much energy and we know the heating value of the fuel so if we .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 24 · October 22 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 24</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one is about heating degree days and it&#39;s a three-part question. Don&#39;t quite understand how to apply heating degree days and one to use HD HD-HD-related formulas. In HVSC21, how do we know not to use the provided heating degree days directly into the chemical 24 heating degree days, Q-Dow over Delta T? If given heating degree days and days in a season, should we always check the Delta T to find out the average outside air temperature and then find new design Delta T based on outside air. And lastly, I couldn&#39;t find the formulas for HVSC18 and 21 in the reference handbook. Are there any other formulas besides these three and are these three correct? Let&#39;s take a little bit of a step back and talk about heating degree days in general and some of the main formulas that are down the bottom there. I kind of want to address the third question first and say that you&#39;re right, these formulas are not in the reference handbook. That kind of makes me think that it&#39;s less likely. There would be questions about heating degree days, but it&#39;s also something that a lot of HVSC design engineers use and know about and understand. It&#39;s sort of part of the lexicon, so it doesn&#39;t seem too far</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 18 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
