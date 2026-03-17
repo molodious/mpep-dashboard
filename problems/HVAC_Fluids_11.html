@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 11 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 11</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the friction loss per hundred feet for 800gpm of 80°F water owing through an 8in nominal schedule 40 steel pipe?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>4ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+Fluids 11. What is the friction loss per 100 feet for 800 gpm of 80 degree water flowing through an 8-inch nominal schedule 40 steel pipe? So in the last problem, we were given a surface roughness and we were able to look up the head loss per 100 feet Directly from a table and then we had to adjust that for a correction factor in this problem We&#39;re not given that but we are given what kind of pipe it is and we know the temperature of the water So we can come out a different way and this is actually the more traditional way So it&#39;s pretty likely you&#39;ll have to do this many times Which is to use the Darcy equation which requires finding the friction factor and the friction factor is a function of the Reynolds number and the relative roughness So let&#39;s start by reminding ourselves what the Darcy equation is if you go in the reference handbook and search Darcy It&#39;ll come up right away. It&#39;s HF equals FLV squared over 2DG and since we want to know the friction loss per 100 feet We&#39;re going to use 100 feet for the length the velocity we don&#39;t know But we do know the volume flow rate and the size of the pipe so we can either calculate the velocity by using the area or We can look it up from the steel pipe friction tables The diameter we know nominal it&#39;s 8 inches but we want to find out exactly what that is By using the steel pipe friction tables and then G is just gravity So let&#39;s start with that diameter jumping back over to our reference handbook steel pipe friction and we want to jump down to an 8 inch pipe And that&#39;s here that 7.981 inches Which if you divide that by 12 inches per foot that gives you 0.6651 feet And then you could square that multiply by pi over 4 and get the area and then change GPM to cubic feet per second and do volume divided by area To get velocity But in this case, I&#39;m just going to go right back to that same table 8 inches 800 GPM and it says right here the velocity is 5.13 feet per second So we don&#39;t even have to do any math So we have the diameter and the velocity At this stage and now we&#39;re focused on the friction factor the friction factor is a function of the Reynolds number and The relative roughness which is epsilon over D for diameter and let&#39;s start with this epsilon over D epsilon is the roughness factor and A lot of the problems that we encounter will be for nominal schedule 40 steel pipe so it&#39;s probably a good idea to just memorize that epsilon is going to be 0.002 feet But I don&#39;t necessarily expect you to memorize that and There is a chance that you&#39;ll get other materials on a real test problem So you want to be able to look that up and the moody diagram has a little table on it down the bottom Right down here and I could rotate this but if you don&#39;t mind just Turn your head sideways for a moment commercial steel has a range of 0.001 to 0.003 So it&#39;s customary to kind of split the difference and treat it as 0.002 and that&#39;s Exactly what we&#39;ll do and you can see for other materials what that roughness factor might be and then that gets divided by the diameter And it&#39;s epsilon over D that appears on this Horizontal axis on the top So for our situation here epsilon over D will be 0.002 feet divided by and here I like to do a bit arounding because we&#39;re going to use a table and this is not going to be super precise So rather than say 0.6651 feet We could just say this is about 2.3 right a is 2.3s of 12 and that makes the math a little bit easier So that&#39;s kind of become 0.0003 and that&#39;s unitless now the Reynolds number is VD over new We&#39;re news the kinematic viscosity which is a function of temperature and We know two of those things we know the velocity is 5.13 feet per second And now I&#39;ll use the real diameter 0.6651 feet And to find the kinematic viscosity We&#39;ll search for Properties of water and we get to this table here for 80 degrees.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • What is the friction loss per 100 feet for 800 gpm of 80 degree water flowing through an 8-inch nominal schedule 40 steel pipe.<br><br><br><br>• So in the last problem, we were given a surface roughness and we were able to look up the head loss per 100 feet Directly from a table and then we had.<br><br><br><br>• It&#39;s HF equals FLV squared over 2DG and since we want to know the friction loss per 100 feet We&#39;re going to use 100 feet for the length the velocity w.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">9 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 47 · October 30 2022</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-39809439
+
+First up, fluids 11 is the reason we can&#39;t use the steel pipe friction tables because of the water temperature being 80 degrees.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> First up, fluids 11 is the reason we can&#39;t use the steel pipe friction tables because of the water temperature being 80 degrees. On this one, I use the Darcy equation, but no, there&#39;s no reason why you can&#39;t use the steel pipe friction tables. It should be fine to use the tables and generally speaking, I would recommend using the tables because it&#39;s probably faster. If in this particular case, the answer didn&#39;t align with what you got using the tables was different than the Darcy equation. Then that probably means I put the answer choices together, in which case that&#39;s on me, but you shouldn&#39;t worry about that for the exam. And you should be prepared to have some deviation between the two. This is a common question that goes up. If you go back into the archive of these office hours, you&#39;ll find that folks doing fluid questions are having. Cases where it&#39;s 30, 40, 50% or even as much as 100% different answer, which sounds dramatic, but we&#39;re talking about the losses. So that&#39;s only one term in the Bernoulli equation. And if you have a thousand feet of pipe, the difference between two feet of loss and three feet of loss is pretty insignificant, even though it&#39;s a 50% difference. Make</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> fluids nine instead of using the Darcy equation to find the head loss throughout the pipe. Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe? Then taking that number and multiplying it by the equivalent length. The answer is yes, it&#39;s a common question. My recommendation is to know how to do it both ways. I think using the Darcy equation is a bit more theoretical and maybe takes a little bit longer, but you should definitely know how to do it. Using the steel pipe friction tables is faster. It&#39;s equally reliable. So if you have a steel pipe, then there&#39;s no reason not to use the table. I usually go to the table as a first shot. But like I said, I think you should know both ways. Probably the next question that comes up after this question, so I&#39;ll address it here again. It&#39;s been addressed many times on office hours, but just because it&#39;s so frequent is the variance between the two methods. So if you use the Darcy equation, you may get one value and then use the table and you get another. And sometimes the relative error between those two approaches can be uncomfortably significant.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-44918349
+
+Had a question for one of the fluids problems, was it fluids 11?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Had a question for one of the fluids problems, was it fluids 11? Was the friction loss per 100 feet for 800 gpm of 80 degrees Fahrenheit water flowing through 8 inch nominal schedule 40 steel pipe and I was on the trend of looking down the steel pipe friction charts and I was just kind of went off of that versus the 80 degrees given a different value. I guess just talk a more theoretical why you can&#39;t use that same steel pipe friction table versus the versus doing the Darcy equation like the solution shows. I think you could. I think it&#39;s fine to use either. I think you should definitely know both and be prepared to use either one depending on what the situation calls for. Let&#39;s say impact of the temperature affects the kinematic viscosity. Yeah, exactly. Yeah, so if there&#39;s any deviation between the two, it&#39;s either from that which is not likely to be a big deal if it&#39;s 80 degrees because that&#39;s not a crazy temperature. That&#39;s what my initial thoughts were and I think it gives a figure does the opposite or whatever the pipe friction chart does. So whenever you do the Darcy equation, think it&#39;s one and then the chart shows two or bus versus the.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-60623465
+
+Loads 22, when should we use the Darcy Weiss back equation to find frictional loss versus when should we use the head loss per hundred feet value from the steel piping table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads 22, when should we use the Darcy Weiss back equation to find frictional loss versus when should we use the head loss per hundred feet value from the steel piping table? I understand they both signify the same. Yeah, I&#39;m glad you said that at the end and this is a super common question. This is come up many times in previous office hours so if you dig through the archive you&#39;ll you&#39;ll see different versions of this question coming up from time to time. The short answer is really what you said at the end there they do lead to the same or approximately the same result most of the time. So it&#39;s your choice. I think most engineers prefer to use the steel pipe friction tables so if you have a steel pipe then that&#39;s going to be faster for you you&#39;re probably going to want to go that way and I would argue with you. That said if anybody&#39;s listening and they&#39;re like oh good I don&#39;t need to deal with the Darcy equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 104</div>
+      <div class="qa-question"><strong>Q:</strong> The first one is why do we use the high temperature psych chart for this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 9. There were two questions about psychometrics 9, so I just put them on the same slide here. The first one is why do we use the high temperature psych chart for this problem? I use chart 1 and got .12 GPM as my answer. I don&#39;t remember referencing the high temperature chart on this one unless I&#39;m mistaken. I took a look at the video and the written solution and it looks like I also use the regular psychometric chart. I&#39;m not sure if we need to use the high temperature. There&#39;s no high temperature condition in the problem so we shouldn&#39;t need to. It was the short answer there. As far as your answer it does seem a little bit off so maybe take a look back through the solution there. And then the second question was, I am curious if it&#39;s optional to take density at state 1 and 2 and take the average density and find the GPM added. Yeah, this is a common question too that comes up anytime we have air flowing over a coil. You sort of have a decision to make or you&#39;re going to use the specific volume or the density for the entering condition or the leaving condition or an average condition. And the short answer is 95% of the time it doesn&#39;t matter.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> fluids nine instead of using the Darcy equation to find the head loss throughout the pipe. Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe? Then taking that number and multiplying it by the equivalent length. The answer is yes, it&#39;s a common question. My recommendation is to know how to do it both ways. I think using the Darcy equation is a bit more theoretical and maybe takes a little bit longer, but you should definitely know how to do it. Using the steel pipe friction tables is faster. It&#39;s equally reliable. So if you have a steel pipe, then there&#39;s no reason not to use the table. I usually go to the table as a first shot. But like I said, I think you should know both ways. Probably the next question that comes up after this question, so I&#39;ll address it here again. It&#39;s been addressed many times on office hours, but just because it&#39;s so frequent is the variance between the two methods. So if you use the Darcy equation, you may get one value and then use the table and you get another. And sometimes the relative error between those two approaches can be uncomfortably significant.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-44918349
+
+Had a question for one of the fluids problems, was it fluids 11?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Had a question for one of the fluids problems, was it fluids 11? Was the friction loss per 100 feet for 800 gpm of 80 degrees Fahrenheit water flowing through 8 inch nominal schedule 40 steel pipe and I was on the trend of looking down the steel pipe friction charts and I was just kind of went off of that versus the 80 degrees given a different value. I guess just talk a more theoretical why you can&#39;t use that same steel pipe friction table versus the versus doing the Darcy equation like the solution shows. I think you could. I think it&#39;s fine to use either. I think you should definitely know both and be prepared to use either one depending on what the situation calls for. Let&#39;s say impact of the temperature affects the kinematic viscosity. Yeah, exactly. Yeah, so if there&#39;s any deviation between the two, it&#39;s either from that which is not likely to be a big deal if it&#39;s 80 degrees because that&#39;s not a crazy temperature. That&#39;s what my initial thoughts were and I think it gives a figure does the opposite or whatever the pipe friction chart does. So whenever you do the Darcy equation, think it&#39;s one and then the chart shows two or bus versus the.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-60623465
+
+Loads 22, when should we use the Darcy Weiss back equation to find frictional loss versus when should we use the head loss per hundred feet value from the steel piping table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads 22, when should we use the Darcy Weiss back equation to find frictional loss versus when should we use the head loss per hundred feet value from the steel piping table? I understand they both signify the same. Yeah, I&#39;m glad you said that at the end and this is a super common question. This is come up many times in previous office hours so if you dig through the archive you&#39;ll you&#39;ll see different versions of this question coming up from time to time. The short answer is really what you said at the end there they do lead to the same or approximately the same result most of the time. So it&#39;s your choice. I think most engineers prefer to use the steel pipe friction tables so if you have a steel pipe then that&#39;s going to be faster for you you&#39;re probably going to want to go that way and I would argue with you. That said if anybody&#39;s listening and they&#39;re like oh good I don&#39;t need to deal with the Darcy equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 104</div>
+      <div class="qa-question"><strong>Q:</strong> The first one is why do we use the high temperature psych chart for this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 9. There were two questions about psychometrics 9, so I just put them on the same slide here. The first one is why do we use the high temperature psych chart for this problem? I use chart 1 and got .12 GPM as my answer. I don&#39;t remember referencing the high temperature chart on this one unless I&#39;m mistaken. I took a look at the video and the written solution and it looks like I also use the regular psychometric chart. I&#39;m not sure if we need to use the high temperature. There&#39;s no high temperature condition in the problem so we shouldn&#39;t need to. It was the short answer there. As far as your answer it does seem a little bit off so maybe take a look back through the solution there. And then the second question was, I am curious if it&#39;s optional to take density at state 1 and 2 and take the average density and find the GPM added. Yeah, this is a common question too that comes up anytime we have air flowing over a coil. You sort of have a decision to make or you&#39;re going to use the specific volume or the density for the entering condition or the leaving condition or an average condition. And the short answer is 95% of the time it doesn&#39;t matter.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 11 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
