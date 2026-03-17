@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 20 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 20</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 20</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An outside air handler tempers outside air of 90°F dry bulb and 80°F wet bulb using return air at 74°F and 50% relative humidity using an air-to-air heat exchanger. The heat exchanger eective- ness is 72%. What is the enthalpy of the air leaving the heat exchanger? lb lb lb lb 67
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>31Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>33Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>41Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>43Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we can start with our outside air coming in.
+
+2. Well, we could apply that to find the dry bulb temperature of the supplier that&#39;s leaving, which isn&#39;t enough to answer.
+
+3. But let&#39;s just start by thinking about the dry bulb.
+
+<strong>Full Solution:</strong>
+
+Systems 20. An outside air handler, tempers outside air of 90 degrees dry bulb and 80 degrees wet bulb, using return air at 74 degrees and 50% relative humidity using an air to air heat exchanger. The heat exchanger effectiveness is 72%. What is the enthalpy of the leaving air of the heat exchanger? So we have an air handler using an air to air heat exchanger. So let&#39;s draw that heat exchange. So we can start with our outside air coming in. We&#39;ll call that state one. And that&#39;s a fully defined state. We know that it&#39;s 90 degrees dry bulb and 80 degrees wet bulb. And the way that we&#39;re capturing some efficiency here is that we&#39;re pre-cooling that air using the return air before it gets exhausted, which is already at a typical room. Condition 74 degrees and 50% relative humidity. So that air is entering the other side of the heat exchanger. So we&#39;re not mixing the air to air heat exchangers doing purely sensible heat transfer. So we&#39;ll call that state two. And that&#39;s also fully defined as the return air. 74 degrees and 50%. And the result of this, our goal here, is to make this pre-cooled supplier, which we can call state three, and we want to know the enthalpy of that air. And just for completeness, there would also be some exhaust air. We&#39;re not very interested in it. Since it&#39;s just going to be the same air as that return, it&#39;s going to have to pick up some of the heat from the outside air. But we could find out more about that if we wanted to. And we don&#39;t know anything about volume flow rates here. But it&#39;s purely sensible heat transfer across the air to air heat exchanger. That&#39;s kind of one of the key points here. So we don&#39;t have to deal with volume flow rates because there&#39;s no mixing happening. It&#39;s just sensible heat crossing that boundary. And we&#39;ve been told that this has an effectiveness of 72%. So how do we apply that? Well, we could apply that to find the dry bulb temperature of the supplier that&#39;s leaving, which isn&#39;t enough to answer the question because we want to know the enthalpy, but it might be a good starting point. And then we can talk about the humidity separately. And if we have two pieces of information, then we can fully define state three. But let&#39;s just start by thinking about the dry bulb. The effectiveness could be defined as the dry bulb temperature difference that we&#39;re getting in the process of making the supplier from the outside air as opposed to or as compared to as a fraction of the temperature reduction that we could be getting if it was a 100% effective or 100% efficient process. So to put that into numbers or saying that the difference between the entering temperature T1 and the leaving supply temperature T3 as compared to the difference between T1 and how cold could that get? Well, if it was a 100% efficient process, we could cool it all the way to 74. If there was so much exposure and so much heat transfer across that boundary, we could get that outside air all the way down to 74 if it was 100% efficient. But not farther. That&#39;s the farthest we could go. That would be a physical limit to the system. So the difference between T1 and T2. And what is that fraction? Well, in this case, it&#39;s only 72%. So now we can plug in the numbers 90 degrees minus T3 over 90 minus 72 74 rather equals 72%. And then if we solve that for T3, we get 78.5. So we&#39;ve applied the effectiveness and we&#39;ve determined that the temperature at state 3, the supplier leaving, is 78.5 degrees dry bulb. But the question is what&#39;s the enthalpy? Well, the enthalpy is a function of the dry bulb temperature and the humidity. You can do this a couple of ways. Let&#39;s draw the psychometric charge as a reminder. Now that we know the dry bulb temperature, we can come vertically up to some point. And the amount of moisture in there hasn&#39;t changed. So on the vertical axis, we&#39;re not going to be any higher or lower than we were before. So we can draw horizontal lines to the right.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An outside air handler, tempers outside air of 90 degrees dry bulb and 80 degrees wet bulb, using return air at 74 degrees and 50% relative humidity u.<br><br><br><br>• The heat exchanger effectiveness is 72%.<br><br><br><br>• What is the enthalpy of the leaving air of the heat exchanger.<br><br><br><br>• So we have an air handler using an air to air heat exchanger.<br><br><br><br>• So let&#39;s draw that heat exchange.<br><br><br><br>• So we can start with our outside air coming in.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 questions from 4 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 44 · September 19 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 44</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems in Components 20. Could you have found the dewpoint temperature 76.7 for state 1 for the outside air and found the answer enthalpy 40.7B2 per pound for state 3 from the chart without having to use the heat exchange efficiency to find T3 for state 3. I would say take a look at the solution video again on this one. If you start maybe I don&#39;t know if you got all the way through it but if you start from four minutes I do exactly that and this is a highlight of the steps followed. So take a look and hopefully that answers your question because I was looking at this in preparation for today&#39;s call and I think that&#39;s exactly what we do. So I&#39;m not sure if that answers the question but if it is followed I&#39;m happy to go more into that.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 48 · November 14 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 48</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, last one, systems and components 20. I took a different approach and utilized the enthalpy of the outdoor air H1 and return air H2. To find the enthalpy H3, if the air leaving the heat exchanger with contacts the heat exchanger efficiency, we essentially came to the same answer. I got 399, but we would round up to answer C. And my often utilizing this approach. I took a look at this one. We can try to draw it out here as well. I think in this one, your way is equally valid was my gut reaction to it. There might have been some minor deviation between what we came up with because of just like chart lookups, but not enough to take either of us in a wildly different direction. Let me ask you this. Real quick, real quick. When I see a state defined with a humidity, like we&#39;ve got this 74, 50%, I jump straight to the chart. Oh, excuse me, the table. I do trust myself with the site chart. I&#39;m quicker with the table to pull enthalpy values or other values. Do you feel the same or are you quicker on your site chart? I&#39;m open to using the table, but not when it&#39;s 50% humidity. So show me how that works. What I do is I get my 100% saturated enthalpy. I think it&#39;s called H, the one </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 79 · April 15th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 79</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 20. The dew point for state one is listed as 76.7 degrees F. Where does this number come from? I get 82.9 from the chart and 83 degrees F with a calculator for a dry bulb temp of 90 degrees and 80% our age. This problem appears to be unsolvable if the dew point of T3 is actually higher than the dry bulb of T3 equals 78.5 degrees F. This was about an air to air heat exchange. I think the question here was just an issue of looking up the dew point for that one state. And I think the issue with what you&#39;re doing either whether it&#39;s on the site chart or with the site calculator is you&#39;re doing 80% our age. But it&#39;s actually 80 degrees weple. So you do have two pieces of information of the dry bulb temperature and the in the weple temperature and not the relative humidity. So yeah, if you if you do that 90 degrees dry bulb 80 degrees weple you&#39;ll get the. You&#39;ll get the right dew point not 82.9 to much lower that&#39;s all that was.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 96</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 20. Can you use enthalpy values from the outdoor air and return air conditions to find the leaving enthalpy value? Or do you always have to subtract the dribble temperatures and then divide by the dribble minus the wepple values? So this question was about an air to air heat exchanger. And we&#39;re being asked a question about wepple, I think, ultimately in the question. And your question is, do you always have to subtract dribble temperatures and divide by a dribble? So if you have an enthalpy wheel, then the efficiency of the enthalpy wheel can be set equal to the proportion of the dribble temperatures or the enthalpy or the humidity ratio, any of the three because it&#39;s sensible and latent. So if we have the efficiency, and this is only for an enthalpy wheel now, we can say that, and I&#39;m going to use these numbers, but you should really think about this more in concepts in words, but I&#39;ll say T1 minus T3, which is the actual delta T that you&#39;re getting through the enthalpy wheel, as compared to T1 minus T2, which is the maximum possible delta T that you could get. That can only ever be 100%, it&#39;s probably going to be a lot less. That&#39;s equal to the same for th</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 20 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

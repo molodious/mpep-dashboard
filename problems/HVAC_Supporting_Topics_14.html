@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 14 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 14</span>
+  <span class="nav-badge">⭐ 7 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">7 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 14</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A company is considering whether to invest in a piece of equipment that will have an initial cost of $100,000 and will produce $50,000 per year in revenue for the next 3 years before maintenance costs and taxes. Maintenence will cost $5000 per year. The tax rate is 30% and straight line depreciation is used for the equipment. The equipment has a salvage value of $20,000 to be realized at the end of year 3. What is the present value of the initiaitve using a 10% rate of return? 76
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>-$62K</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$18K</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$46K</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$211K</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if you can follow problems like this, then you can definitely solve ones that are slightly simpler.
+
+2. So I wanted to stretch you a bit and I think the first step for a lot of these economics problems is to draw cash flow d.
+
+3. And then just to make sure that we&#39;re tracking toward answering the questions.
+
+4. But let&#39;s start with that cash flow diagram and just take it year by year.
+
+<strong>Full Solution:</strong>
+
+A company is considering whether to invest in a piece of equipment that will have an initial cost of a hundred thousand and will produce fifty thousand per year in revenue for the next three years before maintenance costs and taxes. Maintenance will cost five thousand per year. The tax rate is thirty percent and straight line depreciation is used for the equipment. The equipment has a salvage value of twenty thousand to be realized at the end of year three. What is the present value of the initiative using a ten percent rate of return? So if you&#39;re new to solving economics problems, there&#39;s a few different concepts included in this problem. And I wanted to expose you to a few different things. I don&#39;t think you&#39;ll get problems that are necessarily have two or three layers to them on the PE exam, but you could get any one of what or maybe even two of the ideas that are in here. So if you can follow problems like this, then you can definitely solve ones that are slightly simpler. So I wanted to stretch you a bit and I think the first step for a lot of these economics problems is to draw cash flow diagrams so that we realize what&#39;s happening over time. And then just to make sure that we&#39;re tracking toward answering the questions. The question is being asked because sometimes ask about present value, sometimes ask about future value, sometimes annualized value, sometimes comparing multiple alternatives, finding the payback, period, finding ROI. Those are all different kinds of questions. So I need to be able to categorize the problem as well. But let&#39;s start with that cash flow diagram and just take it year by year. So in year zero before this initiative even gets going, the company spends 100,000 dollars cash. So that&#39;s a negative 100,000 right out of the gate. Then in years one and two, just when we do the cash flow diagram, we&#39;re just focused on cash. Later on we&#39;re going to get into depreciation, which is kind of like a fake expense. And I think that confuses a lot of folks, but when you do this initial step, just focus on cash. So we&#39;ve got 50,000 in revenue in year one and 5,000 in maintenance costs. And this does not include taxes. I&#39;m not drawing taxes and I&#39;m not drawing depreciation because depreciation is not a cash flow, right? It&#39;s just like the money that was spent on that initial outlay was already happening. It had already happened at a year zero. So that cash is gone. So when we use depreciation, it just has to do with how the taxes get handled. Year two is exactly the same. It&#39;s another 50k of revenue and 5k of maintenance. And again in year three, we have another 50k of revenue. I&#39;m going to put it down here because I need the space above for a separate cash flow and 5k of expenses. And then we also have 20k of salvage coming in year three, which will handle separately, but I do need a place to write it. So that&#39;s another 20k coming back salvage from this initial cost. And the question is what&#39;s the present value of this initiative using a 10% rate of return? So for tax purposes, we need to know what the depreciation is. And the problem statement tells us that it&#39;s using straight line depreciation. All that means is that the total value of the initial cost is spread equally over the number of years of the initiative. So in this case, it&#39;s happening over three years. So we say D equals 100,000 over three. So that&#39;s going to be 33,333 per year. Okay, and then how do we actually use that? Well, we need to define the profit for tax purposes. Obviously the before tax profit for years one, two and three, ignoring the salvage value in year three, just to keep it simple. Just look at year one for now. The before tax profit is 50 minus five, 45,000 dollars. But the after tax profit is going to depend on the taxes, which depend on the profit that we&#39;re going to use for tax purposes. So I know that sounds confusing, but let me write down what I mean. The profit that we&#39;re going to define for tax purposes is revenue minus.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A company is considering whether to invest in a piece of equipment that will have an initial cost of a hundred thousand and will produce fifty thousan.<br><br><br><br>• Maintenance will cost five thousand per year.<br><br><br><br>• The tax rate is thirty percent and straight line depreciation is used for the equipment.<br><br><br><br>• The equipment has a salvage value of twenty thousand to be realized at the end of year three.<br><br><br><br>• What is the present value of the initiative using a ten percent rate of return.<br><br><br><br>• So if you&#39;re new to solving economics problems, there&#39;s a few different concepts included in this problem.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">7 questions from 4 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 39 · June 27th 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 39</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics, 14. Let me give a little context before I read this question. This was a question about, oh, I should have it here. Give a project with initial cost. It&#39;s got some revenue. It&#39;s got some maintenance costs. And then it has depreciation on the initial cost. And a salvage value at the end. And we want to know what the present value is using a 10% rate of return. All right, great. So, you know, draw a cash flow diagram, which was included here. That&#39;s great. When you get 50,000 minus 5,000 plus 33,000 equals this. So, I made a mistake on the subtraction on this one. We&#39;ll get to that. But that&#39;s not what your question&#39;s about. To this amount, you put 30% tax. You have 3500. So, the after tax profit will be, all right, let&#39;s just go through this calculation. Why not include depreciation to calculate tax? Can you please swing the process? Yeah, let&#39;s go through it. So, the first thing you do is draw cash flow diagram, which you did. So, in year zero, you&#39;re going to have that negative 100. I don&#39;t want to reiterate too much of what&#39;s in the solution video. But I think you have the right diagram here. You have that big initial cost in year zero. So, that&#39;s right. Then i</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65 · August 14th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 65</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And supporting knowledge 14, the reference handbook says that straight line depreciation is cost-minus salvage value over n. I understand why that&#39;s not included for tax purposes. However, the question came up that flat out asked for what the straight line depreciation would it not be. Cost-minus salvage over n. I&#39;m going to jump in right here and say yes, it should be. And actually have a correction coming out for this one because I didn&#39;t use the salvage value and I should have. So it should be cost-minus salvage over n. Also, you subtracted the tax from the annual revenue and I understand how you got there. However, why do you not subtract the 5k per year for maintenance before converting to present value? I think you&#39;d still have the annual cost subtracted from your annual profit. For this one, I might not have made it super clear in the solution, but I did use 50,000 minus 5,000. So the before tax profit was 50,000 and then the after tax profit is 45,000. So it&#39;s profit minus maintenance, get you the 45,000 and then you subtract the tax and it&#39;s smaller still. And then we apply P given it, find the present value from there. So I think you got the right idea and it should be in</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 96</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 14. I might be mistaken, but don&#39;t you have to subtract the initial cost from the salvage value before dividing by the number of years? Yes, other way around though, so it&#39;s depreciation is initial cost minus salvage value over the number of years. Not salvage value minus initial cost, because otherwise it would be negative value. But yeah, you&#39;re right.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 98 · February 17th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 98</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 14 for straight line depreciation and the handbook includes salvage value after running through all the calculations I got 13,300 can you clarify for supposed to include salvage value in the original depreciation calculation? Yes salvage value should be included in depreciation calculation this one&#39;s come up a number at times before The salvage value if it&#39;s given it should be it should be included and it was given so it should be in there If it&#39;s omitted then you don&#39;t have to worry about it</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 36</div>
+      <div class="qa-question"><strong>Q:</strong> Well how do we want to think about this?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, so this one was about a tenant entering into a lease that has the option to make a down payment to lower the monthly rent and a sum of 6% interest rate, which option has the best present value. So you can almost think about this as like if you&#39;re buying a house right and you could get like what would be the best way to do it. You could pay nothing down and so much a month or you could put something down and the question is how much. And if you&#39;re you know if you were to put that much down in your monthly payments where to be these numbers what would be the best option. Now obviously if you don&#39;t have the cash for a large down payment then option A is going to look the best. But if you do have that flexibility there still may be one option that&#39;s better than another and it depends on the you know the magnitude of the down payment and the magnitude of the monthly payment. So since the interest rate is fixed and the duration of the lease is fixed we can. We can basically just take those future cash flows and turn them into present values and add them together.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 101</div>
+      <div class="qa-question"><strong>Q:</strong> Is this just something that I&#39;m supposed to know?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred from the TFS program. Number 17, going through the solution, I just don&#39;t get how the tolerance of plus minus 15 is achieved. I got lost somewhere along the way and don&#39;t really know. Is this just something that I&#39;m supposed to know? Is it a standard 15 or did I miss something? I guess what I&#39;m asking is if you can break down the hole derivative of the answer down. For me again, please just help me understand. Yeah, so this problem was about a run around coil. And I brought up the solution. So I don&#39;t have to recreate it just from the solution video. The basic idea here, this is like an energy efficiency alternative instead of having an air to air heat exchanger or an enthalpy wheel or something like that. It&#39;s kind of like an sensible only so you can think of it as a sensible heat recovery strategy. Because there&#39;s no moisture crossing the boundary. It&#39;s just sensible heat. So we&#39;re recovering some of the temperature from this leaving air before it becomes exhaust air. And we&#39;re using that to preheat some outside air or pre cool some outside air if it&#39;s summer situation which it might be here. Now, 20 degrees outside, so we&#39;re going to be preheating that air.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 112</div>
+      <div class="qa-question"><strong>Q:</strong> What is your leading indicator for using that equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19 and problem 19 if he transfer. He used equation 535 external flow, cylinder of diameter D and cross flow from the handbook rather than 542 along horizontal cylinder in large body of stationary fluid. What is your leading indicator for using that equation? Perhaps it&#39;s the fact that we know our duct is experiencing airflow indicated by the velocity under FPM. For further context the solution for problem 21 and he transfer relies on equation 542 which is the long cylinder and large body of stationary fluid. Is this because the problem does not mention any airflow thus it&#39;s safe to assume a long horizontal cylinder in a body of stationary fluid. The goal of my question is to further understand when to use either of these two equations. So I&#39;m not using 535 cylinder and of diameter D and cross flow. I&#39;m using this one at the bottom here, 539 turbulent flow in circular tubes because this is internal flow. So you&#39;re probably right in that the external flow, it&#39;s stationary. There&#39;s no external flow, at least that we know of. There&#39;s problems so it&#39;s probably a reasonable assumption to say that this duct is surrounded by stationary air.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 14 · 7 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

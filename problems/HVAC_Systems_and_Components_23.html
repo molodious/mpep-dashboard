@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 23 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 23</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 23</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A cooling coil with a sensible capacity of 10tons is designed for a 20°F delta T. The air handler is installed in a facility at 5000ft elevation and must produce a total static pressure of 2.5inwg. As- suming the fan is 92% ecient, what should be the nominal size of the fan motor? 68
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>11/2hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>21/2hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>3hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So here we have an air handler at 5,000 feet elevation and it&#39;s a 10 ton unit.
+
+2. So the sensible cooling done by this unit or at least the design needs to be 10 tons times 12,000 B2 per hour per ton.
+
+3. And you can do that by way of an elevation correction formula, which is in the reference handbook, but a really quick wa.
+
+4. But for 5,000 they give us an alternate formula, just quite handy.
+
+5. It&#39;s just that the numbers have been worked out for you and you can almost treat this as another equation that you can q.
+
+6. So if we apply that and we solve this equation for CFM, I&#39;ll show the algebra here so nothing gets lost.
+
+<strong>Full Solution:</strong>
+
+Systems 23. A cooling coil with a sensible capacity of 10 tons is designed for a 20 degree delta T. The air handler is installed in a facility at 5,000 feet elevation and must produce a total static pressure of 2.5 inches water gauge. Assuming the fan is 92% efficient, what should be the nominal size of the fan motor? So here we have an air handler at 5,000 feet elevation and it&#39;s a 10 ton unit. So let&#39;s change that 10 tons into B2&#39;s power. So the sensible cooling done by this unit or at least the design needs to be 10 tons times 12,000 B2 per hour per ton. That gets rid of tons that puts us in B2&#39;s power. So 120,000 B2&#39;s per hour. Now normally we use our real thumb for sensible cooling, Q dot equals 1.08 CFM delta T. But that is not applicable here because we&#39;re at 5,000 feet elevation and the air is less dense. So this multiplier here, this constant out front is not going to be quite so large as 1.08. There&#39;s less sensible heat transfer happening when the air is less dense. So we have to modify this. And you can do that by way of an elevation correction formula, which is in the reference handbook, but a really quick way to deal with it is for certain elevations. Hey, only really give it for 5,000. So if there&#39;s any other number, you have to go through the elevation correction. But for 5,000 they give us an alternate formula, just quite handy. At 5,000 feet, the sensible cooling is 0.92. And the only reason that&#39;s different is it just takes into consideration the density at 5,000 feet. So there&#39;s nothing fancy happening there. It&#39;s just that the numbers have been worked out for you and you can almost treat this as another equation that you can quickly grab and use at any point. So if we apply that and we solve this equation for CFM, I&#39;ll show the algebra here so nothing gets lost. So the sensible cooling divided by 0.92 and the delta T. The delta T is designed for a 20 degree delta. All of me not plugging the numbers yet. This is 0.92 and this is delta T. So that&#39;s 120,000 has to be BT&#39;s per hour. So I won&#39;t show it. It&#39;s a real of thumb. 92 and 20. And that gives us a CFM of 6,522. So note, had we use the regular rule of thumb. We&#39;d have gotten some 5,500 CFM or something like that and we would be understating the volume flow rate, which means if we&#39;re trying to size the motor to run this fan and we&#39;re understating the volume flow rate, we&#39;re going to undersize the motor. So it&#39;s really important to make sure we get that rate volume flow rate. Okay, so now how do we size the motor? Well, the break horsepower is a function of the air horsepower. So that&#39;s the next direction we want to go here is we want to find the air horsepower for this fan. And the formula for that is very similar to the water horsepower, hydraulic horsepower formula, but just different, different constant that we&#39;re dividing by. It&#39;s the volume flow rate of air, which we&#39;ll use to queue. It&#39;s unfortunate that queue gets thrown around so much, but queue dot here is heat transfer, queue without a dot here is volume flow rate in CFM. Times delta P, which is the pressure drop across the fan. That&#39;s this 2.5 inches water gauge and that has to be in units of inches of water to use this rule of thumb. So that&#39;s our delta P. And that&#39;s divided by 6,356. And as long as queue is in CFM, which it will be and the delta P is in inches of water gauge, which it will be. Then this will come out in horsepower. So that&#39;s what we should expect. So our CFM was 6,522. And that&#39;s being multiplied by 2.5 inches of total static pressure over 63.56. That gives us a horsepower of 2.57. That&#39;s the air horsepower. Now how does that relate to the break horsepower? Break horsepower is the power of a spinning shaft that&#39;s actually turning this fan, which is putting energy into the air stream in order to drive this velocity across that pressure drop. So the efficiency of a fan really relates to the 2. Right. And let&#39;s just put that over to the side.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A cooling coil with a sensible capacity of 10 tons is designed for a 20 degree delta T.<br><br><br><br>• The air handler is installed in a facility at 5,000 feet elevation and must produce a total static pressure of 2.5 inches water gauge.<br><br><br><br>• Assuming the fan is 92% efficient, what should be the nominal size of the fan motor.<br><br><br><br>• So here we have an air handler at 5,000 feet elevation and it&#39;s a 10 ton unit.<br><br><br><br>• So let&#39;s change that 10 tons into B2&#39;s power.<br><br><br><br>• So the sensible cooling done by this unit or at least the design needs to be 10 tons times 12,000 B2 per hour per ton.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 21 · September 10 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 21</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, equation 9.3.8.4 is there a correction for non-standard conditions. I found this equation first and applied it. Book out 1.11 horsepower. So I want to say two things about this. The first is, take a look at my solution. First, both the written solution and the video solution. I think that&#39;ll be helpful. I think it&#39;s important that you took a different method here. And that&#39;s fine. We&#39;ll talk about that in a second. But make sure you understand the method that I used. And if you want to know two different methods so that you can be more flexible. All the power to you. I totally support that. But if you&#39;re insisting upon using this method and it&#39;s not checking out, then you got to look at the, like that&#39;s why I put these solutions together for you guys. So make sure you&#39;re looking at that and trying to compare and hopefully make some connections that way. In terms of your question and using this particular formula, nine dot three dot eight dot four. That formula is a horsepower equals zero point zero zero zero one five seven, which you have times v times p. And I think what might have happened in this case is maybe you thought that the p was a subscript of v. But it&#39;s actually </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 39 · June 27th 2022</div>
+      <div class="qa-question"><strong>Q:</strong> There&#39;s just where can the Air Horse Power equation be found in the handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was systems and components 23. This is a pretty simple question. There&#39;s just where can the Air Horse Power equation be found in the handbook? The key search term is fan power. I think if you search Air Horse Power, HP, it&#39;ll drive you crazy because you know what you&#39;re looking for and you&#39;re not finding it. And even if you try to use the variables, like the old version of this equation that most people learn is like CFM, Delta P, but it&#39;s hard to search Delta when you&#39;re doing it, well, words are so it&#39;s super frustrating to try to find this. But it&#39;s in the HPC section. And if you remember that you can just search fan power, it&#39;ll come right up.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 42 · August 22 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Why do you not have to become for the fan and a fan affinity law one be to correct for the difference in air density at 5,000 feet?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 23. Why do you not have to become for the fan and a fan affinity law one be to correct for the difference in air density at 5,000 feet? That&#39;s what the power equation used assumed near standard conditions at sea level. So there&#39;s two things going on. This problem, the first is the sensible heat equation that we used to figure out the CFM. This problem was about a fan being used to elevation and we have to figure out the fan horsepower or air horsepower of that fan. So it&#39;s actually the sensible heating part of the solution that takes care of the density issue. So instead of using 1.08 CFM Delta T and this is a SNP from the solution video, we sort of go to that rule of thumb quickly, right? Okay, I want sensible. I know the CFM. I know the Delta T. Boom, I&#39;m going to use 1.08 CFM Delta T. No, we don&#39;t want to do that because it&#39;s at 5,000 foot elevation, which conveniently is another rule of thumb equation and you don&#39;t have to do it manually because it&#39;s in the reference handbook so you can go straight to it at 0.92. Why? Because they&#39;ve adjusted the density. The other parts and pieces of that constant don&#39;t change. It&#39;s like 60 seconds in a minute</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 23 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

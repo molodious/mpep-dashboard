@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 27 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 27</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 27</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An energy eciency initiative being evaluated for a 2500ton chiller plant running 24/7 is expected to improve the total average annu- alized COP from 4 to 5. The project budget is $800,000. Capital can be borrowed at an interest rate of 5%. Electricity costs are es- timated at $0.14 per kwH. What is the loan duration that should be used if the initiative is required to be cash ow neutral?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>17 months</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>18 months</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>19 months</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>20 months</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Okay, so we&#39;ve got an economics problem here, but we can start by just getting our head around how much energy is being.
+
+2. If you recall COP for a refrigerator equals Q and a refrigeration effect or the capacity of the plant in this case divid.
+
+3. WN for case 1 is going to be the 2,500 tons and let&#39;s convert that to B2&#39;s per hour, so times 12,000 B2 per hour per ton.
+
+4. And then also, now we&#39;ve got our tons, let&#39;s change this from B2 per hour to KW, so we&#39;re going to be talking about econ.
+
+5. And I&#39;ll spare you the units to speed it along for this 1,2,500 is the same, 12,000 is the same, the COP is now 5 instea.
+
+6. That&#39;s going to give us our reduction in demand, and then we&#39;ll multiply that by the hours in a year to 24,7 operation,.
+
+<strong>Full Solution:</strong>
+
+Systems 27. An energy efficiency initiative being evaluated for a 2,500-ton chiller plant running 24,7 is expected to improve the total average annualized COP from 4 to 5. The project budget is $800,000. Capital can be borrowed at an interest rate of 5%. Electricity costs are estimated at 14 cents per KWH. What is the loan duration that should be used if the initiative is required to be cash flow neutral? Okay, so we&#39;ve got an economics problem here, but we can start by just getting our head around how much energy is being saved as the annualized COP for this chiller plant goes from 4 to 5. We know it&#39;s a 2,500-ton plant and we know the COP, so that&#39;s enough for us to find the energy in using the COP of a refrigerator. If you recall COP for a refrigerator equals Q and a refrigeration effect or the capacity of the plant in this case divided by WN, the energy to run the compressor. So we can rearrange that since we know the COP, I mean, the capacity to find WN, so let&#39;s do that. We can say WN equals QN over COP and we can do that for both cases, the original condition which is a COP of 4 and then when they increase the COP to 5, how much energy is that going to save? So let&#39;s set this up twice. WN for case 1 is going to be the 2,500 tons and let&#39;s convert that to B2&#39;s per hour, so times 12,000 B2 per hour per ton divided by the COP of 4 originally. And then also, now we&#39;ve got our tons, let&#39;s change this from B2 per hour to KW, so we&#39;re going to be talking about economic savings, we need to be in KW, so we can go to KWH, so we can go to dollars, so we&#39;ll divide by 3,412 B2 per hour per KW. So that leaves us with 2,198 KW, more than 2 megawatts, that&#39;s a fair amount of power. How about when the COP increases to 5, that&#39;s a pretty big deal, so it&#39;s going to save a lot of energy. And I&#39;ll spare you the units to speed it along for this 1,2,500 is the same, 12,000 is the same, the COP is now 5 instead of 4. I don&#39;t know what the improvements are, right? And then say to make it more efficient, but we&#39;ll trust that they found away. And now the new demand is 1,750,8KW. And the savings then is going to be the difference between those two, so let&#39;s work that out, 21,98 minus 1758. That&#39;s going to give us our reduction in demand, and then we&#39;ll multiply that by the hours in a year to 24,7 operation, so 87,60, and then we&#39;ll have kilowatt hours, so we&#39;ll multiply that by the energy rate, which is 14 cents per KWH. And that gives us 539,000 and 600 dollars. That&#39;s the annual savings. So now the rest of this problem is really a matter of economics. The question is, if this project is going to cost $800,000 to do, and they can borrow money at 5%, what should the loan duration be if the initiative is to be cash flowed neutral? So what&#39;s actually happening here? Would you spend $800,000 to save $539,000? Well certainly not for one year, but for two years you would, right? So we expect the answer to be somewhere between one and two years, because this kind of initiative would be worth it if you had a longer term view of two, three, four year view. You would certainly want to do it. If you only cared about what&#39;s going to happen in the next year, you wouldn&#39;t do it. It&#39;s just not enough savings to be had. And if you just want to be cash flowed neutral, you could imagine choosing a loan duration that works out so that the rate at which you have to pay for the project to be done is exactly the same as the rate at which you&#39;re saving money, so that there&#39;s no inflow, no outflow, just cash flow neutral, and then at the end of that loan duration, all of a sudden you&#39;re saving money. So that&#39;s the way we want to work this out. Well how are we going to do that? We can look in the cash flow tables in the reference handbook and the key search term you want to use there is economic factor tables, and specifically we&#39;ll go to the line for capital recovery. There&#39;s a couple of different lines you can use depending how you want to look at it.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An energy efficiency initiative being evaluated for a 2,500-ton chiller plant running 24,7 is expected to improve the total average annualized COP fro.<br><br><br><br>• Capital can be borrowed at an interest rate of 5%.<br><br><br><br>• Electricity costs are estimated at 14 cents per KWH.<br><br><br><br>• What is the loan duration that should be used if the initiative is required to be cash flow neutral.<br><br><br><br>• Okay, so we&#39;ve got an economics problem here, but we can start by just getting our head around how much energy is being saved as the annualized COP fo.<br><br><br><br>• We know it&#39;s a 2,500-ton plant and we know the COP, so that&#39;s enough for us to find the energy in using the COP of a refrigerator.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 27 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
