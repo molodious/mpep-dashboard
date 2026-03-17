@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 25 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 25</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 25</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Under original design conditions a fan using 5.5hp rotates at 750rpm against a static pressure loss of 2inwg. Due to a design change, the length of the duct served by the fan increases, adding an additional 0.5in of static pressure. What is the fan speed after the system modication? 6012 Systems and Components 12.1 During winter operation an outside air handler pre-heats and hu- midies 20°F air with 50% relative humidity to 65°F and 40% rela- tive humidity. The humidication process consumes 1/ 2...
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>−0.5%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>5.9%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$18,600</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$32,800</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
+
+2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
+
+3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
+
+4. Look up required reference data from tables or charts
+
+5. Calculate the requested performance parameter or design value
+
+6. Select the closest answer and verify units are correct
+
+<strong>Full Solution:</strong>
+
+This is Problem 25 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: Under original design conditions a fan using 5.5hp rotates at 750rpm against a static pressure loss of 2inwg. Due to a design change, the length of the duct served by the fan increases, adding an additional 0.5in of static pressure. What is the fan speed after the system modication? 6012 Systems and Components 12.1 During winter operation an outside air handler pre-heats and hu- midies 20°F air with 50% relative humidity to 65°F and 40% rela- tive humidity. The humidication process consumes 1/ 2 gpm of water. What volume ow rate is required by the fan? 12.2 5000cfm of outside air at 90°F and 80% RH enters the cooling coil of a dedicated outside air handling unit. The unit supplies tempered air at 62°F dry bulb and 60°F wet bulb. What is the volume ow rate of condensate removed by the unit? 12.3 The compressor for a water cooled chiller draws 40KW. The chiller delivers 100gpm with a 10°F delta T. A cooling tower serving the chiller provides 80gpm of 80°F condenser water. What is the tem- perature of the condenser water leaving the chiller? 6112.4 An unoccupied 3000ft2 technology room with 12ft ceilings is located at the perimeter of a building and experiences excessive inltration from the outdoors amounting to 2ACH. On a summer design day the outside conditions are 95°F dry bulb and 80% RH. The equip- ment load is 50KW sensible and the space is to be maintained at 72°F and 50% RH. What is the total cooling demand? 12.5 A pumping system delivers water to a factory through a standard weight steel piping supply line (surface roughness C = 120) with 3 outlets delivering 100gpm to each outlet. The main pipe initially has a 5in nominal diameter, reducing to 4in and 3in after each branch outlet. The rst outlet is located 50ft from the pumping station; the second outlet is 100ft downstream of the rst, and the third outlet is 100ft downstream of the second. What is the pressure loss for the system? Ignore minor losses. 12.6 A locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5gpm each. Ex- pected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55°F and leaves at 115°F. 500lb of hr 5psig steam is supplied to the heat exchanger and leaves saturated. What is the eciency of the heat exchanger? 6212.7 Due to acoustical considerations, the compressor and condenser for a 2ton refrigerator with a COP of 5 are located remotely in a nearby storage closet. Neglecting lights and other ancillary heat sources, what is the required cooling capacity for the storage closet? hr hr hr hr 12.8 A counterow heat exchanger is used to remove heat from steam condensate prior to discharge and for pre-heating cold water. Cold water enters at 50°F and leaves at 70°F. Condensate enters at 160°F and leaves at 100°F. What is the log mean temperature dierence? 12.9 An outside air handler mixes 2000cfm of 90°F db / 80°F wb fresh air with recirculated return air at 76°F / 50% relative humidity. The unit supplies 10,000cfm of 58°F air to the space. What is the enthalpy of the mixed air entering the cooling coil? lb lb lb lb 6312.10 A hydronic piping system is re-designed to improve eciency. The 250gpm pump is re-selected from 200ft TDH to 175ft TDH to suit the reduction in pressure loss throughout the system and capture savings. Both the old and new pump selections have an eciency of 85% and are driven by a 94% ecient motor. The pump will run 9AM-5PM Monday through Friday year round. Electricity costs $0.18 per kWh. What are the annual savings? 12.11 Water enters a 100ton cooling tower at 130°F and leaves at 105°F. Air enters at 88°F and 60% RH and leaves at 104°F and 80% RH. What quantity of make up water is required? Assume no losses. 12.12 R-410a is used in a chiller with a suction pressure of 60psia and a discharge pressure of 185psia. The refrigeration cycle operates with 20°F of sub cooling and 20°F of superheating. The load on the chiller is 200tons. What is the mass ow rate of refrigerant? min min min min 6412.13 R-134a is used in a chiller with an evaporator pressure of 30psia and a condenser pressure of 150psia. There is 20°F of superheat. What is the coecient of performance? 12.14 A 2ton AC unit with remote compressor using R-134a operates with a condenser pressure of 150psia and an evaporator pressure of 50psia. The suction line is a 5/ 8 in diameter type L copper tube with a length of 30ft. What is the pressure drop for the suction line? 6512.15 Air at 85°F and 40% relative humidity enters a direct evaporative cooler with a saturation eciency of 60%. What is the leaving air temperature? 12.16 1000cfm of outside air at 92°F and 85% RH and 6000cfm of re- turn air at 76°F and 55% RH are cooled by an air handling unit supplying 54°F dry bulb and 53°F wet bulb air. 60gpm of chilled water enters the cooling coil at 46°F. What is the leaving water temperature? 12.17 During a chiller plant upgrade, an oversized xed speed pump, producing 200gpm and 80ft of total dynamic head with a 70% pump eciency and 80% motor eciency, is replaced with a du- plex parallel pump set with variable frequency drives. The two replacement pumps provide 60gpm each at 45ft TDH which is suf- cient to meet operational demands. The new pump eciency is 75% and the new motor eciency is 93%. The system operates continuously 24 hours per day 365 days per year. The average cost of electricity is $0.12/ kWh. What are the annual savings? 66 12.18 A 10ft×10ft exterior wall is made of 4in brick ρ = 120 lb , 3.5in ft3 mineral ber insulation, and 5/ 8 in gypsum board. There is a single 3ft × 6ft operable window comprised of double glazing with 1/ 2 in air space and emissivity of 0.6. The window frame is made of insulated berglass. The temperature dierential between inside and outside is 20°F. What is the average heat ux through the wall? hr·ft2 hr·ft2 hr·ft2 hr·ft2 12.19 An R-1234yf chiller operates between 50psia on the low pressure side and 150psia on the high pressure side with no subcooling and no superheat. What is the quality of refrigerant entering the evap- orator? 12.20 An outside air handler tempers outside air of 90°F dry bulb and 80°F wet bulb using return air at 74°F and 50% relative humidity using an air-to-air heat exchanger. The heat exchanger eective- ness is 72%. What is the enthalpy of the air leaving the heat exchanger? lb lb lb lb 6712.21 What is the friction loss for 1000cfm being delivered by a 14in×8in duct? Assume a friction factor of 0.015. 12.22 30lb of 5psig steam is supplied to a heating coil for an air handler hr delivering 1000cfm of outside air. The entering outside air is 50°F dry bulb and 45°F wet bulb. The coil bypass factor is 0.1. What is the temperature of the air leaving the heating coil? 12.23 A cooling coil with a sensible capacity of 10tons is designed for a 20°F delta T. The air handler is installed in a facility at 5000ft elevation and must produce a total static pressure of 2.5inwg. As- suming the fan is 92% ecient, what should be the nominal size of the fan motor? 6812.24 What is the size of a refrigeration system required to freeze 100lbs of raspberries initially at 65°F to 15°F in 3hrs? hr hr hr hr 12.25 The top of the waterline of an open cooling tower basin is located 13ft above the centerline of the associated 50gpm condenser wa- ter pump. The entering condenser water for the tower is 92°F. The outdoor conditions are 68°F and 60% relative humidity. The cooling tower eectiveness is 70%. The suction piping between the basin and the condenser pump is comprised of an equivalent length of 25ft of 21/ 2 in standard weight steel pipe. What is the net positive suction head available to the condenser water pump in feet of water? 12.26 On a day with outside conditions of 80°F dry bulb and 50% relative humidity, a cooling tower operates with an eectiveness of 70%. The return condenser water enters the tower at 96°F. What is the approach? 6912.27 An energy eciency initiative being evaluated for a 2500ton chiller plant running 24/7 is expected to improve the total average annu- alized COP from 4 to 5. The project budget is $800,000. Capital can be borrowed at an interest rate of 5%. Electricity costs are es- timated at $0.14 per kwH. What is the loan duration that should be used if the initiative is required to be cash ow neutral? 12.28 An engineer is specifying a 1000cfm dedicated outside air unit for a 24 hour gym which is to be maintained at 72°F with 50% relative humidity by supplying 55°F saturated supply air. The average outdoor conditions for the region are 88°F and 55% rela- tive humidity. The unit manufacturer oers an option to include an enthalpy wheel with 60% eectiveness for an additional cost of $10,000. If it costs the tenant $0.50 per ton hour to produce chilled water, what is the simple payback for the enthalpy wheel? Neglect maintenance and assume installation and commissioning add no additional upfront cost. 7012.29 A low-stage refrigeration system using R-22 operates with a satu- rated suction temperature of −50°F and a discharge temperature of 10°F. The discharge line is a 13/ 8 in type L copper tube with a length of 100ft. What is the capacity of the discharge line? 7113 Supporting Topics 13.1 Machine A produces a sound pressure of 58dB, and machine B pro- duces a sound pressure of 52dB. What is the combined sound pres- sure? 13.2 The background noise in an oce has a sound pressure level of 38dB. An overhead fan coil unit with a sound pressure level of 43dB turns on. What is the combined sound pressure level? 13.3 Four identical fans produce a combined sound pressure level of 90dBA as measured at a point that is equidistant from each fan. What is the sound pressure level if three fans are shut down? 7213.4 The background noise in a factory prior to any equipment turning on has a sound pressure level of 40dB. Once the equipment is oper- ating, the sound pressure level is 46dB. What is the sound pressure level attributable to the machinery only? 13.5 The octave band measurements of a fan are: 63Hz, 64dB; 125Hz, 67dB; 250Hz, 63dB; 500Hz, 63dB; 1000Hz, 59dB; 2000Hz, 54dB; 4000Hz, 50dB; 8000Hz, 46dB. What is the NC rating? 13.6 A 5000lb machine rotates at 1800rpm and is mounted on vibration m lb isolators with a combined stiness of 40,000 f. In parallel with the in springs, a damper has been included. The damping ratio is 0.3. An unbalanced force of 2000lb is caused by the machine. What is the f maximum force transmitted through the base? f f f f 13.7 A 1.5in diameter steel shaft (E = 2.9 × 107psi) is 4ft long and sup- ported by two frictionless bearings at its ends. A 200lb ywheel is m mounted on the center of the shaft. The shaft weight is negligible and there is no damping. What is the critical speed of the shaft? 7313.8 A 200lb compressor rotates at 1750rpm and generates a disturbing m force due to unbalance during each rotation. The compressor is mounted on 4 identical, equally loaded springs at the corners of its base. What individual spring stiness is required to limit the transmitted force to 70% of the disturbing force? 10,000lbf in 15,000lbf in 17,000lbf in 41,000lbf in 13.9 A 3in diameter steel threaded rod (Poisson’s Ratio = 0.3) has been 8 installed to support a 300lb load to be hung 4ft below. The lateral strain on the rod is −0.1%. How much will the rod elongate when the load is added? 7413.10 The handle of a large manual valve is secured with a square bolt pattern, as shown. The handle is 18in long and the force applied to the end of the handle during valve opration is 30lb . The bolts have f a nominal diameter of 1/ 4 in and a cross-sectional area of 0.03in2. When the valve is being closed, which statement can be made about the shear stress experienced by the bolts? 13.11 A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a specic weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum deection of the in2 pipe? 7513.12 The displacement of a hydraulic press is 3in3 per revolution and the pump speed is 1800rpm. The hydraulic pressure is 600psig. The positive displacement pump is 80% ecient and is driven by a 3- phase, 208V AC motor that is 95% ecient. The power factor is 0.9. What size circuit breaker should be selected to protect the system? 13.13 90°F, 20% relative humidity air is cooled using a 75% eective evaporative cooler. What is the temperature of the air after being cooled? 13.14 A company is considering whether to invest in a piece of equipment that will have an initial cost of $100,000 and will produce $50,000 per year in revenue for the next 3 years before maintenance costs and taxes. Maintenence will cost $5000 per year. The tax rate is 30% and straight line depreciation is used for the equipment. The equipment has a salvage value of $20,000 to be realized at the end of year 3. What is the present value of the initiaitve using a 10% rate of return? 7613.15 A company purchases a factory for $1M. The factory will generate a gross annual revenue of $140K and incur annual expenses of $60K. The facility has an expected life of 20 years and no salvage value. Assuming straight-line depreciation and a 30% eective tax rate, what is the after tax rate of return if the company sells the factory for $800K and exits the investment after 5 years? Ignore tax implications of capital losses at the time of sale. 13.16 A project has an initial cost of $200K and generates $30K per year in net prots. After 15 years there is a salvage value of $40K. What is the return on investment for the project? 13.17 A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return? 7713.18 A contractor leases a piece of equipment for $50K down and $30K per year for a project expected to take 3 years. After the third year, the equipment is still needed due to a schedule delay and the contractor must pay $40K per year to continue to lease for the fourth and fth years. After the fth year, the project is com- pleted and the equipment is returned. How much annual revenue is required to ensure the project has a 18% return on investment? 13.19 Acompanyundertakesanenergysavinginitiativethatcosts$100,000 up front and $1000 per month for recurring service. The project will save $30,000 per year. The equipment involved in the upgrade will have a salvage value of $40,000 after 12 years. What is the annual savings for the project if the interest rate is 7%? 13.20 A company invests $100K to make a product which will generate $25K of annual revenue over the next 12 years. Expenses will be $5,000 per year. The manufactured product is depreciated over the 12 years using straight-line depreciation. There is no salvage value as all the product is expected to be sold. The income tax rate is 35%. What is the after-tax rate of return?
+
+The answer choices are:
+  A) −0.5%
+  B) 5.9%
+  C) $18,600
+  D) $32,800
+
+To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 18</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 18 | July 16, 2021 lesson: Lesson-26324453 lesson_pos: 4 chapter_pos: 5 content_id: 26324453 wistia_id: c3</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one, HVAC1. To calculate the sensible demand for the room, can you explain more about the states of 1 and 2 for the sensible heat gain equation 1.08 CFM Delta T? To figure out the sensible demand, I assume that the Delta T comes from the supplier and room air. I would agree with that. And therefore CFM must be the supply volumetric flow rate and not the return. Or can you assume that it is all returned and there is no exhaust room pressure. Yeah, yes, to the last part, I think there's no in</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 25 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
