@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 15 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 15</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 15</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      The supply fan and duct distribution for a restaurant are as shown. The velocity is not to exceed 1800fpm. Each of the ve 400cfm out- lets requires a minimum terminal pressure of 0.2inwg. How much static pressure must the fan be capable of supplying? Assume equal friction losses throughout the main run. 5455
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.18inwg</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.23inwg</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.34inwg</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.40inwg</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So the first thing that we want to do is size the main duct.
+
+2. But first we need to size the duct.
+
+3. So we can divide by velocity on both sides.
+
+4. So 2000 CFM, cubic feet per minute divided by the velocity, 1800 feet per minute.
+
+5. But we use a round duct as a starting assumption.
+
+6. So we&#39;ll say that area has to equal pi over 4 times diameter squared and then solve for the diameter.
+
+<strong>Full Solution:</strong>
+
+HVAC15. The supply fan and duct distribution for a restaurant are shown. The velocity is not to exceed 1,800 feet per minute. Each of the 500 CFM outlets requires a minimum terminal pressure of 0.2 inches of water. How much static pressure must the fan be capable of supplying? Assume equal friction losses through the main run. So what&#39;s the total velocity? Well we&#39;ve got 5 outlets and they&#39;re all 400 CFM each. So that&#39;s 2000 CFM total, right? So that&#39;s what this fan needs to be able to supply. 2000 CFM. Now we have the velocity. It says the maximum velocity is going to be not to exceed 1,800 feet per minute. So the first thing that we want to do is size the main duct. Now we know we still have to have an outlet pressure at the very end of an additional 0.2 inches of water. But we can deal with that closer to the end. We&#39;re trying to figure out how much total static pressure we need to know what the pressure loss is going to be. But first we need to size the duct. So let&#39;s find the required area. Area equals volume flow rate over velocity, right? Because normally Q equals VA. So we can divide by velocity on both sides. So 2000 CFM, cubic feet per minute divided by the velocity, 1800 feet per minute. We&#39;re going to let it go all the way up to the maximum so that we can have the smallest possible duct. That&#39;s going to give us square feet. And the magnitude is 1.1. So what would be the diameter of a round duct with this area? Because everything on here is based on a round duct. Not that you have to have a round duct. You can do your calculations assuming a round duct and then use a ductulator or any calculator that you like. I&#39;m sure there&#39;s apps for it now to find the actual dimensions that you need based on the ceiling that you have or where this is going and how it&#39;s going to fit in. But we use a round duct as a starting assumption. So we&#39;ll say that area has to equal pi over 4 times diameter squared and then solve for the diameter. So multiply 1.1 by 4 divided by pi and take the square root. We get diameter equals 1.19 feet, which is 14.27 inches. Now we&#39;re not going to have a 14.27 inch round duct. We&#39;re either going to have a 14 inch or a 15 inch. So what&#39;s it going to be? Do you round up or do you round down? Well if you round down what&#39;s going to be the effect on the velocity. If it&#39;s a smaller duct for the same volume flow rate the velocity is going to go up and we said the velocity is not to exceed 1,800. So we better round up instead and choose a diameter of 15 inches and then there&#39;ll be more area than we need and the velocity will go slightly down and that&#39;s fine. So how much does it go down? Well let&#39;s flip it and say velocity equals volume flow rate over area and do that with our new duct size. So we have the same 2000 CFM but now we&#39;ve committed to using this 15 inch duct. So pi over 4 for the area times 15 over 12 feet. We want everything in feet squared gives us a velocity of 1630 feet per minute, which is well below the 1800 feet per minute so we&#39;re good as far as keeping within the requirements. Now another way to do the same thing rather than doing this on a purely analytic basis will be to find the intersection on the chart on the friction loss chart between the 2000 and the 1800. So let&#39;s see what would have happened if we had done it that way. 2000 CFM and the 1800 velocity is here. So that would have put us with an intersection that&#39;s slightly above 14 which would have got us to pick 15 but it&#39;s close enough to 14 that you might have picked 14 inches and you could see 14.27. It&#39;s pretty easy around down and that would be wrong. So that&#39;s why I like the analytical method. If you&#39;re using the chart to make this kind of determination you just have to remind yourself okay if it looks like it&#39;s even slightly above 14 on picking 15. If the problem statement is this strong, this clearly says not to exceed.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • The supply fan and duct distribution for a restaurant are shown.<br><br><br><br>• The velocity is not to exceed 1,800 feet per minute.<br><br><br><br>• Each of the 500 CFM outlets requires a minimum terminal pressure of 0.2 inches of water.<br><br><br><br>• How much static pressure must the fan be capable of supplying.<br><br><br><br>• Assume equal friction losses through the main run.<br><br><br><br>• Well we&#39;ve got 5 outlets and they&#39;re all 400 CFM each.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">9 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 65 · August 14th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 65</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HPAC-15. Two things first, why do you calculate velocity pressure at the initial portion of the duct where there&#39;s 2000 CFM? Why not calculate at another portion of the duct? The velocity will vary along the mean as air&#39;s lost and the duct sizes reduced by standard sizes. Second, in the industry, the total pressure of the fan is considered all the losses due to the duct distribution system plus the internal losses of the fan itself. All the external static pressure of the fan is considered all losses within the duct distribution only. For these problems, when you use TP equals SP plus VP, it seems that your total pressure is actually the same as the industry term external static pressure, just asking because the terms end up using the opposite words and it becomes confusing which pressure the answer should be based on. So let&#39;s take that one piece at a time. So we start by finding the velocity pressure in the initial section and your question is, why do we do it there? I think the reason why we do it there is just because we want to know the total pressure initially coming out of the fan. So it&#39;s a similar set up to the last problem we drew. So we&#39;ll kind of redraw that same thing.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 97 · February 3rd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> 42, how are the friction loss in static pressure related?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC 15 is it safe to assume that you can find the total pressure by finding the velocity pressure of the max velocity, 1800 feet per minute, and then adding it to the minimum terminal pressure of 0.2 inches, that gets the total pressure to 0.42, how are the friction loss in static pressure related? So yes, I mean, everything you said you basically just narrated the solution there in the question. So if you kind of watch the solution and then came up with that sequence of steps, yes, those are the steps. I wouldn&#39;t memorize those steps though, like the way you&#39;re writing it makes me worried that you&#39;re like, I don&#39;t know why. The overall approach in this problem is to size the fan first. So you&#39;re determining the total pressure by taking into consideration the losses. Like this is a common idea for for these duct work problems. You&#39;re sizing the fan, you&#39;re thinking about the total pressure that the fan needs to be able to provide, which you find by thinking about the losses. I&#39;m the fan to the farthest outlet. So here&#39;s your fan, and you probably have a whole bunch of branches along the way, going in all different directions. And then somewhere at the end of the line, the last out</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 105 · June 23th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Is this an accurate approach as well?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC15. I found the friction lost by intersecting 2000 CFM and 1800 FPM, feet per minute, and solved for a P total total pressure. The velocity pressure was found by V over 45 squared, and solved for the static pressure, which is 0.24 inches water gauge. Is this an accurate approach as well? So, similar to the question that we got, just looking for a yes or no answer, but this one is a little bit more interesting. So, in this case, you got away with it, but it&#39;s not optimal. This was one where you have to use the friction lost chart. And I provided you with that chart, because that&#39;s not in the reference sample, but I furnished it as part of the problem statement so that you could use it. And a better approach is to find the diameter first, find the area first, so you would use the jump over it to hear. So, you know the volume flow rate, and you know the maximum velocity. That&#39;s important. It&#39;s not the actual velocity. It&#39;s the maximum allowable velocity, and that will enable you to find the area. And then once you find the area, you can set that equal to pi d squared, and you can find the diameter. And then once you find the diameter, it&#39;s not likely to be an integer. And you&#39;re n</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 62</div>
+      <div class="qa-question"><strong>Q:</strong> Why are the heat transfer values for conduction set equal to the overall value for convection radiation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transfers seven. Why are the heat transfer values for conduction set equal to the overall value for convection radiation? How can they be set equal when they should add up to the total for all three combined? So this problem was about a chilled water pipe and It&#39;s insulated and we&#39;re trying to figure out the surface temperature at the outside of the insulation So we&#39;re analyzing the heat transfer in this case it&#39;s chilled water So it&#39;s going to be warmer outside so we&#39;re analyzing the heat transfer from the surroundings into the pipe and The reason we&#39;re setting those equal is because everything&#39;s in steady state and we&#39;re neglecting the ones that don&#39;t apply at each stage in the process So let me be a bit more specific about that Coming from the outside Let&#39;s imagine I like what you&#39;re saying in that you know all three should be combined So let&#39;s imagine that we have conduction convection irradiation Hitting the outside of this insulation right heat is trying to come in and it&#39;s trying to come in by all three modes Well What&#39;s the significance of each of those modes if there&#39;s a temperature differential between the ambient space the air? That&#39;s actually in contact with the outs</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 91</div>
+      <div class="qa-question"><strong>Q:</strong> What other clues are there to get to the constant enthalpy formula and replace k with n?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS Thermo 24. I started by searching polytropic and found an equation on page 272 involving pv and w. I then thought I could get wv a w equals cp delta t and v from the properties of arompe h20 and p with ideal gas law. I think this is flawed because page 20 is only for atmospheric pressure. Yes, I would agree. What other clues are there to get to the constant enthalpy formula and replace k with n? Is that just something we should remember for polytropic? Yeah, I came across a problem like this. This is a problem about a compressor and the questions asking to find the polytropic exponent. So the first time I saw that I was like, what does that mean? And I wanted to make sure that when I came across that in my travels that that made it into the program so that you would see it and not get surprised by that one on the exam. But in general, for an isentropic gas and ideal gas with no change in entropy, which is not the case here, but hypothetically, if that were the case, we&#39;re able to use this relationship that t2 over t1 is equal to p2 over p1 raised to the quantity k minus 1 over k. And if it&#39;s an ideal gas approximation, then we can assume that k equals 1.4.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Are the units that you need for that problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So the first one&#39;s from Thermo 2, looking at the solution was the 1 in 16 taken from the periodic table, shouldn&#39;t that be in grams. This was a question about just pulling values from the periodic table. So actually if three choices when used the periodic table, the actual values for the masses of each element can be taken as atomic mass units, which doesn&#39;t mean a whole lot, it&#39;s like it&#39;s on unit. Don&#39;t really use that after chemistry. More often than not, we use grams per mole. But there&#39;s something kind of subtle that happens with grams per mole. And it&#39;s pretty much never discussed, but the mole is actually a gram mole. And that&#39;s never explicitly stated, but it&#39;s a fact that the SI unit, the mole, 6 times 10 to the 23rd, is the number of objects in a mole, sort of like 12 is the number of objects in a dozen. But if it&#39;s the grams per mole, then it&#39;s a gram mole. Whereas we also have the option to use US customer units. And then we can say that the mass of a pound is pounds per pound mole. And the numbers that we use from the periodic table are the exact same numbers. So if oxygen is 16 atomic mass units, then it&#39;s 16 grams per mole or 16 pounds per pound mole.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 62</div>
+      <div class="qa-question"><strong>Q:</strong> Why are the heat transfer values for conduction set equal to the overall value for convection radiation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transfers seven. Why are the heat transfer values for conduction set equal to the overall value for convection radiation? How can they be set equal when they should add up to the total for all three combined? So this problem was about a chilled water pipe and It&#39;s insulated and we&#39;re trying to figure out the surface temperature at the outside of the insulation So we&#39;re analyzing the heat transfer in this case it&#39;s chilled water So it&#39;s going to be warmer outside so we&#39;re analyzing the heat transfer from the surroundings into the pipe and The reason we&#39;re setting those equal is because everything&#39;s in steady state and we&#39;re neglecting the ones that don&#39;t apply at each stage in the process So let me be a bit more specific about that Coming from the outside Let&#39;s imagine I like what you&#39;re saying in that you know all three should be combined So let&#39;s imagine that we have conduction convection irradiation Hitting the outside of this insulation right heat is trying to come in and it&#39;s trying to come in by all three modes Well What&#39;s the significance of each of those modes if there&#39;s a temperature differential between the ambient space the air? That&#39;s actually in contact with the outs</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 91</div>
+      <div class="qa-question"><strong>Q:</strong> What other clues are there to get to the constant enthalpy formula and replace k with n?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS Thermo 24. I started by searching polytropic and found an equation on page 272 involving pv and w. I then thought I could get wv a w equals cp delta t and v from the properties of arompe h20 and p with ideal gas law. I think this is flawed because page 20 is only for atmospheric pressure. Yes, I would agree. What other clues are there to get to the constant enthalpy formula and replace k with n? Is that just something we should remember for polytropic? Yeah, I came across a problem like this. This is a problem about a compressor and the questions asking to find the polytropic exponent. So the first time I saw that I was like, what does that mean? And I wanted to make sure that when I came across that in my travels that that made it into the program so that you would see it and not get surprised by that one on the exam. But in general, for an isentropic gas and ideal gas with no change in entropy, which is not the case here, but hypothetically, if that were the case, we&#39;re able to use this relationship that t2 over t1 is equal to p2 over p1 raised to the quantity k minus 1 over k. And if it&#39;s an ideal gas approximation, then we can assume that k equals 1.4.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Are the units that you need for that problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So the first one&#39;s from Thermo 2, looking at the solution was the 1 in 16 taken from the periodic table, shouldn&#39;t that be in grams. This was a question about just pulling values from the periodic table. So actually if three choices when used the periodic table, the actual values for the masses of each element can be taken as atomic mass units, which doesn&#39;t mean a whole lot, it&#39;s like it&#39;s on unit. Don&#39;t really use that after chemistry. More often than not, we use grams per mole. But there&#39;s something kind of subtle that happens with grams per mole. And it&#39;s pretty much never discussed, but the mole is actually a gram mole. And that&#39;s never explicitly stated, but it&#39;s a fact that the SI unit, the mole, 6 times 10 to the 23rd, is the number of objects in a mole, sort of like 12 is the number of objects in a dozen. But if it&#39;s the grams per mole, then it&#39;s a gram mole. Whereas we also have the option to use US customer units. And then we can say that the mass of a pound is pounds per pound mole. And the numbers that we use from the periodic table are the exact same numbers. So if oxygen is 16 atomic mass units, then it&#39;s 16 grams per mole or 16 pounds per pound mole.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 15 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
