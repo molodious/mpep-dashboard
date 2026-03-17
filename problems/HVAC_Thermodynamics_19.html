@@ -136,6 +136,22 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -175,12 +191,18 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-transcript {
-  font-size: 12px;
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
   line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
   color: #444;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .footer {
   background: white;
@@ -206,18 +228,19 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 19</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: C</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
 </div>
 
 <div class="layout-container">
+  <!-- LEFT PANEL -->
   <div class="sidebar-left">
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 19</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A refrigeration cycle using R-1234yf operates between 0◦F and 120◦F. Refrigerant leaves the evaporator with 20◦F of superheat. There is no subcooling. What is the volume (cid:29)ow rate of refrigerant leaving the evaporator per ton of refrigeration? 0.1ft3 min 4.4ft3 min 8.3ft3 min 9.2ft3 min
+      A refrigeration cycle using R-1234yf operates between 0°F and 120°F. Refrigerant leaves the evaporator with 20°F of superheat. There is no subcooling. What is the volume ow rate of refrigerant leaving the evaporator per ton of refrigeration? 0.1ft3 min 4.4ft3 min 8.3ft3 min 9.2ft3 min
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -226,32 +249,64 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
+      
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Solution ▼
+        Show Quick Overview &amp; Full Solution &#9660;
       </button>
-      <div class="solution-box" id="sol-box">VersusEnthalpyCurvesforRefrigerant1234yfand(cid:28)nd the enthalpy at states 1 and 3 of the refrigeration cycle. State 1, the evaporator is known to operate at 0◦F, however the superheat must also be ac- counted for. Move to the right of the saturation curve into the superheated region to 20◦F and read the enthalpy and the density. Note that lines of constant density are to the right and slanted slightly up in this region of the chart. Take the inverse of density to determine the speci(cid:28)c volume for state 1. T =20◦F 1 Btu h =90 1 lb 1 1 ft3 v = = =1.67 ρ .6 lb lb ft3 Since we are interested in the evaporator, we can skip State 2 and jump to State 3, where the condenser temperature is known and the refrigerant is known to exit the condenser as a saturated liquid (no subcooling). Read the enthalpy: T =120◦F 3 χ =0 3 Btu h =50 3 lb To (cid:28)nd the volume (cid:29)ow rate of refrigerant at State 1 per ton of cooling, write the expression Q V˙ ˙ R L ,whereV˙ R canbeexpressedasaproductofm˙,mass(cid:29)owrate,andv,specifvolume. Q˙ L canbe expressed as a product of m˙, mass (cid:29)ow rate, and the di(cid:27)erence in enthalpy across the evaporator, h −h . Note the mass (cid:29)ow rate cancels out of the expression. 1 4 V˙ (m˙)(v ) (v ) 1.67ft3 ft3 R = 1 = 1 = lb =.042 Q˙ L (m˙)(h 1 −h 4 ) (h 1 −h 4 ) 90B l t b u −50B l t b u Btu 179 Theevaporatorcapacitymustbeconvertedtotons,whichintroducestimeunitsthatareneeded in order to specify a volume (cid:29)ow rate. ft3 (cid:32)(cid:0) 12,000Btu(cid:1)(cid:0) 1hr (cid:1)(cid:33) ft3 .042 hr 60min =8.4 Btu 1ton min·ton Answer C</div>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. You could imagine for a given cycle, you can get a greater refrigeration effect simply by increasing the mass flow rate.
+
+2. Well first let&#39;s frame it out by just rough sketching what the cycle looks like on a pressure entropy diagram.
+
+3. They said the volume flow rate of refrigerant so that&#39;s just v dot for refrigerant divided by the tons of cooling.
+
+4. Usually we talk about v2&#39;s per hour but we can convert that to tons right they&#39;re both energy pre unit time.
+
+5. That&#39;s QL and they don&#39;t use the dot in the reference handbook.
+
+6. I like the dot because it reminds us that we&#39;re talking about something being per unit time and I think that&#39;s useful so.
+
+<strong>Full Solution:</strong>
+
+Thermo 19, or refrigeration cycle using R1234YF, operates between zero and 120 degrees. Refridgerant leaves the evaporator with 20 degrees of super heat. There is no sub cooling. What is the volume flow rate of refrigerant leaving the evaporator per ton of refrigeration? So that&#39;s an interesting way to phrase the question, right? It&#39;s like how much flow rate of refrigerant you need per ton of refrigeration. You could imagine for a given cycle, you can get a greater refrigeration effect simply by increasing the mass flow rate or increasing the volume flow rate. So I mean the density is roughly constant. So how do we actually think about that? Well first let&#39;s frame it out by just rough sketching what the cycle looks like on a pressure entropy diagram. That&#39;s always a good way to get your head around a problem before you get to deep in what steps you&#39;re actually going to take. So here&#39;s our pressure enthalpy curve and it says there&#39;s no sub cooling but there is super heat. So we should draw state three on the curve and state four immediately below assuming constant enthalpy for the expansion. But then for the evaporator we&#39;re going to take it out to the right a little bit past the saturation curve. Harzoth&#39;s latest state one and then an isentropic line up to state two by way of the compressor and then Harzoth&#39;s lead back to state three in the condenser. So that&#39;s a rough sketch of our cycle and now let&#39;s just think about the way they fast us this question. They said the volume flow rate of refrigerant so that&#39;s just v dot for refrigerant divided by the tons of cooling. Usually we talk about v2&#39;s per hour but we can convert that to tons right they&#39;re both energy pre unit time. So that&#39;s nothing more than the refrigeration effect. That&#39;s QL and they don&#39;t use the dot in the reference handbook. I like the dot because it reminds us that we&#39;re talking about something being per unit time and I think that&#39;s useful sometimes. Sometimes if you already have experience doing that sort of problem and you want to omit the dots really not a big deal but just for this problem I&#39;m going to include the dot because we want these to both be in terms of time but if neither of them are in terms of time that&#39;s just as well because time will then cancel out and you&#39;ll see what I mean toward the very end of the problem. I just want to make sort of a big deal of whether we&#39;re considering versus ignoring time. I think that&#39;s an easy way to get confused in this problem. So a good way to think about the volume is as the mass flow rate times the specific volume and specifically they said the volume flow rate of refrigerant leaving the evaporator so if we&#39;re leaving the evaporator entering the condenser we&#39;re talking about state 1. So that&#39;s where we care about the specific volume. We don&#39;t want to take it anywhere else because you have the same mass flow rate around the cycle but you have different volume flow rates at different points because the density is changing or the specific volume is changing. So that could potentially be our numerator and then the denominator is the refrigeration effect which is m dot times h1 minus h4 the heat that is absorbed by the evaporator. So a couple of simplifications can happen here. One is that the mass flow rate is actually going to cancel out so that gets rid of our time at least for now and we end up with units in the numerator of cubic feet per pound and then the denominator of B to use per pound and we have cubic feet per B to you which is pretty close to what we want but not quite because we want volume flow rate per ton and a ton is energy per unit time. We&#39;re going to end up with cubic feet per B to you so volume per unit energy not volume per unit energy per unit so we&#39;ll work that out a bit later. The other thing that we can simplify a bit here is that the process from 3 to 4 is constant enthalpy so we can substitute h3 for h4, h4 and h3 are equal.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Thermo 19, or refrigeration cycle using R1234YF, operates between zero and 120 degrees.<br><br><br><br>• Refridgerant leaves the evaporator with 20 degrees of super heat.<br><br><br><br>• What is the volume flow rate of refrigerant leaving the evaporator per ton of refrigeration.<br><br><br><br>• So that&#39;s an interesting way to phrase the question, right.<br><br><br><br>• It&#39;s like how much flow rate of refrigerant you need per ton of refrigeration.<br><br><br><br>• You could imagine for a given cycle, you can get a greater refrigeration effect simply by increasing the mass flow rate or increasing the volume flow .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
     </div>
   </div>
 
+  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
+
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">3 sessions</span>
+      <span class="oh-count">3 questions from 3 sessions</span>
     </div>
-    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
-        <div class="qa-group">
-      <div class="qa-session">OH 115 · March 2, 2026</div>
-      <div class="qa-transcript">Thermon 19, would you mind sharing where you found the equation QL equals m.delth in the NC&#x27;s handbook? I was stuck in this problem and when I watched the video with the answers as soon as you found that equation, I managed to finalize the problem without any issues. All right, so this is a different flavor of the earlier question, where is m.delth and my answer is it&#x27;s a building block, but I&#x27;ll give you a little bit more meat on the bone for refrigeration cycles. You can search the reference handbook for refrigeration cycle, dash, single stage, and it&#x27;ll give you a nice diagram of the, let&#x27;s bring it up, refrigeration cycle. See if it picks up the dash, referencing book, can be pretty wonky, we&#x27;re getting warm. Okay, here it is. I really think a lot of this is going to find its way into your mind in a kind of a permanent way, but as we&#x27;re building that, we can refer this and technically there&#x27;s not, you&#x27;re not going to find a place where it says exactly what I&#x27;m saying necessarily, which is Q. for the evaporator of the refrigeration cycle is m.h1-h4. You may not find that, but you need to know that. And how are you going to know that? You&#x27;re not going to memorize that, but you&#x27;re going to know it by this diagram or this diagram. I prefer to look at this one, pH. This really tells the story. So compressor, right from low to high pressure, because the vertical axis is pressure. So we&#x27;re raising the pressure with the compressor, and then constant pressure, condensing, rejecting heat, and then constant enthalpy, ice and fall pick expansion to the expansion valve, back down to the low pressure. And that is all in preparation. One, two, two, two, three, and three to four to get ready to do what refrigeration cycle does from 4 to 1, which is absorb heat into the refrigerant. So this diagram, this cycle corresponds perfectly to the the drawn out cycle, compressor, condenser, expansion evaporator, which is nice. They&#x27;ve put them, you know, they&#x27;ve aligned it so that 1, 2, 3, 4 are the kind of the same place. So you&#x27;re doing work, you&#x27;re injecting work into the cycle at the compressor. We call that W in, or W compressor. And then you&#x27;re rejecting heat, they call it Q3, Q23. That&#x27;s a funny way to write it. That&#x27;s fine. You can write it that way, or you can write it as Q out, or you can write it as Q condenser. You might see this as W in, or W compressor. And then here you have Q in, or Q evaporator, or for Q1, if you want to follow the reference handbook. I&#x27;m not going to stop you, but these to me are much more descriptive. I used to say in and out more, and I still like that. But over time, I&#x27;ve kind of grown accustomed to saying evaporator, compressor, condenser, because I feel like those are just explicit. So there&#x27;s no doubt. Okay, so these formulas at the bottom are are finding the coefficient of performance for refrigeration cycle and for a heat pump. And in a way, they&#x27;re a little bit of a clue into this formula, because what is the coefficient of performance? It&#x27;s what you get out of the cycle divided by what you put in. Well, what do you get out of a refrigeration cycle? Q in, Q of the evaporator. They amount of heat that it removes from the space. That&#x27;s what the cycle is doing for you. So that&#x27;s the desired output of the cycle is Q evaporator. And what&#x27;s the change in enthalpy? H1 minus H4. If you wanted to make that quantity of heat, you got to multiply by the mass flow rate. So that&#x27;s where that M dot L to H comes from. And then by the same token, you could easily write the equation for Q dot the condenser, which is M dot H2 minus 3. That&#x27;s not the denominator of this equation, because that&#x27;s not the input. What&#x27;s the input to refrigeration cycle? It&#x27;s the work, it&#x27;s the electricity around that compressor. The work of the compressor, which is H2 minus H1. So that&#x27;s our denominator here. W dot N, or let me see if let me be consistent here. W dot compressor is M dot H2 minus H1. [...]</div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 115 · March 2nd 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 115</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermon 19, would you mind sharing where you found the equation QL equals m.delth in the NC&#39;s handbook? I was stuck in this problem and when I watched the video with the answers as soon as you found that equation, I managed to finalize the problem without any issues. All right, so this is a different flavor of the earlier question, where is m.delth and my answer is it&#39;s a building block, but I&#39;ll give you a little bit more meat on the bone for refrigeration cycles. You can search the reference handbook for refrigeration cycle, dash, single stage, and it&#39;ll give you a nice diagram of the, let&#39;s bring it up, refrigeration cycle. See if it picks up the dash, referencing book, can be pretty wonky, we&#39;re getting warm. Okay, here it is. I really think a lot of this is going to find its way into your mind in a kind of a permanent way, but as we&#39;re building that, we can refer this and technically there&#39;s not, you&#39;re not going to find a place where it says exactly what I&#39;m saying necessarily, which is Q. for the evaporator of the refrigeration cycle is m.h1-h4. You may not find that, but you need to know that. And how are you going to know that? You&#39;re not going to memorize that, but you&#39;re</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 59 · May 24, 2023</div>
-      <div class="qa-transcript">All right, next up, thermo 19. Friduration cycle. Okay, I&#x27;m gonna hand this one to you, Tundee. I don&#x27;t wanna formulate your question for you. This is about our Friduration cycle. We&#x27;re being asked to find the volume flow rate of refrigerant per ton of refrigeration. It&#x27;s like a 10 minute video. So without recreating that, do you kinda wanna just steer us toward the part that&#x27;s interesting here for you? Yes, give me one second. Okay, so we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we&#x27;re gonna go ahead and see if we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. And the denominator, the enthalpies, we get from states 1 and 3. Right? This is the same as 4. And the only other thing that&#x27;s really happening in this problem is at the end. After we calculate the cubic feet per Btu, that&#x27;s not really what we&#x27;re after. That&#x27;s volume per unit energy. But what we&#x27;re really after is the volume flow rate per ton. So we need both of these to become a rate. And that&#x27;s this little conversion at the end. I&#x27;m wondering if that&#x27;s the part that was interesting to you or if it was something like upstream of that, something before that that might have been. [...]</div>
+      <div class="qa-session">OH 59 · May 24th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 59</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up, thermo 19. Friduration cycle. Okay, I&#39;m gonna hand this one to you, Tundee. I don&#39;t wanna formulate your question for you. This is about our Friduration cycle. We&#39;re being asked to find the volume flow rate of refrigerant per ton of refrigeration. It&#39;s like a 10 minute video. So without recreating that, do you kinda wanna just steer us toward the part that&#39;s interesting here for you? Yes, give me one second. Okay, so we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we&#39;re gonna go ahead and see if we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can get the volume. So we can ge</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 92 · November 25, 2024</div>
-      <div class="qa-transcript">thermon 19 how do we get the volume flow rate of the refrigerant equation? so this one go ahead is there a comment there? okay I think it&#x27;s just a straight comment so this one again not in a equation you&#x27;re going to find the reference handbook it&#x27;s really just answering the question that&#x27;s being asked so this one was about a refrigeration cycle and the question was about the volume of flow rate of refrigerant per ton of cooling provided by the cycle so if we have a refrigeration cycle let&#x27;s draw our ph diagram again and our vapor dome and I think this one did have some superheas well not that that matters for the question too much so this will be our 1, 2, 3, 4 and yeah we have our little bit of superheat here because we&#x27;re not directly on the right side of the vapor dome and we&#x27;ve got some amount of cooling happening heat entering the evaporator and the question was what is the volume flow rate of refrigerant leaving the evaporator leaving the evaporator so state 1 per ton of refrigeration and there&#x27;s no equation for that in the reference handbook you won&#x27;t find one but we can answer the question that&#x27;s being asked in general what is volume flow rate through the refrigeration cycle well probably we&#x27;re more likely to be working with the mass flow rate but we could be working with either so we know that volume flow rate in general is equal to mass flow rate times specific volume and if we were to express the volume flow rate that way we might also want to use a subscript 1 here because we&#x27;re talking about the volume flow rate through this point in particular but we almost don&#x27;t really need the subscript because well I guess we do for the volume flow rate because as the specific volume changes or the density changes as we go around the cycle the volume flow rate could be very different because here we&#x27;re dealing with a vapor here we&#x27;re dealing with a lower density vapor here we&#x27;re dealing with a liquid and here we&#x27;re dealing with a liquid that&#x27;s cooler so yeah the density is changing but what&#x27;s not changing is the mass flow rate so we could say that&#x27;s m sub r or just m dot really we don&#x27;t need a subscript there because the mass flow rate is constant around this closed loop but the volume flow rate is not because the volume flow rate at one is a function of the specific volume at state 1 okay so that&#x27;s our numerator that&#x27;s the volume flow rate of refrigerant leaving the evaporator as a function of the mass flow rate which is constant around the closed loop and the specific volume at state 1 what would our denominator be our denominator is it says per ton of refrigeration well don&#x27;t worry about tons so much what is tons it&#x27;s a measure of the cooling capacity performed by the refrigeration cycle it&#x27;s the amount of heat that&#x27;s absorbed by the evaporator that&#x27;s the cooling effect that&#x27;s the reason why we&#x27;re running refrigeration cycle so we&#x27;ll put it in tons later but it&#x27;s probably going to be in B2&#x27;s per hour initially what we&#x27;re dividing by there is Q dot for the evaporator or you could call that Q dot 4 1 however you like to label that our Q dot L is another way you might see the same thing and how would we express that well that&#x27;s m dot times the difference between the enthalpy at 1 and the enthalpy at 4 so let&#x27;s just make that a fraction on the right side if I can take that liberty and now we just said m dot is constant throughout the loop so m dot we could give it that subscript again and end off of the refrigerant around the closed loop that&#x27;s the same number we don&#x27;t know that number that number wasn&#x27;t given in the problem but isn&#x27;t it elegant to see that it&#x27;s now going to cancel out so without ever having known the mass flow rate around the cycle we cancelled it out and now we have specific volume which is going to have units of cubic feet per pound divided by B2 per hour B2 per hour now B2 per pound sorry pound per hour times B2 per pound so I was right the first time B2 per hour oh fuck right so we got to keep all those un [...]</div>
+      <div class="qa-session">OH 92 · November 25th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 92</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> thermon 19 how do we get the volume flow rate of the refrigerant equation? so this one go ahead is there a comment there? okay I think it&#39;s just a straight comment so this one again not in a equation you&#39;re going to find the reference handbook it&#39;s really just answering the question that&#39;s being asked so this one was about a refrigeration cycle and the question was about the volume of flow rate of refrigerant per ton of cooling provided by the cycle so if we have a refrigeration cycle let&#39;s draw our ph diagram again and our vapor dome and I think this one did have some superheas well not that that matters for the question too much so this will be our 1, 2, 3, 4 and yeah we have our little bit of superheat here because we&#39;re not directly on the right side of the vapor dome and we&#39;ve got some amount of cooling happening heat entering the evaporator and the question was what is the volume flow rate of refrigerant leaving the evaporator leaving the evaporator so state 1 per ton of refrigeration and there&#39;s no equation for that in the reference handbook you won&#39;t find one but we can answer the question that&#39;s being asked in general what is volume flow rate through the refrigeration cycl</div>
     </div>
 
   </div>
@@ -259,7 +314,7 @@ body {
 
 <div class="footer">
   <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 19 · 3 OH sessions · Generated 2026-03-17</span>
-  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -267,7 +322,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
 }
 </script>
 </body>

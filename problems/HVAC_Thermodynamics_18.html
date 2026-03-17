@@ -136,6 +136,22 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -175,12 +191,18 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-transcript {
-  font-size: 12px;
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
   line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
   color: #444;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .footer {
   background: white;
@@ -206,54 +228,87 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 18</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: B</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
 </div>
 
 <div class="layout-container">
+  <!-- LEFT PANEL -->
   <div class="sidebar-left">
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 18</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      ArefrigerationcycleusingR-123operatesbetween25psiaand75psia. Refrigerant enters the compressor with 20◦F of superheat and leaves the condenser as a saturated liquid. What is the coe(cid:30)cient of per- formance?
+      ArefrigerationcycleusingR-123operatesbetween25psiaand75psia. Refrigerant enters the compressor with 20°F of superheat and leaves the condenser as a saturated liquid. What is the coecient of per- formance?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>5.8</span></div>
-      <div class="choice correct"><span class="choice-letter">B.</span><span>6.7 ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6.7</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
+      
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Solution ▼
+        Show Quick Overview &amp; Full Solution &#9660;
       </button>
-      <div class="solution-box" id="sol-box">Versus Enthalpy Curves for Refrigerant 123 and work around the cycle (cid:28)nding the enthalpy for each state point. State1,enteringcompressor. Byde(cid:28)nitionthisisthelowpressuresideofthecycle. To(cid:28)ndthe temperature,movehorizontallyfromtherightmostedgeofthesaturationcurveintothesuperheated region to account for the superheat. Read the enthalpy vertically up or down. Use the Refrigerant 123 table for greater precision. P =25psia 1 T =T +20◦F =110◦F +20◦F =130◦F 1 sat Btu h =108.8 1 lb State2,leavingcompressor. Thecompression1→2isassumedtobeisentropicifnocompressor e(cid:30)ciency is mentioned. Move along a line of constant entropy and increasing pressure from state 1 to state 2. Read the enthalpy. P =75psia 2 s =s 2 1 Btu h ≈117 2 lb 177 State 3, leaving condenser. The condensing 2 → 3 is constant pressure. Move horizontally to the left to the edge of the saturation curve, where the refrigerant is a saturated liquid. Always assume saturated liquid condition for state 3 (quality is zero) if there is no mention of subcooling. Read the enthalpy. P =75psia 3 χ=0 Btu h =53.6 3 lb State 4, entering compressor. The expansion 3 → 4 is assumed to be isenthalpic. Follow a vertical line down to the low pressure side. Note that state 4 will be a saturated mixture. P =25psia 4 Btu h =h =53.6 4 3 lb In the reference handbook lookup coe(cid:30)cient of performance for a refrigerator and use the for- mula: Q COP = L R W where Q is the heat absorbed by the evaporator from state 4 → 1. Therefore, Q can be L L expressedastheproductofm˙,themass(cid:29)owrateofrefrigerantaroundthecycle,andthedi(cid:27)erence in enthalpy across the evaporator, h −h . Similarly, the work done by the compressor, W, can be 1 4 expressedastheproductofm˙,themass(cid:29)ow</div>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So the coefficient of performance is the amount of energy that&#39;s absorbed into the evaporator, what we call Q in or some.
+
+2. So we can search in the reference handbook for pressure versus enthalpy curves for refrigerant 123 and grab that table a.
+
+3. As a starting point we can work with state 1 which is the condition after the evaporator and before the compressor.
+
+4. Now we could try to eyeball a spot on the vertical axis that&#39;s about a quarter of the way above 20 and between 20 and 40.
+
+5. Alright there&#39;s less space between 20 degrees up here than there is down here but we can be pretty confident that 110 is.
+
+6. Now let&#39;s draw a line inside the saturation curve on 110 degrees so we know our evaporator process line is going to be o.
+
+<strong>Full Solution:</strong>
+
+A refrigeration cycle using R123 operates between 25 psiA and 75 psiA. Refrigerant enters the compressor with 20 degrees of superheat and leaves the condenser as a saturated liquid. What is the coefficient of performance? So the coefficient of performance is the amount of energy that&#39;s absorbed into the evaporator, what we call Q in or sometimes QL, divided by the amount of work that&#39;s done by the compressor. So the difference in the enthalpy as we go through the compressor from state 1 to state 2 on the refrigeration cycle. So as a reminder, we can draw the refrigeration cycle and really the best way to do this problem is to draw that cycle on the actual refrigerant curve specifically for R123. So we can search in the reference handbook for pressure versus enthalpy curves for refrigerant 123 and grab that table and I&#39;ll bring that table up onto the screen here so we can draw on it which is exactly what we&#39;ll be doing during the PE exam. As a starting point we can work with state 1 which is the condition after the evaporator and before the compressor. So we know that the low pressure side of the refrigeration cycle is 25 psiA. Now we could try to eyeball a spot on the vertical axis that&#39;s about a quarter of the way above 20 and between 20 and 40 and that would be a good starting point but the challenge with that is that the vertical axis is logarithmic. So there&#39;s actually more space than you would expect going from 20 to 25. I know there&#39;s a lot of pressure to have a high level of precision and that&#39;s pretty hard to do when there&#39;s logarithmic access and we don&#39;t want to obsess over this but a nice way to get some additional precision is to use the temperatures because as you can see the space between the temperatures it&#39;s not perfectly consistent and it is changing. Alright there&#39;s less space between 20 degrees up here than there is down here but we can be pretty confident that 110 is about half way between 100 and 120 and the reason why I say that is because we can refer to the table for refrigerant 123 which is in the reference handbook and I&#39;ll show that directly below that chart the pH diagram we have the table and for 25 psiA saturated we got 24.98 here so very close. We have 110 degrees so that&#39;s actually a better way to locate that line. Now let&#39;s draw a line inside the saturation curve on 110 degrees so we know our evaporator process line is going to be on this line and actually it continues a bit to the right because we have 20 degrees of super heat so when we get to this point all the way on the right side of the vapor dome and we&#39;re starting to almost enter the super heated region to the right we&#39;re at 25 psiA 110 degrees we&#39;re going to continue to the right horizontally for an additional 20 degrees and where are we going to end up or at 110 so we&#39;re going to go to 130 notice that these temperature lines basically take a 90 degree right and head straight down almost vertical so halfway between 120 and 140 is going to be 130 and that&#39;s going to be the location of state one.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A refrigeration cycle using R123 operates between 25 psiA and 75 psiA.<br><br><br><br>• Refrigerant enters the compressor with 20 degrees of superheat and leaves the condenser as a saturated liquid.<br><br><br><br>• What is the coefficient of performance.<br><br><br><br>• So the coefficient of performance is the amount of energy that&#39;s absorbed into the evaporator, what we call Q in or sometimes QL, divided by the amoun.<br><br><br><br>• So the difference in the enthalpy as we go through the compressor from state 1 to state 2 on the refrigeration cycle.<br><br><br><br>• So as a reminder, we can draw the refrigeration cycle and really the best way to do this problem is to draw that cycle on the actual refrigerant curve.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
     </div>
   </div>
 
+  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
+
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">3 sessions</span>
+      <span class="oh-count">3 questions from 3 sessions</span>
     </div>
-    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
-        <div class="qa-group">
-      <div class="qa-session">OH 35 · May 2, 2022</div>
-      <div class="qa-transcript">All right, thermo-18. Why is it that we can&#x27;t just pull the temperatures to calculate the COP, like in the previous problems. Here we pull the entylp&#x27;s and solve for COP, but not sure why we need to do that here versus how we solved the earlier problems. So let&#x27;s take a step back and talk about the most general definition of COP. Does anybody want to offer up your own words? What is COP? I mean, we know it&#x27;s dancer coefficient of performance, but what does that mean? Anybody want to unmute or type in a chat? Take a shot here? Don&#x27;t all jump at once. I&#x27;m going to pick someone. It&#x27;s just for efficiency, like the higher efficiency is like a small better. It goes like, when the percentage, like if compressor is like 80% efficient, so if that has like better COP compared to 50% efficient, it has like a less yield. So it&#x27;s a measure of efficiency. Yeah, I would agree with that. So it&#x27;s a measure of efficiency, but it&#x27;s not based on like a zero to 100%. Like efficiency would normally be stated. So it doesn&#x27;t scale as a percentage, but yeah, it&#x27;s a measure of efficiency in the sense that you want it to be as high as possible. Only the best definition that I&#x27;ve ever been given for this came all the way back from my thermodynamics, days and college, my professional, I&#x27;ll never forget it because you have this heavy French accent, which I won&#x27;t attempt to imitate, but it just was going to character. He said the coefficient of performance is the desired output over the required input. And that seems unnecessarily wordy, but just hold that thought in the back of your mind. Think about what that means. But in the meantime, I want to remind you what&#x27;s happening in any heat engine. And by heat engine, I mean either a heat pump or refrigerator. I could just keep this generic, but if we want to make it specific, let&#x27;s make it about a refrigerator, both refrigerators and heat pumps or types of heat engines. So in all cases, we have our refrigeration device or heat pump device, and there&#x27;s some hot reservoir called TH. And some colder as a vocal called TL. And then there&#x27;s work in, sometimes it&#x27;s just called W, sometimes called W in, which drives the heat pump or refrigerator to transfer heat. Well, transfer heat, transfer some heat in the case of a refrigerator of John the Aeros the Way I have for a reason, where actually, I&#x27;ve drawn the Aeros absolutely wrong, haven&#x27;t I? So this would be a heat pump, because the Aeros are going down before pumping heat from a hot reservoir into a cold reservoir, that&#x27;s a heat pump. So we would call this QH and this would be QL. Had I drawn the Aeros in the opposite direction, I would still call this QH in this QL, but then it would be a refrigerator. So that&#x27;s the difference between the two, is the direction of the heat flow. But either way, it requires a compressor. And the only real difference is that the energy of the compressor in the case of a heat pump is actually a benefit because it makes heat. And your goal is to do heating. So the fact that that gets added to QL is a benefit to the system, whereas in a refrigerator, you have this extra heat that you have to reject. So the thing that you care about in a heater is QH. Hang on a minute, confusing myself here. Did I have those Aeros right for a refrigerator? No, we&#x27;re moving heat to a cold environment. So in the case of a heat pump, we care about, you all right, why do we care about QH? Oh, this is the heat that&#x27;s rejected. Yes, the lower temperature is. To the lower temperature outside. So QH is what&#x27;s added to the warm environment. That doesn&#x27;t seem right. WN. Oh, for a heat pump, we&#x27;re going from low to high. For heat pump, we have going from high to low. Up to down and to a heat of the heat should be going from down to low. You good? No, imagine it&#x27;s cold outside, right? And you&#x27;re running a heat pump. It&#x27;s cold. And you&#x27;re taking heat from the cold environment. And you&#x27;re bringing it inside. So these Aeros should go like this. [...]</div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 35 · May 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 35</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, thermo-18. Why is it that we can&#39;t just pull the temperatures to calculate the COP, like in the previous problems. Here we pull the entylp&#39;s and solve for COP, but not sure why we need to do that here versus how we solved the earlier problems. So let&#39;s take a step back and talk about the most general definition of COP. Does anybody want to offer up your own words? What is COP? I mean, we know it&#39;s dancer coefficient of performance, but what does that mean? Anybody want to unmute or type in a chat? Take a shot here? Don&#39;t all jump at once. I&#39;m going to pick someone. It&#39;s just for efficiency, like the higher efficiency is like a small better. It goes like, when the percentage, like if compressor is like 80% efficient, so if that has like better COP compared to 50% efficient, it has like a less yield. So it&#39;s a measure of efficiency. Yeah, I would agree with that. So it&#39;s a measure of efficiency, but it&#39;s not based on like a zero to 100%. Like efficiency would normally be stated. So it doesn&#39;t scale as a percentage, but yeah, it&#39;s a measure of efficiency in the sense that you want it to be as high as possible. Only the best definition that I&#39;ve ever been given for this came</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 44 · September 19, 2022</div>
-      <div class="qa-transcript">Thermo 18. H2 is giving me some grief in this problem. I am putting, I am off by one, on pulling this value from the R123 chart. You pull H2 is 117 in the solution video, and I pull H2 is 118. H1 and H3 values make perfect sense. I know how to work this problem, and I understand the principles fairly well. I know not to get too bogged down in the precise numbers, but when I use H2 equals 118, I calculate a COP of 5.99, and when I use, and there is 5.8 for answer choice, and answer choice B is the right one, COP equals 6.7. What should I do if I encounter a problem like this in the exam when being off being one off on H2 will make a break the problem? So the best answer I can give you to this question is that you&#x27;ve done the hard work of identifying this as a potential problem, and that&#x27;s all you can do. You can control your awareness of situations like this, and you can do your absolute best to be as precise as possible. I wrote that problem. I am human. I may be wrong. It may be 118. You may be right. I may be wrong. So, if you have gotten close, and the two answer choices were close, then that caused you to identify this potential sensitivity in the problem. I think that&#x27;s also one of the takeaways. What I&#x27;m trying to get you with these types of problems and with this program is not like 100% coverage of all of the techniques for all the possible problems. We&#x27;ve got 300 plus problems to work with here, but there&#x27;s 3000 situations you could be in on your exam day, and we can&#x27;t cover them all. But what we can do is we can hone your engineering judgment and help you be sensitive to the things that can possibly throw you off, and this is one of those things, and don&#x27;t let it rattle you because it&#x27;s going to happen. One of the things I look at in this problem just to be a little bit more specific is the COP, as you know, you said you understand the principles of what&#x27;s going on here well. So, I won&#x27;t derive this or anything, but we can say that that&#x27;s H1 minus H4 over H2 minus H1. And what we&#x27;re noticing is that we&#x27;re getting slightly different values for H2, and the denominator is relatively small because it&#x27;s just the compressor energy. So, being off by one, if the compressor energy was only like 8 or 9 or 10, B2 per pound, and the H1 minus H4 is the evaporator energy significantly bigger. So, being off by a little bit here isn&#x27;t going to change the game, being off by one and the denominator could change the denominator by 10% or something like that, which could change the whole COP by 10%. And that&#x27;s what&#x27;s driving the answer to be quite different than what you would expect. Okay, how can that be? So, do you best? Yes, precise as you can. Take your time, use the line tool. There&#x27;s going to be a line tool when you&#x27;re in the exam environment. So, you know, just make use of that. And giving you all let it go. There&#x27;s a pretty good chance that the answer choice is aren&#x27;t going to be super close, but I want to expose you to this sort of moment of anxiety while you&#x27;re studying because we have the luxury of doing that while we&#x27;re studying, but when we&#x27;re in the exam environment, you know, there&#x27;s really no time to get rattled. You got to keep moving and I can&#x27;t get hung up on little things like this, but great question. It&#x27;s a common question. It&#x27;s something that I dealt with and I&#x27;m sure others have come across this as well. And by the way, I could be wrong. It might be 117 in your right and it&#x27;s the other answer choice. So, I&#x27;m okay with that. You have to be okay with that, too.</div>
+      <div class="qa-session">OH 44 · September 19 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 44</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 18. H2 is giving me some grief in this problem. I am putting, I am off by one, on pulling this value from the R123 chart. You pull H2 is 117 in the solution video, and I pull H2 is 118. H1 and H3 values make perfect sense. I know how to work this problem, and I understand the principles fairly well. I know not to get too bogged down in the precise numbers, but when I use H2 equals 118, I calculate a COP of 5.99, and when I use, and there is 5.8 for answer choice, and answer choice B is the right one, COP equals 6.7. What should I do if I encounter a problem like this in the exam when being off being one off on H2 will make a break the problem? So the best answer I can give you to this question is that you&#39;ve done the hard work of identifying this as a potential problem, and that&#39;s all you can do. You can control your awareness of situations like this, and you can do your absolute best to be as precise as possible. I wrote that problem. I am human. I may be wrong. It may be 118. You may be right. I may be wrong. So, if you have gotten close, and the two answer choices were close, then that caused you to identify this potential sensitivity in the problem. I think that&#39;s also o</div>
     </div>
     <div class="qa-group">
-      <div class="qa-session">OH 70 · November 6, 2023</div>
-      <div class="qa-transcript">So the first one is from Thermo 18 and it&#x27;s kind of a callback to Thermo 7 and the question is comparing this problem with 7, we add 20 degrees of super heat in this problem and not in number 7. Are there any particular reason for solving problems like this finding H2 is a challenge and that value changed my whole answer? So this is a question about the refrigeration cycle for a particular refrigerant, I think it&#x27;s 123 and you kind of work your way around the cycle and ultimately find the COP. And in problem 7, that problem wasn&#x27;t about finding the COP, it was about finding the entropy at state 1 of the cycle. But either way, the point stands your first step is to try to find state 1 and the question is why are we adding 20 degrees of super heat? But I took a look at problem 7 and it did apply the super heat. So I&#x27;ll kind of recreate that here. I&#x27;m just going to do this in a like a cartoon format, you can go look at the video solution again as a reminder. But as you&#x27;re making your way across from state 4 to state 1, we go all the way to the right until we hit the saturation curve and then we continue to the right for an additional 20 degrees of super heat to find state 1 and then state 2 is going to be up into the right and so on and so forth. Although we don&#x27;t have to get into all of that for this particular problem. That&#x27;s problem number 7. We really are just interested in this state 1. So it&#x27;s subtle because the distance between the saturation curve and the location of state 1 is not that big, but it is, it&#x27;s not negligible. There&#x27;s a space there and in the video solution we do a graphical solution and we do address that space and call out the entropy specifically at state 1. So I think in that sense the two problems are not so different. They both do that because when we do problem 18, it&#x27;s the same thing as we go from 4 to 1. We travel beyond the right side of the saturation curve to state 1 and continue graphically with a constant entropy process to state 2 and you and other F. So other particular reason for solving problems like this. I think I&#x27;m not sure what you&#x27;re driving at there maybe you mean graphically. I think you always kind of have two options and sometimes you need one or the other and sometimes you need a combination of both. So that&#x27;s my only, that&#x27;s the most general guidance I can give in terms of refrigeration cycle problems. Just solve lots of them and try to expose yourself to different situations and see what works and lastly as far as H2 changing your whole answer. That&#x27;s probably one of the biggest judgments to come away from this problem is that there&#x27;s a rather small denominator because the COP is a function of the refrigeration effects of the distance between or the difference between H1 and H4 which is a sizeable number but the denominator is quite small because it&#x27;s just the difference in output between 2 and 1 and anytime you have a small denominator if you&#x27;re off by a little bit that could change your answer significantly. So just that one takeaway I think is really valuable if if your numbers are a little different from mine that could be on me that could be on you that could be a mixture of both just do your best. Don&#x27;t lose too much sleep over it but definitely take away the realization that is a small denominator and that could just move the needle in your answer a bit.</div>
+      <div class="qa-session">OH 70 · November 6th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 70</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So the first one is from Thermo 18 and it&#39;s kind of a callback to Thermo 7 and the question is comparing this problem with 7, we add 20 degrees of super heat in this problem and not in number 7. Are there any particular reason for solving problems like this finding H2 is a challenge and that value changed my whole answer? So this is a question about the refrigeration cycle for a particular refrigerant, I think it&#39;s 123 and you kind of work your way around the cycle and ultimately find the COP. And in problem 7, that problem wasn&#39;t about finding the COP, it was about finding the entropy at state 1 of the cycle. But either way, the point stands your first step is to try to find state 1 and the question is why are we adding 20 degrees of super heat? But I took a look at problem 7 and it did apply the super heat. So I&#39;ll kind of recreate that here. I&#39;m just going to do this in a like a cartoon format, you can go look at the video solution again as a reminder. But as you&#39;re making your way across from state 4 to state 1, we go all the way to the right until we hit the saturation curve and then we continue to the right for an additional 20 degrees of super heat to find state 1 and then s</div>
     </div>
 
   </div>
@@ -261,7 +316,7 @@ body {
 
 <div class="footer">
   <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 18 · 3 OH sessions · Generated 2026-03-17</span>
-  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -269,7 +324,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
 }
 </script>
 </body>
