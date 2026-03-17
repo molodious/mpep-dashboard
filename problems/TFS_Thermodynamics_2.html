@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 2 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 2</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 2</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the ratio of specic heats for 1020°F air? Assume c = p,air 0.249 Btu at 1000°R and c = 0.264 Btu at 1500°R. lbm °R p,air lbm °R
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1.35</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>1.38</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1.40</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1.43</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So all of these answers are pretty reasonable and we&#39;ll notice that they&#39;re closely one of them is 1.4 and the other one.
+
+2. So it&#39;s pretty clear that this problem is testing whether we&#39;re going to just take the easy answer and choose C or if we.
+
+3. That difference may be minimal but it still could be enough to select one of these other answer choices.
+
+4. Find this in the reference handbook.
+
+5. So those two values are things that we can look up and we&#39;ve actually been given CP a bit indirectly and given us CP for.
+
+6. So look up in the reference handbook specific gas constant and not only will you find the value which is that are equals.
+
+<strong>Full Solution:</strong>
+
+What is the ratio of specific heats for 120 degree air? Assume that the specific heat capacity of air is 0.249 B2 per pound degree rank in at a thousand degrees rank in and that specific heat capacity of air is 0.264 B2 per pound mass rank in at 1500 rank in. So the ratio of specific heats if it&#39;s an ideal gas ideal air is normally taken as 1.4. So all of these answers are pretty reasonable and we&#39;ll notice that they&#39;re closely one of them is 1.4 and the other ones are very close to 1.4. So it&#39;s pretty clear that this problem is testing whether we&#39;re going to just take the easy answer and choose C or if we&#39;re going to dig a little deeper and see if there&#39;s something else at play here. Now one of the things that&#39;s worth noting is that we have some pretty high temperatures here. So since we&#39;re looking at something that&#39;s pretty far away from the ideal state, there&#39;s a decent chance that air behaves differently at a high temperature. That difference may be minimal but it still could be enough to select one of these other answer choices. So how do we proceed here? Well, the definition of the ratio of specific heats is actually ratio. Find this in the reference handbook. It&#39;s the ratio of the specific heat capacity when something&#39;s heated or cooled at constant pressure compared to the specific heat capacity. When it&#39;s heated or cooled at constant volume. So those two values are things that we can look up and we&#39;ve actually been given CP a bit indirectly and given us CP for a couple of different temperatures so we can interpolate for the temperature in between. CV we can find by using a different relationship which is that of the specific gas constant. So look up in the reference handbook specific gas constant and not only will you find the value which is that are equals 53.35 and that has units of a pound that&#39;s pound force, her pound mass degree Fahrenheit. But while you&#39;ll also find out is that the relationship between CP and CV and R is that CP minus CV equals R. So if we know R and we have the ability to find CP then we can find CV. So let&#39;s go ahead and find CP and to do this I&#39;m going to organize a little table here just so that we don&#39;t get confused with the interpolating. Let&#39;s on one column of the table, put the temperature and we&#39;ll do that in degrees ranking and in another column we&#39;ll put the specific heat capacity and that will have units of BTU per pound mass ranking. So the temperatures at which we know the specific capacity are 1,000 ranking and 1,500 and the values are 0.264 and 0.249. And we&#39;re looking for a value that&#39;s in between it&#39;s going to be much closer to 1,500 because our air is at 1,020 and that&#39;s degrees Fahrenheit so we actually have to add 460 to that and that&#39;s going to get us 1480 almost 1,500. And now we&#39;re looking for some value in between. We&#39;ll call that value x for the time being and let&#39;s interpolate and find that. So how do we set up this interpolation? It&#39;s going to be the middle number of minus 100. Think about this distance first and do that as a ratio to largest minus the smallest which is that. So 1480 minus 1,000 over 1,500 minus 1,000. And now set that equal to the same proportion on this side. So x minus 0.249 divided by 0.264 minus 0.249. And I&#39;ll skip some of the algebra. I trust that you can do the subtraction, multiply and then get x by itself. x turns out to be unsurprisingly very close to 0.264. I&#39;m getting 0.2634 and that has the same units of CPS we would expect BTU per pound mass ranking. So that&#39;s our value for CPS and now that we have CPS we can rearrange this equation of fine CV. CV is Cp minus R. So 0.2634. But the problem here is that R has different units. R is 53.35 and has units of foot pound force per pound mass degree. So we&#39;re not going to be able to subtract these values if they don&#39;t have the same units. So we need a conversion factor. And that conversion factor can be found by searching the reference handbook for measurement relationships.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • What is the ratio of specific heats for 120 degree air.<br><br><br><br>• Assume that the specific heat capacity of air is 0.249 B2 per pound degree rank in at a thousand degrees rank in and that specific heat capacity of ai.<br><br><br><br>• So the ratio of specific heats if it&#39;s an ideal gas ideal air is normally taken as 1.4.<br><br><br><br>• So all of these answers are pretty reasonable and we&#39;ll notice that they&#39;re closely one of them is 1.4 and the other ones are very close to 1.4.<br><br><br><br>• So it&#39;s pretty clear that this problem is testing whether we&#39;re going to just take the easy answer and choose C or if we&#39;re going to dig a little deep.<br><br><br><br>• Now one of the things that&#39;s worth noting is that we have some pretty high temperatures here.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 107 · July 21st 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 107</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, first one&#39;s from Thermo 2. Number 6.2. You show CP units of BTU per pound ranking. The reference time book table 1.2.7 properties of air, low pressure, has units of BTU per pound degree Fahrenheit. Am I looking at the right table? Yes, you are looking at the right table. It&#39;s okay regardless of which unit is used there. Whether it&#39;s ranking or Fahrenheit, because the size of the Fahrenheit degree is the same as the size. Of a ranking degree. So one degree Fahrenheit is the same as one ranking. So which one is used in the denominator? It doesn&#39;t matter. The units are the same size. Fahrenheit degrees is the same as the ranking degree. The difference is that they have different zero points. So for example, if we were to say, what is absolute zero? Because absolute zero is absolute zero, no matter what you&#39;re using, right? It&#39;s just a different number that we&#39;re using to set the zero point. So if we&#39;re talking about Fahrenheit degrees, we would have to say that absolute zero is minus 460. But if we&#39;re talking about ranking, then it&#39;s just zero. So that&#39;s the same value. And then it just moves incrementally up and lock step from there. So minus 459 and plus 1 minus 458 and plu</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> Does anybody want to offer up your own words?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, thermo-18. Why is it that we can&#39;t just pull the temperatures to calculate the COP, like in the previous problems. Here we pull the entylp&#39;s and solve for COP, but not sure why we need to do that here versus how we solved the earlier problems. So let&#39;s take a step back and talk about the most general definition of COP. Does anybody want to offer up your own words? What is COP? I mean, we know it&#39;s dancer coefficient of performance, but what does that mean? Anybody want to unmute or type in a chat? Take a shot here? Don&#39;t all jump at once. I&#39;m going to pick someone. It&#39;s just for efficiency, like the higher efficiency is like a small better. It goes like, when the percentage, like if compressor is like 80% efficient, so if that has like better COP compared to 50% efficient, it has like a less yield. So it&#39;s a measure of efficiency. Yeah, I would agree with that. So it&#39;s a measure of efficiency, but it&#39;s not based on like a zero to 100%. Like efficiency would normally be stated. So it doesn&#39;t scale as a percentage, but yeah, it&#39;s a measure of efficiency in the sense that you want it to be as high as possible.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> Does anybody want to offer up your own words?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, thermo-18. Why is it that we can&#39;t just pull the temperatures to calculate the COP, like in the previous problems. Here we pull the entylp&#39;s and solve for COP, but not sure why we need to do that here versus how we solved the earlier problems. So let&#39;s take a step back and talk about the most general definition of COP. Does anybody want to offer up your own words? What is COP? I mean, we know it&#39;s dancer coefficient of performance, but what does that mean? Anybody want to unmute or type in a chat? Take a shot here? Don&#39;t all jump at once. I&#39;m going to pick someone. It&#39;s just for efficiency, like the higher efficiency is like a small better. It goes like, when the percentage, like if compressor is like 80% efficient, so if that has like better COP compared to 50% efficient, it has like a less yield. So it&#39;s a measure of efficiency. Yeah, I would agree with that. So it&#39;s a measure of efficiency, but it&#39;s not based on like a zero to 100%. Like efficiency would normally be stated. So it doesn&#39;t scale as a percentage, but yeah, it&#39;s a measure of efficiency in the sense that you want it to be as high as possible.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 2 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

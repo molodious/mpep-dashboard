@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 75 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 2 · Problem 75</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 2 · Problem 75</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A room is maintained at 74°F and 50% relative humidity by sup- plying 8000cfm of 60°F supply air. The room has a sensible heat load of 150,000Btu and a sensible heat ratio of 0.75. 1000cfm of air hr is exhausted from the space and a corresponding volume of out- side air at 92°F db / 74°F wb is introduced. What is the wet bulb temperature of the supply air? 128
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>50◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>53◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>55◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>58◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Start by drawing the cycle on a pressure enthalpy diagram.
+
+2. I like to do it schematically first just to get a sense of what&#39;s going on in the problem and having a game plan and the.
+
+3. So if the question is asking us for the mass flow rate, if we can find h1 and h4 by working our way around the cycle bas.
+
+4. So let&#39;s take the information that we have starting with state 1.
+
+5. We can search the reference handbook for refrigerant 134A and you can look at the chart, but I would actually recommend.
+
+<strong>Full Solution:</strong>
+
+Our 134A refrigeration cycle has a cooling capacity of 30 tons. Refregiant enters the compressor at 20 degrees saturated and is discharged at 110 PSIA. There is no sub-cooling. What is the mass flow rate of the refrigerant through the cycle? So this is a classic refrigeration problem. Start by drawing the cycle on a pressure enthalpy diagram. You can do this on the actual pH diagram if you like. I like to do it schematically first just to get a sense of what&#39;s going on in the problem and having a game plan and then we can dig into the details using the pH diagram or the table below it. So we have our state 1 entering the compressor and we&#39;ve been told that it&#39;s 20 degrees saturated. So it&#39;s going to be on the right side of the vapor dome. There&#39;s no super heating that would take us over into the right for state 1. Then it&#39;s going to be isentropic compression to state 2. Extend pressure condensing to state 3. Constant enthalpy expansion to state 4 and constant pressure of operation to state 1. That&#39;s the overall cycle, very typical refrigeration cycle there. The relationship that holds true for the cooling capacity, the cooling capacity Qn happens as we go from 4 to 1, the evaporator. Sometimes that&#39;s called Qn, sometimes that&#39;s called Ql. You&#39;ll see it both ways, sometimes it&#39;s called Q of all meaning the same thing. That is equal to the mass flow rate of refrigerant around the cycle which is constant because it&#39;s a closed loop. Times the difference in enthalpy between state 1 and state 4. So if the question is asking us for the mass flow rate, if we can find h1 and h4 by working our way around the cycle based on the conditions given and we know the cooling capacity is 30 tons, finding h1 and h4 would allow us to specify that mass flow rate. So let&#39;s take the information that we have starting with state 1. We know that it enters as 20 degrees saturated, that&#39;s a fully defined state. We can search the reference handbook for refrigerant 134A and you can look at the chart, but I would actually recommend looking at the table to get some extra precision here. Anything inside the vapor dome, whether it&#39;s on the left side right side or somewhere in between, you can use the table and you&#39;ll get some extra precision there. So we have temperature at state 1 is 20 degrees and that&#39;s saturated. Saturated vapor to be clear, let&#39;s write that down. So the corresponding enthalpy from the table, and I&#39;m not showing you how to do this in the table, I want you to be able to go into that table, look these values up, and make sure we&#39;re bringing back the same numbers. I&#39;m not going to spoon feed that to you at this point, you&#39;ve done a lot of problems and you need to know how to do this quickly and confidently. That&#39;s the enthalpy at state 1. So we&#39;ve already got h1, we just need h4, but there&#39;s really no quick way to get to h4, so we&#39;ve got to work our way around. We can skip over 2 and jump straight to 3. We know there&#39;s no sub-cooling and we know the high pressure is 110 psi a, so state 3 is actually fully defined. Let&#39;s jump straight to that. P3 equals 110 psi a, and that is saturated liquid, no sub-cooling. And now using the table again, we can say h3 is approximately 39.9, B2 per pound, and since the expansion process from 3 to 4 is isynthopic, we can also say h4 equals the same number, so now we have h1 and h4. So we&#39;re actually pretty close to being able to solve here. Let&#39;s rearrange this equation for the mass flow rate of refrigerant. I&#39;ll work over here. Mass flow rate of refrigerant is going to be the quantity of heat that&#39;s entering the evaporator, divided by the difference in those two enthalpy that we now know, h1 minus h4. And the evaporator energy is 30 tons. 30 refrigeration tons converted to B2 per hour. We&#39;ve got a multiply by 12,000 B2 per hour per ton, and then we want to get that in 10 minutes to get rid of hours since the answer choices are in pounds per minute. So I&#39;m multiplied by one hour over 60 minutes.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Our 134A refrigeration cycle has a cooling capacity of 30 tons.<br><br><br><br>• Refregiant enters the compressor at 20 degrees saturated and is discharged at 110 PSIA.<br><br><br><br>• What is the mass flow rate of the refrigerant through the cycle.<br><br><br><br>• So this is a classic refrigeration problem.<br><br><br><br>• Start by drawing the cycle on a pressure enthalpy diagram.<br><br><br><br>• You can do this on the actual pH diagram if you like.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 63 · July 17th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 63</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And lastly, HVAC practice exam number 75. We actually had a long discussion about this problem a few weeks ago. I&#39;m not sure if anyone on the call tonight was also on that night. I want to say it was either four weeks ago or six weeks ago. And it was determined at the time that this problem was overspecified. So this is a question that&#39;s related to that. It kind of comes back to the original assumption that I was making going in, which wasn&#39;t quite right. But let&#39;s take it from the top. So past exam two, posted an office hours video, which you established that the sensible cooling, sensible cooling load should be 121,000 BTU&#39;s power as the problem is overspecified. Right. However, the 1201,000 BTU&#39;s power does not account for the mixing of 7,000 CFM of 74 degree and 1000 CFM of 92 degree. Giving a 10% of 76.25. That&#39;s right. The sensible cooling should be closer to 140, which when fully worked out results in a web old temperature just under 54. So the key to getting this question right is recognizing, and I made the same mistake. And the original video solution be traced that. So you&#39;ll see it in there. But what came out in that conversation six weeks ago was that, we have to recog</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 2 · Problem 75 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

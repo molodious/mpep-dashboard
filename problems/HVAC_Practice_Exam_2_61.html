@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 61 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 2 · Problem 61</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 2 · Problem 61</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Olive oil has a dynamic viscosity of 40cP and a specic gravity of 0.92. What is the kinematic viscosity? 4.3×10−5ft2 s 4.7×10−4ft2 s 2.0×10−3ft2 s 1.7ft2 s 124
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if we&#39;re going to be asked to find the current drawn by the motor and we know the voltage then it would be a good sta.
+
+2. Hopefully that is the kind of thing that&#39;s pretty readily accessible to you based on the experience and practice that yo.
+
+3. So we&#39;ll say electrical power and we&#39;re going to want this in KW so we&#39;ll do a unit conversion as we go.
+
+4. It&#39;s going to be the hydraulic horsepower divided by the efficiency of the pump times the efficiency of the motor both i.
+
+5. So that&#39;s 1.21 horsepower and let&#39;s get that conversion out of the way so there are 0.7457 KW per horsepower that gets f.
+
+<strong>Full Solution:</strong>
+
+A single phase 240 volt motor drives a pump that supplies a hundred pounds per minute of 80 degree water and adds 400 feet of pressure head. The pump is 70% efficient and the motor is 90% efficient. What is the current drawn by the motor? So if we&#39;re going to be asked to find the current drawn by the motor and we know the voltage then it would be a good start to try to find the power that&#39;s going to be supplied to the motor in order to drive the pump in order to produce some amount of hydraulic horsepower which we have a pretty good chance of being able to do because we&#39;ve got the feet of head that&#39;s added by the pump and we don&#39;t have the volume flow rate but we have the mass flow rate and it&#39;s water so we know the density of water which should be able to do that conversion. So let&#39;s make our medium term goal here finding the hydraulic horsepower WHP and our short term goal is to find the volume flow rate. So to do that we&#39;ll use the mass flow rate in the density and you should always remember that mass flow rate is density times volume flow rate. Hopefully that is the kind of thing that&#39;s pretty readily accessible to you based on the experience and practice that you&#39;ve had throughout this program so far and we want the volume flow rate in this case so we&#39;re rearranging for QQ is the mass flow rate divided by the density both of what you&#39;re known so a hundred pounds per minute and this is pound mass divided by the density 62.4 pounds per cubic foot and now we&#39;re going to want to get this into GPM so let&#39;s also in denominator, multiply that denominator by one cubic foot over 7.48 gallons so that&#39;ll get ready cubic feet and that&#39;ll also get ready pound mass and we&#39;ll have gallons per minute GPM which is nice for the hydraulic horsepower equation. So that equals 12 GPM. Okay so with that we can say the hydraulic horsepower then equals Q times H over 3960 and it&#39;s water so we don&#39;t need to worry about specific gravity and that&#39;s going to be the 12 GPM Q has to be in GPM for the salt to work out times the head pressure head added by the pump 400 feet. It&#39;s got to be in feet over 3960 that gives us a hydraulic horsepower of 1.21 horsepower and now we&#39;ll use that to find the input electrical power to the motor which has to take into consideration the efficiency of the motor, the electrical efficiency, and the efficiency of the pump and mechanical efficiency. So we&#39;ll say electrical power and we&#39;re going to want this in KW so we&#39;ll do a unit conversion as we go. It&#39;s going to be the hydraulic horsepower divided by the efficiency of the pump times the efficiency of the motor both included. So that&#39;s 1.21 horsepower and let&#39;s get that conversion out of the way so there are 0.7457 KW per horsepower that gets for the horsepower and gets us into electrical units KW and we&#39;re dividing by 70 percent and 90 percent 70 for the mechanical efficiency 94 the electrical efficiency of the motor so 0.70 and 0.9 and now we have the power the input power and KW is 1.444. Now if you want to look up the electrical equations in the reference handbook you&#39;re welcome to you would use the search phrase power for different motor phases and then you can find single phase motors and you can find the equation that allows you to determine the current and you&#39;re welcome to do that. It doesn&#39;t say anything about power factor so we&#39;ll assume the power factor is unity so power factor equals 1 but just to build a little confidence here with the electrical is not much to it what we&#39;re really saying is p equals IV times power factor and power factor equals 1.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A single phase 240 volt motor drives a pump that supplies a hundred pounds per minute of 80 degree water and adds 400 feet of pressure head.<br><br><br><br>• The pump is 70% efficient and the motor is 90% efficient.<br><br><br><br>• What is the current drawn by the motor.<br><br><br><br>• So if we&#39;re going to be asked to find the current drawn by the motor and we know the voltage then it would be a good start to try to find the power th.<br><br><br><br>• So let&#39;s make our medium term goal here finding the hydraulic horsepower WHP and our short term goal is to find the volume flow rate.<br><br><br><br>• So to do that we&#39;ll use the mass flow rate in the density and you should always remember that mass flow rate is density times volume flow rate.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 2 · Problem 61 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
