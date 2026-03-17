@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 24 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 24</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 24</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A pump transfers 100gpm of water from an open reservoir at atmo- spheric pressure. The static suction lift is 5ft, the static discharge head is 30ft, and the working pressure at the outlet is 10psig. The pump eciency is 85% and the motor eciency is 80%. Assuming losses are insignicant, what size motor is required?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>11/2hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>5hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So the answer to their question, assuming losses are insignificant, what motor size is required.
+
+2. BHP equals WHP divided by the efficiency of the pump.
+
+3. And now we can substitute in our equation for the hydraulic horsepower.
+
+4. So WHP equals the volume flow rate in GPM times the head added by the pump in feet of water divided by 30960.
+
+5. So we&#39;re doing a lot of different problems that use the same primary formula, but that have different nuances that get i.
+
+<strong>Full Solution:</strong>
+
+Fluids 24. A pump transfer is 100GPM of water from an open reservoir at atmospheric pressure. The static suction lift is 5 feet. The static discharge head is 30 feet and the working pressure at the outlet is 10 PSIG. The pump efficiency is 85% and the motor efficiency is 80%. Assuming losses are insignificant, what size motor is required. So we got a few terms in here that might be a bit new. But let&#39;s draw and illustrate what those terms mean. So we have a reservoir and that water level is at some height and it says that it&#39;s an open reservoir. So the pressure at the top will call that state one. Is that atmospheric pressure? P1 equals 1.8. And then we have a pump which is located 5 feet above the top of the reservoir. And that is the static suction lift. That is the height between where the fluid is being pumped from and the center line of the pump. That&#39;s called static suction lift. So if you see that term, that&#39;s what it means. And then the static discharge head is the height above the pump. So maybe it&#39;s pumping up some distance and then I&#39;ll take it horizontal just for the sake of convenience. But it&#39;s that height after the pump that goes vertically up. That&#39;s the static discharge head. And we know that the pressure at the outlet P2 equals 10 PSIG. So the answer to their question, assuming losses are insignificant, what motor size is required. Motors are sized based on BHP. So if we can find the hydraulic horsepower, for this application. And we know the efficiency of the pump, then we can find the BHP. BHP equals WHP divided by the efficiency of the pump. We do not need to concern ourselves with the motor efficiency because we&#39;re not calculating the electrical power for this application. We&#39;re just sizing the motor that&#39;s going to drive the pump. So we only need to take it to BHP. And now we can substitute in our equation for the hydraulic horsepower. This is a water pumping application. So we don&#39;t need specific gravity. So WHP equals the volume flow rate in GPM times the head added by the pump in feet of water divided by 30960. So if we substitute that in, we get Q delta H over 3960 times the efficiency of the pump. And we know the efficiency and we know the volume flow rate. So the problem is all about finding the head added by the pump. And again, this is our modified Bernoulli. So we&#39;re doing a lot of different problems that use the same primary formula, but that have different nuances that get included or omitted depending on the specific situation. So you&#39;ll see a lot of similarities from one problem to the next, but it&#39;s those little differences being able to figure out what you need in one that will make all the difference on the exam. So the head added by the pump is the static pressure difference P2-P1 over gamma plus the velocity difference P2 square minus V1 squared over 2G plus the height difference Z2 minus Z1 plus the losses. Now in this problem they said assume the losses are insignificant. So we&#39;re going to cross that out. And the velocity term, there is velocity at the outlet since it&#39;s moving and then the reservoir there&#39;s none. So we should theoretically include the velocity term, but it doesn&#39;t say anything about the size of the pipe. So we wouldn&#39;t actually be able to figure out what the velocity is at state two. So we&#39;re going to have to assume that that&#39;s in significant as well. And it usually is so this is a good chance that it&#39;s okay to do that. Now the difference in height is the sum of the static suction lift and the static discharge head. So it&#39;s that entire 35 feet. And P2-P1, P1 is that atmospheric pressure. So P2 is 10 psi G then P2-P1 is 10 psi. And if we want that and feet instead of psi we can multiply by 2.31 for water, feet per psi. So that&#39;s 23.1. H a then is the sum of those 2 23.1 and 35. So 58.1. And then coming back here for our BHP equation, it&#39;s going to be the 100 GPM times the 58.1 feet over 3960 and 0.85. And that gives us a breakhorse power of 1.73.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A pump transfer is 100GPM of water from an open reservoir at atmospheric pressure.<br><br><br><br>• The static suction lift is 5 feet.<br><br><br><br>• The static discharge head is 30 feet and the working pressure at the outlet is 10 PSIG.<br><br><br><br>• The pump efficiency is 85% and the motor efficiency is 80%.<br><br><br><br>• Assuming losses are insignificant, what size motor is required.<br><br><br><br>• So we got a few terms in here that might be a bit new.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46 · October 19 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 46</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And I think 24 was somewhat similar as well with a slight difference in terms of this problem was a little different if I recall. Oh, you did use the method in this one. And this was the first one where you kind of said, like, I think I got it. It is problem two ways got the 1.7. So you were good on that. But then what was the second bit about? Let me think. Let me think. I think you sense something was off. As you said, I got 1.37 using alternative way, but I&#39;m suspicious of this root. And that was the third one in a row that. Yeah, option two. So we like option one, but option two. That&#39;s so much. Yeah. That&#39;s probably fine. Probably fair. Trying to think about this some more. Give me just a second. Yeah, I guess I just my gut. My gut check was to just go straight for Delta P&#39;s. And I guess I was just thinking that that was the right way to solve these problems. But I&#39;m sure that these are. I know now that these are lacking that going straight for P2 minus P1 over Gaman trying to solve it that way doesn&#39;t represent all of it. Yeah. And I think the work that you&#39;ve done leading up to these problems where maybe there wasn&#39;t a pump and it was more like, you know, just comparing two </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 96</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So, let&#39;s do 24. Why don&#39;t you factor in the lift of BIFE into P1? So this one was a pump question as well. And we were pumping, I don&#39;t remember the whole question, but the situation was that we were pumping from a reservoir that was five feet below. So the difference between the center line of the pump. And the top of the reservoir was five feet. We call that the suction lift. Sort of like when we talked about net positive suction had available. Here we have negative had available because it has to lift it five feet. So there better be some other helpful factors in contributing to the suction head because we&#39;re already starting out in the negative. Maybe this thing is at the bottom of the water or maybe who knows. Anyway, the question is not really about that. The question, what was the question about? Why don&#39;t we factor in the lift? Oh, when finding the static pressure. So again, this ties back into the last problem. When we&#39;re finding the difference in elevation, we&#39;re going to look at where the pump where the pump is pumping from and to. So if this is going to some other reservoir, this is our two. This is our one and the elevation is simply Z2 minus Z1. But when it comes to </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 24 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
