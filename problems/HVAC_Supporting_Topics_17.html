@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Supporting Topics &middot; Problem 17</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 17</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 17</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 17</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return? 77
@@ -234,76 +224,33 @@ body {
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>7.8%</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>8.6%</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>9.4%</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>9.4% ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>10.3%</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the supporting topic area: electrical, economics, codes, measurement, or materials
-
-2. List all given information and identify what is being asked
-
-3. Select the appropriate formula or reference standard
-
-4. Perform the calculation step by step with careful unit tracking
-
-5. Arrive at the final answer and select the closest choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 17 from the Supporting Topics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return? 77
-
-The answer choices are:
-  A) 7.8%
-  B) 8.6%
-  C) 9.4%
-  D) 10.3%
-
-To solve this problem, apply the relevant engineering principles from the Supporting Topics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Engineering economics problems (present worth, annual cost) follow specific formulas — practice them<br><br>• Electrical fundamentals (single-phase and three-phase power) appear frequently<br><br>• Measurement and instrumentation questions test practical knowledge — read carefully<br><br>• Code and standard questions require familiarity with key reference documents
-      </div>
+      <div class="solution-box" id="sol-box">hat makes the present value zero. Draw a cash (cid:29)ow diagram or make a list of cash (cid:29)ows. There is an initial outlay of $100,000 in year zero (negative). In years 1-9 there is a return of $10,000 per year. In year 10, there is a return of the original $100,000 principle. Write an expressions for the present value and set it equal to zero. PV =−$100,000+$10,000(P/A,i,9)+$100,000(P/F,i,10)=0 Direct solutions are challenging when the interest rate is unknown. The fastest approach is to guess values for i in close proximity to the answer choices. It is also possible to try the answer choices by trial and error; however, since only certain integer percentages can be found in the Economic Factor Tables, this would require using the Economic Factor Conversions to derive the cash (cid:29)ow factors. This solution will describe the process without testing answer choices. Assume i=8%. PV =−$100,000+$10,000(6.2469)+$100,000(0.4632)=$8,789&gt;0 Sincethepresentvalueisgreater thanzero,theinterestratemustbehigher,therebydiscounting the future (positive) cash (cid:29)ows more and reducing the present value. Assume i=10%. 363 PV =−$100,000+$10,000(5.7590)+$100,000(0.3855)=−$3,860&lt;0 Since the present value is less than zero, the interest rate must be lower, thereby discounting the future (positive) cash (cid:29)ows less and increasing the present value. Looking at the answer choices, it is possible at this stage to eliminate choices A and D as they are outside the range of 8-10% which is now known to contain the interest rate that drives the present to zero. Furthermore, it is possible to infer that the interest rate will be closer to 10% than 8% since the resulting present value obtained for i=10% was closer to zero. If time allows, interpolate and solve for i. i[%] PV [$] 8 8,789 i 0 10 −3,860 i−8 0−8,789 = =0.695 10−8 −3,860−8,789 i−8=1.39 i=9.4%</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 17 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -311,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

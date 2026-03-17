@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 21</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 21</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 21</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 21</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An uninsulated 14in round duct painted with nonmetallic white paint has an average surface temperature of 150°F. The duct passes through a 20ft room which has an air temperature of 75°F and walls which have a surface temperature of 66°F. Considering both convection and radiation, what is the total combined heat transfer? Refer to the table below for properties of air. hr hr hr hr 45
+      An uninsulated 14in round duct painted with nonmetallic white paint has an average surface temperature of 150◦F. The duct passes through a 20ft room which has an air temperature of 75◦F and walls which have a surface temperature of 66◦F. Considering both convection and radiation, what is the total combined heat transfer? Refer to the table below for properties of air. hr hr hr hr 45
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,90 +225,45 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>2000Btu</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>5000Btu</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>7000Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>12,000Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>12,000Btu ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 21 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An uninsulated 14in round duct painted with nonmetallic white paint has an average surface temperature of 150°F. The duct passes through a 20ft room which has an air temperature of 75°F and walls which have a surface temperature of 66°F. Considering both convection and radiation, what is the total combined heat transfer? Refer to the table below for properties of air. hr hr hr hr 45
-
-The answer choices are:
-  A) 2000Btu
-  B) 5000Btu
-  C) 7000Btu
-  D) 12,000Btu
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">sum of the convection and radiation. To (cid:28)nd the convection for a Long Horizontal Cylinder in Large Body of Stationary Fluid, the convection heat transfer coe(cid:30)cient is: (cid:18) (cid:19) k h¯ =C Ran D D where C and n are constants, k is the thermal conductivity, D is the diameter, and Ra is the D Rayleigh Number, which can be calculated using: gβ(T −T )D3 Ra = s ∞ Pr D ν2 where g is acceleration due to gravity, β is the coe(cid:30)cient of thermal expansion for air, T is s the average surface temperature, T is the bulk (ambient) temperature, D is the diameter, ν is ∞ the kinematic viscosity, and Pr is the Prandtl number. Use the table given to select the values for properties of atmospheric air at the (cid:28)lm temperature and calculate Ra. T +T 150◦F +75◦F T = s ∞ = =112.5◦F film 2 2 266 (cid:16) 32.2ft (cid:17)(cid:0) 1.75×10−3 1 (cid:1) (150◦F −75◦F) (cid:0)14ft (cid:1)3 (.72) Ra = s2 ◦F 12 =1.34×108 D (cid:16) (cid:17)2 .19×10−3ft2 s Based on the range of Ra, constants C and n may be speci(cid:28)ed: 107 &lt;Ra&lt;1012 C =.125 n=.333 Calculate the convection heat transfer coe(cid:30)cient: h=(.125) (cid:32) .0157 hr· B f t t u ·◦F (cid:33) (cid:0) 1.34×108(cid:1).333 =.855 Btu 14ft hr·ft2·◦F 12 Determine the heat transfer by convection: Q˙ =hA∆T c (cid:18) (cid:19)(cid:18) (cid:18) (cid:19) (cid:19) Btu 14 Btu Q˙ = .855 π ft (20ft) (150◦F −75◦F)=4700 c hr·ft2·◦F 12 hr To (cid:28)nd the heat transfer by radiation i.e. Net Energy Exchange by Radiation Between Two Bodies, use equation: Q˙ =εσA (cid:0) T4−T4(cid:1) r 1 2 whereεistheemissivity,σistheStefan-Boltzmann</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 75</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 75 | February 19th, 2024 lesson: Lesson-53125203 lesson_pos: 5 chapter_pos: 62 content_id: 53125203 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 21. It seems this sentence is phrase differently for duck length. Reading the problem statement, I felt like the room length is 20 feet. Should we just consider this as a duck length whenever we have the same phrase sentence? I don't know exactly what the phrasing sentences are going to be on your exam, but yes, I intended in this problem. When I said to the room, the duck goes to a room that's 20 feet, I wanted you to take the duck length as 20 feet, so that was correct. Secondly</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19, 2024</div>
+      <div class="qa-transcript">He transferred 21. It seems this sentence is phrase differently for duck length. Reading the problem statement, I felt like the room length is 20 feet. Should we just consider this as a duck length whenever we have the same phrase sentence? I don&#x27;t know exactly what the phrasing sentences are going to be on your exam, but yes, I intended in this problem. When I said to the room, the duck goes to a room that&#x27;s 20 feet, I wanted you to take the duck length as 20 feet, so that was correct. Secondly, you got off track while calculating the temperature difference for both radiation and convection. For convection part, how can my bulk temperature is 75? I took film temp and solve for Q. Can you go over bulk and film temperature one more time to avoid confusion? For the radiation part, the duck would be generating some heat to the surroundings, so we don&#x27;t have to do T surroundings minus T wall. Let&#x27;s take those one at a time. What are the temperatures that were given in this problem? We had heat being lost from a duck to buy convection and radiation. The temperature, the ambient temperature in the room was given us 75 degrees. The temperature of the surroundings, the walls, actually said walls in the problem, was given us 66 degrees, so you can say that&#x27;s walls or surroundings. Now, a lot of times, these will be the same number in a typical problem statement. I&#x27;ll say the ambient space and surroundings were both 70 degrees. Like if I were to write a heat transfer problem about this room, I&#x27;m in right now. It&#x27;s an interior room in my house. I have the heat set to 70 degrees. The air is 70 degrees. My walls are not exterior walls because it&#x27;s inside, so they&#x27;re also 70 degrees if I were to touch them. But that&#x27;s not always necessarily the case. And convection is driven by the difference between the film temperature and the ambient air temperature because convection is mechanism where he goes from the surface of a material to the surrounding fluid in this case air. So the delta T between the film temperature and the ambient air is the delta T that drives that heat transfer. But the radiation is driven by the delta, it&#x27;s actually not the delta, it&#x27;s each temperature absolute temperature raised to the fourth and then that delta. But the temperatures that matter are the surface temperature of the material that&#x27;s giving up heat, which is in this case is the duct. And the surface temperature of the surroundings. So that&#x27;s like it&#x27;s not just the walls, it&#x27;s all of the materials that are surrounding. But it&#x27;s not the air. It&#x27;s the actual physical solids that are radiating heat back and forth between them. So the other temperature that we were given in this problem was the 150 degrees. That was temperature of the duct surface. So for the purposes of dealing with the convection, let me write that down. Convection. You were right to calculate the film temperature, which is the average. So it&#x27;s the average of what? The average surface temperature of the duct plus the ambient temperature a lot of times. That&#x27;ll be written this way. Over two. But even if you forget these subscripts and variables, don&#x27;t get too obsessed with that. Just remember that this is about convection. So it&#x27;s the difference between, so that&#x27;s why you&#x27;re using the film temperature in the first place. And the film temperature is the average between the surface temperature and the ambient temperature of the air. So if you just remember that idea, it would be okay. And that was 150 degrees plus 75 over two. So that was one 12.5. That&#x27;s your film temperature. And now when it comes to plugging that into your convection equation, it&#x27;s going to be the difference between a T film and the ambient air. That&#x27;s going to drive that. So that&#x27;s your delta T for convection. Now when it comes to dealing with the radiation, we need the actual surface temperature of the duct, which is 150. And we got to make that absolute. So we got to add and make it the rank and value. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 82</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 82 | June 10th, 2024 lesson: Lesson-56090532 lesson_pos: 5 chapter_pos: 69 content_id: 56090532 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And then last one's heat transfer 21, looking back at question 1019 and this problem, they seem very similar. I initially tried to answer this question in the same way, but realized we were given no velocity or CFM. So I couldn't find the Reynolds number. Why do we use the Reynolds number and then find the Newtsel number in 1019 and then use the really number for this question? My guess is that dedicated system implies force convection with question 19 while this question is a natural convection</div>
+      <div class="qa-session">OH 82 · June 10, 2024</div>
+      <div class="qa-transcript">And then last one&#x27;s heat transfer 21, looking back at question 1019 and this problem, they seem very similar. I initially tried to answer this question in the same way, but realized we were given no velocity or CFM. So I couldn&#x27;t find the Reynolds number. Why do we use the Reynolds number and then find the Newtsel number in 1019 and then use the really number for this question? My guess is that dedicated system implies force convection with question 19 while this question is a natural convection problem. Yeah, that&#x27;s exactly right. Are there any other cases or hints to tell which type of convection we&#x27;re dealing with? I would say ultimately it comes down to if there&#x27;s a velocity or not. So if it&#x27;s a standard HVC system with a fan and a dock then the air is moving then we&#x27;re going to be dealing with force convection there. And if it&#x27;s just an object that&#x27;s sitting in a room that the air is otherwise static then that&#x27;s going to be natural convection. I think that&#x27;s I see. So even if they say ductwork which implies it&#x27;s connected to some sort of fan or system but they don&#x27;t give information that allow us to deduce or calculate a velocity then we should go naturally by showing them. It depends on if we&#x27;re dealing with the internal heat transfer or external. So this problem I think was more about the external losses because it was like an uninsulated duct. Yeah, it was natural convection off of that uninsulated duct. And then I forget which was which now but one of them was more about the force convection. I think it was 19 in the one with a dedicated system. By the way, these couple of few problems at the end of the heat transfer section are some of the hardest problems in the program. Like if I had to very long. Yeah, if I had to kind of just retool and maybe adjust a few things that probably split these into two or three problems and simplify a bit. 19 is definitely one of the problems that I would work on. 21 and 22 are probably in the same conversation. So if those were a bit much, just take what you can. This is a good question though. I mean, I think the long short of it is velocity or no velocity that&#x27;s going to dictate force or natural. I guess the hard question asked. But like are there? So I just question requires so much values to look up in the table. And then to even like determine which formula to use. So like are they more inclined to give you values or it could be either or just kind of depends on what they want to do? It could be either or it probably isn&#x27;t both to be fair because it just becomes too much in one problem. So yeah, I think they&#x27;re probably more likely to give you values and you got to figure out what equation to use and apply it. That seems more likely to me than then doing all the lookups. Yeah, I like to keep a lot of lookups in the program because I want you to know what you can and can&#x27;t find if you went to look. Right. So that way you know right away if something&#x27;s not even worth looking for because you&#x27;ve like it&#x27;s just not in there. You know scrambling and try to figure that out on exam day. You&#x27;ve already kind of ripped the thing apart and found everything we&#x27;re finding. Or like at least for me now like I&#x27;m not looking up like epsilon like the roughness for example, like I already know most likely I&#x27;ll be still be doing points. It was able to do a little bit of a deal for like the plan with number doesn&#x27;t really change between 0.71 and 0.72. So yeah, I&#x27;m not necessarily going to look up those values. Yeah, that&#x27;s and that&#x27;s your experience starting to accumulate there because you&#x27;re already as you&#x27;re seeing those things you&#x27;re starting to have have an ink link and you&#x27;re looking out for like okay if the pipe isn&#x27;t steel I probably have to go look something up but if it&#x27;s Steve it&#x27;s a number I&#x27;ve seen a dozen times before and I just know what it is already. So like and that that exact experience that you&#x27;re having there is my same feeling about the question about Q dot equals m dot delta H. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 87</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 87 | September 2nd, 2024 lesson: Lesson-58386248 lesson_pos: 4 chapter_pos: 73 content_id: 58386248 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 21. This problem involves convection and radiation. For radiation, we consider the radiation between the duck work and the wall. Won't there be radiation between duct work and the surrounding air as well? Technically, yes, but we don't often consider that. The mode of heat transfer that dominates between a solid surface and a fluid, and when I say a fluid, I mean either a liquid or a gas, is convection. And the whole conduction convection radiation, convection is literally the stu</div>
+      <div class="qa-session">OH 87 · September 2, 2024</div>
+      <div class="qa-transcript">He transferred 21. This problem involves convection and radiation. For radiation, we consider the radiation between the duck work and the wall. Won&#x27;t there be radiation between duct work and the surrounding air as well? Technically, yes, but we don&#x27;t often consider that. The mode of heat transfer that dominates between a solid surface and a fluid, and when I say a fluid, I mean either a liquid or a gas, is convection. And the whole conduction convection radiation, convection is literally the study of heat transfer from solids to fluids, which can be liquids or gases. So that&#x27;s the big story. And that&#x27;s why in this problem, we&#x27;re considering convection and radiation because the duck is surrounded by a fluid that is air, and we know something about that air temperature, and we&#x27;re interested in quantifying what that heat transfer due to convection is. Separately from that, we&#x27;re in the business of quantifying the heat transfer by radiation as well. And that has to do with what&#x27;s happening over electromagnetic waves between two surfaces, two solids. And that would happen regardless of if it&#x27;s going through a vacuum or a fluid that happens through through fluids, anything of sufficiently low density. If there&#x27;s something of high density in between, then that starts to represent what a solid surface would be, which is to say like the sun is beating down on you. And that&#x27;s predominantly radiation hitting your skin and giving you a sunburn. And then you get under a shade or a tree or something. The thing that&#x27;s blocking the rays of radiation is another solid if you were to just put a fluid medium or a gas or a vapor in between. You already have that in a way you have lots and lots of air. That&#x27;s not doing a whole lot to block the radiation. It&#x27;s not, I guess. So the more technical answer to the question now that I&#x27;m thinking about it is when we study radiation, we talk about there&#x27;s the, I&#x27;m gonna go a little bit out of my depth here. There&#x27;s transmissibility is one of the three things. So whenever rays strike a surface, they can either be absorbed, reflected or transmitted. So in the case of radiation between two surfaces like a duct and the walls or the other surfaces in the room, we&#x27;re probably talking about the rays being absorbed, like simulating a black body. Unless we&#x27;ve been told some other emissivity. But for a fluid, the rays would be predominantly transmitted. Even on a cloudy day, you can get a sunburn, right? Because now you have something that&#x27;s a little bit more dense than air, you have a lot of vapor in the form of clouds. And that does reduce the UV index, but it doesn&#x27;t eliminate it entirely. The sun can still be very strong, even if you don&#x27;t genuinely feel hot, you can get a sunburn. So that&#x27;s why we neglect the radiation from the outer surfaces of the duct to the air, the surrounding air. If we did take the time and energy to quantify that, if there even was a method, I don&#x27;t know of one, it would be negligible compared to the radiation to the surfaces. Even if their temperatures aren&#x27;t dramatically different, the radiation is still gonna be the overwhelming big story there. And then of course, convection between the solid and the fluid is potentially quite significant. So that&#x27;s what this problem is all about, it&#x27;s putting the convection and the radiation together, but we don&#x27;t need to worry about radiation from a solid to a fluid. Interesting question. Heat transfer 22, can you take the total external heat transfer to be equal to 1.08 CFM delta T, where delta T is Tx at minus T-annering, instead of finding the bulk temperature and then the exit temperature, since in both approaches, we&#x27;re assuming external heat transfer is equal to internal heat transfer. Yeah, I actually, you&#x27;re not the first one to ask that. And there may be some validity to that. It will give you a different answer because the approach used was quite different. I think the short answer is that this is probably the one problem in the program. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 21 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 21 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

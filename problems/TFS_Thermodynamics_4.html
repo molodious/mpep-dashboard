@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Thermodynamics &middot; Problem 4</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 4</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 4</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 4</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Atmospheric air at 77°F undergoes isentropic compression to 100psia and 470°F. How much work is done to the system during the process? lb lb lb lb 14
+      Atmospheric air at 77◦F undergoes isentropic compression to 100psia and 470◦F. How much work is done to the system during the process? lb lb lb lb 14
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>0.5Btu</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>70Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>70Btu ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>90Btu</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>50,000Btu</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the thermodynamic system, state, and process described in the problem
-
-2. List all given information including temperatures, pressures, and working fluid properties
-
-3. Determine the appropriate thermodynamic property tables or equations to use (steam tables, ideal gas law, etc.)
-
-4. Apply the relevant energy equation (First Law, specific heat relations, or property lookups)
-
-5. Solve for the unknown quantity, paying careful attention to units (Btu, lbm, °F, psia)
-
-6. Verify the answer is reasonable and select the closest answer choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 4 from the Thermodynamics module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: Atmospheric air at 77°F undergoes isentropic compression to 100psia and 470°F. How much work is done to the system during the process? lb lb lb lb 14
-
-The answer choices are:
-  A) 0.5Btu
-  B) 70Btu
-  C) 90Btu
-  D) 50,000Btu
-
-To solve this problem, apply the relevant engineering principles from the Thermodynamics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video walks through the thermodynamic property lookups required for this problem<br><br>• Key reference tables and their proper use are demonstrated<br><br>• Unit conversions are handled carefully throughout the calculation<br><br>• The conceptual basis behind the approach is explained before diving into math<br><br>• Common errors and pitfalls for this type of problem are highlighted
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Always identify the thermodynamic state (subcooled, saturated, superheated) before looking up properties<br><br>• Track units meticulously — mixing Btu/lbm with Btu or psia with psig is a common exam trap<br><br>• Know when to use steam tables vs. ideal gas equations; the problem conditions will tell you<br><br>• Practice reading reference tables quickly — speed with table lookups saves significant exam time
-      </div>
+      <div class="solution-box" id="sol-box">tleast)twoformulasthatmaybeusedto(cid:28)ndtheworkdone from one state to another, which can be shown to be equivalent: P v −P v w = 2 2 1 1 1−k R(T −T ) w = 2 1 1−k Using the ideal gas law and solving for speci(cid:28)c volume: RT PV =mRT →Pv =RT →v = P Substitute for speci(cid:28)c volume in the (cid:28)rst formula and cancel pressure: (cid:16) (cid:17) (cid:16) (cid:17) w = P 2 R P T 2 2 −P 1 R P T 1 1 = R(T 2 −T 1 ) 1−k 1−k For convenience, use the second equation which is a function of temperature only: (cid:16) (cid:17) w = R(T 2 −T 1 ) = 53.35 l f b t m ·l · b R f [470◦F −77◦F] = −52,416f l t b · m lbf =−67 Btu 1−k 1−1.4 778ft·lbf lb m Btu NormallyitwouldberequiredtochangeFarenheittoRankine;however,sinceitisatemperature di(cid:27)erence, the delta is unchanged. Note the unit conversion from ft·lb to Btu. f Finally, note the negative sign of the answer which aligns with the question’s implication that work is being done to the system. A positive value would be expected if work were being done by the system. Answer B 149</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 85</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 85 | July 22nd, 2024 lesson: Lesson-57351295 lesson_pos: 0 chapter_pos: 71 content_id: 57351295 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> The first one's from TFS Thermal 4. How can we know if it's a closed system or an open system? The work equation is different in each. This one was about, I see, drop at compression of air. And the intent of the question was to assume that it was a closed system. That wasn't explicitly stated. There was no information though about any mass transfer or volume flow rate or anything like that. There wasn't any statement about it being reversible. An isentropic process that's for an open system woul</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 85 · July 22, 2024</div>
+      <div class="qa-transcript">The first one&#x27;s from TFS Thermal 4. How can we know if it&#x27;s a closed system or an open system? The work equation is different in each. This one was about, I see, drop at compression of air. And the intent of the question was to assume that it was a closed system. That wasn&#x27;t explicitly stated. There was no information though about any mass transfer or volume flow rate or anything like that. There wasn&#x27;t any statement about it being reversible. An isentropic process that&#x27;s for an open system would usually be called reversible. And the other thing that I&#x27;ll mention is, you may be thinking, OK, well, but it&#x27;s probably a compressor. So there&#x27;s got to be some mass flow rate going in and out of this thing. But remember that you get to draw the system boundary around whatever components you like. So you could draw it around the compressor and the supporting piping distribution or tubing or whatever the case may be. So there&#x27;s enough there. It&#x27;s not about explicitly stating it. I could just state in the problem statement that it&#x27;s a closed system. But it&#x27;s about the absence of details that would probably be included if it was an open system that kind of tips the scales in that direction. But you&#x27;re right. It is a little bit ambiguous. So probably better to just state it outright. But hopefully didn&#x27;t three to far off track. And yeah. So closed system for that one.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 4 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 4 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,122 +206,76 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 21</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 21</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 21</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 21</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A viscous liquid with a specic gravity of 1.1 is pumped with a volume ow rate of 100gpm. The suction pressure measured at the inlet of the pump is 5psi of vacuum. The discharge pressure mea- sured 3ft above the pump outlet is 10psig. The diameter of the piping reduces from 4in on the suction side to 2in on the discharge side. The pump has a mechanical eciency of 80%. What is the input power to the pump?
+      A viscous liquid with a speci(cid:28)c gravity of 1.1 is pumped with a volume (cid:29)ow rate of 100gpm. The suction pressure measured at the inlet of the pump is 5psi of vacuum. The discharge pressure mea- sured 3ft above the pump outlet is 10psig. The diameter of the piping reduces from 4in on the suction side to 2in on the discharge side. The pump has a mechanical e(cid:30)ciency of 80%. What is the input power to the pump?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>3/4hp</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>1hp</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>11/4hp</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>11/4hp ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>11/2hp</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 21 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A viscous liquid with a specic gravity of 1.1 is pumped with a volume ow rate of 100gpm. The suction pressure measured at the inlet of the pump is 5psi of vacuum. The discharge pressure mea- sured 3ft above the pump outlet is 10psig. The diameter of the piping reduces from 4in on the suction side to 2in on the discharge side. The pump has a mechanical eciency of 80%. What is the input power to the pump?
-
-The answer choices are:
-  A) 3/4hp
-  B) 1hp
-  C) 11/4hp
-  D) 11/2hp
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">oncanbeappliedforpumpingapplicationssuch as this. A term is added to the original Bernoulli Equation, h , to re(cid:29)ect the head pressure added A by the pump. Isolate h and collect like terms. A P v2 P v2 1 + 1 +z = 2 + 2 +z +h +h γ 2g 1 γ 2g 2 f A P −P v2−v2 h = 2 1 + 2 1 +z −z +h A γ 2g 2 1 f First consider the di(cid:27)erence in static pressure. The suction pressure measured at the pump inlet is 5psi of vacuum. A vacuum pressure is implied to be gauge pressure as it is not possible to pull a vacuum more than atmospheric pressure. The discharge pressure is 10psig. Ignore the 3ft elevation for the time being; this will be accounted for when analyzing the ∆z term. Note the speci(cid:28)c weight of the viscous liquid is 1.1 times the speci(cid:28)c weight of water. See speci(cid:28)c gravity, sg, in the reference handbook. Convert square inches to square feet to ultimately obtain units of ft (of viscous liquid). (cid:16) (cid:17) (10psi−(−5psi)) 144in2 P 2 −P 1 = 1ft2 =31.47ft (cid:16) (cid:17) γ 62.4lbf (1.1) ft3 Althoughthevelocitytermisoftenignored,inthiscasethedischargepipingdiameterisreduced with respect to the suction side piping; therefore the velocity will increase for a given volume (cid:29)ow rate. To be safe, include the velocity term in the solution. Use the steel pipe friction tables to obtain the actual diameter and velocity where possible. D =4in(nominal) 1 Q =100gpm 1 ft v =2.52 1 s 208 Since the table in the reference handbook stops at 50gpm for a nominal 2in diameter pipe, the velocitymustbecalculatedusingQ=vA. Aruleoft</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">6 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 16</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 16 | June 18, 2021 lesson: Lesson-25478291 lesson_pos: 2 chapter_pos: 3 content_id: 25478291 wistia_id: u0</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 21, I'm still confused on how to deal with fluids other than water with the breakhorse power wheel of thumb formula. Should I calculate the delta H or delta P as if the fluid is water to prevent double counting at the end? Yeah, so this is directly related to the problem we just looked at. I worked out fluids 21, calculating the delta H as water and as the actual fluid and was closer to the answer using the latter. No, I took a different approach to solving the problems than your posted s</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18, 2021</div>
+      <div class="qa-transcript">Fluids 21, I&#x27;m still confused on how to deal with fluids other than water with the breakhorse power wheel of thumb formula. Should I calculate the delta H or delta P as if the fluid is water to prevent double counting at the end? Yeah, so this is directly related to the problem we just looked at. I worked out fluids 21, calculating the delta H as water and as the actual fluid and was closer to the answer using the latter. No, I took a different approach to solving the problems than your posted solution by calculating discharge pressure. That&#x27;s fine. I also understand that one PSI equals 2.3 one feet of water is baked into the 3960, so I would assume you want to treat the delta H as water and only correct at the end thoughts. Yeah, great question really well phrased and right on the money in terms of what we&#x27;re trying to get to the bottom of here. So stepping back a little bit from the analysis from the last problem, the water horsepower equation, these equations are really the same thing and they come up often and I think they trick people up, but they really shouldn&#x27;t. So you can either think about hydrochlorous power as q delta P over 1714 or you can think about it as q delta H over 3960. And just as this candidate pointed out rightly, that&#x27;s because the only difference between 1714 and 3960 is a factor of 2.31 which is the height of a column of water. If you have a 2.31 foot water column, that&#x27;s going to create one PSI of pressure. So if you have the delta P, the pressure developed by a pump in PSI, then you would just use this equation. And if instead, you want to think of that as the head developed by that pump, the pressure is going to be 2.31 times that delta P, so we adjust the constant in the denominator accordingly. So then the question becomes, why did the SG term tend to get included in this flavor of the formula and not in the first one? Well, the answer is that if you have pressure and PSI, pressure is pressure, how you got there, right? It doesn&#x27;t matter if it&#x27;s 10 feet of a column of water or 8.6 feet of a column of oil, whose specific gravity is 0.86, right? Or maybe you have mercury, then you have a very small column or maybe you have, you know, any fluid with different specific gravity is we can figure out the corresponding heights such that different fluids with different column heights will end up having the same pressure. Then once we have that pressure, we&#x27;re going to use this formula and that&#x27;s going to be an, you know, absolute confidence that that&#x27;s the right answer. But for convenience, a lot of times when we&#x27;re dealing with pumps, we don&#x27;t talk about the pressure added by a pump, we talk about the head added by a pump. The reason we do that is because a lot of times you have a column of water and you&#x27;re pumping water up through a building and there&#x27;s however many floors, so we want to deal with that belt is z. Let&#x27;s go back to thinking about the Bernoulli equation for a minute, if you have something like HA equals, I won&#x27;t do it as a delta, I&#x27;ll just do as if it&#x27;s one. So you have a static pressure and then a velocity pressure, be squared over to G and then you have a height and that height can be a significant part of the story and it&#x27;s measured in feet, so then we kind of say, I&#x27;ll this should be divided by specific way. So we kind of say like, all right, let&#x27;s just do all these in feet and then add them together. Great, we can totally do that and then we&#x27;ll use the 3964 mil instead. The only trouble there is its feet of a fluid that isn&#x27;t water, so the specific gravity gets included to adjust for the fact that that fluid may be more or less dense than water, it has a specific weight that&#x27;s higher or lower than that of water. And I think where the trouble came from the previous problem was that the pressure, the static pressure or the gauge pressure on either side of the pump was given in psi. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 32</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 32 | March 7, 2022 lesson: Lesson-33560234 lesson_pos: 4 chapter_pos: 19 content_id: 33560234 wistia_id: n</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, fluids 21. Curious if you gave any more thought about the double counting of specific gravity. I think I alluded to that in the video solution for this problem. I don't think you're double counting because using it in the modified Bernoulli equation puts feet of head in terms of the viscous liquid and using it in the WHP formula corrects the factor of 1 over 3960, which is derived from water. Yeah, I totally agree that has come up before, probably because I express some uncertainty in the </div>
+      <div class="qa-session">OH 32 · March 7, 2022</div>
+      <div class="qa-transcript">Okay, fluids 21. Curious if you gave any more thought about the double counting of specific gravity. I think I alluded to that in the video solution for this problem. I don&#x27;t think you&#x27;re double counting because using it in the modified Bernoulli equation puts feet of head in terms of the viscous liquid and using it in the WHP formula corrects the factor of 1 over 3960, which is derived from water. Yeah, I totally agree that has come up before, probably because I express some uncertainty in the video solution. So I think everyone was taking a close look for issues in that problem, which I appreciate. I did take a swing back through it and look at both the video and the written solution and I think it&#x27;s okay. For the exact reason that you gave, I think it kind of corrects itself out. And I think you have the right reasoning there for why it does that. So yeah, and it really ties back to what we said. It kind of related to the question and I believe it&#x27;s the same person who asked the question about the water horsepower formula. We have this version of the WHP formula, which we normally use for water only. Q delta H over 3960. But if you just add that specific gravity term in there, all of a sudden it becomes universal. So if you have a fluid that&#x27;s not water and it&#x27;s more or less viscous, it has some specific gravity and might be slightly less than water. It might be slightly more. That&#x27;s fine. We just take the height of that column of whatever it is. And multiply by this specific gravity and that finds the corresponding height if it was a column of water. And then we&#x27;re okay to use this formula. Another question on the same problem. The question notes the outlet pressure as 10ps IG and the inlet as vacuum pressure of 5psi. How can it be assumed that the vacuum 5psi is gauge and not an absolute pressure? Is vacuum always engaged? I would have assumed the vacuum pressure was a PSI A term. Great question. And this points to a fundamental fact about pressure, which is that there is no such thing as negative pressure. So whenever we talk about vacuum pressure, we say what is vacuum pressure, vacuum pressure is negative pressure. We can&#x27;t have negative pressure. So what does that mean? It&#x27;s negative with respect to atmospheric pressure. So you can have an infinitely large pressure. But the minimum pressure that you can have on an absolute scale is zero. But the pressure of the atmosphere that we&#x27;ve grown quite accustomed to, living on Earth, probably somewhere near sea level, is 14.7 PSI A. And a no pressure environment, a zero pressure environment, like deep space, would be zero PSI A. But sometimes it&#x27;s convenient to reference atmospheric pressure as though it was the floor, as though it was the ultimate reference point. So that&#x27;s why we might say that atmospheric pressure, 14.7 PSI A, is the same as zero PSI G. So all you&#x27;ve got to do to get from gauge pressure to absolute pressure is just add atmospheric pressure, add 14.7 in your there. So if we encounter situation where we have PSI G, we know what to do with that. If it&#x27;s 10 PSI G, we know we&#x27;re just going to add 14.7. It&#x27;s 24.7 PSI A. But what happens when it&#x27;s vacuum pressure? If it&#x27;s vacuum pressure, of 5 PSI, it&#x27;s minus 5 PSI G. So we can add 14.7 to that. And we&#x27;re going to get 9.7 PSI A. Because it must be greater than zero PSI A. There&#x27;s no such thing as negative absolute pressure.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 77</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 77 | March 18th, 2024 lesson: Lesson-53973195 lesson_pos: 4 chapter_pos: 64 content_id: 53973195 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Loads 21. I'm still a bit confused on Flutes 21 when calculating the Delta P term in the Bernoulli equation. If you take out the specific gravity term of 1.1 from the denominator, your Delta P term gets larger. This makes sense because water is less dense than the fluid with specific gravity 1.1. The video mentions the term getting smaller. When I calculate this with the specific gravity removed, I get the H of pump to be 34.6 feet of water, and the Delta Z term in the Bernoulli equation is stil</div>
+      <div class="qa-session">OH 77 · March 18, 2024</div>
+      <div class="qa-transcript">Loads 21. I&#x27;m still a bit confused on Flutes 21 when calculating the Delta P term in the Bernoulli equation. If you take out the specific gravity term of 1.1 from the denominator, your Delta P term gets larger. This makes sense because water is less dense than the fluid with specific gravity 1.1. The video mentions the term getting smaller. When I calculate this with the specific gravity removed, I get the H of pump to be 34.6 feet of water, and the Delta Z term in the Bernoulli equation is still in feet of the fluid, so you would need to multiply by 3 feet, multiply 3 feet by 1.1 to get 3.3 feet of water. I get a BHP greater than 1.4 horsepower. Yes, everything you said is exactly right. This was a piping problem and we had to figure out the, we&#x27;d basically size the pump and figure out what the breakhorse power or the pump needs to be. Everything you said is exactly right. Perfect explanation. I have a clarification right underneath the solution video to the same effect of what you just laid out. In the video, I make that statement that term would get smaller, where did you say that? The video mentions the term getting smaller. I say that in the video, which is not true. You&#x27;re right. That term gets larger. So the answer choice C that was circled in the video, 1.104 horsepower, it actually has to be larger to your point. It&#x27;s going to be between 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1 and 1. So you absolutely right. Answer choice D is best. I&#x27;m not sure if you&#x27;re using the solution video or the written solutions, but either way you should see answer choice D with that clarification. So if you&#x27;re just watching the video and didn&#x27;t look at the paragraph below, then you would have missed that. So I&#x27;m glad you cleared up.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 83</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 83 | June 24th, 2024 lesson: Lesson-56197732 lesson_pos: 1 chapter_pos: 70 content_id: 56197732 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 21. Good old problem 21. I've watched all the archive submittals I agree with Office hours 32. You are not wrong by double counting specific gravity. Followed really equation as it's written and followed the BHP formula as it's written. Thank you for going back and watching the old Office hours I appreciate it. My concern involves the assumption that the pipe is steel. I use the diameter as given because the problem never states the type of material. I feel if they want you to use the rea</div>
+      <div class="qa-session">OH 83 · June 24, 2024</div>
+      <div class="qa-transcript">Fluids 21. Good old problem 21. I&#x27;ve watched all the archive submittals I agree with Office hours 32. You are not wrong by double counting specific gravity. Followed really equation as it&#x27;s written and followed the BHP formula as it&#x27;s written. Thank you for going back and watching the old Office hours I appreciate it. My concern involves the assumption that the pipe is steel. I use the diameter as given because the problem never states the type of material. I feel if they want you to use the real diameter. They always provide the material in the problem. You go to the appropriate table and everything is gravy. You assume steel, but schedule 40 and 80 are in the reference handbook as well as tables for copper. Maybe it&#x27;s not a big deal in the end. You tell me how I read the answer choices are so close I feel it could make a difference. Yeah, I agree with you actually. I think I probably did make an assumption or maybe was a little bit unclear in the problem statement and should have said that the material is schedule 40 steel and not just assume that based on the diameter that was given and said okay well it&#x27;s probably a steel pipe. I&#x27;ve probably fallen prey to just doing so many of these problems that are about water flowing in a steel pipe and it&#x27;s usually schedule 40 standard weight steel. So that&#x27;s kind of become automatic for me but you&#x27;re right. It&#x27;s not necessarily something that you can assume. So I think you&#x27;re right to question it and in terms of whether it&#x27;s a big deal I can&#x27;t say for sure but I will say a clue is that the bigger the pipe the less the big deal it is because the nominal diameter and the actual diameter are very close as a percentage of the internal diameter of the internal area. So you know an 8 inch pipe is going to be 7.9 something. It&#x27;s not really going to change your answer that much but when you have a smaller pipe like you know under 2 inches you got an inch and a half inch and a quarter something like that. The difference between the nominal and the actual could actually be a significant percentage and then that gets squared because you&#x27;re going from a diameter to an area and that&#x27;s being used to calculate the velocity. So I would definitely be more cautious for a smaller pipe. I wouldn&#x27;t worry about it too much for a larger pipe and hopefully this one was just a little bit poorly phrased and you won&#x27;t encounter that kind of ambiguity on the exam.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 96</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 96 | January 22nd, 2025 lesson: Lesson-62286827 lesson_pos: 5 chapter_pos: 81 content_id: 62286827 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 21. Why don't you apply the specific gravity correction to the three-fee elevation like you did in Fluids 14? And this problem you factor in the specific gravity and the pressure differential, but not the height and vice versa in 14. I may be missing something but can you clarify? Yeah, now this is a good question and you're not missing something. There's a clarification right below the video and this one and make sure that you read that. I double counted the height in this problem. I cou</div>
+      <div class="qa-session">OH 96 · January 22, 2025</div>
+      <div class="qa-transcript">Fluids 21. Why don&#x27;t you apply the specific gravity correction to the three-fee elevation like you did in Fluids 14? And this problem you factor in the specific gravity and the pressure differential, but not the height and vice versa in 14. I may be missing something but can you clarify? Yeah, now this is a good question and you&#x27;re not missing something. There&#x27;s a clarification right below the video and this one and make sure that you read that. I double counted the height in this problem. I counted it in the pressure term and then I counted it again in the water horsepower. So, let me just explain what I mean. So, in the water horsepower equation, we say that the volume flow rate Q times the delta H times if applicable if it&#x27;s not water, we have to throw the specific gravity term in there over 3960. So, what I should have done is I should have ignored because delta H is the same as H A right? Head at about the pump. And we use the Bernoulli equation or a flavor of the Bernoulli equation to find that. So, P2 minus P1 over gamma plus B2 squared minus V1 squared over 2G plus Z2 minus Z1 and any losses if there are any losses applicable although they weren&#x27;t in this problem. And what we want to do is not include the specific gravity anywhere in the Bernoulli equation when we&#x27;re finding the head out by the pump and then include it once at the end. That&#x27;s what I should have done in the problem. But I didn&#x27;t. I included it here as well in the pressure term. And if I was going to include it in the pressure term, then I should also include it in the velocity term and the height term, the elevation term and then not include it in the final result. So, it&#x27;s all or nothing. I should either do everything here and nothing there or everything in the head equation and nothing in the water horse power equation. And I didn&#x27;t do that. I mixed and matched, which is a very common mistake. So, don&#x27;t do what I did. Just pick where you&#x27;re going to include it and you&#x27;ll get the right answer. So, again, I don&#x27;t know if that video is a clarification explaining this and that&#x27;ll make sense. And then as far as comparing it to the other problem. Again, the other problem isn&#x27;t wrong the way it is. It&#x27;s just that the other problem is consistent. So, and the other problem I committed to a direction. Maybe I don&#x27;t even remember what I did, but maybe I included the specific gravity when finding the head out by the pump. And then I didn&#x27;t need to do it at this level or maybe I excluded it when finding the head out by the pump. And then I took it into consideration when I found the water horse power. So, you want to count for it once, not twice and not zero times. You want to count for it exactly once. And that&#x27;s the way to get it right.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111 · January 5, 2026</div>
+      <div class="qa-transcript">All right, this one is admittedly messy on my own. So I&#x27;m gonna dive in, but I&#x27;ll ask Justin to kind of chime in and help me and anyone else too. Before I read the question, there&#x27;s a problem which has a correction published on an solution video. And this question is now causing me to reconsider the correction and think that maybe the original solution might be right or some other new separate correction might need might be appropriate. So TBD on the answer and we might not get there tonight, but let&#x27;s talk about it anyway in the spirit of getting messy. Fluids 21, why isn&#x27;t necessary to apply the specific gravity factor to the static pressure difference 15 psi considering this is measured in PSI, didn&#x27;t you directly convert feet to H2O, feet of H2O with the 2.3 conversion factor, then to avoid double counting, you should not multiply it by specific gravity in the numerator of the BHP equation as it&#x27;s already in feet of H2O. If worked this way, you get 1.24 horsepower answers C, applying the same logic to a different question, I get the same result when I read the PSI equation as compared to when using the head equation, I can, I can follow the photos. Okay, so this was my solution from the solution video and it&#x27;s actually a pretty similar case to what we were just sketching out. We&#x27;ve got a gauge on one side, we go up some elevation and we have another gauge up high and we&#x27;re interested in finding the break horsepower which is not the interesting part of the problem because really we&#x27;re just going to find the water horsepower and divide by the pump efficiency so we can think of the main thrust of the problem as being finding the water horsepower and we do that in three pieces, we do it in terms of the static pressure and then we deal with the elevation term here. So static elevation and velocity and I think we did include velocity and in the solution I included 1.1 for the specific gravity in the static pressure calculation which is questionable. I&#x27;m not going to say that&#x27;s right or wrong just yet. I also included the specific gravity 1.1 in the final PHP calculation which seems like it would be appropriate so I&#x27;m not eager to walk that back. But the problem is the potential for double counting or under counting or canceling some of these effects like do we have the right specific gravity in the right places and not in the wrong places? That&#x27;s what we&#x27;re exploring. So what&#x27;s going on here? We got the gauge this is fuel oil. This is not water so it has a specific gravity of oh it says it&#x27;s a viscous liquid. It&#x27;s just a gravity of 1.1. So it wouldn&#x27;t be fuel oil. That would have a specific gravity less than 1. So it&#x27;s something that&#x27;s more dense than water. Specific gravity 1.1 fine and and there is some elevation change. So when we deal with the static pressure I get that in PSI. I could stop right there and just do this problem in PSI. But I want to get everything in feet because I&#x27;m planning on using the head version so that I can add these things all up in feet and the my plan is at the very end. I&#x27;m going to get the head out of by the pump in feet and then plow that into this equation multiply that by the specific gravity once and for all at the end and that you know happy days that&#x27;s going to work right? That&#x27;s what I&#x27;m thinking at that point. But if that&#x27;s what I&#x27;m going to do and by the way why why should we need to include the specific gravity in this formula at the end? Like why is this in here? The reason is because this formula is designed to be used with water. The 3960 has baked into it a 2.31 conversion factor. So if you&#x27;re going to use it for water then specific gravity is 1 and this thing just becomes q delta h over 30960. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 21 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 21 · 6 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +283,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

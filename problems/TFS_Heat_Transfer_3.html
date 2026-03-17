@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,97 +206,51 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 3</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 3</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 3</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 3</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An uninsulated 8inch chilled water pipe carries 55°F chilled water through a factory maintained at 80°F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr 22
+      An uninsulated 8inch chilled water pipe carries 55◦F chilled water through a factory maintained at 80◦F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr 22
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>3,500Btu</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>4,000Btu</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>40,000Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>40,000Btu ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>120,000Btu</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 3 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: An uninsulated 8inch chilled water pipe carries 55°F chilled water through a factory maintained at 80°F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr 22
-
-The answer choices are:
-  A) 3,500Btu
-  B) 4,000Btu
-  C) 40,000Btu
-  D) 120,000Btu
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">riction factor is it appropriate to use the Darcy Equation, which is fairly accurate over a wide range of turbulent and laminar (cid:29)ow situations. However, if the (cid:29)owisdeterminedtobelaminar,itmaybemoreconvenienttousetheequationwheref isspeci(cid:28)ed 222 directly as a function of the Reynolds number. This formula is shown on the Moody Diagram as f = 64 where Re&lt;2000. Re For open channel (cid:29)ow, (cid:28)nd the Hydraulic Diameter, using the formula. 4A (4)(6in)(2in) 48in2 (cid:18) 1ft (cid:19) D = = = =4.8in =0.4ft h P [(2)(2in)+6in] 10in 12in wetted Find the velocity of the water (cid:29)ow by using the volume (cid:29)ow rate and the cross-sectional area of the (cid:29)ow. (cid:16) 2gallons (cid:17)(cid:0)1min(cid:1)(cid:16) 1ft3 (cid:17) Q min 60sec 7.48gallons ft Q=vA→v = = =0.0535 (cid:16) (cid:17) A [(6in)(2in)] 1ft2 sec 144in2 Lookup the kinematic viscosity @60◦F by searching Properties of Water. ft2 ν =1.217×10−5 sec Calculate the Reynolds Number and conclude the (cid:29)ow is laminar. (cid:16) (cid:17) .0535ft (.4ft) vD sec Re= = =1758&lt;2000(laminar) (cid:16) (cid:17) ν 1.217×10−5ft2 sec Calculate the friction factor for laminar (cid:29)ow. 64 64 f = = =0.036 Re 1758 Answer C</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 3 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 3 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

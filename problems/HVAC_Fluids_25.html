@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 25</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 25</span>
+  <span class="nav-badge">⭐ 8 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">8 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 25</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 25</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A 40gpm cold water booster pump is located 15ft below the top of a storage tank held at atmospheric pressure from which water is supplied. The suction piping is made up of 50ft equivalent length of 2in schedule 40 steel. The stored water is never warmer than 60°F. What is the net positive suction head available? 30
+      A 40gpm cold water booster pump is located 15ft below the top of a storage tank held at atmospheric pressure from which water is supplied. The suction piping is made up of 50ft equivalent length of 2in schedule 40 steel. The stored water is never warmer than 60◦F. What is the net positive suction head available? 30
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,102 +225,65 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>0ft</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>16ft</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>28ft</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>46ft</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>46ft ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 25 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A 40gpm cold water booster pump is located 15ft below the top of a storage tank held at atmospheric pressure from which water is supplied. The suction piping is made up of 50ft equivalent length of 2in schedule 40 steel. The stored water is never warmer than 60°F. What is the net positive suction head available? 30
-
-The answer choices are:
-  A) 0ft
-  B) 16ft
-  C) 28ft
-  D) 46ft
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">ead available in the Reference Handbook and stating the formula: NPSH =h +h −h −h A p z vpa f where h is the atmospheric pressure at the source reservoir surface, h is the height of the p z (cid:29)uid column on the suction inlet, h is the vapor pressure at the temperature of the (cid:29)uid, and vpa h is the friction loss from the (cid:29)uid source to the pump inlet. Note this formula is best suited for f design purposes. After a system is installed and (cid:28)tted with gauges and sensors, it may be suitable to use the existing conditions formula instead. In this case, there is no known pressure gauge on thesuctionside, thereforethebestformulaistheoneselected. Forconsistency, alltermsshouldbe converted to units of ft. Convert h to units of ft using the rule of thumb conversion factor for water 2.31ft. p psi (cid:18) (cid:19) ft h =14.7psi 2.31 =33.96ft p psi Sincethepumpislocatedbelowthetopofthestoragetank,h hasapositivevalue. Thecolumn z of (cid:29)uid exerts pressure on the pump inlet. Note that if the pump were placed above the source, this term would be subtracted. h =15ft z Look up the saturation pressure of water at 60◦F by searching properties of saturated water and using the steam table organized by temperature. The vapor pressure reduces the NPSH , A thus is it subtracted in the formula. Convert units from psi to ft: (cid:18) (cid:19) ft h =.26psi 2.31 =.6ft vpa@T=60◦F psi For the losses, write the Darcy Equation, (cid:28)nd the kinematic viscosity by looking up Properties ofWater,(cid:28)ndthediameterandvelocityintheSteelPipeFrictionTables,anddeterminethefriction factorfromtheMoodyDiagram. Theequivalentlengthofpipingfromthesourcetothepum</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">8 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 21</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 21 | September 10, 2021 lesson: Lesson-27921755 lesson_pos: 1 chapter_pos: 8 content_id: 27921755 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 25 and this one's connected. We actually got two similar questions. I think we've covered this question before on office hours, but we're going to go into it again today It connects to fluids 25. It also connects to systems 25 And I'll read both questions and then we'll talk about it So is it okay to use the equation circled in the pick attached for this problem? That's this guy here on PSHA and this is for This is I'm going to refer to this as the design version of the NPSHA formula It d</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 21 · September 10, 2021</div>
+      <div class="qa-transcript">Fluids 25 and this one&#x27;s connected. We actually got two similar questions. I think we&#x27;ve covered this question before on office hours, but we&#x27;re going to go into it again today It connects to fluids 25. It also connects to systems 25 And I&#x27;ll read both questions and then we&#x27;ll talk about it So is it okay to use the equation circled in the pick attached for this problem? That&#x27;s this guy here on PSHA and this is for This is I&#x27;m going to refer to this as the design version of the NPSHA formula It differs slightly from the one you used. Yeah, it does differ from the one I used in the video But seems to lead to the same answer. It&#x27;s it is ultimately the same thing. So yes, is the short answer to your question This is from the manual is there any situation where this equation does not work I think the second part of your question is referring to this other equation in the manual Which is still MPSHA and it&#x27;s different and your question is I think what you&#x27;re driving at is can we use this other one? Are they the same when do we use which one? So hold that thought and the second question is more directly asking about very thing How do you know when to use MPSHA with the losses term which is the design version versus MPSHA for the existing conditions Which is this one so we have design existing conditions So how do you know which one you&#x27;re dealing with? Well, it depends on the information that&#x27;s given. I may we can draw a little picture and kind of annotate this Okay, so let&#x27;s imagine we have a tank And that tank is maybe it&#x27;s an open tank maybe it&#x27;s a close tank. What&#x27;s draw is a close tank this time And it&#x27;s got some water level in it and there&#x27;s some pressure above that which I&#x27;ll call H P For now don&#x27;t get to attach to subscripts we&#x27;ll talk about those and Then coming down out of that tank we&#x27;re gonna feed up up pump And Then there&#x27;s some height that we can define from the center line of that pump up to the top of the water level called that HZ And We want to choose an equation that&#x27;s gonna account for what we know And from a design perspective we can&#x27;t know exactly what the pressure is gonna be at the inlet of out of the pump because we&#x27;re only in the design stage Until we actually build it and install it and put a pressure gauge on it. I&#x27;m not gonna be able to tell you What that inlet pressure right here is? Other than to measure it of course measuring it is the best way, but if we&#x27;re just doing this on paper We&#x27;re just doing this in theory. There is no gauge doesn&#x27;t exist in the real world So that&#x27;s why we use this equation that is made for design So Hp then is Whatever the pressure is that&#x27;s pushing down on the top of the water if it&#x27;s an open reservoir and open tank And that would be atmospheric pressure and that term would become exactly the same as this HA But if it&#x27;s a close tank and it&#x27;s pressurized The maybe that HP ends up being something greater All right, maybe there&#x27;s a compressor that&#x27;s adding additional pressure above and beyond So that&#x27;s the first term HP and We can predict what that&#x27;ll be because maybe that&#x27;s gonna be controlled or maybe it&#x27;s gonna be open to the atmosphere And we already know that so even when we&#x27;re designing we can specify that same with HZ We can say all right, let&#x27;s have the pump be below the tank by a certain amount So that we get that additional head that additional column of water sitting on the inlet of the pump And if that&#x27;s insufficient we can make the pump lower or the tank higher we have the opportunity to make those changes we can control HZ The vapor pressure is a function of the temperature of the water that appears in both equations So we need not distinguish that that&#x27;s in both but either way will be able to find that And then the losses we have to take a shot at what that&#x27;s gonna be we have some length of piping That&#x27;s gonna go from the tank to the pump and we know the size and maybe we know the volume flow rate of the velocity We can understand what those losses are if there ar [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 25</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 25 | November 19, 2021 lesson: Lesson-30310966 lesson_pos: 3 chapter_pos: 12 content_id: 30310966 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So the next one, the NPSH equation in the handbook, I've only found part of the equation used in the solution in the handbook. Yeah, I may have written something in the solution video. That's a little bit different than what I wrote in the written solutions. So I would like you to refer to the written solution. For this one, which is also obviously included. So I go into the practice problems book PDF. And the way it's written up there is exactly the way I think it should be. I took a look at th</div>
+      <div class="qa-session">OH 25 · November 19, 2021</div>
+      <div class="qa-transcript">So the next one, the NPSH equation in the handbook, I&#x27;ve only found part of the equation used in the solution in the handbook. Yeah, I may have written something in the solution video. That&#x27;s a little bit different than what I wrote in the written solutions. So I would like you to refer to the written solution. For this one, which is also obviously included. So I go into the practice problems book PDF. And the way it&#x27;s written up there is exactly the way I think it should be. I took a look at that before this session today to make sure that it&#x27;s as clear as possible. And I&#x27;m very happy with the written solution. I don&#x27;t know that I&#x27;m quite as happy with the video solution. So yeah, just check that one out. Just kind of stepping back from the question a little more generally, the most common NPSH equation that comes up is the design version of the equation, which is probably in the reference handbook like this. NPSHA is the atmosphere pressure, which they call HP, plus or minus the height of a column of water on the suction side of the pump. I say minus because sometimes the reservoir is below the center line of the pump and it has to add, it&#x27;s actually taking away from the net positive suction head that&#x27;s available, whereas when that reservoir is above the pump, it&#x27;s helping. And then subtracting the vapor pressure, which is a function of temperature, and also subtracting the losses in the suction piping. So that&#x27;s the most common net positive suction head equation. We&#x27;re gonna use that 80, 90% of the time. And then every once in a while, you&#x27;ll bump into a problem that wants you to use the existing conditions equation, which is the dead giveaway for when to use that other equation is when you have a gauge, when there&#x27;s actually a pressure gauge on the suction side of the pump, then you don&#x27;t really care about the losses at that point because the gauge is giving you a measurement of the pressure on the suction side that&#x27;s downstream of all that other stuff that&#x27;s happening. So that&#x27;s the difference between design or doing things on paper. It hasn&#x27;t been built yet, it&#x27;s not created. First is existing conditions, it already exists, we have a gauge, we can measure the actual pressure. So that&#x27;s kind of a short answer. I&#x27;ve actually said considerably more about this on previous office hours. It definitely takes some time, if you&#x27;re curious about this, to go back and look into the archive, I recorded a couple of much longer videos. All right, I go on and on about that, but that&#x27;s the short answer there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 42</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 42 | August 22, 2022 lesson: Lesson-38170134 lesson_pos: 0 chapter_pos: 29 content_id: 38170134 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 25 is a question that's come up more times than I can count on the office hours. So if you want to hear more about what others have asked about this question, feel free to jump back and check out the archive. For Fluids 25, the question is asking for NPSHA, net positive suction head available for existing conditions. And the equation you use in the solution looks different from the one in the reference manual is the equation in the solution manual and correct. Looks like they don't count </div>
+      <div class="qa-session">OH 42 · August 22, 2022</div>
+      <div class="qa-transcript">Fluids 25 is a question that&#x27;s come up more times than I can count on the office hours. So if you want to hear more about what others have asked about this question, feel free to jump back and check out the archive. For Fluids 25, the question is asking for NPSHA, net positive suction head available for existing conditions. And the equation you use in the solution looks different from the one in the reference manual is the equation in the solution manual and correct. Looks like they don&#x27;t count for HF. So yeah, in the video I use this one in the blue down here, which was kind of an old, from an old, firm formula. I didn&#x27;t want to re-record the whole video because it&#x27;s still valid. They still reconciled. But I did update the written solution in the last batch of course updates, like six or more months ago. So the formula that&#x27;s in the reference handbook that you&#x27;re probably expecting is this guy. That&#x27;s a snip directly from the handbook. And this is my written solution, which you can find right underneath the video. There&#x27;s a button you can click and bring this PDF up, where you can open up the the ebook and just jump down to the Fluid section. And you&#x27;ll get the full written solution. If you ever encounter any oddities in the program that something&#x27;s inconsistent like that, usually the book is the golden source. It&#x27;s a little easier for me to go back and update the book. That&#x27;s what I did here and I just wanted to make sure that that was consistent for you. So take what you can from the video. It&#x27;s still a good video. As far as you&#x27;re concerned about HF not being included, it of course should be included. The way I had included it when I had the formula written this way is I baked it into the pressure on the suction side. Because it&#x27;s a suction side losses that we care about. So I was sort of interpreting this a bit differently. But I don&#x27;t want to I almost don&#x27;t want to go too much into that because for most of you that are on the call that you know, haven&#x27;t really encountered this question or encountered it and use the formula from the handbook and had good results with it. I do not want to cloud the issue and add more confusion by bringing out an old formula. So short answer use the formula from the handbook or further written solution and you&#x27;ll be right.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 63</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 63 | July 17th, 2023 lesson: Lesson-47067289 lesson_pos: 3 chapter_pos: 50 content_id: 47067289 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids 25. For the NPSHA formula, there's an additional V squared over 2G using the solution video. The reference manual does not have this term and the NPSHA equation. The equation used in the reference manual is HPSA is HP plus HV minus HVPA minus HF as shown. Although the answer is negligible using either equation, what is the importance of using the V squared over 2G? Yeah, so there's a distinction to be made and is this in the next question? Both on fluids 25. Yeah, so I think we</div>
+      <div class="qa-session">OH 63 · July 17, 2023</div>
+      <div class="qa-transcript">All right, fluids 25. For the NPSHA formula, there&#x27;s an additional V squared over 2G using the solution video. The reference manual does not have this term and the NPSHA equation. The equation used in the reference manual is HPSA is HP plus HV minus HVPA minus HF as shown. Although the answer is negligible using either equation, what is the importance of using the V squared over 2G? Yeah, so there&#x27;s a distinction to be made and is this in the next question? Both on fluids 25. Yeah, so I think we&#x27;re going to cover both of these at once. How do you know when to use NPSHA equation versus the existing condition equation? Yeah, that&#x27;s a great question. This has come up before, so we&#x27;ll cover it again here, but if you want to do some perusing of the office hours archive, you can probably find some previous discussions on that. Yeah, this problem, I think I was using a version of the equation that must have been from another source. And I end up crossing some things out. I think we get to the right place in the end, but the avenue that we take to get there may be a little unusual, but I want to give you some clarity now at least to the second question here, which is when do you use which one? And then if there&#x27;s any specific anomalies or issues or mismatches misalignment between what you think is the right way and what you&#x27;re finding in actual example problems, I think let&#x27;s bring those problems to the forefront and we&#x27;ll look up them together and try to make sense of it. But I think the key thing is to get as a first step to choose the right one, to give yourself a fighting chance. And if we can do that, we&#x27;re going to have success. So let&#x27;s talk about those two equations. So let&#x27;s draw a little picture first. Once imagine we have a reservoir. And from this reservoir, we are feeding the suction side of a pump. And it goes out to the discharge. And there&#x27;s some ambient pressure out here. You can use PE, I&#x27;m using H for the head associated with the pressure of the atmosphere. And then there would be, oh, let&#x27;s talk about the existing conditions first, because I actually think that&#x27;s more intuitive to think about than the design equation. So the existing conditions equation says that the net positive suction head available is equal to HA, which is the atmospheric pressure, plus HAs, which is the static pressure on the suction side of the pump. So in order to have that, well, let me give you all the variables first. And we&#x27;ll talk about each one. V squared over 2G, so the velocity pressure, and then minus the vapor pressure. So in order to have the suction side pressure, you&#x27;d have to actually measure it, or the pressure gauge. And you&#x27;d have to locate that pressure gauge right at the inlet to the pump. And then you gather this value. So that&#x27;s a huge clue right there that we&#x27;re going to go existing conditions, that there&#x27;s a gauge. It&#x27;s on the inlet side of the pump, and we know the pressure locally at that point. That&#x27;s a very, very big clue and indication that we&#x27;re going to use this equation. And then the same for the velocity, there would be a flow meter. And the flow meter doesn&#x27;t have to be immediately on the suction side, because the volume flow rate through the pump is continuous, and the velocity is really a function of the diameter. But let&#x27;s just for simplicity, choose the same point. Well, I guess they could change the diet. That&#x27;s unusual, but you could change the diameter and that would change the velocity. But, you know, keep it simple. There would be a flow meter at somewhere in the same location, somewhere in that suction piping. And from that flow meter, we pick up the velocity. So now we can find the velocity pressure as well. So you can&#x27;t measure the pressure on the suction side of the pump. Unless it exists, right? And you can&#x27;t measure the velocity unless it exists. It has to be built. It&#x27;s an operational system. We&#x27;re coming in. We&#x27;re looking at gauges. We&#x27;re looking at meters. We&#x27;re looking at raw data. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 71</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 71 | December 18th, 2023 lesson: Lesson-51536310 lesson_pos: 3 chapter_pos: 58 content_id: 51536310 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> If you're doing an NPSA, you should be an NPSHA question. Are you automatically thinking about values happening before the pump? I noticed horsepower wasn't the difference of pressures which kind of got me screwed up from the start. Yeah, so let's think about what that stands for. NPSHA type it in the chat or yell it out if you know it. I know somebody's come across these. Be bold. NPSHA type is a suction head allowed. Yeah, that positive suction head. Available. Available. So what that means fo</div>
+      <div class="qa-session">OH 71 · December 18, 2023</div>
+      <div class="qa-transcript">If you&#x27;re doing an NPSA, you should be an NPSHA question. Are you automatically thinking about values happening before the pump? I noticed horsepower wasn&#x27;t the difference of pressures which kind of got me screwed up from the start. Yeah, so let&#x27;s think about what that stands for. NPSHA type it in the chat or yell it out if you know it. I know somebody&#x27;s come across these. Be bold. NPSHA type is a suction head allowed. Yeah, that positive suction head. Available. Available. So what that means for the pump is that we need a certain amount of fluid column sitting on the suction side of the pump at all times. We need that height to be there. And that could be physical height, which is one way to achieve it. Pretty common way to achieve it. Or that could be pressure that&#x27;s being generated by some pump that&#x27;s in series upstream, let&#x27;s say. But one way or another, there&#x27;s pressure on the suction side of the pump because the pump is going to be adding pressure. And what we don&#x27;t want to see happen is that there&#x27;s not enough suction head. Right, that the net positive suction head available is too low. And as a result, the pump will cavity, as you can imagine, is trying to pull this fluid through. And there&#x27;s not enough pressure sitting on the suction side to deliver that fluid so that it can get it moving and increase its pressure and drive it through. And drive it through the system. So, and that&#x27;s that&#x27;s cavitation. That&#x27;s a problem for pumps. The pump will fail. We&#x27;ll get damaged. We&#x27;ll perform poorly at best. So the condition to avoid cavitation is that the net positive, can I use letters. Net positive suction head available must be greater than. Net positive suction head required. So this is a number that we calculate. And you&#x27;ll come across a few problems that ask you to do that. Should know how to do that. And this is a number that is given to us by the manufacturer. Of that pump. Or in a PE exam application. So a number that&#x27;s typically given. A fun trick question that you&#x27;ll hear sometimes. I don&#x27;t know if they actually do something the exam. I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. So I don&#x27;t know if they actually do something about the same thing. And are you automatically thinking about the values happening before the pump? Yes, because this is all about suction head. So it deals exclusively with what&#x27;s happening before the pump. And in typical example problems that you&#x27;ll see, they&#x27;ll draw more than what I&#x27;ve just drawn. I&#x27;ve drawn only what&#x27;s relevant. But they may draw a little bit more of the discharge piping. And then maybe there&#x27;s some distribution. And maybe there&#x27;s a header. And it goes out to various systems. And it&#x27;s just window dressing to kind of confuse you and it&#x27;s thinking is more going on than you really need to care about. But you know, that positive suction head available. Only deals with the suction head. Only deals with the suction side of the pump. Maybe they&#x27;ll put a temperature sensor over here. Right. And then you need to go and look up the the vapor pressure at that temperature, which is part of it. But the pump isn&#x27;t meaningfully changing the temperature. Right. Maybe it does a little bit of inadvertent heating. But presumably the temperature here and the temperature here about the same. So they can play a little tricks like that. But that&#x27;s about all they can do.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 76 · March 4, 2024</div>
+      <div class="qa-transcript">First question was on fluids 25. I&#x27;m trying to understand how you got the NPSHA formula you used in the video when the reference handbook does not have all the same terms you showed in your example. Yeah, so I think I was probably using an older formula from a different reference. So I apologize for that. But the discrepancy should be pretty easy to reconcile, so let&#x27;s just go through them and make sure that it ultimately aligns with the version of the formula that&#x27;s available in the reference handbooks, since it&#x27;s all we&#x27;re going to have to good question you want to make sure that you&#x27;re using the reference handbook. So and let&#x27;s just go term by term. So net positive suction head available should be head pressure, so it should be measured in length units. We expect the units to be feet and that&#x27;s why they put each of the terms as H so that there that that should make it clear that they&#x27;re feet. In this version of the equation it&#x27;s a little bit less clear. Some of them have H. This does turn out to be feet, but velocities are going to be negligible. Anyway, we&#x27;ll come back for that in a minute and then these two are pressure terms, but then I&#x27;m dividing by the specific weight. So that&#x27;s starting with a PSI or atmosphere is whatever you like, but then turning it into a head pressure, which it has to be. So that&#x27;s how those reconcile. But let&#x27;s just write it down, turn by term. So in the new nomenclature they&#x27;re using HP to be the head for the atmosphere, head pressure that corresponds to the atmosphere. So that&#x27;s approximately 34 feet. You could work it out as 33.9 or something like that if you do it exactly, but I often times just take it as 34 feet and that&#x27;s the pressure that corresponds to one atmosphere measured in length units. So that&#x27;s HP or what I was calling PATM, that was pressure divided by the specific weight. You can get there that way as well, but as long as you end up with 33.9 feet or 34 feet, you&#x27;re good. The next one.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 104 · June 9, 2025</div>
+      <div class="qa-transcript">Let&#x27;s jump right in with the first one. The first one is from Fluids. It&#x27;s number 25. And the question is why do we use the NPSHA equation instead of the NPSHA equation for this problem? I know what you mean. It&#x27;s probably a piece of question to anyone reading that, but there&#x27;s two versions of the net positive suction had available equation in the reference handbook. And they might use the big A or the little A. I&#x27;m not sure exactly how it shakes out in the handbook, but fundamentally there are two different equations and they do call them one of them the existing conditions equation. And the other one is more of a theoretical version. So the theoretical version is used in a design application. If you haven&#x27;t already built something, you don&#x27;t know exactly how it&#x27;s going to perform. So you have to make assumptions, not assumptions, but you know you use sort of the design criteria to figure out what the NPSHA will be. And then the other one is for something that&#x27;s already built. That&#x27;s why it&#x27;s called the existing conditions, where you have gauges that can read the pressure directly. So this question has come up a number of times before, and you can look back at previous office hours archive to hear a little bit more about my answer to that. But that&#x27;s the short version of why there&#x27;s those two versions. What this question might be driving at, and I&#x27;m not 100% sure, but the version of the equation that I presented in the video solution is from an older video or an older source, I guess it came from the murm from the old days. Now, nothing about the concept of net positive suction had available has changed in a long time. So it&#x27;s not like the murm is different. It&#x27;s just presented a little bit differently in the reference handbook. So when I did the update, I made an update to the written solution in the book. So if you take a look at the solution PDF, you&#x27;ll find a version of that equation that aligns perfectly with the reference handbook. So I would encourage you to consult that as a first shot. And the video does reconcile back to that same equation, but it may be a couple of hops to get there. So they might be some slight variations. But anyway, if you whether you use the video approach or the written solution approach at the end of the day, they both should get you to the same place. And I think it&#x27;s fine to go through both of those in parallel and make sure that you&#x27;re clear on how it gets you there. This probably some value in going through that in detail if you haven&#x27;t already. But just be reassured that you know, it should not take you in a different direction.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111 · January 5, 2026</div>
+      <div class="qa-transcript">So it&#x27;s 25. Can you clarify use cases between NPSHA equation and NPSH for existing conditions listed in the reference manual a bit confused on when and how to use the existing conditions equation? Yeah, this is a common question that comes up. You&#x27;ll actually find some stuff in the office hours archive on this one. So if you go into the first lesson, there&#x27;s a link to that spreadsheet and you can see previous attempts to to field this one. But I&#x27;m going to take another shot at today because I think I can do it a little bit more succinctly and I think every time I kind of go through these it gets a little tighter. So let&#x27;s try. So for the design version of the equation I call it the design version. It&#x27;s the first one. It&#x27;s the one that&#x27;s not the existing conditions and this reason why I call it the design version. I call this case A. Because you don&#x27;t know yet exactly what the pressure is going to be on either side of the pump. You have to build it first and put gauges in and measure it. That&#x27;s the distinction between the two. You&#x27;re sort of predicting how things are going to work in this first version and then just measuring how the monitoring and measuring how they actually work in the existing conditions version. So let&#x27;s take these one at a time. So in the first one we say NPSHA equals HP plus and I&#x27;m going to put in my own little plus or minus HZ minus HVPA minus HF. And HP is just atmosphere pressure. So that&#x27;s like 34 feet of water. Thereabouts. HZ is the elevation term. So on the suction side of the pump you would either have a column of water that&#x27;s helping you because it&#x27;s sitting above the center line of the pump or it&#x27;s drawing from a reservoir that&#x27;s below the pump and then you have a column of water that&#x27;s below which is not helpful. It&#x27;s normally not what you would do but it is possible. So in such a case as the top of the reservoir is below the center line of the pump you would actually have a negative term here and the reference handbook they don&#x27;t show that. So you&#x27;d have to know that if you were looking at a picture that if it&#x27;s below it&#x27;s working against you. You have less net positive so you can have a available if the reservoir is below the pump. But if it&#x27;s above then it&#x27;s positive so then you would add this term and then this is the vapor pressure which is a function of the temperature. So higher temperature means the vapor pressure will increase water or whatever the fluid is is more likely to change phase to a vapor which which is working against that&#x27;s why that term is subtracted and the last term is the losses and that can be comprised of both major and minor losses. Not every problem is trying to torture you so the losses may just be given or you may just want to consider major losses but in theory it could be both so if it&#x27;s major that&#x27;s going to be like a Darcy setup FLV squared over 2DG and if there&#x27;s minor losses then that would be something like a K times B squared over 2G formulation. So be prepared to include those if necessary but hopefully there&#x27;ll be simple locations on offer. That&#x27;s a high level on the first choice. The existing conditions version has similarities but it also has differences. It says HA plus H S plus V squared over 2G minus H VPA. HA is basically the same as HP. Amis-Fierrec pressure except they just say in the statement that it&#x27;s the Amis-Fierrec pressure at the elevation of the installation. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 25 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 25 · 8 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +291,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

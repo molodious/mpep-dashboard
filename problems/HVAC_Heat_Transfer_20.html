@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 20</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 20</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 20</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 20</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60°F to 130°F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·°F. Btu The total heat exchange surface area is 20ft2. What will the hot water supply (outlet) temperature be for the same 50gpm volume ow rate entering at 60°F under fouled conditions? 44
+      A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60◦F to 130◦F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·◦F. Btu The total heat exchange surface area is 20ft2. What will the hot water supply (outlet) temperature be for the same 50gpm volume (cid:29)ow rate entering at 60◦F under fouled conditions? 44
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>100°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>110°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>120°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>125°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>100◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>110◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>120◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>125◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 20 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60°F to 130°F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·°F. Btu The total heat exchange surface area is 20ft2. What will the hot water supply (outlet) temperature be for the same 50gpm volume ow rate entering at 60°F under fouled conditions? 44
-
-The answer choices are:
-  A) 100°F
-  B) 110°F
-  C) 120°F
-  D) 125°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">in performance due to fouling can be derived from the generalized formula presented in the Reference Handbook under Overall Heat-Transfer Coe(cid:30)cient for Concentric Tube and Shell-and-Tube Heat Exchangers by applying a few simplifying assump- tions. (cid:16) (cid:17) 1 = 1 + R fi + ln D D o i + R fo + 1 UA h A A 2πkL A h A i i i o o o Assume the internal and external area of the heat exchanger are approximately the same i.e. A≈A ≈A ≈2πrL. Therefore all terms can be multiplied by area as such: i o (cid:16) (cid:17) 1 = 1 +R + r·ln D D o i +R + 1 U h fi k fo h i o Now collapse the internal and external fouling factors, R and R , respectively, into a single fi fo parameter inclusive of losses on both sides i.e. R = R +R . Also assume that k, the thermal f fi fo conductivityoftheheatexchangerisrelativelylargesuchthatthemiddletermbecomesnegligible. Then: 1 1 1 = +R + U h f h fouled i o Theformulaabovewouldbeapplicablewhentheheatexchangerisfouledi.e. thefoulingfactor is nonzero: R &gt;0 f Whentheheatexchangerisclean,thefoulingfactorhasavalueofzeroandneednotbeincluded: R =0 f 1 1 1 = + U h h clean i o By substitution: 1 1 = +R U U f fouled clean 263 1 1 R = − f U U fouled clean This formula is readily available in the Mechanical Engineering Reference Manual; however, it is not given in the NCEES Reference Handbook. It may be advisable to memorize it in order to skip the derivation above (or at least be aware of the opportunity to simplify when necessary). Use the steam table Properties of Saturated Water (by Pressure) to look up the temperature of the steam used for heating. No</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 97</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 97 | February 3rd, 2025 lesson: Lesson-62413711 lesson_pos: 3 chapter_pos: 82 content_id: 62413711 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Heat transfer 20 can you explain what leads you to iterate after initially calculating 103 degrees as the outlet temperature. In the rate of heat transfer in heat exchanger calculation F is there for the LMTD. Wouldn't the overall heat transfer coefficient of the fouled condition take that to consideration? The reason for iterating in this problem when we write this at one stage in this problem, this was one of a heat exchanger that's fouled. So you have some information about the clean conditio</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 97 · February 3, 2025</div>
+      <div class="qa-transcript">Heat transfer 20 can you explain what leads you to iterate after initially calculating 103 degrees as the outlet temperature. In the rate of heat transfer in heat exchanger calculation F is there for the LMTD. Wouldn&#x27;t the overall heat transfer coefficient of the fouled condition take that to consideration? The reason for iterating in this problem when we write this at one stage in this problem, this was one of a heat exchanger that&#x27;s fouled. So you have some information about the clean conditions and then you&#x27;re asked to analyze the fouled conditions and find the new delta T which is not going to be as big because the heat exchanger is dirty. At one point we find the rate of heat transfer Q dot fouled. I&#x27;ll just call that Q dot F equals U times A times delta T. And by that point in the solution we found U for a fouled condition. So this is not the overall heat transfer coefficient for one&#x27;s clean. It&#x27;s for one&#x27;s fouled and we showed in the solution how to get that. And the area doesn&#x27;t change. But the delta T that we use at this stage in the process is still the delta T from when the heat exchanger was clean because the delta T for the heat exchanger when it&#x27;s fouled is part of what we&#x27;re looking for. We don&#x27;t know the outlet temperature. That&#x27;s what we want to find. So at this stage we find Q dot F by using delta T for the clean heat exchanger. Which is a bit of a, it&#x27;s a bit of an honest say hack but it&#x27;s the only way forward. It&#x27;s the way to solve the problem. But it&#x27;s all we can really do is use that. But we have to know when we use that that it&#x27;s that the answer that we ultimately get isn&#x27;t going to be quite right because we really need to use the delta T for the fouled condition. But we use it anyway and we pretend that you know the delta T probably doesn&#x27;t change that much. So this should get us in the ballpark and then we follow the rest of the solution path. And we do that with the understanding that this value in approximation. And then we work the problem through and we find the delta T and we find that the delta T has decreased as expected because the heat exchanger is fouled. And then we can go back and do it again. And now instead so we literally write the same formula again the same you the same A. But instead of the clean heat exchanger delta T now we put in the fouled heat exchanger delta T. And we get a new Q dot F with the better approximation. And then we find the delta T one more time. So we&#x27;re going around in a loop and we&#x27;re iterating and we should get closer. And if you do it a second time you&#x27;ll get much closer. And this won&#x27;t necessarily be the case but usually when problems require iteration like this and heat transfer are really in general it kind of oscillate around the answer. So your first answer will overshoot in one direction and then your next answer will will under shoot and it&#x27;ll overshoot and it&#x27;ll under shoot and it&#x27;ll overshoot converge on the right answer. So if you iterated like five times eventually we only move we can attempt of a decimal point and then a hundredth of a decimal point and then eventually it would be hardly moving it all. But that is so far beyond what would be expected in a typical PE exam problem. There was almost an off hand comment that I made at the end of that solution video that if you really wanted to dial this in you may want to iterate one more time. But if iteration is ever required it would only ever be a second time it wouldn&#x27;t be three or four or five times so don&#x27;t worry about this. And heat transfer problems are usually not super precise. So there&#x27;s a pretty good chance that the change just going from the first effort to the second iteration might not move the needle that much. So I wouldn&#x27;t be too much on the lookout for this. But it&#x27;s kind of neat that there&#x27;s a way to solve this problem by almost guessing one that you know just taking the original delta T and using that is your starting point. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 20 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 20 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

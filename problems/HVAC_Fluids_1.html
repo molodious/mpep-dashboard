@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,122 +206,72 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 1</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 1</span>
   <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 1</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 1</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      14.64 A centrifugal pump consumes 200hp when operating at 1800rpm. What is the electrical power demand when the pump speed is reduced to 1200rpm? Assume 100% motor eciency. 14.65 During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90°F entering air to 65°F. The unit uses 56°F supply chilled water to drive the coil temperature to an apparatus dew point of 60°F. The coil is designed for a maximum air side delta T of 25°F. After an increase in heat l...
+      14.64 A centrifugal pump consumes 200hp when operating at 1800rpm. What is the electrical power demand when the pump speed is reduced to 1200rpm? Assume 100% motor e(cid:30)ciency. 14.65 During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90◦F entering air to 65◦F. The unit uses 56◦F supply chilled water to drive the coil temperature to an apparatus dew point of 60◦F. The coil is designed for a maximum air side delta T of 25◦F. After an increase in heat load, the same unit is met with 95◦F return air. In order to stay safely within the coil’s temperature limits, operators raise the chilled water supply temperature to 63◦F such that the apparatus dew point becomes 67◦F. What is the expected discharge air temper- ature based on the new operating conditions?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>6</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>59KW</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>66KW</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>66KW ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>89KW</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 1 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: 14.64 A centrifugal pump consumes 200hp when operating at 1800rpm. What is the electrical power demand when the pump speed is reduced to 1200rpm? Assume 100% motor eciency. 14.65 During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90°F entering air to 65°F. The unit uses 56°F supply chilled water to drive the coil temperature to an apparatus dew point of 60°F. The coil is designed for a maximum air side delta T of 25°F. After an increase in heat load, the same unit is met with 95°F return air. In order to stay safely within the coil’s temperature limits, operators raise the chilled water supply temperature to 63°F such that the apparatus dew point becomes 67°F. What is the expected discharge air temper- ature based on the new operating conditions?
-
-The answer choices are:
-  A) 6
-  B) 59KW
-  C) 66KW
-  D) 89KW
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">ynamic viscosity in the reference handbook and use the formula: µ ν = ρ where ν is kinetic viscosity, µ is dynamic viscosity, and ρ is density. The dynamic viscosity has been given in units of cP. For the (cid:28)nal answer to be in the desired units, convert the dynamic viscosityto lbf·sec . Usetheconversionfactorsinthereferencehandbookbysearchingmeasurement ft2 relationships as necessary. (cid:18) 0.001Pa·sec (cid:19)(cid:32) 14.7lbf (cid:33)(cid:18) 144in2(cid:19) lb ·sec µ=(3.3cP) in2 =6.9×10−5 f 1cP 101,325Pa 1ft2 ft2 Apply the kinematic viscosity formula. In order to eliminate lb and lb from the units, it is m f 32.2lbm·ft necessary to multiply by sec2 , an expression that is equal to 1. 1lbf µ (cid:32) 6.9×10−5lbf·sec(cid:33)(cid:32) 32.2lbm·ft (cid:33) ft2 ν = = ft2 sec2 =3.4×10−5 ρ 66.2l f b t m 3 1lb f sec Answer C 186</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">5 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 51</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 51 | January 30th, 2023 lesson: Lesson-42488895 lesson_pos: 4 chapter_pos: 38 content_id: 42488895 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Fluids 1. In the solution, you utilize the CP conversion to Pascal seconds. The conversion table also had a CP to pound our foot conversion, which is a different number. Why do we need to use the Pascal second conversion in the context of this problem? I work through it using both, and there is a discrepancy in the answer you get. Also, you pointed out that these should be negative here in the problem statement. I have a note about that for an upcoming correction. So thank you for the remin</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 51 · January 30, 2023</div>
+      <div class="qa-transcript">HVAC Fluids 1. In the solution, you utilize the CP conversion to Pascal seconds. The conversion table also had a CP to pound our foot conversion, which is a different number. Why do we need to use the Pascal second conversion in the context of this problem? I work through it using both, and there is a discrepancy in the answer you get. Also, you pointed out that these should be negative here in the problem statement. I have a note about that for an upcoming correction. So thank you for the reminder. But yeah, these are all, you know, one time&#x27;s 10 to the minus 6 minus 5 minus 3, etc. And to answer your question, it looks like the way you went about it was totally valid in terms of using this other. It&#x27;s just turned out to be unit conversions. And as you know, with unit conversions, there&#x27;s multiple paths. As long as we get the right answer at the end, it doesn&#x27;t matter. What I found here was just a silly thing at the end. I think you did one hour, 60 seconds. You wanted to do one hour is 3,600 seconds, right 60 times 60. So that&#x27;s all it was. If you take the answer that you got and divide it by 60 again, you&#x27;ll get exactly the same answer as as we get the other way. So you&#x27;re approach reconciles with the approach in the solution video and hopefully all as well in the world. And you&#x27;re not alone. I&#x27;ve definitely done that many times myself. So don&#x27;t worry about it.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 68</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 68 | September 25th , 2023 lesson: Lesson-49055327 lesson_pos: 0 chapter_pos: 55 content_id: 49055327 wist</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> First one's from Fluids 1. I want to walk through this problem and understand why the solution didn't use G over G C. I thought one pound force is equal to one slog times 32 feet per second squared. So this one was about finding the kinematic viscosity, which is defined as the dynamic viscosity or absolute viscosity mu over the density row. And as part of the solution here, the way I did this, if you kind of jumped down to this last row, is I have it that it's mu over row and we have pound force</div>
+      <div class="qa-session">OH 68 · September 25, 2023</div>
+      <div class="qa-transcript">First one&#x27;s from Fluids 1. I want to walk through this problem and understand why the solution didn&#x27;t use G over G C. I thought one pound force is equal to one slog times 32 feet per second squared. So this one was about finding the kinematic viscosity, which is defined as the dynamic viscosity or absolute viscosity mu over the density row. And as part of the solution here, the way I did this, if you kind of jumped down to this last row, is I have it that it&#x27;s mu over row and we have pound force. And the density is in pound mass. So we end up with this issue where our answer is going to have pound force and pound mass in it, which doesn&#x27;t make any sense. We need to get rid of some units so that we can just end up with feet squared per second. And so I use the conversion factor that one pound force equals 32.2 pound mass foot per second squared. But I understand why that might be a little bit confusing. So we kind of want to take a step back and say like, okay, before we just pull out these conversion factors out of nowhere. How does that line up with? Like how do we arrive at that before we&#x27;re even ready to apply it? And I think related to that is the slog, right? What is the slog? So I think a lot of people when this stuff comes up, it&#x27;s like just it&#x27;s annoying people kind of freeze up. But we should always be able to come back to something simple to kind of bring ourselves some some ease here. So let&#x27;s remember Newton&#x27;s Law at F equals M a or in the case of gravity, you can say F equals M g. And this takes two directions depending on if we&#x27;re using SI units or US units. And US units is where it&#x27;s going to get messy, but it doesn&#x27;t have to get messy and I&#x27;ll show you what I mean. So if we were doing SI units here, then we would say if we were just right the units, we would say that we&#x27;re going to get new ins as a unit of force and we&#x27;re going to get that by multiplying a mass of kilograms and acceleration of meters per second squared. So kilogram meter per second squared that is the new and SI units everything&#x27;s clean and SI units. And US units, that&#x27;s not the case. Instead our answer is going to come out and pound force. And our units going in, if we want it to be clean and simple the way it is in SI units, the mass has to be in slugs. And then we multiply by feet over second squared. But of course it never is, right, we never really use slugs. We use pound mass. And then we have to know what a slug is. So one slug equals 32.2 pound mass. So if we make that substitution in here, we find out that pound force equals 32.2 pound mass times whatever the acceleration is feet per second squared. And now we&#x27;re getting somewhere because what we want to be able to do is to come up with a conversion factor, at least for this particular problem, that&#x27;s going to allow us to eliminate the pounds. Because we&#x27;re trying to end up with the kinematic viscosity which doesn&#x27;t have any pounds, no pound mass, no pound force, nothing. So how do we do that? Well, the way the units were going to come out if we didn&#x27;t do anything would be pound force over pound mass. So we want to get rid of both of those. So we&#x27;re going to do that. First of all, any time you&#x27;re doing unit conversion, you have to multiply by something that&#x27;s equal to one. So we have to come up with an expression where it&#x27;s equal to one. So the way I did it for this problem was I got pound force on the bottom. So I divided both sides of this expression by one pound force. So on the left side, we&#x27;re just left with one. And on the right side, we have 32.2 pound mass times feet per second squared. Sorry, feet over second squared over pound force. And that equals one, right, that expression equals one. So at any time, if you would like to multiply or divide something by that whole expression, you&#x27;re welcome to do it because all you&#x27;re doing is multiplying or dividing by one. So that should be allowed. And that&#x27;s exactly what I did to just kind of finish this problem off. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 95</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 95 | January 6th, 2025 lesson: Lesson-61696164 lesson_pos: 2 chapter_pos: 80 content_id: 61696164 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 1. I used a different conversion factor in the reference manual in you. It went from CP straight to pound mass per hour foot Is there something fundamentally wrong with this application? I assume so as my solution isn't right, but it does work out from a unit's perspective No, what you did isn't wrong. It's fine. You're a hair error was a simple one and I've done this to One hour is 3,600 seconds 16 minutes in an hour 60 seconds in a minute. So if you divide your answer by 60 again, you'l</div>
+      <div class="qa-session">OH 95 · January 6, 2025</div>
+      <div class="qa-transcript">Fluids 1. I used a different conversion factor in the reference manual in you. It went from CP straight to pound mass per hour foot Is there something fundamentally wrong with this application? I assume so as my solution isn&#x27;t right, but it does work out from a unit&#x27;s perspective No, what you did isn&#x27;t wrong. It&#x27;s fine. You&#x27;re a hair error was a simple one and I&#x27;ve done this to One hour is 3,600 seconds 16 minutes in an hour 60 seconds in a minute. So if you divide your answer by 60 again, you&#x27;ll get the right answer And believe it or not, I don&#x27;t think that&#x27;s I think that question is literally come up in office hours before so you&#x27;re definitely not alone there</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 103</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 103 | May 26th, 2025 lesson: Lesson-65520499 lesson_pos: 2 chapter_pos: 88 content_id: 65520499 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, onto the HVAC program, fluids 1. Why can't we use the CP equals 2.419 pound per hour foot conversion here? Yeah, this was one about viscosity and I go through several unit conversions to get the answer. But the short answer is you can. So if you went to the unit conversions that are at the beginning of the reference handbook and you found this value, you absolutely can use it. So if you, that's why I'm interested. I would love to ask a question to this question. Did you try it? Because if </div>
+      <div class="qa-session">OH 103 · May 26, 2025</div>
+      <div class="qa-transcript">Okay, onto the HVAC program, fluids 1. Why can&#x27;t we use the CP equals 2.419 pound per hour foot conversion here? Yeah, this was one about viscosity and I go through several unit conversions to get the answer. But the short answer is you can. So if you went to the unit conversions that are at the beginning of the reference handbook and you found this value, you absolutely can use it. So if you, that&#x27;s why I&#x27;m interested. I would love to ask a question to this question. Did you try it? Because if you try it, I think you would answer your own question and find that it does work out to the same answer unless there&#x27;s something else going on in your approach. But yeah, there&#x27;s no reason why that wouldn&#x27;t work. I checked it. I kind of went through and used that and I got the same answer. So I think you&#x27;re good to go.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 106</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 106 | July 7th, 2025 lesson: Lesson-66900153 lesson_pos: 4 chapter_pos: 91 content_id: 66900153 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, next up we have Fluids 1. When you are converting the dynamic viscosity from 3.3 CP, you converted it to Pascal's and then pound-force and eventually got it to pound mass. Why can you not use the conversion formula if you rose down in the reference manual that says CP equals 2.49 pounds per hour foot. It already has it in pound mass and then you just need to convert hours to seconds and should be able to get there. I agree. But when I do all the conversions I get kinematic viscosity equals</div>
+      <div class="qa-session">OH 106 · July 7, 2025</div>
+      <div class="qa-transcript">Okay, next up we have Fluids 1. When you are converting the dynamic viscosity from 3.3 CP, you converted it to Pascal&#x27;s and then pound-force and eventually got it to pound mass. Why can you not use the conversion formula if you rose down in the reference manual that says CP equals 2.49 pounds per hour foot. It already has it in pound mass and then you just need to convert hours to seconds and should be able to get there. I agree. But when I do all the conversions I get kinematic viscosity equals 0.002 square feet per second. Can you help me understand why the conversion formula is not appropriate here or just work through so I can see where I&#x27;m messing up the math. You&#x27;re good in terms of using that conversion that is certainly a valid approach. I think it was just as simple as this part here. You&#x27;re going one hour to 60 seconds but that&#x27;s minutes and you still need to go to seconds. So you can divide by 60 again. There&#x27;s 3600 seconds in an hour and that will make this smaller by in order of magnitude and some. So you&#x27;ll end up with something times 10 to the negative 4 and negative 5 and then you should be aligned. So I think you did everything right and just that very last step. And by the way you&#x27;re not the first person to do that. If you go back there&#x27;s a spreadsheet. I don&#x27;t know if everyone knows this. So if you already know this you can tune out but for anyone who may not have realized at the beginning of office hours the first lesson there&#x27;s a link to a spreadsheet where every problem in the program you&#x27;re in has been listed in a row and in the very next column is the office hours number for any session where questions have been asked about that specific problem. So if you&#x27;re ever wondering about a certain problem and you want to check their first before submitting you can do that and just see if anyone&#x27;s asked. This has come up a couple of times before and I don&#x27;t know why it&#x27;s one of those things that catches everyone from time to time but it&#x27;s a luckily easy one to troubleshoot.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 1 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 1 · 5 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +279,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

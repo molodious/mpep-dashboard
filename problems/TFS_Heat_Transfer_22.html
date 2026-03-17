@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 22</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 22</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 22</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 22</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      195°F water ows through an insulated copper pipe in a 60°F room. The pipe is nominal 3in diameter (I.D. 3.068in, O.D. 3.5in) and is wrapped in 1in thick insulation. The thermal conductivities of the pipe and the insulation are 239 Btu and .03 Btu , respectively. hr·ft·°F hr·ft·°F The lm coecient outside the insulation is 1.5 Btu . There is hr·ft2·°F a contact resistance of 0.05hr·ft2·°F between the insulation and the Btu pipe. What is the heat loss from the insulated pipe per linear foot? hr·ft ...
+      195◦F water (cid:29)ows through an insulated copper pipe in a 60◦F room. The pipe is nominal 3in diameter (I.D. 3.068in, O.D. 3.5in) and is wrapped in 1in thick insulation. The thermal conductivities of the pipe and the insulation are 239 Btu and .03 Btu , respectively. hr·ft·◦F hr·ft·◦F The (cid:28)lm coe(cid:30)cient outside the insulation is 1.5 Btu . There is hr·ft2·◦F a contact resistance of 0.05hr·ft2·◦F between the insulation and the Btu pipe. What is the heat loss from the insulated pipe per linear foot? hr·ft hr·ft hr·ft hr·ft
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,77 +225,32 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>4 Btu</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>15 Btu</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>23 Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>46 Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>46 Btu ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 22 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: 195°F water ows through an insulated copper pipe in a 60°F room. The pipe is nominal 3in diameter (I.D. 3.068in, O.D. 3.5in) and is wrapped in 1in thick insulation. The thermal conductivities of the pipe and the insulation are 239 Btu and .03 Btu , respectively. hr·ft·°F hr·ft·°F The lm coecient outside the insulation is 1.5 Btu . There is hr·ft2·°F a contact resistance of 0.05hr·ft2·°F between the insulation and the Btu pipe. What is the heat loss from the insulated pipe per linear foot? hr·ft hr·ft hr·ft hr·ft
-
-The answer choices are:
-  A) 4 Btu
-  B) 15 Btu
-  C) 23 Btu
-  D) 46 Btu
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">s State 1, the entering saturated liquid water as State 2, and the exiting saturated vapor as State 3. All states are fully de(cid:28)ned as either the temperature or pressure is given as well as the thermodynamic state. Use the Properties of Saturated Water and Steam tables by temperature or pressure to obtain the enthalpies. P =500kPa (saturatedvapor) 1 kJ h =2748.1 1 kg T =30◦C (saturatedliquid) 2 kJ h =125.7 2 kg P =200kPa (saturatedvapor) 3 kJ h =2706.2 3 kg Write the energy and mass balance for a Steady-Flow System. m˙ h +m˙ h =m˙ h 1 1 2 2 3 3 m˙ +m˙ =m˙ 1 2 3 Sincethemass(cid:29)owrateofState3isknown,makethesubstitution,thenrearrangetheequation for the mass (cid:29)ow rate of State 1, which can then be substituted into the energy balance equation. 251 Substitutionisonemethodofsolvingtwoequationswithtwounknowns,m˙ andm˙ . Alsosubstitute 1 2 the known enthalpy values. Distribute, collect like terms, and solve for m˙ . 2 kg m˙ +m˙ =1 1 2 s kg m˙ =1 −m˙ 1 s 2 (cid:18) (cid:19)(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)(cid:18) (cid:19) kg kJ kJ kg kJ 1 −m˙ 2748.1 +m˙ 125.7 = 1 2706.2 s 2 kg 2 kg s kg kg m˙ =0.016 2 s Convert units to kg. hr (cid:18) (cid:19) kg 3600s kg m˙ =0.016 =57.5 2 s hr hr Answer D</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 22 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 22 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

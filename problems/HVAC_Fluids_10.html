@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 10</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 10</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 10</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 10</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coecient of C = 130. The minimum required pressure for all xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 25
+      A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coe(cid:30)cient of C = 130. The minimum required pressure for all (cid:28)xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 25
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>93psig</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>93psig ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>108psig</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>128psig</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>180psig</span></div>
@@ -240,85 +230,40 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 10 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coecient of C = 130. The minimum required pressure for all xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 25
-
-The answer choices are:
-  A) 93psig
-  B) 108psig
-  C) 128psig
-  D) 180psig
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">: P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f Neglect velocity and isolate the unknown P . 1 P P 1 = 2 +(z −z )+h γ γ 2 1 f The design volume (cid:29)ow rate, Q, depends on the required volume per unit, the number of units, and the diversity: (cid:16) gpm(cid:17) Q=(400units) 5 (.6)=1200gpm unit Using the steel pipe friction tables look up the friction loss for 1200gpm through a nominal 8 inch pipe: h loss=4.2ftper100ft d ThetablesassumearoughnessfactorofC =100,butthisproblemhasgivenaroughnessfactor of C = 130, which implies there is less friction loss. A table of surface roughness factors is given immediately before the steel pipe friction tables and provides correction factors for various values of the surface roughness, C. Select the correction factor for C =130 and (cid:28)nd the actual losses. (cid:18) (cid:19) 4.2ft h = (5000ft)(.62)=130.2ft f 100ft Use the rule of thumb conversion factor for water 2.31ft for convenience converting between psi pressure units and feet of head. Note that ∆z =z −z has a negative value since z &gt;z due to 2 1 1 2 the start of the supply line being higher than the delivery point. Solve for P . 1 P P 1 = 2 +(z −z )+h γ γ 2 1 f 196 (cid:18) (cid:19) P ft 1 =(80psi) 2.31 −100ft+130.2ft=215ft γ psi 215ft P = =93psig 1 2.31ft psi Since the required (cid:28)xture pressure and answer choices are given in psig, it is not necessary to account for atmospheric pressure at any point in the problem. Answer A</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 15 | May 28, 2021 lesson: Lesson-24862965 lesson_pos: 5 chapter_pos: 2 content_id: 24862965 wistia_id: bvk</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> fluids can. On problem 10 for fluids this morning out of curiosity, I calculated head loss from Darcy equation to see how close it would be to the same answer as using the roughness coefficient. The answer I got was remarkably different and it's very possible I messed up something in the Darcy equation, but I looked through a couple times and I don't see where I would have messed up, at least to significant amount that I did. So, it's more in this isn't there. From this I have a couple questions</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28, 2021</div>
+      <div class="qa-transcript">fluids can. On problem 10 for fluids this morning out of curiosity, I calculated head loss from Darcy equation to see how close it would be to the same answer as using the roughness coefficient. The answer I got was remarkably different and it&#x27;s very possible I messed up something in the Darcy equation, but I looked through a couple times and I don&#x27;t see where I would have messed up, at least to significant amount that I did. So, it&#x27;s more in this isn&#x27;t there. From this I have a couple questions. One, should they have been closer together, my Darcy equation yielded well over double the head loss compared to the roughness method. And two, if they aren&#x27;t always that close, is the Darcy equation assumed to be the solution method on the exam unless explicitly given the roughness coefficient. Yeah, good questions, common questions as well. These do come up a lot in the case of fluids. Should they have been closer together? Yes and no, and I&#x27;ll explain this in two ways. The short answer is yes, they should reconcile. Should they have been closer together in this particular case, not necessarily, I would invite you to consider the absolute as well as the relative error. And the reason I say that is because of this, right? Like, if you have a small amount of pressure loss and you double it, it&#x27;s still a small number. So that can see him. What were the words that he used? Significant amount. Yeah, I think we&#x27;re doubling a small number and it&#x27;s still a small number. Well, remarkably different. You know, it is doubling a small number, making it remarkably different. As a percentage, as a relative amount, yeah, I guess you could say this. But on an absolute scale, maybe it&#x27;s not that much more. So I think the error or the discrepancy between the Darcy equation and the tables may be relatively greater as you get toward the lower end of the range of losses. And as you have more losses, I think they&#x27;ll begin to converge. Second question, if they aren&#x27;t always that close, is the Darcy&#x27;s equation soon to be the solution method? Yes. Yes, I would invite you to use the tables if you have water and steel pipe. I think that&#x27;s going to be faster and easier for most practical purposes. And if the losses are minimal, then it doesn&#x27;t matter too much which method you go with. So for the sake of speed, I would have you use the tables as long as the steel pipe and as long as it&#x27;s water flowing in the pipe. But you can&#x27;t go wrong with the Darcy equation. It&#x27;s a classic fundamental equation that you should always feel free to lean on. And as I said, they should within reasonable engineering error reconcile. So you shouldn&#x27;t have to worry about using the wrong one and having that be the reason you get a problem wrong.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 53</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 53 | February 27th, 2023 lesson: Lesson-43357063 lesson_pos: 2 chapter_pos: 40 content_id: 43357063 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Next up, this is a question that comes up from time to time, so pretty free question, fluids, module, number 10. Are we able to use the hazelnut Williams equation? My thought was yes, but I produced different results, would love to hear your reasoning. So the answer is yes, you are able to use hazelnut Williams. My general guidance on this, I'm not against it, but I find that more often than not, a lot of the PE exam questions really want to test your fundamentals. So they tend to favor the Darc</div>
+      <div class="qa-session">OH 53 · February 27, 2023</div>
+      <div class="qa-transcript">Next up, this is a question that comes up from time to time, so pretty free question, fluids, module, number 10. Are we able to use the hazelnut Williams equation? My thought was yes, but I produced different results, would love to hear your reasoning. So the answer is yes, you are able to use hazelnut Williams. My general guidance on this, I&#x27;m not against it, but I find that more often than not, a lot of the PE exam questions really want to test your fundamentals. So they tend to favor the Darcy equation, if they want you to calculate friction loss, because it&#x27;s just more fundamental, or they&#x27;re giving you a more general fluids problem, where you need to include the losses, but it&#x27;s part of a broader solution process, and they give you water and a steel pipe. So you&#x27;ll use the steel pipe friction tables to do all of your lookups. So I find those just come up more often, but hazelnut Williams is very much a possibility, and it&#x27;s in the reference handbook, and it&#x27;s not too hard to use. So by all means, it&#x27;s on the table, and there are some dead giveaways that you might get. If they give you a C value in the problem statement, if they say use the hazelnut Williams coefficient, if they just say it explicitly like that, then definitely go for it. And it&#x27;s not that hard to apply, if you have all the given information, and you have that C value, then you can use hazelnut Williams. If you&#x27;re not given a C value, and you&#x27;re not explicitly told to use it, then my question for you would be, what&#x27;s the C value gonna be? Because I don&#x27;t know how you make a good assumption about that. I think you would need some guidance around that, otherwise you&#x27;re kind of stuck. If you had some good guidance, then in theory, the Darcy equation, the steel pipe friction tables, and the hazelnut Williams equation, should, I say, should all align, and maybe they align within some engineering tolerance, five, 10, 15%, whatever you consider acceptable. So that&#x27;s why to the second part of your question, you&#x27;re producing different results. That&#x27;s gonna happen. Again, whatever assumption you&#x27;re making for the C value is probably a big reason why you&#x27;re producing different results, but even between the Darcy equation and steel pipe friction tables, there&#x27;s gonna be minor differences there, and that&#x27;s just something we have to tolerate. You might have to do a problem two ways and see which one you feel more confident in. The way I look at it is, the Darcy equation is the most theoretical, so it&#x27;s like the most fundamental, but that means that real life could deviate from it. The steel pipe friction tables are very, very good for water flowing and steel pipe. So if you have that, you really can&#x27;t go wrong with those tables. Hazelnut Williams is more generally useful for different materials, and potentially different fluids. So it has sort of a wider applicability, but again, without that C value, I&#x27;m not gonna get out of the box. So quick question. So the friction losses in pipe standard weight steel charts, the ones that have the different charts per pipe size. They have a surface roughness C value listed for different GPMs, is that are we not able to use that? Is that C value? Is that something different? Yeah, great question. It&#x27;s not the same thing. It&#x27;s not my understanding. It&#x27;s actually, let&#x27;s look at it together and now since you&#x27;ve asked the question, page 218 is what I&#x27;m looking at. Okay, here we go. To just for different surface roughness factors, surface roughness. They do use the letter C, but is that the Hazelnut Williams coefficient C? My belief is that it is not. Yeah. Anyone has any other information about that, or believe that it is with high confidence, I&#x27;d love to hear it, but until informed otherwise, my assumption is that they&#x27;ve just kind of unfortunately chosen the same variable, and I&#x27;m not prepared to assume that they&#x27;re the same thing. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 55</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 55 | March 27th, 2023 lesson: Lesson-44169372 lesson_pos: 0 chapter_pos: 42 content_id: 44169372 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So the first one, and this is a super common question that comes up from fluids here, why does pressure divided by gamma equal pressure? I keep getting stuck on the units. I think in every Bernoulli problem. So some frustration there, and we've all been there with the Bernoulli equation and fluid. So let's take a step back on that. And you can also roll back into the archive, into fluids, and see some of the earlier office hours videos about this. It's addressed in the solution videos as well, b</div>
+      <div class="qa-session">OH 55 · March 27, 2023</div>
+      <div class="qa-transcript">So the first one, and this is a super common question that comes up from fluids here, why does pressure divided by gamma equal pressure? I keep getting stuck on the units. I think in every Bernoulli problem. So some frustration there, and we&#x27;ve all been there with the Bernoulli equation and fluid. So let&#x27;s take a step back on that. And you can also roll back into the archive, into fluids, and see some of the earlier office hours videos about this. It&#x27;s addressed in the solution videos as well, but it&#x27;s never a bad time to kind of step back and just talk about that again. So your question is, how does pressure over gamma equal pressure? Strictly speaking, it doesn&#x27;t. So we should be really clear about what we mean by pressure, and we also want to distinguish SI units from US customary units. So in SI units, we say pressure equals rho gh. But in US customary units, we cannot say the same. Instead, we have to say pressure equals rho gh over g sub c, the gravitational constant. And since the p exam is in US customary units, this is the one that you&#x27;re more often dealing with. So this is for US customary system. Okay, so that&#x27;s the first thing. So what ends up happening with this? We have g over gc, and they have the same magnitude but different units. So the numbers end up canceling out, and then you just end up with rho times g, rho times h. So how can rho times h be the same as rho gh over here? Can&#x27;t, right? So then the question is, what is gamma? Where is that coming into play? And how is that defined? Well, gamma is the specific weight. So in SI units, it&#x27;s rho times g. So it has a different value from the density, the density of water, or the density of air, whatever it is you&#x27;re dealing with, and the specific weight are two different numbers, and they have two different units, because the density is mass per cubic foot. And the specific weight is force per cubic foot. Oh, not necessarily per cubic foot, cubic meter, I guess it would be in SI units per unit volume. So what do you think about it? So mass per unit volume, or the density, and weight per unit volume for the specific weight. The distinguish that with how gamma is defined in US customer units, it&#x27;s going to be rho times g over gc. So again, the magnitude of g and gc cancel out, because it&#x27;s the same number, 32.2 acceleration due to gravity. But the units are different. The units for g is just feet per second squared, all right, the amount. And the units for gc are feet per second squared times pound mass over pound force. And the density, I&#x27;ll guess I&#x27;ll write it all out. So that was just g and gc. So let&#x27;s throw the density in there as well in the numerator. That&#x27;s going to be pound mass per cubic foot. So we get the cancellation of feet per second squared and the cancellation of pound mass. But we keep pound force and that comes up into the numerator. So we end up with units of pound force over cubic feet. And so what&#x27;s the conclusion? Because you&#x27;re not going to do this every time you have a Bernoulli equation problem. No, it should do. What you want to remember is that in US customer units, the specific weight gamma is the same as the density. The only thing that has to change is the units. So let&#x27;s suppose you&#x27;re dealing with water at standard temperature. You would say that the density is 62.4 pound mass per cubic foot. Or if it&#x27;s the specific weight that you want, then you could just take the liberty and not doing all this showing units and everything else. You should do this once just to get your head around it. But once you&#x27;ve done it, then you can go ahead and take the liberty of saying the specific weight is the same exact number 62.4 but now it&#x27;s pound force per cubic foot. And it should be cubic foot. And again, so magnitude, density, specific weight, same number, SI units. Not going to happen. It&#x27;s going to be different. Because there&#x27;s no GC and SI. And actually that makes more sense to folks generally speaking. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 10 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 10 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

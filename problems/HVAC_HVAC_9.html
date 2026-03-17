@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 9</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 9</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 9</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 9</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      In an eort to allow for increased ceiling heights, a design engineer species a 3:1 aspect ratio for a duct that delivers 500cfm. The velocity is to be kept under 400fpm. What is the dimension of the long side of the duct? 49
+      In an e(cid:27)ort to allow for increased ceiling heights, a design engineer speci(cid:28)es a 3:1 aspect ratio for a duct that delivers 500cfm. The velocity is to be kept under 400fpm. What is the dimension of the long side of the duct? 49
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,90 +225,45 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>13in</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>14in</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>23in</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>24in</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>24in ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 9 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: In an eort to allow for increased ceiling heights, a design engineer species a 3:1 aspect ratio for a duct that delivers 500cfm. The velocity is to be kept under 400fpm. What is the dimension of the long side of the duct? 49
-
-The answer choices are:
-  A) 13in
-  B) 14in
-  C) 23in
-  D) 24in
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">p the velocity under the maximum: Q=VA Q 500ft3 (cid:18) 12in (cid:19)2 A= = min =1.25ft2 =180in2 V 400 ft 1ft min Let the short side of the duct have length x and the long side have a length of 3x to achieve a 3:1 aspect ratio. Write an expression for the area and solve for the length of the short side, x. 3x2 =180in2 x=7.74in The duct dimensions must be integers. Since 7&lt;7.74&lt;8, the short side may be 7in or 8in in length. Generate several possible sets of dimensions for consideration: 7×23→A=161in2 &lt;180in2(insufficient) 7×24→A=168in2 &lt;180in2(insufficient) 8×23→(not3:1ratio) 8×24→A=192in2 &gt;180in2, 3:1ratio OK, V &lt;400fpm The long side is 24in. Answer D 282</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 25</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 25 | November 19, 2021 lesson: Lesson-30310983 lesson_pos: 2 chapter_pos: 12 content_id: 30310983 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, psychometrics. I cannot use Q equals 500 Q delta t because it's asking for condensate not water also need to account for massive air, question mark. Also I get tripped up identifying which specific volume to use for this problem I see entering CFM is given so that's why we're using state ones entering specific volume question. Okay, so couple of things there. This is a sensible and latent cooling problem. So you're right, we're not going to use 500 gpm delta t. 500 gpm delta t is for the s</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 25 · November 19, 2021</div>
+      <div class="qa-transcript">Okay, psychometrics. I cannot use Q equals 500 Q delta t because it&#x27;s asking for condensate not water also need to account for massive air, question mark. Also I get tripped up identifying which specific volume to use for this problem I see entering CFM is given so that&#x27;s why we&#x27;re using state ones entering specific volume question. Okay, so couple of things there. This is a sensible and latent cooling problem. So you&#x27;re right, we&#x27;re not going to use 500 gpm delta t. 500 gpm delta t is for the sensible heating or cooling of water. So we have a flow of water through system and some energies being added or removed from that water. That&#x27;s where we use 500 gpm delta t. But this is a case where we&#x27;re cooling air. So we&#x27;re cooling air and as a result of that, we&#x27;re cooling that air not only sensibly, not only reducing its temperature, but also running that air over cooling coil to the point where it&#x27;s cooled past its dew point. When that happens, we&#x27;re going to strip moisture from that air. And we call that latent cooling. So we&#x27;re going to be cooling and dehumidifying. So the way we look that up in the reference handbook. And then you need to be annotating again. It&#x27;s an actually right out the search term because they have hyphens and I like when they use hyphens because it throws us off when we&#x27;re trying to search for stuff in there. But it&#x27;s moist dash air, cooling and spelled out and dehumidification. That&#x27;s an eye. And when we search that term, we get the equation that gives us the mass flow rate of water. That&#x27;s the condensate being removed from the air. As a function of the mass flow rate of air, times the difference in the humidity ratio. In other words, the humidity ratio is higher before that air enters the coil. And then after it gets cooled and some moisture is stripped out, it&#x27;s lower. So that&#x27;s our humidity ratio at state two. And it&#x27;s the difference of those humidity ratios times the mass flow rate of air that gives us the mass flow rate of water. So that&#x27;s the key equation. Anytime you have sensible and latent cooling and you&#x27;re interested in finding out the rate at which condensate is being removed from some flow of air. To get to the second part of the question, which is where do we take the specific volume from? Do we take that from the entering air or from the leaving air or somewhere in between? That&#x27;s also a very common question. And I&#x27;ve probably said a lot about that on previous office hours, but the short version is use the entering conditions. That&#x27;s going to get you where you need to go 95% of the time. It&#x27;s going to simplify. So you don&#x27;t have to worry. There&#x27;s very few exceptions to that rule. And it&#x27;s not worth losing any sleep over. So take the specific volume for the entering conditions or the air entering the coil. And you&#x27;ll be successful in and saw them these problems. And just for everyone else that didn&#x27;t specifically ask this question, I want to make it clear that it&#x27;s this mass flow rate of air, which is the volume flow rate of air. I like to write that as V dot sometimes, but now the the new customary way of doing that is to use Q, which I can I find confusing because I like to reserve Q for heat. But this is the world we live in now. Today&#x27;s reference handbook. So this is volume flow rate of air. And that&#x27;s going to be divided by the specific volume, which is little V. And that&#x27;ll give you the mass flow rate of air. And then we&#x27;re off to the races in that problem.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 30</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 30 | February 4, 2022 lesson: Lesson-32071398 lesson_pos: 0 chapter_pos: 17 content_id: 32071398 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> System 9 is it possible to solve this question using the reference book 9.2.3 at ebatic mixing of two moist air streams? Yes, so actually I think to do it using 9.2.3 mixing two air streams is formally the best way to do it arguably the right way to do it and what I did is faster, that's why I did it. I wanted to say it some time, but a little looser in terms of the you know the rigidity or the the rigor of the approach and I'll explain what I mean there. So to use these equations it's weighted </div>
+      <div class="qa-session">OH 30 · February 4, 2022</div>
+      <div class="qa-transcript">System 9 is it possible to solve this question using the reference book 9.2.3 at ebatic mixing of two moist air streams? Yes, so actually I think to do it using 9.2.3 mixing two air streams is formally the best way to do it arguably the right way to do it and what I did is faster, that&#x27;s why I did it. I wanted to say it some time, but a little looser in terms of the you know the rigidity or the the rigor of the approach and I&#x27;ll explain what I mean there. So to use these equations it&#x27;s weighted average of by mass and that&#x27;s the right thing to do. This equation right here. So you&#x27;re taking the mass of stream 1 times the enthalpy of stream 1 plus the mass of stream 2 times enthalpy of stream 2 and in this problem we&#x27;re basically mixing two air streams. So if we really wanted to be formal about it we should use exactly this equation. We should find the enthalpy of those two incoming flows and we should find the masses. Well what does it mean to find the masses? If we&#x27;re given the volumes then we need to know the density or the specific volume. But fortunately both of those states are fully defined so we can use the psychometric chart to find the specific volumes and we can turn those volume flow rates into mass flow rate which will allow us to find the enthalpy at state 3 which I think is what we&#x27;re after in this. Yeah what&#x27;s the enthalpy of the mixed air? So yep absolutely can do it. Why didn&#x27;t I do it? Well I just wanted to go fast so I use the volumes. So I&#x27;m making the assumption that the specific volume at either of these two states or really all three states the two incoming and the mixed air condition are close enough that it&#x27;s going to be somewhere between 12.0 points. Well what is it outside? It&#x27;s not particularly is it cold? No it&#x27;s hot. So you know this is going to be upwards of 13.5. This is going to be around 13.5 and I just don&#x27;t think it&#x27;s going to introduce more than 5 or 10 percent error and I&#x27;m willing to take a chance although maybe I shouldn&#x27;t be so willing because these answer choices are awfully close. So I think you raise a good point by bringing it up and I just want to give the confirmation that this is absolutely the right way to go but I&#x27;m open to relaxing the requirement to use mass a bit and sometimes use volume. If and when you feel like you can get away with it and you want to save some time and you&#x27;re comfortable making that judgment call.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 65</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 65 | August 14th , 2023 lesson: Lesson-47857149 lesson_pos: 2 chapter_pos: 52 content_id: 47857149 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC9 in the solution, I understand that we are using the area of the rectangle, but shouldn't we use the hydraulic diameter to calculate the velocity in the duct? So this comes up quite a bit and it's also kind of related to what we just talked about with hydraulic diameter. So there's two different formulas and you can also look at previous office hours because this is a common question. There's the hydraulic diameter, which is this idea that the hydraulic diameter equals four times the area o</div>
+      <div class="qa-session">OH 65 · August 14, 2023</div>
+      <div class="qa-transcript">HVAC9 in the solution, I understand that we are using the area of the rectangle, but shouldn&#x27;t we use the hydraulic diameter to calculate the velocity in the duct? So this comes up quite a bit and it&#x27;s also kind of related to what we just talked about with hydraulic diameter. So there&#x27;s two different formulas and you can also look at previous office hours because this is a common question. There&#x27;s the hydraulic diameter, which is this idea that the hydraulic diameter equals four times the area over the perimeter. And there&#x27;s an alternate equation right underneath that that you&#x27;ll find by using the search term, rectangular ducts, rectangular ducts. And that&#x27;s this formula that you&#x27;re pointing out. And my guide in on this is if it&#x27;s a duct, use this. That&#x27;s what it&#x27;s for, but the rectangular duct, this is the exact words that the use in the reference handbook are this, the circular equivalent of a rectangular duct. So if you have a rectangular duct, this is how you find the circular equivalent. For other geometries, this won&#x27;t work, this only works for rectangular ducts, so you have no choice, but to use the hydraulic diameter equation. But if you have a rectangular duct, this is your first choice. This is a backup plan for other geometries. And I wouldn&#x27;t necessarily assume that they have to align because they&#x27;re a little bit different in their construction, right? This is a very kind of interesting formula with exponents and whatnot. I don&#x27;t think we can expect that to align with this generalized formula. So there&#x27;s got to be a very good reason why this exists, so if it&#x27;s a rectangular duct, straight to this.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 9 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 9 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

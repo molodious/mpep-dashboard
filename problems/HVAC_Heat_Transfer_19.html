@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,122 +206,88 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 19</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 19</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 19</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 19</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An 18in×24in uninsulated duct runs through a 100ft auditorium. Air in the duct has an initial temperature of 55°F and a veloc- ity of 800ft per min. The auditorium is maintained at 75°F by a dedicated system. The outside lm coecient for the duct is 1.4 Btu . What is the temperature of the air in the duct as it hr·ft2·°F exits the room?
+      An 18in×24in uninsulated duct runs through a 100ft auditorium. Air in the duct has an initial temperature of 55◦F and a veloc- ity of 800ft per min. The auditorium is maintained at 75◦F by a dedicated system. The outside (cid:28)lm coe(cid:30)cient for the duct is 1.4 Btu . What is the temperature of the air in the duct as it hr·ft2·◦F exits the room?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>57°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>58°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>59°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>60°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>57◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>58◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>59◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>60◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 19 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An 18in×24in uninsulated duct runs through a 100ft auditorium. Air in the duct has an initial temperature of 55°F and a veloc- ity of 800ft per min. The auditorium is maintained at 75°F by a dedicated system. The outside lm coecient for the duct is 1.4 Btu . What is the temperature of the air in the duct as it hr·ft2·°F exits the room?
-
-The answer choices are:
-  A) 57°F
-  B) 58°F
-  C) 59°F
-  D) 60°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">t gain into a duct from a room held at constant temper- ature. The duct is not circular but the hydraulic diameter may be determined such that circular duct formulas may be used: 4A 4(1.5ft)(2ft) 12ft2 D = = = =1.71ft h P [(2)(2ft)+(2)(1.5ft)] 7ft Next (cid:28)nd the Reynolds Number to determine whether the (cid:29)ow is laminar or turbulent. Use the (cid:176) tablePropertiesofAiratAtmosphericPressureandchoosethetemperatureof60 Fforconvenience. (cid:16) 800 ft (cid:17)(cid:0)1min(cid:1) (1.71ft) Re= vD = min 60sec ≈144,300&gt;10,000 (turbulent) (cid:16) (cid:17) ν 15.8×10−5ft2 s Having established that the (cid:29)ow is turbulent and that the duct may be treated as round, use theSieder-TateequationfoundintheReferenceHandbookbysearchingTurbulentFlowinCircular Tubes. This equation speci(cid:28)es the Nusselt Number, Nu, which will be useful for determining the convection heat transfer coe(cid:30)cient. Use the table Properties of Air at Low Pressure to look up the value for the Prantl Number, Pr. Since the air temperatures inside and outside the duct are not dramatically di(cid:27)erent, assume the dynamic viscosity of air at the bulk temperature, µ , is b approximately equal to the dynamic viscosity of air at the inside surface temperature of the duct, µ . Calculate Nu: s (cid:18) µ (cid:19)0.14 Nu =0.023Re0.8Pr1/3 b D D µ s µ µ ≈µ → b ≈1→Nu ≈0.023Re0.8Pr1/3 b s µ D D s 260 Nu =(0.023)(144,300)0.8(.715)1/3 =275.8 D A formula that is o(cid:27)ered in a few di(cid:27)erent scenarios in the Reference Handbook but never statedgenerallyistheequationfortheNusseltNumberandhowitcanberelatedtotheconvection heat transfer</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">9 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 18</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 18 | July 16, 2021 lesson: Lesson-26324521 lesson_pos: 3 chapter_pos: 5 content_id: 26324521 wistia_id: nq</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, he transferred 19. Why can't we use the equation heat gain loss from uninsulated duct from 9.3.6.7 for this problem? I took a look at that one. Let me bring it up. So this question is, this was formula is interesting because it has a lot of the pieces that we would need perimeter, length, volume, specificity, capacity, density, and area to find the temperature gain. The one it doesn't have is q. And q is the heat flux that he lost through the wall in B2 per hour per unit area. And if </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 18 · July 16, 2021</div>
+      <div class="qa-transcript">All right, he transferred 19. Why can&#x27;t we use the equation heat gain loss from uninsulated duct from 9.3.6.7 for this problem? I took a look at that one. Let me bring it up. So this question is, this was formula is interesting because it has a lot of the pieces that we would need perimeter, length, volume, specificity, capacity, density, and area to find the temperature gain. The one it doesn&#x27;t have is q. And q is the heat flux that he lost through the wall in B2 per hour per unit area. And if you don&#x27;t have that, then how would you get that becomes an x-questioned? And I think one way of coming at that might be to come back to this sort of an equation. Maybe I&#x27;ll use big q. At least does a starting point. And then, or if it&#x27;s convection, maybe instead of u, you might use h. And then the question is going to be, well, how do I determine h? Because we know the area. And then we&#x27;re right back into dealing with forced convection problem. So it&#x27;s forced convection. It&#x27;s turbulent flow. We&#x27;re going to have to find the new salt number equals hd over k. And go through that whole process, which the solution kind of does. And it&#x27;s a lot. It&#x27;s a difficult problem. So I don&#x27;t know. I think that would kind of be the roadmap. If you wanted to try to use this equation, I&#x27;d be curious if it kind of led to the same result. But u would be there&#x27;s a circle of one over the total resistance. And then maybe the total resistance would be based on the films. One over h i plus one over ho. And I think one of these was given. Maybe it was ho was given. And then h i was not. So we&#x27;re going to have to go find h. And it&#x27;s forced convection. So we&#x27;re going to have to go through this new salt number. And that whole process. So I guess what I&#x27;m saying is maybe you can use that equation. Or you&#x27;re still going to have to go through finding h. h i specifically the inside film coefficient based on forced convection. So that that really can&#x27;t be avoided. So is the formula applicable? Maybe. Is it going to lead to a simplification of the solution? Probably not.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 19 | July 30, 2021 lesson: Lesson-26631916 lesson_pos: 2 chapter_pos: 6 content_id: 26631916 wistia_id: jf</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19. How do you know when to use the equation 5.3.7 for finding Reynolds number? So I will answer that question specifically, but first I just want to take one click out and answer the question more generally of why are we finding the Reynolds number at all? Not so much specifically about this equation, but like when do you need to go find the Reynolds number in the process of solving a heat transfer problem? So in general, if the problem gives you the film coefficient, so the heat</div>
+      <div class="qa-session">OH 19 · July 30, 2021</div>
+      <div class="qa-transcript">He transferred 19. How do you know when to use the equation 5.3.7 for finding Reynolds number? So I will answer that question specifically, but first I just want to take one click out and answer the question more generally of why are we finding the Reynolds number at all? Not so much specifically about this equation, but like when do you need to go find the Reynolds number in the process of solving a heat transfer problem? So in general, if the problem gives you the film coefficient, so the heat transfer coefficients that you need for convection, they&#x27;re giving you the value of H. Then chances are you&#x27;re going to have a much more straightforward solution path, because you&#x27;re probably going to end up doing Q dot for convection is H.A. Delta T or something similar to that. And you have the H you need, so you&#x27;re on your way. When it gets considerably more interesting is if H is not given, and you know there is convection in play, right? Because if H is not given, and it&#x27;s a radiation problem, or a conduction problem maybe you don&#x27;t need H. But if there&#x27;s a lot more going on and you&#x27;re given more information, it&#x27;s clearly a convection problem, then the problem can kind of take two paths. I guess three paths really. It could be natural convection. And there&#x27;s a way of dealing with that, and you can follow the reference handbook, and there&#x27;s some practice problems that follow that path. And then there&#x27;s force convection. And then there could be both, which I mean that&#x27;s getting to be a pretty complex problem, so it&#x27;s a bit evil to sort of give you both at that point they&#x27;d say, here&#x27;s H overall. I would hope, you know, and then if you have that H we&#x27;re back up to this easier pathway. And then within the world of forced convection, you can have a laminar flow. And turbulent flow. And those have different processes for how you solve. So the question of when do you need the Reynolds number? It&#x27;s when you&#x27;ve already made the decision that H is not given. Convection is in play, so I have to consider it. And it&#x27;s not natural convection. It&#x27;s forced convection. And I&#x27;m about to decide whether it&#x27;s laminar or turbulent. That&#x27;s when we go for the Reynolds number, because that&#x27;s going to allow us to make that determination. Whether it&#x27;s above or below the critical value for being considered turbulent. So that&#x27;s that may not be what your question was driving it, but I wanted to make sure that background context is present before we even get into this formula. This formula is written a little differently than you might be used to seeing. And it actually just kind of resolves right back to the more base case standard version of the Reynolds number that I think we&#x27;re all kind of accustomed to just reaching for automatically. Whenever we need it, which is V D over a new velocity times diameter over kinematic viscosity. So in their version of this equation, they&#x27;re using this U sub m to be the average or mean velocity of the fluid. So that&#x27;s the same thing as V in the original equation. And then the kinematic viscosity Greek letter new is the absolute viscosity or dynamic viscosity mu over the density row. So if you make that substitution into here, then you&#x27;re going to end up with this expression for Reynolds number. So I guess you can use this if you want, or you can use that, they&#x27;re basically the same thing. This is the short version there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 65</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 65 | August 14th , 2023 lesson: Lesson-47857155 lesson_pos: 1 chapter_pos: 52 content_id: 47857155 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19. Two questions on the approach to this problem. First, my approach, my first approach to this problem was that we're going to need to use the log-mean temperature difference, since the temperature of air is changing along the length of the duct similar to the previous chilled beam heat exchanger problem. However, you treated the duct as a forced convection problem with an average bulk temp for the delta t. Are you assuming some sort of average heat loss to the duct to account f</div>
+      <div class="qa-session">OH 65 · August 14, 2023</div>
+      <div class="qa-transcript">He transferred 19. Two questions on the approach to this problem. First, my approach, my first approach to this problem was that we&#x27;re going to need to use the log-mean temperature difference, since the temperature of air is changing along the length of the duct similar to the previous chilled beam heat exchanger problem. However, you treated the duct as a forced convection problem with an average bulk temp for the delta t. Are you assuming some sort of average heat loss to the duct to account for the changing air temp in the duct? Second question, the new salt number equation is in the reference handbook, new salt equals HD over K, is only shown in intersections entitled exterior flow, but you use it for the flow inside the duct, is that always the new salt number equation. So part of the reason why I took the approach I did on this problem is because I wanted you to have a forced convection and example in the heat transfer module. So it might seem a little bit contrived, and it&#x27;s not crazy that your first shot was to use a different method. In fact, I think it&#x27;s probably quite reasonable. And a lot of times in heat transfer problems, there&#x27;s more than one way to view it. It&#x27;s not obvious what the right set of assumptions are, and the answer that you ultimately get is sometimes up to 20 or even 30% off of the right answer. Like I guess what I&#x27;m trying to say is, I can&#x27;t ever expect to have a level of accuracy that&#x27;s greater than that in a lot of heat transfer problems, which is different from a lot of other areas of engineering. It&#x27;s very challenging to be precise in heat transfer. So that&#x27;s something that we should know going in. But anyway, we had done a lot of natural convection, we&#x27;d done some external flow, right, a lot of other different types of problems that we&#x27;d done up to this point, and I wanted you to have a forced convection one. So a better way for me to have phrase the question might have been to just explicitly say in the problem statement, use forced convection assumptions to solve this problem, right? And then you wouldn&#x27;t have had to kind of go down that alternate path. But I&#x27;d be interested just out of curiosity, you see how close the answer came doing it that way. But anyway, to your question, are you assuming some sort of average heat loss through the duct to a counter-changing air temp in the duct? Yes, that&#x27;s exactly what I&#x27;m doing. I&#x27;m assuming that the heat transfer will be dictated by Q equals U, A delta T, right? That down. And this is in the solution as well. But my kind of working assumption for this problem is the idea that Q equals U, A delta T, where the overall heat transfer coefficient U is equal to one over the total resistance. And furthermore that the total resistance is a function of the inside and outside film coefficients. And I&#x27;m neglecting the conduction through the thickness of the duct because it&#x27;s metal and it&#x27;s a very good conductor and it&#x27;s pretty thin. So there&#x27;s not much resistance there. So it&#x27;s really just going to be a function of the film on the inside and the film on the outside. And that&#x27;s kind of the guiding principle and the rest of the solution sort of flows from that. And to the second question, the Newstil number of equation, Newstil equals H D over K is only shown in the section under exterior flow, but I use it inside the duct. Yeah, that&#x27;s a powerful equation and it&#x27;s really general and useful for anything that&#x27;s convection. It could potentially be in play. So that&#x27;s a good one to have up your sleeve. Sometimes it&#x27;s shown as H D over K and more generally sometimes it&#x27;s shown as H L over K. If it&#x27;s not around pipe or in this case, I think it&#x27;s a rectangular duct. So it&#x27;s not round, but we use the hydraulic diameter or some other way of getting a diameter that we can work with. But if it&#x27;s a different geometry like a flat plate or something like that, you might see L sometimes they&#x27;ll write L sub C, which means the characteristic length. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 70</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 70 | November 6th, 2023 lesson: Lesson-50455667 lesson_pos: 5 chapter_pos: 57 content_id: 50455667 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, he transferred 19. Since we seem to be making so many assumptions for the sake of time, wouldn't it be reasonable to make the following two? The film temperature T.S. is the average of the space temp 75 and the 55 degree air and during the duct and two use only the H.I. the inside film coefficient in the problem to solve for their convection heat transfer. So this was a heat transfer problem about forced convection in a duct and it was a long problem. It was a hard problem. It was pro</div>
+      <div class="qa-session">OH 70 · November 6, 2023</div>
+      <div class="qa-transcript">All right, he transferred 19. Since we seem to be making so many assumptions for the sake of time, wouldn&#x27;t it be reasonable to make the following two? The film temperature T.S. is the average of the space temp 75 and the 55 degree air and during the duct and two use only the H.I. the inside film coefficient in the problem to solve for their convection heat transfer. So this was a heat transfer problem about forced convection in a duct and it was a long problem. It was a hard problem. It was probably arguably top two, top three hardest problems in the program. It was like a 25 minute video solution. So probably overclocked on my part. But to address the specific questions here as to the first part, regarding the film temperature, technically what we&#x27;re looking for in a film temperature is the average. So we know the space temperature 75. The question is what should we use for the temperature inside or the surface temperature of the duct? It&#x27;s a chicken and egg problem because what we&#x27;re looking for is either the air temperature leaving the duct or the surface temperature of the duct. So we have to basically guess a film temperature and then in theory we&#x27;d have to iterate on that. If we turned out that the leaving air temperature of the duct was something different, that will cause a different surface temperature and that would change the film conditions and then we&#x27;d have to go around a second sometimes even a third time. But we&#x27;re not going to do that because the impact of the temperature being a little bit different on the film conditions is negligible. So it actually wouldn&#x27;t matter in this case if you use the film conditions at 55, 60, 65, 70, 75, like the numbers are not going to move around that much. So just pick one. If you want to use 60, 65, if you want to just use 75, it&#x27;s all fine. It is true that the film conditions are a function of temperature, but we&#x27;re not dealing with a large temperature range here. If you have a situation where it&#x27;s like the vapor or the fluid that you&#x27;re dealing with is 60 degrees and the surface is 300 degrees, then you&#x27;ve got to take the average and calculate the film temperature properly. But in a 20 degree range, it&#x27;s not worth the time. So don&#x27;t worry. The second part, as far as the inside film coefficient, the whole purpose of this problem and the reason why it&#x27;s in there is because I wanted you to learn how to find the internal convection coefficient, HI, using the New Sultan number and going through that whole process. So making the assumption that it&#x27;s forced convection and all that. This is the only problem that shows that process. And it&#x27;s not a huge concern. It&#x27;s like it&#x27;s something that I think you should know. It&#x27;s not something I think you need to do five or 10 times. If you were going to miss something and it was this, it probably wouldn&#x27;t be the end of the world. But what I would say is try to step through that process, take what you can from this problem. Like I said, it&#x27;s probably a bit too much, but just try to go through it slowly and take what you can. Rather than trying to make assumptions that simplify our wrap around it and actually go through the process and see what you can take.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 95</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 95 | January 6th, 2025 lesson: Lesson-61696160 lesson_pos: 5 chapter_pos: 80 content_id: 61696160 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> eight transfer 19. I don't understand problem. I understand the problem and why not use film temperature. So this yeah this one was a hard problem. This is probably the there's two heat transfer problems that are very hard. Maybe two hard. One of them is this one and the other one is 22 which is the last one. So rest assured that you're not the only one kind of hanging your head against the little this one. But in general it was a duct is an uninsulated duct and I don't give you the the surface </div>
+      <div class="qa-session">OH 95 · January 6, 2025</div>
+      <div class="qa-transcript">eight transfer 19. I don&#x27;t understand problem. I understand the problem and why not use film temperature. So this yeah this one was a hard problem. This is probably the there&#x27;s two heat transfer problems that are very hard. Maybe two hard. One of them is this one and the other one is 22 which is the last one. So rest assured that you&#x27;re not the only one kind of hanging your head against the little this one. But in general it was a duct is an uninsulated duct and I don&#x27;t give you the the surface temperature. I give you some other information about the inlet temperature and the outlet temperature but I don&#x27;t give you the surface temperature. So you&#x27;re actually not able to find the film temperature although you might like to. We&#x27;ve got some information about the air that&#x27;s flowing inside the duct but we don&#x27;t know T. S. We do know the ambient temperature. So the film temperature we would want to find if we could would be the sum of the average. So it would be T. S plus T ambient over two but this is unknown and it&#x27;s it&#x27;s kind of unknowable in the problem too. You can guess you can you can kind of estimate it and take a shot and then you can do the problem iteratively which is almost never going to be required for an exam type problem but there&#x27;s definitely heat transfer problems out there that you could find where you guess the surface temperature you pretend that that&#x27;s true. You find the corresponding film temperature you look up all the properties of the fluid at that temperature you solve the whole problem and then you get an answer and then you use your answer to check what that would mean for the surface temperature and if you were in the ballpark you stop and if you&#x27;re not then you make a better selection and you repeat the whole process. That is not what this problem calls for. I don&#x27;t have any problems like that in the program for good reason but did want to mention that it&#x27;s a possibility. Anyway so the reason we didn&#x27;t use the film temperature is because the film temperature is not not noble. What I wanted to get across in this problem was how you would put together an internal convection, a forced internal convection formulation with a natural external convection as well. So we&#x27;ve got some entering temperature, some exit temperature. I think one of those is known in the problem statement and we&#x27;re losing heat because the air is moving through the duct and then the duct is losing heat to the ambient. I wanted to put those two ideas together into one problem. That&#x27;s what I&#x27;m trying to accomplish in that practice problem. Take what you can from it. I think there&#x27;s a lot of good stuff in there. It may be a flawed problem at the end of the day and the same for 22. Those were the two that I always kind of find myself. I might rewrite them at some point but there&#x27;s so much good stuff in there that I feel like if you just take it for what it&#x27;s worth and you get 80% of what is happening in there. You&#x27;re getting a lot of value and you&#x27;re getting a lot of benefit from just thinking through key heat transfer concepts specifically forced internal convection and then external convection natural convection on the outside of the duct. And just one other thing there. If you&#x27;re ever really stuck and you just you want to do something that you know and like you don&#x27;t want to just walk away from a problem without making it reasonable. Let&#x27;s say you had the inclination to use the film temperature as a solution path and if you knew it you&#x27;d be able to run through the problem but it&#x27;s not it&#x27;s not known or not knowable. But you have a kind of a range like the surface temperature is range bound. If you know enough about the incoming and leaving temperature then there&#x27;s only a certain range of temperatures that could be inside the duct and if the duct is uninsulated and you know the ambient temperature outside then you&#x27;re kind of constrained on what that surface temperature can can be. [...]</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 97 · February 3, 2025</div>
+      <div class="qa-transcript">He transfer 19, do we assume this is a forced convection problem because of a fan in the duck? This problem is worded to sound like we could use equation 9367 to find the change in temperature for the duck to exit temperature. I found Q-convection by taking the differential of the film temperature. I got 65 instead of 60 and air in duck each and plug it into the equation and got the right answer. Is that just a coincidence? No, that&#x27;s that&#x27;s nice work on your part. This is a pretty hard problem. He transfer 19 and 22 and HVAC program are two hard problems. I wanted the reason this problem exists and the reason the solution path is the way it is. I wanted to show you how to work on a forced convection problem. I think that&#x27;s something you should be able to do. But others have approached it the way you did and got good results. So that&#x27;s okay. If you got the right answer and a slightly different approach, then you probably did a nice job and that&#x27;s fine. And I would also encourage you to just watch the solution video and kind of try to get your head around the forced convection solution approach as well so that you have both of those options available to you.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 105 · June 23, 2025</div>
+      <div class="qa-transcript">First one, from heat transfer in 19, when using the turbulent flow and circular tubes, how can we use this equation in this situation? The equation states for either uniform surface temperature or uniform heat flux condition. The entering air temperature is 55 and there is an ambient temperature 75 so the surface temperature will be varying across the length of the duct or is the surface temperature considered to be the average temperature? Yeah, fair question. So this problem was about an uninsulated duct and there was an entering at temperature 55 and then along that length it&#x27;s expected to increase. And I did go ahead and use the turbulent flow and circular tubes equation which to your point assumes either uniform surface temperature or uniform heat flux condition. And I think your point stands that it is not a uniform surface temperature because we know the temperature of the air is going to increase. That&#x27;s the whole question of what that problem is looking to analyze. Is that increase in temperature? So then it becomes a matter of degree. We don&#x27;t know the answer until we work on the problem, right? So it&#x27;s a funny assumption to make it the beginning. But one possible conjecture and you don&#x27;t have to accept this, but just something to try on is the possibility that the temperature rise of air going through that duct is minimal enough that it ends up not being so different on the way out as it was in the way in. And you wouldn&#x27;t have the luxury of knowing this before working on the problem, but the answer ends up being 59 and it enters at 55. So if there&#x27;s a forward degree increase in temperature over the course of that run and the ambient temperature is the same then what would that mean for the surface temperature of the duct? It might mean it varies by less than 4 degrees because it&#x27;s going to be influenced equally by what&#x27;s inside it and what&#x27;s outside it, not necessarily equally, but certainly influenced by both the inside and outside. And then the question is, what that 2 degree difference one way or the other is that meaning fall enough to prevent us from using the turbulent flow in circular tubes. Or let&#x27;s try on the second condition, the uniform heat flux condition. The heat flux is not uniform at every point of length along the duct, but you could argue that the total heat flux through the duct is not changing. It&#x27;s uniform over time. So that ambient temperature is 75 and that&#x27;s not changing and the entering temperature is 55 and that&#x27;s not changing and the exit temperature. We don&#x27;t know what it is, but the air is going through the duct in and out. So it&#x27;s in a steady state and then you could argue that the heat flux is constant or at least roughly constant. So those are some things to consider. It&#x27;s not ironclad, right? It&#x27;s not like a home run definitely use this and you can&#x27;t go wrong. It&#x27;s more of a reasonable approximation to start with and something to potentially challenge. The other thing that I would mention that I didn&#x27;t really think about when I wrote the problem, but I thought about it when I read your question is that there&#x27;s conduction throughout the duct as well because it&#x27;s metal. It&#x27;s a very good conductor. So you could argue that let&#x27;s say at the beginning of the duct there&#x27;s more delta t, higher delta t and at the end there&#x27;s less because the air is already warmer, but because of the ability for heat to be transferred laterally via conduction, which happens quickly, that could also help to produce a little bit closer to constant temperature on the surface of that duct. So some arguments there that bring it closer to justifying the turbulent flow and circulatory and other argument, and this is probably even flimsy, but it came to mind is what other planned you have. I don&#x27;t know another way to kind of take a crack at this problem. It&#x27;s one of the harder problems in the heat transfer section 19 and 22 are to pretty deep problems. [...]</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 106 · July 7, 2025</div>
+      <div class="qa-transcript">Okay, heat transfer 19. I attempted this problem using equation 9.3.6.2 and the very next one 9.3.6.3. And both gives an answer that yields options B or C. How do we determine which equation to use for the hydraulic diameter or the rectangular ducts? So, my advice here is it kind of depends on the application. So you have to sniff out the problem and try to figure out what that problem is about. So if it&#x27;s like an HVAC duct sizing, systems and components type problem about a duct, then we want to use the DE, the equivalent diameter for rectangular ducts equation, which I think is the second one. If it&#x27;s more of a fluid mechanics heat transfer kind of like it leans more fundamental type problem, then we&#x27;re more likely want to use DE, the hydraulic diameter, which is the first option. So, this is more of a heat transfer type problem, so it kind of leans toward the hydraulic diameter. That&#x27;s going to prove to be more useful in this situation. But they&#x27;re often close. So, I&#x27;m not saying they&#x27;ll always reconcile it&#x27;s far from perfect. And if my answer choices are close together, you might use one option over the other and it might kind of backfire. But trying to lose too much sleep about that if you&#x27;re in the rough ballpark, again if my answer choices have been spread a little bit, that might have made the difference for you. So, I&#x27;m not saying they&#x27;re interchangeable. So, I do think it&#x27;s helpful to use the equivalent effort DE for HVAC type problems and for thermal fluids types problems, lean more toward hydraulic diameter.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 112 · January 19, 2026</div>
+      <div class="qa-transcript">He transferred 19 and problem 19 if he transfer. He used equation 535 external flow, cylinder of diameter D and cross flow from the handbook rather than 542 along horizontal cylinder in large body of stationary fluid. What is your leading indicator for using that equation? Perhaps it&#x27;s the fact that we know our duct is experiencing airflow indicated by the velocity under FPM. For further context the solution for problem 21 and he transfer relies on equation 542 which is the long cylinder and large body of stationary fluid. Is this because the problem does not mention any airflow thus it&#x27;s safe to assume a long horizontal cylinder in a body of stationary fluid. The goal of my question is to further understand when to use either of these two equations. So I&#x27;m not using 535 cylinder and of diameter D and cross flow. I&#x27;m using this one at the bottom here, 539 turbulent flow in circular tubes because this is internal flow. So you&#x27;re probably right in that the external flow, it&#x27;s stationary. There&#x27;s no external flow, at least that we know of. There&#x27;s problems so it&#x27;s probably a reasonable assumption to say that this duct is surrounded by stationary air. But we know for a fact there&#x27;s internal flow. So that&#x27;s why we went for turbulent flow in circular tubes which is a little bit awkward because it&#x27;s a rectangular duct and not a circular tube. I talk about that in the solution, you know, justifying, going about it that way. So that&#x27;s the one I&#x27;m using. I know they changed the numbers around from version diversion but this is based on reference handbook version 2.0 which is the latest and greatest to my knowledge and that&#x27;s what I&#x27;m using. And they look very similar. So I can see why you would have thought that I was going for 535. This has this sort of extra fraction on the end and I had to make some assumptions that these values for dynamic for scarcity were one in the solution which could be a bit of a reach. And this problem, 19 and I don&#x27;t know if it&#x27;s 2021 or 22 are a couple of the hardest problems in the program. Probably over the top you can tell by the solution video durations for those who haven&#x27;t gone to those two. You know, don&#x27;t beat yourself up when you do they&#x27;re probably overdone. You know, until I have the opportunity to kind of simplify those and make them a bit more reasonable, I figure keep them in and you can take what you can from them even if it&#x27;s just kind of framing the problem initially and thinking through this setup that goes a long way. So. And one more partial question that you had in this was related to 21. Yeah, and 21 we use it&#x27;s natural convection as you stated. So that&#x27;s why we use this 542 long horizontal cylinder and a body of stationary fluid. No external flow and that one.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 19 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 19 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +295,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

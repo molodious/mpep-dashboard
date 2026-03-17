@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 26</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 26</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 26</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 26</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Three 90% ecient secondary chilled water pumps operate in a parallel redundant N+1 conguration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted ow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?
+      Three 90% e(cid:30)cient secondary chilled water pumps operate in a parallel redundant N+1 con(cid:28)guration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted (cid:29)ow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,102 +225,57 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>28hp</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>42hp</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>63hp</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>95hp</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>95hp ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 26 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: Three 90% ecient secondary chilled water pumps operate in a parallel redundant N+1 conguration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted ow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?
-
-The answer choices are:
-  A) 28hp
-  B) 42hp
-  C) 63hp
-  D) 95hp
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">omparing the normal mode of operation to the failure mode described. The values in the table are per individual pump. Normal Failure Q =500gpm Q =750gpm 1 2 h =200ft h =200ft A,1 A,2 n =900rpm n ? 1 2 bhp ? bhp ? 1 2 Look up the pump a(cid:30)nity laws. Recall the relationship between volume (cid:29)ow rate and speed is linear. Therefore, a 50% increase in speed must be required to produce a 50% increase in the (cid:29)ow rate. n Q 2 = 2 n Q 1 1 (cid:18) (cid:19) (cid:18) (cid:19) Q 750gpm n =n 2 =(900rpm) =1350rpm 2 1 Q 500gpm 1 Brake horsepower changes with the cube of the speed. However, before applying another pump a(cid:30)nity law, (cid:28)rst calculate the brake horsepower by (cid:28)nding the water horsepower, whp, which is determined by the (cid:29)ow rate and head added by the pump, then include the e(cid:30)ciency to account for the pumping losses. Assume the pump e(cid:30)ciency is constant over a range of speeds. Q h [gpm] A[ft] whp= 3960 whp Q h [gpm] A[ft] bhp= = η 3960·η p p (500)(200) bhp = =28.06hp 1 (3960)(.9) 217 Having de(cid:28)ned the brake horsepower for the normal operating state, apply the a(cid:30)nity law relating power and speed to determine the bhp for the failure mode: bhp (cid:18) n (cid:19)3 2 = 2 bhp n 1 1 (cid:18) n (cid:19)3 (cid:18) 1350rpm (cid:19)3 bhp =bhp 2 =(28.06hp) =94.7hp 2 1 n 900rpm 1 Note the dramatic increase in power associated with a moderate increase in speed. This is one reason why energy savings can be readily achieved by running red</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">6 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 16</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 16 | June 18, 2021 lesson: Lesson-25478293 lesson_pos: 4 chapter_pos: 3 content_id: 25478293 wistia_id: qe</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 26. I understand the process you went through with the pumps in parallel and using the pump affinity laws, but I'm curious as to why you can't use water horse power equals Q delta H over 3960, right off the get go when you have Q and H for the failure state. So let me give a bit of context on this problem for folks that. So this was a situation where you had three pumps in parallel. And in the problem.</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18, 2021</div>
+      <div class="qa-transcript">Fluids 26. I understand the process you went through with the pumps in parallel and using the pump affinity laws, but I&#x27;m curious as to why you can&#x27;t use water horse power equals Q delta H over 3960, right off the get go when you have Q and H for the failure state. So let me give a bit of context on this problem for folks that. So this was a situation where you had three pumps in parallel. And in the problem.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 41</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 41 | August 8th, 2022 lesson: Lesson-37698752 lesson_pos: 1 chapter_pos: 28 content_id: 37698752 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Next one, fluids 26. Why did you use the pump affinity laws to get your answer? If you use the affinity law for pressure, the pumping pressure is increased by 2.25 times. However, I would think the pumping pressure is the same at 200 feet since the volume flow rate is staying constant. So this was a problem where we had redundant pumps in parallel, and there were 3 pumps in a 2 plus 1 arrangement. And yeah, I've had other candidates kind of challenging questions this problem too, and it kind of </div>
+      <div class="qa-session">OH 41 · August 8, 2022</div>
+      <div class="qa-transcript">Next one, fluids 26. Why did you use the pump affinity laws to get your answer? If you use the affinity law for pressure, the pumping pressure is increased by 2.25 times. However, I would think the pumping pressure is the same at 200 feet since the volume flow rate is staying constant. So this was a problem where we had redundant pumps in parallel, and there were 3 pumps in a 2 plus 1 arrangement. And yeah, I&#x27;ve had other candidates kind of challenging questions this problem too, and it kind of confused me for a bit thinking about it. But I think I&#x27;ve got an answer, and if you don&#x27;t find it satisfying, then maybe we&#x27;ll have to poke at it a bit more. But I guess I&#x27;ll come at it two ways. I want to talk affinity laws and general relationships, and then talk about parallel pumps, and that&#x27;s why I have this up here. But my first thought was, okay, the water horsepower, or it could be very coarse power, water horsepower, whichever you like. You know, the state of the affinity laws is going to be a function of the speed cubed. And the speed is linear with the volume flow rate, so that should be tracking with volume flow rate cubed. Okay, fair enough. Then, then I thought about the equation for hydraulic horsepower. Which if we&#x27;re dealing with water would be q times delta h. divided by 3960. And I guess efficiency if you need to include that, but we&#x27;re just trying to talk principles right now. And if you have it in delta p, then that&#x27;s going to be q delta p instead of delta h. And then that&#x27;s divided by 1714. This is all stuff you guys know if you&#x27;ve been through the fluids problems already. So, then we also know from the affinity laws, we already said q is linear with speed. And pressure, or head if you like, are both linear with, I&#x27;m not sorry, not linear. They go with the square of the speed. And so volume flow rate and pressure difference being multiplied together, we&#x27;re going to end up with n times n square is going to be n. So, from an analytical perspective, all roads lead back to the power going with the cube of the speed or the cube of the volume flow rate. But you still have a good question here, which is like, the pressure isn&#x27;t actually changing. The pressure is whatever it was in this problem is 200 feet for the 2 plus 1 arrangement. And then one pump drops out and it should still be 200 feet. So then I started drawing pump curves and thinking like, okay, this drawing is meant to represent two pumps in parallel with a system curve. So if there was a third pump, I&#x27;d have to draw, I really won&#x27;t be able to get it on here, it&#x27;ll go off the page. But they would be like a third parallel curve like that, and it would kind of create even horizontal spacing with respect to these two and be approximately parallel. But here&#x27;s the thing, this is the operating point, we can have another color, this is the operating point for each individual pump when there&#x27;s two pumps in parallel. So what do we notice about that? We&#x27;re getting a lot more head for a given volume flow rate than we would be if we were actually riding on the system curve. Now how can that be? Why is that? Well, it&#x27;s because the pump has help from the other pumps. There can only be one delta P across multiple parallel pumps and they&#x27;re working together to achieve it. And they&#x27;re each contributing an equal share of volume flow rate and they&#x27;re working together to make that head. When one drops out, yeah, the head remains the same, but each has to contribute a little bit more to the volume flow rate and each has to do its part to make up for the loss of contribution from the third pump, even though the total system pressure across all three pumps doesn&#x27;t change. That&#x27;s what I came up with, I don&#x27;t know how satisfying explanation that is, but yeah, that&#x27;s kind of the way I thought about it. We like to ask questions. Yeah, far away. Yeah, so, you know, kind of, you know, you explained that. And what would stop us from just going back to a lot of horsepower thing. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 73</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 73 | January 22nd, 2024 lesson: Lesson-52345694 lesson_pos: 0 chapter_pos: 60 content_id: 52345694 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> The first one was from Fluids 26. I understand how we got to the final answer using the affinity laws. However, my question is why can't we use the BHP equation, which is the water horsepower of the pump efficiency, to get a final result. I say that because for the second state, the failure state. We have the pressure head and the flow rate for each individual pump, as well as their efficiency. So in my mind, we could simply do GPM times head over 30960 and efficiency, to get the result, which t</div>
+      <div class="qa-session">OH 73 · January 22, 2024</div>
+      <div class="qa-transcript">The first one was from Fluids 26. I understand how we got to the final answer using the affinity laws. However, my question is why can&#x27;t we use the BHP equation, which is the water horsepower of the pump efficiency, to get a final result. I say that because for the second state, the failure state. We have the pressure head and the flow rate for each individual pump, as well as their efficiency. So in my mind, we could simply do GPM times head over 30960 and efficiency, to get the result, which this method yields an answer 42 horsepower. I kept thinking that if the problem was very similar, but the initial state of the system gave us a situation where the total GPM of the system was 2250 GPM with a head of 200, we would use that formula to calculate the BHP and find 42 for state one as each of the three pumps would provide 750 GPM at 200 feet. Yeah, so for context, for folks that haven&#x27;t seen this problem, or aren&#x27;t looking at it right now, this is a pair of excuse me, parallel pump arrangement where you have three pumps and a two plus one redundant configuration, where if one pump fails, then they&#x27;re controlled by variable speeds, so the other two pumps will speed up to account for the fact that that third pump is no longer participating. And it is a little bit of a headscratcher when you start thinking about how you calculate the power by each of these pumps in different scenarios. And I&#x27;ve definitely been confused by this in the past, and it was even a little bit confusing thinking about it now, but I&#x27;ll kind of share my thinking and draw some pictures here that I think convey the fundamentals, the way I understand them. And hopefully that kind of helps break through why 42 can&#x27;t be the answer, because the BHP of one pump was determined to be 28. So if it was 42, that would represent a 50% increase. And before we do any analysis or drawing any pictures, we shouldn&#x27;t expect that the power would only go up by 50% which would be a linear increase, because we&#x27;re looking for 50% more flow when we lose one pump out of three. We&#x27;re losing a third of the pump in, so that has to go to the other two, half and half. So a third plus a six would be a half. So we&#x27;re increasing the flow by 50%, but we&#x27;re going to increase the power, according to the cube of what we&#x27;re increasing the flow by. So the short things that you&#x27;ll remember are volume goes linear, with speed, and pressure goes with the square of the speed, and power goes with the cube of the speed. So if you forget everything, I&#x27;m about to draw and say now, then just remember those three things, and that will give you pretty good intuition. Let&#x27;s dig into some of the background here, and I&#x27;ll try to draw this as best I can. There&#x27;s also a picture in the reference handbook that&#x27;s similar to this, but I&#x27;m going to draw one for three pumps. So this is head on the vertical axis and flow on the horizontal. And if you have two pumps in parallel, if the draw them like this, and then you draw the second pump, you start from the same point. They shouldn&#x27;t be a different shape, that&#x27;s what I don&#x27;t want to draw them. I guess they do get a little bit longer if you look at that drawing. It kind of looks like that. And the third one looks like that. Forgive me if that&#x27;s not perfect, they should be more kind of natural shaped curves. But the point is the combined effect of three pumps working together as a system is represented by this third line, where they stack on top of each other, one and then another and another. And the operating point is the intersection between the system curve. And those pump curves. So for system curve, it looks something like this. And the system curve, by the way, is a function of the piping and the friction losses in the system. So it doesn&#x27;t change, it&#x27;s not affected by the pumps. What you&#x27;re interested in is where the system curve intersects the way where your pumps are operating. So our operating point would be here in normal operation. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 74</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 74 | February 5th, 2024 lesson: Lesson-52733079 lesson_pos: 2 chapter_pos: 61 content_id: 52733079 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Loots 26. Why don't you have to double the BHP 2 since there are two running pumps? Yeah, okay, this was fair. So this is just kind of the question at the end. I asked during a pump failure What break horsepower is required to drive the two running pumps? But what I'm really asking is what's the break horsepower to run one of those pumps? So what I should have said is What's the break horsepower required to drive each? Of the two remaining pumps that are running, but I didn't say that so it migh</div>
+      <div class="qa-session">OH 74 · February 5, 2024</div>
+      <div class="qa-transcript">Loots 26. Why don&#x27;t you have to double the BHP 2 since there are two running pumps? Yeah, okay, this was fair. So this is just kind of the question at the end. I asked during a pump failure What break horsepower is required to drive the two running pumps? But what I&#x27;m really asking is what&#x27;s the break horsepower to run one of those pumps? So what I should have said is What&#x27;s the break horsepower required to drive each? Of the two remaining pumps that are running, but I didn&#x27;t say that so it might have read as You know the total So if you interpreted it that way and you calculated 190 horsepower instead of 95 good job I&#x27;ll give you full credit for that and Little ambiguity for me to clean up in the language there But if you calculated something other than 190 Then take a look at the solution there may be something else going on</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 87</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 87 | September 2nd, 2024 lesson: Lesson-58386246 lesson_pos: 2 chapter_pos: 73 content_id: 58386246 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, Fluids 26. I don't understand how the value of Q2 is determined. I understand that each pump is 1500 over 3 equals 500gpm each because the pumps are in parallel. But why isn't Q2 also 500gpm? How did it become 750gpm? This one was a parallel piping arrangement. There were 3 pumps in parallel. Being fed by a common header. So there would be a common disk charge header. Let this be the supply. Let this be the disk charge. So we're pumping to the right. And it's a 2 plus 1 redundant and plus </div>
+      <div class="qa-session">OH 87 · September 2, 2024</div>
+      <div class="qa-transcript">Okay, Fluids 26. I don&#x27;t understand how the value of Q2 is determined. I understand that each pump is 1500 over 3 equals 500gpm each because the pumps are in parallel. But why isn&#x27;t Q2 also 500gpm? How did it become 750gpm? This one was a parallel piping arrangement. There were 3 pumps in parallel. Being fed by a common header. So there would be a common disk charge header. Let this be the supply. Let this be the disk charge. So we&#x27;re pumping to the right. And it&#x27;s a 2 plus 1 redundant and plus 1 redundant operation. Such that. Oh, and the total volume flow rate was 1500gpm. So you said in the problem statement you understand that since there&#x27;s 3 they&#x27;re going to split the volume flow rate equally. And they&#x27;re going to be 500gpm each. And your question is why is Q2 in other words the volume flow rate per pump after the failure? Because we&#x27;re going to have one pump fail. How does that become 750? Well, if one of these goes away, the volume flow rate is non-negotiable. There&#x27;s a certain amount of water flow that&#x27;s required to satisfy the cooling loads. So now we have, we&#x27;re down to n. We&#x27;re non-radundant. We need both pumps to run. And we still need 1500gpm, but we needed across 2 pumps. So now we still have that same 1500, but it&#x27;s only being divided by 2. So that&#x27;s how we get 750. And it actually says in the problem statement as well. When one pump fails, the others speed up to provide consistent uninterrupted flow to the cooling loads. So by consistent flow, we mean a consistent volume flow rate, which means we still have to get that 1500 total. We can&#x27;t just accept that. One is gone away. Therefore we&#x27;re going to get less flow. That&#x27;s not the idea here. And if you think about why that has to be the case and how a hydronic system works from, you know, just downstream of this is some cooling loads that need to be satisfied. We have the cooling real of thumb 500gpm delta t. So the load is the load is the load that has to get satisfied. So this is a hard requirement known to go shading there. If the gpm is going to be lower, then the delta t is going to have to be higher. And we don&#x27;t have any reason to believe that we&#x27;re allowed to mess around with the temperatures here. Maybe the chillers maxed out, maybe it&#x27;s doing all it can. So we&#x27;re not being specifically told that we can take a, you know, a 10 degree delta t and make it 30% or 50% larger. So in the absence of that, we have to assume that that needs to be held constant as well, which means we can&#x27;t, we can&#x27;t have a lower gpm. So hopefully that answers the question. I think that one, I thought that one was pretty clear in the problem statement, but if it was still confusing, then you know, let me know if that doesn&#x27;t address it.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22, 2025</div>
+      <div class="qa-transcript">Loads 26, although it&#x27;s a parallel operation, I use the pump affinity laws to check the head relation with the speed change. Can you explain how this works out to be the correct answer if the head is technically not supposed to change? The head doesn&#x27;t change. So this was a parallel pumping operation where it was a two plus one redundant set up. There were three pumps and in the question one pump fails and we go to two and we want to know how much power, how the power requirement change. The head doesn&#x27;t change, it can&#x27;t change because the system has to produce a certain volume flow rate at a certain pressure to meet the system requirements and that&#x27;s true where there are all three pumps are running or a pump fails and we lose that redundant pump and now the other two pumps have to speed up but the system still has to produce the same volume flow rate at the same pressure. So the head is not going to change. What is going to change is the speed of the remaining pumps because when there were three running it was circulating 500 GPM a piece for 1500 total and now that there&#x27;s only two running we have to do 750 GPM a piece and we know that from the affinity laws that the volume flow rate is proportional to the RPM to the speed and the power is proportional to the speed cubed or the volume rate flow rate cubed. I would be like to think about it. So the longer short of it is it&#x27;s going to take a lot more power per pump and in total to run two pumps in a non-redundent fashion. So it&#x27;s nice when you have redundant pumping arrangement like that you can see a lot of energy by running all three and you have the added benefit of spinning reserves so that if one fails the other two can automatically speed up straight away. So it&#x27;s a win-win. Another one on Fluids 26. Same question. I&#x27;m curious why couldn&#x27;t we just divide the total GPM by two and use the BHP equation to calculate the horsepower it feels wrong for sure just not sure why using the BHP equation from pump affinity laws gives the right answer just not sure why the regular BHP equation doesn&#x27;t. I think the issue here is the assumption that the efficiency will be flat which is not true the efficiency is on a curve so the pumps are much more efficient running at lower speed and much less efficient running it closer to their full speed. So that&#x27;s why they use a lot more power when running closer to full speed. That&#x27;s really the big story here. It is an opportunity to save a lot of energy by slowing those pumps down. In fact if you could have four pumps or five pumps I mean there&#x27;s a limit to that because eventually there&#x27;s a turn down ratio is there&#x27;s only so slow you can run them. But until you bump into that limit you want to run them as slow as possible if energy efficiency is your priority but if keeping the capital costs down and not buying lots of pumps that you don&#x27;t need and having extra piping and more system complexity and controls and all that. So there&#x27;s a balance between that from a design perspective but if your only goal was energy efficiency you&#x27;d have a big parallel pumps set and you&#x27;d run them super slow and capture all that efficiency gain.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 26 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 26 · 6 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +283,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

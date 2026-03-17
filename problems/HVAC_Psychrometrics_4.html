@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 4</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 4</span>
   <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 4</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 4</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An air handling system to be used at 6500ft above sea level is de- signed for outside air at 65°F and 60% relative humidity. What is the density of the outside air? ft3 ft3 ft3 ft3
+      An air handling system to be used at 6500ft above sea level is de- signed for outside air at 65◦F and 60% relative humidity. What is the density of the outside air? ft3 ft3 ft3 ft3
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.058lbm</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.058lbm ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>0.062lbm</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>0.074lbm</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>0.076lbm</span></div>
@@ -240,97 +230,48 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 4 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An air handling system to be used at 6500ft above sea level is de- signed for outside air at 65°F and 60% relative humidity. What is the density of the outside air? ft3 ft3 ft3 ft3
-
-The answer choices are:
-  A) 0.058lbm
-  B) 0.062lbm
-  C) 0.074lbm
-  D) 0.076lbm
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">n elevation correction. Start by (cid:28)nding the density of air for sea level conditions using the psychrometric chart. As sea level: T =65◦F 0 φ =60% 0 ft3 v =13.4 0 lb The air density at sea level is the inverse of the speci(cid:28)c volume: 1 1 lb ρ = = =.0746 0 v 0 13.4ft3 ft3 lb To set up the elevation correction equation properly, recall the relationship between pressure and density by considering the ideal gas law: PV =nRT →Pv =mRT →P =ρRT →P ∼p Since R is a constant and T is not changing, it is clear that the pressure and density are proportional i.e. they change linearly together, as below: ρ 6500 = P 6500 = (cid:2) 1−(elevation) (cid:0) 6.875×10−6(cid:1)(cid:3)5.256 ρ P 0 0 (cid:2) 1−(6500) (cid:0) 6.875×10−6(cid:1)(cid:3)5.256 =0.786 Solve for the density at 6500ft using the sea level density ρ : 0 ρ 6500 =0.786 ρ 0 (cid:18) lb (cid:19) ft3 ρ = 0.0746 (0.786)=0.0587 6500 ft3 lb Alternatively,usethetableTemperatureandAltitudeCorrectionsforAirtoobtainthedensifty factor at 6,500ft elevation, and multiply by the sea level density per the (cid:28)nal step shown. Answer A 225</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">5 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 15 | May 28, 2021 lesson: Lesson-24863005 lesson_pos: 6 chapter_pos: 2 content_id: 24863005 wistia_id: uzs</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, psychometrics for. On psychometrics for, I did not use P2, P0 elevation correction equation. I just used the value out of the temperature and altitude corrections for air table in chapter 7.2. Yes, good call. That table is more convenient and faster than doing the equation. So I completely support that approach. That table was not available in a previous version of the reference handbook. So I had no choice but to use the equation. But given that there's a table certainly save yourself som</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28, 2021</div>
+      <div class="qa-transcript">Okay, psychometrics for. On psychometrics for, I did not use P2, P0 elevation correction equation. I just used the value out of the temperature and altitude corrections for air table in chapter 7.2. Yes, good call. That table is more convenient and faster than doing the equation. So I completely support that approach. That table was not available in a previous version of the reference handbook. So I had no choice but to use the equation. But given that there&#x27;s a table certainly save yourself some time and go for it. The only thing there is it could be a value that&#x27;s in between, but even then you could just interpolate linearly and still not have to resort to the equation. Or you could have a case where the altitude is significantly greater than once offered in the table. And at that point you have two options you could either extrapolate if it&#x27;s only slightly greater or you could use the equation. So whatever&#x27;s going to make it faster and easier for you. Yeah, you&#x27;ll do the same correction factor.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 36</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 36 | May 16, 2022 lesson: Lesson-35082746 lesson_pos: 0 chapter_pos: 23 content_id: 35082746 wistia_id: 3c</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, the first one was about a site problem. Are you able to skip all the calculating and go directly to the temperature and altitude corrections for air table? It gives you the correct answer, however, this may be a coincidence, question mark. So let's just look at that in the reference handbook. So it's the temperature and altitude corrections for air. There is two things going on here. There's this table and it has for temperature and for altitude, there's a density factor. So if you star</div>
+      <div class="qa-session">OH 36 · May 16, 2022</div>
+      <div class="qa-transcript">Alright, the first one was about a site problem. Are you able to skip all the calculating and go directly to the temperature and altitude corrections for air table? It gives you the correct answer, however, this may be a coincidence, question mark. So let&#x27;s just look at that in the reference handbook. So it&#x27;s the temperature and altitude corrections for air. There is two things going on here. There&#x27;s this table and it has for temperature and for altitude, there&#x27;s a density factor. So if you start with standard temperature and pressure and then the temperature is different by some amount. You can multiply by a density factor. And if the altitude is different, then you can multiply by a density factor. And you can actually have situations that are both. So you might have an unusual case where a higher elevation, but the temperature&#x27;s higher. You can apply both density factors in series if it&#x27;s applicable to do so. So yes, the answer to the question. That is totally valid and you can go directly to that table and you can use those density factors. And it&#x27;s not a coincidence. So if we go to elevation correction, which is the way I did it in the solution for this one. You&#x27;ll find this formula here is you&#x27;re in a bit. The ratio of the pressure so you have some baseline standard temperature and pressure. That&#x27;s this piece of zero. And then I&#x27;m unable to see the reference handbook. Oh, thank you. I&#x27;m sharing. Let me stop sharing. And share my screen too. How about now. Yep. Thanks for letting me know that will definitely improve the recording as well. So you have some reference pressure p0 and then. The new pressure at the new elevation or the new temperature, whatever the case may be. But in this case we&#x27;re talking about elevation is a function of. That elevation, whatever it might be times a constant and then one minus that number raised to another constant. And that is how the values in that table that we looked at are generated. So you could put in each of those elevations 5,556,6500 and so on and you literally generate those density factors. So if you have a case where it&#x27;s in between, I don&#x27;t know maybe they want to give you 5,250. You could do linear interpolation off of that table or you could come back to this formula and get the exact value. So that&#x27;s psychometric. Psychometric&#x27;s 9. Oh, and I just wanted to address one more piece of that. It shouldn&#x27;t be a lot of math. Like I think the concern here was like it&#x27;s faster to use the table and maybe it is, but like if I&#x27;m going a little bit deeper into some of the explanations. Because I want you to have that foundational knowledge and I just want to have as many ways forward to navigate a problem as possible. So you know, it fine to use either one. I want to confirm that but also encourage you to kind of know both ways.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 71</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 71 | December 18th, 2023 lesson: Lesson-51536319 lesson_pos: 5 chapter_pos: 58 content_id: 51536319 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, psychometrics for maybe the reference handbook has been updated, but it seems like this problem can be solved with a single lookup on the table page 369 of the reference handbook, altitude, density, elevation, and the density factor. And just seeing .0589 cubic feet per pound. Is there any downside to this? No, this is fine. This is completely fine. So I just want you to know the table that you're referencing on page 369 is generated from the equation that I used to solve it in the vi</div>
+      <div class="qa-session">OH 71 · December 18, 2023</div>
+      <div class="qa-transcript">All right, psychometrics for maybe the reference handbook has been updated, but it seems like this problem can be solved with a single lookup on the table page 369 of the reference handbook, altitude, density, elevation, and the density factor. And just seeing .0589 cubic feet per pound. Is there any downside to this? No, this is fine. This is completely fine. So I just want you to know the table that you&#x27;re referencing on page 369 is generated from the equation that I used to solve it in the video. So that equation is the elevation equation. And if you plug into that, you can literally generate the table. So if it&#x27;s faster for you to use the table quicker, if that&#x27;s obviously then by all means use the table, it&#x27;s going to be more efficient. But I would also suggest, know, how to use the equation as well, because maybe you get an elevation that&#x27;s not shown in the table. Maybe you get some intermediate point. I guess you could interpolate in that case and still use the table. But I don&#x27;t know. I don&#x27;t know. Out of an abundance of caution, I would suggest knowing both ways. But yeah, nothing wrong with the table. Same exact answer. No loss in accuracy. So all good there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 109</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 109 | November 10th, 2025 lesson: Lesson-70388993 lesson_pos: 0 chapter_pos: 94 content_id: 70388993 wisti</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC number four. In the handbook, version 2.20, there's a table on page 375 that lists the density of air at 6,500 feet. What is stopping me from using that as my answer? So you're referring to this table here, which has the altitude in a column 6,500, and you want to jump right to the density value here. Absolutely nothing stopping you from doing that. That's perfectly valid. The problem statement we had a situation where it was in elevation of 6500 feet. So you're welcome to use this table. I</div>
+      <div class="qa-session">OH 109 · November 10, 2025</div>
+      <div class="qa-transcript">HVAC number four. In the handbook, version 2.20, there&#x27;s a table on page 375 that lists the density of air at 6,500 feet. What is stopping me from using that as my answer? So you&#x27;re referring to this table here, which has the altitude in a column 6,500, and you want to jump right to the density value here. Absolutely nothing stopping you from doing that. That&#x27;s perfectly valid. The problem statement we had a situation where it was in elevation of 6500 feet. So you&#x27;re welcome to use this table. In the solution I had used the elevation equation. So I want you to be aware of that equation for a couple of reasons. One, if it&#x27;s a different altitude, I mean you could interpolate from this chart. If it was something in between, like if it was 6250, you could use this in interpolate. But if it&#x27;s over 10,000, maybe you want to extrapolate, that may get harder. This table is generated from that equation. So that equation is, you know, it&#x27;s more granular because you can put any elevation in and get the pressure value out. Sorry, the density value out. So they&#x27;re equally valid. And you&#x27;re welcome to use either one or both, or you can use one and check against the other. And just another observation about this. You&#x27;ll notice that for zero zero feet elevation, which is C level, we get 0.075, which is what we take as the standard density. If you are looking at the psychometric chart, you can take the inverse of that, which is like 13.33 or something like that. So that&#x27;s the standard specific volume because that&#x27;s the inverse of the density. And then the temperature that&#x27;s assumed to be, quote unquote, standard is 70 degrees. So 0.0749 close enough. So if you don&#x27;t do anything to adjust for temperature or elevation, or a lot of times if you&#x27;re using rule of thumb equations, you have this standard density that&#x27;s baked into that. You&#x27;re knowingly or unknowingly making that assumption that it&#x27;s at sea level and 70 degrees. So you should be aware of that when you do that, nothing wrong with that, just making sure it&#x27;s appropriate before you proceed on that basis.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 112</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 112 | January 19th, 2026 lesson: Lesson-72215827 lesson_pos: 3 chapter_pos: 97 content_id: 72215827 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, HVAC Psychometrics 4. Hello, Dan. In the solution to problem 4 of the Psychometrics module, use the elevation correction equation since the given elevation is 6,500 feet. You later use the ideal gas relation to prove the proportionality between pressure and density. I understand your solution, but I'm trying to understand how we'd use the elevation correction equation in other problems. In other words, is it possible to use the elevation correction equation to solve for other quantities</div>
+      <div class="qa-session">OH 112 · January 19, 2026</div>
+      <div class="qa-transcript">Alright, HVAC Psychometrics 4. Hello, Dan. In the solution to problem 4 of the Psychometrics module, use the elevation correction equation since the given elevation is 6,500 feet. You later use the ideal gas relation to prove the proportionality between pressure and density. I understand your solution, but I&#x27;m trying to understand how we&#x27;d use the elevation correction equation in other problems. In other words, is it possible to use the elevation correction equation to solve for other quantities on the psych chart? It&#x27;s a good question, and I don&#x27;t know that I have a good answer to this. My gut reaction is no, but there probably is a way to do it through equations. I don&#x27;t believe those equations are in the reference handbook. I&#x27;m not aware of what they are specifically. So, for the purposes of the PE exam, my formal answer is that it&#x27;s probably impractical and certainly not required. So, look no further, but just as a generally curious person, if you find them, I&#x27;d like to know. I know outside of the PE exams, there are charts that exist for various elevations. We don&#x27;t have a lot in the handbook, but there used to be like, you know, on the old days of openbook, you could bring your 5,000 foot chart and there&#x27;s probably other elevations as well. Now we just have the high temperature chart. We don&#x27;t even have a low temperature chart. We have to use the table underneath the psych chart now, instead, for low temperature conditions. So, in a way that&#x27;s a good thing for candidates, because it means there&#x27;s less that you have to be able to, you have to find less information that you have to sort of be responsible for bringing. But yeah, no, I don&#x27;t know a quick and easy way to find. Do point temperature, we have a well temperature humidity ratio, enthalpy at different pressures. Other than, you know, the pressure, which we did in this particular problem, we related to pressure in the density. And there&#x27;s temperature elevation, corrections, dribble temperature. But some of those other truly psychometric parameters that you might want to find. I don&#x27;t know of any slick way to get to those.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 4 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 4 · 5 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +279,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

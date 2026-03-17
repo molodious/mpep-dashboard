@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,104 +206,60 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 2</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 2</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 2</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 2</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      During winter operation, a cooling plant reduces energy use by using a parallel ow plate and frame heat exchanger instead of its chillers. The system consists of two loops, (1) an open condenser water loop which is fed by cooling towers outside, and (2) a closed chilled water loop which is distributed throughout the facility. If the condenser water enters the heat exchanger at 40°F and leaves at 46°F and the chilled water enters at 60°F and leaves at 48°F, what is the log mean temperature dieren...
+      During winter operation, a cooling plant reduces energy use by using a parallel (cid:29)ow plate and frame heat exchanger instead of its chillers. The system consists of two loops, (1) an open condenser water loop which is fed by cooling towers outside, and (2) a closed chilled water loop which is distributed throughout the facility. If the condenser water enters the heat exchanger at 40◦F and leaves at 46◦F and the chilled water enters at 60◦F and leaves at 48◦F, what is the log mean temperature di(cid:27)erence?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>8°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>9°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>10°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>11°F</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>8◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>9◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>10◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>11◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 2 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: During winter operation, a cooling plant reduces energy use by using a parallel ow plate and frame heat exchanger instead of its chillers. The system consists of two loops, (1) an open condenser water loop which is fed by cooling towers outside, and (2) a closed chilled water loop which is distributed throughout the facility. If the condenser water enters the heat exchanger at 40°F and leaves at 46°F and the chilled water enters at 60°F and leaves at 48°F, what is the log mean temperature dierence?
-
-The answer choices are:
-  A) 8°F
-  B) 9°F
-  C) 10°F
-  D) 11°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">nce or LMTD in the Reference Handbook. Consider mem- orizingthesimplerversionbelowratherthanusingeitherofthetwoequationsshown, andlearning howtoapplyitratherthanriskingamistakewhenassigningthevariablestothegiveninformation. Recall: ∆T −∆T ∆T = A B lm (cid:16) (cid:17) ln ∆TA ∆TB where∆T isthetemperaturedi(cid:27)erencebetweenthetwo(cid:29)uidsononesideoftheheatexchanger A and∆T isthetemperaturedi(cid:27)erencebetweenthetwo(cid:29)uidsontheothersideoftheheatexchanger. B Since this is a parallel (cid:29)ow heat exchanger, the temperature di(cid:27)erence between the two (cid:29)uids upon entering, ∆T , is as large as it is ever going to be; i.e. the warm (cid:29)uid is at is warmest and A the cold (cid:29)uid is at its coldest. Therefore: ∆T =60◦F −40◦F =20◦F A The temperature di(cid:27)erence between the two (cid:29)uids upon leaving, ∆T , is as small as it is ever B going to be; i.e. the warm (cid:29)uid has cooled, the cool (cid:29)uid had warmed, and the temperatures ap- proachoneanotherfromeitherside,nevercrossingforaparallel(cid:29)owheatexchanger,butpotentially becoming quite close in most cases. ∆T =48◦F −46◦F =2◦F B Solve the LMTD. It may be faster and easier to use the natural log, ln, rather than 2.3×log 10 as suggested in the handbook. (Mathematically they are equivalent.) 20◦F −2◦F 18◦F T = = =7.8◦F lm ln (cid:0)20◦F(cid:1) ln(10) 2◦F Answer A 241</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 72</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 72 | January 8th, 2024 lesson: Lesson-52032061 lesson_pos: 3 chapter_pos: 59 content_id: 52032061 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred number two. In this question, you use an equation noted for parallel flow in two-bular heat exchangers, although the problem specifically notes a parallel flow plate frame style heat exchanger. Do I need to just memorize that this equation works regardless of heat exchanger construction, other than parallel versus counter flow? Yeah, it's less about the construction and more about the configuration. So yeah, good question, and the key is that it's parallel or it's counter flow. An</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 72 · January 8, 2024</div>
+      <div class="qa-transcript">He transferred number two. In this question, you use an equation noted for parallel flow in two-bular heat exchangers, although the problem specifically notes a parallel flow plate frame style heat exchanger. Do I need to just memorize that this equation works regardless of heat exchanger construction, other than parallel versus counter flow? Yeah, it&#x27;s less about the construction and more about the configuration. So yeah, good question, and the key is that it&#x27;s parallel or it&#x27;s counter flow. And that tells you how to analyze it regardless of if it&#x27;s a plate and frame or shell and tube kind of a construction. And I&#x27;m sure that an expert in heat exchangers would be able to get into the nuance of why that might not be 100% true in all cases, but for the purposes of the PE exam, it&#x27;s just about distinguishing parallel flow and how that fundamentally operates. So thinking about that temperature versus length diagram that we always draw for a parallel flow, they&#x27;re going to converge like this, maybe they&#x27;ll get all the way there. So it might be more like this, where there&#x27;s still some delta on the leaving side. Versus a counter flow arrangement. So the understanding of the flow of travel there is both in the same direction left to right. And distinguishing that, that&#x27;s parallel flow. The distinguishing that from counter flow. Same thing, temperature versus length. And if the first one is going from left to right like this, then the second one, the cold stream, let&#x27;s say, is going from right to left like this in the opposite direction. And so on the physical length, we have some delta T. Here, we can say the entering side is on the left and leaving side is on the right. And here we can&#x27;t say that because one is entering on the left and leaving on the right, and the cold stream is doing the opposite. So I like to just label them A and B. And I&#x27;m sure you&#x27;ve seen this in a lot of my solutions already. So we can define delta T on the A side, which is arbitrarily selected to be called A, doesn&#x27;t matter if you call this one A and that one B. You&#x27;ll get the same answer at the end and delta T B. And then from there, we can go into the log-me temperature difference calculation. So as long as you&#x27;re happy making this distinction, then you can apply these two ideas, whichever one is relevant for that specific problem. If you have a question, though, in glad that came up, wasn&#x27;t trying to trick you by making it a plate and frame instead of a shell and tube setup.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 76</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 76 | March 4th, 2024 lesson: Lesson-53548016 lesson_pos: 1 chapter_pos: 63 content_id: 53548016 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was on heat transfer number two. I tried to use the reference handbook formula where it's asking for hot cold side inlet outlet temperatures. When I sketch this problem out, the hot side versus the cold side seems counterintuitive, normally the condenser cooling tower side would be the hot side and the chiller is the cold side. When I worked out the problem, it appeared the hot side is on the chilled water side. Why is this? Yeah, it's a great question. So, and I love how you</div>
+      <div class="qa-session">OH 76 · March 4, 2024</div>
+      <div class="qa-transcript">All right, next one was on heat transfer number two. I tried to use the reference handbook formula where it&#x27;s asking for hot cold side inlet outlet temperatures. When I sketch this problem out, the hot side versus the cold side seems counterintuitive, normally the condenser cooling tower side would be the hot side and the chiller is the cold side. When I worked out the problem, it appeared the hot side is on the chilled water side. Why is this? Yeah, it&#x27;s a great question. So, and I love how you ask this and provide a picture to kind of say like, all right, you know, here&#x27;s option one option two one way. I get this negative value out which doesn&#x27;t make sense, so I do it the other way. And it comes out to be a positive value which is the correct answer. So that must be the right setup, but intuitively doesn&#x27;t make sense why that would be the right setup because how is the chiller, the chilled water side, the hot side and the condenser water is the cold side, like how can that be? And it is counterintuitive, but your picture is perfect and it points to exactly why this is the answer. And I&#x27;ll kind of back up a little bit and just talk about chiller operations and the condenser water loop and how those enter relate in normal operation. And then we can talk about water side of condomizer. So normally, let&#x27;s say you have an all kind of bounce back and forth between your picture. So, not well if we need to enjoy the chiller, so we&#x27;re going to enjoy the chiller. You&#x27;ve got your refrigeration loop. As you&#x27;re evaporator, compressor, denser, water cooled condenser and then expansion. And on the other side of the condenser, we have the condenser water. So let&#x27;s say this is the refrigerant blowing this way and then I don&#x27;t know if it would be counterflow, but suffice it to say. On the water side, we have the condenser water supply, because we call this supply, and condenser water return. And then this goes to the cooling tower. So we&#x27;ve got to draw the cooling tower. Nets are water return goes to the cooling tower and that&#x27;s going to get cooled off. So that comes into the header, down the fill, drips down, cools off and that becomes condenser water supply somewhere out there and needs to be a pump in there, but forgive me for skipping the pump. So this is...</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 2 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 2 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -320,7 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

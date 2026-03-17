@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,97 +206,51 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Hydraulic &amp; Fluid Applications &middot; Problem 16</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic &amp; Fluid Applications · Problem 16</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Hydraulic &amp; Fluid Applications &middot; Problem 16</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic &amp; Fluid Applications · Problem 16</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      During design review, an engineer notices a 1-1/4 inch nominal hot water pipe intended to carry 6gpm of 130°F water takes a suboptimal route along the perimeter of the building, containing 250 linear feet of pipe and twelve 90 degree elbows. He recommends straightening the run to eliminate the elbows and reduce the total length by 30%. Assuming the pipe is schedule 40 steel with threaded connections, what is the percent reduction in head loss? 35
+      During design review, an engineer notices a 1-1/4 inch nominal hot water pipe intended to carry 6gpm of 130◦F water takes a suboptimal route along the perimeter of the building, containing 250 linear feet of pipe and twelve 90 degree elbows. He recommends straightening the run to eliminate the elbows and reduce the total length by 30%. Assuming the pipe is schedule 40 steel with threaded connections, what is the percent reduction in head loss? 35
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>22%</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>33%</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>44%</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>44% ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>55%</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe network, pump station, turbine, or open channel flow
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's, Darcy-Weisbach, pump power, or continuity equation
-
-4. Look up required data: pipe dimensions, friction factors, fluid properties from reference tables
-
-5. Calculate the requested quantity with consistent units
-
-6. Verify the answer against choices and check for reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 16 from the Hydraulic &amp; Fluid Applications module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: During design review, an engineer notices a 1-1/4 inch nominal hot water pipe intended to carry 6gpm of 130°F water takes a suboptimal route along the perimeter of the building, containing 250 linear feet of pipe and twelve 90 degree elbows. He recommends straightening the run to eliminate the elbows and reduce the total length by 30%. Assuming the pipe is schedule 40 steel with threaded connections, what is the percent reduction in head loss? 35
-
-The answer choices are:
-  A) 22%
-  B) 33%
-  C) 44%
-  D) 55%
-
-To solve this problem, apply the relevant engineering principles from the Hydraulic &amp; Fluid Applications section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Read the problem statement carefully — the answer is often embedded in the details<br><br>• Track units at every step to avoid conversion errors<br><br>• Use reference tables and charts efficiently — speed matters on the exam<br><br>• When in doubt, check your answer's reasonableness against engineering intuition
-      </div>
+      <div class="solution-box" id="sol-box">the leaving saturated mixture as State 2. Use the Properties of Saturated Water and Steam table to obtain the enthalpy at State 1. T =500◦F (saturated) 1 Btu h =h =488 1 f lb 205 Use the steam table again to obtain the enthalpy values h and h at 1400psia, and use the f fg quality to determine the enthalpy at State 2. P =1400psia 2 Btu h =598.9 f lb Btu h =575.6 fg lb (cid:18) (cid:19) Btu Btu Btu h =h +χh =598.9 +(0.97) 575.6 =1157.2 2 f fg lb lb lb Calculate the heat added to the steam. Q˙ =m˙∆h=m˙ (h −h ) steam 2 1 (cid:18) (cid:19)(cid:18) (cid:19) lb Btu Btu Btu Q˙ = 500,000 1157.2 −488 =3.35×108 steam hr lb lb hr The heat delivered by the (cid:29)ue gas is based on the overall heat heat transfer, depending on surface area, overall heat transfer coe(cid:30)cient, and delta T. The surface area is a function of the number of tubes times the surface area for each tube. Calculate the surface area and the input heat. A=(20,000) (cid:0) 4ft2(cid:1) =80,000ft2 Q˙ =UA∆T fluegas (cid:18) (cid:19) Q˙ = 250 Btu (cid:0) 80,000ft2(cid:1) (25◦F)=5×108 Btu fluegas hr·ft2·◦F hr The e(cid:30)ciency of the boiler is the output divided by the input. Q˙ 3.35×108Btu η = steam = hr =0.67 Q˙ 5×108Btu fluegas hr Answer C 206</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Hydraulic &amp; Fluid Applications &middot; Problem 16 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Hydraulic &amp; Fluid Applications · Problem 16 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

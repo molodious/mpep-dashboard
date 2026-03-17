@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 16</span>
   <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 16</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 16</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A 70% ecient fan is driven by a 90% ecient motor at standard conditions. The motor is rated for 7.5hp. The fan develops a static pressure of 2.8inwg. The fan is then used in a heating application delivering 110°F air. What volume ow rate of air is supplied?
+      A 70% e(cid:30)cient fan is driven by a 90% e(cid:30)cient motor at standard conditions. The motor is rated for 7.5hp. The fan develops a static pressure of 2.8inwg. The fan is then used in a heating application delivering 110◦F air. What volume (cid:29)ow rate of air is supplied?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,102 +225,53 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>10,700cfm</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>11,400cfm</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>11,900cfm</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>12,600cfm</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>12,600cfm ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 16 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A 70% ecient fan is driven by a 90% ecient motor at standard conditions. The motor is rated for 7.5hp. The fan develops a static pressure of 2.8inwg. The fan is then used in a heating application delivering 110°F air. What volume ow rate of air is supplied?
-
-The answer choices are:
-  A) 10,700cfm
-  B) 11,400cfm
-  C) 11,900cfm
-  D) 12,600cfm
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">tionbecausemotorsareratedbasedontheirbrakehorsepower (bhp) and this problem is not concerned with the electrical power input to the motor. Apply the fan e(cid:30)ciency to the bhp to determine the fan power, or air horsepower, then solve for the volume (cid:29)ow rate at standard conditions: AHP =(.7)(7.5hp)=5.25hp Q ∆p AHP =P = s s s 6356 (6356)(5.25) Q = =11,918cfm s 2.8 Foranapplicationwheretheairtemperatureishigherthanstandardconditions,theairdensity will be lower therefore the volume (cid:29)ow rate should be higher. T &gt;T 2 1 Q &gt;Q 2 1 The increase in cfm will be linear with the change in the absolute temperature. Set up a proportion: Q T 2 = 2 Q T 1 1 (cid:18) T (cid:19) (cid:18) 110◦F +460◦(cid:19) Q =Q 2 =11,918cfm =12,650cfm 2 1 T 77◦F +460◦ 1 Answer D 295</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">5 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 16</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 16 | June 18, 2021 lesson: Lesson-25478285 lesson_pos: 10 chapter_pos: 3 content_id: 25478285 wistia_id: q</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC16, you assumed the airflow was proportional to the temperatures. Could you explain how you formulated that assumption? Instead, I took the proportion of specific volumes, which was 13.35 at 70 degrees, 14.45 actual. I got a higher airflow for the actual, and I'm just curious why. I tried the specific volume at 77, 13.5, which helped, but was still off from your answer. So I took a look at this one as well, and let's just back up for a minute and kind of talk about what we're trying to achie</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18, 2021</div>
+      <div class="qa-transcript">HVAC16, you assumed the airflow was proportional to the temperatures. Could you explain how you formulated that assumption? Instead, I took the proportion of specific volumes, which was 13.35 at 70 degrees, 14.45 actual. I got a higher airflow for the actual, and I&#x27;m just curious why. I tried the specific volume at 77, 13.5, which helped, but was still off from your answer. So I took a look at this one as well, and let&#x27;s just back up for a minute and kind of talk about what we&#x27;re trying to achieve with this. So we have a situation where we&#x27;re trying to understand how the volume produced by fan at a different set of conditions is going to change. It&#x27;s like the intuition behind this for me anyway just kind of comes from PV equals MRT. So if you look at the variables that are changing, right? Pressure is not changing. This is a constant and the mass flow rate isn&#x27;t changing. So it&#x27;s just the volume and the temperature. So we should expect that volume is going to be proportional to temperature. That&#x27;s the rationale behind using a temperature ratio with the understanding that you have to use absolute temperature to do this. You can&#x27;t just use Fahrenheit. So if the, or another way to think about it, in terms of direction is, okay, if we have a higher temperature is the volume flow rate going to go up or down. Well, we know that as temperature increases, then density tends to decrease. Which means that volume will increase. Which means that volume flow rate will also increase. So that&#x27;s the qualitative thinking behind it. But now to kind of drill into your question here and talk about the quantitative aspect of it. You took a 14.45 over 13.35. And if I did that right, that&#x27;s a ratio of about 1.08. I did 14.42 pretty close. I was using a psychometric calculator, so I think close enough there. And then for the denominator, I used 13.58. I was assuming dry air, which may not be reasonable, maybe we should assume some humidity. I don&#x27;t know that wasn&#x27;t given in the problem statement. We&#x27;ll have to tolerate a bit of deviation here. But this works out to about 1.06. So what I&#x27;m saying, man, is that, well, let me go with the temperature. So the written solution gave it as 110 plus 460 to make it rank in over 77 plus 460, which also works out to about 1.06. So the problem solution said that the volume flow rate is going to increase by about 6%. Which actually jive with what I came up with based on specific volumes. And it&#x27;s pretty close to what you came up with as well, saying it&#x27;s going to increase by 8%. So in the end, the volume flow rate ends up being something like 12,600. And if it was 8%, maybe it would be just a little bit more. We&#x27;re only talking about a couple of few hundred CFM. And I think you would definitely still pick the same answer choice. So I don&#x27;t think there&#x27;s much to worry about there. I think we&#x27;re on the same page. Your approach is reasonable and using a specific volumes. And using temperatures is also valid. So couple of good ways to go there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 33</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 33 | March 21, 2022 lesson: Lesson-34089060 lesson_pos: 1 chapter_pos: 20 content_id: 34089060 wistia_id: </div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVSC16, can you explain the derivation of the ratio Q2 to Q1 equals T2 to T1? Where does this come from? Sure, so just for context for kind of reminder, this problem was about a fan that was used that standard temperature and pressure and then is being utilized at a higher temperature. So the problem starts by asking you to figure out the air horsepower based on the efficiency in the break horsepower, both of which are given. So through that we get the air horsepower. And then we set that equal </div>
+      <div class="qa-session">OH 33 · March 21, 2022</div>
+      <div class="qa-transcript">HVSC16, can you explain the derivation of the ratio Q2 to Q1 equals T2 to T1? Where does this come from? Sure, so just for context for kind of reminder, this problem was about a fan that was used that standard temperature and pressure and then is being utilized at a higher temperature. So the problem starts by asking you to figure out the air horsepower based on the efficiency in the break horsepower, both of which are given. So through that we get the air horsepower. And then we set that equal to the volume flow rate times the delta P times a divided by constant 63.56. And we know the delta P in the problem and we found the air horsepower ready. So we&#x27;re able to specify the volume flow rate. The problem is that volume flow rate which turned out to be 11,918 CFM is assuming that the fan is operating at 77 degrees Fahrenheit. But in fact, the fan is actually operating at a higher temperature 110 degrees Fahrenheit. So the question is, is this fan going to move more air less air or the same air and how do you know? Anyone want to take a shot at that? Well, is the original Q? 11,918 CFM when it&#x27;s operated at this temperature of T1. But it&#x27;s going to then be used at T2. That&#x27;s got to be greater. Free. Yeah, why? Because if T2 over T1 is bigger or smaller, well, then if Q2 would have to be bigger as it is over a smaller Q1. Yeah, well, yeah, I mean based on this ratio, right? We know it&#x27;s going to work. But like just like qualitatively why? Because the density is difference is less for the more more air. The density is less. Yeah, yes, that&#x27;s it. So, yeah, we know T2 is greater than T1. So we expect that the density for T2 is less than the density one. Yeah, I like that. Or another way to think about it is the reciprocal the density is specific volume, right? So the specific volume is greater for T2 than for one. So for a given unit of mass, we expected to take up more volume. And then we can even take that a step further and say, the amount of mass that the fan can move is constant, right? Because power has to do with with the amount of mass that it&#x27;s moving. So we could say M. equals rho Q. And then we could replace rho with one over a specific volume. So Q over a little V. And then if the specific volume is going to be larger than the volume flow rate. Because it&#x27;s only different series, time being included. And maybe the units convert. But just fundamentally for this ratio to be unchanged, for the mass flow rate to be unchanged, they have to go up. And they have to go up by the same amount, if to scale linearly. And there&#x27;s even another way you could think about it. And I don&#x27;t mean to confuse. I just want to give you as many kind of angles to think about the situation on. We could use PV equals MRT. So we could divide by MRT on both sides. And set that equal to 2. And then the R is just the specific gas constant for air. And the pressure is not changing. And V. Big V volume over M is specific volume. So then this becomes little V specific volume over T1. equals little V2 over T2. And then we could rearrange that, multiply by T2 on the left. And divide by V1 on the right. And now we have a direct relationship between temperature and specific volume. And now it&#x27;s only a small leap from there to say that this could be a volume flow rate. And it doesn&#x27;t have to be specific volume. It could just be volume. So if you&#x27;re buying everything up to that point, then you could buy that too. And now the only wrinkle after all of that. If all of that is is making sense, these temperatures have to be in ranking. Absolutely. Because if you just do 110 over 77, that&#x27;s going to overstate the degree by which that changes. You&#x27;ve got to add 460 to both of these. And 110 plus 460 over 77 plus 460. That&#x27;s the ratio we want. That&#x27;s what we&#x27;ll multiply this by to get Q2. So not really a formal derivation there. Just kind of a reasoning through. And I don&#x27;t expect you know, I don&#x27;t want anybody to like memorize this or think that this is a formula. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 45</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 45 | October 2, 2022 lesson: Lesson-39458521 lesson_pos: 2 chapter_pos: 32 content_id: 39458521 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC16, can you please explain how the equation Q2 over Q1 equals T2 over T1 was derived? Is it because of direct proportionality? Yeah, this kind of came out of the ideal gas law. So let me grab the whiteboard here. So using the idea that P1, V1 over T1 equals P2, V2 over T2. And then this particular situation seems like the pressure wasn't changing. So that canceled out. It was just a temperature. Yeah. So now get the volumes together, divide by V1 on both sides. We'll get V2 over V1. And then</div>
+      <div class="qa-session">OH 45 · October 2, 2022</div>
+      <div class="qa-transcript">HVAC16, can you please explain how the equation Q2 over Q1 equals T2 over T1 was derived? Is it because of direct proportionality? Yeah, this kind of came out of the ideal gas law. So let me grab the whiteboard here. So using the idea that P1, V1 over T1 equals P2, V2 over T2. And then this particular situation seems like the pressure wasn&#x27;t changing. So that canceled out. It was just a temperature. Yeah. So now get the volumes together, divide by V1 on both sides. We&#x27;ll get V2 over V1. And then multiply by T2 on both sides. We&#x27;ll get T2 over T1. But then hang on a minute. V isn&#x27;t Q, right? V is volume. So that&#x27;s the leap, right? That&#x27;s the little extra idea that you can say if these are volumes, how about volume per unit? Time. How about a volume flow rate? And now we&#x27;ve just sort of extended the ideal gas law to not just be your issue of volumes, but a ratio of volume flow rates. And a lot of the old materials you might see me write V dot for volume flow rate. So that seems like less of a leap, right? Just putting a dot and making these per unit time. But the reference handbook and the new way of doing things is to use Q. So that&#x27;s fine. Makes sense on that one. This time, those my question I would like to.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 65</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 65 | August 14th , 2023 lesson: Lesson-47857148 lesson_pos: 5 chapter_pos: 52 content_id: 47857148 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC16, I use the same method you showed to find the airhorse power, but a slightly different way of getting Q, the volume flow rate at 110. Perth of reference, handbook, the density of air at standard temperature and pressure is 0.075. I then use the properties of air chart to interpolate for the density of air at 110 and got 0.069. To then get the specific gravity of air at 110 and refer to the STP, so I got a higher answer. 12,800 CFM as opposed to 126 is this method valid. Yes, I believe it </div>
+      <div class="qa-session">OH 65 · August 14, 2023</div>
+      <div class="qa-transcript">HVAC16, I use the same method you showed to find the airhorse power, but a slightly different way of getting Q, the volume flow rate at 110. Perth of reference, handbook, the density of air at standard temperature and pressure is 0.075. I then use the properties of air chart to interpolate for the density of air at 110 and got 0.069. To then get the specific gravity of air at 110 and refer to the STP, so I got a higher answer. 12,800 CFM as opposed to 126 is this method valid. Yes, I believe it is. It&#x27;s about a 1% deviation. So I think that is fine. Yeah, it seemed like it was a little bit more steps than what I went through. I just kind of did a ratio and assumed it was an ideal gas, but maybe it wasn&#x27;t right for me to do that. Maybe it was better to go through the process you went through in interpolate. Not sure, but either way, if we&#x27;re within 1% of each other, then I think we&#x27;re good either way.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 73</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 73 | January 22nd, 2024 lesson: Lesson-52345697 lesson_pos: 4 chapter_pos: 60 content_id: 52345697 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC16. I can understand where your solution video is coming from when you omit the motor efficiency for sure. I want to follow it, but the language in the current reference handbook goes against your method. I'd love to get your opinion on this as I could see it going either way. The current reference handbook specifically states on page 467 for fan air horsepower and sub-F overall efficiency of fan and motor or product of fan and motor efficiency. This leads me to choose answer B instead of D.</div>
+      <div class="qa-session">OH 73 · January 22, 2024</div>
+      <div class="qa-transcript">HVAC16. I can understand where your solution video is coming from when you omit the motor efficiency for sure. I want to follow it, but the language in the current reference handbook goes against your method. I&#x27;d love to get your opinion on this as I could see it going either way. The current reference handbook specifically states on page 467 for fan air horsepower and sub-F overall efficiency of fan and motor or product of fan and motor efficiency. This leads me to choose answer B instead of D. Also, why is it that? We are allowed to scale our change in temp with change in airflow. Is there a general rule that this falls under? Okay, so another one on motor efficiency and fan efficiency. So I&#x27;m going to write an equation that is not exactly how it&#x27;s written in the reference handbook, because I&#x27;m going to use different subscripts. I&#x27;ll say that the overall efficiency, I like big verbose subscripts. That&#x27;s how I remember things. Times the efficiency of the motor, times the efficiency of the fan. These are better subscripts and what the reference handbook has. But it&#x27;s the same spirit, it&#x27;s the same information. I&#x27;m not trying to change the mechanical engineering behind it. These are my preferred subscripts. But I&#x27;ve drawn this picture many times. I&#x27;ll show you seen in some videos. I&#x27;ll draw it again. We have a motor, another fan, like a probably draw a better fan. But the point is we have electrical power. We could write that a couple different ways. We could write P. Or we could write W dot. All right, as P for now. But these are kill lots or lots entering the motor. And then out of the motor, we&#x27;re getting a break horse power, the mechanical power of a spinning shaft that&#x27;s driving that fan. And then out of the fan, we&#x27;re getting air horse power. So, when a motor is rated, and this is a key insight, if I say I have a 10 horse power motor, or I think in this problem was a 7.5 horse power motor, what does that mean? That&#x27;s this number. That&#x27;s the BHP out of the motor. So, motors are rated based on their BHP. So, a 7.5 horse power motor means it&#x27;s 7.5 BHP. Now, of course, the motor has some efficiency. Therefore, the amount of electrical energy required to drive that motor is greater than 7.5 horse power worth of electricity. So, if it&#x27;s 90% efficient, then it&#x27;s going to be something like 10% more than that of electric energy, then there&#x27;s 10% losses as heat. And then there&#x27;s that output break horse power, which is a full 7.5 horse power. Then a fan has some efficiency. So, you can knock that down by another percentage to determine what the air horse power is going to be. So, without remembering any formulas, that these ideas are born out of the picture. So, you can say that the efficiency of the motor is the ratio of the BHP to the electrical power. Or you can say that the efficiency of the fan is the air horse power. It&#x27;s output divided by its input, which is the break horse power. And, of course, the overall efficiency for both taking together is the product of the two. All right, so those are the big ideas. So, how does that tie back to your question? In my solution, I omit the motor efficiency. Right, because the problem only cares about the heat that&#x27;s being produced. No, the problem is the problem care about air horse power. And we know the break horse power. That&#x27;s why, yeah. So, we&#x27;re using this idea. If this is known, and this is known, and this is what we&#x27;re after, it would not be accurate to use the overall efficiency here, because we would be making use of the motor efficiency, which is not relevant. If we already know the BHP, if we knew the electrical power, we didn&#x27;t know the BHP. We would have to work our way through in two hops. Then, we would do what I think you&#x27;re suggesting. As far as the terminology and kind of the literal reading of the reference handbook, I don&#x27;t know, I can&#x27;t apologize too much for the reference handbook. It is what it is, but again, I mean, this is very similar to last question. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 16 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 16 · 5 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +279,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

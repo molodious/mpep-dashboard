@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,97 +206,51 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Hydraulic &amp; Fluid Applications &middot; Problem 25</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic &amp; Fluid Applications · Problem 25</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Hydraulic &amp; Fluid Applications &middot; Problem 25</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic &amp; Fluid Applications · Problem 25</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      600gpm of water ows horizontally through an 8in standard weight steel pipe. The pipe is tted with an orice meter with a contrac- tion coecient of C = 0.6 and a K-value of 0.5. The static pressure c upstream of the orice meter is 15psig. What is the pressure down- stream?
+      600gpm of water (cid:29)ows horizontally through an 8in standard weight steel pipe. The pipe is (cid:28)tted with an ori(cid:28)ce meter with a contrac- tion coe(cid:30)cient of C = 0.6 and a K-value of 0.5. The static pressure c upstream of the ori(cid:28)ce meter is 15psig. What is the pressure down- stream?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>11psig</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>12psig</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>12psig ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>13psig</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>14psig</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe network, pump station, turbine, or open channel flow
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's, Darcy-Weisbach, pump power, or continuity equation
-
-4. Look up required data: pipe dimensions, friction factors, fluid properties from reference tables
-
-5. Calculate the requested quantity with consistent units
-
-6. Verify the answer against choices and check for reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 25 from the Hydraulic &amp; Fluid Applications module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: 600gpm of water ows horizontally through an 8in standard weight steel pipe. The pipe is tted with an orice meter with a contrac- tion coecient of C = 0.6 and a K-value of 0.5. The static pressure c upstream of the orice meter is 15psig. What is the pressure down- stream?
-
-The answer choices are:
-  A) 11psig
-  B) 12psig
-  C) 13psig
-  D) 14psig
-
-To solve this problem, apply the relevant engineering principles from the Hydraulic &amp; Fluid Applications section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Read the problem statement carefully — the answer is often embedded in the details<br><br>• Track units at every step to avoid conversion errors<br><br>• Use reference tables and charts efficiently — speed matters on the exam<br><br>• When in doubt, check your answer's reasonableness against engineering intuition
-      </div>
+      <div class="solution-box" id="sol-box">e in air temperature, assume 100% e(cid:30)ciency for the steam coil. All the heat provided by the steam is added to the air. Q˙ =Q˙ steam air Write an expression for the steam based on mass (cid:29)ow rate and the change in enthalpy, and express the heat gain by the air using the sensible heating rule of thumb for air. Solve for ∆T for the air. m˙ ∆h=1.08cfm∆T steam m˙ ∆h ∆T = steam 1.08cfm Use the Properties of Saturated Water and Steam table by pressure to obtain the change in enthalpy for 5psig steam. The steam enters as saturated steam and therefore has enthalpy h , and g leaves with a quality of χ=0.25. Remember to convert from psig to psia before seleting enthalpy values and solving for the enthalpy of the leaving steam, h . 2 P =5psig ≈20psia Btu h =h =1156.2 1 g lb Btu h =959.9 fg lb 218 Btu h =196.3 f lb h =h +χ h 2 f 2 fg (cid:18) (cid:19) Btu Btu Btu h =196.3 +(0.25) 959.9 =436.3 2 lb lb lb Calculate ∆T. Make sure to convert minutes to hours such that the numerator has units of Btu. The sensible heating rule of thumb for air guarantees the air side of the equation will align, hr and the (cid:28)nal answer will have units of ◦F. (cid:0) 2 lb (cid:1)(cid:0)60min(cid:1)(cid:0) 1156.2Btu −436.3Btu(cid:1) ∆T = min hr lb lb =15.9◦F (1.08)(5000) Btu hr·◦F Answer B</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Hydraulic &amp; Fluid Applications &middot; Problem 25 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Hydraulic &amp; Fluid Applications · Problem 25 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

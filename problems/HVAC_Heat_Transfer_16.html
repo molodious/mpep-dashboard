@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 16</span>
   <span class="nav-badge">⭐ 4 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 16</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 16</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A sous vide immersion cooker operates by way of a at 6in square vertical plate on one side of a water bath, maintaining the water temperature for many hours. Moments after being turned on, the plate is 140°F and the water is 60°F. What is the rate of heat transfer? Refer to the table below for properties of water. hr hr hr hr
+      A sous vide immersion cooker operates by way of a (cid:29)at 6in square vertical plate on one side of a water bath, maintaining the water temperature for many hours. Moments after being turned on, the plate is 140◦F and the water is 60◦F. What is the rate of heat transfer? Refer to the table below for properties of water. hr hr hr hr
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>2540Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>2540Btu ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>3180Btu</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>4620Btu</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>5000Btu</span></div>
@@ -240,91 +230,44 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 16 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A sous vide immersion cooker operates by way of a at 6in square vertical plate on one side of a water bath, maintaining the water temperature for many hours. Moments after being turned on, the plate is 140°F and the water is 60°F. What is the rate of heat transfer? Refer to the table below for properties of water. hr hr hr hr
-
-The answer choices are:
-  A) 2540Btu
-  B) 3180Btu
-  C) 4620Btu
-  D) 5000Btu
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">f Cooling: Q˙ =hA∆T ForNatural(Free)ConvectioninvolvingaVerticalFlatPlateinLargeBodyofStationaryFluid, the convection heat transfer coe(cid:30)cient is: (cid:18) (cid:19) k h¯ =C Ran L L whereC andnareconstants, k isthethermalconductivity, Listheverticalheightoftheplate, and Ra is the Rayleigh Number, which can be calculated using: L gβ(T −T )L3 Ra = s ∞ Pr L ν2 where g is acceleration due to gravity, β is the coe(cid:30)cient of thermal expansion for water, T is s the average surface temperature of the plate, T is the bulk (ambient) temperature of the water, ∞ L is the vertical height of the plate, ν is the kinematic viscosity, and Pr is the Prandtl number. Use the table Properties of Water and the table provided to obtain Pr, ν, β, and k, then calculate Ra . L Calculate the (cid:28)lm temperature for looking up various parameters required to determine the Rayleigh Number. Note that the (cid:28)lm temperature dictates the values of most parameters in the Rayleigh Number formula. Looking the parameters up at the surface temperature or bulk temper- ature will lead to errors. 257 T +T 140◦F +60◦F T = s ∞ = =100◦F f 2 2 (cid:16) (cid:17)(cid:16) (cid:17) 32.2ft 2×10−4 (140◦F −60◦F)(0.5ft)3(4.52) Ra = s2 ◦F =5.32×109 L (cid:16) (cid:17)2 0.74×10−5ft2 s Based on the range of Ra select the appropriate constants C and n: L 109 &lt;Ra &lt;1013 L C =0.10 n=1/3 Calculate h¯ : (cid:16) (cid:17) (cid:18) (cid:19) 0.364 Btu h¯ =C L k Ran L =(.1) (. h 5 r f ·f t) t2·◦F  (cid:0) 5.32×109(cid:1)1 3 =127 hr· B ft t 2 u ·◦F Determine the rate of heat transfer, Q˙ : (cid:18) (cid:19) Btu Btu Q˙ =hA∆T = 127 (0.5ft)2(140◦F −60◦F)=2541 hr·ft2·◦F hr Ans</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">4 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 15 | May 28, 2021 lesson: Lesson-24863027 lesson_pos: 9 chapter_pos: 2 content_id: 24863027 wistia_id: aoh</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transfers 16. Why we use the film temperature and not the water temperature when looking up the values? From my understanding in the video answer, it's because it's the instant the plate turns on. The water is at 60 degrees in the plates at 140. So we need to find the film temperature. Yes. I was able to solve the problem except for that detail and I'm still a little confused why we need to film water properties instead of the 60 degree properties. Like the steam tables, I'm able to navigate </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28, 2021</div>
+      <div class="qa-transcript">He transfers 16. Why we use the film temperature and not the water temperature when looking up the values? From my understanding in the video answer, it&#x27;s because it&#x27;s the instant the plate turns on. The water is at 60 degrees in the plates at 140. So we need to find the film temperature. Yes. I was able to solve the problem except for that detail and I&#x27;m still a little confused why we need to film water properties instead of the 60 degree properties. Like the steam tables, I&#x27;m able to navigate the problem except pulling the wrong data. Yeah. It&#x27;s frustrating. I feel your pain. I guess the best thing to take away from this experience is just to sort of reclassify how convection heat transfer problems are going to proceed in the future when you solve similar problems to this. It&#x27;s very typical that, I mean, in an ideal case or if you&#x27;re lucky, the problem statement will give you the convection heat transfer coefficient for that particular situation. And if it does, I think you know what to do, right? It&#x27;s going to be something like Q equals H a delta t. But again, we don&#x27;t want to get in the habit of just grabbing the right formula and plugging in sugar. So what&#x27;s a more interesting problem that you could get? And some of those heat transfer problems are a bit too hard. So don&#x27;t worry if it&#x27;s just like a lot of work to do in one problem as long as you understand the individual steps, that&#x27;s probably fine. But just to go over the process, whether it&#x27;s natural convection or force convection, really the central idea of a lot of these convection problems is finding H because once you find H, right, the rest is just rollin&#x27; the snowball down the hill. But finding H is often not easy because it depends on how we&#x27;re classifying the problem. Is it force convection? Is it natural convection? You know, what&#x27;s the temperature? And this issue of film temperature comes up. So usually it has something to do with the new salt number, which is HD over K, or sometimes it&#x27;s H L over K, depending on the geometry, where H is the convection heat transfer coefficient. K is the thermal conductivity, and D is either the diameter or some unit length for the particular geometry that you&#x27;re dealing with. And then how do you find the new salt number? Well, the new salt number is going to be a function of the Rayleigh number, and how do you find the Rayleigh number? That&#x27;s going to be a function of a bunch of different properties of water, such as the volumetric coefficient of thermal expansion, the kinematic viscosity, and the parental number. Now some of these numbers might be given, or they might give you a table to look it up. But the key is that those values should be collected at the film temperature. So what about this film temperature? And this particular problem, it was a situation with a water bath, and there was a plate, a hot plate that had just turned on to some temperature. And the moment the plate turns on, it has some surface temperature of 140 degrees, and the bulk water temperature is only 60 degrees. So now when it comes time to look up these properties, were meant to use not 60, and not 140, the answer is somewhere in between. What I like to imagine is that it&#x27;s actually the water molecules that are approaching this contact surface of the hot plate. And a moment ago, there were 60, but now they&#x27;re up against this plate that&#x27;s 140. They don&#x27;t immediately get heated to 140. It takes some time, so the answer is probably somewhere in between. So that, that&#x27;s as far as my intuition takes it. And then it&#x27;s like, well, how are heat transfer problems typically solved? What are the fundamental assumptions behind this? And it turns out that all they do is just take the average. And that&#x27;s where the notion of film temperature comes in. In this case, it&#x27;s going to be the 60 plus 140 over two. I know that seems a bit unscientific, and it&#x27;s like really at the end of all that. That&#x27;s what we do. Yeah, that&#x27;s what we do. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 53</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 53 | February 27th, 2023 lesson: Lesson-43357060 lesson_pos: 5 chapter_pos: 40 content_id: 43357060 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Question 16, having a hard time understanding, went to find the film temperature after watching the video solutions of 15 and 16. So that I've confused you. And he transfer 15, the surface temperature was given as a 100 in the ambient temperature of 70. The temperature at which all properties of air were found was a hundred, but in 16 the temperature of the metal plate is 140 and the fluid temperature is 60. But here the temperature properties were found was a hundred T film. Why was the concept</div>
+      <div class="qa-session">OH 53 · February 27, 2023</div>
+      <div class="qa-transcript">Question 16, having a hard time understanding, went to find the film temperature after watching the video solutions of 15 and 16. So that I&#x27;ve confused you. And he transfer 15, the surface temperature was given as a 100 in the ambient temperature of 70. The temperature at which all properties of air were found was a hundred, but in 16 the temperature of the metal plate is 140 and the fluid temperature is 60. But here the temperature properties were found was a hundred T film. Why was the concept of T film not brought into heat transfer 15? It should have been. It should have been. The way number 16 is shown is absolutely correct. It should be the average. It should be the film temperature between 140 and 60 is a hundred T film. So that methodology that I applied in number 16 is the methodology that should have been applied in 15. And I think it&#x27;s a larger temperature difference and it&#x27;s water in 16. So it was more critical to get those numbers dialed in the properties of the fluid of liquid water. Our more sensitive to temperature changes in that range than what you would see for air at the range that we saw in number 15. So I took a shortcut. I got away with one. You picked up on it could job and yeah, went and dealt with it the way it showed in 16.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 64</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 64 | July 31st, 2023 lesson: Lesson-47456802 lesson_pos: 4 chapter_pos: 51 content_id: 47456802 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 16 to calculate the Rayleigh number. Why was the film temperature 100 degrees taken to consideration to look up the values? But not the fluid water temperature 60 degrees. For similar problem, he transferred 15. Film temperature was not used to look up the values to calculate the Rayleigh number. That's my bad. On number 15, I should have used the film temperature on 15. The approach that's used in 16 is correct. You should use the film temperature. So this one was about hot plate</div>
+      <div class="qa-session">OH 64 · July 31, 2023</div>
+      <div class="qa-transcript">He transferred 16 to calculate the Rayleigh number. Why was the film temperature 100 degrees taken to consideration to look up the values? But not the fluid water temperature 60 degrees. For similar problem, he transferred 15. Film temperature was not used to look up the values to calculate the Rayleigh number. That&#x27;s my bad. On number 15, I should have used the film temperature on 15. The approach that&#x27;s used in 16 is correct. You should use the film temperature. So this one was about hot plate. And there was a hot plate like this. I think it was vertical. And there&#x27;s some surface temperature of 160 degrees F. And then there&#x27;s a water temperature. Ambient water temperature 40 degrees F. So there&#x27;s going to be a film temperature, which is the average of those two 160 plus 40 over two. Which is 100. So we look up the properties of water at 100. And that&#x27;s what was done in problem 16. And that&#x27;s the right thing to do. In problem 15, I did not use the film temperature. I just used the fluid temperature, which is technically not correct. But in that problem, it was close enough. So I probably got away with it. And that&#x27;s why I haven&#x27;t bothered to update that problem. But yeah, I definitely appreciate these problems are one after the other. So you&#x27;re probably sitting there like, hey, why is the film temperature used in this one and not in the other one? It should be used. When in doubt, it used the film temperature for for convection problems. It&#x27;s just it&#x27;s what you should do. And and if you don&#x27;t and it&#x27;s close because of the surface temperature and the fluid temperature are not that far apart. You&#x27;ll probably get away with it. And this problem, I wanted to space them out a bit. And that&#x27;s why I did a hot plate heating water so that you really have to use the film temperature to get it right. But if you do or don&#x27;t use it in the previous one and number 15, you&#x27;ll get it right either way.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 104</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 104 | June 9th, 2025 lesson: Lesson-66033995 lesson_pos: 5 chapter_pos: 89 content_id: 66033995 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 16. What's the idea for this problem in using the film temperature instead of using the surface temperature of 140? This was a convection problem and we had a hot plate with a temperature of 140 and we had liquid water which was 60 degrees. So in order to calculate the convection coefficient, we need to take into consideration the fluid properties. So there's a bunch of different fluid properties that were interested in knowing about as it relates to that and there's a whole proce</div>
+      <div class="qa-session">OH 104 · June 9, 2025</div>
+      <div class="qa-transcript">He transferred 16. What&#x27;s the idea for this problem in using the film temperature instead of using the surface temperature of 140? This was a convection problem and we had a hot plate with a temperature of 140 and we had liquid water which was 60 degrees. So in order to calculate the convection coefficient, we need to take into consideration the fluid properties. So there&#x27;s a bunch of different fluid properties that were interested in knowing about as it relates to that and there&#x27;s a whole process that we go through. That&#x27;s covered pretty well in the video, but there&#x27;s parameters, beta, the parental number, the kinematic viscosity, the thermoconductivity and possibly others as well. And all of these parameters are a function of temperature. So then the question becomes, what temperature should we be looking at these parameters up at? The hot plate itself has a temperature of 140 degrees and the bulk water temperature of the average water temperature is 60 degrees. So it&#x27;s not quite right to say that we should be looking these parameters up at either of these numbers because the water isn&#x27;t 140. The plate is. But it&#x27;s also not 60 because the water that comes near the plate is subjected to this heating process by convection. So the convention that we used to deal with this is that we take the average and that is the definition of the film temperature. That&#x27;s the thinking behind it. So the idea is that there&#x27;s some interface, there&#x27;s this hot plate and then there&#x27;s this bulk water that&#x27;s all around it and the plate is at 140. And the water is at 60. So the question is, what is the temperature of the water that&#x27;s right up near the plate? We call that area and it&#x27;s hard to define that exactly. It&#x27;s not an area of a particular thickness. It&#x27;s kind of a thin layer that&#x27;s in contact with the plate or almost in contact with the plate. Because really there&#x27;s only the the tiniest layer of molecules that&#x27;s immediately in contact with that plate. So it probably goes out from there, but you&#x27;re not trying to define some thickness for it. We just say that there is a film of some thickness and we define the film temperature as the average of those two numbers. So in this case it&#x27;s just going to be 200 over to 100 if it did that right. And that&#x27;s the film temperature. That concept comes up anytime we have a convection situation. Where the film is going to be in play because again, it&#x27;s not appropriate to use the actual surface temperature nor is it appropriate to use the bulk water temperature. We need something that&#x27;s somewhere in between. I can&#x27;t give you a good explanation of why it should be exactly halfway in between. But there&#x27;s a lot of things in heat transfer that are. I don&#x27;t want to say magical, but there&#x27;s a procedure for them and this is the procedure for dealing with films. I&#x27;m going to put that up on the screen. That&#x27;s cool. Indicate fog will form air leaving tower air entering tower. Interesting. So in this case the air the enters the tower is cold and dry. And the air leaving the tower is warmer not particularly warm, but certainly warmer and much, much more humid. So that is a process line in a sense. We&#x27;re not in a sense it is. You could say this is one. I don&#x27;t know if you guys can see my mouse. This is one and this is two. Interesting. And what else is interesting about it is that both points are within the boundaries of the psychometric chart. So those fully defined states have relative humidity that are 100% or less. But because the path for the path to be linear it has to sort of go outside the curve. So that would be an up into the right process. We would say that&#x27;s sensible heating with latent heating. When would there be a situation where oh it&#x27;s the air, it&#x27;s the air that&#x27;s being heated. So we&#x27;re cooling, let&#x27;s say this is an open cooling tower, right? We&#x27;re cooling condenser water. And in so doing we&#x27;re heating the air. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 16 &middot; 4 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 16 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -332,7 +275,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

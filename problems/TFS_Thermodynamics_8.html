@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Thermodynamics &middot; Problem 8</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 8</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 8</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 8</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       Propane is burned with approximately 50% excess air as shown in the reaction below. What is the mass fraction of CO in the combustion 2 products? C H +
@@ -232,71 +222,31 @@ body {
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">—</span><span>Refer to your practice book for answer choices</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the thermodynamic system, state, and process described in the problem
-
-2. List all given information including temperatures, pressures, and working fluid properties
-
-3. Determine the appropriate thermodynamic property tables or equations to use (steam tables, ideal gas law, etc.)
-
-4. Apply the relevant energy equation (First Law, specific heat relations, or property lookups)
-
-5. Solve for the unknown quantity, paying careful attention to units (Btu, lbm, °F, psia)
-
-6. Verify the answer is reasonable and select the closest answer choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 8 from the Thermodynamics module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: Propane is burned with approximately 50% excess air as shown in the reaction below. What is the mass fraction of CO in the combustion 2 products? C H +
-
-To solve this problem, apply the relevant engineering principles from the Thermodynamics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video walks through the thermodynamic property lookups required for this problem<br><br>• Key reference tables and their proper use are demonstrated<br><br>• Unit conversions are handled carefully throughout the calculation<br><br>• The conceptual basis behind the approach is explained before diving into math<br><br>• Common errors and pitfalls for this type of problem are highlighted
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Always identify the thermodynamic state (subcooled, saturated, superheated) before looking up properties<br><br>• Track units meticulously — mixing Btu/lbm with Btu or psia with psig is a common exam trap<br><br>• Know when to use steam tables vs. ideal gas equations; the problem conditions will tell you<br><br>• Practice reading reference tables quickly — speed with table lookups saves significant exam time
-      </div>
+      <div class="solution-box" id="sol-box">Combustion Reactions of Common Fuel Constituents and note the stoichiometric reaction for propane and air. Note nitrogen is excluded since it does not participate in the reaction; however, it is present in both the reactants and products and should be included since its presense will in(cid:29)uence the mass fraction of any other constituent. The full stoichiometric reaction for propane is: C H +[5O +5(3.76)N ]→3CO +4H O+5(3.76)N 3 8 2 2 2 2 2 Increasetheairby50%onthereactancesideandincludeoxygenontheproductside. Incruduce variables coe(cid:30)cients to the product side of the reaction to allow for balancing. C H +1.5[5O +5(3.76)N ]→aCO +bH O+cO +dN 3 8 2 2 2 2 2 2 C H +7.5O +28.2N →aCO +bH O+cO +dN 3 8 2 2 2 2 2 2 153 Balancing carbon shows that a = 3. Balancing hydrogen shows that b = 4. This is unchanged from the schoichiometric reaction. Balancing nitrogen shows that d = 28.2, which makes sense since nitrogen doesn’t react in the combustion process. Balance oxygen to (cid:28)nd c. Substitute known values for a and b. (2)(7.5)=2a+b+2c 15=6+4+2c c=2.5 The (cid:28)nal balance reaction for propane burned with 50% excess air is: C H +7.5O +28.2N →3CO +4H O+2.5O +28.2N 3 8 2 2 2 2 2 2 To (cid:28)nd the mass fraction of carbon dioxide in the reactants, use the Periodic Table to look up the atomic weights of each element as needed. Divide the mass of CO by the total mass of all 2 reactants. m =3[12+(16)(2)]=132 CO2 m =4[(2)(1)+16]=72 H2O m =2.5[(2)(16)]=80 O2 m =28.2[(2)(14)]=789.6 N2 m 132 CO2 = =0.12 m +m +m +m 132+72+80+789.6 CO2 H2O O2 N2 Answer A 154</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 8 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 8 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -304,7 +254,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

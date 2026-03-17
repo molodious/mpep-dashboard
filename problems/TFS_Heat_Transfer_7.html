@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 7</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 7</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 7</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 7</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60°F to 130°F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·°F. The total heat Btu exchange surface area is 20ft2. What will the hot water supply (out- let) temperature be for the same 50gpm volume ow rate entering at 60°F under fouled conditions?
+      A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60◦F to 130◦F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·◦F. The total heat Btu exchange surface area is 20ft2. What will the hot water supply (out- let) temperature be for the same 50gpm volume (cid:29)ow rate entering at 60◦F under fouled conditions?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>100°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>110°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>120°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>125°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>100◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>110◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>120◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>125◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 7 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60°F to 130°F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·°F. The total heat Btu exchange surface area is 20ft2. What will the hot water supply (out- let) temperature be for the same 50gpm volume ow rate entering at 60°F under fouled conditions?
-
-The answer choices are:
-  A) 100°F
-  B) 110°F
-  C) 120°F
-  D) 125°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f Neglect velocity and solve for the pressure di(cid:27)erence ∆P =P −P . Note ∆z =z −z =30ft 1 2 2 1 which is a positive value since the exit is higher than the entrance. P −P 1 2 =(z −z )+h γ 2 1 f The main e(cid:27)ort of this problem is determining the losses which must include both major and minor losses (i.e. (cid:28)tting losses). This requires an additional term beyond the typical application of the Darcy-Weisbach Equation, as can be found by looking up Fittings Losses in the reference handbook. fLv2 v2 h =h +h = +K f f,major f,minor 2gD 2g Start with the major losses, using the Steel Pipe Friction Tables to (cid:28)nd the velocity and actual diameter for a volume (cid:29)ow rate of 200gpm in a nominal 4inch pipe. Use the Properties of Water table to (cid:28)nd the kinematic viscosity at 90◦F. 227 (cid:16) (cid:17) 5.04ft (.3355ft) Re= vD = s =205000≈2×105 ν .826×10−5ft2 s Find the relative roughness. (cid:15) 0.0002ft = ≈0.0006 D 0.3355ft Find the friction factor using the Moody Diagram. (cid:16) (cid:15) (cid:17) f =f Re, ≈0.019 D Calculate the major losses. (cid:16) (cid:17)2 fLv2 (.019)(500ft) 5.04f s t h = = =11.2ft f,major 2gD 2(.3355ft) (cid:16) 32.2ft (cid:17) s2 For the minor losses, look up the K-factors for Flanged Welded Pipe Fittings and take the sum accounting for the quantities. Consider making a table to organize your work. Flanged Welded Fitting K-Factor Total (cid:176) (4) 90 elbow .31 1.24 (cid:176) (2) 90 long radius elbow .22 .44 (2) gate valve .16 .32 (1) globe valve 6.5 6.5 Taking the overall sum,</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 108</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 108 | September 1st, 2025 lesson: Lesson-68463442 lesson_pos: 0 chapter_pos: 93 content_id: 68463442 wisti</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, the first one was from TFS regarding heat transfer 7 and this one was about heat exchanger, steam heat exchanger. I'm gonna ask everyone to mute if you want to unmute you can and speak or you can type in the chat, either it's fine, but if you're just listening, then better to sound mute because we do record these. So heat transfer 7, the solution video indicates that iteration is required to solve the problem and I'm curious if an update is warranted. I reached the same point where I ha</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 108 · September 1, 2025</div>
+      <div class="qa-transcript">Alright, the first one was from TFS regarding heat transfer 7 and this one was about heat exchanger, steam heat exchanger. I&#x27;m gonna ask everyone to mute if you want to unmute you can and speak or you can type in the chat, either it&#x27;s fine, but if you&#x27;re just listening, then better to sound mute because we do record these. So heat transfer 7, the solution video indicates that iteration is required to solve the problem and I&#x27;m curious if an update is warranted. I reached the same point where I had determined an overall u factor for the Fowld state of 381. But at this point, I had set up the equality of the two duty calculations, Q equals u file times area times delta t log mean, equals m.cp delta t, cold. There&#x27;s only one unknown in this equality and that&#x27;s the cold outlet temperature. It requires a bit of math to solve, but I calculated a cold outlet temperature of 107 with this approach due to significant digits of intermediate calculations. Any thoughts on whether this is as accurate as iteration? Yeah, this was brilliant. I looked over your work and I looked over my work and it&#x27;s not required to iterate. Absolutely right. I basically solved one side of that equation with an assumption about the outlet cold water temperature and got a number, which is not the right number, but I did that knowingly. And then I solved for what the cold water temperature would be on the other side of the equation, which is the second equation. And I had it in my mind that when I did that, that it wouldn&#x27;t be exactly right because of the assumption on the left side. So I took that result and put it back in and iterated. And the first time through it came out to about 108. And the second time through it came out to, or maybe it came out to 103. I forget what came first. It might have been 103 then 108. And then I made the point that if you iterate on that, it&#x27;ll get closer and closer with each pass, depending on what level of precision you acquire, maybe it wanted to iterations with suffice. But to your point, that&#x27;s not strictly necessary and your work proves it by holding the outlet temperature as a variable. You&#x27;re not solving for a value on the left side of the equation. You&#x27;re holding that as an unknown. And the unknown on the right side of the equation is the same unknown. It just happens to be wrapped up in a quantity with subtraction. And that&#x27;s why you end up having to do the exponential function and the natural log. So to your point, it&#x27;s just a bit of math. It&#x27;s nothing that you can&#x27;t do. You end up with a E-Race to some exponent, which our calculators can handle. So it&#x27;s not an issue. And then we don&#x27;t have to iterate. We can solve for the exact value on the first go. So great spot. Good algebra skills there showing up. And yeah, I&#x27;ll definitely update that one at some point. But for anyone who likes the iterative approach for whatever reason, I guess if you&#x27;re not super confident in your algebra, then you&#x27;re sort of just guessing the answer, which is in a way. It&#x27;s kind of what I did. But you&#x27;re guessing it knowing that it won&#x27;t be right. And you&#x27;re willing to go around doing another lap or two around the track to dial it in. So that&#x27;s an interesting kind of tool to have in your bag of tricks, not just for heat transfer problems, but for situations where this wasn&#x27;t that bad as a natural log and an exponential function. Imagine a case where the math gets really clunky. And if you have a sense of what the answer might be, you can actually just guess, proceed, and then iterate and correct. So it&#x27;s kind of a cool thing to know. But finding the exact answer on the first go around algebraic ways is definitely</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 7 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 7 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

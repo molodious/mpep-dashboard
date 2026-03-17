@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Energy &amp; Power System Applications &middot; Problem 17</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Energy &amp; Power System Applications · Problem 17</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Energy &amp; Power System Applications &middot; Problem 17</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Energy &amp; Power System Applications · Problem 17</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       Hexane (C H ) is combusted with a stoichiometric quantity of dry 6 14 air at atmospheric pressure. What is the dew point of the product gas? 55
@@ -232,80 +222,35 @@ body {
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>69°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>128°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>155°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>186°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>69◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>128◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>155◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>186◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the energy system: boiler, turbine, heat engine, generator, or combined cycle
-
-2. List all given information: enthalpies, pressures, temperatures, flow rates, and efficiencies
-
-3. Apply the appropriate energy balance or cycle analysis equation
-
-4. Account for all efficiency factors and energy losses
-
-5. Calculate the requested power output, efficiency, or energy quantity
-
-6. Select the closest answer choice with correct units
-
-<strong>Full Solution:</strong>
-
-This is Problem 17 from the Energy &amp; Power System Applications module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: Hexane (C H ) is combusted with a stoichiometric quantity of dry 6 14 air at atmospheric pressure. What is the dew point of the product gas? 55
-
-The answer choices are:
-  A) 69°F
-  B) 128°F
-  C) 155°F
-  D) 186°F
-
-To solve this problem, apply the relevant engineering principles from the Energy &amp; Power System Applications section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Read the problem statement carefully — the answer is often embedded in the details<br><br>• Track units at every step to avoid conversion errors<br><br>• Use reference tables and charts efficiently — speed matters on the exam<br><br>• When in doubt, check your answer's reasonableness against engineering intuition
-      </div>
+      <div class="solution-box" id="sol-box">uentstableinthereferencehandbookdoesnot contatin an entry for hexane. Determine the schoichiometric combustion reaction for hexane by de(cid:28)ning an arbitrary constant, a, for the quantity of air the fuel will be combusted with, where air is comprised of 3.77 molecules of nitrogen per molecule of oxygen. De(cid:28)ne constant b as the quantity of carbon dixide, constant c as the quantity of water vapor, and constant d as the quanity of nitrogen on the product side of the reaction. C H +a(O +3.77N )→bCO +cH O+dN 6 14 2 2 2 2 2 Balance the carbon. b=6 Balance the hydrogen. 14=2c c=7 Balance the oxygen. 317 2a=2b+c (2)(6)+7 a= =9.5 2 Balance the nitrogen. (3.77)(2)a=2d (3.77)(2)(9.5) d= =35.8 2 Update the stoichimetric combustion reaction with constant that have been determined. C H +15.5(O +3.77N )→6CO +7H O+35.8N 6 14 2 2 2 2 2 Determine the partial pressure of water vapor by (cid:28)rst calculating the mole fraction of water vapor in the products, then multiplying by the total pressure, which is atmospheric pressure. N 7 H2O = =0.143 N 6+7+35.8 products p =0.143p =(0.143)(14.7psia)=2.11psia w t Use the properties of Saturated Water and Steam table by pressure to look up the saturation temperaturecorrespondingtothepartialpressureofwater. Makeasimpletableandinterpolate,or estimateto(cid:28)ndthedewpointtemperature. Recallthede(cid:28)nitionofthedewpointisthesaturation temperature at the partial pressure. P T [psi] [◦F] 2 126 2.11 T dp 3 141.3 2.11−2 T −126 = dp 3−2 141.3−126 T −126=1.7 dp T =127.7◦F dp Answer B 318</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Energy &amp; Power System Applications &middot; Problem 17 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Energy &amp; Power System Applications · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

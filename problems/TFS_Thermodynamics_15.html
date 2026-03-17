@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Thermodynamics &middot; Problem 15</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 15</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 15</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 15</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       Saturated liquid R-123 at a pressure of 60psia is pumped to a pres- sure of 100psia and remains a saturated liquid. The refrigerant is then expanded isenthalpically to the original pressure. What is the quality of the resulting mixture?
@@ -234,78 +224,33 @@ body {
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>0.05</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>0.10</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>0.15</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>0.15 ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>0.20</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the thermodynamic system, state, and process described in the problem
-
-2. List all given information including temperatures, pressures, and working fluid properties
-
-3. Determine the appropriate thermodynamic property tables or equations to use (steam tables, ideal gas law, etc.)
-
-4. Apply the relevant energy equation (First Law, specific heat relations, or property lookups)
-
-5. Solve for the unknown quantity, paying careful attention to units (Btu, lbm, °F, psia)
-
-6. Verify the answer is reasonable and select the closest answer choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 15 from the Thermodynamics module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: Saturated liquid R-123 at a pressure of 60psia is pumped to a pres- sure of 100psia and remains a saturated liquid. The refrigerant is then expanded isenthalpically to the original pressure. What is the quality of the resulting mixture?
-
-The answer choices are:
-  A) 0.05
-  B) 0.10
-  C) 0.15
-  D) 0.20
-
-To solve this problem, apply the relevant engineering principles from the Thermodynamics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video walks through the thermodynamic property lookups required for this problem<br><br>• Key reference tables and their proper use are demonstrated<br><br>• Unit conversions are handled carefully throughout the calculation<br><br>• The conceptual basis behind the approach is explained before diving into math<br><br>• Common errors and pitfalls for this type of problem are highlighted
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Always identify the thermodynamic state (subcooled, saturated, superheated) before looking up properties<br><br>• Track units meticulously — mixing Btu/lbm with Btu or psia with psig is a common exam trap<br><br>• Know when to use steam tables vs. ideal gas equations; the problem conditions will tell you<br><br>• Practice reading reference tables quickly — speed with table lookups saves significant exam time
-      </div>
+      <div class="solution-box" id="sol-box">s for Refrigerant 123. Locate the left side of the saturation curve at 60psia and consider this State 1. Travelling up and to the right along the saturationcurve,theprocesslineforpumpingaliquidtoahigherpressureandultimatelyremaining a saturated liquid, locate the left side of the saturation curve at 100psia and consider this State 2. TravelverticallydownfromState2onalineofconstantenthalpy,insidethesaturationcurve,until intersecting the 60psia pressure line and consider this State 3. The question asks for the quality at State 3. Start by (cid:28)nding the enthalpy at State 2. This may be read from the chart with reasonable accuracy, or by interpolating from the table below the chart which provides even greater precision, if time allows. P =100psia 2 h =h 2 f@100psia P[psia] h [Btu] f lb 97.892 58.918 100 h 2 113.13 61.628 100−97.892 h −58.918 = 2 113.13−97.892 61.628−58.918 Btu h =59.29 2 lb The enthalpy at State 3 is equal to the enthalpy at State 2 due to isenthalpic expansion. Btu h =h =59.29 3 2 lb To (cid:28)nd the quality at State 3, (cid:28)rst speci(cid:28)cy h and h at p=60psia, using the chart if pressed f g for time or interpolating from the table for maximum precision. P [psia] h (cid:2)Btu(cid:3) h (cid:2)Btu(cid:3) f lb g lb 56.36 48.347 112.97 60 h h f g 65.173 50.953 114.333 162 60−56.36 h −48.347 = f 65.173−56.36 50.953−48.347 Btu h =49.42 f lb 60−56.36 h −112.97 = g 65.173−56.36 114.333−112.97 h =113.53 g Calculate the quality at State 3. h −h 59.29Btu −49.42Btu χ= 3 f = lb lb =0.15 h −h 113.53Btu −49.42Btu g f lb lb Answer C</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 15 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 15 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

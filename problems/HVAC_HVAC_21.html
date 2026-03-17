@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,110 +206,64 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 21</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 21</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 21</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 21</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A building in Chicago has a design heat loss of 300,000Btu. The hr heating season is 250 days long and there are 6000 heating degree days per season. The outside design temperature is −10°F. The inside design temperature is initially 70°F. The heating system burns natural gas which costs $0.75 per therm on average. The total system eciency is 80%. If the heating setpoint is reduced to 68°F, what will the annual savings be?
+      A building in Chicago has a design heat loss of 300,000Btu. The hr heating season is 250 days long and there are 6000 heating degree days per season. The outside design temperature is −10◦F. The inside design temperature is initially 70◦F. The heating system burns natural gas which costs $0.75 per therm on average. The total system e(cid:30)ciency is 80%. If the heating setpoint is reduced to 68◦F, what will the annual savings be?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>$270</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>$420</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>$420 ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>$6,000</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>$8,000</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 21 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A building in Chicago has a design heat loss of 300,000Btu. The hr heating season is 250 days long and there are 6000 heating degree days per season. The outside design temperature is −10°F. The inside design temperature is initially 70°F. The heating system burns natural gas which costs $0.75 per therm on average. The total system eciency is 80%. If the heating setpoint is reduced to 68°F, what will the annual savings be?
-
-The answer choices are:
-  A) $270
-  B) $420
-  C) $6,000
-  D) $8,000
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">degree days andand the length of theheating season: 6000degree·days ∆T = =24◦F avg,65 250days It is implied (unless otherwise stated) that the indoor reference temperature for heating degree days is 65 (cid:176) F. Since the initial design temperature is 70 (cid:176) F, the average ∆T is actually +5 (cid:176) F higher. ∆T =29◦F avg,70 Use the design ∆T and the design heat loss to calculate the product of the overall coe(cid:30)cient of heat transfer and the area for this building. Looking at the units, think of this product as the rate of heat transfer per unit change in temperature, e.g. the rate at which heat must be added to compensate for one degree of temperature reduction for this particular building. Q˙ =UA∆T 301 Q˙ 300,000Btu Btu UA= = hr =3750 ∆T 80◦F hr·◦F Sincetherateatwhichheatmustbeaddedtothebuildingislinearlyrelatedtothetemperature (UAissimilartotheslopeofaline,whereQ˙ and∆T aretheindependentanddependentvariables), a2◦F reductionintheinternaltemperaturesetpointwillreducetheaverage∆T from29◦F to27◦F. The associated energy savings can be calculated by applying to the entire heating season: (cid:18) (cid:19) (cid:18) (cid:19) Btu hr EnergySavings= 3750 (250days) 24 (2◦F)=4.5×107Btu hr·◦F day Calculate the cost savings associated with this reduction in energy, accounting for e(cid:30)ciency, converting units to therms, and applying the cost per therm. Look up Measurement Relationships in the Reference Handbook if necessary. (cid:0) 4.5×107Btu (cid:1)(cid:16) $0.75 (cid:17) therm CostSavings= =$422 (.8) (cid:0) 100,00</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 17</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 17 | July 2, 2021 lesson: Lesson-25883089 lesson_pos: 0 chapter_pos: 4 content_id: 25883089 wistia_id: m52</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Could you explain the best way of determining the properties of the mixed-are conditions along a process line? In this example, you took the proportion of the temperature and plotted against the process line, two pieces of information to plot. Could you also take the proportion of the enthalpy and use that number directly? And I think the answer is yes, so I'm going to expand a bit on what I think this question is driving at, and hopefully in the process of doing that. I'll answer the question a</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 17 · July 2, 2021</div>
+      <div class="qa-transcript">Could you explain the best way of determining the properties of the mixed-are conditions along a process line? In this example, you took the proportion of the temperature and plotted against the process line, two pieces of information to plot. Could you also take the proportion of the enthalpy and use that number directly? And I think the answer is yes, so I&#x27;m going to expand a bit on what I think this question is driving at, and hopefully in the process of doing that. I&#x27;ll answer the question and maybe anticipate some other related questions as well. So I&#x27;m going to take a courageous shot at drawing a psychometric chart here. All right, so in general, if we have a process line and I&#x27;ll kind of do this arbitrarily, because I don&#x27;t want to keep this in general. And then we can answer specific to that question. So let&#x27;s suppose you have some process line that goes from A to B or B to A. I won&#x27;t even specify that, but maybe it&#x27;s a cooling process and it goes from A to B. And then the question is, can you directly specify the enthalpy for some point in between? So let&#x27;s suppose we&#x27;re doing a cooling process from A to B, and we&#x27;re only going to go part of the way there. So maybe we&#x27;re going to go to some, I could do half way, but that makes it a little too simple. I actually want to make it a bit interesting. So maybe we choose some point x that&#x27;s, I don&#x27;t know, 20 or 30% on the line. Let&#x27;s say it&#x27;s 30% away down the line. So this kind of gets that what linear interpolation is actually all about, because for any of the parameters that are linear on the psychometric chart, we can say that if A, that if X is 30% of the distance from A, then any other linear parameter will also be 30% of the way from A. And you can almost think of that graphically. And in some texts like the mechanical engineering reference manual, they call it the lever rule. So you can think of it as the distance from A to X as a proportion of the total distance from A to B is the same for any linear parameter. So what are the parameters? Let&#x27;s draw some more lines on this. So the parameters are going to be the dry bulb temperature, which is on the horizontal axis. The humidity ratio, which is on the vertical axis. And the enthalpy, which is up into the left. But still linear, even notes on an angle. And then the web bulb turns out to be the lines of constant web old are parallel to the lines of constant enthalpy. So we can also consider that to be linear. To be completely technical, the web bulb is not perfectly linear with the enthalpy, but it&#x27;s so close to being the case that there&#x27;s no exception that I&#x27;ve ever come across where you can&#x27;t, you can&#x27;t just go directly from web old implies enthalpy in vice versa. So then what can we say as a result of that? Well, we can say that this distance from A to X, let&#x27;s talk about dribulp temperature first. So the temperature A minus the temperature X is some proportion of the total change in temperature A minus B. And by the same reasoning, we could do that for the humidity ratio as well. We could say that the humidity ratio A minus the humidity ratio at X equals the difference in the humidity ratio between A and B. And we could keep going, we could just for enthalpy as well, probably run on space at some point. But the enthalpy A minus the enthalpy at X is the same as A minus B. So all of these are going to be in the same proportion. And lastly, the web bulb temperature as well, which is a bit much to write. At A minus the temperature as a web bulb at X over web bulb at A again minus web bulb at B. So those are all going to be equal proportions. So tying that back to the original question. Could you take the proportion of enthalpy and use that number directly? I think the answer is yes. You could take, if you&#x27;re able to directly identify the enthalpy at X because you know something. X is a fully defined state in that you found it some other way. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 32</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 32 | March 7, 2022 lesson: Lesson-33560232 lesson_pos: 5 chapter_pos: 19 content_id: 33560232 wistia_id: t</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Solutions 21. I calculated the CFM, then plugged it into the late and heat formula. I came up with a different answer. You used a different approach to solve, but I'm not sure what I am doing wrong. This problem was about finding the enthalpy, finding the humidity ratio of the conditions in the room. So we know the dry bulb temperature in the room, and we know the supply air conditions. But what we want to know is the humidity ratio in the room. And we're given the sensible load, we're give</div>
+      <div class="qa-session">OH 32 · March 7, 2022</div>
+      <div class="qa-transcript">HVAC Solutions 21. I calculated the CFM, then plugged it into the late and heat formula. I came up with a different answer. You used a different approach to solve, but I&#x27;m not sure what I am doing wrong. This problem was about finding the enthalpy, finding the humidity ratio of the conditions in the room. So we know the dry bulb temperature in the room, and we know the supply air conditions. But what we want to know is the humidity ratio in the room. And we&#x27;re given the sensible load, we&#x27;re given the late and load. And I like the way you started out. I&#x27;m going to actually step this through a right along side view. You sort of started out by using the rules of thumb. See, said the total cooling is equal to 4.5 CFM delta H. And what is delta H? Well, that&#x27;s going to be the difference between the room or the return if you want to think of it that way. And the supply. Fine, so we&#x27;ll put that aside for now. And then you could also apply the sensible cooling rule of thumb, which is 1.08 CFM delta T. And of course, that delta T is T room minus T supply. And what you did was you took the difference between T room and T supply, both of what you know, 56 dribel, and it&#x27;s 75 in the room. And we know the sensible load. So you had everything you needed to go ahead and find the CFM, which you did. And I agree, 48, 73 CFM. We never actually did anything with the enthalpy. And I don&#x27;t know that we have to. So maybe we just park this one for now. Then the next thing that you noted was the latent cooling rule of thumb. And I&#x27;ll write that one as well, just for completeness. But you&#x27;ve got it absolutely right there. 4840 CFM delta humidity ratio. And of course, that humidity ratio difference is going to be the humidity ratio in the room minus the humidity ratio of the supply. And the humidity ratio of the supply is a function of the dribel and web bulk temperature, both of what you&#x27;re known. So that&#x27;s a fully defined state. But the humidity ratio of the return is not known, because we only know the dribel temperature. We need another piece of information about that state if we&#x27;re going to be able to find the humidity ratio of the return. But that&#x27;s what we&#x27;re after. The good news is we know the CFM now. I&#x27;m not sure why we see FW here. We know the CFM now. And we also know the latent load is 45,000 B2 power that was given in the problem statement. So we can find this delta humidity ratio. And I believe that I did the numbers on this one. So we&#x27;re working alongside one another. And I got 0.00109. Of course, that&#x27;s pounds of water per pound of drier. I think you have that number somewhere as well, as you do. So I think we&#x27;re good all the way to the end here. And then it&#x27;s really just finishing it off. That delta is omega room, which is unknown minus the supply. Which if you look that up in the on the psychometric chart for the supply conditions 56 dribel and 54 wet bulb, which you did omega 1, it is that number 0.008 pounds of water per pound of drier. So to find the room, we&#x27;re just adding that over to the other side. And if we did that right, that&#x27;s going to be about 0.01. So I think the only thing that went wrong here is at the very end. You just got mixed up with the subtraction and the algebra and kind of realizing that this delta equal that sort of find the humidity ratio of the room into add that 0.08 over. And I&#x27;m approximating a little bit, but it comes out pretty close to 0.01. It might be 0.0099 or something like that. But yeah, I think the subtraction is just a little bit out of water. So you&#x27;re good. You had the right approach to this. Just need to kind of keep going and bring it to a close.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 98</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 98 | February 17th, 2025 lesson: Lesson-62881651 lesson_pos: 3 chapter_pos: 83 content_id: 62881651 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC21, can you explain how the design heat loss is contributed to energy savings from the average delta T? And the problem we find the average base temperature of being 41 degrees, and from the average outside of temperature of 65 degrees, I'm not understanding the relationship of the design heat loss 300,000 BT per hour to the savings of going from 70 to 68. So this problem was about a building with the design heat loss with an indoor design temperature of 70 degrees, and we knew there was a c</div>
+      <div class="qa-session">OH 98 · February 17, 2025</div>
+      <div class="qa-transcript">HVAC21, can you explain how the design heat loss is contributed to energy savings from the average delta T? And the problem we find the average base temperature of being 41 degrees, and from the average outside of temperature of 65 degrees, I&#x27;m not understanding the relationship of the design heat loss 300,000 BT per hour to the savings of going from 70 to 68. So this problem was about a building with the design heat loss with an indoor design temperature of 70 degrees, and we knew there was a certain amount of degree days and the duration of the season. And from that we were able to figure out the average delta T, so I&#x27;m not going to repeat the whole problem, but just kind of summarizing. There was a design heat loss of, sorry, a design indoor temperature of 70 degrees in the problem statement. And the outdoor temperature was minus 10, so 70 minus 10 is 80 degree delta. Now that&#x27;s not the average delta T, that&#x27;s the design delta T, so the system has to be sized in order to heat the building when it&#x27;s minus 10 out when the delta T is 80. But not every moment of the winter is at minus 10 out, it&#x27;s warmer during the day, it&#x27;s colder at night, that&#x27;s the coldest it gets on the coldest night, as minus 10. So except for at those moments, it&#x27;s comparatively warmer. So when you think about how much energy the system uses throughout the entire winter, there&#x27;s an idea called degree days. And that&#x27;s what this problem is really about. The problem told us that there were 6,000 degree days over a 250 day heating season. So if you divide those 6,000 over 250 and by the way, the units of degree days is degree times day, so you divide by days, then you get degrees. And what does that really mean? Well, if you do 6,000 divided by 250, you get 24. So 24 is the average delta T during the heating season. But here&#x27;s the issue, not an issue, but something that you have to know, something that you would have to bring to this problem that you would otherwise know. And unless you&#x27;ve done a problem like this before, is the definition of a degree day is the difference between the average temperature and 65 degrees. That&#x27;s the default value. Not 70. 70 is the design temperature for this building, but the reference temperature that degree days is defined based on is 65 degrees, unless otherwise stated. If the problem specifically says that it&#x27;s 6,000 degree days based on a specific temperature, 68, 70, 72, then of course go with that. But if it doesn&#x27;t say anything about a reference temperature, you have to use 65. So when we say that the average delta T is 24, then what does that mean? It&#x27;s 65 minus 24, which is 41. So what we&#x27;re saying is that throughout the entire winter, the entire heating season, the average outdoor temperature is 41. The minimum outdoor temperature is minus 10, but the average is 41. Now, since this building is not being heated to 65, it&#x27;s actually being heated to 70. The actual delta T design is, excuse me, is 70. The design set point minus 41, which is 29. But then the problem asks you to explore the savings that would be obtained by lowering the set point. So we&#x27;re going to save energy by lowering the set point. We&#x27;re going to make the set point 68 instead. The average outdoor temperature doesn&#x27;t change. It is what it is 41. So now the delta T is going to be 27. And that&#x27;s what we&#x27;re comparing. That&#x27;s what this problem is all about. So how much energy are we going to use? Well, we were going to have, it&#x27;s delta T driven. So whatever the energy usage was going to be when it was set for 70, the delta T was going to be 29. Now it&#x27;s only going to be 27. We&#x27;re going to save 229s of the energy. You can do the math on that. Times 3, 6 something like, I don&#x27;t know, 7, 6, 7%. And the solution goes through that a little bit more detail. But that&#x27;s the basic idea. Two big ideas there. One is that we&#x27;re lowering the indoor temperature set point, which is reducing the delta T. And this is the ratio at which it&#x27;s reducing the delta T. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 21 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 21 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

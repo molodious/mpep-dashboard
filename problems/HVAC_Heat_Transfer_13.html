@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 13</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 13</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 13</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 13</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      What is the viscosity of 150°F water? ft·hr ft·hr ft·hr ft·hr 41
+      What is the viscosity of 150◦F water? ft·hr ft·hr ft·hr ft·hr 41
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,78 +225,37 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>5×10−6 lbm</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>9×10−6 lbm</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>3×10−4 lbm</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>1 lbm</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>1 lbm ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 13 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: What is the viscosity of 150°F water? ft·hr ft·hr ft·hr ft·hr 41
-
-The answer choices are:
-  A) 5×10−6 lbm
-  B) 9×10−6 lbm
-  C) 3×10−4 lbm
-  D) 1 lbm
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">of whether the Absolute i.e. Dynamic Viscosity is to be used ortheKinematicViscosity. LookupthevaluesinthetablePropertiesofWaterandnotetheunits: lb ·sec µ=.905×10−5 f ft2 ft2 ν =.476×10−5 sec Note the answer choices have units of lbm . Choose to work with the dynamic viscosity as it is ft·hr best suited for conversion to the desired units. Recall from physics the relationship between force, mass, and acceleration due to gravity: F =mg where g is the constant acceleration due to gravity and the typical units are: (cid:20) (cid:21) ft [1lb ]=[1lb ] 32.2 f m sec2 Make a substitution for lb in the units of µ, evaluate, and simplify: f (cid:18) (cid:19) sec lb ·ft lb µ=.905×10−5 32.2 m =.000291 m ft2 sec2 ft·sec Convert seconds to hours for alignment with answer choice units: (cid:18) (cid:19)(cid:18) (cid:19) lb 60sec 60min lb µ=.000291 m =1.05 m ft·sec 1min 1hr ft·hr Answer D 254</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 47</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 47 | October 30, 2022 lesson: Lesson-39809440 lesson_pos: 1 chapter_pos: 34 content_id: 39809440 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transfer 13 is there any logic in multiplying the kinematic viscosity by time. And then by the density of water, I totally missed the F equals M a approach in regards to evaluating the dynamic viscosity. I got lucky and played the unit scheme with the kinematic viscosity. I stumbled upon multiplying the kinematic viscosity by the density of water at standard conditions. And then by time to get the right units, and virtually the same answer from the video was this lucky, or is there any reason</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 47 · October 30, 2022</div>
+      <div class="qa-transcript">He transfer 13 is there any logic in multiplying the kinematic viscosity by time. And then by the density of water, I totally missed the F equals M a approach in regards to evaluating the dynamic viscosity. I got lucky and played the unit scheme with the kinematic viscosity. I stumbled upon multiplying the kinematic viscosity by the density of water at standard conditions. And then by time to get the right units, and virtually the same answer from the video was this lucky, or is there any reasonable logic to this approach? Yeah, not a surprise, not a coincidence at all there. This is fine. Let me actually wait for it going here. I don&#x27;t know if we&#x27;re going to want to write anything, but just in case. So I think what you did is you use the definition of the kinematic viscosity, which is defined as dynamic viscosity over row. If you didn&#x27;t do that, then you were just like you said, you were playing the unit scheme and multiplying the density because it looked like that was going to make it work. But this is a fundamental property. This is the definition of the kinematic viscosity. It&#x27;s based on the absolute viscosity or sometimes called the dynamic viscosity divided by the density. So you rearrange that to say that, you absolute viscosity equals row times kinematic viscosity. And then you substitute it in. And my only suggestion there is you 62.4. You got away with it. It&#x27;s fine, but it did say the temperature was 150. So you may want to grab the density at 150 from the property of water table, pound mass per foot cubed. And then the kinematic viscosity at that temperature is 0.476 times 10 to the minus 5. Cube, not cubic square feet per second. And then as you pointed out, changing the units at the time, 30, 600 seconds over one hour. To match up. Normally we wouldn&#x27;t have to do that. That&#x27;s just to match up with the way the answer choices were given. So this cancels with two of these seconds goes away and we end up with pound mass over foot times hour. And that&#x27;s the format we want. For the answer, I think it turns out to be 1.05 approximately. So yeah, to answer your question, no, it wasn&#x27;t lucky. It was very much the intended approach. And I think the way I did in the video was if anything, a less common approach, I was trying to sort of draw parallel. And that&#x27;s where the whole F equals M anything came from. But if that was lost on you or it seemed like a tangent and you want to put that aside and just focus on the way you did it. That actually might be more straightforward. So I&#x27;m glad you found that way. And we&#x27;ll play next time you can find it without thinking it&#x27;s luck.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 13 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 13 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

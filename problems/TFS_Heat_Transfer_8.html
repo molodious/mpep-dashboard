@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 8</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 8</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 8</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 8</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5GPM each. Ex- pected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55°F and leaves at 115°F. 500lbm of 5psig hr steam is supplied to the heat exchanger and leaves saturated. What is the eciency of the heat exchanger?
+      A locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5GPM each. Ex- pected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55◦F and leaves at 115◦F. 500lbm of 5psig hr steam is supplied to the heat exchanger and leaves saturated. What is the e(cid:30)ciency of the heat exchanger?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>90%</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>90% ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>92%</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>94%</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>96%</span></div>
@@ -240,73 +230,32 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 8 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: A locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5GPM each. Ex- pected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55°F and leaves at 115°F. 500lbm of 5psig hr steam is supplied to the heat exchanger and leaves saturated. What is the eciency of the heat exchanger?
-
-The answer choices are:
-  A) 90%
-  B) 92%
-  C) 94%
-  D) 96%
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f Neglectvelocityandsolveforthepressuredi(cid:27)erence∆P =P −P . Note∆z =z −z =−200ft 1 2 2 1 which is a negative value since the entrance is higher than the exit. P −P 1 2 =(z −z )+h γ 2 1 f Thefrictionlossesincludebothmajorandminorlosses. Thisrequiresanadditionaltermbeyond the typical application of the Darcy-Weisbach Equation, as can be found by looking up Fittings Losses in the reference handbook. You may factor out the common terms. fLv2 v2 (cid:18) fL (cid:19)(cid:18) v2(cid:19) h =h +h = +K = +K f f,major f,minor 2gD 2g D 2g For the minor losses, look up the K-factors for Threaded Pipe Fittings and take the sum ac- counting for the quantities: Threaded Pipe Fittings K-Factor Total (cid:176) (12) 90 long radius elbow .31 3.72 (2) gate valve .14 .28 Taking the overall sum, K =4 total Forthemajorlosses,usingtheSteelPipeFrictionTablesto(cid:28)ndtheactualdiameterofanominal 3inch pipe. Use the Properties of Air table to (cid:28)nd the kinematic viscosity at room temperature. Note the velocity is given. (cid:18) (cid:19) 1ft D =3.068in =0.264ft 12in (cid:16) (cid:17) 100ft (.264ft) Re= vD = s =160,000≈1.6×105 ν 16.5×10−5ft2 s 229 Find the relative roughness. (cid:15) 0.0002ft = ≈0.0008 D 0.264ft Find the friction factor using the Moody Diagram. (cid:16) (cid:15) (cid:17) f =f Re, ≈0.021 D Solve for the friction losses, including major and minor.  (cid:16) (cid:17)2  (cid:18) fL (cid:19)(cid:18) v2(cid:19) (cid:18) (.021)(400ft) (cid:19) 100f s t h = +K = +4  =5559ft f D 2g (.264ft)  2 (cid:16) 32.2ft (cid:17) s2 This may seem high but recall the (cid:29)uid is air.</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 107</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 107 | July 21st, 2025 lesson: Lesson-67325940 lesson_pos: 2 chapter_pos: 92 content_id: 67325940 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, next up heat transfer 8. I think there's another heat transfer 1 after this, so we might be a little bit out of order, but I'm going to cover them in the order that they are on the slides. My approach was correct regarding the totalling heat rate on the water side, heat rate on the steam side, then taking the ratio for efficiency. The problem I'm having with this and other steam water heat exchange problems is 1 to a soon saturated. My answer was wrong at first because I assumed saturat</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 107 · July 21, 2025</div>
+      <div class="qa-transcript">Alright, next up heat transfer 8. I think there&#x27;s another heat transfer 1 after this, so we might be a little bit out of order, but I&#x27;m going to cover them in the order that they are on the slides. My approach was correct regarding the totalling heat rate on the water side, heat rate on the steam side, then taking the ratio for efficiency. The problem I&#x27;m having with this and other steam water heat exchange problems is 1 to a soon saturated. My answer was wrong at first because I assumed saturated mixture and used HFG in steam tables, not HF. You mentioned in your video that it&#x27;s implied it&#x27;s a liquid, but the problem just states saturated, saturated what? How can I be sure that the steam has condensed into liquid without more process info? So this was a steam heat exchanger and on one side we had liquid water and on the other side we had entering a superheated steam. But the question is circling around this idea of what is the leaving condition of that steam? The answer is that it&#x27;s a saturated liquid. That was kind of implied in the problem statement, but I do understand why that might have been a bit confusing. I think you&#x27;re right in that it&#x27;s not, it may not be enough to just say that it&#x27;s saturated because that could be the mixture with a quality anywhere from 0 to 1. So if we come back to our vapor dome idea, if you&#x27;re in between, you could be anywhere from here to here and you don&#x27;t really know anywhere in there you could say it&#x27;s saturated. Here we say it&#x27;s saturated vapor. G. Here we say it&#x27;s saturated liquid, F for fluid. And then anywhere in between we say it&#x27;s a saturated mixture with some quality that goes from 0 here to 1 there. So you wouldn&#x27;t really be able to pursue a solution to this problem if it was a saturated mixture because there was no information given about what the quality was. So if you&#x27;re starting at some point out here, all this state 1 and ending at some point state 2 that&#x27;s in between F and G, but we don&#x27;t know where. And we&#x27;re kind of stuck. So that was kind of the clue that should make you think that it&#x27;s got to be one of the extremes, right? It&#x27;s either got to be this endpoint or that endpoint. And then the question is which extreme? And the reason it has to be F to make the problem reasonable is because most of the heat that steam has to give up in order to do heating is because of phase change. It&#x27;s ability to condense. The amount of sensible heat that&#x27;s given up by steam, super heated steam as it goes from 1 to G, saturated vapor at constant pressure is not significant because the specific heat capacity of steam just isn&#x27;t that large. But the lay in energy that&#x27;s given up during the process of condensing that saturated steam to a saturated liquid is tremendous. And that can produce a lot of heating enough heating that we could actually do the task of heating water, which is what&#x27;s happening in this problem. So tier point is it necessarily the case that has to go all the way? No. But since we weren&#x27;t given any more information about where along the way it stops, then that&#x27;s why we make the assumption that it goes all the way. So HFG is the big story, but the total delta H is the difference between H1 and the super heated steam entering, capturing all that sensible cooling and then latent cooling to HF. So H1 minus HF is going to be the entire delta H, which is dominated by HFG. You&#x27;ll find that H1 minus HG is small, comparatively small. And like I said, for the avoidance of dow, I could actually update this problem statement and just explicitly state that it&#x27;s a saturated liquid and not just leave it at saturated and kind of leave it to you to figure out. But I thought about this one some more like an apractical sense of steam water heat exchanger. It always condenses, right? That&#x27;s how they&#x27;re designed. So I&#x27;ll probably would take this one back. It is implied. Yeah, it&#x27;s a practical application that makes sense now that I thought about it. Cool, awesome. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 8 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 8 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

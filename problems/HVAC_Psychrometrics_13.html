@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 13</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 13</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 13</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 13</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Air at 90°F dry bulb and 75°F wet bulb enters a cooling tower and leaves at 80°F saturated. What is the change in moisture content per cubic foot of air? ft3 ft3 ft3 ft3 35
+      Air at 90◦F dry bulb and 75◦F wet bulb enters a cooling tower and leaves at 80◦F saturated. What is the change in moisture content per cubic foot of air? ft3 ft3 ft3 ft3 35
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.0005lbw</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.0005lbw ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>0.007lbw</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>0.4lbw</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>5.2lbw</span></div>
@@ -240,85 +230,40 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 13 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: Air at 90°F dry bulb and 75°F wet bulb enters a cooling tower and leaves at 80°F saturated. What is the change in moisture content per cubic foot of air? ft3 ft3 ft3 ft3 35
-
-The answer choices are:
-  A) 0.0005lbw
-  B) 0.007lbw
-  C) 0.4lbw
-  D) 5.2lbw
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">e1andtheleavingairconditionasstate2. Bothstatesare fullyde(cid:28)ned. Usethepsychrometricchartto(cid:28)ndthehumidityratioforbothstates, thencalculate the di(cid:27)erence. Also (cid:28)nd the speci(cid:28)c volume for state 1. T =90◦F 1,db T =75◦F 1,wb lb ω =0.0153 w 1 lb da ft3 v =14.2 1 lb da T =80◦F 2,db T =80◦F 2,wb lb ω =0.0223 w 2 lb da lb lb lb ∆ω =ω −ω =0.0223 w −0.0153 w =.007 w 2 1 lb lb lb da da da In order to express the humidity per unit volume rather than per unit mass of dry air, divide ∆ω by the speci(cid:28)c volume of the entering air, v . The reference handbook calls this the absolute 1 humidity or water vapor density, d . v .007lbw lb d = lbda =0.0005 w v 14.2ft3 ft3 lbda Answer A 235</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 64</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 64 | July 31st, 2023 lesson: Lesson-47456805 lesson_pos: 1 chapter_pos: 51 content_id: 47456805 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Next up, Psychometrics 13. The problem immediately prior to this one, Psych 12, was about an air washer, which you said must cool air along the line of constant weapon. Assuming that the cooling tower in this problem operates on the same principle as the air washer, I thought that it would also cool along a constant weapon of AK weapon, the entering air, equals weapon of the leaving air. However, it says in the problem statement that the air leaves saturated at 80 degrees instead of 75, the ente</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 64 · July 31, 2023</div>
+      <div class="qa-transcript">Next up, Psychometrics 13. The problem immediately prior to this one, Psych 12, was about an air washer, which you said must cool air along the line of constant weapon. Assuming that the cooling tower in this problem operates on the same principle as the air washer, I thought that it would also cool along a constant weapon of AK weapon, the entering air, equals weapon of the leaving air. However, it says in the problem statement that the air leaves saturated at 80 degrees instead of 75, the entering air wet bulb was 75. Can you explain more how that is possible? So this is a great question. I&#x27;m not exactly sure how I phrased it in number 12 about the air washer. There&#x27;s a chance I mispoke there, or there&#x27;s a chance that there might be some reading into what I said, but we can clear that up now. The problem about the air.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 72</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 72 | January 8th, 2024 lesson: Lesson-52032055 lesson_pos: 2 chapter_pos: 59 content_id: 52032055 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 13. How do you know that to get into pounds of water per cubic foot? You had to multiply delta w by one over specific volume as opposed to multiplying w times one over Delta specific volume. So I'm going to read that really carefully because I think it was Frays to very carefully. And I want to honor that. This problem is about a cooling tower. So some kind of a, I'm going to straight line. Some kind of a cooling tower set up here. And we've got some entering air and some leaving a</div>
+      <div class="qa-session">OH 72 · January 8, 2024</div>
+      <div class="qa-transcript">Psychometrics 13. How do you know that to get into pounds of water per cubic foot? You had to multiply delta w by one over specific volume as opposed to multiplying w times one over Delta specific volume. So I&#x27;m going to read that really carefully because I think it was Frays to very carefully. And I want to honor that. This problem is about a cooling tower. So some kind of a, I&#x27;m going to straight line. Some kind of a cooling tower set up here. And we&#x27;ve got some entering air and some leaving air. And what&#x27;s happening in a cooling tower? We have some air entering that&#x27;s generally speaking Hello moisture and some air leaving that&#x27;s high moisture. So that air is not necessarily being saturated, although potentially being saturated, but certainly moving in the direction of saturation. So on the psychometric chart. Moving up into the left. Maybe a long line of constant wet bulb. Maybe not. Maybe a line like this. Don&#x27;t want to say that it&#x27;s necessarily a constant wet bulb process, but certainly up into the left. So the point being more important than that it&#x27;s going to the left that&#x27;s coming up. So even if the leaving air temperature was a higher dribble, which I don&#x27;t think it would normally be, but even then it would be up into the right. So let me not confuse the issue. Point I want to make here is that it&#x27;s up. So you have some entering humidity ratio and some leaving humidity ratio. That&#x27;s greater. So there&#x27;s more moisture in the leaving air than an entering air. And then the question. We&#x27;re looking for the pounds of wet air per cubic foot. Usually we do pounds of wet air per unit mass. That&#x27;s what humidity ratio is. So if all we wanted was the pounds per pound, right pounds of wet air. Pounds of moisture pounds of H2O. I&#x27;d really like to write that over pounds of dry air. That is the delta humidity ratio. Those are the units for that. But the question was a bit interesting. It was asking for the pounds of water per unit cubic foot. So we&#x27;ve got to get the density or the specific volume involved to make that conversion. And your question is why multiply delta W by one over specific volume? Delta W times one over specific volume. Sorry, that&#x27;s density. Specific volume. As opposed to W times one over a delta specific volume. Interesting. So this is option one. And this is option two. W times one over delta specific volume. So my question to the question would be, what W is this? Because this is delta W. So it&#x27;s the difference in the humidity ratio between the entering and the leaving. And that&#x27;s changing a lot. Because it enters relatively dry and it leaves relatively moist. So that&#x27;s a that&#x27;s a no worthy change. The specific volume changes. But not that much. Not that much. Lies of specific volume kind of like this on the psychometric chart. So going from here to here or here to here. It changes, but not by a lot. So delta specific volume is a small number. If we divide W by small number, it&#x27;s going to be really large. So that already feels wrong. And we don&#x27;t know what W this is. So I think the answer to the question is being asked if we want. Pounds of what air. Per cubic foot. We have to be dealing with the delta W because the questions interested in the change. And the moisture content of the air as it undergoes that process. So that&#x27;s that&#x27;s why we need delta W. And then the only question that remains from that. That wasn&#x27;t really the question it was asked, but I think it&#x27;s a question. A lot of people ask is what specific volume is this? Is this the specific volume at the entering condition? Call that V1 or the specific volume at the leaving condition. And my guidance is always to use the entering conditions. So I used V1. Some people might want to make an argument that it should be the average. I think it&#x27;s so close that you&#x27;re going to get away with either one. So just don&#x27;t worry about it. And 95% of the time just use the entering conditions and never look back. For most air conditioning applications. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 104</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 104 | June 9th, 2025 lesson: Lesson-66033997 lesson_pos: 2 chapter_pos: 89 content_id: 66033997 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And that actually ties into the next question as well, which was psychometrics 13, why do we take the specific volume of state 1? Why not take state 2 specific volume or the average of 1 and 2? And again, the answer is it rarely matters and it's just faster to pick 1 than it is to do an average. So I never recommend doing an average. I think you should just decide what makes more sense for that problem. And for me, that's almost always going to be the entering condition. So that's my recommendat</div>
+      <div class="qa-session">OH 104 · June 9, 2025</div>
+      <div class="qa-transcript">And that actually ties into the next question as well, which was psychometrics 13, why do we take the specific volume of state 1? Why not take state 2 specific volume or the average of 1 and 2? And again, the answer is it rarely matters and it&#x27;s just faster to pick 1 than it is to do an average. So I never recommend doing an average. I think you should just decide what makes more sense for that problem. And for me, that&#x27;s almost always going to be the entering condition. So that&#x27;s my recommendation is to make the answering condition your default approach. And you can just use it and not worry. You know, give yourself two seconds to maybe think about in my dealing with a very extreme situation where I want to be cautious. If the answer is no, just proceed. And another thing you can glance at too is that the answer choice is very close together. For this problem, they were not. So whether you use the answering condition or leaving condition or an average. And by the way, taking an average isn&#x27;t necessarily better, right? It&#x27;s just different. So I would invite you to do it all three ways and see what the percent error is and how close those results come out to be. Not every time. Just once while you&#x27;re practicing, no need to do that in an exam environment. But just so that you&#x27;ve kind of explored this question and and refine your own judgment on that point. So you&#x27;re not always wondering about this and getting nervous about making the wrong decision.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 13 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 13 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

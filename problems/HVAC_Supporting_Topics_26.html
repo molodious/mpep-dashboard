@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,120 +206,72 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Supporting Topics &middot; Problem 26</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 26</span>
   <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 26</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 26</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A cooling tower has a range of 15°F and a volume ow rate of 50gpm. Air enters at 88°F dry bulb and 75°F wet bulb and exits at 92°F and 75% relative humidity. Assuming no losses, what is the required volume ow rate of air?
+      A cooling tower has a range of 15◦F and a volume (cid:29)ow rate of 50gpm. Air enters at 88◦F dry bulb and 75◦F wet bulb and exits at 92◦F and 75% relative humidity. Assuming no losses, what is the required volume (cid:29)ow rate of air?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>3,300cfm</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>7,700cfm</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>8,200cfm</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>8,200cfm ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>10,900cfm</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the supporting topic area: electrical, economics, codes, measurement, or materials
-
-2. List all given information and identify what is being asked
-
-3. Select the appropriate formula or reference standard
-
-4. Perform the calculation step by step with careful unit tracking
-
-5. Arrive at the final answer and select the closest choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 26 from the Supporting Topics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A cooling tower has a range of 15°F and a volume ow rate of 50gpm. Air enters at 88°F dry bulb and 75°F wet bulb and exits at 92°F and 75% relative humidity. Assuming no losses, what is the required volume ow rate of air?
-
-The answer choices are:
-  A) 3,300cfm
-  B) 7,700cfm
-  C) 8,200cfm
-  D) 10,900cfm
-
-To solve this problem, apply the relevant engineering principles from the Supporting Topics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Engineering economics problems (present worth, annual cost) follow specific formulas — practice them<br><br>• Electrical fundamentals (single-phase and three-phase power) appear frequently<br><br>• Measurement and instrumentation questions test practical knowledge — read carefully<br><br>• Code and standard questions require familiarity with key reference documents
-      </div>
+      <div class="solution-box" id="sol-box">ter is absorbed into the air. Use the sensible heat rule of thumb for water to determine the quantity of heat removed from the condenser water. Q˙ =Q˙ cw air Btu Q˙ =500GPM∆T =(500)(50)(15)=375,000 cw hr Btu Q˙ =m˙∆h=375,000 air hr Use the Psychrometric Chart to determine the enthalpy for the entering and leaving air as well as the speci(cid:28)c volume for the entering air. Let State 1 represent the entering condition and State 2 represent the leaving condition. T =88◦F 1,db T =75◦F 1,wb Btu h =38.47 1 lb 372 ft3 v =14.2 1 lb da T =92◦F 2 φ =75% 2 Btu h =49.23 2 lb Solve for the mass (cid:29)ow rate of air using the enthalpy values. Q˙ Q˙ 375,000Btu lb m˙ = = = hr =34,851 ∆h h =h 49.23Btu −38.47Btu hr 2 1 lb lb Use the speci(cid:28)c volume for State 1 to determine the volume (cid:29)ow rate in cfm. (cid:18) lb (cid:19)(cid:18) 1hr (cid:19)(cid:18) ft3(cid:19) V˙ =m˙v = 34,851 14.2 =8,248cfm 1 hr 60min lb Answer C</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">5 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 45</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 45 | October 2, 2022 lesson: Lesson-39458525 lesson_pos: 3 chapter_pos: 32 content_id: 39458525 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up supporting topics, 26. Oh, you guys are gonna love this one. For Qair, why did we not use 4.5 CFM Delta H instead of M Delta H? This problem was a situation where I think it was a cooling tower and you had the mass flow. You had all the information about the water, so it was gonna be 500 GPM Delta T for the heat removed from the water. And then on the air side, it was this hot humid air entering the cooling tower. So let's draw that on a sickometric chart. And a hot humid air </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 45 · October 2, 2022</div>
+      <div class="qa-transcript">All right, next up supporting topics, 26. Oh, you guys are gonna love this one. For Qair, why did we not use 4.5 CFM Delta H instead of M Delta H? This problem was a situation where I think it was a cooling tower and you had the mass flow. You had all the information about the water, so it was gonna be 500 GPM Delta T for the heat removed from the water. And then on the air side, it was this hot humid air entering the cooling tower. So let&#x27;s draw that on a sickometric chart. And a hot humid air was way the heck up here somewhere. And the question that comes up all the time, we talk about it almost every week is what condition should you use when you have air entering a coil, or in this case, it&#x27;s entering the cooling tower fill. And I always say just use the entering air and you&#x27;ll be fine. And the question is, well, when will you not get away with using the rule of thumb? And the rule of thumb here is 4.5 CFM Delta H. Qdah equals 4.5 CFM Delta H. And the answer is, you can usually use the rule of thumb, but you can&#x27;t when the density or the specific volume, which is the reciprocal of the density, deviates too much from the assumption that&#x27;s baked into this 4.5 constant. And it&#x27;s the same for 1.08 CFM Delta T, if you&#x27;re doing sensible only, is that the density is 0.075 pounds per cubic foot. Or to say the same thing that the specific volume is 13.3 cubic foot per pound. And in this problem, there was a deviation. And the specific volume was 14.2, which is 6% higher. So the impact of that, specific volume being higher when we go to fine Q, Q equals M dot V, a little V, specific volume, volume flow rate equals mass flow rate times specific volume. And the specific volume is 6% bigger. Then the volume is going to be 6% bigger. So if we use 14.2, we&#x27;ll get an answer that&#x27;s 16% higher than if we use the rule of thumb. So that&#x27;s the reason why. And I know you guys ask a lot of questions about this and rightfully so, it&#x27;s a good question. It&#x27;s an important question to know when you can&#x27;t use the rule of thumb. And there&#x27;s no hard answer. The answer is the closer you are, to the density being this or the specific volume being this, the more likely that you&#x27;re fine using the rule of thumb. And the further you are, the less likely you&#x27;re fine. So if you have very humid air, very hot humid air, or very cold dry air, then you should be concerned. And you still might get away with it. If the answer is a spread out, but you should at least like, I, I, Brow should go up and you should say, let me think about this, let me be a little bit careful here. Whereas if you&#x27;re just dealing with hair that&#x27;s right around this condition and you can use the psychometric chart that&#x27;s your guide to see if you&#x27;re close to this point. You&#x27;re in the ballpark of that and the answer is aren&#x27;t too close. Then you&#x27;re fine. So the question, glad it came up. And it&#x27;s interesting, too, to me, just, I don&#x27;t know, that it&#x27;s deep in the program, right? You&#x27;re in supporting topics. You&#x27;re in the seventh module. You think you&#x27;re done with all the HVAC and psychometrics. And you&#x27;re just doing some odds and ends. And then this little one sneaks up right at the end and is an exception to the rule. So I&#x27;m really glad. I don&#x27;t think this question&#x27;s been asked before about supporting topics 26. So great job bringing this up.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 75</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 75 | February 19th, 2024 lesson: Lesson-53125200 lesson_pos: 7 chapter_pos: 62 content_id: 53125200 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26. Why can't you use the rule of thumb for .5 CFM Delta H equals Q on the air side of a cooling tower? Is this because that rule only applied to temperatures used in a condition typical space? I did and wound up getting 70, 70, 80, 80 CFM leading me to choose C. Yeah, so you got all the way to the last step. You did everything right. And you got to the last step of the problem. And the last step of the problem, we calculate the volume flow rate of air equals the mass flow rate</div>
+      <div class="qa-session">OH 75 · February 19, 2024</div>
+      <div class="qa-transcript">Supporting topics 26. Why can&#x27;t you use the rule of thumb for .5 CFM Delta H equals Q on the air side of a cooling tower? Is this because that rule only applied to temperatures used in a condition typical space? I did and wound up getting 70, 70, 80, 80 CFM leading me to choose C. Yeah, so you got all the way to the last step. You did everything right. And you got to the last step of the problem. And the last step of the problem, we calculate the volume flow rate of air equals the mass flow rate of air times the specific volume. Or you could say that that equals the mass flow rate over the density. Those are equivalent statements. And the question becomes, what specific volume should we use? What density should we use? And just like when dealing with an air conditioning application like a cooling coil or heating coil, my standard recommendation is always to use the entering air conditions. So you know we&#x27;re talking about a cooling tower now. I&#x27;m going to recommend that we use the entering air conditions or that cooling tower. So I say let&#x27;s use the specific volume at state 1 for the air that&#x27;s entering or the density at state 1 for the air that&#x27;s entering. And if we do that, the specific volume, we knew we had a fully defined state 1 so we can look up what that is. It turned out to be 14.2 approximately, cubic feet per pound. And implicit in the rule of thumb is an assumption inside of that equation, 4.5 CFM delta H. Does anybody know? There&#x27;s a few different things in here. There&#x27;s a 60. There&#x27;s a specific heat capacity of air and there&#x27;s a density slash specific volume depending on how you look at it. All baked into this constant for your convenience for a rule of thumb. What is the density and or specific volume? That&#x27;s inherent to this rule of thumb formula. Standard condition. Yeah, you know the number. For air is going to be a fully dose of them fine. That&#x27;s it. 075 pounds per cubic foot. And the corresponding specific volume to that density is 13.3 repeating cubic feet per pound. So if you use the rule of thumb, you&#x27;re quietly and secretly or not so secretly because it&#x27;s no longer secret using this as your specific volume. If you&#x27;re entering our conditions are close to the specific volume, you&#x27;ll get away with it. If they&#x27;re not, which in this case they were off by 6.1%. If they want to trap you, they&#x27;ll put another answer to choice 6.1% away. So nothing wrong with the rule of thumb. Just know what assumptions are built in and make sure that you&#x27;re happy making those assumptions. If you&#x27;re not, then you got to unpack the rule of thumb and do something more manual. Which is this. This is the big idea. This is the big idea behind that rule of thumb. Actually, no, it&#x27;s not true. Is it? It would be M dot, it would be M dot delta H wouldn&#x27;t it? M dot delta H. Q equals M dot delta H. And then M dot, okay, and then you would substitute, right? So M dot equals the volume flow rate over the specific volume. So this equals Q delta H over the specific volume. If you&#x27;re long, it&#x27;s one five. And now you have the CFM, the delta H. And this specific volume, but then your units aren&#x27;t going to come out in what you want Q to be in, B to you per hour. So that&#x27;s when you&#x27;re going to have to get the, a couple unit conversions in there. And you&#x27;ll end up with a number that&#x27;s kind of like 4.5 if you were to work that backwards. So, so try it both ways. I think it&#x27;s, it&#x27;s a good idea to try to do it with the rule of thumb. And then try to do it with M dot delta H. And the associated unit conversions that are required to get your Q dot should be a dot. Your, your heat transfer number. It&#x27;s even get the same number both ways. That probably sounds like it&#x27;s going to be a, additional use of time, but it&#x27;s time well spent because, now I can give you the short answer to the question, which is, uh, is this because it&#x27;s only for indoor, it&#x27;s only if to be using a typical, indoor space. Yes, is the short answer. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 99</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 99 | March 3rd, 2025 lesson: Lesson-63254301 lesson_pos: 1 chapter_pos: 84 content_id: 63254301 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26 Dan this one is driving me a bit crazy. Why couldn't we balance our two rules of thumb equations and solve for the volume flow rate? I approach to using 500 gpm delta t equals 4.5 CFM delta h My enthalpy values are very close to what you got and all I did was plug and chug I got an answer of 7500 CFM using the approach which is wrong This problem was about an open cooling tower and Your absolutely right in your overall approach from a high level of setting the amount of heat</div>
+      <div class="qa-session">OH 99 · March 3, 2025</div>
+      <div class="qa-transcript">Supporting topics 26 Dan this one is driving me a bit crazy. Why couldn&#x27;t we balance our two rules of thumb equations and solve for the volume flow rate? I approach to using 500 gpm delta t equals 4.5 CFM delta h My enthalpy values are very close to what you got and all I did was plug and chug I got an answer of 7500 CFM using the approach which is wrong This problem was about an open cooling tower and Your absolutely right in your overall approach from a high level of setting the amount of heat given up by the water You&#x27;re using 500 gpm delta t rule of thumb for that. That&#x27;s totally fine and you&#x27;re setting that equal to the amount to the quantity of heat that is acquired by the air and You&#x27;re using the rule of thumb 4.5 CFM delta h Which is okay in principle and nine times out of ten you&#x27;ll get away with that But in this particular problem I Wanted you to be aware of the embedded assumption In her and in that 4.5 CFM delta h Which is the density of air and this is also true in the 1.08 CFM delta t if using sensible heating rule of thumb and Same for the one for the humidity ratio embedded in that assumption for the airflow of the CFM Is the associated density or specific volume which is opposite sides of the same coin Which the assumption is that it&#x27;s 0.075 pounds per cubic foot Which corresponds to a specific volume of 13.33 cubic feet per pound With a repeating decimal there so in this particular problem the entering air conditions were not Such that it&#x27;s gonna be standard. It was a little bit different the specific volume was 14.2 cubic feet per pound which is a difference of about difference of about 6 percent And I&#x27;m willing to bet that your answer was off by 6 percent So you kind of fell for the trap there and the point of this is not for me to make you paranoid about this issue It&#x27;s something I want to highlight it&#x27;s something that Most of you depending where you are in the process of probably encountered this where you&#x27;re on the fence about whether you can or can&#x27;t use the rule of thumb The rule of thumb is always going to have some amount of error Associated with it unless you have exactly standard conditions and that&#x27;s usually okay In a lot of cases 5 to 10 percent error is okay But you have to know when you&#x27;re doing it that you&#x27;re making an assumption and Be prepared to be off by 5 or 10 percent and Maybe have a sense of what direction you&#x27;re gonna be off in so in this case There were four answer choices A was way too small D was way too large So now you&#x27;re between V and C and being see your kind of close together and Now you have to make a decision if you&#x27;re just gonna go with the answer you calculated straight away Or if you&#x27;re gonna say well hang on a minute here did I make any assumptions without noticing it and If I did what would the impact of that assumption have been would it tip it smaller larger and You know and my comfortable just going ahead making a selection here or do I feel like there&#x27;s a little bit more to do Usually like I said eight nine times out of ten you&#x27;re fine with the rule of thumb and there&#x27;s lots of problems in this program where We just use the rule of thumb and everything works out fine, but it&#x27;s not a hundred percent and You know the the situations to watch out for when you want to just kind of perk up and have some alarm bells go off and think about what you&#x27;re doing Are when you have very cold dry air or When you have very warm humid air because in those two cases your Further away from the center of the psychometric chart where that 0.075 density or 13.33 specific volume Would be located so you can actually go find this spot on the psychometric chart It&#x27;s not a spot to line there&#x27;s no lines of density on the psych chart, but there are lines of specific volume So you can find that line. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 105</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 105 | June 23th, 2025 lesson: Lesson-66494050 lesson_pos: 8 chapter_pos: 90 content_id: 66494050 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26. We use the equation for the water to be 500 gpm delta t, however Airside we did not use 4.5 CFM delta h. Can we not use the airside equation in this case? If that's the case, when do we use the airside equation and can we not use the airside equation? Also, is there a scenario where we cannot use the waterside equation too? So this problem was about an open cooling tower and the fundamental idea for analyzing this open cooling tower. It was to set equal the amount of heat t</div>
+      <div class="qa-session">OH 105 · June 23, 2025</div>
+      <div class="qa-transcript">Supporting topics 26. We use the equation for the water to be 500 gpm delta t, however Airside we did not use 4.5 CFM delta h. Can we not use the airside equation in this case? If that&#x27;s the case, when do we use the airside equation and can we not use the airside equation? Also, is there a scenario where we cannot use the waterside equation too? So this problem was about an open cooling tower and the fundamental idea for analyzing this open cooling tower. It was to set equal the amount of heat that&#x27;s rejected from the condenser water. Let&#x27;s call that Q. condenser water. Is equal to the amount of heat that is removed by the air. I&#x27;ll just call that Q. air. And for the condenser water side, we use the real of thumb 500 gpm delta t. And that&#x27;s okay. And that&#x27;s always going to be okay. Why is that always going to be okay? Because all this happening in the condenser water is that it&#x27;s changing. It&#x27;s sensible cooling of the condenser water. So it&#x27;s all driven by that delta t. So as long as it&#x27;s pure water, then this constant is good. If it&#x27;s like a water glycol mix, all bets are off. But for water, this is your go to. You really can&#x27;t go wrong with that. If you prefer to do an m.cp delta t, analysis instead, and you&#x27;re willing to work through all that, it wasn&#x27;t necessary in this problem because you were given gpm and it was just really clean the way it laid out. But if you prefer to kind of step back to this fundamental idea, you will eventually find your way right back here and ultimately get to the same place. So don&#x27;t be afraid to question it and play with it. Not on the exam, I don&#x27;t want you to waste time, but when you&#x27;re studying, you have the luxury of time. So consider doing it both ways and see that it gives you the same thing. And maybe ask yourself some questions, like, hey, why is this the constant in this real of thumb? I&#x27;ve ever wondered that, right? Like you might be able to get to the bottom of that on your own. Anyway, you&#x27;re good there. On the air side, we did not use the rule of thumb. You have two options. Let&#x27;s write them both down. Option one. Is to use the rule of thumb, 4.5 CFM delta h, and option two. Is to use the more fundamental equation, which sits behind this rule of thumb. M dot delta h. You can never go wrong with the fundamentals. They just might not be as convenient in certain circumstances. So let&#x27;s think about how these connect. What is the mass flow rate? Well, the mass flow rate is the product of the density and the volume flow rate. Now, what is density? What density is one over specific volume? So we could rewrite this as volume flow rate over specific volume. And then if we substitute that back in, option two becomes volume flow rate over specific volume times delta h. And what is volume flow rate? Well, volume flow rate is just CFM, except it may or may not come out and see if I&#x27;m so there may be some unit convergence to deal with in there. Don&#x27;t be afraid, just force the units to work out if they don&#x27;t work out initially, you manipulate them until they do. But really, the big difference is that the rule of thumb does not have the specific volume obviously in it, but it is in there. It is in there. That&#x27;s the secret. So if the density is equal to 0.075 pounds per cubic foot, which is to say, what is the specific volume? It&#x27;s the inverse of that right? So that&#x27;s to say that the specific volume equals 13.3 repeating cubic feet per pound. Then both options are fine. Because these are the embedded assumptions inside this rule of thumb. It&#x27;s the same density slash specific volume assumptions that are embedded in all three of the air rule of thumb. The total heating and cooling, which we have here, the 1.08 CFM Delta T has these built into it and the 4860 CFM Delta humidity ratio has these built into it. So if it&#x27;s around there, then you can use the rule of thumb. If it&#x27;s not, then, you know, then it becomes a matter of degree. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 114</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 114 | February 16th, 2026 lesson: Lesson-72855311 lesson_pos: 5 chapter_pos: 99 content_id: 72855311 wisti</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> When do you advise against using Ruluthum Total Heat gain equation? Air density of 0.075. If I use this equation 774CFM is calculated, which is closest to answer choice B, if using density from state 1, then the best answer is C. 80-200. Yeah, so this is a super common question that comes up. What value should I use for the specific volume? Is it okay to just use the rules of thumb, or do I need to go and actually take the entering air state? And figure out precisely what the specific volume is.</div>
+      <div class="qa-session">OH 114 · February 16, 2026</div>
+      <div class="qa-transcript">When do you advise against using Ruluthum Total Heat gain equation? Air density of 0.075. If I use this equation 774CFM is calculated, which is closest to answer choice B, if using density from state 1, then the best answer is C. 80-200. Yeah, so this is a super common question that comes up. What value should I use for the specific volume? Is it okay to just use the rules of thumb, or do I need to go and actually take the entering air state? And figure out precisely what the specific volume is. And I like the way you phrase the question, because you actually know why the answer was different. It&#x27;s because of this assumption that&#x27;s embedded. It&#x27;s the density being 0.075 versus 0.070. So clearly, for this problem, at least the discrepancy is coming from that, and it would be better to get the real specific volume than to use the Ruluthum the rule of thumb will. We&#x27;ll cause a problem in this one. But more generally, to answer your general question, it has to do with how far away you are from that line. So I put it on the psychometric chart here, just so we can kind of think about it graphically. This scribbled line roughly approximates where the specific volume is 13.3. So here&#x27;s 13.5, 13.4, 13.3. So we&#x27;re just a little bit above that line. How far you are away from this line, tells you how much risk you&#x27;re taking on, like how much am I playing with fire here? If you&#x27;re near here, right? Like typical indoor conditions, 65 to 70 degrees and fairly dry, or maybe even a little bit cooler, maybe between 16 to 70, 50% humidity. If you&#x27;re in that range, you&#x27;re fine to use the rules of thumb. If you&#x27;re outside that range, even if you&#x27;re close, right? I don&#x27;t know, if you&#x27;re, I don&#x27;t know what the exact conditions for this one were, but, you know, if you&#x27;re 55 or 75, you might get away with it. You&#x27;re going to have some error, right? But you might be close enough. You have to make that determination. For me, when I&#x27;m very cold and dry, right, down here, you know, freezing cold, cold air can&#x27;t hold very much water vapor anyway. So even if it&#x27;s humid, if it&#x27;s cold, it could be relatively humid, but on an absolute scale, it can&#x27;t hold very much water vapor. So cold air, I&#x27;m generally not going to the rules of thumb. And the opposite case is hot humid air. There&#x27;s a lot of real estate out here. So not only, it doesn&#x27;t just have to be 90 degrees, it could be 80 degrees and very humid. Before you know it, you&#x27;re getting on to these lines that are pretty far away from 13.3 Pacific volume. So I&#x27;m not saying you always have to get the exact conditions of the entering air. I use the rules of thumb very often, but you should know when you&#x27;re getting risky. And it&#x27;s very cold dry air, and it&#x27;s very hot humid air. That&#x27;s when you have to start asking yourself, maybe I don&#x27;t want to use the rule of thumb here. Or maybe I&#x27;m going to do the rule of thumb, circle an answer, see if there were other answer choices that were close to that answer, that could be one direction of the other. And then if I&#x27;m not comfortable with how close they are, then I&#x27;m going to sharpen my pencil and get in the weeds. But it doesn&#x27;t take that much extra time to look it up. So if you do have fully defined states, you might want to just go ahead and find the specific volume and do it in the precise way. If you know how to do it, it doesn&#x27;t take that much extra time. If you&#x27;re worried about it, you may as well put your mind at ease. And I think you&#x27;ll be surprised at how often the rule of thumb is okay, but this was an example where it was not. Prior to exam two, number 11, why is it unacceptable to perform a mixing calculation on web bulb temp or enthalpy to find dew point?</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 26 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 26 · 5 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -336,7 +279,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

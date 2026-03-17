@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Supporting Topics &middot; Problem 11</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 11</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 11</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 11</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a specic weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum deection of the in2 pipe? 75
+      A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i (cid:28)lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a speci(cid:28)c weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum de(cid:29)ection of the in2 pipe? 75
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,76 +225,37 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>0.03in</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>0.26in</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>0.43in</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>0.63in</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>0.63in ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the supporting topic area: electrical, economics, codes, measurement, or materials
-
-2. List all given information and identify what is being asked
-
-3. Select the appropriate formula or reference standard
-
-4. Perform the calculation step by step with careful unit tracking
-
-5. Arrive at the final answer and select the closest choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 11 from the Supporting Topics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A nominal 2in chilled water pipe (D = 2.375in, D = 2.067in) is o i lled with water and simply supported with pipe hangers located lb 18ft apart. Steel has a specic weight of 0.284 f and a modulus in3 of elasticity of 29×106lb f. What is the maximum deection of the in2 pipe? 75
-
-The answer choices are:
-  A) 0.03in
-  B) 0.26in
-  C) 0.43in
-  D) 0.63in
-
-To solve this problem, apply the relevant engineering principles from the Supporting Topics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Engineering economics problems (present worth, annual cost) follow specific formulas — practice them<br><br>• Electrical fundamentals (single-phase and three-phase power) appear frequently<br><br>• Measurement and instrumentation questions test practical knowledge — read carefully<br><br>• Code and standard questions require familiarity with key reference documents
-      </div>
+      <div class="solution-box" id="sol-box">n of Beams of Uniform Cross Section, Under Various Conditions of Loading. The pipe can be modeled as a Simple Beam with a Uniform Load. The maxmum de(cid:29)ection occurs at the center of the span and is given by the formula below where W is the uniformloadperunitlength, l isthelengthofthespan, E isthemodulusofelasticityforthepipe, and I is the moment of inertia. 5Wl4 y = 384EI The span and modulus of elasticity are given. l=18ft lb E =29×106 f in2 The uniform load can be determined by (cid:28)nding the weight of the pipe and the water contained within it and dividing by the span. However, it is more convenient and faster to use the table Schedule40SteelPipewhichprovidesthetotalweightperlinearfootforvariouspipesizes. Convert to weight per inch for ease of use in the de(cid:29)ection formula. (cid:18) (cid:19)(cid:18) (cid:19) lb 1ft lb W = 5.11 f =0.426 f ft 12in in The moment of inertia can be determined using the geometry of the pipe cross section and a formulafoundinthetablePropertiesofVariousShapesunderthecolumnAreaMomentofInertia. However, again the Schedule 40 Steel Pipe table saves time by providing the moment of inertia directly. Note the moment of inertia is a function of the cross sectional area only, so there is no need to consider the length. The value from the table should be taken and used directly. I =0.666in4 355 Find the maximum de(cid:29)ection. (cid:16) (cid:17) 5Wl4 5 0.426l i b n f (216in)4 y = = =0.625in (cid:16) (cid:17) 384EI 384 29×106lbf (0.666in4) in2 Answer D</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 69</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 69 | October 17th , 2023 lesson: Lesson-49841393 lesson_pos: 3 chapter_pos: 56 content_id: 49841393 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 11, the equation for deflection calls for the units for weight to be in pounds. I noticed that the solution used weight per foot or pounds per inches. How does this still work out? See the attached photo for more information. And then you've kind of annotated my video solution here to show that the equation for deflection calls for W to be in weight in pounds. But you notice that in the solution we use pounds per inch. And why does this equation still work? So good question. I </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 69 · October 17, 2023</div>
+      <div class="qa-transcript">Supporting topics 11, the equation for deflection calls for the units for weight to be in pounds. I noticed that the solution used weight per foot or pounds per inches. How does this still work out? See the attached photo for more information. And then you&#x27;ve kind of annotated my video solution here to show that the equation for deflection calls for W to be in weight in pounds. But you notice that in the solution we use pounds per inch. And why does this equation still work? So good question. I think I wrote a capital W here, but I maybe I could have written like a more curvy W to show that it&#x27;s lower case. But this equation would not work if this was just pounds. It has to be pounds per inch. And if you check the reference handbook for the corresponding equation, 5WL to the fourth, you&#x27;ll find it in the section under deflection of beams. It does show a lower case W here. So I don&#x27;t think there&#x27;s any ambiguity in the reference handbook. I think it&#x27;s clear there that it should be a small W and then it should be pounds force per inch, just like shown in the solution here. If there&#x27;s any confusion at all, it&#x27;s on me for writing what looks like a capital W here. But again, if you were to write just pounds in here, you&#x27;d end up with the wrong units at the end. And it just wouldn&#x27;t work. So I think you&#x27;d get some way down the line and you&#x27;d find out that you had one less inch, or one more inch or one less inch in the units. And you need the answer to just be in inches. So you&#x27;d go ahead and make some adjustments at that point. And you might even find yourself asking the question, like you did here, like hey, is this capital W, low case W is supposed to be per unit length or not. And then you&#x27;d be staring at the reference handbook trying to make that distinction. But again, you know, the units ultimately are going to be your guide. So if it doesn&#x27;t come out in the final units that you needed to be, then you know something&#x27;s a miss. And just by the fact that you asked this question, I think something in your brain said, alarm bells were going off and something was a miss. That&#x27;s what got you to ask the question. But I think just noticing this issue should be enough to point in the right direction to investigate it. And hopefully be able to answer your own question. You know, even if the W looks like capital W, you had the right instinct there to say, hey, this has to be pounds per inch for the formula to work.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 11 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 11 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -312,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

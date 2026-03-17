@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,122 +206,80 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 3</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 3</span>
+  <span class="nav-badge">⭐ 7 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">7 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 3</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 3</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A 1000cfm fan coil unit installed for dehumidication maintains an apparatus dew point of 40°F and has a coil bypass factor of 10%. The entering air is 80°F dry bulb and 50% relative humidity. What quantity of total cooling is provided? 47
+      A 1000cfm fan coil unit installed for dehumidi(cid:28)cation maintains an apparatus dew point of 40◦F and has a coil bypass factor of 10%. The entering air is 80◦F dry bulb and 50% relative humidity. What quantity of total cooling is provided? 47
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>3.2tons</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>3.6tons</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>5.4tons</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>5.4tons ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>6.0tons</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 3 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A 1000cfm fan coil unit installed for dehumidication maintains an apparatus dew point of 40°F and has a coil bypass factor of 10%. The entering air is 80°F dry bulb and 50% relative humidity. What quantity of total cooling is provided? 47
-
-The answer choices are:
-  A) 3.2tons
-  B) 3.6tons
-  C) 5.4tons
-  D) 6.0tons
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">air (cid:29)ow that gets by the coil without being cooled. The bypass factor is the complement of the coil e(cid:30)ciency. When the bypass factor is 0, the coil is 100% e(cid:30)cient. In this case, BF =1−η =.1 coil η =.9 coil Thecoile(cid:30)ciencycanbeexpressedasaratioofthereductionindrybulbtemperatureactually achievedascomparedwithwhatcouldpossiblybeachievedbythesupplyairtemperatureconverg- ing with the apparatus dew point i.e. the physical temperature of the coil. Let T represent the 1 enteringaircondition,T representthesupplyaircondition,andADP representthecoilcondition. 2 Write an expression for the coil e(cid:30)ciency: T −T η = 1 2 =.9 coil T −T 1 ADP Substitutingknownenteringconditionsandcoilconditions,solveforthesupplyairtemperature leaving the coil: 80−T 2 =.9→T =44◦F 80−40 2 If the problem were asking for the quantity of sensible cooling provided, we would now have enough information since only the dry bulb temperatures would be needed. However, in order to (cid:28)nd the total cooling provided, the supply air condition must be fully de(cid:28)ned. Use the psychrometric chart to look up the enthalpy and humidity ratio for the entering air: T =80◦F 1 φ =50% 1 Btu h =31.2 1 lb gr ω =76.4 1 lb 274 Look up the humidity ratio at the ADP: T =40◦F ADP φ =100% ADP gr ω =36.3 ADP lb Since the humidity ratio changes linearly on the psychrometric chart for straight process line (as does dry bulb temperature), write an expression for the coil e(cid:30)ciency as a ratio of the actual change in humidity ratio achieved as compared to the maximum possible change if the process line terminated at the ADP (the (cid:28)nal state would be on the saturation curve). Solve for the humidity ratio at the supply condition: ω −ω η</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">7 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 19 | July 30, 2021 lesson: Lesson-26631954 lesson_pos: 4 chapter_pos: 6 content_id: 26631954 wistia_id: ai</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC3. What is the purpose of finding the humidity ratio? I was able to solve the problem by drawing a line between the entering our condition and the ADP condition and finding the enthalpy at the point where T2 intersected said line is this coincidental. No, not coincidental. Let me, I want to just frame out your question for everyone that's maybe not visualizing the exact same thing that you described there. So how about a line? This is going to be my best psychometric chart of the day. Get re</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 19 · July 30, 2021</div>
+      <div class="qa-transcript">HVAC3. What is the purpose of finding the humidity ratio? I was able to solve the problem by drawing a line between the entering our condition and the ADP condition and finding the enthalpy at the point where T2 intersected said line is this coincidental. No, not coincidental. Let me, I want to just frame out your question for everyone that&#x27;s maybe not visualizing the exact same thing that you described there. So how about a line? This is going to be my best psychometric chart of the day. Get ready. Oh yeah. All right. So you drew a line from the entering our condition to the ADP. Maybe that was somewhere up here and you drew this line to there. And then grab another color. So then you&#x27;re saying found T2 where that intersected the line and then just took that out up into the left to get the enthalpy and then read those enthalpy&#x27;s and then you used at the very end Q.Equals 4.5 CFM Delta H to get the total heat transfer. That is absolutely fine. Absolutely correct. I&#x27;m not sure why I show more work than that in the solution. I think I was just doing too much. For some odd reason, I was found the humidity ratio at both points and then I found the dribble temperature of those points which I think you did as well. We&#x27;re done either way. So then that enabled me to find the sensible Q.Sensible 1.08 CFM Delta T and then Q.Latin using 4860 or 4840 CFM Delta humidity ratio. And then you can add those together and get the total Q.Total. But to your point, if you already have a fully defined state for both ends of that process line, then why not just get those enthalpy values and illustrate for this equation and I would agree. Sorry if I took you the long way, I&#x27;m glad you found the shorter way and we&#x27;re good there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 20</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 20 | August 13, 2021 lesson: Lesson-27016742 lesson_pos: 0 chapter_pos: 7 content_id: 27016742 wistia_id: </div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC3. This was a pretty simple question just asking, you know, I had another way of solving this. Is this okay and the answer is yes, this is fine. You basically took 90% at the end. Whereas if you watch my solution, I take 90% of the delta H a little bit earlier in the process, but either way you're just multiplying by 0.9. So you have some flexibility around when you do that and ultimately get the same answer.</div>
+      <div class="qa-session">OH 20 · August 13, 2021</div>
+      <div class="qa-transcript">HVAC3. This was a pretty simple question just asking, you know, I had another way of solving this. Is this okay and the answer is yes, this is fine. You basically took 90% at the end. Whereas if you watch my solution, I take 90% of the delta H a little bit earlier in the process, but either way you&#x27;re just multiplying by 0.9. So you have some flexibility around when you do that and ultimately get the same answer.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 29</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 29 | January 20, 2022 lesson: Lesson-31593695 lesson_pos: 5 chapter_pos: 16 content_id: 31593695 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and this is a link, I just want to say a few little questions. Two more two more questions. How do you derive late heated fusion of water 1970 Ptup account from the reference handbook given five pounds of water vapor released in there. So I think we're, this older bit of confusion of terms here. This 970 Ptup account is not the late heated fusion. That's the late heated vaporization. So this would be like HFG from the steam table. That's the late heated vaporization. Late heated fusion is,</div>
+      <div class="qa-session">OH 29 · January 20, 2022</div>
+      <div class="qa-transcript">Okay, and this is a link, I just want to say a few little questions. Two more two more questions. How do you derive late heated fusion of water 1970 Ptup account from the reference handbook given five pounds of water vapor released in there. So I think we&#x27;re, this older bit of confusion of terms here. This 970 Ptup account is not the late heated fusion. That&#x27;s the late heated vaporization. So this would be like HFG from the steam table. That&#x27;s the late heated vaporization. Late heated fusion is, is the amount of heat that needs to be added to melt ice or the amount of heat that&#x27;s, that&#x27;s given up as, or the, I guess that&#x27;s removed to freeze water twice would be another way to think about it. Melting freezing being opposite sides at the same point. But it&#x27;s, it&#x27;s an examination of the phase change between a solid liquid. That&#x27;s the late heated vaporization. So it&#x27;s a very important thing to do. But it&#x27;s, it&#x27;s an examination of the phase change between a solid liquid. That&#x27;s the late heated fusion. Whereas the late heated vaporization is the energy to change from liquid to a vapor or from a vapor back to a liquid. So we take a look at, um, section 7.5. Thermodynamic properties of water at saturation. You&#x27;ll find a table there. And I was trying to find out what is the late heated fusion since you brought it up for water. It&#x27;s in the mechanical engineering reference manual, but it&#x27;s not in the reference handbook. Or at least not direct. This is the closest I was able to get to it. You can kind of figure it out that I&#x27;ve, apologies for not putting the column headers here, but this is HF, HFG, and HG. And when you get down to 32 degrees in the table, you&#x27;ll notice that for liquid water at 32. It&#x27;s 143. Well, negative on 43.35. And then it says transition from saturated solid saturated liquid. Difference in enthalpy HF between these two states is referred to as the late heated fusion. So basically what&#x27;s happening is this is, this would be liquid water, and this would be ice, right? Because it&#x27;s colder as you go up. So it&#x27;s the difference between the two. Basically everything shown above this line for higher, lower temperatures, colder temperatures is ice. And then as you go from 32 and solid to 32 and the liquid, the only thing that changes is the late and heat diffusion. So the difference between those two numbers is about 143.4. I&#x27;m rounding a bit, and then I just check that up who will engineer toolbox. I got 144 BQs per pound there, and that&#x27;s the same number that&#x27;s in the murmur. So that is the late heat of fusion for water. You can memorize it, you can remember it&#x27;s in this table, but you won&#x27;t be able to look at it directly. If you just control F reference amp up late and diffusion, it&#x27;s kind of bringing back to this table. And you&#x27;re going to have to remember that it&#x27;s the difference between these two numbers. And then the second question, previously asked about the need of a visualization of water, is it really just PATF at 14.7, and then look up HFG and steam tables at its 97. But yes, that is HFG. That is the late heat of the visualization for steam atmosphere pressure. And I think just kind of zooming out a bit on your question. A good way to remember all of this is to think about, this is something that I learned in high school chemistry that just stuck with me through the years, and maybe it&#x27;ll be helpful to some of you. It&#x27;s kind of like a staircase. If you take kind of make a vertical axis and a horizontal axis, and let&#x27;s suppose we put temperature on the vertical and enthalpy on the horizontal, and we start with ice. And now imagine this is ice that hasn&#x27;t just frozen. So it&#x27;s ice that&#x27;s in your freezer, so it&#x27;s zero degrees in there. So it&#x27;s a solid and it&#x27;s way cold and freezing point. And we start adding heat to it, right? We start adding heat, we&#x27;re increasing its enthalpy. What&#x27;s happening? It&#x27;s still solid ice. It&#x27;s not even beginning a melt yet. It&#x27;s just increasing in temperature. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 31</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 31 | February 18, 2022 lesson: Lesson-32619333 lesson_pos: 1 chapter_pos: 18 content_id: 32619333 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 3. Do you interpolate to solve for specific volume? In this case, using 25% as far between drier and saturated air as you are? I think the answer is no to this one. It's a fully defined state, so I won't go into the details of the problem, but just to address that particular state, if I draw a really bad psychometric chart here. You know the temperature, well, I mean, I draw it there actually. It's 25% humidity, so you know the temperature and the relative humidity at that state. I</div>
+      <div class="qa-session">OH 31 · February 18, 2022</div>
+      <div class="qa-transcript">Psychometrics 3. Do you interpolate to solve for specific volume? In this case, using 25% as far between drier and saturated air as you are? I think the answer is no to this one. It&#x27;s a fully defined state, so I won&#x27;t go into the details of the problem, but just to address that particular state, if I draw a really bad psychometric chart here. You know the temperature, well, I mean, I draw it there actually. It&#x27;s 25% humidity, so you know the temperature and the relative humidity at that state. I think it&#x27;s 70 and 25. And that&#x27;s fully defined. So if you want to know the specific volume, there&#x27;s no need to interpolate. You have lines of constant specific volume on the psychometric chart that go kind of like this. And then if you&#x27;re between two lines, I think they label every half, so you might see a label for like 13.5 and then 14.5. And if you&#x27;re in between, there&#x27;s enough tick lines there that you should be able to get it down to a tenth. And then if you&#x27;re in between those lines, then you can take a shot at at the hundredths place, which you won&#x27;t have confidence in the hundredths place. And that&#x27;s okay. When I did this for the specific problem, I got a specific volume of 13.4.3 from the chart. And then I check that with a psychometric calculator, and I got 13.49. So maybe that&#x27;s just a little bit of human error on my part picking this value off. Or maybe there&#x27;s some other discrepancy. But that for all intents and purposes, whether you&#x27;re 13.4 or 13.5, it&#x27;s not going to be the difference maker. So I hope I&#x27;ve addressed the question as far as interpolating. The other thing that I&#x27;ll say here, maybe this is what you were getting at is that if you draw a vertical line that goes through that point, if it&#x27;s 25% relative humidity, then it is true that that&#x27;s 25% of the height will be below the line, either 75% will be above. So that&#x27;s a useful thing to know. But I don&#x27;t think that&#x27;s what you were getting at. So hopefully that hits it, and if not, just ask a follow up. Now the second part of the question is kind of interesting. And most HVAC application is it fair to say that the dry air mass remains constant. As you add humidity, does it technically go down ever so slightly as you introduce moisture into the space? So the dry air mass remains constant as you add humidity. So the way you set it the first time is correct. No, it doesn&#x27;t technically go down as you add moisture. So let&#x27;s draw this out. Imagine you have a room of air. And we&#x27;ll assume that it&#x27;s the air in your room right now. It&#x27;s not perfectly dry air. There&#x27;s some humidity in there, right? There&#x27;s some moisture. Well, how much moisture is there? Well, presumably if it&#x27;s relatively comfortable with where you are, then the humidity is something like, you know, between 40 and 60%. Maybe it&#x27;s around 50%. By mass, that usually means that it&#x27;s less than 2%. And we can see this by looking at the vertical axis, the humidity ratio on the psychometric chart. And we&#x27;ll notice that the values are 0.01, 0.02. And then to get values that are greater than 0.02, you really have to get up to the top of the chart, which means we have high temperatures. And then to get to the top of the chart, the temperature is required for it to be the case that the air even has the capability of holding large amounts of moisture. And for it to actually do so, it has to be warm enough for that to be possible. And then that additional moisture has to be present. And then you can get up theoretically to 3%, or something like that by mass. And what is the humidity ratio? Let&#x27;s remind ourselves the units. So we can really appreciate what that is. Of water, as compared with the mass of dry air. So if this is a and this is b, and it&#x27;s the ratio of a to b, if you want to think about that way. So it&#x27;s not a comparison of the amount of water to the total air, the total mass of air. It&#x27;s a comparison of the mass of water to the mass of dry air. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 47</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 47 | October 30, 2022 lesson: Lesson-39809474 lesson_pos: 2 chapter_pos: 34 content_id: 39809474 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Next up, HVAC3. Could you show where bypass factor equals 1 minus n coil and n coil equals entering our temperature minus leaving our temperature over entering our temperature minus ADP, come from in the handbook. No, I can't, I'm not there, it's conceptual, it's conceptual, I don't think, I mean, if you could probably will end up memorizing it, but that's not really my goal for you. My goal is for you to kind of just think about it. I think about what's happening on a coil. So I probably draw t</div>
+      <div class="qa-session">OH 47 · October 30, 2022</div>
+      <div class="qa-transcript">Next up, HVAC3. Could you show where bypass factor equals 1 minus n coil and n coil equals entering our temperature minus leaving our temperature over entering our temperature minus ADP, come from in the handbook. No, I can&#x27;t, I&#x27;m not there, it&#x27;s conceptual, it&#x27;s conceptual, I don&#x27;t think, I mean, if you could probably will end up memorizing it, but that&#x27;s not really my goal for you. My goal is for you to kind of just think about it. I think about what&#x27;s happening on a coil. So I probably draw this in a lot of solution videos. You have some coil and you have some incoming air temperature EAT. You might call this T1 or you might call it entering our temperature, kind of, choose the variables that work for you if you want to call this T2 or leaving our temperature. And then I&#x27;m claiming that the efficiency of a coil, what does that mean? It just think about that. That&#x27;s actually drawn on second metric chart. Quick and dirty, psych, let&#x27;s go. So if we have some process line, all this the room condition state one or your entering our temperature if you like. And then we&#x27;re tracking toward the ADP. Maybe we don&#x27;t get all the way there. Right? So that&#x27;s our process line. We&#x27;re going to be starting at one and we&#x27;re going to be tracking toward two. But in all likelihood, we may not get all the way to two. We may just get the sum intermediate position along that line. So this corresponds to the entering our temperature. This corresponds to the ADP apparatus dew point. And this corresponds to the actual leaving air temperature. So in a 100% efficient coil, we&#x27;ll go all the way to the ADP. Such that the difference between the entering our temperature and the ADP and the leaving air temperature. Right? The difference that we actually see, let&#x27;s write that down. EAT minus LAT is equal to the difference that we could see entering our temperature minus the ADP. The maximum distance we could possibly go. Because remember, if we drill these straight lines down, we&#x27;ve got dry bulb temperature on the horizontal axis corresponding to these three. So this is the distance we actually go. And this is the distance we could go. So when those become the same, we say that the coil is 100% efficient. The efficiency is one. The bypass factor is the complement of that. So if the coil is not 100% efficient, if we only go, I don&#x27;t know, say 80% of the way there. And we say there&#x27;s a bypass factor of 0.2. So that idea captures this quote unquote formula, which you&#x27;re calling a formula, but I&#x27;m really just so you&#x27;re saying this is a concept. I guess they could give you the formula, but I haven&#x27;t seen it in there. And I do think it&#x27;s important. So that&#x27;s one idea. And the bypass factor is a complement of that coil efficiency. So if they give you the coil efficiency, they are giving you the bypass factor and vice versa, one implies the other. And if a non-answer to your question, but unfortunately, I don&#x27;t have better news if it isn&#x27;t there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 95 · January 6, 2025</div>
+      <div class="qa-transcript">HVAC3 is there a reason to not take the bypass for the CFMs and solve using the ADP with respect to coil efficiency. I was within 2000 BTUs solving by taking 90% of the CFM and using state 2 as ADP and the given state 1, but didn&#x27;t know if on another problem it would work out this way or wouldn&#x27;t work out this way. So this one was about an air handling unit that was cooling with the humidification. So let&#x27;s draw that. Now I&#x27;m not going to go into the details here, but I do want to draw what&#x27;s happening psychometrically here so we can at least have a meaningful discussion. So we&#x27;re going down into the left to some point imagine that point is on the saturation curve. It&#x27;s our ADP and it&#x27;s our state 1, but in the problem there&#x27;s a bypass factor of point or a coil efficiency of 0.9, a bypass factor of 10%. Always remember that actually it&#x27;s going to come up in the next problem as well. The bypass factor is 1 minus the coil efficiency. So the question was about the total heating and your state 2 is 90% of that. The process line doesn&#x27;t quite get all the way to the ADP, so this is our state 2. So you can find the enthalpy that&#x27;s associated with states 1 and 2, H1H2, and you can use the total cooling rule of thumb, which is 4.5 CFM delta H. And when we say delta H, specifically what we mean is H1, the entering condition minus H2, the leaving condition. And that&#x27;s the route that I took in the solution. So that&#x27;s the way to go. The alternate route, which it looks like what you did, is you took 90% of the CFM. So that&#x27;s interesting. So what you did instead was you took 4.5 times 90% of the CFM. So this number times 0.9. You put that here. But then for the delta H, you didn&#x27;t use H2, you did H1 minus H at the ADP, which overshoots the location of the actual leaving condition, the discharge condition state 2. So that works. It&#x27;s a matter of when you&#x27;re applying the 0.9. And mine, the 0.9 is in here. It&#x27;s basically saying, hey, the length of this line from 1 to 2 is only 90% of the length of the line from 1 to the ADP. In yours, this is the full distance, but the CFM is times 0.9. I didn&#x27;t really think about it that way because in my head it&#x27;s not 90% of the CFM. It&#x27;s the whole CFM, but it&#x27;s not going as far. So that&#x27;s why I like it occurred to me to actually draw the location of state 2. But ultimately all we&#x27;re doing is multiplying by 0.9. And it&#x27;s just a matter of where we&#x27;re doing it. So it works. It&#x27;s fine. We got the same answer. Happy days. And if it was the same problem with different numbers, it&#x27;s going to work there too. But I would just invite you to think about where you introduce that 0.9. Like, do you actually think about it as 90% of the volume? I doubt you see it that way. So yeah, might help give some clarity for other problems.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 105 · June 23, 2025</div>
+      <div class="qa-transcript">Alright, HVAC3, I drew the process line from state 1 to the ADP and then placed the SAT, I guess, supplier, temperature of 44 on the process line and found the enthalpy of 17 BTU per pound, is that a valid approach as well? Yes, it is. I could say more about that, but I think you&#x27;re just looking for a one word answer, so I&#x27;ll just say yes. And the future, if you have questions like this, because I&#x27;m pretty sure you looked at the solution before submitting this question, so I would invite you to have a little bit of a soul search and kind of see if you can make arguments for and against this being a valid approach on your own and then maybe bring those into your question and say, hey, I did this, I got the right answer, so I suspect this approach is valid, but I&#x27;m worried that it&#x27;s not valid because feeling the blank and that might be a little bit more helpful for me to just get an understanding of where your head&#x27;s at and why you&#x27;re feeling cautious about that getting either correct answer because oftentimes with the psychometric charts or other things, when you have a fully defined state, you know two things about that state, you can find anything else, which means there might be multiple ways to come at the solution from there. So just something to consider for future submissions or even just for yourself as you&#x27;re kind of formulating questions as you work through problems. Can you take a position, play Devils Advocate, have a little debate? Because if I just give you one word answer and say yes, that may be useful, but it probably isn&#x27;t, it would be more fruitful for you to dig in a little bit and see where it takes you.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 3 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 3 · 7 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +287,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

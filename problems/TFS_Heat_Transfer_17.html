@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 17</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 17</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 17</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A run-around loop used for energy recovery pre-heats 20,000lb of hr 20°F outside air. 150,000Btu of heat is extracted from the same hr amount of exhaust air which is initially at 80°F. The loop uses 10gpm of water as the heat exchange medium. Neglecting losses and pumping energy, what is the temperature range of the water in the loop? 27
+      A run-around loop used for energy recovery pre-heats 20,000lb of hr 20◦F outside air. 150,000Btu of heat is extracted from the same hr amount of exhaust air which is initially at 80◦F. The loop uses 10gpm of water as the heat exchange medium. Neglecting losses and pumping energy, what is the temperature range of the water in the loop? 27
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>30°F −65°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>30°F −70°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>35°F −65°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>35°F −70°F</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>30◦F −65◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>30◦F −70◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>35◦F −65◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>35◦F −70◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 17 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: A run-around loop used for energy recovery pre-heats 20,000lb of hr 20°F outside air. 150,000Btu of heat is extracted from the same hr amount of exhaust air which is initially at 80°F. The loop uses 10gpm of water as the heat exchange medium. Neglecting losses and pumping energy, what is the temperature range of the water in the loop? 27
-
-The answer choices are:
-  A) 30°F −65°F
-  B) 30°F −70°F
-  C) 35°F −65°F
-  D) 35°F −70°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">diameter, surfaceroughness, andthelengthofthepipe. Break the problem into 3 sections and use the Steel Pipe Friction Tables to look up the head loss per 100ft for each section. The surface roughness may be considered at the end. For the 5 inch section: D =5in L=50ft Q=300gpm h =3ft/100ft d.loss (cid:18) (cid:19) 3ft h =(50ft) f 100ft For the 4 inch section, the (cid:29)ow is reduced by 100gpm after the (cid:28)rst branch: D =4in L=100ft Q=200gpm h =4.3ft/100ft d.loss (cid:18) (cid:19) 4.3ft h =(100ft) f 100ft 244 For the 3 inch section, the (cid:29)ow is reduced again by 100gpm after the second branch: D =3in L=100ft Q=100gpm h =4.5ft/100ft d.loss (cid:18) (cid:19) 4.5ft h =(100ft) f 100ft Look up Surface Roughness Factors in the Reference Handbook under the Steel Pipe Friction Tables and refer to the Correction Factors. For a Surface Roughness of C =120, it is necessary to multiply the total head loss by 0.71. Take the sum of the losses from the 3 sections and apply the correction factor to determine the total pressure loss for the system: (cid:20) (cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)(cid:21) 3ft 4.3ft 4.5ft h =(0.71) (50ft) +(100ft) +(100ft) =7.3ft f 100ft 100ft 100ft Answer A 245</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 101</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 101 | March 31st, 2025 lesson: Lesson-64020496 lesson_pos: 0 chapter_pos: 86 content_id: 64020496 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred from the TFS program. Number 17, going through the solution, I just don't get how the tolerance of plus minus 15 is achieved. I got lost somewhere along the way and don't really know. Is this just something that I'm supposed to know? Is it a standard 15 or did I miss something? I guess what I'm asking is if you can break down the hole derivative of the answer down. For me again, please just help me understand. Yeah, so this problem was about a run around coil. And I brought up the</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 101 · March 31, 2025</div>
+      <div class="qa-transcript">He transferred from the TFS program. Number 17, going through the solution, I just don&#x27;t get how the tolerance of plus minus 15 is achieved. I got lost somewhere along the way and don&#x27;t really know. Is this just something that I&#x27;m supposed to know? Is it a standard 15 or did I miss something? I guess what I&#x27;m asking is if you can break down the hole derivative of the answer down. For me again, please just help me understand. Yeah, so this problem was about a run around coil. And I brought up the solution. So I don&#x27;t have to recreate it just from the solution video. The basic idea here, this is like an energy efficiency alternative instead of having an air to air heat exchanger or an enthalpy wheel or something like that. It&#x27;s kind of like an sensible only so you can think of it as a sensible heat recovery strategy. Because there&#x27;s no moisture crossing the boundary. It&#x27;s just sensible heat. So we&#x27;re recovering some of the temperature from this leaving air before it becomes exhaust air. And we&#x27;re using that to preheat some outside air or pre cool some outside air if it&#x27;s summer situation which it might be here. Now, 20 degrees outside, so we&#x27;re going to be preheating that air. So that&#x27;s the general setup. And we know enough information. We have the mass flow rate and we have the GPM of that coil. So we have enough that we can use the sensible heat real thumb for water, 500 GPM delta T, to figure out the delta T of the water. And I&#x27;m skipping some stuff here. We know the quantity of heat transfer, the amount of heat that&#x27;s being extracted. So that&#x27;s how we&#x27;re able to use that real thumb to find the delta T on the water side. And to say that we know the delta T on the water means that we know the difference across each of the coils, which is the same difference. Because there&#x27;s no other location where heat&#x27;s being added or removed. So it&#x27;s being taken out of the leaving stream and added to the entering stream. So we expect to see a 30 degree temperature reduction as we go across coil B. And a 30 degree temperature increase as we go across coil A. So then it&#x27;s time to answer the question that&#x27;s being asked, which is what is the temperature range of the water and the loop? The word range just means the difference. Well, the answer is because you&#x27;ll hear the word range used sometimes for cooling towers. So technically speaking, the range is the difference between the two extremes. So it&#x27;s the delta T. It&#x27;s just another word for that difference. But here I&#x27;m at literally like the range, what&#x27;s still there from the low to the high. So here it&#x27;s ranging from 35 to 65. And that&#x27;s the answer, but you wouldn&#x27;t necessarily know that that straight away. That&#x27;s something you kind of have to think through. But the reason I was so quick to select it is because it&#x27;s the only one where the difference is 30. Here we have 35, here we have 40, here we have 35 again. So only C has a delta of 30, so only C can be the answer. But let&#x27;s suppose you&#x27;re not quite satisfied with that and you insist on getting an exact, you want to know why is it 35 to 65? What I proposed in the solution is that we can think about the air side. We have this entering air coming in at 20. And this leaving air, hitting coil B at 80. So the average temperature that&#x27;s entering this loop, even though it&#x27;s coming from different sides is 50. That&#x27;s the average air temperature. Even though we don&#x27;t know, I say too, we don&#x27;t know state two or state four. We know that that average entering temperature hitting these coils is 20 and 80. And I think it&#x27;s somewhere in there, it says that it&#x27;s equal volume, right? Yeah, the same amount of exhaust there. So the mass flow rates are the same. That&#x27;s why we&#x27;re able to say that that average temperature is 50. And then since the delta T on the water has to be 30, it&#x27;s going to be centered around that value. So it&#x27;s going to be 15 over and 15 under. And it is no real formula that&#x27;s going to tell you that. That&#x27;s just kind of an intuition thing. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 17 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 17 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

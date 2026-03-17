@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 2</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 2</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 2</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 2</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An outside air handling unit is equipped with a hot water coil to temper the fresh air intake during winter operation. The heating coil is sized for 80,000Btu. The outside conditions are 20°F and 50% hr relative humidity. What is the humidity ratio after heating? As- sume that the degree of saturation is roughly equivalent to relative humidity. lbda lbda lbda lbda
+      An outside air handling unit is equipped with a hot water coil to temper the fresh air intake during winter operation. The heating coil is sized for 80,000Btu. The outside conditions are 20◦F and 50% hr relative humidity. What is the humidity ratio after heating? As- sume that the degree of saturation is roughly equivalent to relative humidity. lbda lbda lbda lbda
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.001lbw</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.001lbw ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>0.002lbw</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>0.003lbw</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>0.004lbw</span></div>
@@ -240,73 +230,32 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 2 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An outside air handling unit is equipped with a hot water coil to temper the fresh air intake during winter operation. The heating coil is sized for 80,000Btu. The outside conditions are 20°F and 50% hr relative humidity. What is the humidity ratio after heating? As- sume that the degree of saturation is roughly equivalent to relative humidity. lbda lbda lbda lbda
-
-The answer choices are:
-  A) 0.001lbw
-  B) 0.002lbw
-  C) 0.003lbw
-  D) 0.004lbw
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">is the same as the humidity ratio before heating because the heating process is purely sensible only, i.e. there is no moisture being added or removed by the heating coil. Therefore, the problem can be distilled down to (cid:28)nding the humidity ratio of the outside air based on known temperature and relative humidity. Although the state is fully de(cid:28)ned, the psychrometric chart only goes down to 35◦F and no low temperature psychrometric chart is provided in the Reference Handbook. As an alternative, search for the table Thermodynamic Properties of Moist Air and note the humidity ratio at saturation (100% relative humidity): lb @T =20◦F →ω =0.002153 w s lb da 222 The humidity ratio at any other level of humidity can be calculated by using the degree of saturation, µ. As an approximation, it is acceptable to assume the degree of saturation is roughly equivalent to the relative humidity. This is not strictly true but works well in a pinch. Solve for the humidity ratio using µ. φ≈µ≈50% ω µ= → ω =µω ω s s (cid:18) (cid:19) lb lb ω =(.5) 0.002153 w =0.00108 w lb lb da da Answer A</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 96</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 96 | January 22nd, 2025 lesson: Lesson-62286845 lesson_pos: 10 chapter_pos: 81 content_id: 62286845 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics too. It's a lowest temperature on the chart is 35 degrees for temperatures lower than that. How do we get the properties needed from the chart like enthalpy? Scroll down from the Psychometric chart in the reference handbook. There's a table called Moistare Properties. And it doesn't give you the enthalpy for every, you know, every possible level of relative humidity. But it does give it to you at that temperature for completely dry air and completely Moistare. And you can interpola</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22, 2025</div>
+      <div class="qa-transcript">Psychometrics too. It&#x27;s a lowest temperature on the chart is 35 degrees for temperatures lower than that. How do we get the properties needed from the chart like enthalpy? Scroll down from the Psychometric chart in the reference handbook. There&#x27;s a table called Moistare Properties. And it doesn&#x27;t give you the enthalpy for every, you know, every possible level of relative humidity. But it does give it to you at that temperature for completely dry air and completely Moistare. And you can interpolate in between the two. So, yeah, so you can&#x27;t do it from the Psych chart, but you can do it from the Moistare Properties table. That&#x27;s right below it with a bit of interpolation. Psych 15 can use the lever rule instead of finding humidity ratios for this problem. I solved using the lever rule and got 67% so I was wondering if that would always work. Yeah, not a good practice. You got away with one there. It won&#x27;t always happen, so don&#x27;t do it. On the Psychometric chart, the parameters that are linear, where you can use the lever rule are dry bulb temperature, wepp bulb temperature, humidity ratio, and enthalpy. All right, dry bulb temperatures on the horizontal, humidity ratio on the vertical, and then enthalpy and wepp bulb temperature both on that diagonal and the top left. Those are all linear parameters. You can absolutely use the lever rule for those. The, also the specific volume is linear, so you could use the lever rule for that as well. Relative humidity is a curve, so you use the lever rule at your own peril. Wouldn&#x27;t recommend it. I would recommend finding out something else, knowing two values may be knowing the humidity ratio or the enthalpy or something else. And then if you want to use the lever rule with those parameters, go for it. Once you know two things, any, any state is fully defined. If you have two pieces of information about it, then you can pick the relative humidity off of the chart.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 2 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 2 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

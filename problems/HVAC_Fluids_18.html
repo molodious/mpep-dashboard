@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,97 +206,51 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 18</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 18</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 18</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 18</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Crude oil is pumped by a centrifugal pump with a performance curve given by the equation H = 50−Q−Q2 , where head is in units p 25 of feet and ow rate is in units of cubic feet per second. The system curve is described by the equation H = Q2 + Q, with the same units. s 25 10 Neglecting eciency and losses, what is the power required by the pump?
+      Crude oil is pumped by a centrifugal pump with a performance curve given by the equation H = 50−Q−Q2 , where head is in units p 25 of feet and (cid:29)ow rate is in units of cubic feet per second. The system curve is described by the equation H = Q2 + Q, with the same units. s 25 10 Neglecting e(cid:30)ciency and losses, what is the power required by the pump?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>16hp</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>30hp</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>30hp ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>35hp</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>53hp</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 18 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: Crude oil is pumped by a centrifugal pump with a performance curve given by the equation H = 50−Q−Q2 , where head is in units p 25 of feet and ow rate is in units of cubic feet per second. The system curve is described by the equation H = Q2 + Q, with the same units. s 25 10 Neglecting eciency and losses, what is the power required by the pump?
-
-The answer choices are:
-  A) 16hp
-  B) 30hp
-  C) 35hp
-  D) 53hp
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">urve for a given pump and the system curve is the operating point. By setting the equations equal, the volume (cid:29)ow rate and head pressure at the operating point can be determined, and then used to determine the power. H =H p s Q2 Q2 Q 50−Q− = + 25 25 10 2Q2 11Q + −50=0 25 10 Multiply by 50 to eliminate fractions, then solve the quadratic equation: 205 4Q2+55Q−2500=0 √ Recall there will be two possible roots taking the form: Q= −b± b2−4ac, where a=4, b=55, 2a c=−2500 (cid:113) (cid:112) b2−4ac= (55)2−4(4)(−2500)= (cid:112) 43,025≈207.42 √ Note that one of the roots taking the form Q = −b− b2−4ac will have a negative value. This 2a is mathematically valid but practically not reasonable, so that solution should be discarded. The root with a positive value is the volume (cid:29)ow rate for the operating point. √ −b+ b2−4ac −55+207.42 ft3 Q= = =19.05 2a 2(4) s Alternatively, quadratic equations may be readily solved using the calculator, and instructions for doing so using each of the approved calculators are easy to (cid:28)nd online. The reasoning above still holds for discarding the negative root and keeping only the positive root. Convert to gpm: ft3 (cid:18) 7.48gal (cid:19)(cid:18) 60s (cid:19) Q=19.05 =8550gpm s 1ft3 1min Substitute back into either of the equations to (cid:28)nd the corresponding head pressure at the operating point: Q2 Q (19.05)2 (19.05) H = + = + =16.43ft s 25 10 25 10 Note the head pressure is given in units of feet; however, it is feet of crude oil(cid:22)not water. Therefore the speci(cid:28)c gravity, sg, must be accounted for when the power is determined. Also</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 18 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 18 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 7</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 7</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 7</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 7</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      During winter operation, 5000cfm of outside air at 40°F and 60% relative humidity is pre-heated with a 50KW electric coil, then hu- midied to 50% relative humidity. What is the total increase in heat? hr hr hr hr
+      During winter operation, 5000cfm of outside air at 40◦F and 60% relative humidity is pre-heated with a 50KW electric coil, then hu- midi(cid:28)ed to 50% relative humidity. What is the total increase in heat? hr hr hr hr
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -235,84 +225,41 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>46,000Btu</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>124,000Btu</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>170,000Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>300,000Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>300,000Btu ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 7 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: During winter operation, 5000cfm of outside air at 40°F and 60% relative humidity is pre-heated with a 50KW electric coil, then hu- midied to 50% relative humidity. What is the total increase in heat? hr hr hr hr
-
-The answer choices are:
-  A) 46,000Btu
-  B) 124,000Btu
-  C) 170,000Btu
-  D) 300,000Btu
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">eat added to air, including both sensible and latent: Q =4.5cfm∆h t The entering condition, state 1, is fully de(cid:28)ned for the outside air. Use the psychrometric chart to look up the enthalpy: T =40◦F 1,db φ =60% 1 Btu h =13 1 lb De(cid:28)ne state 2 as the condition after the sensible heating but before the humidi(cid:28)cation. De(cid:28)ne state3asthe(cid:28)nalconditionafterthehumidi(cid:28)cation. Onlytherelativehumidityisknownforstate 3. Therefore, it is necessary to work with state 2 to gather more information that will be relevant for state 3. The process from 1→2 is sensible heating of a known quantity. Use the sensible rule of thumb to determine the dry bulb temperature at state 2. The quantity of heating is the capacity of the electric coil. Convert units from KW to Btu. hr Q =1.08cfm∆T s Q (50KW) (cid:0) 3412 Btu (cid:1) ∆T = s = hr·KW =31.6◦F 1.08cfm (1.08)(5000) ∆T =T −T =31.6◦F 2 1 T =T +31.6◦F =40F +31.6◦F =71.6◦F 2 1 The process 2 → 3 is latent heating which is vertically up on the psychrometric chart. Latent heating does not change the dry bulb temperature. Therefore: T =T =71.6◦F 3 2 228 Now state 3 is fully de(cid:28)ned since the relative humidity was given: φ =50% 3 Look up the enthalpy at state 3 on the psychrometric chart: Btu h =26.2 3 lb Substitute and solve the original formula for the total heat gain: Q =4.5cfm∆h=4.5cfm(h −h ) t 3 1 Btu Q =4.5(5000)(26.2−13)=297,000 t hr Answer D</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 21</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 21 | September 10, 2021 lesson: Lesson-27921742 lesson_pos: 2 chapter_pos: 8 content_id: 27921742 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometric 7, I originally solved the problem, calcine heat from state 1 to state 2, 50 KW. I'm going to actually skip through reading some of this, because this was just a silly error right at the end. I got 13 beats you per pound for the enthalpy, and 28 beats you per pound for the enthalpy at the other state. I think you just misread the problem. The second state was meant to be 50%. So that would change the enthalpy to 26.2. Instead of 28, and that's what's throwing your answer off by, I d</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 21 · September 10, 2021</div>
+      <div class="qa-transcript">Psychometric 7, I originally solved the problem, calcine heat from state 1 to state 2, 50 KW. I&#x27;m going to actually skip through reading some of this, because this was just a silly error right at the end. I got 13 beats you per pound for the enthalpy, and 28 beats you per pound for the enthalpy at the other state. I think you just misread the problem. The second state was meant to be 50%. So that would change the enthalpy to 26.2. Instead of 28, and that&#x27;s what&#x27;s throwing your answer off by, I don&#x27;t know, 10 or 15%. Something like that. So just check your enthalpy, look it up again, based on 50% and that should straighten it out. I think you were looking for a more interesting explanation, but it was just a simple silly thing there.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 80</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 80 | May 13th, 2024 lesson: Lesson-55103806 lesson_pos: 3 chapter_pos: 67 content_id: 55103806 wistia_id: </div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Cycrometrics 7. I was able to calculate the answer to this question, however, just reading the question and looking at the answer choices, I realized the answer would be 300,000 BTUS per hour, choice D. The sensible load is 50KW, which is 170,000 BTUS per hour, meaning the total would have to be higher. Would you say this was just a coincidence, or there might be some problems where the answer can be determined by the given information and no calculations? So I just want to be clear, you sa</div>
+      <div class="qa-session">OH 80 · May 13, 2024</div>
+      <div class="qa-transcript">HVAC Cycrometrics 7. I was able to calculate the answer to this question, however, just reading the question and looking at the answer choices, I realized the answer would be 300,000 BTUS per hour, choice D. The sensible load is 50KW, which is 170,000 BTUS per hour, meaning the total would have to be higher. Would you say this was just a coincidence, or there might be some problems where the answer can be determined by the given information and no calculations? So I just want to be clear, you said that you were able to calculate the answer, so I guess my question to your question is, did you go through the process of working the solution and calculating the answer in addition to just using your intuition and engineering judgment as you pointed out to realize that it has to be higher than just the 50KW? It&#x27;s got to be the 300,000 because that&#x27;s the only choice that&#x27;s larger. Obviously, your engineering judgment is incredibly valuable, and we don&#x27;t want to turn that off, or absolutely going to take advantage of every opportunity to be clever and eliminate choices using that judgment. And you&#x27;ve done that, and that&#x27;s like I said, that&#x27;s valuable. But one more studying, we absolutely want to look for the challenge, right? Not saying you want to do it the hard way or make it harder than it needs to be, but you want to step through the whole solution path, because I wouldn&#x27;t necessarily assume that that&#x27;s always going to be there to bail you out. So, to answer your question, might there be some problems where the answer can be determined by the given information and no calculations? Sure, totally possible. And if that&#x27;s available to you, you&#x27;re absolutely going to take advantage of it. I just want to encourage you as much as possible when studying to not lean too much on that, because I could go rearrange these answer choices and make 300,000 choice B, and put a couple of larger numbers in there for C and D. And now I&#x27;ve kind of taken your legs out from onto you. So, make sure you&#x27;re able to do it both ways. Use studying as the opportunity to pull the question toward you, right? Pull the work toward you and work hard and do as much as you possibly can to make yourself as competent and as flexible as possible. And that&#x27;s what&#x27;s ultimately going to set you up to have the most success on the exam. And if it turns out that there are problems that you can eliminate choices without having to do calculations, then by all means take advantage of that as well. Maybe do a combination of the two to give yourself some extra certainty.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 7 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 7 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -320,7 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

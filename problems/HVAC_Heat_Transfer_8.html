@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 8</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 8</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 8</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 8</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      60gpm of hot water is produced by a steam heat exchanger. 5psig saturated steam is provided, and the condensate leaves as a satu- rated liquid. The ow rate of steam is 2000lbm. If cold water enters hr at 55°F, what is the temperature of leaving hot water? Neglect losses.
+      60gpm of hot water is produced by a steam heat exchanger. 5psig saturated steam is provided, and the condensate leaves as a satu- rated liquid. The (cid:29)ow rate of steam is 2000lbm. If cold water enters hr at 55◦F, what is the temperature of leaving hot water? Neglect losses.
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>113°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>116°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>119°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>122°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>113◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>116◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>119◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>122◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 8 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: 60gpm of hot water is produced by a steam heat exchanger. 5psig saturated steam is provided, and the condensate leaves as a satu- rated liquid. The ow rate of steam is 2000lbm. If cold water enters hr at 55°F, what is the temperature of leaving hot water? Neglect losses.
-
-The answer choices are:
-  A) 113°F
-  B) 116°F
-  C) 119°F
-  D) 122°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">water,sincelossesaretobeneglected. Setthe heatlossforthesteamequaltotheheatgainforthewater. Writeanexpressionforthesteambased on change in enthalpy and an expression for the water using the sensible heating rule of thumb for water: Q˙ =Q˙ steam water m˙ ∆h=500gpm∆T steam Use the table Properties of Saturated Water (by pressure) to look up the enthalpy of saturated steam and saturated liquid at 5psig: Btu h =196 f lb Btu h =1156 g lb 249 Substitute the given mass (cid:29)ow rate, GPM, and supply water temperature and solve for the leaving hot water temperature: (cid:18) (cid:19)(cid:18) (cid:19) lb Btu Btu 2000 1156 −196 =500(60)(T −55◦F) hr lb lb hws T =119◦F hws Answer C</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 102</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 102 | May 13th, 2025 lesson: Lesson-65284242 lesson_pos: 0 chapter_pos: 87 content_id: 65284242 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> The first one is from Thermo 8. On the solution you've used 19.47 psi to look up each one and h2 for the saturated steam. Should the steam side be treated as a closed loop system and stays at 5 psi g unless stated as open to the atmosphere at the Connancy tank or drain. So this problem was a steam heat exchanger. So on the primary side we have this steam coming in that we've been told is 5 psi g saturated steam and it's being used to heat liquid water on the second side. So the answer to the que</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 102 · May 13, 2025</div>
+      <div class="qa-transcript">The first one is from Thermo 8. On the solution you&#x27;ve used 19.47 psi to look up each one and h2 for the saturated steam. Should the steam side be treated as a closed loop system and stays at 5 psi g unless stated as open to the atmosphere at the Connancy tank or drain. So this problem was a steam heat exchanger. So on the primary side we have this steam coming in that we&#x27;ve been told is 5 psi g saturated steam and it&#x27;s being used to heat liquid water on the second side. So the answer to the question should the steam be treated as closed loop and stay at 5 psi g as yes? So when we say we have this steam that&#x27;s entering at a particular pressure, there&#x27;s no pressure reducing mechanism in the coil. It&#x27;s being served up at that pressure. And what&#x27;s mainly happening in the process of heating is that that steam is undergoing phase change. So it&#x27;s condensing and in so doing it&#x27;s giving up its late in heat energy and that&#x27;s being transmitted to the liquid water that we&#x27;re heating. So if it&#x27;s 5 psi g saturated steam that&#x27;s entering, then it&#x27;s immediately going through phase change and we don&#x27;t know how far along that path it gets. It could end up as a saturated liquid. It could end up as a saturated mixture where there&#x27;s still some steam in the system or it could end up, there could be some sub cooling where it goes all the way to being a saturated liquid and then continues to cool sensibly from there. But usually most of the heat transfers the result of the late in heat transfer, which is consequence of the phase change, which is one of the reasons why we use a steam system is because that phase change has the ability to pack a big punch in terms of how much heat it can deliver. It&#x27;s sort of the thing that makes refrigerant based systems and heat pumps work too. We&#x27;re leveraging the phase change in particular to really get a lot of heat to transfer. If we just had sensible heating and cooling only, that would be worth something but it&#x27;s not quite as potent as what we can do when there&#x27;s phase change. So and then somewhere downstream of that, just if you&#x27;re kind of zooming out and thinking about the bigger picture, there would eventually be some kind of pressure reducing mechanism before we get to the condensate return. If you&#x27;re thinking about like the steam distribution system as a whole, so yeah, eventually you&#x27;re right, the pressure is reduced but that would not be assumed to be the case for the particular coil that we&#x27;re analyzing. So just to kind of put a finer point on that before we move on, if you&#x27;re thinking about the vapor dome, we have state one entering is the saturated steam condition and then state two leaving. If it&#x27;s a saturated liquid, then it would be here state two. If it&#x27;s a mixture, it might be somewhere like here and if there&#x27;s some sub cooling, then it might be somewhere like like here.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 8 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 8 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

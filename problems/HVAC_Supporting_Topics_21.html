@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Supporting Topics &middot; Problem 21</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 21</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 21</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 21</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next 6 years, and by $20,000 per year (from the original baseline) for the following 6 years. Assuming no maintenance costs and no salvage value, what is the present value of investing in this equipment if the eective annual interest rate is 6%?
+      A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next 6 years, and by $20,000 per year (from the original baseline) for the following 6 years. Assuming no maintenance costs and no salvage value, what is the present value of investing in this equipment if the e(cid:27)ective annual interest rate is 6%?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>$43,000</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>$43,000 ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>$56,000</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>$145,000</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>$195,000</span></div>
@@ -240,77 +230,36 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the supporting topic area: electrical, economics, codes, measurement, or materials
-
-2. List all given information and identify what is being asked
-
-3. Select the appropriate formula or reference standard
-
-4. Perform the calculation step by step with careful unit tracking
-
-5. Arrive at the final answer and select the closest choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 21 from the Supporting Topics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A new piece of equipment costs $100,000 and increases revenue by $15,000 per year for the next 6 years, and by $20,000 per year (from the original baseline) for the following 6 years. Assuming no maintenance costs and no salvage value, what is the present value of investing in this equipment if the eective annual interest rate is 6%?
-
-The answer choices are:
-  A) $43,000
-  B) $56,000
-  C) $145,000
-  D) $195,000
-
-To solve this problem, apply the relevant engineering principles from the Supporting Topics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Engineering economics problems (present worth, annual cost) follow specific formulas — practice them<br><br>• Electrical fundamentals (single-phase and three-phase power) appear frequently<br><br>• Measurement and instrumentation questions test practical knowledge — read carefully<br><br>• Code and standard questions require familiarity with key reference documents
-      </div>
+      <div class="solution-box" id="sol-box">a list of cash (cid:29)ows. In year zero, there is an initial cost of $100,000 (negative). In years 1 through 6, there is an annual revenue of $15,000. In years 7-12, there is an annual revenue of $20,000. Rather than handle the (6) additional $5,000 cash (cid:29)ows in years 7-12 as individual future cash (cid:29)ows, it is faster to assume and annual revenue of $20,000 for the entire 12 years, then compensate foroverstatingtherevenueinyears1-6bysubtracting $5,000peryearover6yearsfromtheoutset. This can be handled as an annualized cash (cid:29)ow over 6 years. The present value can be determined with the following expression. PV =−$100,000+($20,000)(P/A,6%,12)−($5,000)(P/A,6%,6) Usethe6%FactorTabletolookupthecash(cid:29)owfactorsneededtotranslatethecash(cid:29)owsinto present value. Solve for the present value. PV =−$100,000+($20,000)(8.3838)−($5,000)(4.9173)=$43,090 Answer A</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 64</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 64 | July 31st, 2023 lesson: Lesson-47456803 lesson_pos: 8 chapter_pos: 51 content_id: 47456803 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And lastly, economics, supporting topics 21, in the solution you do 20K over 12 years, and subtract 5K over 6 years, and end up with a present value of 43,000, is there a rule or something that drives that being the process by doing 15K over 12 years and adding 5K over 6 years you get a different result, but it's a similar process. Yeah, I don't know if there's a rule per say, but I can definitely explain the rationale, and I think graphically is the best way to do that. So let's go through both</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 64 · July 31, 2023</div>
+      <div class="qa-transcript">And lastly, economics, supporting topics 21, in the solution you do 20K over 12 years, and subtract 5K over 6 years, and end up with a present value of 43,000, is there a rule or something that drives that being the process by doing 15K over 12 years and adding 5K over 6 years you get a different result, but it&#x27;s a similar process. Yeah, I don&#x27;t know if there&#x27;s a rule per say, but I can definitely explain the rationale, and I think graphically is the best way to do that. So let&#x27;s go through both of the methods. It&#x27;s 12, it&#x27;s 20K over 12 years, and it&#x27;s subtract 5K over 6 years. So let&#x27;s drill the cash flow diagram. I&#x27;m going to ignore, I&#x27;ll drill a year zero, but it doesn&#x27;t really matter. So there&#x27;s some capital outlight in your zero, and then there&#x27;s some number of years where it&#x27;s 15,000, no, sorry, 20,000. Oh yeah, it&#x27;s 15,000 for 12 years. I want to draw all of those, I&#x27;m just going out to here. So that&#x27;s years one through 12, and the height of those arrows is 15,000. And then after a year 12, it steps up from year 13 to 20 to 20, so and I show this in the solution video, the way to do this, I&#x27;m going to get another color here. We&#x27;re trying to get this to either a present value or an annualized value, I&#x27;m not sure which, but you have to think about it in terms of the area. So if you kind of draw this across, if you were to include that area, then I think you would agree that that&#x27;s like 20,000, the whole 20,000 over the full, I mean, here&#x27;s is it 12 plus 16, 18 years all in. So if you did 20,000 over 18 years, that would be that whole rectangle. And then we subtract from that, the part that&#x27;s going to be omitted, which is 5,000 to reduction of 5,000, over the first 12 years. If I&#x27;m, I hope I&#x27;m setting that up right. 20k over 12 and 5k over 6. Okay, I think I have the numbers wrong. So this is 6, and it&#x27;s 12 out to here, so it&#x27;s half and half, and the total is 12 years. So this should be, which is my pointer. Oh no, I got my pointer back. So I&#x27;m going for whatever. Oh, they&#x27;re just, okay, we&#x27;re going to get 12 years, six years, half and half. Okay, but the point stands. So it&#x27;s, it&#x27;s that area that we&#x27;re subtracting out that&#x27;s going to get us the total. The alternate idea that was sort of offered up for like, hey, why isn&#x27;t it the same thing if we do it this other way? Well, it&#x27;s to say 15k over 12 years, 15k over 12 years, which I think we can all agree is this area, right? About a half, the whole thing, plus 5k over 6 years, right? So now, anybody in the chat, why are these not the same? Why does this not come out to be the same number? Shouldn&#x27;t this part right here correspond to this section here? Then your money increases all time? Money increases over time? Then you have the money, the value of the money. Okay, five thousand dollars trees, not the same as five thousand dollars 12 years from now. That&#x27;s true, that&#x27;s true. That&#x27;s definitely a part of it, and that&#x27;s a good intuitive pointer to why this doesn&#x27;t work. I like that. Yeah, so what&#x27;s the net effect of that in terms of graphically? I guess what I&#x27;m looking for is what is this really? This part, because this is the part that&#x27;s troubled. This I&#x27;m pretty happy with. 15k over 12 years is this bottom area. That&#x27;s true. But this 5k over 6 years is not this area, that&#x27;s not true. I think this is my question. She&#x27;s wrong there, but with your answer, I&#x27;m glad you&#x27;re answering it. I think basically, at least from what I&#x27;m getting is that you can&#x27;t dictate that it&#x27;s going to be at that point where we&#x27;re showing it on the cash flow graph. It could be calculation-wise, it might consider it at your one year or six. There&#x27;s no way for the fact that it&#x27;s in a lot or years to be taken into account by the economic factor tables. You nailed it. It has to be here. Okay. So you&#x27;re actually subtracting. Is the value of the first six years? When what you want to be subtracting is the value of the last six years. Okay. And that makes- Yeah, that&#x27;s exactly it. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 71</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 71 | December 18th, 2023 lesson: Lesson-51536314 lesson_pos: 9 chapter_pos: 58 content_id: 51536314 wistia</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, I'm on my fourth and final lightboard here. It's when you know it's a good night. All right, this one's supporting topics 21. Why do you treat problem to a 1322 as a gradient, but not 1321? So 1322, I gave you a cost increase per year in 21. We had a one time increase in cost. So it was 100,000 increases revenue by 15,000 per year. Yeah, that is a little bit ambiguous in the wording. I can see how that would be confusing. Although, maybe four every year would be better. It could be a littl</div>
+      <div class="qa-session">OH 71 · December 18, 2023</div>
+      <div class="qa-transcript">Okay, I&#x27;m on my fourth and final lightboard here. It&#x27;s when you know it&#x27;s a good night. All right, this one&#x27;s supporting topics 21. Why do you treat problem to a 1322 as a gradient, but not 1321? So 1322, I gave you a cost increase per year in 21. We had a one time increase in cost. So it was 100,000 increases revenue by 15,000 per year. Yeah, that is a little bit ambiguous in the wording. I can see how that would be confusing. Although, maybe four every year would be better. It could be a little bit ambiguous, but the cash flow diagram is really what&#x27;s going to put this to bed. So in 21, I wanted you to have a cash flow diagram that had some constant revenue like this for some period of time. And then at one moment, it goes up for each of the next six years. But there&#x27;s only one increase. So all these cash flows are one level. And then there&#x27;s some increase to the new level. And it stays there. So if that was a little bit ambiguous, I apologize. That&#x27;s on me. I could clean up that wording a bit. Just looking at it now, I&#x27;m not quite sure how to change that. It&#x27;d be 15,000 per year, or 15,000 for every year in the next six years. That&#x27;s still might lead someone to draw a gradient. I could just say it raises it 250,000 going forward for the next six years, something like that. We&#x27;ll figure out how to word that a little bit better. But anyway, once you have this cash flow diagram, and you have to, whether it&#x27;s discounting these back to a present value or a future value or an annualized value, whatever the case may be, this cash flow diagram is going to be your guide. And if you can draw the right cash flow diagram, then the economic analysis that falls out of that is inevitable. And sometimes there&#x27;s multiple ways to solve a problem in economics. But they will all rely on you having the correct cash flow diagram in the first place. In 22, it was truly a gradient. So the cash flow diagram looks more like this. You have one there, and then it goes up by the same amount every year. And if it&#x27;s something like this, so here we&#x27;re going to use gradient. All right.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Supporting Topics &middot; Problem 21 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 21 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -318,7 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,97 +206,51 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 21</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 21</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 21</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 21</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      50°F chilled water ows through a nominal 4in steel pipe wrapped with 2in thick insulation with thermal conductivity 0.05 Btu . The hr·ft·°F ambient space is maintained at 74°F and the convection heat trans- fer coecient between the insulation and the air is 2 Btu . What hr·ft2·°F is the surface temperature of the outside of the insulation?
+      50◦F chilled water (cid:29)ows through a nominal 4in steel pipe wrapped with 2in thick insulation with thermal conductivity 0.05 Btu . The hr·ft·◦F ambient space is maintained at 74◦F and the convection heat trans- fer coe(cid:30)cient between the insulation and the air is 2 Btu . What hr·ft2·◦F is the surface temperature of the outside of the insulation?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>66°F</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>68°F</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>70°F</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>72°F</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>66◦F</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>68◦F ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>70◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>72◦F</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 21 from the Heat Transfer module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: 50°F chilled water ows through a nominal 4in steel pipe wrapped with 2in thick insulation with thermal conductivity 0.05 Btu . The hr·ft·°F ambient space is maintained at 74°F and the convection heat trans- fer coecient between the insulation and the air is 2 Btu . What hr·ft2·°F is the surface temperature of the outside of the insulation?
-
-The answer choices are:
-  A) 66°F
-  B) 68°F
-  C) 70°F
-  D) 72°F
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">up the diameter for a nominal 6in pipe and the velocity corresponding to 500gpm. Unfortunately, it is not valid to obtain the head loss from the table directly as the problem statement speci(cid:28)cally calls for using the Darcy-Weisbach equation. As this problem demonstrates, there is often a discrepancy between the table values and the losses yielded by the equation. D =6.065in ft v =5.55 s Use the Properties of Water table to obtain the kinematic viscosity at 40◦F. ft2 ν =1.664×10−5 s Calculate the Reynolds Number. (cid:16) (cid:17)(cid:18) (cid:19) 5.55ft 6.065in vD s 12in Re= = ft =168,573≈1.7×105 ν 1.664×10−5ft2 s Use the table under the Moody Diagram to look up the roughness, ε, for steel, then calculate the Relative Roughness, ε. D ε 0.0002ft = =0.0004ft D 0.5ft Use the Moody Diagram with the Reynolds number and the relative roughness to (cid:28)nd the friction factor, f. f ≈0.0185 Substitute into the Darcy equation and solve. (cid:16) (cid:17)2 fLv2 (0.0185)(500ft) 5.55f s t h = = =8.75ft f 2Dg (cid:18) (cid:19)(cid:16) (cid:17) 2 6.065in 32.2ft 12in s2 ft 250 Notice the losses based on the Darcy equation are around half of what would be predicted by using the steel pipe friction tables directly. This is a typical result as the tables tend to be more conservative. Answer B</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 21 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 21 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

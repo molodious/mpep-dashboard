@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,104 +206,60 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 3</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 3</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 3</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 3</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      10gpm of water is heated from 60°F to 125°F in a feedwater heater by steam. The steam side of the feedwater heater operates at 5psig. Steam enters at 350°F and leaves as a saturated mixture with 95% quality. What is the required mass ow rate of steam? min min min min 38
+      10gpm of water is heated from 60◦F to 125◦F in a feedwater heater by steam. The steam side of the feedwater heater operates at 5psig. Steam enters at 350◦F and leaves as a saturated mixture with 95% quality. What is the required mass (cid:29)ow rate of steam? min min min min 38
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>5 lb</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>50 lb</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>50 lb ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>120 lb</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>360 lb</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
-
-2. List given information: temperatures, dimensions, material properties, and flow conditions
-
-3. Select the appropriate heat transfer equation or correlation
-
-4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
-
-5. Solve for the unknown heat transfer rate, temperature, or surface area
-
-6. Verify the answer with a quick reasonableness check
-
-<strong>Full Solution:</strong>
-
-This is Problem 3 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: 10gpm of water is heated from 60°F to 125°F in a feedwater heater by steam. The steam side of the feedwater heater operates at 5psig. Steam enters at 350°F and leaves as a saturated mixture with 95% quality. What is the required mass ow rate of steam? min min min min 38
-
-The answer choices are:
-  A) 5 lb
-  B) 50 lb
-  C) 120 lb
-  D) 360 lb
-
-To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
-      </div>
+      <div class="solution-box" id="sol-box">heat exchanger that makes hot water. The heat added to the watercomesentirelyfromtheheatgivenupbythesteam,minusanylosses. Thisproblemstatement makesnomentionoflossesore(cid:30)ciency,solossesmaybeneglected. Startbyestablishingtheenergy balancebetweenthesteamandthewater. Thenusethesensibleheatingruleofthumbtocalculate how much heat is added to the water. Btu q =q =500gpm∆T =500(10)(125−60)=325,000 steam water hr The steam side of the energy equation can be expressed as: q =m˙ (h −h ) steam 1 2 wherestate1correspondstotheenteringcondition,state2correspondstotheleavingcondition, and the mass (cid:29)ow rate is unknown. Look up the superheated steam table by searching Properties of Superheated Steam in the Reference Handbook and (cid:28)nd the enthalpy for the entering steam condition. Note 5psig ≈20psia. If you were to check the saturated steam table (cid:28)rst by searching Properties of Saturated Water (by pressure), you would observe the saturation temperature for 20psia steam is ∼ 228◦F. The entering temperature 350◦F &gt;228◦F, con(cid:28)rming that the entering steam is superheated. P =20psia 1 T =350◦F 1 Btu h =1215 1 lb The question states that the exiting condition is a saturated mixture, so use the Properties of Saturated Water table again. The pressure is implied to be constant. Use the quality to calculate the enthalpy for state 2: P =20psia 2 χ =0.95 2 242 Btu h =196 f lb Btu h =960 fg lb (cid:18) (cid:19) Btu Btu Btu h =h +χ h =196 +(0.95) 960 =1108 2 f 2 fg lb lb lb Rearrange the equation for the steam energy for the unknown mass (cid:29)ow rate, substitute, solve, and change units to lb : min q q =m˙ (h −h )→m˙ = steam s 1 2 (h −h ) 1 2 325,000Btu lb (cid:18) 1hr (cid:19) lb m˙</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 15</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 15 | May 28, 2021 lesson: Lesson-24863025 lesson_pos: 7 chapter_pos: 2 content_id: 24863025 wistia_id: e0m</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, he transfers three. And get a lot of questions about heat transfer three, and I don't know why. It's not that interesting of a question, but it comes up a lot. So we're going to cover all the questions on heat transfer three. A, why in heat transfer three is H1 superheated and H2 saturated. Well, let's take a look at the question. 10GPM of water is heated by steam. The steam side of the feed water heater operates at this pressure. And the steam enters at this temperature and leaves a </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28, 2021</div>
+      <div class="qa-transcript">All right, he transfers three. And get a lot of questions about heat transfer three, and I don&#x27;t know why. It&#x27;s not that interesting of a question, but it comes up a lot. So we&#x27;re going to cover all the questions on heat transfer three. A, why in heat transfer three is H1 superheated and H2 saturated. Well, let&#x27;s take a look at the question. 10GPM of water is heated by steam. The steam side of the feed water heater operates at this pressure. And the steam enters at this temperature and leaves a saturated mixture. So to answer the question, why is H1 superheated. We know the pressure is 5 psi g or 20 psi if you want to tack on the atmospheric pressure. And we know the temperature. So if we know the temperature in the pressure, we can just look it up in the steam table and find out what it is. We did that actually in the first question today. So I won&#x27;t recover it here, but suffice it to say that that is a fully defined state. The pressure and temperature are known. So you can determine what thermodynamic state it is in. And it is most definitely a superheated steam. So if you go to the saturated steam table first and you discover that at that pressure 20 psi a the temperature 350 is greater than the saturation temperature, which you certainly will. You&#x27;ll conclude that it&#x27;s superheated and you&#x27;ll go over the superheated steam table and find it there. So that&#x27;s how we&#x27;re going to get H1 and why is H2 saturated. And that is stated in the problem statement steam enters a 350 and leaves as a saturated mixture with 95% quality. So remember we said again in the first question today that if you&#x27;re in the saturated condition, you don&#x27;t know if you&#x27;re a saturated vapor or saturated. Lackwit or a mixture and you&#x27;re somewhere in between all you know is the temperature and pressure. So. And it by the way, it won&#x27;t be 350 because at that point, you won&#x27;t be a superheated. Don&#x27;t be superheated anymore, I&#x27;ll have decreased to some temperature. It&#x27;ll be whatever the saturation, excuse me, saturation temperature is at 20 psi a and then it&#x27;ll continue to hold that constant pressure and temperature. As it cools and condenses starting out as a saturated vapor and then becoming a mixture. And how far does it go? It goes until the quality is 95%. So that is also a fully defined state because we know the saturation temperature. Well, we know the saturation pressure which allows us to find the saturation temperature. And we know the quality. So that&#x27;s a fully defined state. Such it address a. How do you know how to differ between the two steam states? Again, it&#x27;s working your way through the steam tables through the saturated steam table through the superheated steam table. You have, you know, I think I&#x27;ve kind of addressed this. You have enough information to say that H1 and H2 are fully defined states. So you&#x27;re using the tables to distinguish. And also watch the watch the videos and look at the written solutions. You know, I just want to encourage. Before asking questions like I&#x27;m happy to answer questions, but I think this is addressed in the solution video. And in the written solution. So make sure you&#x27;re taking the time. If it seems like I&#x27;m pushing you a bit. I am. I like to see you try to answer this question for yourself because finding this information is steam table is absolutely a fundamental skill. And you have to not just like kind of get it. You have to know it cold. And I know you&#x27;re in the process of studying it and that&#x27;s fine. But yeah, so does any follow up on Airbnb or anything confusing there? Please let me know. See, you use an HF value of 180 beats you per pound should this be 196. So this is addressed in the erata. Each module has let me show just for anyone who&#x27;s newer to the program and maybe isn&#x27;t aware. There are five problem five issues errors that have been identified in the program. And I collected them into a PDF and that PDF is inserted into each module as the last lesson. So he transfer three. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 82</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 82 | June 10th, 2024 lesson: Lesson-56090536 lesson_pos: 2 chapter_pos: 69 content_id: 56090536 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, heat transfer number three. How do we know that Q equals m dot delta H when dealing with steam? Is this formula in the reference handbook? So this one was about a steam heat exchanger and it was steam entering on one side superheated then coming out with some quality probably. And then the other side was just water being heated. And this is really foundational. So I don't want you to go to the reference handbook for this. There's certain things that like you know how for every chapter</div>
+      <div class="qa-session">OH 82 · June 10, 2024</div>
+      <div class="qa-transcript">All right, heat transfer number three. How do we know that Q equals m dot delta H when dealing with steam? Is this formula in the reference handbook? So this one was about a steam heat exchanger and it was steam entering on one side superheated then coming out with some quality probably. And then the other side was just water being heated. And this is really foundational. So I don&#x27;t want you to go to the reference handbook for this. There&#x27;s certain things that like you know how for every chapter I have a key formula sheet. If I could down select from those key formula sheets for the truly key formulas, there would be like 10 formulas maybe or 12 something like that. Don&#x27;t quote me. But there are a couple that are just so foundational. And one of those would be sensible heat transfer. Q dot equals m dot Cp delta T. Right, you&#x27;re not going in the reference handbook to find that formula. Maybe you are at the beginning and that&#x27;s fair. But as you work your way through this program by the time you&#x27;re finding your way through, we&#x27;ve done enough steam in the thermomodule by the time you get to heat transfer, you&#x27;re not looking that up and you&#x27;re not looking up. Q dot equals m dot delta H. So I don&#x27;t even I don&#x27;t even know how to answer that. Like if that&#x27;s in the reference handbook or not, I probably is. But that can&#x27;t hold you back. There&#x27;s just too much to do. So I hope the solution clarifies and that you&#x27;ll think to go to that in the future. And just to put a little more on that, like this formula is for sensible only. Right. I&#x27;m intending to share your sharing. Yeah, am I not showing what I&#x27;m writing? Thank you. I can see right now. Oh, you can. You see the white one. Yeah, you see the white one. Okay. So this formula sensible only. We know that because of delta T. But what do we do if there may be phase change? That&#x27;s where this formula enters the picture. If there definitely is phase change or if we just don&#x27;t know if there&#x27;s going to be phase change or not, then this is actually a more general formula. Because if there isn&#x27;t phase change and it&#x27;s just sensible, it&#x27;ll still work. Think about psychometrics. So if you do, let&#x27;s go back to the rules of the sun. Here&#x27;s some more formula is that you&#x27;ll never look up. 1.08 CFM delta T for sensible only. And then for total, Q dot, let&#x27;s actually put the S there for sensible Q dot total 4.5 CFM delta H. So if the heating or cooling is only sensible, then there is no late in heating or cooling. So these two will be equal. So you could use either one. But if there is some amount of late in heating or cooling, then the total cooling is more than the sensible heating or cooling. So we&#x27;d better use this one. That&#x27;s air. So separate that idea from what we&#x27;re talking about now, which is steam. But if we have water on one side of this, we&#x27;ll put in for a meeting, exchanger, we had water, which is being sensible heated. So we use MCP delta T to analyze that. On the other side, we have steam and this phase change. So phase change is the steam giving up heat at a constant temperature. And that&#x27;s why we have to use the enthalpy. So if you didn&#x27;t get it the first time through no big deal, but you&#x27;ll remember that now. And now that&#x27;s one more tool in your arsenal. And I have a follow-up question. Chair. So given that this was machine three, I saw other examples utilizing steam and this equation. But I think this one told us that it was super-s. It entered super heat of steam and left the saturated heat memory. But I get your quality. Questions? Yeah. I can, yeah, any game of quality. But not all the questions give for quality. Those instances, we&#x27;re just assuming HG-h. If no quality or no state or given. You have to have at least two pieces of information to have a fully defined state. Sometimes one of those pieces of information is that it&#x27;s saturated. So on the vapor dome, if you&#x27;re super heated, right, if you&#x27;re somewhere out here, you need two data points. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 3 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 3 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -320,7 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

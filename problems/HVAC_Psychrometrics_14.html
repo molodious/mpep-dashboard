@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,104 +206,60 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 14</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 14</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 14</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 14</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An auditorium has a sensible heat load of 300,000Btu and a moisture hr load of 100lb. Air is supplied at 62°F and 50% relative humidity. hr The space is not to exceed a temperature of 74°F or a relative humidity of 60%. What are the return air conditions?
+      An auditorium has a sensible heat load of 300,000Btu and a moisture hr load of 100lb. Air is supplied at 62◦F and 50% relative humidity. hr The space is not to exceed a temperature of 74◦F or a relative humidity of 60%. What are the return air conditions?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>71°F, 60% RH</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>72°F, 43% RH</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>74°F, 38% RH</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>74°F, 60% RH</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>71◦F, 60% RH</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>72◦F, 43% RH</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>74◦F, 38% RH ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>74◦F, 60% RH</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 14 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An auditorium has a sensible heat load of 300,000Btu and a moisture hr load of 100lb. Air is supplied at 62°F and 50% relative humidity. hr The space is not to exceed a temperature of 74°F or a relative humidity of 60%. What are the return air conditions?
-
-The answer choices are:
-  A) 71°F, 60% RH
-  B) 72°F, 43% RH
-  C) 74°F, 38% RH
-  D) 74°F, 60% RH
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">willbedrivenbythesensiblecoolingdemandorthelatent coolingdemand. Oneapproachistoguess, solve, andthenchecktomakesuretheotherparameter is satis(cid:28)ed. In this case, assume the sensible heat load drives the required CFM, then check to make sure the room relative humidity does not exceed 60%. Start with the sensible cooling rule of thumb. Refer to Heat Gain Calculations in the Reference Handbook: q q =1.08cfm∆T →cfm= s s 1.08∆T 300,000 cfm= =23,148cfm 1.08(74−62) Look up latent heat gain and use the approximate heat content of water vapor to convert the latent heat load into Btu : hr (cid:18) (cid:19)(cid:18) (cid:19) lb Btu Btu q = 100 1076 =107,600 L hr lb hr Apply the latent heat gain rule of thumb and solve for the humidity ratio of the return air. Use the psychrometric chart to look up the humidity ratio for the supply condition: T =62◦F s,db φ =50% s lb ω =0.0059 w s lb da q =4840cfm∆ω =4840cfm(ω −ω ) L r s q 107,600 lb ω = L +ω = +0.0059=0.0068 w r 4840cfm s 4840(23,148) lb da T =74◦F r,db 236 Using the return humidity ratio and the return dry bulb temperature, use the psychrometric chart again to determine the return relative humidity: φ =38%&lt;60% r Since the return relative humidity is less than the allowable maximum of 60%, the initial as- sumption that the sensible load would drive the CFM was correct. Answer C</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 54</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 54 | March 13th, 2023 lesson: Lesson-43741153 lesson_pos: 0 chapter_pos: 41 content_id: 43741153 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Let's start with psychometrics. So this is one number 14. We calculate the SHR at near 75% and assume that the sensible is the driver. Then we calculate the CFM needed assuming the worst condition of return error at 74 degrees yielding 23,000 CFM. We check the CFM in the late and heat rule of thumb and find that it has five times the capacity needed. So we know the sensible he drives the CFM, but we assumed 74 degrees seems like you could calculate CFM with any other number less than 74 and find</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 54 · March 13, 2023</div>
+      <div class="qa-transcript">Let&#x27;s start with psychometrics. So this is one number 14. We calculate the SHR at near 75% and assume that the sensible is the driver. Then we calculate the CFM needed assuming the worst condition of return error at 74 degrees yielding 23,000 CFM. We check the CFM in the late and heat rule of thumb and find that it has five times the capacity needed. So we know the sensible he drives the CFM, but we assumed 74 degrees seems like you could calculate CFM with any other number less than 74 and find another solution. How can we be sure 74 is right? And the only valid temperature of the return error. So this one was about an auditorium where we had a maximum amount, a maximum temperature and a maximum relative humidity. And we were given the sensible load, we just jot down some of the things we were given. We&#x27;re not to do the numbers, but I just want to go over the concept. We were given the sensible load for the space. We were given the latent load, but not as a queue we were given as an M dot. So a latent load in terms of the mass flow rate of water vapor being out of the air. We were given the supply conditions in terms of the dribbled temperature and the relative humidity for the supply. So it&#x27;ll fully define supply state. And we were told that the return conditions, the return conditions were not to exceed 74 degrees, dribbled or 60% relative humidity. So the idea is that we have to do enough cooling so that the return temperature doesn&#x27;t come back higher than 74. Or we have to do enough dehumidification that the return humidity doesn&#x27;t come back higher than 60%. Which we don&#x27;t know which one of those things is going to be the constraint. It could turn out that if we make sure the return temperature comes back no higher than 74, we&#x27;ll do more than enough dehumidification and the relative humidity will be lower than 60. Yeah, I remember that, and I&#x27;m wondering just thinking through it now maybe there are a bunch of solutions but we&#x27;re just looking for the optimal energy efficient one. We don&#x27;t want to cool excessively. We could cool down to 60 and 40% but we don&#x27;t need to. We want this snowing. I think I&#x27;m answering my own question just realizing we just want to do this as efficiently as possible. Yeah, you nailed it. You nailed it. So the second case would be that we achieve the required dehumidification and the temperature is sufficiently low. So we don&#x27;t really know which one&#x27;s going to be constraining. So we guess and then we check. And in the solution I guess that the return comes back 74 and the relative humidity and the blown off. So yeah, that&#x27;s exactly right. So you wouldn&#x27;t provide more cooling than necessary. That would be inefficient. So yeah, I think you hit the nail on the head. It&#x27;s the most efficient possible way to do it. Thanks, Alex.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 80</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 80 | May 13th, 2024 lesson: Lesson-55103802 lesson_pos: 7 chapter_pos: 67 content_id: 55103802 wistia_id: </div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 14. This question was slightly difficult for me and I tried my best to make an attempt at solving before looking at the solution. I assumed if T return max is 74 and the sensible load is 300,000 BT's per hour. I can find the max CFM to achieve a max delta T of 12. I found the total latent load by converting pounds per hour to BT per hour. I then plotted the dribble temperature 62 degrees and 50% relative humidity to get H1. Then I used the total heat formula 4.5 CFM delta H to find</div>
+      <div class="qa-session">OH 80 · May 13, 2024</div>
+      <div class="qa-transcript">Psychometrics 14. This question was slightly difficult for me and I tried my best to make an attempt at solving before looking at the solution. I assumed if T return max is 74 and the sensible load is 300,000 BT&#x27;s per hour. I can find the max CFM to achieve a max delta T of 12. I found the total latent load by converting pounds per hour to BT per hour. I then plotted the dribble temperature 62 degrees and 50% relative humidity to get H1. Then I used the total heat formula 4.5 CFM delta H to find H2. Is this a valid step since I see used different approach in the solution video? I then was stuck because although I found the max CFM assuming the return temperature 74, I didn&#x27;t technically solve for it and I wasn&#x27;t sure if the temp could be lower than that. I attempted plotting 74 degrees and my H2 and I got an RAH between 35 and 40% and chose the answer to choice C. Even with the solution I&#x27;m still unclear, we are certain that the return temperature 74 and not a lower value. Also does answer choice D. Technically still satisfy the criteria. Yeah, great questions there. This was a tough one. This was about cooling and auditorium where we know the sensible load and the moisture load. And we know the supply conditions, but we don&#x27;t know the room conditions exactly. We&#x27;ve been told that the space is not to exceed a certain temperature or a certain relative humidity. And we want to know the return conditions. So that&#x27;s a really tricky problem because which one are we going to run into? If you have a control system, you can&#x27;t control it based on two variables you have to pick one. Usually HVAC systems are controlled based on dry bulb temperature. And the amount of dehumidification that you get is a secondary effect. There&#x27;s some sensible heat ratio in the room. You control to the temperature and you get what you get in terms of a dehumidification perspective. But that&#x27;s not to say that&#x27;s the only way you could control. If you can measure relative humidity, imagine you&#x27;re in a space that has a really high moisture load. Then the issue might not be keeping the temperature down. The issue might be keeping the moisture level down. And in such a case, you&#x27;re going to want to measure the humidity and you&#x27;re going to want to drive that level of humidity down. Now, if in the process of doing that, you over cool and you get more cooling than you really need, then that&#x27;s fine because your priority was to maintain some maximum moisture level. And we haven&#x27;t been told which is the priority here. We&#x27;ve been told that the space is not to exceed a temperature 74 or a relative humidity of 60. So the big question that we&#x27;re really asking in this problem is, is it the sensible load or is it the latent load that&#x27;s driving the system? And until we answer that question, we cannot move forward. We have all the tools that are disposal, but we have to first start by figuring out which which one is driving the situation here. So the way I approached it was I calculated what the latent fat, well let me go back because I want to answer your second question first, which is, the ZANCER choice, dettechnically satisfy the criteria. Yes, if the return conditions were exactly 74 and 60, which is the maximum of both, that would satisfy the conditions, right? The temperature is not exceed 74 and humidity does not exceed 60%. So that&#x27;s good. And that could theoretically be the answer. But that would mean would mean that the sensible load and the latent load just so happened to be exactly the right amount of each that it maxed out the sensible, it maxed out the temperature, the dribble temperature and the relative humidity exactly the same level. What are the chances of that happening? I would say not very high. So I would actually be very suspicious of answer choice. The I don&#x27;t know that I would strike it out without doing any work, but I&#x27;d be looking at answer choice D and saying, that&#x27;s probably not going to be it. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 14 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 14 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -320,7 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

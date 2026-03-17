@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Thermodynamics &middot; Problem 12</span>
-  <span class="nav-badge" style="background:#f0f0f0;color:#888;border-color:#ccc;">No OH coverage</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 12</span>
+  
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 12</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Thermodynamics · Problem 12</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       A steam condensate drain is designed to accomodate 50,000lb of hr 5psig water containing 5% vapor by mass. The maximum allowable velocity for liquid and vapor are 15ft and 100ft,respectively. What s s is the minimum diameter of a schedule 40 steel pipe suitible for this application? 16
@@ -235,77 +225,32 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>3in</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>4in</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>5in</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>6in</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>6in ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the thermodynamic system, state, and process described in the problem
-
-2. List all given information including temperatures, pressures, and working fluid properties
-
-3. Determine the appropriate thermodynamic property tables or equations to use (steam tables, ideal gas law, etc.)
-
-4. Apply the relevant energy equation (First Law, specific heat relations, or property lookups)
-
-5. Solve for the unknown quantity, paying careful attention to units (Btu, lbm, °F, psia)
-
-6. Verify the answer is reasonable and select the closest answer choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 12 from the Thermodynamics module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: A steam condensate drain is designed to accomodate 50,000lb of hr 5psig water containing 5% vapor by mass. The maximum allowable velocity for liquid and vapor are 15ft and 100ft,respectively. What s s is the minimum diameter of a schedule 40 steel pipe suitible for this application? 16
-
-The answer choices are:
-  A) 3in
-  B) 4in
-  C) 5in
-  D) 6in
-
-To solve this problem, apply the relevant engineering principles from the Thermodynamics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video walks through the thermodynamic property lookups required for this problem<br><br>• Key reference tables and their proper use are demonstrated<br><br>• Unit conversions are handled carefully throughout the calculation<br><br>• The conceptual basis behind the approach is explained before diving into math<br><br>• Common errors and pitfalls for this type of problem are highlighted
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Always identify the thermodynamic state (subcooled, saturated, superheated) before looking up properties<br><br>• Track units meticulously — mixing Btu/lbm with Btu or psia with psig is a common exam trap<br><br>• Know when to use steam tables vs. ideal gas equations; the problem conditions will tell you<br><br>• Practice reading reference tables quickly — speed with table lookups saves significant exam time
-      </div>
+      <div class="solution-box" id="sol-box">uidwaterandthevapor. Startbydetermining themass(cid:29)owratesofliquidandvaporwhichare95%and5%,respectively. Forconvenience,change the units to lb for use in the next step. s (cid:18) (cid:19)(cid:18) (cid:19) lb 1hr lb m˙ =(0.95) 50,000 =13.19 liquid hr 3600s s (cid:18) (cid:19)(cid:18) (cid:19) lb 1hr lb m˙ =(0.05) 50,000 =0.69 vapor hr 3600s s Mass (cid:29)ow rate is the product of density and volume (cid:29)ow rate: m˙ =ρQ. Volume (cid:29)ow rate is the product of velocity and area: Q=VA. Combine the above and solve for area. Substite speci(cid:28)c volume in the numerator for density in the denominator, since they are inverses. m˙ =ρVA m˙ m˙v A= = ρV V The mass (cid:29)ow rates have been establisted. The maximum velocities for liquid and vapor are given, which ensures the minimum areas will be determined. Use the steam table by looking up Properties of Saturated Water and Steam by pressure and locating p=5psig ≈20psia. Note the speci(cid:28)c volume of liquid and vapor. ft3 v =0.0168 f lb ft3 v =20.09 g lb Substitute into the area expression to determine the minimum area for liquid and vapor. (cid:0) 13.19lb(cid:1)(cid:16) 0.0168ft3 (cid:17) A = m˙ liquid v f = s lb =0.0148ft2 min,liquid V max,liquid 15ft s 158 (cid:0) 0.69lb(cid:1)(cid:16) 20.1ft3 (cid:17) A = m˙ vapor v g = s lb =0.139ft2 min,vapor V max,vapor 100ft s Take the sum to (cid:28)nd the minimum required area in square feet. Solve for the diameter and convert to inches. A =A +A =0.0148ft2+0.139ft2 =0.187ft2 min min,liquid min,vapor π (cid:114) 4A (cid:114) 4(0.187ft2) (cid:18) 12in (cid:19) A= D2 →D = = =0.487ft =5.85in 4 π π 1ft Check the table Schedule 40 Steel Pipe to con(cid:28)rm the minimum nominal size ba</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">0 sessions</span>
+      <span class="oh-count">No sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group" style="background:#f5f5f5;border-left-color:#ccc;">
-      <div class="qa-session" style="color:#888;">No Coverage</div>
-      <div class="qa-answer" style="color:#666;">No Office Hours coverage for this problem yet. This problem may be discussed in a future session.</div>
-    </div>
-
+    <p class="oh-subtitle">This problem has not yet been covered in office hours.</p>
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Thermodynamics &middot; Problem 12 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Thermodynamics · Problem 12 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -313,7 +258,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,16 +206,15 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Supporting Topics &middot; Problem 10</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Supporting Topics · Problem 10</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Supporting Topics &middot; Problem 10</div>
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Supporting Topics · Problem 10</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
       The handle of a large manual valve is secured with a square bolt pattern, as shown. The handle is 18in long and the force applied to the end of the handle during valve opration is 30lb . The bolts f have a nominal diameter of 1in and a cross-sectional area of .03in2. 4 When the valve is being closed, which statement can be made about the shear stress experienced by the bolts?
@@ -233,78 +223,39 @@ body {
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>Bolts A and B experience higher shear stress than bolts C and D.</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>Bolts C and D experience higher shear stress than bolts A and B.</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>Bolts C and D experience higher shear stress than bolts A and B. ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>Bolts A and C experience higher shear stress than bolts B and D.</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>Bolts B and D experience higher shear stress than bolts A and C.</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the supporting topic area: electrical, economics, codes, measurement, or materials
-
-2. List all given information and identify what is being asked
-
-3. Select the appropriate formula or reference standard
-
-4. Perform the calculation step by step with careful unit tracking
-
-5. Arrive at the final answer and select the closest choice
-
-<strong>Full Solution:</strong>
-
-This is Problem 10 from the Supporting Topics module of the Thermal &amp; Fluids Systems Practice Book.
-
-The problem asks: The handle of a large manual valve is secured with a square bolt pattern, as shown. The handle is 18in long and the force applied to the end of the handle during valve opration is 30lb . The bolts f have a nominal diameter of 1in and a cross-sectional area of .03in2. 4 When the valve is being closed, which statement can be made about the shear stress experienced by the bolts?
-
-The answer choices are:
-  A) Bolts A and B experience higher shear stress than bolts C and D.
-  B) Bolts C and D experience higher shear stress than bolts A and B.
-  C) Bolts A and C experience higher shear stress than bolts B and D.
-  D) Bolts B and D experience higher shear stress than bolts A and C.
-
-To solve this problem, apply the relevant engineering principles from the Supporting Topics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Engineering economics problems (present worth, annual cost) follow specific formulas — practice them<br><br>• Electrical fundamentals (single-phase and three-phase power) appear frequently<br><br>• Measurement and instrumentation questions test practical knowledge — read carefully<br><br>• Code and standard questions require familiarity with key reference documents
-      </div>
+      <div class="solution-box" id="sol-box">than bolts A and B. C. Bolts A and C experience higher shear stress than bolts B and D. D. Bolts B and D experience higher shear stress than bolts A and C. This is a qualitative problem, so there is no need to quantify the loads applied to the bolts. Since allboltshavethesamediameterandcross-sectionalarea,themaximumshearstresswillbeadirect outcome of the resultant force experienced due to the applied load and moment. Since the applied load is downward, the reaction forces on the bolts from the applied load are all upward. Since the load is applied a distance away from the bolts, it produces a clockwise moment, generating reaction forces perpendicular to lines drawn through each bolt and the center of the bolt pattern. In othwer words, the forces resulting from the moment are tangent to a circle drawn through all four bolts. 336 Adding the vectors for the reaction forces from the applied load and the moment, notice the directions of the reaction forces partially o(cid:27)set for bolts A and B. However, the forces are partially additiveforboltsCandD.Therefore,boltsCandDhavelargerresultantreactionforcesandmore shear stress than bolts A and B. Answer B</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 61</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 61 | June 19th, 2023 lesson: Lesson-46387741 lesson_pos: 0 chapter_pos: 48 content_id: 46387741 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So this was from supporting topics number 10. And I know it says TFS there, but this problem is in both programs. So you've probably seen it if you've gotten to supporting topics, even if you're in HVAC. And the question is, if we move the forest at the end of the handle and show it at the angle pointing toward the center of the bull pattern, would the same process apply for finding the bull with the greatest shear? It's been a while since I've done problems like this. And I've seen some problem</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 61 · June 19, 2023</div>
+      <div class="qa-transcript">So this was from supporting topics number 10. And I know it says TFS there, but this problem is in both programs. So you&#x27;ve probably seen it if you&#x27;ve gotten to supporting topics, even if you&#x27;re in HVAC. And the question is, if we move the forest at the end of the handle and show it at the angle pointing toward the center of the bull pattern, would the same process apply for finding the bull with the greatest shear? It&#x27;s been a while since I&#x27;ve done problems like this. And I&#x27;ve seen some problems with forces at angles and was wondering if I&#x27;m headed down the right path. So let&#x27;s just recap in the original problem. It was this square bolt pattern, right? One, two, three, four, four bolts. And in the original problem, there was a four supplied perpendicularly. So vertically down at the end of the handle, which is typically how you would use a handle or a alternative perpendicularly and it rotates in a circle. So I just want to kind of recap that problem before talking about this different situation. And actually, I think there&#x27;s a couple different situations that might be worth discussing. So the original problem for bolts and that force is being applied. Vertically straight down, apologize for the lines there probably not the straightest. But this is the applied force. So when we draw a free body diagram for the bolts, we have to do two things. We have to counteract the applied force and we have to counteract the applied moment. And why do we have to counteract them? Well, if the counteract them because it has to be in static equilibrium, because it&#x27;s not accelerating. It is going to move. There&#x27;s going to be some velocity as this thing rotates in a circle. Angular velocity might say, but not acceleration, not angular acceleration, not linear acceleration. So just starting with the force, we would have a counteracting force at each bolt of one quarter of F. You&#x27;re going to balance equally. And I&#x27;ll spare you writing that four times. We&#x27;ll just draw the arrows. And then the moment is a little interesting to think about. The force is applied some distance from the center. Let&#x27;s imagine the center of the bolt pattern is here. And this thing is going to rotate in a circle. So that&#x27;s trying to put a clockwise moment on. And what the moment ends up doing is applying a force that&#x27;s tangential to to the circle that connects these four bolts. So another way to think about it is to draw that center point. And then to just draw a line through the center. Like this. And the torque or the moment that&#x27;s being applied is going to be applied. Herpendicular, that doesn&#x27;t look perpendicular. Herpendicular to that line through the center. So you can kind of imagine a circle like this. But we&#x27;re not interested in the applied moment. We&#x27;re interested in the force that results. That&#x27;s going to counteract that moment. So the shear is actually a response. It&#x27;s a reaction force. So opposite is going to be like this. And it&#x27;s always going to be perpendicular to the line through the center line. So this is just recapping. You can you can really look at the solution video to the original problem to revisit this. Going around in a circle and work counteracting. So we&#x27;re going the other way. And then the question is which bolt has the most shear? And you&#x27;ll notice that I forget how they&#x27;re numbered. But the ones where it&#x27;s additive, these two vectors have components that are in the same direction. So when we add them, the resulting vector is going to be greater than either of the two. Whereas in this example, they&#x27;re partially counteracting. So this is vertically straight up. And this is down into the left. So the down component is going to partly cancel with the up component of this one. So the net resultant of shear force on this bolt is going to be less. So this one and this one. Maybe I can use colors here that would be good. This guy and this guy are going to have a greater shear force. And that was a solution to the original problem. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>Thermal &amp; Fluids Systems &middot; Supporting Topics &middot; Problem 10 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>Thermal &amp; Fluids Systems · Supporting Topics · Problem 10 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -312,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

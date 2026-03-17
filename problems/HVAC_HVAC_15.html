@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,110 +206,64 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 15</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 15</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 15</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 15</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      The supply fan and duct distribution for a restaurant are as shown. The velocity is not to exceed 1800fpm. Each of the ve 400cfm out- lets requires a minimum terminal pressure of 0.2inwg. How much static pressure must the fan be capable of supplying? Assume equal friction losses throughout the main run. 5455
+      The supply fan and duct distribution for a restaurant are as shown. The velocity is not to exceed 1800fpm. Each of the (cid:28)ve 400cfm out- lets requires a minimum terminal pressure of 0.2inwg. How much static pressure must the fan be capable of supplying? Assume equal friction losses throughout the main run. 5455
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>0.18inwg</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>0.23inwg</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>0.23inwg ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>0.34inwg</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>0.40inwg</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 15 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: The supply fan and duct distribution for a restaurant are as shown. The velocity is not to exceed 1800fpm. Each of the ve 400cfm out- lets requires a minimum terminal pressure of 0.2inwg. How much static pressure must the fan be capable of supplying? Assume equal friction losses throughout the main run. 5455
-
-The answer choices are:
-  A) 0.18inwg
-  B) 0.23inwg
-  C) 0.34inwg
-  D) 0.40inwg
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">ize the main duct based on the maximum velocity and total cfm: Q=5(400cfm)=2000cfm ft V =1800 max min Q Q=VA→A= V 293 2000ft3 π A= min =1.11ft2 = D2 1800 ft 4 min D =1.19ft=14.27in Round the duct diameter up because rounding down will cause the duct to be undersized and the maximum velocity will be exceeded. By slightly oversizing, the velocity will remain within the satisfactory range. Choose D =15in. Calculate the velocity: Q 2000ft3 ft ft V = = min =1630 &lt;1800 A π (cid:0)15ft (cid:1)2 min min 4 12 Use any 2 of the 3 parameters (diameter, velocity, cfm) to look up the friction loss using the chart provided. Multiply by the length of the longest run in the system: ∆P =.24inwg/100ft loss L=25ft+4(15ft)=85ft (cid:18) (cid:19) .24inwg ∆P = (85ft)=.2inwg ductwork 100ft It is also necessary to include the required terminal pressure at the outlet, since this pressure must also be supplied by the fan. ∆P =.2inwg+.2inwg =.4inwg total The total pressure is the sum of the static pressure and velocity pressure. Solve for the static pressure by subtracting the velocity pressure and solve: p =p +p →p =p −p t s v s t v (cid:18) V (cid:19)2 p = v 4005 (cid:18) V (cid:19)2 (cid:18) 1630 (cid:19)2 p =p − =.4inwg− =.23inwg s t 4005 4005 Answer B 294</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 65</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 65 | August 14th , 2023 lesson: Lesson-47857158 lesson_pos: 4 chapter_pos: 52 content_id: 47857158 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HPAC-15. Two things first, why do you calculate velocity pressure at the initial portion of the duct where there's 2000 CFM? Why not calculate at another portion of the duct? The velocity will vary along the mean as air's lost and the duct sizes reduced by standard sizes. Second, in the industry, the total pressure of the fan is considered all the losses due to the duct distribution system plus the internal losses of the fan itself. All the external static pressure of the fan is considered all l</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 65 · August 14, 2023</div>
+      <div class="qa-transcript">HPAC-15. Two things first, why do you calculate velocity pressure at the initial portion of the duct where there&#x27;s 2000 CFM? Why not calculate at another portion of the duct? The velocity will vary along the mean as air&#x27;s lost and the duct sizes reduced by standard sizes. Second, in the industry, the total pressure of the fan is considered all the losses due to the duct distribution system plus the internal losses of the fan itself. All the external static pressure of the fan is considered all losses within the duct distribution only. For these problems, when you use TP equals SP plus VP, it seems that your total pressure is actually the same as the industry term external static pressure, just asking because the terms end up using the opposite words and it becomes confusing which pressure the answer should be based on. So let&#x27;s take that one piece at a time. So we start by finding the velocity pressure in the initial section and your question is, why do we do it there? I think the reason why we do it there is just because we want to know the total pressure initially coming out of the fan. So it&#x27;s a similar set up to the last problem we drew. So we&#x27;ll kind of redraw that same thing. Got a bunch of outlets. And we want to use this idea that total pressure equals static pressure plus velocity pressure and that&#x27;s true at any point along the way, but we need a starting point. So we want to know what the total pressure is initially. So we use that immediate outlet from the fan. And since we know the CFM and we know the size of the duct, we can work out the velocity and from the velocity we can determine the velocity pressure. So that gives us the velocity pressure. And then I think in the problem we knew something about the static pressure and we were after the total, don&#x27;t quote me on that. It could be the other way around, but the point being we want to know, yeah, we want to know the static pressure initially. And then from there, you&#x27;re right as the duct gets smaller and smaller, the velocity is going to change because some air leaves through each outlet. So now you have a different CFM continuing onward and a different diameter. Therefore, you have a different velocity pressure. So there&#x27;s going to be an interplay between the static pressure and the velocity pressure as you go through the process. But we need to know what the total pressure is upfront to know what the static pressure is upfront. And then based on that initial static pressure, we&#x27;re going to be giving up some pressure as we go down the line. And that&#x27;s kind of how the analysis proceeds. I don&#x27;t know how you would jump in at some point later. It seems like you wouldn&#x27;t have enough information. So I&#x27;m not sure if that answers the question, but if it does, and I guess my question to the question is what alternate method would you propose? Is there some way of having enough given information about what&#x27;s happening further down stream seems to me like we&#x27;re going to be going to be short on data downstream? As to the second part, I think you&#x27;re probably right about the distinction here. Total pressure, being external static pressure, I&#x27;ve definitely seen that terminology when purchasing air handlers and things like that. But I never actually thought about it from the perspective of solving problems. And I think the reason for that is these problems are really driving at the fundamental ideas. So something which probably seems overly simplistic to a manufacturer, let&#x27;s say that&#x27;s like working on air handling equipment, they may want to use terms that are a bit more technical. So I think what you&#x27;re saying is that this should really be external static pressure to be more precise. That&#x27;s probably true, but I don&#x27;t want to create more confusion for folks that are doing these problems, although in your case, I think maybe it caused more confusion that it wasn&#x27;t more precise in the terminology. But this is a basic idea, this is in the reference handbook. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 97</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 97 | February 3rd, 2025 lesson: Lesson-62413713 lesson_pos: 5 chapter_pos: 82 content_id: 62413713 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC 15 is it safe to assume that you can find the total pressure by finding the velocity pressure of the max velocity, 1800 feet per minute, and then adding it to the minimum terminal pressure of 0.2 inches, that gets the total pressure to 0.42, how are the friction loss in static pressure related? So yes, I mean, everything you said you basically just narrated the solution there in the question. So if you kind of watch the solution and then came up with that sequence of steps, yes, those are t</div>
+      <div class="qa-session">OH 97 · February 3, 2025</div>
+      <div class="qa-transcript">HVAC 15 is it safe to assume that you can find the total pressure by finding the velocity pressure of the max velocity, 1800 feet per minute, and then adding it to the minimum terminal pressure of 0.2 inches, that gets the total pressure to 0.42, how are the friction loss in static pressure related? So yes, I mean, everything you said you basically just narrated the solution there in the question. So if you kind of watch the solution and then came up with that sequence of steps, yes, those are the steps. I wouldn&#x27;t memorize those steps though, like the way you&#x27;re writing it makes me worried that you&#x27;re like, I don&#x27;t know why. The overall approach in this problem is to size the fan first. So you&#x27;re determining the total pressure by taking into consideration the losses. Like this is a common idea for for these duct work problems. You&#x27;re sizing the fan, you&#x27;re thinking about the total pressure that the fan needs to be able to provide, which you find by thinking about the losses. I&#x27;m the fan to the farthest outlet. So here&#x27;s your fan, and you probably have a whole bunch of branches along the way, going in all different directions. And then somewhere at the end of the line, the last outlet. So the most linear feet is going to be all the way to that last one. You can say that&#x27;s the farthest outlet, or you can say that&#x27;s the longest run. That&#x27;s something that whether it&#x27;s design engineers, operating engineers, everyone cares about the longest run. Because everything is designed to achieve the pressure that you require to get you the air flow that you need at the longest run. I don&#x27;t love the term longest run because technically it doesn&#x27;t have to be the longest. Like I imagine you had another run off of this thing that was shorter, but it had a lot of turns. This would be a really bad design. Let&#x27;s say this existed. And let&#x27;s say that the linear feet to get there down this path was less than the linear feet to go all the way here. This could technically be the shortest run, even though it&#x27;s not the shortest run. Because it&#x27;s not about linear feet necessarily. It&#x27;s about equivalent length. But usually, if a duct system is well designed, then there&#x27;s not a bunch of elbows for no reason. Then the longest run is the one with the largest, largest length and the largest equivalent length. We&#x27;ll be the same one. In the UK, they don&#x27;t use the term longest run. It did some work over there, and they say the index run. But it&#x27;s the same idea, and they just have a special term for it. So I kind of like using that sometimes. But you won&#x27;t hear that in the US. You&#x27;ll always hear the longest run. So you need enough pressure to get the air to the end of the longest run. And then there may be there usually is some terminal pressure required to get through that last diffuser. And that&#x27;s a function of the diffuser&#x27;s design. So that would have to be given in the problem statement as well. So it&#x27;s the sum of the pressure needed to get down the end of the longest run plus any terminal pressure. And if you do that, if you achieve that and you make this last run happy, then everything else along the way can also be satisfied. If there&#x27;s enough pressure for this, there&#x27;s enough pressure for everything. And then the fan aside from being able to provide that amount of pressure, it needs to be able to provide enough volume, add up to the cumulative requirements of whatever you have. If you have 100 CFM that you need here, forget this monster. 100 here, 100 here, 100 here, 100 here, and 100 here, then that&#x27;s 500 CFM. So nothing fancy they&#x27;re just straight adding. And now you&#x27;ve sized your fan. You figured out, okay, I need to be able to provide this much volume and I need to be able to find, uh, provide this much pressure. Well, how do you actually figure out that pressure once you know the longest run? It&#x27;s going to be from that table that we used. It&#x27;s the delta P, the pressure loss, per foot, the length and feet. And this is what we did in that solution. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 105</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 105 | June 23th, 2025 lesson: Lesson-66494047 lesson_pos: 3 chapter_pos: 90 content_id: 66494047 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC15. I found the friction lost by intersecting 2000 CFM and 1800 FPM, feet per minute, and solved for a P total total pressure. The velocity pressure was found by V over 45 squared, and solved for the static pressure, which is 0.24 inches water gauge. Is this an accurate approach as well? So, similar to the question that we got, just looking for a yes or no answer, but this one is a little bit more interesting. So, in this case, you got away with it, but it's not optimal. This was one where y</div>
+      <div class="qa-session">OH 105 · June 23, 2025</div>
+      <div class="qa-transcript">HVAC15. I found the friction lost by intersecting 2000 CFM and 1800 FPM, feet per minute, and solved for a P total total pressure. The velocity pressure was found by V over 45 squared, and solved for the static pressure, which is 0.24 inches water gauge. Is this an accurate approach as well? So, similar to the question that we got, just looking for a yes or no answer, but this one is a little bit more interesting. So, in this case, you got away with it, but it&#x27;s not optimal. This was one where you have to use the friction lost chart. And I provided you with that chart, because that&#x27;s not in the reference sample, but I furnished it as part of the problem statement so that you could use it. And a better approach is to find the diameter first, find the area first, so you would use the jump over it to hear. So, you know the volume flow rate, and you know the maximum velocity. That&#x27;s important. It&#x27;s not the actual velocity. It&#x27;s the maximum allowable velocity, and that will enable you to find the area. And then once you find the area, you can set that equal to pi d squared, and you can find the diameter. And then once you find the diameter, it&#x27;s not likely to be an integer. And you&#x27;re not going to have a duct with a diameter of 14.27 inches. You&#x27;re either going to have a 14 inch duct or a 15 inch duct, or practically maybe a 16 inch duct in some situations. But here we&#x27;re going to round up to the nearest integer. Why are we rounding up and not down? Close to the 14 after all, right? If we round down, we have less area for a given flow rate. We&#x27;re going to have a higher velocity, and that&#x27;s not acceptable, because we were told the maximum velocity is 1800 feet per minute. So we have to round up to 15 thereby giving us a larger area, and for a given flow rate, a lower velocity. So now our velocity will be less than 1800 feet per minute. And then whatever that number is, that&#x27;s our actual velocity. And now we know the actual volume flow rate and the actual velocity. And we can take those two pieces of information and put them into the frictional loss chart, find the intersection, and then find out what the pressure loss is going to be delta p, which will be some number of inches per linear foot. And if you do that, you&#x27;ll get a slightly different answer. No, you&#x27;ve got to weigh with it, because the answer choices were not particularly close together, so you weren&#x27;t as precise as you could be. But you were accurate enough, and you got it right. So fair question. Glad you asked, and I hope next time you&#x27;ll take that on board.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 15 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 15 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

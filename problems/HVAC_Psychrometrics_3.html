@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,110 +206,64 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Psychrometrics &middot; Problem 3</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 3</span>
   <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 3</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 3</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A 12ft by 15ft room with a 9ft ceiling has a relative humidity of 25% and a dry bulb temperature of 70°F. A humidier is turned on and run continuously adding 0.04gal of water per hour to the room. Assuming the additional moisture content has no impact on the dry bulb temperature and the room is sealed, how long will it take to achieve 50% relative humidity? 32
+      A 12ft by 15ft room with a 9ft ceiling has a relative humidity of 25% and a dry bulb temperature of 70◦F. A humidi(cid:28)er is turned on and run continuously adding 0.04gal of water per hour to the room. Assuming the additional moisture content has no impact on the dry bulb temperature and the room is sealed, how long will it take to achieve 50% relative humidity? 32
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>0.75hrs</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>1hr</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>1.5hrs</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>1.5hrs ✓</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>2.75hrs</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify all given air conditions: dry-bulb temperature, wet-bulb temperature, relative humidity, or dew point
-
-2. Locate the initial state on the psychrometric chart using the given properties
-
-3. Determine the process: heating, cooling, humidification, dehumidification, or mixing
-
-4. Use the psychrometric chart or equations to find unknown properties at each state
-
-5. Calculate the required quantity (cooling load, moisture removal, supply air conditions, etc.)
-
-6. Select the closest answer choice after verifying units
-
-<strong>Full Solution:</strong>
-
-This is Problem 3 from the Psychrometrics module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: A 12ft by 15ft room with a 9ft ceiling has a relative humidity of 25% and a dry bulb temperature of 70°F. A humidier is turned on and run continuously adding 0.04gal of water per hour to the room. Assuming the additional moisture content has no impact on the dry bulb temperature and the room is sealed, how long will it take to achieve 50% relative humidity? 32
-
-The answer choices are:
-  A) 0.75hrs
-  B) 1hr
-  C) 1.5hrs
-  D) 2.75hrs
-
-To solve this problem, apply the relevant engineering principles from the Psychrometrics section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video demonstrates how to read the psychrometric chart for this problem<br><br>• Air property relationships are explained for the given process<br><br>• The calculation method is shown step by step<br><br>• Common psychrometric chart reading errors are highlighted<br><br>• Tips for quickly solving psychrometric problems on the exam are provided
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • Two independent properties define the state of moist air — identify which two you have<br><br>• Mixing problems are solved with mass and energy balances — don't try to use the chart alone<br><br>• Apparatus dew point is key to coil analysis — understand what it represents physically<br><br>• Practice reading the psychrometric chart quickly and accurately before the exam
-      </div>
+      <div class="solution-box" id="sol-box">e the humidity ratio and speci(cid:28)c volume for the initial state: T =70◦F 1 φ =25% 1 lb ω =0.00388 w 1 lb da ft3 v =13.49 1 lb da Also determine the humidity ratio for the (cid:28)nal state, after humidi(cid:28)cation: T =70◦F 2 φ =50% 2 223 lb ω =0.00781 w 2 lb da Calculate the change in the humidity ratio. This is the amount of water that will be added via humidi(cid:28)cation per unit mass of dry air. lb lb lb ∆ω =ω −ω =0.00781 w −0.00388 w =0.00393 w 2 1 lb lb lb da da da Calculate the volume of the room: V =(12ft)(15ft)(9ft)=1620ft3 Calculate the mass of dry air in the room initially: V 1620ft3 m = = =120.1lb 1 v 1 13.49ft3 da lbda Calculatethe massof wateradded tothe startingmass ofdry air, usingthe changein humidity ratio, ∆ω: (cid:18) (cid:19) lb m =m ∆ω =(120.1lb ) 0.00393 w =0.47lb w,added da da lb w da The mass (cid:29)ow rate of water is given. Determine the time required to add the mass of water at a known rate, converting units where necessary: m m m˙ = →t= t m˙ (0.47lb) t= =1.41hr (cid:16) (cid:17)(cid:16) (cid:17)(cid:16) (cid:17) 0.04gal 1ft3 62.4 lb hr 7.48gal ft3 Answer C 224</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">3 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 44</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 44 | September 19, 2022 lesson: Lesson-38917290 lesson_pos: 1 chapter_pos: 31 content_id: 38917290 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 3 on the psychometric section practice problem 3 where do you get the volume flow rate of 0.04 gallons per hour at the very end in order to find the time That was given in the problem statement. I think this was just an oversight by the the candidate that asked this question So it is in there. It's highlighted here. So you should be able to pull that out and use it at the end. I won't spend too much time on that</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 44 · September 19, 2022</div>
+      <div class="qa-transcript">Psychometrics 3 on the psychometric section practice problem 3 where do you get the volume flow rate of 0.04 gallons per hour at the very end in order to find the time That was given in the problem statement. I think this was just an oversight by the the candidate that asked this question So it is in there. It&#x27;s highlighted here. So you should be able to pull that out and use it at the end. I won&#x27;t spend too much time on that</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 66</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 66 | August 28th , 2023 lesson: Lesson-48221008 lesson_pos: 2 chapter_pos: 53 content_id: 48221008 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Next up we have psychromatrix 3. Rather than using the specific volume at the first condition, I use the standard density of air and water to convert the humidity ratio into cubic feet of water per cubic feet of air. Is there anything wrong with that? So I took a look at this one. This problem is about a humidifier and we're trying to humidify a room of a known volume from a certain condition to end condition based on a humidifier that's producing a certain GPM of water vapor water moisture into</div>
+      <div class="qa-session">OH 66 · August 28, 2023</div>
+      <div class="qa-transcript">Next up we have psychromatrix 3. Rather than using the specific volume at the first condition, I use the standard density of air and water to convert the humidity ratio into cubic feet of water per cubic feet of air. Is there anything wrong with that? So I took a look at this one. This problem is about a humidifier and we&#x27;re trying to humidify a room of a known volume from a certain condition to end condition based on a humidifier that&#x27;s producing a certain GPM of water vapor water moisture into the air. We want to know how long that&#x27;s going to take. And the approach shown here is a little bit different than what I did in the solution, but I think it makes perfect sense. Basically what you did down the bottom here is you found the change in the humidity ratio from the final state to the end state. You just determine what that delta was. And then you divided that change in that is the volume of water vapor that would have to be added to get from the initials of the final state. You divided by that by the volume flow rate being added by the humidifier. So if I had to kind of conceptualize that into a mini formula, I know you guys love formulas. But just to kind of like capture that idea, you&#x27;re saying that the final volume minus the initial volume. And this is the volume of water vapor in the air. Divide it by the volume flow rate. Or which the humidifier is adding moisture to that air. We&#x27;re going to come out with time because it sends up being volume over a volume flow rate. So we&#x27;re going to end up with time. And that&#x27;s exactly what we&#x27;re looking for. So I think you found an alternate solution to the problem. And it worked out pretty well because the answer choice was quite close to the correct answer choice. So I think there&#x27;s just two ways to go here. My only suggestion would be to not ignore the solution as written. And as recorded, take a look at the solution video or the written solution as you prefer. And make sure you&#x27;re able to do it both ways. So you&#x27;re not just basically I want you to be as flexible as possible. So if your way works for you that&#x27;s great, we&#x27;re not going to discuss, you know, we&#x27;re not going to disregard that. We want to add that to your repertoire. But we also want the video solution has shown to be something that you can understand and follow as well. Because then you have a way of confirming you work on exam day. If you, you know, want the added confidence of knowing it works out two different ways.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 74</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 74 | February 5th, 2024 lesson: Lesson-52733080 lesson_pos: 3 chapter_pos: 61 content_id: 52733080 wistia_</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So, it's not so different because it is a humidifier. So, it's not so different because it's not so different. So, it's not so different because it's not so different. So, it's not so different because it's not so different because it's not so different. So, it's not so different because it's not so different because it's not so different. So, it's not so different because it's not so different because it's not so different. So, it's not so different because it's not so different because it's no</div>
+      <div class="qa-session">OH 74 · February 5, 2024</div>
+      <div class="qa-transcript">So, it&#x27;s not so different because it is a humidifier. So, it&#x27;s not so different because it&#x27;s not so different. So, it&#x27;s not so different because it&#x27;s not so different. So, it&#x27;s not so different because it&#x27;s not so different because it&#x27;s not so different. So, it&#x27;s not so different because it&#x27;s not so different because it&#x27;s not so different. So, it&#x27;s not so different because it&#x27;s not so different because it&#x27;s not so different. So, it&#x27;s not so different because it&#x27;s not so different because it&#x27;s not so different because it&#x27;s not so different. So, well, yeah, humidifier doesn&#x27;t have a coil. It&#x27;s just dispersing this supplemental water vapor into the air. So, I guess that&#x27;s what makes it a little bit different. But you can kind of think of the original air in the room as the entering air and the final condition of the room is the leaving air. That&#x27;s how I thought about it. And that&#x27;s why I use the specific volume for the initial condition, which is state one. But that&#x27;s not actually a problem either way. If you used the specific volume at state two, you&#x27;re going to be fine there as well because what we&#x27;re ultimately calculating is the delta in the humidity or humidity ratio between the two. And the mass of dryer in the room isn&#x27;t changing. So, if you calculated the volume of the room and then apply some humidity ratio on some density and you crank all the numbers, you&#x27;re going to find out the mass of dryer. And if you did that in this problem, 120.1 pounds of dryer, if you went through a similar process using all the numbers from state two, you would calculate the same mass of dryer. And so, it&#x27;s going to be the same outcome either way. In general, if there&#x27;s a coil involved and it&#x27;s an air conditioning process, I&#x27;m always going to say the same thing, which is you should use the entering conditions. That&#x27;s really the best way to go. You&#x27;ll run into the least number of problems with that. It&#x27;s pretty robust path. But in this case, since it&#x27;s a fixed volume, it&#x27;s not like we&#x27;re condensing water out of the air. We&#x27;re adding water vapor to a fixed mass of dryer. And there&#x27;s not enough room for the antitrocyst to move. So, I&#x27;m very confident that if you do it both ways, you&#x27;re going to get the same answer. So, that&#x27;s my challenge to you. It&#x27;s to do it using state two, using state one and compare. And I think you&#x27;re going to find that you get the same answer with a very little error using both approaches.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 3 &middot; 3 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 3 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -326,7 +271,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

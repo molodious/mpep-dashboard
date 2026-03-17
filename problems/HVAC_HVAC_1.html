@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 1</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 1</span>
   <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 1</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 1</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      5000cfm of 76°F air with 60% RH is returned to an air handling unit with a total capacity of 15tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43°F chilled water which leaves the coil at 54°F. The supply air conditions are 58°F dry bulb and 56°F wet bulb. What percentage of the sensible cooling capacity is available as spare?
+      5000cfm of 76◦F air with 60% RH is returned to an air handling unit with a total capacity of 15tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43◦F chilled water which leaves the coil at 54◦F. The supply air conditions are 58◦F dry bulb and 56◦F wet bulb. What percentage of the sensible cooling capacity is available as spare?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>23%</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>23% ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>46%</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>54%</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>77%</span></div>
@@ -240,97 +230,48 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 1 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: 5000cfm of 76°F air with 60% RH is returned to an air handling unit with a total capacity of 15tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43°F chilled water which leaves the coil at 54°F. The supply air conditions are 58°F dry bulb and 56°F wet bulb. What percentage of the sensible cooling capacity is available as spare?
-
-The answer choices are:
-  A) 23%
-  B) 46%
-  C) 54%
-  D) 77%
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">hr (cid:32) (cid:33) 12000Btu Btu 15tons hr =180,000 ton hr Apply the sensible heat ratio i.e SHR to determine the sensible cooling capacity: (cid:18) (cid:19) Btu Btu (.7) 180,000 =126,000 hr hr To (cid:28)nd the percentage of spare sensible capacity, (cid:28)nd the sensible cooling load and subtract from the sensible capacity. Use the sensible cooling rule of thumb to calculate the actual load. Note: onlydrybulbtemperaturesshouldbeused. Unitsdonotneedtobenotedaslongasvolume (cid:29)ow rate is in cfm and temperatures are in ◦F, the (cid:28)nal result will be in Btu. hr Q˙ =1.08cfm∆T s Btu Q˙ =1.08(5000)(76−58)=97,200 s hr Calculate spare capacity: Btu Btu Btu 126,000 −97,200 =28,800 hr hr hr Change to a percentage: 28,800Btu hr =22.9% 126,000Btu hr Answer A 272</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">5 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 29</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 29 | January 20, 2022 lesson: Lesson-31593218 lesson_pos: 3 chapter_pos: 16 content_id: 31593218 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, we've got another one of those frustration questions here. Great. I want to know how we are supposed to pull accurate values off the Psychometric chart in actual CBT exam using only the completely bogus line tool available to us in the exam. I think I need to get dialed in on how to clearly calculate these answers and test because the line tool offers a real POS but it lately is there a way to do this. Well, first of all, I want to acknowledge your frustration. I guess maybe some bad </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 29 · January 20, 2022</div>
+      <div class="qa-transcript">All right, we&#x27;ve got another one of those frustration questions here. Great. I want to know how we are supposed to pull accurate values off the Psychometric chart in actual CBT exam using only the completely bogus line tool available to us in the exam. I think I need to get dialed in on how to clearly calculate these answers and test because the line tool offers a real POS but it lately is there a way to do this. Well, first of all, I want to acknowledge your frustration. I guess maybe some bad experiences in the past with the line tool. It&#x27;s funny. I&#x27;ve heard some complaints about the line tool but when I watched the The NC&#x27;s video about how to use it, it just looks like it makes straight lines and then you can control Z to erase it. So, you know, it won&#x27;t be dismissive of the question but it just sounds like it&#x27;s not that big of a deal to me but maybe there&#x27;s something I&#x27;m missing. So, you know, I don&#x27;t want to, like I said, I don&#x27;t want to ignore the question and I just want to make sure that we want the solution more than then we want the prop and then we can move forward. So, I&#x27;m not going to re-solve this whole problem again because again, it&#x27;s in the solution video but I want to acknowledge the part of your question about how we use the, like how to use the Psychometric Chart to solve this and is there a way to do this? I don&#x27;t recommend using, I try to calculate answers. I think the Psychometric Chart is the way to go and it&#x27;s faster, it&#x27;s reliable. It gives you a level accuracy that satisfies factories, this problem, I&#x27;ll show you exactly what I mean. I went back through this problem and there&#x27;s basically two times you need to use the Psychometric Chart. One time you need to find an enthalpy based on a webbulp temperature. So, an h enthalpy being a function of webbulp temperature. And then another time you need to do the opposite and you need to find a webbulp temperature as a function of an enthalpy. And as I&#x27;m sure you know from solving lots of Psychometric questions, the webbulp temperature is along the Psychometric Chart and the enthalpy is the straight line. And these lines go from northwest to southeast, these diagonal lines are lines of constant webbulp and constant enthalpy. And we don&#x27;t have to go that far, I could almost do it by eye without even looking without even drawing lines, but if you have a line tool, it&#x27;s going to be a piece of cake. We need to find out what the enthalpy is corresponding to 63 degree level. That&#x27;s going to be right here. And then just draw a line that looks like continuation of that line of constant webbulp. And looks like we&#x27;re getting about 28.8. Now I have the luxury looking at the solution. So, you might say, hey, I wasn&#x27;t able to produce that same level of accuracy. And that&#x27;s fine. But if you&#x27;re wrong, you&#x27;re going to be 30 or 28.6. And that&#x27;s fine. That&#x27;s not going to take you away from getting the correct answer. And then the second time we had to use the Psychometric Chart was for enthalpy of 23.5. We had to find the webbulp, so let&#x27;s jump down the 23.5. And try to draw a line of constant webbulp and let&#x27;s see where we go. And I would say that&#x27;s 0.55. And again, if it&#x27;s not 55, it&#x27;s going to be 54.5 or 55.5. It&#x27;s pretty close. I&#x27;m not saying the line tools perfect. I don&#x27;t know some of you that I&#x27;ve had experience in the exam environment. Probably have a better narrative around that, just how painful it is. But what I don&#x27;t want to do is just recommend alternative approaches to the right answer. And alternative approaches that are perhaps more precise, but much longer. And in my opinion, really not worth it. So stick with the Psych Chart, hanging there, don&#x27;t give up. And don&#x27;t get frustrated about the line tool. Because if you know Psychromatrix, you&#x27;re going to be able to solve these problems. And you&#x27;re going to be able to do it six minutes. So, you know, just stay focused and don&#x27;t give up.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 30</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 30 | February 4, 2022 lesson: Lesson-32071614 lesson_pos: 5 chapter_pos: 17 content_id: 32071614 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Can you please solve this outside source problem psychometrics? A room contains air 80 degrees dry bulb and 67 wet bulb temperature. The total pressure is 1 ATM. The specific heat of the air in the room is most nearly what? So there's an easy way and an hard way. I actually have a problem pretty much exactly like this in my thermomodule, I want to say. I don't know if I made the answer choices quite the way these answer choices are, but regardless, easy way. What is type in the chat or unmute an</div>
+      <div class="qa-session">OH 30 · February 4, 2022</div>
+      <div class="qa-transcript">Can you please solve this outside source problem psychometrics? A room contains air 80 degrees dry bulb and 67 wet bulb temperature. The total pressure is 1 ATM. The specific heat of the air in the room is most nearly what? So there&#x27;s an easy way and an hard way. I actually have a problem pretty much exactly like this in my thermomodule, I want to say. I don&#x27;t know if I made the answer choices quite the way these answer choices are, but regardless, easy way. What is type in the chat or unmute and tell them if you know what is the specific heat capacity of air? 236. CPair is 0.236. I&#x27;m not sure if I&#x27;m going to do a check. What temperature does it vary with temperatures, doesn&#x27;t it? Or is it pressure on CPE that would be CPE? 0.24. So we can use a browned ranking. Yep. Yeah, these units, right? And that&#x27;s a very typical value that you can take and use to acknowledge your point about this. It&#x27;s a change of temperature. Yes, it does, but it&#x27;s very slight. Like you can literally write this as 0.240 from from most purposes. And this question is specifically trying to get you to look at what happens when we introduce water vapor. This is not dry air. So this is the specific heat capacity of air, which is implied to be dry air. So it&#x27;s 79% nitrogen, 21% oxygen. Maybe there&#x27;s a few other trace molecules in there, but no water vapor. But air as the air you and I are breathing right now has some amount of moisture in it. And that changes the specific heat capacity. And my question for you is does that make it higher or lower and why? What is the specific heat capacity of water vapor? One. Right? This water for water or sea peace one. Oh, liquid water. Yes, that&#x27;s absolutely true. I think we talked about this a little bit last week, right? You have. Hope. Tell me if you remember this. Yes, yes, yes. So this would be ice. And now you&#x27;re melting and here you&#x27;re heating water. So we say the CP of liquid water. Is one. But once you then evaporate that water, right? We boil that water and turn it into steam. Then we can heat the steam from 212 onward and upward. So there&#x27;s a specific heat capacity for steam. Oh. And it&#x27;s different. And it&#x27;s different. Black or four five. Yes. How do you find that? Refers book. Right. You searched for probably. Oh, just. Yeah, I had to go through the things. Okay, good. All right. So once we have that, you say that again. Please. I&#x27;m certain or. Can you say how do you find that? 0.445 steam. I don&#x27;t steam and went to the table that calls thermal and physical properties of ideal gas. Is it last one on the gas is in. Okay. Thank you. Oh, there you go. I&#x27;m going to. No, it&#x27;s section one two four. I&#x27;m going to rabbit hole. It&#x27;s page six section. You&#x27;re sitting the book. Yeah. That&#x27;s early. Hey, now I&#x27;m searching again. My first time using a PDF and a guy&#x27;s sorry. On the PDF, it&#x27;s 21, but it&#x27;s that&#x27;s. Page six. That two down four. I had written a note here for today. There we go. Steam was the column heading. CP BTO, Propoundary, Ranking. 445. Cool. Okay. Oh, back to our original question. What is going to be the specific key capacity of. Of this moisture, which is a mixture of dry air and water vapor. Is it going to be higher or lower than the specific key capacity of dry air? I guess this would be higher so that it would be an A B and C. Right. Exactly right. The answer very good way to look at it. Yeah. So that saves us a bunch of time. Yeah. Now, suppose it was the other way around and like A was not an answer choice. And there was another one in here that was like 0.25. Then we got to know how to actually do the math on this right. So the way to go about that is to think about a box of air. With the understanding that air is there of dry air and moisture. So if we look up, we know it&#x27;s a fully defined state. We know the psychometric properties. So we can go to the psychometric chart based on 80 degrees dry bulb and 67 degrees wepp bulb. And we can look up the humidity ratio. And the humidity ratio is 0. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 31</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 31 | February 18, 2022 lesson: Lesson-32619334 lesson_pos: 4 chapter_pos: 18 content_id: 32619334 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, question asks, a simple rank and cycle operates between steam and during a turbine at 1200 degrees and 700 PSIA and entering a pump at 2 PSIA. What is the cycle's maximum efficiency? I struggle breaking it down to understand how to attack the table and get the values and looking for. Okay, I'm not gonna do this problem out fully. I want to challenge and invite the person who asked this question to kind of double down on attacking the table. And the reason for that is it's so important to b</div>
+      <div class="qa-session">OH 31 · February 18, 2022</div>
+      <div class="qa-transcript">Okay, question asks, a simple rank and cycle operates between steam and during a turbine at 1200 degrees and 700 PSIA and entering a pump at 2 PSIA. What is the cycle&#x27;s maximum efficiency? I struggle breaking it down to understand how to attack the table and get the values and looking for. Okay, I&#x27;m not gonna do this problem out fully. I want to challenge and invite the person who asked this question to kind of double down on attacking the table. And the reason for that is it&#x27;s so important to be able to find the information you need in the reference handbook quickly and reliably. And you have to be patient with yourself at first. So if you&#x27;re at the beginning of your study process and you haven&#x27;t kind of gone through the pain of figuring out how to find these things then unfortunately you gotta do that. If I spoon feed that to you, I&#x27;m doing you a disservice. So what I will do is we can step through the assumptions and steps of the process from a high level. And then that&#x27;ll give you enough bread crumbs to go into the tables, get the values you need and do the actual, you know, algebra along the way to get to the answer. So the first thing you wanna do is just search rank and cycle in the reference handbook. And when you do that you&#x27;ll get this information which is really helpful, we have kind of a schematic view of a rank and cycle, it&#x27;s easy to forget what these cycles are if you don&#x27;t use them all the time. So you get that reminder straight away. And then we have a drawing of the rank and cycle on a temperature and entropy curve. So that&#x27;s good too. So now we know what processes are constant pressure, what processes are as soon as we be constant entropy. And then we have the formula for the efficiency of a rank and cycle. So beginning with the end in mind, that&#x27;s what we&#x27;re ultimately gonna be using at the end of this problem. So what do we know initially? Initially we know the pressure and temperature at state three. So state three is fully defined. You know the pressure and we know the temperature. So from those two things, we can find the enthalpy and the entropy. Now I don&#x27;t wanna leave you hangin&#x27; because your question here was, I don&#x27;t know how to use the tables. Well, if we know the pressure and the temperature, let&#x27;s jump back to the previous slide. We&#x27;ve got 1200F and 700 PSIA. Can anybody tell me where I&#x27;m gonna find information about that state? What table should we do? A little super heat. It&#x27;s probably super heat. So how did you know that? Just because it&#x27;s getting to the turbine, typically it&#x27;s super heated and it also like the high pressure. Yeah, agree. Now, so you have some experience solving these problems. You kinda understand the fundamentals of a steam turbine. So right away your gut incident said, it&#x27;s probably super heated. What if you weren&#x27;t so sure? Then we&#x27;d go to, so I would go to the super heated table and then I would see what&#x27;s the saturated temperature is at that certain pressure. And if it&#x27;s below, then it would be a steam. So there&#x27;s an X value, a quality they&#x27;ll, I&#x27;ll need to find out. If it&#x27;s not, then it would be super heated. And I can just use the S value that&#x27;s in the super heated steam table. Exactly. Yeah, so if you don&#x27;t know, yes, and go look in the super heated table and if it&#x27;s not there, then it&#x27;s saturated and vice versa. If you start in the saturated table, it&#x27;s saturation temperature&#x27;s hotter at that pressure, then you go into the steam table and you&#x27;ll find it there. So it turns out that this is super heated. So go ahead. So at 700 psi, the saturated temperature is 503. And I think it was like 1200 in the question. Yeah. Was it called 100? Yeah, so it&#x27;s way hotter. So yeah, it would be super heated. Yep, so we&#x27;re gonna stay in the super heated table and we&#x27;re gonna pull out the entropy at state 3 and the enthalpy at state 3. Now let&#x27;s actually start from the bottom here. So we&#x27;re kind of working backwards. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 32</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 32 | March 7, 2022 lesson: Lesson-33560161 lesson_pos: 8 chapter_pos: 19 content_id: 33560161 wistia_id: 7</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Can you solve this question that would be great? Thanks. I want to solve the whole question, but I will give you the principles and I will leave you to apply them. So, this question is about a acoustical reduction reducing the sound power level by using a duct liner. So, there's actually a table in the reference handbook that you can find by searching insertion loss. That's a great key search term to know in case this comes up. So, what's the idea? The idea is you have just a bare metal duct and</div>
+      <div class="qa-session">OH 32 · March 7, 2022</div>
+      <div class="qa-transcript">Can you solve this question that would be great? Thanks. I want to solve the whole question, but I will give you the principles and I will leave you to apply them. So, this question is about a acoustical reduction reducing the sound power level by using a duct liner. So, there&#x27;s actually a table in the reference handbook that you can find by searching insertion loss. That&#x27;s a great key search term to know in case this comes up. So, what&#x27;s the idea? The idea is you have just a bare metal duct and you can measure at different octave frequencies. They probably put like a test, you know, speaker in there and then little receivers at certain locations to try to figure out how much sound is being transmitted. And that&#x27;s that SPL figure. So, the opportunity is to line the duct with something that&#x27;s acoustically insulating. And in doing that, to actually reduce the sound power level that&#x27;s observed. So, that depends on a number of things. It depends on the size of the duct. So, it matters that it&#x27;s 36 by 36. And it matters the thickness of the insulation. Now, it&#x27;s also relevant to note that that&#x27;s reducing the internal area inside the duct. So, you might be increasing the velocity. In this case, it&#x27;s not a big deal because it&#x27;s a 36 by 36 inch duct, but you could imagine if you had something smaller. That one inch on either side starts to look like a significant percentage of the cross sectional area. But that&#x27;s neither here nor there. And then the other thing that matters is how long you&#x27;re lining it for. Just because you have 100 foot run doesn&#x27;t mean you need to line the whole thing. Maybe you&#x27;re only going to line it, you know, for 10 feet right after the fan. And then you&#x27;re going to let the rest be, you know, free and clear just to keep the velocity down or maybe to say it on cost. I don&#x27;t know. In this case, it&#x27;s a 25 foot duct and they&#x27;re only lining 10 feet of it. So, you go into that table and what&#x27;s snip down here below looks very similar to what you&#x27;ll pull out of that table on this first line. This is what you&#x27;re getting out of the table. And what it gives you is for each octave band frequency, the reduction that you&#x27;ll see per foot of lining. So in this problem, let&#x27;s just take it one octave band at a time. Let&#x27;s suppose we&#x27;re working on the 125 Hertz band. We know that the baseline sound power level is 9.9. Presumably, that has units of decibels. And now we&#x27;re going to subtract from that 0.2 decibels, which I would not expect you to know that very much comes out of the table. And again, for the in the table you&#x27;re using the dimensions of the duct. And the thickness of that, I think the whole table is for a 1 inch thickness. So if you had a greater thickness, you&#x27;d be out of lock the reference handbook won&#x27;t really have an avenue for solving it. But the other thing that we need is the 10 foot length. So we&#x27;re going to multiply that by 10. So 10 times 0.2 is 2.99 minus 2 is 97 dB. So if that&#x27;s the case, it looks like we&#x27;re going with options C. And if you just want to confirm that, maybe do one more. Let&#x27;s do the next one. Take the 250 Hertz band. 250 Hertz had a baseline sound power level of 98. But we&#x27;re subtracting a little bit more for that frequency. It&#x27;s 0.3 times 10. So you can get 98 minus 3 is 95. And that does match up with answer choice C. So option C is the best choice. And you can carry this through and use the same process for the rest of the problem. Hopefully they don&#x27;t match up.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 64</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 64 | July 31st, 2023 lesson: Lesson-47456800 lesson_pos: 6 chapter_pos: 51 content_id: 47456800 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC number one, you used 28,000 VTU per hour for your spare, but it should be 28, so the answer should be 16%, not 23%. So this one was about an air handler, and the question asked about calculating the spare sensible cooling capacity. And I think you're referring to the very end of the problem, where I calculate the spare sensible cooling capacity in VTU per hour, and I unfortunately wrote 28,000, and you're saying I should have written 28, I agree. That's true. So I've added a clarification o</div>
+      <div class="qa-session">OH 64 · July 31, 2023</div>
+      <div class="qa-transcript">HVAC number one, you used 28,000 VTU per hour for your spare, but it should be 28, so the answer should be 16%, not 23%. So this one was about an air handler, and the question asked about calculating the spare sensible cooling capacity. And I think you&#x27;re referring to the very end of the problem, where I calculate the spare sensible cooling capacity in VTU per hour, and I unfortunately wrote 28,000, and you&#x27;re saying I should have written 28, I agree. That&#x27;s true. So I&#x27;ve added a clarification on you that problem. Thank you for reporting that. However, I then calculate the percentage spare to be 23%. And that is correct. It&#x27;s 22.9 with some more decimals and it rounds off, and that is the correct answer. So I think what probably happened is I just wrote the wrong thing in the solution video, but I probably left 28 in my calculator, so when I divided and got 23% I did end up with the right answer. So definitely standing by the answer there, I think the mistake that you may have made, and it&#x27;s an easy mistake to make, is the denominator. So if we&#x27;re finding the sensible cooling capacity, sensible cooling capacity, and we&#x27;re need to do the spare capacity divided by the sensible cooling. And if you do that in this problem, you&#x27;ll get 23%. I think instead of that, you may have used the total capacity, which is inclusive of both the sense of the land the latent. So that&#x27;s going to make your denominator larger, and then this percentage is going to equal 16%, which is not correct. So that&#x27;s what I think is going on there.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 1 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 1 · 5 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +279,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

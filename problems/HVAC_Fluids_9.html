@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,24 +206,23 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Fluids &middot; Problem 9</span>
-  <span class="nav-badge">⭐ 5 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 9</span>
+  <span class="nav-badge">⭐ 8 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">8 OH sessions · Answer: A</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 9</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 9</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      9714.50 The ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 14.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 9814.52 The pressure drop through a chilled water coil at the design ow rate of 25gpm is 8psi. During normal operation, the actual ow rate is 4gpm. What is the pressure drop in normal operation?
+      9714.50 The (cid:29)ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 14.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 9814.52 The pressure drop through a chilled water coil at the design (cid:29)ow rate of 25gpm is 8psi. During normal operation, the actual (cid:29)ow rate is 4gpm. What is the pressure drop in normal operation?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.2psi</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.2psi ✓</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>1.3psi</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>4.1psi</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>3600rpm</span></div>
@@ -240,97 +230,60 @@ body {
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the fluid system: pipe flow, pump, valve, or open channel
-
-2. List given information: flow rates, pipe sizes, pressures, elevations, and fluid properties
-
-3. Select the governing equation: Bernoulli's equation, Darcy-Weisbach, pump power, or continuity
-
-4. Look up required fluid properties and pipe data from reference tables
-
-5. Calculate the requested quantity with consistent units (gpm, fps, psi, ft of head)
-
-6. Check the result against answer choices and verify reasonableness
-
-<strong>Full Solution:</strong>
-
-This is Problem 9 from the Fluids module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: 9714.50 The ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 14.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 9814.52 The pressure drop through a chilled water coil at the design ow rate of 25gpm is 8psi. During normal operation, the actual ow rate is 4gpm. What is the pressure drop in normal operation?
-
-The answer choices are:
-  A) 0.2psi
-  B) 1.3psi
-  C) 4.1psi
-  D) 3600rpm
-
-To solve this problem, apply the relevant engineering principles from the Fluids section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video identifies the correct fluid mechanics approach for this problem type<br><br>• Pipe data, friction factors, and fluid properties are looked up from reference tables<br><br>• The calculation is performed step by step with unit tracking at each stage<br><br>• Alternative solution methods are briefly discussed where applicable<br><br>• Key exam tips for fluid mechanics problems are shared
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • The Bernoulli equation and Darcy-Weisbach are your workhorses — know them cold<br><br>• Always check whether flow is laminar or turbulent before selecting a friction factor approach<br><br>• Pump problems often require converting between head, pressure, and power — know all the conversion factors<br><br>• Pay attention to whether the problem asks for gauge or absolute pressure
-      </div>
+      <div class="solution-box" id="sol-box">P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f whereP isstaticpressure,visvelocity,zisheight,andh isfrictionloss. Neglectingthevelocity f term which makes a negligible contribution in many problems involving comparatively large static pressuresandheights,andrearrangingtosolvefortheunknownP onthetop(cid:29)oorofthebuilding: 2 P P 2 = 1 +(z −z )−h γ γ 1 2 f Notethespeci(cid:28)cweight,γ =ρg; however,attheendoftheproblemwewillusearuleofthumb for water which saves time. The street pressure P is given and the ∆z is known based on the height of the building. The 1 main e(cid:27)ort of the problem is (cid:28)nding the losses, h , using the Darcy Equation. f fLv2 h = f 2gD Using the Steel Pipe Friction Tables, the diameter of a nominal 3 inch pipe and the velocity of 50gpm through the pipe can be gathered: 3.068in D = =0.2557ft 12in ft ft @50pgm: V =2.17 sec 194 Calculate the Reynolds Number. Lookup the Kinematic Viscosity of water @T = 60◦F by searching for Properties of Water. (cid:16) (cid:17) 2.17ft (0.2557ft) vD sec Re= = =45,600 (cid:16) (cid:17) ν 1.217×10−5ft2 sec Find the Relative Roughness. Values for (cid:15) for standard weight steel are shown on the Moody Diagram. It is (cid:28)ne to round o(cid:27) the diameter since the Moody Diagram provides limited precision. (cid:15) 0.0002ft = =0.0008 D 0.25ft Read the friction factor from the Moody Diagram. (cid:16) (cid:15) (cid:17) f =f Re, ≈0.023 D Determine the pressure losses. Be sure to use the equivalent length for L. (cid:16) (cid:17)2 fLv2 (0.023)(500ft) 2.17 s f e t c h = = =3.3ft f 2gD 2(0.2557ft) (cid:16) 32.2 ft (cid:17) sec2 Use the rule of thumb conversion factor for wat</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">5 sessions</span>
+      <span class="oh-count">8 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 31</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 31 | February 18, 2022 lesson: Lesson-32619286 lesson_pos: 0 chapter_pos: 18 content_id: 32619286 wistia_i</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> fluids nine instead of using the Darcy equation to find the head loss throughout the pipe. Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe? Then taking that number and multiplying it by the equivalent length. The answer is yes, it's a common question. My recommendation is to know how to do it both ways. I think using the Darcy equation is a bit more theoretical and maybe takes a little bit longer, </div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 31 · February 18, 2022</div>
+      <div class="qa-transcript">fluids nine instead of using the Darcy equation to find the head loss throughout the pipe. Is it acceptable to assume nominal roughness and take the head loss per hundred feet value listed in schedule 40 steel table for a three inch pipe? Then taking that number and multiplying it by the equivalent length. The answer is yes, it&#x27;s a common question. My recommendation is to know how to do it both ways. I think using the Darcy equation is a bit more theoretical and maybe takes a little bit longer, but you should definitely know how to do it. Using the steel pipe friction tables is faster. It&#x27;s equally reliable. So if you have a steel pipe, then there&#x27;s no reason not to use the table. I usually go to the table as a first shot. But like I said, I think you should know both ways. Probably the next question that comes up after this question, so I&#x27;ll address it here again. It&#x27;s been addressed many times on office hours, but just because it&#x27;s so frequent is the variance between the two methods. So if you use the Darcy equation, you may get one value and then use the table and you get another. And sometimes the relative error between those two approaches can be uncomfortably significant. It might be 50% or even double. I find that the steel pipe friction tables tend to be a little bit more conservative. But the key is to not look at the relative error, but to look at the absolute error. So even if you have 50 or 100% error, we might be talking about you know, two feet of loss compared to three or four feet of loss, but it sounds like a lot. But if you have a 300 feet of pipe, then on an absolute scale, it&#x27;s pretty meaningless. So and that&#x27;s not always the case. So I don&#x27;t want to speak in absolute here. I&#x27;m saying all these things to sort of give you enough color to make some judgments on the day. And I don&#x27;t think you should do every problem twice. I think in a lot of cases the answer choices won&#x27;t be too close together. You&#x27;re probably going to use the steel pipe friction tables and move on. But if you&#x27;re given a friction factor or if something else about the problem, like it&#x27;s not a steel pipe, let&#x27;s say, then you know you&#x27;re not going to be using the steel pipe friction table. So you&#x27;re going to have Darcy as a fallback. So hopefully that addresses it and just to kind of finish the last part. Yes, taking that number and multiplying by the equivalent length. So yes, that&#x27;s a perfectly valid method.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 39</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 39 | June 27th, 2022 lesson: Lesson-36540662 lesson_pos: 3 chapter_pos: 26 content_id: 36540662 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluid's nine, still trying to understand when to use the standard weight steel pipe table versus the schedule 40 table. So we kind of just covered that. Also, if we should use this table, why would we not also use the head loss values in the table? I did the problems this way and came up with an answer, but it was a little lower than 38.9. If one of the answers is a 38, I would have gotten this wrong. Yeah, great question. And this actually comes up quite a lot. If you go back to some of the ear</div>
+      <div class="qa-session">OH 39 · June 27, 2022</div>
+      <div class="qa-transcript">Fluid&#x27;s nine, still trying to understand when to use the standard weight steel pipe table versus the schedule 40 table. So we kind of just covered that. Also, if we should use this table, why would we not also use the head loss values in the table? I did the problems this way and came up with an answer, but it was a little lower than 38.9. If one of the answers is a 38, I would have gotten this wrong. Yeah, great question. And this actually comes up quite a lot. If you go back to some of the earlier office hours, archives, this was covered many times over, but I won&#x27;t torture you to go back there. The short version is that you absolutely can use the head loss values from the table. And in many cases, it&#x27;s faster, so you&#x27;ll want to do that. I recommend knowing it both ways. I think it&#x27;s useful to know how to go through the whole Darcy equation and work through that. But at the same time, there&#x27;s no reason you should have to do that every time. If the values given in the table, then feel free to use it. And they should reconcile. And in cases where they don&#x27;t reconcile, the deviations should be slight. And if in any of my problems, it&#x27;s sort of been a borderline case. That&#x27;s my failing and writing a poor problem where it&#x27;s too close to call. But I think what you&#x27;ll find is, to your point here, like if 38 was one of the answers I would have gotten it wrong. But 38 was not offered very intentionally there because I don&#x27;t want to put answer choices that are too close. And have you have the expectation that you&#x27;re going to have some level of precision, which is not actually achievable or necessary to be successful in solving that problem. So, and it&#x27;s different types of engineering problems. As you go through this program and as you go through your study process, you&#x27;re going to find there&#x27;s things that you&#x27;re going to get exactly. And then there&#x27;s there&#x27;s whole areas of engineering where the certainty is very low. I think this is going to be an example later. It&#x27;s the next one. So, I&#x27;m kind of jumping the gun here, but he transfer. There&#x27;s a lot of heat transfer problems where even if you do everything perfectly, you still can&#x27;t have more than like plus or minus 20, 25% in the answer. And that&#x27;s totally expected. So you have to be willing to tolerate someone certainty. And at the same time, still try to develop the judgment to get that coin flip correct when it&#x27;s a close call. But yeah, short answer here. Feel free to use the table. Also definitely suggest knowing that there&#x27;s the equation and being able to do it both ways. When you&#x27;re just practicing, you have the luxury of doing it both ways in the making comparison. When you&#x27;re on the exam, you&#x27;re probably going to just go with your gut generally go with what&#x27;s faster. And only do the problem a second time in a different way is something about it made you look uncomfortable than you may be a due to a twice.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 45</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 45 | October 2, 2022 lesson: Lesson-39458527 lesson_pos: 0 chapter_pos: 32 content_id: 39458527 wistia_id:</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, let's dive right in. This is a fluid's question that ties into a few different problems, so 9, 9, 11 and 12. But relatively the same relates to finding the head loss via the Darcy equation or the steel pipe tables with water as the substance. For question nine, I can pull 6.2 feet of head loss from the table and then calculate 3.2 from the Darcy equation. So a little difference there. The answer deviates from 40.3 using 3.2 to 38.9. This does not worry me unless the exam is going to h</div>
+      <div class="qa-session">OH 45 · October 2, 2022</div>
+      <div class="qa-transcript">All right, let&#x27;s dive right in. This is a fluid&#x27;s question that ties into a few different problems, so 9, 9, 11 and 12. But relatively the same relates to finding the head loss via the Darcy equation or the steel pipe tables with water as the substance. For question nine, I can pull 6.2 feet of head loss from the table and then calculate 3.2 from the Darcy equation. So a little difference there. The answer deviates from 40.3 using 3.2 to 38.9. This does not worry me unless the exam is going to have answer choices that are close together. Do you think they will? Question 11 is similar. I can pull 2 feet of head loss from the table but calculate 1. The problem gives 80 degrees as a temperature. What temperature the table is that? I would be in a problem here if the answer choices were close in the exam. For example, problem 12, I get 19.4. Then I go to the Darcy route and get 15.2. I&#x27;m confident comfortable using the Darcy equation or using the table to get a loss but I&#x27;m a touch word that the exam answers will be really close together. How precise should these two methods be? Are they close enough? Great question. Common question. It&#x27;s a question that we&#x27;ve covered many times in the office hours. So if you care to go back and look into the archives, you can hear my answer to this problem. Probably a whole bunch of times but let&#x27;s cover it again here tonight. Yes, there is some variability between the two methods. You&#x27;re right. If the answers are close together, then you could be in a pinch. If the answers are close together and you&#x27;re unable to make a choice which way to go, then they&#x27;re too close together and that problem is fundamentally flawed. There&#x27;s not likely to happen on the PE exam. That may be happening in some of my problems here. For example, you mentioned that the third one was 19.4 versus 52. That&#x27;s probably fine. I can&#x27;t imagine that would take you to two different answers. The same with the first one, pretty close, very tolerable difference there on the PSI but not so much. That&#x27;s a great example there. That&#x27;s a 3.2 versus 6.4. That&#x27;s 100% difference. That&#x27;s double, which is dramatic. Yet, the final answer because the head loss is not that much of a contribution to the total pressure. I don&#x27;t know exactly what that question was asking, but it&#x27;s probably like what&#x27;s the head added by the pump. The only answer being one out of 40, which is like two, three percent error. If the question is asking you the head loss, we&#x27;re dealing with a hundred percent error, but if it&#x27;s asking you what&#x27;s the head added by the pump, we&#x27;re dealing with two or three percent error, which is fine. Another good example. The second problem was one versus two. Again, a factor of two. What I like to say about this situation, which comes up a lot, is think about not only the relative error, so a percentage difference, like 50% or 100% off, but think about the absolute error too. So the difference between one foot and two feet is double, but it&#x27;s also only a foot. So if the question is asking, what&#x27;s the total head added by the pump and the static pressure difference is a hundred feet, or there&#x27;s a thousand feet of pipe, and then the pressure difference, the head loss is one versus two. It&#x27;s not really going to move the needle in the final answer. Part of doing all these problems and coming up with these different scenarios is getting into these sticky situations and then developing the judgment to decide if it matters or not and how much time you should spend being super accurate. So then you&#x27;re probably wondering, all right, that&#x27;s all well and good, but all I really want to know is, do I do the Darcy equation or do I use the tables? And I think if you can use the tables, that&#x27;s going to be faster for you. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 68</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 68 | September 25th , 2023 lesson: Lesson-49055279 lesson_pos: 1 chapter_pos: 55 content_id: 49055279 wist</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Fluid's 9. My question is about the Bernoulli equation in general, and having a difficult time with those questions, what should one, what should be the units of pressure, what should they be, all the problems give the pressure and PSI G. How do you know what way the science should be for the elevation change, is it positive when state 2 is higher and negative when state 3 is lower? So let's take those one at a time, what should the units of pressure be? The units of pressure can be PSI or they </div>
+      <div class="qa-session">OH 68 · September 25, 2023</div>
+      <div class="qa-transcript">Fluid&#x27;s 9. My question is about the Bernoulli equation in general, and having a difficult time with those questions, what should one, what should be the units of pressure, what should they be, all the problems give the pressure and PSI G. How do you know what way the science should be for the elevation change, is it positive when state 2 is higher and negative when state 3 is lower? So let&#x27;s take those one at a time, what should the units of pressure be? The units of pressure can be PSI or they can be feet, depending on what version of the Bernoulli equation you&#x27;re using. So in one version you have everything in pressure units, and in the other, everything&#x27;s been converted to feet, so you&#x27;re using length units to communicate pressures. And I think as you go through the example problems, you&#x27;re going to see examples of both. But I think what your question is actually driving out here is you mentioned PSI G, so I think you&#x27;re kind of asking should it be PSI A or PSI G to which I say, doesn&#x27;t matter as long as you&#x27;re consistent. So if you&#x27;re using PSI G anywhere, then you better use it everywhere. And the opposite true as well, if you&#x27;re going to use PSI A, then you use PSI A everywhere. So you just have to be consistent. So you get to choose. In fact, if you&#x27;re going to use PSI versus feet, you get to choose. But whatever you do, you should be consistent. Otherwise it won&#x27;t work. And ultimately, you want to align with the answer. So if the answer is going to be given in feet, you may want to work in feet to just make your life easier if you choose to work in PSI, you&#x27;ll have to do a conversion and step at the end. So there&#x27;s no right or wrong answer as long as you&#x27;re consistent and ultimately aligned with your answer choice at the end. Second question about the elevation change. When is it positive and when is it negative? You also choose that. So let&#x27;s just draw a little picture. There&#x27;s so many different types of Bernoulli equations, but I&#x27;ll just make a super simple example where kind of have like a couple of reservoirs. And maybe they&#x27;re separated by some amount of piping and then there&#x27;s another reservoir down here at a lower elevation. It could be a pump in between or not. That&#x27;s not really the point. But you&#x27;re interested in comparing the pressure between the two sides and you&#x27;re going to write the Bernoulli equation on the left and right. Maybe something like P1 over gamma. Let&#x27;s view on squared over 2G plus the elevation. And then the right side, P2 over gamma. Same thing with 2&#x27;s, P2 squared over 2G plus Z2 plus any losses. Right. Add that to the second side. So this is our first side and this is our second side. So just as it relates to the elevation terms specifically, Z1 and Z2, it all depends on where you set your datum. So let&#x27;s give you a choice. If you set your datum somewhere in the middle between the two water lines, then over here you&#x27;re going to have a positive Z of whatever the distance is between that horizontal datum and the top of the water line. And on this side, you&#x27;re going to have a negative by that delta. On the other hand, maybe you don&#x27;t put the line there. Maybe you put the line somewhere a little bit more convenient so that one of your Zs can be zero. So maybe I put it exactly even with that water line. So then this guy has a Z of zero and the second one has some negative Z. And of course, lastly for completeness, you could set it at the second line. So now this one gets to be zero and this one gets to be some positive number. See, one would be positive, whatever that number is. So those are your choices. And those aren&#x27;t the only three choices. Of course, you could set it anywhere. You could set it way down here or way up here. There&#x27;s no rules. As long as you&#x27;re consistent. So for your sanity, you may want to choose a location that&#x27;s going to simplify the problem and not add complexity. Hopefully that answers it. Another, I&#x27;m just trying to guess what might maybe be behind this question. [...]</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 68</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 68 | September 25th , 2023 lesson: Lesson-49055255 lesson_pos: 2 chapter_pos: 55 content_id: 49055255 wist</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And another one on Fluids 9, this one was about the relative roughness factor. And the PE handbook, Absalon, is given as a range. How do we determine which value of Absalon to use in order to find the friction factor on the moody diagram? Every Fluids problem I've ever done that required the relative roughness. I've used the average every time. So that's the move. Just take the middle value and you should be fine.</div>
+      <div class="qa-session">OH 68 · September 25, 2023</div>
+      <div class="qa-transcript">And another one on Fluids 9, this one was about the relative roughness factor. And the PE handbook, Absalon, is given as a range. How do we determine which value of Absalon to use in order to find the friction factor on the moody diagram? Every Fluids problem I&#x27;ve ever done that required the relative roughness. I&#x27;ve used the average every time. So that&#x27;s the move. Just take the middle value and you should be fine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 79 · April 15, 2024</div>
+      <div class="qa-transcript">Fluids 9. I was looking at one of your daily insight, pressure as a height, as height of a column of water, and this question seemed very similar. I tried using the rule of thumb you mentioned 2.31 feet per PSI and got a top floor pressure of 41.7 PSI or approximately 42 PSI was the answer choice B. I know this is a rule of thumb and an estimation, but is there another reason why I didn&#x27;t get the answer closer to 40 PSI and I missing something here. Yeah, you didn&#x27;t account for the losses. So the idea that there&#x27;s some head losses HF equals FL e squared over 2DG. And once you do that, that&#x27;s going to account for approximately another 2 to 3 feet of losses. So instead of that pressure being 42, it&#x27;s going to be like 39 and then it rounds up to 40. But definitely if you&#x27;re having questions like this, take a look at the solution video. That&#x27;s what it&#x27;s there for or the written solution. I go into detail about this. I calculate it in the video solution. So so you don&#x27;t have to wonder. But happy to answer the question here. I just definitely want you to go and check out the solution video. And if you have similar questions on other problems to do that first and if it&#x27;s not addressed there, then definitely submit it for office hours.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22, 2025</div>
+      <div class="qa-transcript">Fluid&#x27;s 9. Using the NetPositive suction head available formula, I got 55 PSIG because I thought the question was referring to the pressure available, but can you clarify if the NPSHA and NPSHA are for pumps only if there is no pump use Bernoulli&#x27;s question mark? Yes, I don&#x27;t like to say if there&#x27;s if this then that right like you need to size up the problem and respond with a method that&#x27;s appropriate for the question that&#x27;s being asked. I&#x27;m cautious not to just say if this is in that, but yes, NPSHA and NPSHA are referred to pumps, right? It&#x27;s NetPositive suction head available and NetPositive suction head required. And this is the idea where you have a pump. You have a pump and there&#x27;s some head pressure sitting on the inlet side on the suction side of that pump and there has to be a sufficient amount of head on the suction side of the pump such that it will not cavity. So we say that the NetPositive suction head available must be greater than the NetPositive suction head required where what&#x27;s required is provided by the manufacturer which you&#x27;re probably given in the problem statement and what&#x27;s available is a number that you can calculate and in order to avoid cavitation in order to have a proper operation or going to need this first value to be greater than the second. So anytime we&#x27;re talking about those two ideas, of course we&#x27;re talking about a pump, it doesn&#x27;t really make sense to talk about either of these two terms without a pump. That kind of goes without saying. But this question flew its nine, there was no pump ahead, nothing to do with the pump. It never used either of these phrases. It just set how much pressure is available. So you probably saw the word available and immediately your brain kind of took you to this idea. But and that wasn&#x27;t even meant to be a red herring. So just be careful that you don&#x27;t form sort of internal mental shortcuts where you&#x27;re just pattern matching and you&#x27;re like available and you reach for the formula like just slow down a little bit and think about what the question&#x27;s asking and what tools you have in your toolbox that may allow you to answer. In this case it was the really easy equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111 · January 5, 2026</div>
+      <div class="qa-transcript">Okay, fluid&#x27;s nine. Why are we able to use kinematic viscosity from properties of water at atmospheric pressure tables? When we know water pressure is that 85 psi g. Yeah, so that&#x27;s considerably higher pressure than atmospheric pressure, right? If we&#x27;ve got around 15 psi g for the atmosphere, this is going to be another six atmospheres on top of that. So the question is how would it be appropriate for us to be using the kinematic viscosity from a table that assumes that the pressure&#x27;s atmospheric pressure wouldn&#x27;t, wouldn&#x27;t that influence the kinematic viscosity? And the answer is yes, but barely at all. It turns out that liquids are essentially incompressible. Now that&#x27;s not technically true. So if you get into a situation where the pressure is thousands of psi, then we should walk that back, that assumption back, but for all intents and purposes liquids can be treated as essentially incompressible, which means that the viscosity will change negligibly and a minuscule change far less than 1% in this case for that for that high pressure. But what you should be aware of is that temperature matters quite a bit. And that&#x27;s why in that table that you&#x27;re mentioning, there&#x27;s rows for different temperature. And that has a big impact. So you can think of the kinematic viscosity as being effectively a function of temperature. But it&#x27;s not sensitive to pressure for liquids.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Fluids &middot; Problem 9 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 9 · 8 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -338,7 +291,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

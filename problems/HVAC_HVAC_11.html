@@ -93,6 +93,19 @@ body {
   gap: 8px;
 }
 .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .solution-area { margin-top: 24px; }
 .solution-toggle {
   width: 100%;
@@ -123,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -178,18 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -215,98 +206,56 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 11</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 11</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 11</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 11</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An air handling fan delivers 9000cfm against a total pressure of 3inwg at standard conditions. A new unit is designed to provide the same volume ow using a fan with a 25% larger diameter which runs at half the speed. What is the air horsepower produced by the new air handler? 50
+      An air handling fan delivers 9000cfm against a total pressure of 3inwg at standard conditions. A new unit is designed to provide the same volume (cid:29)ow using a fan with a 25% larger diameter which runs at half the speed. What is the air horsepower produced by the new air handler? 50
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
       <div class="choice"><span class="choice-letter">A.</span><span>1hp</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>2hp</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>2hp ✓</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>4hp</span></div>
       <div class="choice"><span class="choice-letter">D.</span><span>5hp</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify the HVAC system or component being analyzed (air handler, chiller, boiler, heat pump, etc.)
-
-2. List all given operating conditions: temperatures, flow rates, capacities, and efficiencies
-
-3. Determine the relevant equations: sensible/latent heat, COP, efficiency, or system curves
-
-4. Look up required reference data from tables or charts
-
-5. Calculate the requested performance parameter or design value
-
-6. Select the closest answer and verify units are correct
-
-<strong>Full Solution:</strong>
-
-This is Problem 11 from the HVAC module of the HVAC &amp; Refrigeration Practice Book.
-
-The problem asks: An air handling fan delivers 9000cfm against a total pressure of 3inwg at standard conditions. A new unit is designed to provide the same volume ow using a fan with a 25% larger diameter which runs at half the speed. What is the air horsepower produced by the new air handler? 50
-
-The answer choices are:
-  A) 1hp
-  B) 2hp
-  C) 4hp
-  D) 5hp
-
-To solve this problem, apply the relevant engineering principles from the HVAC section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
-
-Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
-
-      <div class="video-box">
-        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
-        • The solution video breaks down the HVAC system analysis required<br><br>• Equipment performance equations and their proper application are demonstrated<br><br>• The calculation proceeds step by step with clear unit tracking<br><br>• Real-world context is provided to build intuition about the answer<br><br>• Common exam mistakes for this HVAC topic are discussed
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#11088; Key Takeaways:</strong><br>
-        • HVAC problems often combine multiple engineering principles — break them into sub-problems<br><br>• Equipment ratings (tons, boiler HP, etc.) have specific definitions — know the conversion factors<br><br>• System curves and performance curves intersect at the operating point — this is fundamental<br><br>• Energy balance is the foundation — sensible heat (q = ṁ·cp·ΔT) and latent heat equations appear everywhere
-      </div>
+      <div class="solution-box" id="sol-box">ew conditions, and use subscripts 1 and 2, respectively. Take into account the given information regarding the new diameter increasing by 25% and the new speed reducing by half. Original (1) New (2) Q 9000cfm 9000cfm P 3inwg P 2 D D D =1.25D 1 2 1 N N 1 N 2 = N 2 1 W W W 1 2 Look up Fan Power in the reference handbook and use the formula to determine the air horse- power for the original state, W . This book will typically use AHP; however, the handbook uses 1 P or P , and the Fan Laws table uses W for power. In this problem we will freely interchange s e between all of these parameters with the understanding that all refer to air horsepower. Q ∆P (9000)(3) AHP =W = 1 1 = =4.25hp 1 1 6356 6356 Note there is no reference to e(cid:30)ciency so assume η =1 and may be ignored. Select from the Fan A(cid:30)nity Laws equation #1c: (cid:18) D (cid:19)5(cid:18) N (cid:19)3(cid:18) ρ (cid:19) W =W × 1 1 1 1 2 D N ρ 2 2 2 The density of the air under the new conditions may be assumed to be unchanged. Therefore assume ρ = ρ . Swap the subscripts for convenience. Simplify and solve for the new power, W . 1 2 2 Note the diameters and speeds need not be known. Instead the ratio of new to old may be used. (cid:18) D (cid:19)5(cid:18) N (cid:19)3 W =W × 2 2 2 1 D N 1 1 W =(4.25hp)(1.25)5(.5)3 =1.62hp 2 There are alternative solutions to this problem using a di(cid:27)erent fan a(cid:30)nity law. The laws are internally consistent so if time permits, you may want to check your answer by taking a di(cid:27)erent avenue. Answer B 284</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
-
-
-    <div class="qa-group">
-      <div class="qa-session">OH 77</div>
-      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 77 | March 18th, 2024 lesson: Lesson-53973193 lesson_pos: 6 chapter_pos: 64 content_id: 53973193 wistia_id</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was HVC 11. In your video, you said there's a formula for work. Equals Air Horse Power. Q times delta P over 60, 356. Where in the Reference Handbook is that located? And what is the search term? If you ever want to know the search term for something I'm finding, if I don't say it out loud in the solution video, I usually do. But if I don't, then there's two places you can look. There's a key search terms, PDF at the beginning of each module. So open that up and tickle it aro</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 77 · March 18, 2024</div>
+      <div class="qa-transcript">All right, next one was HVC 11. In your video, you said there&#x27;s a formula for work. Equals Air Horse Power. Q times delta P over 60, 356. Where in the Reference Handbook is that located? And what is the search term? If you ever want to know the search term for something I&#x27;m finding, if I don&#x27;t say it out loud in the solution video, I usually do. But if I don&#x27;t, then there&#x27;s two places you can look. There&#x27;s a key search terms, PDF at the beginning of each module. So open that up and tickle it around. You won&#x27;t know exactly what search term brings up what formula, because it&#x27;s also a key formula is PDF. You could put those side by side. But it should be, is it giving enough clues that you can try? There&#x27;s no problem that requires search terms that I haven&#x27;t put the search terms in the key search terms document. So it&#x27;s like giving you some breadcrumbs, but you don&#x27;t know which ones to pick up. And I know that&#x27;s probably like annoying, because you want to know exactly what to use and exactly where to go. But I&#x27;m trying to just give you pieces so you can figure it out, because you&#x27;ll remember it better if you have to figure it out in your own. If that doesn&#x27;t take you where you want to go, and you need a straighter path, then underneath each solution video, there&#x27;s a downloadable PDF of the written solution. And in the written solutions I always put in red text, the key search terms right before I use them. So in that, in the written solution to this one, I put the search term fan power. Because I just drives people nuts and it&#x27;s drove me nuts trying to get my head around the reference handbook. You&#x27;re searching air horsepower, air power, like you&#x27;re coming up with all kinds of different combinations, but it turns out the combination you need for this is fan power. And if you use that, you&#x27;ll find two different formulas. One that I found was under the ERV section, which is not exactly where you would expect to find it. But if you searched 9.2.8, for ERVs, there&#x27;s a formula in there, right next to the word&#x27;s fan power. And it says piece of S, which they&#x27;re using as the horsepower of the fan. So this is our units of horsepower equals Q, the volume flow rate, which has to be in CFM. Times delta P, which is the pressure difference, which has to be in inches of order column. And that&#x27;s divided by 63.56. Exactly the formula you&#x27;re referring to. But the other thing that&#x27;s included in this one, which you may or may not need, depending on the situation, is the efficiency of the fan. Since they&#x27;re including it here, that tells me that what they&#x27;re actually interested in calculating is the break horsepower driving the fan. Is there dividing by the fan efficiency? So that tells me that it&#x27;s not the air horsepower that they&#x27;re calculating. It&#x27;s the break horsepower driving the fan. Because remember, when you divide by an efficiency, it&#x27;s less than 100%. And then it was going to get bigger. So there&#x27;s more break horsepower required. And then the fan is not perfectly efficient. So the air horsepower generated by that fan is something slightly less. Air horsepower is less than break horsepower by some amount, unless it&#x27;s a 100% efficient fan. So if you&#x27;re just interested in the air horsepower, you can use this formula and just skip the efficiency. And you&#x27;ll get the HP. So that&#x27;s option one. And there&#x27;s another option two. If you search for nine.3.8.4, you&#x27;ll find any, you can still use the words fan power to get to this, but the actual heading there is fan power requirements. There&#x27;s another formula that says HP sub A equals 0.00157 VP. And this is what I would call the air horsepower, just a written in an interesting way, HP sub A. Because that&#x27;s okay. And the inverse of this number 0.00157 is interestingly, 6,369 by my calculation. So not exactly the same, but very, very close. And then they&#x27;re using V without a dot, big V has the volume flow rate in CFM. So this is V in CFM. And P is the delta P. [...]</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 11 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 11 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -314,7 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>
