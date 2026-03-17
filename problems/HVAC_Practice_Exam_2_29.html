@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 29 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 2 · Problem 29</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 2 · Problem 29</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 230V, single-phase, 5-hp motor operates at full load with a power factor of 0.8. The motor eciency is 75%. What is the current drawn?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>10A</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>13A</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>15A</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>27A</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So let&#39;s start by drawing this cooling process line on a psychometric chart.
+
+2. I don&#39;t know that you&#39;ll find this in the reference handbook, but it&#39;s such a fundamental definition and it&#39;s simple eno.
+
+3. We&#39;ve been given the information that it&#39;s 64 degrees weppled and we want the weppled for this end state, which is our s.
+
+4. We&#39;re going to say we&#39;re starting at 64.
+
+5. Let me not plug numbers and we&#39;ll start with variables.
+
+<strong>Full Solution:</strong>
+
+Air at 75 degrees dry bulb 64 degrees wet bulb enters a cooling coil with an ADP of 45 degrees and a bypass factor of 15% What is the wet bulb temperature of the leaving air? So let&#39;s start by drawing this cooling process line on a psychometric chart. So we could find 75 and 64. I&#39;m kind of picking this location arbitrarily, but you can do it on the actual psych chart if you want to be precise. But I just want to get the concept across here. That&#39;s going to be our state one entering the coil. And then we&#39;re tracking toward a state two or toward an ADP, I&#39;d proud to do point, which would be the 45 degree state, but we&#39;re not getting all the way there because there&#39;s a bypass factor. So 15% of the air bypasses the coil and doesn&#39;t get cooled, doesn&#39;t get dehumidified, so it doesn&#39;t reduce the wet bulb temperature. The other 85% is reduced to the ADP. So the net effect of that is a sort of mixing calculation. And that&#39;s one way to approach this problem, but a more formal way is to apply the definition of the coil efficiency. And the coil efficiency is the complement of the bypass factor. So let&#39;s define coil efficiency. I don&#39;t know that you&#39;ll find this in the reference handbook, but it&#39;s such a fundamental definition and it&#39;s simple enough to remember that it&#39;s the complement of the bypass factor. So one minus the bypass factor is the coil efficiency. So if the bypass factor is 15%, then we would say that this is an 85% of the air bypass factor. So how do we use that information? Well, we can do, as we can say that the coil efficiency is equal to the reduction in temperature or reduction in we bulb or reduction in humidity ratio that we see as compared to what we would see if it went all the way to the ADP. But it does not, it only goes 85% of the way. Now in this case, we&#39;re interested in weppled. So let&#39;s not analyze the dribbled temperature. Let&#39;s not analyze the humidity ratio. Let&#39;s just analyze the weppled. So we know for that entering state that state 1, you can go up into the left to determine what the weppled is. We&#39;ve been given the information that it&#39;s 64 degrees weppled and we want the weppled for this end state, which is our state 2, that&#39;s where the x is. That&#39;s not the same place as the ADP since we don&#39;t go all the way to the ADP. What&#39;s the weppled at the ADP? Well, by definition, if you&#39;re on the saturation curve, this is a psychometric property that the dribbled temperature, the weppled temperature, and the dew point temperature, and this is the apparatus dew point, are all the same on the saturation curve. So if the ADP is 45, then the weppled temperature at that point, just like the dribbled and the dew point are 45, all 3 or 45. So that&#39;s as far as we could go if it was 100% efficient, but it&#39;s not. It&#39;s only 85% efficient. So how do we set this up? We&#39;re going to say we&#39;re starting at 64. Let me not plug numbers and we&#39;ll start with variables. We&#39;ll say t1, the entering weppled temperature, entering the coil, minus the leaving weppled temperature, t2 weppled, that&#39;s the x. Divide by the max when possible reduction in weppled, which would be from t1 weppled entering to the ADP. So we know the entering weppled temperature and we know the ADP and we know the coil efficiency. So we found that out from the bypass factor. So the only thing we don&#39;t know is t2 weppled, and that&#39;s what we want. So let&#39;s plug in numbers here. That&#39;s going to be 0.85. Equals 64 degrees minus t2 weppled over 64 minus 45. So we can find that difference, multiply on both sides, and then subtract that result on the right, and add the t2 weppled over. Once we get through all that algebra we find t2 weppled equals 47.9 degrees Fahrenheit, and the best answer choice is B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Air at 75 degrees dry bulb 64 degrees wet bulb enters a cooling coil with an ADP of 45 degrees and a bypass factor of 15% What is the wet bulb tempera.<br><br><br><br>• So let&#39;s start by drawing this cooling process line on a psychometric chart.<br><br><br><br>• I&#39;m kind of picking this location arbitrarily, but you can do it on the actual psych chart if you want to be precise.<br><br><br><br>• But I just want to get the concept across here.<br><br><br><br>• That&#39;s going to be our state one entering the coil.<br><br><br><br>• And then we&#39;re tracking toward a state two or toward an ADP, I&#39;d proud to do point, which would be the 45 degree state, but we&#39;re not getting all the .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 2 · Problem 29 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
