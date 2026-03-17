@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 18 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 18</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 18</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Crude oil is pumped by a centrifugal pump with a performance curve given by the equation H = 50−Q−Q2 , where head is in units p 25 of feet and ow rate is in units of cubic feet per second. The system curve is described by the equation H = Q2 + Q, with the same units. s 25 10 Neglecting eciency and losses, what is the power required by the pump?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>16hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>30hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>35hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>53hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Fluids 18, crude oil is pumped by a centrifugal pump with a performance curve given by the equation, had equals 50 minus.
+
+2. The system curve is described by the equation H sub S, so head for the system equals Q, the volume flow rate squared ove.
+
+3. So first of all, let&#39;s think about these two functions, and we&#39;ll have to remember a little bit of math here, not too mu.
+
+4. In case you weren&#39;t aware of that from an engineering perspective, you might be able to find some information in the ref.
+
+5. So we&#39;re only going to draw in the first quadrant, and you don&#39;t have to go so math, math perspective on this, but I wan.
+
+6. Now you have the pump curve, this one&#39;s a little trickier, it&#39;s also a quadratic, but if Q equal zero here, then the hea.
+
+<strong>Full Solution:</strong>
+
+Fluids 18, crude oil is pumped by a centrifugal pump with a performance curve given by the equation, had equals 50 minus volume flow rate minus volume flow rate squared over 25, where head is in units of feet and flow rate is in units of cubic feet per second. The system curve is described by the equation H sub S, so head for the system equals Q, the volume flow rate squared over 25 plus Q over 10 with the same units. The collecting efficiency and losses, what is the power required by the pump? Okay, so we&#39;ve got these two functions, one for the head of the pump as a function of flow rate, and one for the head of the system as a function of flow rate, but then the question is what&#39;s the power required by the pump? So first of all, let&#39;s think about these two functions, and we&#39;ll have to remember a little bit of math here, not too much, just to get a sense of what these shapes might look like. If on the left axis you have head pressure, as a function of volume flow rate, for the pump itself, that&#39;s the pump curve, right? And then for the system you have pressure as a function of flow rate. So pump curves typically look something like this, and the system curve typically looks something like this. And before you take my word for it, let&#39;s look at these two functions. In case you weren&#39;t aware of that from an engineering perspective, you might be able to find some information in the reference handbook or in the murm, but just from a math perspective, would you have been able to figure that out? Well, the head for the system is a quadratic, right? If Q squared, and if you let Q equal zero, then the corresponding pressure is zero, which makes sense if there&#39;s no flow, there&#39;s no pressure. So we know that it&#39;s a quadratic function that goes through the origin. So we can be pretty confident that it&#39;s going to have that quadratic shape. Now that would be a mirror image on the other side of the vertical axis, on the other side of the y-axis. But we&#39;re not interested in negative values of flow, because for a practical application of a pump, there&#39;s no such thing as negative flow rate, that would be flow in the other direction, and now it&#39;s a turbine. So we&#39;re only going to draw in the first quadrant, and you don&#39;t have to go so math, math perspective on this, but I wanted to give you as complete and explanation as possible. So this is H sub S function, that&#39;s the system curve. Now you have the pump curve, this one&#39;s a little trickier, it&#39;s also a quadratic, but if Q equal zero here, then the head is 50, it&#39;s non-zero, it&#39;s a positive number, so that&#39;s why it starts way up here, and then it&#39;s a quadratic with a negative sign out in front of the squared term. So that means it&#39;s concave down. So if it&#39;s vertex is at the y-axis, which it isn&#39;t necessarily, but suppose it is, then it&#39;s going to be concave down from there. And if you have some experience looking at pump curves, you know they should follow this basic shape. So this line represents H sub P. Now the place where they intersect is the operating point, which is to say that if you actually install this pump in this system and run it, that&#39;s where it needs to run. This pump can only run along this curve. So when installed in this system, it will necessarily run there. Now you can do some things to change that, you can select the different pump, and you can get a curve that&#39;s up here or down here, and then you get different operating points, or you can change the system by adding or having different amounts of resistance, and then that characteristic will change. But for this system with this function, and this pump, there is only one operating point, which means since we have explicitly stated what those functions are, we can set them equal to each other and find that intersection point. And we can find the flow rate that corresponds to the operating point, and the total head that corresponds to that operating point.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids 18, crude oil is pumped by a centrifugal pump with a performance curve given by the equation, had equals 50 minus volume flow rate minus volume.<br><br><br><br>• The system curve is described by the equation H sub S, so head for the system equals Q, the volume flow rate squared over 25 plus Q over 10 with the s.<br><br><br><br>• The collecting efficiency and losses, what is the power required by the pump.<br><br><br><br>• Okay, so we&#39;ve got these two functions, one for the head of the pump as a function of flow rate, and one for the head of the system as a function of f.<br><br><br><br>• So first of all, let&#39;s think about these two functions, and we&#39;ll have to remember a little bit of math here, not too much, just to get a sense of wha.<br><br><br><br>• If on the left axis you have head pressure, as a function of volume flow rate, for the pump itself, that&#39;s the pump curve, right.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 18 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
