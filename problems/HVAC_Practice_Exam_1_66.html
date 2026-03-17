@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 66 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 66</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 66</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Water ows at 4fps through a 200ft pipe with inside diameter of 1.45in. The Moody friction factor is 0.028. What is the pressure drop?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1.2psi</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>5.0psi</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>11.5psi</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>59.8psi</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90 degree entering.
+
+2. The unit uses 56 degrees supply chilled water to drive the coil temperature to an apparatus dew point of 60 degrees.
+
+3. After an increase in heat load, the same unit is met with 95 degree return air.
+
+4. So let&#39;s start with case A that&#39;ll be our original operating conditions and then will draw case B.
+
+<strong>Full Solution:</strong>
+
+During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90 degree entering air to 65 degrees. The unit uses 56 degrees supply chilled water to drive the coil temperature to an apparatus dew point of 60 degrees. The coil is designed for a maximum air-side delta T of 25 degrees. After an increase in heat load, the same unit is met with 95 degree return air. In order to stay safely within the coil&#39;s temperature limits, operators raise the chilled water supply temperature to 63 degrees such that the apparatus dew point becomes 67. What is the expected discharge air temperature based on the new operating conditions? So I think just to get the story straight here, we want to make sure we&#39;re drawing the original operating conditions and the new operating conditions so we can be really clear about where we&#39;re going in this problem. So let&#39;s start with case A that&#39;ll be our original operating conditions and then will draw case B. So we have air flowing over coil and that entering air is 90 degrees and when it leaves, it&#39;s 65 degrees. So that&#39;s a 25 degree delta which is okay as long as it&#39;s a maximum air-side delta T of 25. So it can&#39;t be any greater than that but it can be 25 and we have a chilled water temperature of 56 degrees chilled water supply temperature and that makes for an ADP of 60 degrees on the actual coil. So that&#39;s case 1 or case A rather. In case B after the change, we&#39;ve now got a higher entering air temperature 95 degrees and we don&#39;t know what the discharge temperature is going to be based on this new set of conditions. That&#39;s what we want to know. We do know that the chilled water supply temperature has been raised which is a little counterintuitive. You might say, hey we&#39;re getting hotter return air. Maybe we need colder discharge air off the coil so maybe we&#39;ll lower the chilled water supply temperature. But that&#39;s not the case so there&#39;s a conscious decision being made here by the operators to allow the return temperature&#39;s higher. They&#39;re going to make for a higher supply temperature as well and they&#39;re just going to shift that whole delta T up in lockstep. But we can&#39;t be 100% sure that at the new conditions it&#39;s going to be a delta T of exactly 25 degrees. It&#39;s likely to be in the ballpark but we shouldn&#39;t assume it&#39;s going to be exactly 25. So now the chilled water supply temperature is being raised up to 63 degrees such that the ADP is now 67. So what assumption can we make to tie these two scenarios together? How are we saying that these are similar? I think the common thread between the two is going to be the coil efficiency. So when we had the 25 degree delta T based on this set of conditions based on this ADP, we can figure out what that coil efficiency was for KSA and we can say that the efficiency in KSA should in theory be the same. So if we do that how would we express the coil efficiency for KSA? We would say that it&#39;s the delta T that was actually observed so went from a 90 degree return to 65 degree discharge. As compared to the maximum possible which would have been to go from that 90 degree entering all the way to the ADP which is 60 degrees so that&#39;s 25 over 30 which is 0.83 repeating. So that&#39;s the coil efficiency and if that holds constant, right, if that&#39;s a good assumption that the efficiency doesn&#39;t change too much since we&#39;re dealing with the same coil in approximately the same temperature range. Then we should be able to say that the efficiency for KSA equals the efficiency for KSA equals 0.83 and now we&#39;re going to set that equal to the entering conditions for KSA minus the discharge air temperature which we don&#39;t know divided by the maximum possible which would be the same entering conditions 95 and leaving at the ADP that would be the maximum possible delta T we could get and now we set that equal to 0.83 repeating.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • During initial operating conditions, the cooling coil in a computer room air conditioning unit cools 90 degree entering air to 65 degrees.<br><br><br><br>• The unit uses 56 degrees supply chilled water to drive the coil temperature to an apparatus dew point of 60 degrees.<br><br><br><br>• The coil is designed for a maximum air-side delta T of 25 degrees.<br><br><br><br>• After an increase in heat load, the same unit is met with 95 degree return air.<br><br><br><br>• In order to stay safely within the coil&#39;s temperature limits, operators raise the chilled water supply temperature to 63 degrees such that the apparat.<br><br><br><br>• What is the expected discharge air temperature based on the new operating conditions.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 66 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
