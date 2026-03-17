@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 14 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 14</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 14</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An uninsulated hot water pipe runs horizontally through a room. The water entering the pipe is 130°F. Where the pipe leaves the room, the water temperature is 110°F. The room temperature is 70°F. What is the lm temperature?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>90◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>95◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>100◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>120◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So this one&#39;s kind of a definition and you can go in the reference handbook and look for film temperature.
+
+2. That&#39;s the key word that you want to find the equation for, but this question is really about knowing what information i.
+
+3. You have bulk temperature, ambient temperature, room temperature, film temperature, and the importance of film temperatu.
+
+4. So if you have something that&#39;s in water or something that&#39;s in air, you have to look up the properties of air or water,.
+
+5. So the film temperature is the temperature for which you look up all of the properties of air or water or whatever the f.
+
+6. So if you need to look up the equation, by all means look it up, but I hope that you will appreciate the importance of t.
+
+<strong>Full Solution:</strong>
+
+Heat transfer 14 in uninsulated hot water pipe runs horizontally through a room. The water entering the pipe is 130 degrees, where the pipe leaves the room, the water temperature is 110 degrees. The room temperature is 70 degrees. What is the film temperature? So this one&#39;s kind of a definition and you can go in the reference handbook and look for film temperature. That&#39;s the key word that you want to find the equation for, but this question is really about knowing what information is actually needed. It turns out all of the three temperatures are needed, but that wasn&#39;t necessarily the case. It&#39;s always temperatures that get thrown around, right? You have bulk temperature, ambient temperature, room temperature, film temperature, and the importance of film temperature is that in a lot of convection problems, whether it be forced convection or natural convection, you have to look up the properties of the fluid. So if you have something that&#39;s in water or something that&#39;s in air, you have to look up the properties of air or water, through which he is being conducted. And those properties change as a function of temperature. And the question becomes what temperature? Well, you know, the air in the room may be some ambient temperature, and the surface of a pipe or whatever the case may be, that&#39;s radiating or has a heat by a convection heat transfer mode might be at a different temperature. So the film temperature is the temperature for which you look up all of the properties of air or water or whatever the fluid is that you&#39;re dealing with. And that&#39;s really the importance of the film temperature. So if you need to look up the equation, by all means look it up, but I hope that you will appreciate the importance of the film temperature. It&#39;s the temperature at the surface of whatever is gaining or losing heat. It&#39;s the average between the surface temperature and the ambient temperature. So some of those over two. Now, in this case, which of these numbers is T S and which is T ambient? Well, this T ambient is 70 degrees. That&#39;s the temperature of the room. So that one we know. But what is the surface temperature of the pipe? Well, it&#39;s an uninsulated pipe. It&#39;s a hot water pipe. So if it&#39;s uninsulated, then we can assume that the outside surface of the pipe will probably be the same temperature as the water. But unfortunately, because it&#39;s not insulated, a lot of the heat is running out of the pipe, and it&#39;s being lost from the water to the room. It&#39;s entering at 130 degrees, and by the time it leaves the room, it&#39;s all the way down to 110 degrees. So if we&#39;re going to find the surface temperature of the pipe, we have to use the average surface temperature, which is probably somewhere in the middle. So we&#39;re going to take the average. And we&#39;re going to say T S equals approximately 120 degrees. Another term that you hear a lot is bulk temperature. So the bulk temperature of the water is probably the average of what comes in and what leaves. There&#39;s also such a thing as the bulk temperature of the air. It just sort of means the average or the aggregate for a large volume. Whether that volume be moving or stationary. But that&#39;s what we&#39;re going to use as our input is an average surface temperature, the outside of the pipe that&#39;s equal to the bulk temperature. The water that&#39;s the average of what it comes in and what it leaves at, so 120. And now our film temperature then is just the average of 120 and 70, which is 190 over 2, which is 95 degrees. So in this case, if there was more to this problem than just find the film temperature, it would be 95 degrees that would be the temperature that you would use to look up all of the properties of air for any natural convection or force convection that may be happening on the outside of this pipe out to the room. And that&#39;s really the main purpose of this problem is to illustrate how to find the film temperature and what its importance is.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Heat transfer 14 in uninsulated hot water pipe runs horizontally through a room.<br><br><br><br>• The water entering the pipe is 130 degrees, where the pipe leaves the room, the water temperature is 110 degrees.<br><br><br><br>• The room temperature is 70 degrees.<br><br><br><br>• So this one&#39;s kind of a definition and you can go in the reference handbook and look for film temperature.<br><br><br><br>• That&#39;s the key word that you want to find the equation for, but this question is really about knowing what information is actually needed.<br><br><br><br>• It turns out all of the three temperatures are needed, but that wasn&#39;t necessarily the case.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 14 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
