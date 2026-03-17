@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 1 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Heat Transfer &middot; Problem 1</span>
+  <span class="nav-badge" style="background:#fff3e0;color:#e65100;border-color:#ff9800;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 1</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      10gpm of water is heated from 60◦F to 125◦F in a feedwater heater by steam. The steam side of the feedwater heater operates at 5psig. Steam enters at 350◦F and leaves as a saturated mixture with 95% quality. What is the required mass (cid:29)ow rate of steam? min min min min
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>5 lb</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>50 lb</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>120 lb</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>360 lb</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from Heat Transfer apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the Heat Transfer chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this Heat Transfer problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within Heat Transfer are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in Heat Transfer problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 02</div>
+      <div class="qa-question"><strong>Q:</strong> And how far does it go?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 15 | May 28, 2021 transcribed_at: 2026-03-14T22:10:19.579846 All right, he transfers three. And get a lot of questions about heat transfer three, and I don&#x27;t know why. It&#x27;s not that interesting of a question, but it comes up a lot. So we&#x27;re going to cover all the questions on heat transfer three. A, why in heat transfer three is H1 superheated and H2 saturated. Well, let&#x27;s take a look at the question. 10GPM of water is heated by s...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 06</div>
+      <div class="qa-question"><strong>Q:</strong> What is the purpose of finding the humidity ratio?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 19 | July 30, 2021 transcribed_at: 2026-03-14T22:13:54.699529 HVAC3. What is the purpose of finding the humidity ratio? I was able to solve the problem by drawing a line between the entering our condition and the ADP condition and finding the enthalpy at the point where T2 intersected said line is this coincidental. No, not coincidental. Let me, I want to just frame out your question for everyone that&#x27;s maybe not visualizing the e...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 09</div>
+      <div class="qa-question"><strong>Q:</strong> What is the maximum possible increase in the room air temperature if the fan is left to run for 30 minutes?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 30</div>
+      <div class="qa-question"><strong>Q:</strong> I know this is a foundational formula and one to basically memorize, but I am trying to find it in the reference handbook in case I forget and I can&#x27;t, where is it located?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 43 | September 5, 2022 transcribed_at: 2026-03-14T22:54:24.387829 They&#x27;re most ten. Very simple question here. I cannot for the life of me find the formula Q equals mcp delta t in the reference handbook. I know this is a foundational formula and one to basically memorize, but I am trying to find it in the reference handbook in case I forget and I can&#x27;t, where is it located? So it&#x27;s probably located in a few places, but the first p...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 37</div>
+      <div class="qa-question"><strong>Q:</strong> Can you solve this problem using the same approach used in problem 19?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 50 | January 8th, 2023 transcribed_at: 2026-03-14T23:08:37.266035 He transfer 22. Can you solve this problem using the same approach used in problem 19? The 1.08 CFM Delta T and then combine the convection coefficients into a single U value. Also practically speaking, would an exam question have exam choices that are all within one degree of each other? So for the first question, in theory, maybe you could use that approach that w...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> So the question is what do we do with this air gap?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 59 | May 24th, 2023 transcribed_at: 2026-03-14T23:22:37.329694 All right, so next one was on heat transfer. Please show a composite wall heat transfer problem. That has a two foot air gap and insulation number one with an R value four, insulation number two with an R value eight, not the same as resistance equals two resistance equals four. I know why you&#x27;re asking this question. And that&#x27;s fine. I&#x27;ve gotten this question before a...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> So without recreating that, do you kinda wanna just steer us toward the part that&#x27;s interesting here for you?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 59 | May 24th, 2023 transcribed_at: 2026-03-14T23:24:00.830516 All right, next up, thermo 19. Friduration cycle. Okay, I&#x27;m gonna hand this one to you, Tundee. I don&#x27;t wanna formulate your question for you. This is about our Friduration cycle. We&#x27;re being asked to find the volume flow rate of refrigerant per ton of refrigeration. It&#x27;s like a 10 minute video. So without recreating that, do you kinda wanna just steer us toward the pa...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 59</div>
+      <div class="qa-question"><strong>Q:</strong> Is this because we have chilled water taking on heat from the space instead of a pipe with hot water, emitting to the space?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 72 | January 8th, 2024 transcribed_at: 2026-03-15T00:18:24.302620 Okay, next up, he transfers seven. So on the reference handbook saying that T1 and T2 are opposite of how you show it in the solution, 5.1.4 conduction through a cylindrical wall from the handbook. Is this because we have chilled water taking on heat from the space instead of a pipe with hot water, emitting to the space? Yes, that&#x27;s exactly why. Is that one of the t...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 62</div>
+      <div class="qa-question"><strong>Q:</strong> So if you calculated that it was 66 degrees, kind of have to ask yourself, does that make sense?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 75 | February 19th, 2024 transcribed_at: 2026-03-15T00:23:14.969717 Alright, the first one was a heat transfer question, and this one was about one of those composite wall problems that we&#x27;ve probably all seen a few of in our travels, and I got how far along you are. Price Exam 1, number 42. I tried solving the problem using the formula found in the reference handbook on page 287. The formula finds the temperature at any interface...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 66</div>
+      <div class="qa-question"><strong>Q:</strong> Did I miss something?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 68</div>
+      <div class="qa-question"><strong>Q:</strong> So what&#x27;s going to happen to the design heat load if it&#x27;s not zero out?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 72</div>
+      <div class="qa-question"><strong>Q:</strong> And the solution you stated that the heat flux is constant across all layers of the wall, but wouldn&#x27;t the actual heat transfer a big Q be different for each layer?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 86 | August 5th, 2024 transcribed_at: 2026-03-15T00:44:21.240411 He transferred 10. I&#x27;m not grasping the idea of the heat flux Q, deferring from the overall heat transfer Q, big Q. And the solution you stated that the heat flux is constant across all layers of the wall, but wouldn&#x27;t the actual heat transfer a big Q be different for each layer? AKA the heat transfer rate, the Q for the brick going through the brick, be higher than ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 81</div>
+      <div class="qa-question"><strong>Q:</strong> Can you use enthalpy values from the outdoor air and return air conditions to find the leaving enthalpy value?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 96 | January 22nd, 2025 transcribed_at: 2026-03-15T01:11:22.612384 Systems and components 20. Can you use enthalpy values from the outdoor air and return air conditions to find the leaving enthalpy value? Or do you always have to subtract the dribble temperatures and then divide by the dribble minus the wepple values? So this question was about an air to air heat exchanger. And we&#x27;re being asked a question about wepple, I think, u...</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems &middot; Heat Transfer &middot; Problem 1 &middot; 0 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
