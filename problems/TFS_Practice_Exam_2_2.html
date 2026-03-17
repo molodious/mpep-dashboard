@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 2 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 2</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 2</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A data center developer has a choice between (1) building a $50M data center that will have a 30 year lifespan and cost $1M per year to maintain, and (2) building a $15M data center that will have a 10 year lifespan and cost $3M per year to maintain. If the interest rate is 8%, which alternative is superior?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>Option 1</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>Option 2</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>Neither, the options are comparable.</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>There is not enough information.</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we can discount any future cash flows, be them positive or negative, back to present value and calculate the present.
+
+2. So let&#39;s start with the initial upfront cost for option one, which is 50 million.
+
+3. You can search the reference handbook for factor table, find the one for 8% and go down to 30 years.
+
+4. And we want to find a given P, the annualized value given a present value present value 50 million.
+
+<strong>Full Solution:</strong>
+
+A data center developer has a choice between 1 building a $50 million data center that will have a 30-year lifespan and cost a million dollars per year to maintain. And 2, building a $15 million data center that will have a 10-year lifespan and cost 3 million per year to maintain. If the interest rate is 8%, which alternative is superior. So when we&#39;re comparing alternatives on an economic basis, there&#39;s a couple of different ways to go about this. Probably the simplest way is to compare the alternatives present values. So we can discount any future cash flows, be them positive or negative, back to present value and calculate the present value based on some interest rate and then just make a direct comparison of the two in whichever one is cheaper. That&#39;s going to be the better option. But in this case, we&#39;ve got a little bit of a wrinkle in that these two projects have different life spans. Option one is a 30-year venture. Option two is only a 10-year lifespan. So if they take option two, then 10 years later, even though option two is obviously cheaper, they might still have a need for a data center for another 20 years. And that&#39;s going to add additional cost and we don&#39;t have any information about those costs. So it&#39;s not really fair to just say two is cheaper and it&#39;s therefore the better option. We&#39;ve got to have a different way of approaching the question. And the way we want to do this one is using the equivalent uniform annual cost or EUAC as it&#39;s sometimes referred, which instead of bringing everything back to a present value, we&#39;re turning it into an annualized value. So we&#39;ll find the EUAC for each option. And I&#39;m not going to draw the cashflow diagram because I think it&#39;s pretty simple because there&#39;s only two types of cashflow&#39;s for each one. There&#39;s an upfront cost and then there&#39;s an annual maintenance cost. So that&#39;s simple enough to work with. So let&#39;s start with the initial upfront cost for option one, which is 50 million. And I&#39;m going to treat the costs here as positive just to simplify the problem a little bit because we&#39;re only talking about cost. There&#39;s no revenue. So we&#39;ll say 50 million. And since we want to turn that into an annualized cost, we&#39;re going to use the economic factor tables. You can search the reference handbook for factor table, find the one for 8% and go down to 30 years. And we want to find a given P, the annualized value given a present value present value 50 million. Based on that interest rate, 8% over 30 years. So that&#39;s going to give us the annualized value over 30 years of 50 million. And then we have an annual cost, maintenance cost of a million as well. And when you look this up in the factor table, that turns out to be 0.088.8. And the equivalent uniform annual cost for option one is 5.44 million. And we&#39;re going to do something very similar for option two. For option two, the upfront cost is much lower. It&#39;s only 15 million instead of 50. But now that&#39;s only spread over 10 years. So we&#39;ll do a given P, 8% for only 10 years. And that turns out to be 0.1490 plus the annual cost, which is higher, 3 million. And that works out to 5.23. So by bringing both of these into a per year cost, we can make an apple, stoppills comparison. And we can say option two is a little bit lower cost. So we&#39;re going to take and it&#39;s a choice B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A data center developer has a choice between 1 building a $50 million data center that will have a 30-year lifespan and cost a million dollars per yea.<br><br><br><br>• And 2, building a $15 million data center that will have a 10-year lifespan and cost 3 million per year to maintain.<br><br><br><br>• If the interest rate is 8%, which alternative is superior.<br><br><br><br>• So when we&#39;re comparing alternatives on an economic basis, there&#39;s a couple of different ways to go about this.<br><br><br><br>• Probably the simplest way is to compare the alternatives present values.<br><br><br><br>• So we can discount any future cash flows, be them positive or negative, back to present value and calculate the present value based on some interest r.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 questions from 4 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 75</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Full price exam 2, number 14 from TFS, I tried solving for GPM using the sensible heat gain equation Q equals 500GPM delta T, but did not get the same answer. If Q for air equals Q for water and we are assuming standard water conditions in which density is 62.4 pounds per cubic foot. Shouldn&#39;t the sensible heat gain equation give us the correct answer. I used Q equals 1.2 million BTB and the given delta T for water which is 25. So this one was about a coin tower and we were asked to find the volume flow rate of the make-up water and when you write Q equals 500GPM delta T, Q equals 500GPM delta T. And you said the delta T for the coin tower was 25 degrees so you knew that. The GPM was given and what was the GPM given? The GPM was not given. Let&#39;s introduce my question from there to the end is 1 meter and sorry of this people. So 500GPM delta T for the water side, that&#39;s fine. How did we know Q dot in this problem? Somehow we knew Q dot. Oh we were given the tonnage of the coin tower so we knew the capacity so that was given. And therefore you were able to calculate the GPM. You did that and you did that correctly. The problem is that what you found is the volume flow rate of the con</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 81 · May 27th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 81</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS practice exam two problem five. If I go straight to EEC, I get a wrong number. Why don&#39;t we need to convert to P first and then go to A? So let&#39;s EEC. I don&#39;t know if we can always say that equivalent uniform annual cost is the same as maybe it&#39;s the same as annual housing. I just, I don&#39;t usually think of it that way, but I suppose that&#39;s fine. So we&#39;ll go with that. But anyway, the goal of this problem was to get an annualized cost. And you took it term by term. So that&#39;s a different approach than I used. I brought everything back to the present value and then annualized the individual values once I got them back to a present value. So starting from the cashflow diagram and your cashflow diagram is fine. So I think the first term is okay. So here, we&#39;re taking this $500,000 present value and spreading that out over 20 years at 6% interest. So there&#39;s nothing wrong with that term. And I also think the last term&#39;s okay. There&#39;s some solid value at the end. And we&#39;re taking that future value. That&#39;s in year 20. And by the way, I think there should be minus 300. And that&#39;s the magnitude, but you got it right in the formula. So that&#39;s good. Anyway, we&#39;re taking a future value 300K</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 81 · May 27th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 81</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> TFS practices M2 problem 7. I use the formula from practice exam 1 problem 8, which was sort of doing a ratio relating the volume flow rates to the pressures and the temperatures. And I got the right answer. I realized that this formula was for a compressor and this problem is for a fan, but I still got it right. Was this method acceptable? Yeah, I think it is. I think that&#39;s good intuition. I&#39;m perfectly happy. It&#39;s interesting that you use that. Obviously stuck with you, which is a good thing. It&#39;s not really a formula that you&#39;ll find somewhere in the reference handbook. If you go back to that practice exam 1 problem 8, I&#39;m kind of just reasoning it out in the solution. So obviously that intuition stuck with you and you reasoned that out the same way, even though it&#39;s a fan and not a compressor, but you know, conceptually the same kind of fluid machine. So I think it&#39;s totally valid and it works and it gave the right answer. I&#39;m happy there. I would just say please learn how to use the density factors from the table as well. So and I think you did. It&#39;s kind of on the bottom of your work here, but you know reviewing that solution video in that written solution to make sure that </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 81 · May 27th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 81</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And TFS practices exam two, number 17, since there&#39;s no isynthopic expansion, shouldn&#39;t the quality be saturated. This one was about a refrigeration cycle. I think it was just poor wording on my part. The way the problem statement was written was, there&#39;s no sub-cooling and isynthopic expansion. And the negative, no, was meant to refer only to the former clause in the sentence. So it should be no sub-cooling and there is isynthopic expansion. I see. Yeah, it was meant to be tricky. In fact, I can see how that&#39;s ambiguous just in terms of the English there. So maybe I&#39;ll reword that one. But I do want to kind of just stress like, if you&#39;re dealing with refrigeration cycle, right? I don&#39;t know how to draw this. Let&#39;s do our vapor dome. And one, two, three. It&#39;s almost always isynthopic expansion on pH. So this path from 3 to 4 is going to be vertical. I honestly can&#39;t remember, I count on a problem or that&#39;s not assumed to be the case. Even if it&#39;s not explicitly stated. In a weird way, I almost tricked you up by providing extra information about something that should have been implied. If it was in isynthopic expansion, then what would the path to 3 to 4 be? Like who knows? Would th</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 2 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 3 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 3</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 3</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A company with a tax rate of 30% makes a $50,000 one time pur- chase that drives $8,000 of annual revenue and carries $1200 of an- nual maintenance costs. The salvage value after 10 years is $5000. What is the present value of the investment over 10 years at a 6% interest rate? 94
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>−$12,200</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>−$6,000</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$11,700</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$52,800</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. We&#39;ve got some initial upfront cost of 50k, which when we use that in the equations, all regard that as negative, but su.
+
+2. So look up in the factor table for 6% over 10 years.
+
+3. We&#39;ll get P given A at 6% for 10 years.
+
+4. And for that one, we&#39;ll use the cash flow factor P given F at 6% for 10 years.
+
+<strong>Full Solution:</strong>
+
+A company with a tax rate of 30% makes a $50,000 one-time purchase that drives 8,000 of annual revenue and carries 1,200 of annual maintenance costs. The salvage value after 10 years is 5,000. What is the present value of the investment over 10 years at a 6% interest rate? So to find the present value, we&#39;ve got to add up all these different cash flows, some of which are positive and some of which are negative. Let&#39;s draw the cash flow diagram just to get clear on everything that needs to be included here. We&#39;ve got some initial upfront cost of 50k, which when we use that in the equations, all regard that as negative, but suffice it to say for the cash flow diagram that that arrow is pointing down, so it&#39;s understood to be negative. And then we&#39;ve got a stream of revenue, which is $8,000 a year, and there&#39;s also costs of $1200 a year. I could probably net these out, but for now I&#39;ll keep them separate. Let&#39;s call that 1.2k, and that&#39;s going to happen for the entire 10 year period, so I&#39;ll just go to the right here and let&#39;s say, it&#39;s 10 years and the same for the costs. So this is year one, this is year 10, and then there&#39;s also a salvage value in the 10th year, which is going to be positive. That&#39;s an additional 5k. And then the only thing that&#39;s not shown here are taxes. So taxes are only on profit, and that&#39;s going to be an additional negative cash flow, of an unknown amount, but we can find that out now. So it&#39;s quantified to taxes. Let&#39;s find the profit. Profit is revenue minus expenses, which in this case is $8,000 minus the $1200, so that&#39;s $6,800, and then the tax rate is 30%. So taxes then are going to be 0.3%, 30% times the profit, which is $6,800, which is $2,000 in 40, and then what is the net profit after taxes for all these years? Because we can simplify everything here, except for the initial costs and salvage value, you just take the revenue, the cost, and the taxes and roll that all into one number. So let&#39;s define the annual after tax profit as $8,000 minus $1200 minus the tax burden, $2,040, or just $6,800 minus $2,040 if you prefer. And that turns out to be $4,760, and that&#39;s a positive number, since there is a positive after tax profit. So now we&#39;ve got to add three things together. The initial cost, which is negative, the after tax profit over 10 years, which is positive $47,60, and then the salvage value $5,000, which is a one time cash flow in 10 years. Those are the three things we&#39;re going to be adding in order to find the present value at 6%. So we&#39;ll do PV equals minus $50,000, that&#39;s already a present value, because it happens in year zero, plus the $47,60 times the cash flow factor. So look up in the factor table for 6% over 10 years. We&#39;ll get P given A at 6% for 10 years. And then lastly, positive $5,000 for the salvage value. And for that one, we&#39;ll use the cash flow factor P given F at 6% for 10 years. And if we look those values up, this one is 7.3601, and this one is 0.5584. And that gives us a present value of negative, because this initial term is small enough that it drags the whole thing down to negative $12,174, which is closest to answer choice A.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A company with a tax rate of 30% makes a $50,000 one-time purchase that drives 8,000 of annual revenue and carries 1,200 of annual maintenance costs.<br><br><br><br>• The salvage value after 10 years is 5,000.<br><br><br><br>• What is the present value of the investment over 10 years at a 6% interest rate.<br><br><br><br>• So to find the present value, we&#39;ve got to add up all these different cash flows, some of which are positive and some of which are negative.<br><br><br><br>• Let&#39;s draw the cash flow diagram just to get clear on everything that needs to be included here.<br><br><br><br>• We&#39;ve got some initial upfront cost of 50k, which when we use that in the equations, all regard that as negative, but suffice it to say for the cash f.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 3 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

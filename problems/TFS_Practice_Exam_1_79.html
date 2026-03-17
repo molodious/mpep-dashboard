@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 79 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 79</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 79</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      25gpm of water at 300psia and 250°F goes through a boiler where it is converted to 500psia steam at 1000°F. What is the heat load being delivered by the boiler? 92
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>363boilerhp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>416boilerhp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>428boilerhp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>491boilerhp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. 25 GPM of water at 300 PSIA and 250 degrees goes through a boiler where it&#39;s converted to 500 PSIA steam at a thousand d.
+
+2. What is the heat load being delivered by the boiler and the answer choices are in boiler horsepower.
+
+3. But we have enough information there to find the enthalpy at state 1, the answering condition, which is going to be subc.
+
+4. But let&#39;s start out analyzing state 1 and trying to work out what the enthalpy is for state 1.
+
+5. We would look up HF, right.
+
+<strong>Full Solution:</strong>
+
+25 GPM of water at 300 PSIA and 250 degrees goes through a boiler where it&#39;s converted to 500 PSIA steam at a thousand degrees. What is the heat load being delivered by the boiler and the answer choices are in boiler horsepower. This is somewhat similar to a related problem that we did. I think a few problems ago and we have fully defined state for that incoming water. We know the volume flow rate and it&#39;s not atmospheric this time. It&#39;s at much higher pressure. But we have enough information there to find the enthalpy at state 1, the answering condition, which is going to be subcooled. And that&#39;s going to go through the boiler and come out as 500 PSIA steam at a thousand degrees, which unlike that other problem is not saturated steam. It&#39;s actually super heated steam. But that&#39;s no problem. We can find the enthalpy at state 2. And then we&#39;ll be able to do M. Delta H and find the heat load delivered by the boiler. The only wrinkle is that we also have to find the density of that incoming water that&#39;s being supplied, which is at high pressure. And that&#39;s a little bit tricky to do for a subcooled liquid, but we can use a simplifying assumption there and we&#39;ll get to that in a couple of minutes. But let&#39;s start out analyzing state 1 and trying to work out what the enthalpy is for state 1. So state 1, the feed water has a pressure of 300 PSIA and a temperature of 250 degrees. So if we go into the steam table, search saturated water and steam by pressure, go to 300 PSIA. We&#39;ll find that the saturation temperature at that pressure, T-Sat at 300 PSIA, is 417.33. So what does that mean? If the saturation temperature is higher than the temperature we actually have, then what we&#39;re dealing with is a subcooled liquid, which is not surprising because it&#39;s being measured in GPM. So this is obviously liquid water and we shouldn&#39;t be surprised that it&#39;s subcooled. But now what do we do about the fact that it&#39;s subcooled? Well, what would the enthalpy be if it was just a saturated liquid? We would look up HF, right? And we would be able to say that the enthalpy at saturation, call H-Sat, or you can call it H-F at 300 PSIA. What have been 393.9 3B super-pound? But now it&#39;s going to be lower than that by one degree for every degree that we&#39;re below the saturation temperature. So we could say H-Sat minus H1, the reduction in enthalpy that we&#39;re going to see is CP times the reduction in temperature T-Sat minus T1. We know T-Sat at that pressure we know T1, we know H-Sat, we want to know H1. So we rearrange H1 equals H-Sat minus CP delta T and then substitute H-Sat at that pressure is 393.93 minus 1BT per pound degree Fahrenheit for the specific heat capacity and then the delta T, T-Sat would have been 417.333 minus the temperature we actually have which is just 250 and that turns out to give us an H1 value of 226.6 and as a reminder we always have the shortcut we could find this delta here which looks like it&#39;s about 167 between T-Sat and the actual temperature and we can subtract that same amount from H-Sat and that will be another avenue for getting to H1. That&#39;s how you deal with finding the enthalpy of subcooled water. Now the other thing that we&#39;re going to want to know we need to find the mass flow rate of that feed water which is going to come down to the product of the density and the volume flow rate. We know the volume flow rate but we don&#39;t know the density. So I&#39;m going to make an assumption here which is that the density of this subcooled liquid water is the same as the density of saturated liquid water at the same pressure. Basically what I&#39;m saying is that any time we&#39;re to the left of the saturation curve so instead of being here as a saturated liquid or somewhere out here at the same pressure but a bit cooler and I&#39;m making the assumption that the density is going to be about the same.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 25 GPM of water at 300 PSIA and 250 degrees goes through a boiler where it&#39;s converted to 500 PSIA steam at a thousand degrees.<br><br><br><br>• What is the heat load being delivered by the boiler and the answer choices are in boiler horsepower.<br><br><br><br>• This is somewhat similar to a related problem that we did.<br><br><br><br>• I think a few problems ago and we have fully defined state for that incoming water.<br><br><br><br>• We know the volume flow rate and it&#39;s not atmospheric this time.<br><br><br><br>• But we have enough information there to find the enthalpy at state 1, the answering condition, which is going to be subcooled.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 79 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

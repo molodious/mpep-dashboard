@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 59 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 59</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 59</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A nozzle produces a 200ft stream of water with 500gpm that drives s the wheel of an impulse turbine. The water jet strikes the turbine wheel at a radial distance of 3ft. What is the maximum power produced by the turbine?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.4hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>79hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>8400hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>36,000hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if you look in the reference handbook for impulse turbine, you&#39;ll find this equation.
+
+2. The maximum power produced by the turbine is equal to the volume flow rate Q, which we were given 500 GPM.
+
+3. Times the velocity of that water squared divided by 2G.
+
+4. And if you&#39;re not familiar with impulse turbines, which I wasn&#39;t when I started studying for this exam, I think of it ki.
+
+5. There&#39;s a little picture in the reference handbook.
+
+6. The one thing I will say about this equation is it&#39;s not a rule of thumb equation, so we do have to account for all the.
+
+<strong>Full Solution:</strong>
+
+A nozzle produces a 200-foot per second stream of water with 500 GPM that drives the wheel of an impulse turbine. The water jet strikes the turbine wheel at a radial distance of 3 feet. What is the maximum power produced by the turbine? So if you look in the reference handbook for impulse turbine, you&#39;ll find this equation. The maximum power produced by the turbine is equal to the volume flow rate Q, which we were given 500 GPM. The specific weight of the fluid in this case water, we know that we can take that as a standard value. Times the velocity of that water squared divided by 2G. And we actually have all this information, so this is actually going to be a fairly straightforward problem. So the thing we don&#39;t really need is the radial distance. You can imagine that being relevant in the design of this apparatus. And if you&#39;re not familiar with impulse turbines, which I wasn&#39;t when I started studying for this exam, I think of it kind of like a water wheel. There&#39;s a little picture in the reference handbook. You can kind of look as well that helps you get your head around it. But these are the basic factors. It&#39;s the specific weight, the volume flow rate, the velocity squared, and that tells us the maximum possible. And for that maximum possible power being produced, we know that the fluid exits in a straight line. So there&#39;s no deflection. The angle is 180 degrees, and it basically goes straight through as it powers. I don&#39;t know what the word is to use vein or paddle or whatever it&#39;s striking against. That spins the wheel around. The one thing I will say about this equation is it&#39;s not a rule of thumb equation, so we do have to account for all the units as we go through. So we&#39;ll start with the volume flow rate. It&#39;s been given in GPM, we&#39;re actually going to want that in cubic feet per second. So let&#39;s convert that. We can divide by 7.48 gallons per cubic foot, and then we can also divide by 60 seconds, or 1 minute, and I&#39;ll get rid of minutes, and now we have cubic feet per second. That&#39;s 1.11. So that&#39;s helpful as far as Q, the velocity is already in feet per second, so that we can move forward with straight away. And we&#39;re ultimately going to want the answer in horsepower, but we can do that conversion at the end. So let&#39;s go ahead and make our substitutions now. Q is 1.11, cubic feet per second. The specific weight of water is 62.4, same magnitude as the density, but instead of writing pound mass, we write pound force. Per cubic foot. Times of velocity squared, which is 200 feet per second. Divide by 2 times G, 2 times 32.2 feet per second squared, and what does this mean in terms of units? We&#39;ve got cubic feet canceling. We&#39;ve got second squared, canceling with second squared down here. And here we&#39;ve got feet squared. One of those will cancel with this foot, and we&#39;ll end up with just feet one time in the numerator, and we do keep pound force, and we keep per second. So that&#39;s going to be 43,179 foot, pound force per second. And that is the unit that we can convert pretty quickly and easily to horsepower. We&#39;ll divide by 550 foot pound per second per horsepower. So all of that will cancel, and we end up with horsepower coming up into the numerator, that&#39;s 78.5 horsepower. So the maximum power that will be produced by this impulse turbine, based on the volume flow rate and velocity in specific weight, is 78.5 horsepower. The best answer choice is B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A nozzle produces a 200-foot per second stream of water with 500 GPM that drives the wheel of an impulse turbine.<br><br><br><br>• The water jet strikes the turbine wheel at a radial distance of 3 feet.<br><br><br><br>• What is the maximum power produced by the turbine.<br><br><br><br>• So if you look in the reference handbook for impulse turbine, you&#39;ll find this equation.<br><br><br><br>• The maximum power produced by the turbine is equal to the volume flow rate Q, which we were given 500 GPM.<br><br><br><br>• The specific weight of the fluid in this case water, we know that we can take that as a standard value.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 59 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
