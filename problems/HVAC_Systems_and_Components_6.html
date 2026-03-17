@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 6 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 6</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 6</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5gpm each. Ex- pected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55°F and leaves at 115°F. 500lb of hr 5psig steam is supplied to the heat exchanger and leaves saturated. What is the eciency of the heat exchanger? 62
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>90%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>92%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>94%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>96%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we should be able to calculate how much energy is being given up by the steam.
+
+2. Well, when we go into the steam table, we can assume that whatever the starting point is here, we can take the latent he.
+
+3. If it wasn&#39;t all the way saturated, if it was still a saturated mixture, then not all of the latent energy would be give.
+
+4. We&#39;d have to be given some quality.
+
+5. We can just calculate the delta t there.
+
+<strong>Full Solution:</strong>
+
+System 6, a locker room has 12 showers supplied with hot water from a steam heat exchanger. The shower heads are rated for 5GPM each. Expected demand can be estimated as 25% of maximum. Cold water enters the heat exchanger at 55 degrees and leaves at 115. 500 pounds per hour of 5 psi g steam is supplied to the heat exchanger and leaves saturated. What is the efficiency of the heat exchanger? Okay, so we know how much water flow we have and what the delta t is. So we should be able to determine how much energy is required to do that water heating. And then we know the mass flow rate of steam and at what pressure. And we know that it leaves saturated. So we should be able to calculate how much energy is being given up by the steam. And then if those two are equal, then it&#39;s 100% efficiency. But if there&#39;s more losses from the steam than is going into the water, then we&#39;ll find the efficiency that way. So let&#39;s draw the heat exchanger at least in a simple manner just to kind of keep track of things. So on the right side, I&#39;ll put the water and then on the left side we can put the steam. So for that entering steam, we were told that it was a mass flow rate of 500 pounds per hour. And that&#39;s happening at a pressure of 5 psi g, which by the way is about 20 psi a, because I&#39;m adding the atmospheric pressure, which is 14.7 psi. And that&#39;s useful to know because when you look that up in the saturated water table, it&#39;s organized by psi a. So it&#39;s a good idea to change that over to psi g. We don&#39;t know the exact conditions of the leaving steam except that it&#39;s saturated. So presumably it&#39;s constant pressure. And we can suffice it to say that the same volume is leaving at the same pressure. But now it&#39;s saturated steam. So why is that useful? Well, when we go into the steam table, we can assume that whatever the starting point is here, we can take the latent heat of air position or hfg, all of hfg, all of the latent heat of steam that&#39;s changing phase going from steam to liquid water, since it&#39;s saturated, saturated steam, all of that latent energy is going to be given up. If it wasn&#39;t all the way saturated, if it was still a saturated mixture, then not all of the latent energy would be given up. And we wouldn&#39;t necessarily be able to use the entirety of hfg. We&#39;d have to be given some quality. And that would be another way you might see this question asked. It might be steam coming in with some quality, or it might be leaving, and not be totally condensed. So those would be nuances that you&#39;d have to deal with. But here it&#39;s pretty straightforward because it&#39;s all the way saturated when it leaves. And we get to use hfg. Now on the water side, we have this entering water, which is 55 degrees. And leaving water, which is 115 degrees. So that&#39;s pretty easy. We can just calculate the delta t there. But now the gpm is a bit interesting because there&#39;s 12 showers, and it has a rated for 5 gpm. So you would think that that&#39;s 60 gpm. But then it says that the expected demand can be estimated as 25% of maximum. So there&#39;s some diversity. Only a quarter of the showers are generally used at the same time. Maybe there are some moments where there&#39;s peak demand that&#39;s higher than that. And that could be a challenge. But they want us to use this diversity of 25%. So the flow rate is 12 times 5 gpm times 25% or 0.25, which means a flow rate of 5 gpm. And now we have a gpm and a delta t. So as you can probably imagine, we&#39;re going to use the real thumb there for sensible heating of water. And now we&#39;re ready to start some of the analysis. So let&#39;s do that sensible heating of water since that&#39;s pretty straightforward. We can say q.water equals 500 gpm delta t, which in this case is 500 times 15 times 115 minus 55. And I&#39;m not writing units because these have to be in degrees Fahrenheit. This has to be in gpm to use the real thumb. That works out to 450,000 pt per hour. So that&#39;s how much heat is going into the water.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • System 6, a locker room has 12 showers supplied with hot water from a steam heat exchanger.<br><br><br><br>• The shower heads are rated for 5GPM each.<br><br><br><br>• Expected demand can be estimated as 25% of maximum.<br><br><br><br>• Cold water enters the heat exchanger at 55 degrees and leaves at 115.<br><br><br><br>• 500 pounds per hour of 5 psi g steam is supplied to the heat exchanger and leaves saturated.<br><br><br><br>• What is the efficiency of the heat exchanger.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 questions from 4 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 20 · August 13 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 20</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> System 6, how did you know to use the latent heat of a position to find the heat lost by the steam? I&#39;m not seeing where in the problem we know that the entering steam lies in the saturation curve. I originally tried to solve the problem as if the entering steam was superheated and it left as a saturated vapor. Well, let&#39;s draw the saturation curve to sort of enrich this discussion. So if you were going to assume as you did that it was superheated, my question to you is, what would you assume? If it were to be superheated, for you to define a state, you need two pieces of information, right? You need pressure and temperature. So there&#39;s an infinite number of possible starting points that you could choose out here in the superheated region. So it&#39;s hard to be confident that if you&#39;re going to make that assumption that it would be the right assumption. Obviously that&#39;s going to move the needle on the answer because you&#39;re going to be wanting to know the delta H across the coil and you&#39;re picking the starting point, which is going to be the starting point of the starting point of the starting point of the starting point of the starting point of the starting point of the starting point</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 27 · December 15 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 27</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, energy and power system 6, this one was from TFS. Why do you plug in T2 instead of T2 prime in the efficiency equation? So, I copy and paste it from the reference handbook, what the equation that we&#39;re talking about is the efficiency of a compressor. And then I copy and paste it a little snip from the written solution as well so we can kind of look at those side by side. And I guess the challenge of this particular problem was trying to align the subscripts that the reference handbook uses with the, I think it was the Brayton cycle. We had a situation where it was like compressor, then a boiler, then a turbine. And everything was numbered 1, 2, 3, 4. But how do you, you know, if you&#39;re using your own naming and numbering, but then you have to use a formula for the reference handbook. And we got to know what the subscripts in that formula actually mean. So just to talk through, they&#39;re using ES as the exit temperature from the compressor, assuming that it&#39;s isentropic. So the S means minus TI of inlet temperature over exit minus inlet. So inlet is inlet. Exit is actual. This is the actual exit temperature as compared to the exit temperature of its isentropic. And it&#39;s pretty e</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 48 · November 14 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 48</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Number six, where do I need to go in the handbook to see the formulas for the efficiency of steam and for Q. steam equals m delta H and we have a snip. So I don&#39;t know that you&#39;ll find these formulas directly in the reference handbook. I think you&#39;ll find m. delta H, but probably not under a steam heat exchanger. I only was able to find explicitly by looking for turbines, which is a little different than what this problem is about, but I think it shouldn&#39;t be too much of a reach to use these on the basis that an energy flow rate or a rate of energy transfer heat transfer is a mass flow rate times a change in enthalpy. I think that&#39;s a pretty broad brush stroke that we can use for a variety of different things. We use it in refrigeration if we have enthalpy changing from two different states and we know a mass flow rate we can find the rate of heat transfer there. And then this idea that it&#39;s the heat of vaporization, the late heat of vaporization, having to do a phase change. So I don&#39;t know like I guess these are pretty big ideas and they&#39;re pretty important ideas. So they&#39;re almost so important that I don&#39;t want to say like you know it&#39;s not in the handbook but like it&#39;s not in t</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 105 · June 23th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 105</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems in Component 6, can you explain how the steam leaving is saturated liquid is considered as a constant pressure process? This problem was about a steam heat exchanger and let&#39;s just redraw what that situation was. So on one side we had a water that we&#39;re looking to heat cold water coming in we&#39;ll call that state one and then heated water coming out we&#39;ll call that state two and then on the other side we had the steam so saturated steam coming in call that state three and then we were told that we have saturated water coming out we&#39;ll call that state four and we were told that the saturated steam entering was at a pressure of 5 psi g and the question is how do you know that what&#39;s happening here on the steam side is a constant pressure process? So what&#39;s going on here we&#39;re obviously transferring heat from the steam to the water so the direction of heat is this Q is crossing the boundary in the heat exchanger and the water side if you think about the right side of this is undergoing sensible heating of liquid water. Liquid water comes in it&#39;s heated it&#39;s temperature changes it&#39;s temperature increases there&#39;s some delta t there there&#39;s no phase change it enters this liquid wat</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 6 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

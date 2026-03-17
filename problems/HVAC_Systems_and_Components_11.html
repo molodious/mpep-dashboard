@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 11 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 11</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Water enters a 100ton cooling tower at 130°F and leaves at 105°F. Air enters at 88°F and 60% RH and leaves at 104°F and 80% RH. What quantity of make up water is required? Assume no losses.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.25gpm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.5gpm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1gpm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>2gpm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So let&#39;s start by drawing our cooling tower.
+
+2. So we can analyze the air side of this process by starting with the psychometric chart and looking at the total cooling.
+
+3. So you have to jump over to the high temperature psychometric chart in order to look up the parameters associated with s.
+
+4. So the first thing we want to do is just understand what the air flow through the cooling tower is and the way we&#39;re goi.
+
+5. So we can equate that to q air and say that&#39;s a hundred tons and then we can convert that to be choose per hour by multi.
+
+<strong>Full Solution:</strong>
+
+Systems 11, water enters 100 ton cooling tower at 130 degrees and leaves at 105 degrees. Air enters 88 degrees and 60% relative humidity and leaves at 140 degrees and 80% relative humidity. What quantity of makeup water is required? Assume no losses. So let&#39;s start by drawing our cooling tower. We have our cooling tower basin and then the cooling tower itself and that has a 100 ton capacity. And then we have some entering an air which I&#39;ll call state one and that&#39;s 88 degrees and 60% humidity. So that&#39;s what&#39;s entering the cooling tower and then that&#39;s going to absorb heat and humiditian. Pull that heat out of the condenser water by virtue of evaporative cooling and now state two leaving the cooling tower. We don&#39;t generally concern ourselves with the leaving air conditions of a cooling tower because we&#39;re more interested in the water but in this problem we are. So it&#39;s leaving at 104 degrees and 80% humidity. And the question is what is the volume of makeup water? Since we&#39;re doing that evaporation we are removing water from the system and that water has to be replaced. So we have to have some volume of makeup water. But in order to find out how much water is leaving the system, we have to find out how much water is being absorbed into the air. How much evaporation is happening and we don&#39;t even know how much air is going through the cooling tower. But we do know it&#39;s capacity and we know it&#39;s entering and leaving conditions. So we can analyze the air side of this process by starting with the psychometric chart and looking at the total cooling that needs to happen. So on the psych chart our state one is this entering air which is already kind of warm in humid. So I&#39;ll draw it a bit up high. That&#39;s our state one. And then what&#39;s leaving is actually hot and so humid that it&#39;s off the normal psychometric chart. So you have to jump over to the high temperature psychometric chart in order to look up the parameters associated with state two. State one is on the normal chart. So that&#39;s our process line going from one to two and then even though we have to go to separate charts to find it, we do have a fully defined state. So we get these values. This is the enthalpy at state one, enthalpy at state two and then again by going to both charts in order to get the values. We can get the humidity ratio at state one and the humidity ratio at state two. So the first thing we want to do is just understand what the air flow through the cooling tower is and the way we&#39;re going to do that is use its rated capacity. We know that it&#39;s a hundred tonne cooling tower. So the heat being removed from the water, q water is a hundred tons and all of that heat that&#39;s removed must be going into the air. So we can equate that to q air and say that&#39;s a hundred tons and then we can convert that to be choose per hour by multiplying by 12,000 be choose per hour per tonne. And that gives us 1.2 million be choose per hour. And now that same q.a heat being removed from the water and into the air can be expressed as an m dot delta h term, where the difference in enthalpy is the difference between the enthalpy of state two and state one. So if we write that q a equals m dot delta h, then we can rearrange that to solve for m dot. So the mass flow rate of air is equal to q dot over delta h, which is the 1.2 million, B2 per hour divided by h2 minus h1. And if you look up those values, h2 is 67.76, B2 per pound minus h1 is 40.03, B2 per pound. And don&#39;t worry, if you don&#39;t quite have the level of precision that I have, I mentioned in previous videos and using a psychometric calculator. For a lot of these problems I&#39;ve using the psychometric chart, you might be 67.8 here, you might even be 68. That&#39;s probably close enough, and here you&#39;re probably just 40. And that&#39;s fine. So the mass flow rate of air is 43,274 pounds per hour. And since we&#39;re ultimately going to be going to GPM, this is probably a good opportunity to go to min it.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Systems 11, water enters 100 ton cooling tower at 130 degrees and leaves at 105 degrees.<br><br><br><br>• Air enters 88 degrees and 60% relative humidity and leaves at 140 degrees and 80% relative humidity.<br><br><br><br>• What quantity of makeup water is required.<br><br><br><br>• So let&#39;s start by drawing our cooling tower.<br><br><br><br>• We have our cooling tower basin and then the cooling tower itself and that has a 100 ton capacity.<br><br><br><br>• And then we have some entering an air which I&#39;ll call state one and that&#39;s 88 degrees and 60% humidity.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 48 · November 14 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Where does QAIR equals MDOTL-DH?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next up, systems and components 11 really kind of the same question there. Where does QAIR equals MDOTL-DH? So now we&#39;re talking about air, slightly different problem, but it&#39;s really the same idea we know in mass flow rate. We know how much the enthalpy is changing. We can quantify the rate of heat transfer. And this one was about a cooling tower. And it&#39;s good. I think it&#39;s actually useful to see that this formula can come up in the context of steam. It can come up in the context of phase change. It doesn&#39;t have to be phase change, but there could be. It comes up with air. It comes up with refrigerant, whether it&#39;s flowing as a liquid or steam or saturated mixture. So it&#39;s a much bigger idea than just psychometric, or just fluids, or just thermo. It sort of crosses all boundaries. And here it is showing up in the systems and components section, which is applying those different concepts at different times. The unit is also kind of revealed it. I mean, the mass flow rate. What is that? That&#39;s a pounds per hour, typically. Yeah. And enthalpy. No, I&#39;m sorry. I&#39;m sorry. Pounds. Oh, no, that&#39;s right. Yeah, mass flow rate would be pounds per hour or pounds per unit time. Yeah. That cou</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 98 · February 17th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-62881653
+
+Systems and components 11 when I first approach this problem, I use the equation 9392 where the makeup water is in GPM is my approach correct.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 11 when I first approach this problem, I use the equation 9392 where the makeup water is in GPM is my approach correct. It used to late and heat evaporation from the condenser water, but it seems odd to not have to look at the air conditions. Yeah, this is fine that you use that equation. The reference handbook, I think, has an embedded assumption for the density of the air or something about the air. I&#39;m with you, I think it&#39;s odd not to look at the air conditions, which is why I did it the way I did. But it should reconcile with that equation or at least it should roughly reconcile if it doesn&#39;t because my answer to yours is very close together than they shouldn&#39;t be so close together. So yeah, I think you&#39;re okay to use that equation and I would also like you to know the way that I did it in the video solution as well so that you kind of have two options there. So as always, no both ways, but yeah, I think you&#39;re totally fine to use that equation for makeup water.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111 · January 5th 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 111</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This was an interesting one. Systems in Components 11. The reference book states that a cooling tower ton is 15,000 BTUs per hour, accounting for chill or heat rejection and heat compression of 0.88 kWh per refrigeration ton of a assumed efficiency for the chiller. Based on this, should a hundred ton cooling tower be calculated using 15,000 BTUs per hour. When I use this value, my calculated flow came out to be 2.3GPM, please confirm if this is correct. I hadn&#39;t heard this one before, but it is in the reference handbook. So I&#39;m glad it came up. So yeah, I mean, just looking at this specific problem and making sure we have clarity on this one, it kind of comes down to the semantics. So let&#39;s be absolutely clear that cooling ton, we talked about tons all the time, but the definition of a cooling ton is of course 12,000 BTU per hour. That&#39;s not changing unless otherwise stated. So this industry term that I just learned about because the question came through of the 15,000 BTUs per hour is, and I&#39;m glad you provided the SNAP from the reference handbook. This is unchanged in version 2.0. I did check it. It says, let&#39;s get the exact wording here, cooling tower ton. So that&#39;s the magic ph</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 11 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 12 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 12</span>
+  <span class="nav-badge">⭐ 8 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">8 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 12</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      R-410a is used in a chiller with a suction pressure of 60psia and a discharge pressure of 185psia. The refrigeration cycle operates with 20°F of sub cooling and 20°F of superheating. The load on the chiller is 200tons. What is the mass ow rate of refrigerant? min min min min 64
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>420 lb</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>440 lb</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>460 lb</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>480 lb</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we&#39;re going to need the R410A pH diagram from the reference handbook.
+
+2. But first let&#39;s kind of map out where we&#39;re going to go.
+
+3. So we&#39;re really coming formulae we use mdl to H.
+
+4. So we can start arbitrarily with the bottom.
+
+5. And I&#39;m going to start in the middle because I don&#39;t know where I should start on the left yet until we make our way aro.
+
+6. So we&#39;ll just start in the middle.
+
+<strong>Full Solution:</strong>
+
+Systems 12, R410A is used in a killer with a suction pressure of 60 psi and a discharge pressure of 185 psi. The refrigeration cycle operates with 20 degrees of sub-cooling and 20 degrees of superheating. The load on the killer is 200 tons. What is the mass flow rate of refrigerant? So we&#39;re going to need the R410A pH diagram from the reference handbook. So I&#39;m actually just going to paste that up here. And now we can draw the refrigeration cycle on here when we&#39;re ready. But first let&#39;s kind of map out where we&#39;re going to go. We know the total refrigeration effect. We know the load on the killer is 200 tons. So that&#39;s our Qn. And we&#39;re going to use the idea that Qn can be said equal to a mass flow rate times the delta H. So we&#39;re really coming formulae we use mdl to H. But more specifically, what is the delta H? Well, if we&#39;re talking about Qn, the refrigeration effect or the load on the killer, that&#39;s going to be the bottom of the refrigeration cycle, which will draw in a moment. But that&#39;s going to equal the mass flow rate of refrigerant times H1, the enthalpy at state 1 minus H4. And we&#39;ll show the states on the refrigeration cycle here as we draw it. But I just wanted to have that kind of game plan in mind. So what do we know about the refrigeration cycle? While we know the suction pressure and the discharge pressure and the vertical axis is pressure, so that tells us how high the horizontal lines of our cycle are going to be. And then we know that there&#39;s some subcooling and some superheat. So that tells us how far past edges of the saturation curve we&#39;re going to go. So we can start arbitrarily with the bottom. Let&#39;s say we have our suction pressure of 60 psi A. That&#39;s this dotted line here. That&#39;s just below zero degrees. And I&#39;m going to start in the middle because I don&#39;t know where I should start on the left yet until we make our way around. So we&#39;ll just start in the middle. And we&#39;re right on that dotted line 60 psi A. So if there was no superheat, we would just go to the edge. And that&#39;s where we would stop. But we know that there&#39;s actually 20 degrees of superheat. Now the temperature is around zero. It&#39;s just a bit below zero. But if it were zero, we&#39;d have to go out to 20. And these lines here after the edge of the saturation curve that come down to the right. Here&#39;s zero and here&#39;s 20. So if I follow this curved line up, that&#39;s here. Now maybe it&#39;s just a hair to the left of that. But if it is, it&#39;s not much. And I get a lot of questions about how precise you need to be in these types of situations. Just do your best. I know you&#39;re not going to have the opportunity to draw on the screen like I am now in a computer-based environment. So just try to spot it as best you can. And hope that the questions aren&#39;t phrased where, you know, they&#39;re going to take it down to the millimeter. And that&#39;s going to be the difference between a right and wrong answer. These precise as you can, but don&#39;t waste time. So I&#39;m going to take that out to 20. And that&#39;s going to form our location for state 1. And then we go up into the right isentropic. We&#39;re going to assume isentropic compression because we haven&#39;t been told to assume anything else. And then so those lines of constant entropy are these diagonals up to the right. But how high do we go? We go until we get to 185 PSIA on the discharge side of the compressor. So where&#39;s 185? That&#39;s below 200. This thing is not exactly linear. So we have to kind of find a spot that&#39;s 85% above 100, 15% below 15 below 200. And I&#39;m going to say that this 60 degree line is right about on it. So we&#39;ll take it to right there. That&#39;s our state 2. And the location of state 2 is not too critical for this problem. Because we&#39;re interested in H1 minus H4. But certainly the height being at 185 is key. And then from there, we go horizontally to the left. And if there was no sub cooling, we would stop right here at the edge of the saturation curve.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Systems 12, R410A is used in a killer with a suction pressure of 60 psi and a discharge pressure of 185 psi.<br><br><br><br>• The refrigeration cycle operates with 20 degrees of sub-cooling and 20 degrees of superheating.<br><br><br><br>• The load on the killer is 200 tons.<br><br><br><br>• What is the mass flow rate of refrigerant.<br><br><br><br>• So we&#39;re going to need the R410A pH diagram from the reference handbook.<br><br><br><br>• So I&#39;m actually just going to paste that up here.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">8 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 73 · January 22nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> And it wound up getting me to a COP of 4 unfortunately, could you clarify how to correctly scale a point off of this nonlinear pressure entropy diagram?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 12. In question 11 you mentioned that the pressure axis of the PS diagram, pressure entropy diagram for refrigerant, wasn&#39;t exactly linear for our 410A, causing you to pick high up between the 100 to 200 PSIA. On question 12 in the solution, you go right in between 100 and 200. I attempted to treat problem 12 with R134A like this by picking higher up the curve than half way because of the verbiage in the previous video. And it wound up getting me to a COP of 4 unfortunately, could you clarify how to correctly scale a point off of this nonlinear pressure entropy diagram? Is it pressure entropy or pressure enthalpy? Yeah, it&#39;s pressure enthalpy. So that should be pH just to clarify. Yeah. But answer your question, what I stated in question 11 is the correct guidance regarding the non-linearity. I probably just glossed over it and the other one. But this is good what I did here. So you can see the 200 tick mark. But if it&#39;s between 100 and 200, if you only go half way, you have to realize that as you go higher, it goes faster. So in the bottom half of the range, it&#39;s going slower. So if you only go to the half way point, you actually haven&#39;t, you haven&#39;t quite g</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> I guess we would say this is more doing everything in pressure units than height units, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Flood&#39;s 22. This is one about a pumping situation. I&#39;ll bring that one up as well. I actually have your work up on the screen if you wanna kind of talk through. Okay. Yeah. So I think looking back at it. All the hours. Again, PE guy. I&#39;m sorry. I got, I&#39;m sorry. Yeah, I&#39;m sorry. I think I went to the right. I went straight for Delta P. I&#39;d like to know if this method I chose is probably the method that a cinnamon system says. I chose to solve for Delta P and plug that into our water horsepower equation. Yeah, 1709 is a typo. It&#39;s supposed to be 1714. So probably not the reason for the problem, all right, pretty minor. Yeah, I went straight for Delta P. I like the head added approach that I&#39;ve seen continuously used for these types of problems. You&#39;ll do U slash way you&#39;ll do head added equals Delta P. Delta P plus V2 minus V1 plus difference in height plus your major minor losses. I went straight for Delta P. So I did basically Delta P, P2 minus P1 over gamma equals the rest of that. And that&#39;s what I was wondering about. All right, so I guess let&#39;s jump back to more just vanilla Bernoulli situation here. So we&#39;ve P1 plus V2 plus rho gz.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 58</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-45312245
+
+This one from daily insights number 66, which velocity pressure equation do we use?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This one from daily insights number 66, which velocity pressure equation do we use? There are two on page 467 in the handbook. Yes, there are two. Let&#39;s run it both ways, and I want you to take my word for it. So if you use the first one, it has you do the density times velocity over 1097. I want to be squared. So I just chose arbitrarily a velocity of a thousand feet per minute just to do a little experiment. And I&#39;m going to take the ideal density of air so I&#39;ll use 0.075 pounds per cubic foot. And there&#39;s nothing special about a thousand. And again, that was an arbitrary choice. And I don&#39;t even need the units because this has to go in its feet per minute. So it&#39;s kind of excessive that I&#39;m writing them. But air did so I&#39;m not going to race them. And that works out to 0.062. And that comes out in inches of water as a measure of pressure. And the other equation says at standard conditions, you can just do velocity over this number squared and not the old-to-density. Interesting. So let&#39;s try that. PV equals velocity over 4,000, 5 quantity squared. And that works out to surprise surprise, 0.062 inches of water, same number. So in summary, you should use the first equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 63</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain why this formula can&#39;t be used?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> In solving this problem, I found a compressor work formula from section 453 of the reference handbook, work equals, work of a compressor equals CP times delta T. It works out to answer C, which is incorrect. Can you explain why this formula can&#39;t be used? So this was about the isentropic compression of air, this problem. And the formula in the reference handbook that was selected is not for an isentropic process. So if we search the reference handbook for that search phrase isentropic process, we&#39;ll find these formulas over here. And this is the formula that we want to use for specific work as a function of pressure specific volume and the ratio of specific heat. And an alternate form of that and I show this in the video of solution, how to convert from this formula to a formula that is a function of the ideal gas constant, specific gas constant for air and the temperature is and still the ratio of specific heat. So those two are both available for an isentropic process and the problem statement does mention that it&#39;s an isentropic process. The problem with this formula, there&#39;s nothing wrong with this.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74</div>
+      <div class="qa-question"><strong>Q:</strong> Do you have a problem when psych 6 exam is used?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psycho-Rometrics 6. Do you have a problem when psych 6 exam is used? But we need to use the cooling tower approach. I don&#39;t know if there&#39;s a specific problem about this. There&#39;s definitely a couple of problems about cooling towers. But there was a related question that came up in office hours. I don&#39;t know if it was two weeks ago or four weeks ago or six weeks ago, but it was recent. And it was about the distinction between an evaporative cooler and a cooling tower. And I suggest going back and watching that video. That was an interesting question, but I&#39;ll give you the really short version here. In a evaporative air cooler, its mission is to cool air. So all of your analysis is about what&#39;s happening with the air. And when you gauge the saturation efficiency, you&#39;re kind of asking the question, how much did we cool the air compared to how much we could have. And when you&#39;re thinking about a cooling tower, your goal is to cool the water. So your calculation of the efficiency of the cooling tower, the effectiveness of the water, is the difference between how much you cooled the water compared to how much you could have. So let&#39;s take this equation here.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 97</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-62413721
+
+Missileini is a D.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Missileini is a D. I&#39;m not really sure how to solve this problem or where to start. The solution gives an equation that I&#39;m unfamiliar with and is not in the handbook. What is the best way to approach this problem. I believe the question you&#39;re the formula you&#39;re looking for is in the handbook, but it&#39;s under cooling ponds instead of swimming pools. This is about swimming pool right. Yeah, and or swimming pool. But it&#39;s the same principle you can find the evaporation rate of the water, which is a key. And you have no way to move forward in this problem without finding that. So this really is the way to go. And there&#39;s no theoretical derivation for this formula. So you want to know about this section. I found this section by searching for evaporation. It&#39;s a research swimming pool. You won&#39;t find anything. But it turns out that a cooling pond that is swimming pool are very much the same thing. There&#39;s an interest in finding the evaporation rate. And this is how you would do that. So check that formula out, try that and that problem. And I think you&#39;ll get pretty far. And that&#39;s it.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 103</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-65520500
+
+Loads three in this problem.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads three in this problem. We assume the pipe is steel if the material of the pipe is not given is that a safe assumption to make The material of the pipe should be given is is my thought there If I didn&#39;t give it in my problem, that&#39;s Mistake on my part you shouldn&#39;t be in a situation where you&#39;re forced to make an assumption if you have no other choice But to make an assumption Then I guess yes steel would be the way to go, but I really feel like that you should not be in that position of making an assumption because you&#39;re gonna get dramatically different results For different types of materials like you know, maybe some metals would behave similarly, but you can&#39;t expect a PVC to act the same as steel Right, so you shouldn&#39;t have to be in a position to make an assumption there</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 108</div>
+      <div class="qa-question"><strong>Q:</strong> I ended up with an incorrect answer, is this a valid way to solve this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, the next one was TFS Energy and Power Systems 21. I originally saw this problem by using the air-low pressure tables to find the enthalpy values and use the relative pressure to find the H2. I ended up with an incorrect answer, is this a valid way to solve this problem? Yeah, this was an interesting one, so this was a bright and cycle problem. And the difference between your approach and my approach is that I used the air standard assumption, so I assumed that everything was ice and traffic and ideal and everything else that goes with that. So I could have made it explicit in the problem statement that I wanted you to do that, and to be fair, I probably should have put that in the problem statement. That air standard assumption applies, or that it&#39;s ice and traffic, or the ideal gas law applies. Something to that effect to sort of clue you in that I wanted you to make those assumptions, but I didn&#39;t do that. So you weren&#39;t wrong to use the air table, and as it turns out, my answer choices were pretty close together. So you calculated 216, I calculated 197 in an exam environment, that&#39;s about, I mean, 10% error, it&#39;s not a huge difference.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 12 · 8 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

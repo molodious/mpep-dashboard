@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 9 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 9</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 9</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An outside air handler mixes 2000cfm of 90°F db / 80°F wb fresh air with recirculated return air at 76°F / 50% relative humidity. The unit supplies 10,000cfm of 58°F air to the space. What is the enthalpy of the mixed air entering the cooling coil? lb lb lb lb 63
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>31Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>32Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>33Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>34Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. The unit supplies 10,000 CFM of 58 degree air to the space.
+
+2. It&#39;s going to help us understand how the flows are working and we don&#39;t have to draw the dampers and talk about the spec.
+
+3. Because that state is fully defined we can go into the psychometric chart and look up anything we like including the ent.
+
+4. Especially helpful that we know the volume because for the return air for the recirculated air we haven&#39;t been given the.
+
+<strong>Full Solution:</strong>
+
+Systems 9, an outside air handler mixes 2000 CFM of 90 degree dry bulb, 80 degree wepp bulb fresh air with recirculated return air at 76 degrees and 50% relative humidity. The unit supplies 10,000 CFM of 58 degree air to the space. What is the enthalpy of the mixed air entering the cooling coil? So anytime we have an outside air handler and we have information about all different streams, we&#39;re going to draw this helpful picture. It&#39;s going to help us understand how the flows are working and we don&#39;t have to draw the dampers and talk about the specific controls but we certainly want to get a sense of what&#39;s going where and have a way to record all the given information. So we have outside air coming in and then there&#39;s a coil, chilled water coil or could be heating coil depending on the application and then we have supply air going out after having been treated by those coils and then we have exhaust air that&#39;s leaving and for this particular problem we don&#39;t have to get to consumed with what the characteristics are that exhaust air but we could certainly find them right. They&#39;re mostly driven by the return air coming back from the space or sometimes we say that this is the recirculated air because it&#39;s the same air that can in par or it&#39;s entirety, make its way back around and be repurposed in the system. So the exhaust air is generally in the same state as the return air. And now for this problem we have quite a bit of information about these different air streams for example the outside air is 2000 CFM so we know the volume flow right there and it&#39;s 90 degree dribbled 80 degree we&#39;re weep bulb. Because that state is fully defined we can go into the psychometric chart and look up anything we like including the enthalpy. So let&#39;s note the enthalpy. Anzlopee for outside air is 43.57 P2 proponent. Ultimately what we&#39;re going to be looking for here is the enthalpy of the mixed air which is here we have a mix of outside air and recirculated return air which are going to enter the coil but before they do somewhere around here they&#39;re going to mix together and we want to know what that enthalpy is. So that&#39;s our unknown enthalpy of mixed air. Now the supplier we actually have some information as well it&#39;s 10,000 CFM and we know the temperature is 58 degrees we don&#39;t know the humidity or the web bulb so it&#39;s not a fully defined state but it is helpful that we know the temperature. Especially helpful that we know the volume because for the return air for the recirculated air we haven&#39;t been given the volume we&#39;ve been given the temperature and the humidity. So the temperature coming back from the space is 76 degrees and the humidity is 50% and if we kind of ignore any small changes in density for the fact that these actions are slightly different temperatures and humidity levels if we just kind of gloss over that because it&#39;s for the most part close enough we can say that the volume of recirculated air is going to be the difference between the supplier and the outside air. There&#39;s 2000 entering here there&#39;s going to need to be 8,000 entering here to make 10,000 total. I think that&#39;s straightforward enough so I won&#39;t bother to show the subtraction but suffice it to say that this is 8,000 CFM of return air and since it&#39;s a fully defined state we can look up the enthalpy of the return air as well just like we did with the outside air that is 28.74. So we don&#39;t actually need to know the temperature of the supplier because we&#39;re not interested so much and what happens on the other side of the coil.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Systems 9, an outside air handler mixes 2000 CFM of 90 degree dry bulb, 80 degree wepp bulb fresh air with recirculated return air at 76 degrees and 5.<br><br><br><br>• The unit supplies 10,000 CFM of 58 degree air to the space.<br><br><br><br>• What is the enthalpy of the mixed air entering the cooling coil.<br><br><br><br>• So anytime we have an outside air handler and we have information about all different streams, we&#39;re going to draw this helpful picture.<br><br><br><br>• It&#39;s going to help us understand how the flows are working and we don&#39;t have to draw the dampers and talk about the specific controls but we certainly.<br><br><br><br>• So we have outside air coming in and then there&#39;s a coil, chilled water coil or could be heating coil depending on the application and then we have su.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 59 · May 24th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-45679323
+
+Alright, HVC systems and components 9, is there any pitfall with using a simple linear interpolation to solve a problem like this?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, HVC systems and components 9, is there any pitfall with using a simple linear interpolation to solve a problem like this? I realized this method will not work for relative humidity, but I believe everything else on the site chart is linear. Yeah, this is for enthalpy which to your point is linear on the psychometric chart, so that is a great point. And I think the answer to your question is yes, what&#39;s happening here just for context for everyone is this is a mixing calculation being done with an air handler, so we have two streams there being mixed. Looks like it&#39;s outside air and I want to say some recirculated air being mixed together and then we&#39;re calculating the enthalpy of the mixed air. And in the black is the question and how you did it and then the blue is the approach that I used in the video solution. And I think what you&#39;ll find is that these are mathematically equivalent formulations. So in my version I&#39;m taking the 2000 CFM times the higher enthalpy which is the outside air. And 8000 the balance of the CFM times the lower and dividing by 10. And that&#39;s exactly the same as what you&#39;re doing as you&#39;re doing 28 plus 0.2 times the difference. So what happened if</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 89 · October 14th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-59321866
+
+Systems and components 9 in the solution video you use ratios of the return air and the outside air to find the enthalpy of the mixed air.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 9 in the solution video you use ratios of the return air and the outside air to find the enthalpy of the mixed air. Is it okay to treat enthalpy as a linear variable like in the solution video or should it be treated like the web bulb temperature where you have to calculate the drive bulb temperature the humidity ratio find the intersecting point to find the mixed air enthalpy. Good question. Good psychometric question and you see how the topics build on each other because now you&#39;re insisting components and there&#39;s this really deep. Psychometrics concept that&#39;s coming out. So the answer is the enthalpy is a linear variable on the psychometric chart. So on your psych chart. The relative humidity is curved kind of parallel to the saturation curve here. But the dry bulb temperature on the horizontal axis is a linear variable which means you can just interpolate linearly. The humidity ratio on the vertical axis is and the enthalpy is also linear. Coming down like this parallel lines. It&#39;s diagonal but it&#39;s linear. So you can absolutely interpolate around that. And the mixing calculation that I did in that particular solution is valid. You have to be careful with</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-60623461
+
+Thermo 9, I didn&#39;t see the rules of thumb in the NC&#39;s handbook, I&#39;m assuming we just need to memorize them, correct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 9, I didn&#39;t see the rules of thumb in the NC&#39;s handbook, I&#39;m assuming we just need to memorize them, correct? They are in the reference handbook and you will memorize them, not because you need to, because you&#39;re going to see them so many times that you won&#39;t be able to prevent yourself from memorizing them even if you wanted to. But in terms of where those are in the book, let&#39;s just show those real quick. So you can use the search term heat gain calculations. Here we go. But they don&#39;t write it out in one continuous, like, I like to just write it this way. Also they don&#39;t use 1.08, they round it to 1.1, which is fine. That&#39;s never going to be, you know, that&#39;s never going to be the reason you&#39;re going to get wrong. But here&#39;s how they write it. C sub t times q sub s times delta h for 4.5 CFM delta h. That&#39;s one option for the total heat gain. For the sensible heat gain, they write it this way and then they write it this way. Qs equals 1.1 times qs delta t. Very funny way to write it because they use lowercase q for the total sensible heat and big q for the volume. And then they tell you what the values of those are that q big q needs to be in CFM.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 9 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

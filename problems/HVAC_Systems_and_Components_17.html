@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 17 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 17</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      During a chiller plant upgrade, an oversized xed speed pump, producing 200gpm and 80ft of total dynamic head with a 70% pump eciency and 80% motor eciency, is replaced with a du- plex parallel pump set with variable frequency drives. The two replacement pumps provide 60gpm each at 45ft TDH which is suf- cient to meet operational demands. The new pump eciency is 75% and the new motor eciency is 93%. The system operates continuously 24 hours per day 365 days per year. The average cost of electricity is $0.12/ kWh. What are the annual savings? 66
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$3100</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$4100</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$4900</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$5500</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. I think the best thing we can do to start is to just make a table organizing all this so we can compare the existing sta.
+
+2. So, obviously, they didn&#39;t need to be doing as much pumping as they were in the first place.
+
+3. Okay, so let&#39;s start with the water horse power for both scenarios and I&#39;ll call this one into.
+
+<strong>Full Solution:</strong>
+
+System 17. During a Chiller Plant upgrade, an oversized fixed speed pump producing 200 GPM and 80 feet of total dynamic head, with a 70% pump efficiency and 80% motor efficiency, is replaced with a duplex parallel pump set with variable frequency drives. The two replacement pumps provide 60 GPM each at 45 feet total dynamic head, which is sufficient to me operational demands. The new pump efficiency is 75% and the new motor efficiency is 93%. The system operates continuously 24 hours per day, 365 days per year, and the average cost of electricity is 12 cents per kilowatt hour. What are the annual savings? So, a long question, a lot of information here. I think the best thing we can do to start is to just make a table organizing all this so we can compare the existing state to the new state, and then we can start to calculate what the difference is and what these energy savings are going to be. The big story here is they&#39;re placing their over-pumping it&#39;s a big fixed speed pump and now they&#39;re going to put in two pumps and they&#39;re actually putting in VFDs so they&#39;re running slower and they&#39;re saving energy and you might say, well, they&#39;re doing less pumping, so of course, saving energy, but it says the new setup is sufficient to me operational demand. So, obviously, they didn&#39;t need to be doing as much pumping as they were in the first place. So, we&#39;ll make two columns here existing and new. So, in the existing scenario, there was one pump and in the new scenario, there&#39;s two. That one pump had a volume flow rate of 200 GPM. Now, the two pumps are 60 GPM each, so 60 GPM times two. The total dynamic head in the previous arrangement was 80 feet and now it&#39;s only going to be 45 feet. And since the two pumps are in parallel, the delta p or the total head across the pump is the same, so they&#39;re both 45. And now, for the efficiencies, these are also more efficient pumps. Previously, the efficiency of the pump was 70% and the efficiency of the motor was 80%. Now, the efficiency of the pumps is going to be 75% and the efficiency of the motor is 93%. In a test situation, you might not want to take the time to write all this down separately because it might slow you down. If you know what you need to do and you want to dive right into calculations, then that might be a good time saver. But from planning perspective, once you have things organized in the table, I find it&#39;s just really easy to turn the crank on the calculation. It kind of prevents making mistakes. So, I&#39;m a proponent of it, but you do have to manage your time. So, you know, strike that balance. And then the time, operationally, it&#39;s the same. It was 24, 7, 365 operation for both cases. And utility cost is the same and not saving anything per kilowatt hour by doing this. Okay, so let&#39;s start with the water horse power for both scenarios and I&#39;ll call this one into. So, for case one, we can use our water horse power wheel of thumb, which is Q delta H, where the delta H is in total dynamic head, feet of head, over 3960. So, be water horse power for case one. 200 GPM, Q has to be in GPM, H has to be in feet in this. Times 80 over 3960. That&#39;s 4.04 horsepower. Now, for case two, same formula, but now there are two pumps. So, two times the 60 GPM times 45 feet ahead times divided by 3060, WHP2 equals 1.36 Now, for the electrical power, we have to divide by both efficiencies. So, P-Elec equals water horse power over efficiency of the pump and efficiency of the motor. So, that&#39;s 4.04 horsepower divided by 0.7 and 0.8. And let&#39;s also multiply by 0.7457 KW per horse power to get rid of horsepower in the units and turn that into KW. So, the electrical power for case one is 5.38 KW. For case two, same formula, but different efficiencies now. So, 1.36 and just as before, we&#39;re going to multiply by 0.7457. I&#39;ll save you the units this time for speed.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • During a Chiller Plant upgrade, an oversized fixed speed pump producing 200 GPM and 80 feet of total dynamic head, with a 70% pump efficiency and 80% .<br><br><br><br>• The two replacement pumps provide 60 GPM each at 45 feet total dynamic head, which is sufficient to me operational demands.<br><br><br><br>• The new pump efficiency is 75% and the new motor efficiency is 93%.<br><br><br><br>• The system operates continuously 24 hours per day, 365 days per year, and the average cost of electricity is 12 cents per kilowatt hour.<br><br><br><br>• So, a long question, a lot of information here.<br><br><br><br>• I think the best thing we can do to start is to just make a table organizing all this so we can compare the existing state to the new state, and then .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

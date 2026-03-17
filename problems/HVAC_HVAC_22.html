@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 22 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 22</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 22</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 10,000Btu air conditioner with a SEER-13 rating runs 100 days hr per year for 12 hours per day. The unit is replaced with a more ecient model with a SEER-23 rating. The average cost of elec- tricity is $0.15 per kWh. What is the annual savings? 58
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$60</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$80</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$100</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$120</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. The unit is replaced with a more efficient model with a sear-23 rating.
+
+2. So first of all, what is sear.
+
+3. Well, you can check that out in the reference handbook, but I&#39;ll define it here.
+
+4. Sear is the total seasonal cooling output in BTU, divided by the total seasonal input energy in watt hours.
+
+5. Okay, so the numerator should be in BTU&#39;s and the denominator should be in units of watt hours.
+
+6. And if they want to know the annual savings with units of money and we know the rate of electricity, then we&#39;re really i.
+
+<strong>Full Solution:</strong>
+
+HVAC-22, a 10,000 BTU-prower air conditioner with a sear-13 rating runs 100 days per year for 12 hours per day. The unit is replaced with a more efficient model with a sear-23 rating. The average cost of electricity is 15 cents per kilowatt hour. What is the annual savings? So first of all, what is sear? Well, you can check that out in the reference handbook, but I&#39;ll define it here. Sear is the total seasonal cooling output in BTU, divided by the total seasonal input energy in watt hours. So let&#39;s write that down. Okay, so the numerator should be in BTU&#39;s and the denominator should be in units of watt hours. And if they want to know the annual savings with units of money and we know the rate of electricity, then we&#39;re really interested in finding the denominator, which is the watt hours. We can turn that into kilowatt hours and then we can multiply by the cost of electricity. So it&#39;s the denominator that&#39;s going to be our unknown. And in the numerator, the total seasonal cooling output, we know the capacity of the unit is 10,000 BTU&#39;s per hour. So if we get just multiplied by how many hours of operation it has, assuming it&#39;s operating at full load, which most window air conditioning units don&#39;t really have much of a choice. They&#39;re going to run that fixed-feed compressor and that&#39;s going to require certain amount of input energy and they&#39;re going to deliver X amount of cooling. So it really just depends on the capacity of the unit. And that&#39;s pretty much a fixed quantity. And if it uses less energy to create a given cooling output, then it&#39;s going to have a higher C-number, right? The ratio of the output to the input energy is going to be higher if the unit&#39;s more efficient. So we&#39;re going from a C-13 to a C-23, we&#39;re putting in a more efficient model. So let&#39;s start by setting the C-er at its original value of 13. And the numerator is going to be the BTU&#39;s for the whole season, which is the BTU&#39;s per hour, 10,000 the capacity of the unit, times a number of hours in the season. It&#39;s 100 days. And normally we do 24 hours per day, but it says here that it only runs 12 hours a day. So we&#39;ll plug that in. So days cancels hours cancel. And we&#39;re going to be left with just BTU in the numerator. And the denominator, I&#39;ll call it just E for energy. This is for case one before we replace the unit. So if we want to solve for that energy, which will have units of watt hours, we just have to multiply by E on both sides and then divide by 13. And if we do that, we find that the energy is 923,7,7 watt hour. Now let&#39;s do the same calculation, but instead we&#39;ll put 23 here and the denominator will be E2, then we find that E2 is 521,739 watt hours. And we want to know the saving. So we need to find the difference between those two. So let&#39;s take these two values here and say okay, well it&#39;s E1 minus E2. That difference is 401,000. And now we got to calculate the corresponding cost for that amount of energy. So the cost, 401,338 watt hours times 1kw, 1kw, 1kw, 1kw. That gets rid of watts. Now we have kilowatt hours, Kw hour. And now we can multiply by the cost of electricity, which is in this case 15 cents per kilowatt hour. Total cost is $60.20 which is closest to the answer choice. A, that&#39;s the annual savings going from a year 13 to a year 23 on a 10,000 BTU air conditioner that runs for a 100 day season 12 hours a day.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • HVAC-22, a 10,000 BTU-prower air conditioner with a sear-13 rating runs 100 days per year for 12 hours per day.<br><br><br><br>• The unit is replaced with a more efficient model with a sear-23 rating.<br><br><br><br>• The average cost of electricity is 15 cents per kilowatt hour.<br><br><br><br>• Well, you can check that out in the reference handbook, but I&#39;ll define it here.<br><br><br><br>• Sear is the total seasonal cooling output in BTU, divided by the total seasonal input energy in watt hours.<br><br><br><br>• Okay, so the numerator should be in BTU&#39;s and the denominator should be in units of watt hours.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 questions from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 42</div>
+      <div class="qa-question"><strong>Q:</strong> Everybody can see the whiteboard, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC systems and components 22, my understanding of bypass factor is that it is a fraction of air that bypasses the coil and then rejoins the air stream on the leaving side. Your initial leaving air calculation uses the full flow a thousand CFM2 the coil. Would this flow not be lower, 90% of full flow, which is then mixed with the unheated bypass air. So for context, this problem was about a steam coil with a bypass factor of 0.1, which is to say has a coil efficiency of 90% because the coil efficiency and the bypass factors are complements of one another. So your understanding, I think, is correct. It&#39;s the same as mine. I think it&#39;s a matter of reconciling that understanding with the way I do this calculation and sort of seeing with the same thing. So let&#39;s actually draw a picture for this one. Use the whiteboard so we don&#39;t have any issues. Everybody can see the whiteboard, right? Somebody just give me a thumbs up in the chat or a yes or a good. Yeah, we did. Okay, good. Thank you.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 56</div>
+      <div class="qa-question"><strong>Q:</strong> 22, I believe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this one&#39;s from HVAC Thermo22. 22, I believe? Yeah. No 23, rather. And just for context before I read the question here, the problem was about a non-icentropic turbine. So a turbine where you cannot assume that the entropy at state two is equal to the entropy at state one. So you have to account for the efficiency, which was given the problem statement, and use that to determine enthalpy of the output state in order to figure out what the power output from the turbine was. So that&#39;s kind of just a generic overview of the problem. In your solution video for this problem, you check for the assumption that the result of the turbine output is a saturated mixture by verifying the entropy falls inside the curve for atmospheric pressure and calculating the enthalpy from the quality at that condition. I got the same answer by interpolating the enthalpy value from the molar diagram at standard atmosphere without touching the quality calculation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 42</div>
+      <div class="qa-question"><strong>Q:</strong> Everybody can see the whiteboard, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC systems and components 22, my understanding of bypass factor is that it is a fraction of air that bypasses the coil and then rejoins the air stream on the leaving side. Your initial leaving air calculation uses the full flow a thousand CFM2 the coil. Would this flow not be lower, 90% of full flow, which is then mixed with the unheated bypass air. So for context, this problem was about a steam coil with a bypass factor of 0.1, which is to say has a coil efficiency of 90% because the coil efficiency and the bypass factors are complements of one another. So your understanding, I think, is correct. It&#39;s the same as mine. I think it&#39;s a matter of reconciling that understanding with the way I do this calculation and sort of seeing with the same thing. So let&#39;s actually draw a picture for this one. Use the whiteboard so we don&#39;t have any issues. Everybody can see the whiteboard, right? Somebody just give me a thumbs up in the chat or a yes or a good. Yeah, we did. Okay, good. Thank you.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 56</div>
+      <div class="qa-question"><strong>Q:</strong> 22, I believe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this one&#39;s from HVAC Thermo22. 22, I believe? Yeah. No 23, rather. And just for context before I read the question here, the problem was about a non-icentropic turbine. So a turbine where you cannot assume that the entropy at state two is equal to the entropy at state one. So you have to account for the efficiency, which was given the problem statement, and use that to determine enthalpy of the output state in order to figure out what the power output from the turbine was. So that&#39;s kind of just a generic overview of the problem. In your solution video for this problem, you check for the assumption that the result of the turbine output is a saturated mixture by verifying the entropy falls inside the curve for atmospheric pressure and calculating the enthalpy from the quality at that condition. I got the same answer by interpolating the enthalpy value from the molar diagram at standard atmosphere without touching the quality calculation.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 22 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

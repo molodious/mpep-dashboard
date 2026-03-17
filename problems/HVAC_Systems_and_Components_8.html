@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 8 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 8</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 8</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A counterow heat exchanger is used to remove heat from steam condensate prior to discharge and for pre-heating cold water. Cold water enters at 50°F and leaves at 70°F. Condensate enters at 160°F and leaves at 100°F. What is the log mean temperature dierence?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>62◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>68◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>76◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>90◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+Systems 8. A counterflow heat exchanger is used to remove heat from steam condensate prior to discharge and for preheating cold water. Cold water enters at 50 degrees and leaves at 70 degrees, condensate enters at 160 and leaves at 100. What is the log-meant temperature difference? So this problem is inspired by the heat transfer section and it&#39;s a counterflow heat exchanger. Let&#39;s start by drawing what&#39;s happening inside this heat exchanger before we try to apply a formula because it&#39;s easy to make a mistake in terms of applying the formula correctly. Just for a bit of precision I&#39;ll draw some tick lines here and try to go up to 200. This is the temperature and degrees Fahrenheit. And then the horizontal axis can be the length of the heat exchanger. Now we have this hot flow of this condensate that&#39;s all used up and basically just needs to be discharged. But before we do we should capture a little bit of energy and try to be more efficient. So it&#39;s entering at 160 and it&#39;s going to be used to preheat some cold water. And by the time it&#39;s done giving up some of the heat it ends up down around 100. That is the hot stream. So it&#39;s traveling left to right as it cools down. And then the cold stream is traveling right to left because it&#39;s a counterflow heat exchanger. So if you started here and drew it going that way you can get this kind of shape. It&#39;d be like something like that. But that&#39;s not the case. It&#39;s counterflow. So it&#39;s going in the other direction. And it&#39;s entering at 50 and it leaves at 70. So just a bit warmer. Not my best art there but imagine a nice gentle natural curve there. As we go left to right ends up at 70 degrees. Okay. So in terms of defining the log mean temperature difference we need to know delta t on each side of the heat exchanger. So we&#39;ll define the difference on the left side of the heat exchanger. Notice I didn&#39;t say the hot side of the cold side because this is the hot side for both. But that&#39;s not necessarily the case if we were dealing with the counterflow heat exchanger. Then this would be the cold side for one and the hot side for other. So the reason we draw it on this chart is so that we don&#39;t have to worry about hot and cold. Once you&#39;ve got it drawn you can just say left and right. So the left side will call delta t a. And that&#39;s going to be the difference between 160 and 70, which is 90 degrees. And then delta t b barely enough space here for me to draw it. It&#39;s just the difference between 150 which is 50 degrees. And then the log mean temperature difference or lmtd is equal to the difference between delta t a and delta t b. And the natural log of the ratio of delta t a to delta t b. So that&#39;s 90 minus 50 over the natural log of 90 over 50 which is 68 degrees. So if you&#39;re doing heat transfer calculation and you wanted to know how much is the heat transfer going through the seed exchanger, you would almost certainly want to find the log mean temperature difference. And this is how you go about that best answer choice is b.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A counterflow heat exchanger is used to remove heat from steam condensate prior to discharge and for preheating cold water.<br><br><br><br>• Cold water enters at 50 degrees and leaves at 70 degrees, condensate enters at 160 and leaves at 100.<br><br><br><br>• What is the log-meant temperature difference.<br><br><br><br>• So this problem is inspired by the heat transfer section and it&#39;s a counterflow heat exchanger.<br><br><br><br>• Let&#39;s start by drawing what&#39;s happening inside this heat exchanger before we try to apply a formula because it&#39;s easy to make a mistake in terms of ap.<br><br><br><br>• Just for a bit of precision I&#39;ll draw some tick lines here and try to go up to 200.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 34 · April 18 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Should I not use the reference handbook formula or should I just remember to use the difference in temperature how you teach it?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Systems and components 8. Whenever I see you formulate the LMTD, that&#39;s log-mean temperature difference formula. I notice that you use the difference in temperatures as opposed to the individual temperatures like the reference handbook shows reference 5.5.3. I put that on the right for you. Should I not use the reference handbook formula or should I just remember to use the difference in temperature how you teach it? I can never seem to get it right when I try to follow the reference handbook. Please show how to practically use the log-mean temperature difference formula shown in the handbook. Thanks. So I&#39;m hearing a couple of things in your question. I&#39;m hearing that you don&#39;t love the way it is in the handbook and that you&#39;re open to doing it the way that I&#39;ve shown and also that you would like to know understand how they&#39;re proposing you do in the handbook. So I just want to reassure you that the way it&#39;s being shown in the handbook and the way I do it are aligned. It&#39;s just a matter of how you look at it. So I&#39;ll explain it based on the handbook. Then I&#39;ll sort of use that as a way of introducing what I consider to be a simplification, which is actually how it was taught back </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> DELTA of NELP to find the heat removed from the cooling tower?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> a few questions today. Here&#39;s our agenda, all systems, so getting toward the latter part of the program. And the first one is on systems 11. Could you explain a little bit more why use Q.EQUALS M.DELTA of NELP to find the heat removed from the cooling tower? I noticed in like 5, you used 500GPM DELTA T equals 4.5 CFM DELTA NELP. So let&#39;s take a look at that like 5 first, and then we can distinguish what makes systems 11 different from S like 5. So in S like 5, we have a given GPM and a given condenser water DELTA T. So that&#39;s why we&#39;re able to kind of start right off at the beginning of the solution by finding the heat transfer by the cooling tower doing Q.EQUALS on the water side 500GPM DELTA T. And then equating that to the heat that must be gained by the air. If it&#39;s given up by the condenser water, it must be transferred into the air. And that comes in the form of both sensible heating of the air is sensible cooling of the water and latent heating of the air which is evaporating some of the condenser water and that&#39;s evaporative cooling. So it&#39;s a combination of both latent and sensible and that&#39;s why we use the change in enthalpy to quantify it because it has both components.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-27921742
+
+Psychometric 7, I originally solved the problem, calcine heat from state 1 to state 2, 50 KW.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometric 7, I originally solved the problem, calcine heat from state 1 to state 2, 50 KW. I&#39;m going to actually skip through reading some of this, because this was just a silly error right at the end. I got 13 beats you per pound for the enthalpy, and 28 beats you per pound for the enthalpy at the other state. I think you just misread the problem. The second state was meant to be 50%. So that would change the enthalpy to 26.2. Instead of 28, and that&#39;s what&#39;s throwing your answer off by, I don&#39;t know, 10 or 15%. Something like that. So just check your enthalpy, look it up again, based on 50% and that should straighten it out. I think you were looking for a more interesting explanation, but it was just a simple silly thing there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 114</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-72855311
+
+When do you advise against using Ruluthum Total Heat gain equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> When do you advise against using Ruluthum Total Heat gain equation? Air density of 0.075. If I use this equation 774CFM is calculated, which is closest to answer choice B, if using density from state 1, then the best answer is C. 80-200. Yeah, so this is a super common question that comes up. What value should I use for the specific volume? Is it okay to just use the rules of thumb, or do I need to go and actually take the entering air state? And figure out precisely what the specific volume is. And I like the way you phrase the question, because you actually know why the answer was different. It&#39;s because of this assumption that&#39;s embedded. It&#39;s the density being 0.075 versus 0.070. So clearly, for this problem, at least the discrepancy is coming from that, and it would be better to get the real specific volume than to use the Ruluthum the rule of thumb will. We&#39;ll cause a problem in this one. But more generally, to answer your general question, it has to do with how far away you are from that line. So I put it on the psychometric chart here, just so we can kind of think about it graphically. This scribbled line roughly approximates where the specific volume is 13.3.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 8 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

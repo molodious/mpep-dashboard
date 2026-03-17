@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and Components · Problem 18 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems and Components · Problem 18</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Systems and Components · Problem 18</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 10ft×10ft exterior wall is made of 4in brick ρ = 120 lb , 3.5in ft3 mineral ber insulation, and 5/ 8 in gypsum board. There is a single 3ft × 6ft operable window comprised of double glazing with 1/ 2 in air space and emissivity of 0.6. The window frame is made of insulated berglass. The temperature dierential between inside and outside is 20°F. What is the average heat ux through the wall? hr·ft2 hr·ft2 hr·ft2 hr·ft2
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.9 Bu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>1.4 Bu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>2.7 Bu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>8.6 Bu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. What is heat flux first of all.
+
+2. So if we divide by the area we can express little Q dot as big Q over a area equals just U times delta T.
+
+3. But even if the term did throw you off the units in the answer choice is kind of give it to you because it&#39;s B2 per hour.
+
+4. You&#39;re going to told B2U per hour and just divide it by the area.
+
+5. So if we can find the U value for the window, based on all this information we&#39;ve been given about it, and we can look a.
+
+6. So let&#39;s start with the wall.
+
+<strong>Full Solution:</strong>
+
+Systems 18, a 10 by 10 foot exterior wall is made of 4 inch brick density 120 pounds per cubic foot, 3.5 inch mineral fiber insulation, and 5.8 inch gypsum board. There&#39;s a single 3 foot by 6 foot operable window comprised of double glazing with a half inch airspace and an emissivity of 0.6. The window frame is made of insulated fiberglass. The temperature differential between inside and outside is 20 degrees. What is the average heat flux through the wall? So we know we&#39;ve got a small section of wall with a window in it and we know the delta T and we have quite a bit of information about the wall construction and the details about the window. We want to know the heat flux. What is heat flux first of all? Heat flux is sort of like the total heat and we&#39;ll come back to this at the very end. But the total heat going through the wall we normally think of as the total heat transfer coefficient times the area times delta T. When we know the area of the wall to 10 by 10 foot wall. So if we divide by the area we can express little Q dot as big Q over a area equals just U times delta T. So we&#39;re basically just dividing the total heat transfer by the area. So it&#39;s the total coefficient of heat transfer times the delta T. That&#39;s what we&#39;re going to call the heat flow. So just a bit of vocabulary there if that term threw you off. But even if the term did throw you off the units in the answer choice is kind of give it to you because it&#39;s B2 per hour per foot square. So you&#39;re dividing by the area. You&#39;re going to told B2U per hour and just divide it by the area. So before we get to that, as we know the delta T, really this whole problem is about finding you the total heat transfer coefficient for this wall. So what is this wall? It&#39;s not a big section. It&#39;s just a 10 by 10 foot square. And inside of that 10 foot by 10 foot square, there&#39;s one window and that window is 3 by 6. So if you think about just the window, we&#39;re looking at 18 square feet. And you can think about all the space around the window. 10 by 10 would be 100 square feet. So all of this is a 100 minus 18 equals 82 square feet. So if we can find the U value for the window, based on all this information we&#39;ve been given about it, and we can look at the construction of the wall, find out it&#39;s U value. Then we can do a weighted average and add those together. And that&#39;ll give us the average coefficient of heat transfer for the wall and it&#39;s entirety. And then we&#39;re pretty close to being able to find the heat flux. So now the hard part becomes looking up all these values. So let&#39;s start with the wall. We&#39;ve got three layers. We&#39;ve got the brick, the insulation, and the gypsum board. So let&#39;s start with the brick. And I&#39;ll look up to our values. A good thing to search in the reference handbook is building materials. So I&#39;ve done that already. But now I&#39;m going to search brick. See if I can get a little closer. And if you recall, the density was 120 pounds per cubic foot. So it&#39;s this guy. And it gives us a resistance per inch, but it&#39;s a range. So I&#39;ll take the middle of the range. 0.165. And that has units of our foot squared degree F per BTU inch. And then the brick has some thickness. It&#39;s four inches thick. And I&#39;m not even going to bother to multiply that together. We&#39;ll deal with it when we add the resistances. So now for the insulation, that we&#39;re just going to look up. I&#39;ll search mineral wall on mineral fiber, rather. That&#39;s half the battle is known what these search terms are. It says it&#39;s a nominal three and a half inch. So that has a resistance of 13 and the units are what we would expect for resistance. We don&#39;t have to multiply by inches because it&#39;s already given the total resistance for that nominal thickness three and a half inches. So just 13 our foot squared degree F per BTU. And now for the gypsum board, searching gypsum comes in a couple of different places. This is probably the right place. Gypsum board, just gypsum or plaster board.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Systems 18, a 10 by 10 foot exterior wall is made of 4 inch brick density 120 pounds per cubic foot, 3.5 inch mineral fiber insulation, and 5.8 inch g.<br><br><br><br>• There&#39;s a single 3 foot by 6 foot operable window comprised of double glazing with a half inch airspace and an emissivity of 0.6.<br><br><br><br>• The window frame is made of insulated fiberglass.<br><br><br><br>• The temperature differential between inside and outside is 20 degrees.<br><br><br><br>• What is the average heat flux through the wall.<br><br><br><br>• So we know we&#39;ve got a small section of wall with a window in it and we know the delta T and we have quite a bit of information about the wall constru.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 18 · July 16 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 18</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems 18. When you&#39;re calculating the weighted average of the wall, why do you use you and not are? This one led me into a bit of a rabbit hole. It&#39;s something I&#39;m pretty confident about, but at the same time, I don&#39;t think I ever tried explaining it. So I&#39;m gonna take a couple of minutes here and I&#39;ll ask you guys to kinda help me through some questions if I get into a jam. But as a starting point, what are we really doing here? We&#39;re doing a mixing, not a mixing, like a blended average overall, overall coefficient of heat transfer. That&#39;s what you is. You can think of you as a conductivity and R is a resistance. So if I can use an electric on the analogy which I&#39;ll go into a little bit more later, you would be like capacitors and R would be like resistors. I don&#39;t know if that&#39;s useful to you guys, but just try it on for now. So let&#39;s describe the situation that we have here. All right, so we have this wall that has a window. And I won&#39;t go through the beginning of the problem, so if I said to say that at some point in the problem, you&#39;ve worked out the resistances for each of these two. So there is resistance for the wall turned out to be something like 2.325 and th</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 109 · November 10th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 109</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 18. Why do you not have to consider the surface film coefficients when calculating the average heat flux through the wall? So, this was the situation when we had the composite wall. It was kind of an interesting problem because it was a composite wall where instead of having a bunch of materials in series, which is like the typical composite wall that everybody&#39;s seen or if you haven&#39;t seen it, you&#39;ll see it a few times in your travels. This was one where it was a parallel configuration. There was a window in the middle of a wall and you had to add them differently. Anyway, this question isn&#39;t about that, so we don&#39;t have to get into the nuance. It&#39;s probably covered pretty well in the solution. This question is just something that comes up a lot too, which is when do you have to consider the surface film coefficients versus not when you&#39;re dealing with heat transfer through a wall conduction through a wall? My problem statement might have been a little bit ambiguous. I just said that the temperature differential between the inside and outside surfaces was 20 degrees. I didn&#39;t say that the temperature differential between the inside and outside sur</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Systems and Components · Problem 18 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
