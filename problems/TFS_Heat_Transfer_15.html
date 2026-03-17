@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 15 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 15</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 15</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      200°F feedwater at 1000psia enters a boiler and is heated to pro- duce 100,000lb of 90% quality steam. What is the rate of energy hr absorption? hr hr hr hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>6.3×107Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>9.3×107Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>9.7×107Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1.1×108Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. What is the rate of energy absorption and answers are given a B2 per hour.
+
+2. So let&#39;s start with state one.
+
+3. So in order to find the enthalpy at state one we&#39;re going to use the steam table look up properties of saturated water a.
+
+4. So to find the enthalpy at state one we&#39;re going to use a similar formulation to what we&#39;ve used several times now which.
+
+5. H2 we&#39;re going to use the quality at the same pressure so at that pressure of 1000 PSIA we have this value for HF and th.
+
+<strong>Full Solution:</strong>
+
+200 degree feed water at a thousand PSIA enters a boiler and is heated to produce a hundred thousand pounds per hour of 90 percent quality steam. What is the rate of energy absorption and answers are given a B2 per hour. So this one&#39;s going to turn out to be an M dot delta H at the end. We&#39;re going to have the total heat transfer is the mass flow rate times the change in enthalpy going from state one which is unknown state. We have 200 degrees and a thousand PSIA which is very high pressure. So that&#39;s a compressed liquid or a subcool liquid for sure. We&#39;ll have to find out the enthalpy at state one and then for state two we know the quality and that&#39;s all we know. So we have to realize something important about closed feed water heaters which is that they operate at a constant pressure. So the pressure for state two is still going to be a thousand PSIA and by knowing the pressure in the quality that makes state two fully defined and we can find the enthalpy at state two which allows us to move forward. So let&#39;s start with state one. We know the temperature at state one is 200 degrees and we know the pressure at state one is a thousand PSIA. So in order to find the enthalpy at state one we&#39;re going to use the steam table look up properties of saturated water and steam by pressure and go to a thousand PSIA and grab the value for the saturation temperature T-sat at that pressure which is going to be very high 544.7 degrees Fahrenheit and let&#39;s also grab HF and HG. HF will need for this stage in the process HFG. We won&#39;t need until phase two when we use the quality. Let&#39;s get both values at once 542.7 B2 per pound and 649.9 B2 per pound. So to find the enthalpy at state one we&#39;re going to use a similar formulation to what we&#39;ve used several times now which is to say delta H equals CP delta T where HF minus H1 equals CP times T-sat minus T1. Also the temperatures are known and HF is now known because we just looked it up so I think we don&#39;t know as H1 so we&#39;ll get H1 by itself and say H1 is HF minus CP times T-sat minus T1 and now substituting in that&#39;s 542.7 minus 1 B2 per pound degree Fahrenheit times the change in temperature which is 544.7 minus 200 degrees and that gives us an H1 of 198 B2 per pound. H2 we&#39;re going to use the quality at the same pressure so at that pressure of 1000 PSIA we have this value for HF and this value for HFG so we can find H2 by saying it&#39;s going to be HF plus the quality at state two times HFG so 542.7 plus 0.9 times 649.9 gives us 11.27.6 and so the rate of energy absorption we can find delta H but we still have to multiply by the mass flow rate to ultimately get an answer that&#39;s B2&#39;s per hour so Q dot for the boiler equals M dot delta H which equals M dot H2 minus H1 which equals 100,000 pounds per hour times 1127.6 B2 per pound minus 198 B2 per pound and that equals 9.3 times 10 to the 7th B2 per hour best answer choice is B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 200 degree feed water at a thousand PSIA enters a boiler and is heated to produce a hundred thousand pounds per hour of 90 percent quality steam.<br><br><br><br>• What is the rate of energy absorption and answers are given a B2 per hour.<br><br><br><br>• So this one&#39;s going to turn out to be an M dot delta H at the end.<br><br><br><br>• We&#39;re going to have the total heat transfer is the mass flow rate times the change in enthalpy going from state one which is unknown state.<br><br><br><br>• We have 200 degrees and a thousand PSIA which is very high pressure.<br><br><br><br>• So that&#39;s a compressed liquid or a subcool liquid for sure.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">6 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 53 · February 27th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 53</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transfer 15 for 200 F given and 1000 PSIA given the PSAT saturation pressure is 11.54 PSIA from the temp steam table. By the way, this is a problem about liquid water entering a boiler and then being heated to make steam just for context. And we need to know the enthalpy of the entering water which is 200 F and 1000 PSIA. Given that 1000 PSIA given is greater than PSAT 11.54. Is it okay to use the HF value at 200 F? I was told it was okay to approximate HF values if P given is greater than PSAT which would fall in the compressed liquid region. P given equals PSAT saturated liquid and P given is less than PSAT would be super heated. Or should I get used to delta H equal CP delta T for finding H1? Just trying to find ways to speed up if approximations are okay. Let me know your thoughts here. So I really wanted to look into this one before I just gave a quick answer because my gut reaction was to kind of stick with the way it&#39;s done in the solution video and do CP delta T. And oftentimes making this simplifying assumption is less accurate than doing CP delta T. But that tends to be more true at moderate pressures. And here we have quite an elevated pressure and as it turns out jus</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 90 · October 28th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Did you interpolate from properties of air low pressure to obtain the parental number and thermal conductivity?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And this one&#39;s also from TFS. He transfer 15. Actually, I think that&#39;s not correct. I think this is from HVSC. He transfer 15. Yes. So ignore that. Did you interpolate from properties of air low pressure to obtain the parental number and thermal conductivity? If yes, thermal conductivity should not be more than 0.0153, but you&#39;ve used 0.0155. Similarly, where did you get 18 times 10 to the fifth for viscosity looking at properties of air? Should have been closer to 16 at 70 degrees. I was also confused about using SI versus IP units. And the reference handbook for natural free convection units are given an SI should we not stick to that. So first of all, regarding the thermal conductivity value and the viscosity value, those were selected at 100 degrees F, which is not correct. They should be selected at the film temperature, which is 85. And you&#39;ve picked up on that. So a number of candidates have brought this one up in the past. If you look back in the office hours archive, you&#39;ll see probably half of dozen occasions where heat transfer 15 was brought up as a question. You should certainly find film temperature. And in this case, it&#39;s the average between 70 and 100, which would b</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 39</div>
+      <div class="qa-question"><strong>Q:</strong> Should we be using the air temperature or the film temperature to get the required properties to solve for the rarely number?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and here&#39;s that heat transfer one. Heat transfer 15 for the properties of air during natural convection. Should we be using the air temperature or the film temperature to get the required properties to solve for the rarely number? Problem 15 uses the air temperature while problem 16 and 21 use the film temperature. So I think this one was about pipe and maybe it was a hot water pipe or steam pipe or something like that. He is being rejected from it by natural convection and we have to use the rarely number to figure out how much that heat transfer is. So the answer is it should use the film temperature. So I took a look at 16 and 21 as well just to make comparison. And I liked the way 16 and 21 were handled and I think 15 was going a bit fast maybe and not grabbing the film temperature. So really 15 should be aligned with 16 and 21. So it&#39;s a good question and it&#39;s a good catch. I also wanted to mention just related to that. Not every variable in that really number of equation is really affected by the temperature. It&#39;s really two variables in particular the parental number and the kinematic viscosity that are a function of temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> At what temperature are these properties found and why?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC heat transfer 15. If the properties highlighted are for air, which they are. At what temperature are these properties found and why? I think the Pranthal number and the viscosity are found at 100, but shouldn&#39;t it be at 70? Actually, it should be at the film temperature, which is the average of the surface temperature of the pipe and the ambient temperature of the air. So in this problem, the surrounding room is 70 degrees and the pipe is 100 degrees. Yeah. So we should be using the film temperature, which is the average of those two. So it should be looked up at 85. I think I didn&#39;t do that in this problem and I really should have, but it doesn&#39;t change much because the properties of air at 85 degrees versus 100 degrees are not that different. Pranthal number is literally the same number and I think the, what&#39;s the other value that we have to look up? Kinematic viscosity is a bit different, but it&#39;s not enough to really move the needle in the question, but technically speaking, you&#39;re right, we should be using the film temperature. I didn&#39;t do that here and I kind of got away with one.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> Why was the concept of T film not brought into heat transfer 15?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Question 16, having a hard time understanding, went to find the film temperature after watching the video solutions of 15 and 16. So that I&#39;ve confused you. And he transfer 15, the surface temperature was given as a 100 in the ambient temperature of 70. The temperature at which all properties of air were found was a hundred, but in 16 the temperature of the metal plate is 140 and the fluid temperature is 60. But here the temperature properties were found was a hundred T film. Why was the concept of T film not brought into heat transfer 15? It should have been. It should have been. The way number 16 is shown is absolutely correct. It should be the average. It should be the film temperature between 140 and 60 is a hundred T film. So that methodology that I applied in number 16 is the methodology that should have been applied in 15. And I think it&#39;s a larger temperature difference and it&#39;s water in 16. So it was more critical to get those numbers dialed in the properties of the fluid of liquid water. Our more sensitive to temperature changes in that range than what you would see for air at the range that we saw in number 15. So I took a shortcut. I got away with one.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-62286846
+
+Heat transfer 15.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Heat transfer 15. The solution shows look up values for kinematic viscosity, thermal conductivity and parental number. It seems the values used for the temperature of surface of the pipe are 100 degrees and not the ambient temperature in the room, 70 degrees. Just looking for an explanation about why that&#39;s the case. Shouldn&#39;t be the case should have used 85 there. So that&#39;s it&#39;s come up in office hours and number of times. Close enough to 100 that it doesn&#39;t really move the needle. So that&#39;s kind of why I haven&#39;t fixed that problem up. But you&#39;re right technically which should be using the film temperature there which is the average of 70 and 100 which would be 85. So looking up those parameters at 85 degrees would be better.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 15 · 6 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

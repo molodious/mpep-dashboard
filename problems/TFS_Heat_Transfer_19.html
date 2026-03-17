@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 19 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 19</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 19</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 10cm solid copper ball initially at 400°C is placed in a large volume of 25°C liquid with unknown specic heat capacity. The average convective coecient of heat transfer is 1000 W . How long does it m2·K take for the ball to cool to 100°C?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>9seconds</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>16seconds</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>32seconds</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>95seconds</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. You can actually search the reference handbook for lumped capacitance and you&#39;ll find some of the formulas that we&#39;re ab.
+
+2. Well it depends on the particular situation but there&#39;s an analytical way to tell and we start by calculating what&#39;s cal.
+
+3. I&#39;m not sure how to pronounce that but you can find it in the reference handbook by searching BO and that equals HV over.
+
+4. So let&#39;s just calculate that V over A as by itself first.
+
+<strong>Full Solution:</strong>
+
+A 10 centimeter solid steel ball initially at 400 degrees C is placed in a large volume of 25 degrees C liquid with unknown specific heat capacity. The average convective coefficient of heat transfer is 1,000 watts per meter squared degree Kelvin. How long does it take for the ball to cool to 100 C? So anytime you see a heat transfer problem is asking how long does it take? That&#39;s a transient heat transfer problem and there&#39;s two different ways of handling these sorts of problems. There&#39;s the lumped capacitance method. You can actually search the reference handbook for lumped capacitance and you&#39;ll find some of the formulas that we&#39;re about to use. And the other one is the distributed method. So the way I like to think of this is it&#39;s a comparison of which forces are a bigger, a more significant driver of what&#39;s happening from a heat transfer perspective. Is it the conductive forces inside the object or is it the convective forces outside the object? For example, if you&#39;ve ever grilled a steak, you think about the thickness of that material using very high heat. So you&#39;re exposing the outer part of the meat to this incredibly high flame. That&#39;s going to drive a high surface temperature on the outside. Then there&#39;s conduction that heat has to propagate through the thickness of the meat to the center. We don&#39;t give it very much time to do that. Just three or four minutes on very high heat and then we flip it over and do the same thing on the other side and then it has to propagate down. The end result is that we get this nice sear on the outer surface and then we get some pink if you like your steak, medium or medium rare. This still trace a pink in the middle. So that&#39;s very much a distributed scenario where you have to be concerned with how much time and how high the heat is. You can contrast that with a suavee cooking method where you&#39;re literally just putting the meat exposing it to a large water bath of a fixed temperature. Let&#39;s say 135 degrees and maintaining the water at that temperature and raising the meat to that final temperature gradually. The conduction is almost negligible because that may happen over 24 hours and pretty much the entire thickness of the meat is at one constant temperature. Same temperature is the water 135 at the end. So this would be lumped and this would be distributed. And how do you know if you can use lumped or distributed? Well it depends on the particular situation but there&#39;s an analytical way to tell and we start by calculating what&#39;s called the BO number or BO number. I&#39;m not sure how to pronounce that but you can find it in the reference handbook by searching BO and that equals HV over K times surface area. So H is the convective heat transfer coefficient. V is the volume. A is the surface area and K is the thermal conductivity and sometimes V over A taken together is called the characteristic length. So let&#39;s just calculate that V over A as by itself first. The volume of a sphere is 4.3 pi R cubed and this is the diameter of 10 centimeters. So the radius is actually 5 centimeters and then the surface area of a sphere is 4 pi R squared. So then if you do the cancellation there that&#39;s R over 3 and since we prefer to work with the diameter that&#39;s going to be D over 6 because the diameter is doubled the radius so we&#39;d have to divide it by 6 instead of 3. So that gives us B over A as and now let&#39;s go ahead and calculate the BO number by actually plugging in. So and we&#39;re also using SI units here so we have to be mindful of that. We&#39;ve been given the convective coefficient of heat transfer so that&#39;s a thousand watts per meter squared degree Kelvin and we&#39;ve got our V over A as is diameter over 6 and diameter is 10 centimeters. Let&#39;s actually get that into meters so that would be 0.1 meters divided by 6. And then in the denominator we have K thermal conductivity we can find that in the reference handbook by looking up properties of metals and that turns out to be 403 watts per meter Kelvin.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 10 centimeter solid steel ball initially at 400 degrees C is placed in a large volume of 25 degrees C liquid with unknown specific heat capacity.<br><br><br><br>• The average convective coefficient of heat transfer is 1,000 watts per meter squared degree Kelvin.<br><br><br><br>• How long does it take for the ball to cool to 100 C.<br><br><br><br>• So anytime you see a heat transfer problem is asking how long does it take.<br><br><br><br>• That&#39;s a transient heat transfer problem and there&#39;s two different ways of handling these sorts of problems.<br><br><br><br>• There&#39;s the lumped capacitance method.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 105</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-66494042
+
+First one, from heat transfer in 19, when using the turbulent flow and circular tubes, how can we use this equation in this situation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> First one, from heat transfer in 19, when using the turbulent flow and circular tubes, how can we use this equation in this situation? The equation states for either uniform surface temperature or uniform heat flux condition. The entering air temperature is 55 and there is an ambient temperature 75 so the surface temperature will be varying across the length of the duct or is the surface temperature considered to be the average temperature? Yeah, fair question. So this problem was about an uninsulated duct and there was an entering at temperature 55 and then along that length it&#39;s expected to increase. And I did go ahead and use the turbulent flow and circular tubes equation which to your point assumes either uniform surface temperature or uniform heat flux condition. And I think your point stands that it is not a uniform surface temperature because we know the temperature of the air is going to increase. That&#39;s the whole question of what that problem is looking to analyze. Is that increase in temperature? So then it becomes a matter of degree. We don&#39;t know the answer until we work on the problem, right? So it&#39;s a funny assumption to make it the beginning.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 106</div>
+      <div class="qa-question"><strong>Q:</strong> How do we determine which equation to use for the hydraulic diameter or the rectangular ducts?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, heat transfer 19. I attempted this problem using equation 9.3.6.2 and the very next one 9.3.6.3. And both gives an answer that yields options B or C. How do we determine which equation to use for the hydraulic diameter or the rectangular ducts? So, my advice here is it kind of depends on the application. So you have to sniff out the problem and try to figure out what that problem is about. So if it&#39;s like an HVAC duct sizing, systems and components type problem about a duct, then we want to use the DE, the equivalent diameter for rectangular ducts equation, which I think is the second one. If it&#39;s more of a fluid mechanics heat transfer kind of like it leans more fundamental type problem, then we&#39;re more likely want to use DE, the hydraulic diameter, which is the first option. So, this is more of a heat transfer type problem, so it kind of leans toward the hydraulic diameter. That&#39;s going to prove to be more useful in this situation. But they&#39;re often close. So, I&#39;m not saying they&#39;ll always reconcile it&#39;s far from perfect. And if my answer choices are close together, you might use one option over the other and it might kind of backfire.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 19 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

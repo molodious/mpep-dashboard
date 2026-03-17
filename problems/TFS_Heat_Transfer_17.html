@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 17 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 17</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A run-around loop used for energy recovery pre-heats 20,000lb of hr 20°F outside air. 150,000Btu of heat is extracted from the same hr amount of exhaust air which is initially at 80°F. The loop uses 10gpm of water as the heat exchange medium. Neglecting losses and pumping energy, what is the temperature range of the water in the loop? 27
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>30◦F −65◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>30◦F −70◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>35◦F −65◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>35◦F −70◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+A run-around loop used for energy recovery pre-heats 20,000 pounds per hour of 20 degree outside air. 150,000 BTU per hour of heat is extracted from the same amount of exhaust air which is initially at 80 degrees. The loop uses 10GPM of water as the heat exchange medium. In the collecting losses and pumping energy, what is the temperature range of the water in the loop? So a run-around loop is an alternative to an air-to-air heat exchanger or an enthalpy wheel. It&#39;s another way of doing energy recovery and it can be done using a water loop or a glyco-loop and probably some other ways as well. But let&#39;s just draw out conceptually what this means from the perspective of air handling. If you have two streams, we&#39;ve got some outside air which we can call state 1, put a little one subscript there so I might just say state 1 or my say outside air and that air is being run across a coil to do some pre-heating and we&#39;ll call that coil a. That&#39;s arbitrary decision just calling coil a so we can distinguish it from coil B which we&#39;re going to draw an x and then that gives us our supplier which we&#39;ll call state 2 that&#39;s going to be supplied to the space. So we know the temperature at state 1 is this outside air. We can write that down T1 equals 20 degrees F. Then in conjunction with that we have leaving air which is 80 degrees it&#39;s being extracted. I&#39;ll use LA for that sometimes you use EA for exhaust but I want to distinguish the exhaust as being state 4 what happens after we extract some heat from it. So the leaving air will be state 3 and the exhaust there will be state 4 and there&#39;s another coil here which will call coil B and what&#39;s happening is coil a is adding heat to the outside air stream but where does it get that heat from? Well it gets it from coil B which is extracting heat from the exhaust there and then that&#39;s being pumped around in a circle and that&#39;s kind of why they call it a run around coil because basically just running around between the two so we can put a little pump here if you like and here&#39;s our coil adding heat to the outside air stream and here&#39;s our coil B collecting heat from the leaving air stream. Great so what else can we say about this? We also know the mass flow rate of air that&#39;s been given so this incoming mass flow rate of outside air is 20,000 pounds per hour and that&#39;s equal to I&#39;ll call that one to two because coming from outside air to supplier that&#39;s equal to the mass flow rate of the leaving air which becomes exhaust air will call that three four. Let&#39;s have the same magnitude which makes sense because you want to balance the amount of air that&#39;s in the space keep the pressure relatively steady and we can also say that the amount of heat that&#39;s being extracted from the exhaust stream is equal to the amount of heat that&#39;s being supplied to the outside air stream so we could say Q.12 obviously it&#39;s the opposite direction but it&#39;s the same magnitude equals Q.34 which is 150,000 BT&#39;s per hour and it&#39;s said in the left loss this will just assume 100% efficiency and since the loop uses water as a tedious change medium we can actually use the sensible heating rule of thumb to figure out what the delta T of the water will be for this arrangement. We can say Q. the amount of heat that&#39;s removed from B or added to A is equal to 500 GPM delta T and we know the GPM so we can solve for delta T and we can say delta T equals Q. over 500 times GPM and we actually know both of those values it&#39;s 150,000 BT&#39;s per hour we don&#39;t even have to write the units because this is the rule of thumb right we expect Q.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A run-around loop used for energy recovery pre-heats 20,000 pounds per hour of 20 degree outside air.<br><br><br><br>• 150,000 BTU per hour of heat is extracted from the same amount of exhaust air which is initially at 80 degrees.<br><br><br><br>• The loop uses 10GPM of water as the heat exchange medium.<br><br><br><br>• In the collecting losses and pumping energy, what is the temperature range of the water in the loop.<br><br><br><br>• So a run-around loop is an alternative to an air-to-air heat exchanger or an enthalpy wheel.<br><br><br><br>• It&#39;s another way of doing energy recovery and it can be done using a water loop or a glyco-loop and probably some other ways as well.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 101 · March 31st 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 101</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred from the TFS program. Number 17, going through the solution, I just don&#39;t get how the tolerance of plus minus 15 is achieved. I got lost somewhere along the way and don&#39;t really know. Is this just something that I&#39;m supposed to know? Is it a standard 15 or did I miss something? I guess what I&#39;m asking is if you can break down the hole derivative of the answer down. For me again, please just help me understand. Yeah, so this problem was about a run around coil. And I brought up the solution. So I don&#39;t have to recreate it just from the solution video. The basic idea here, this is like an energy efficiency alternative instead of having an air to air heat exchanger or an enthalpy wheel or something like that. It&#39;s kind of like an sensible only so you can think of it as a sensible heat recovery strategy. Because there&#39;s no moisture crossing the boundary. It&#39;s just sensible heat. So we&#39;re recovering some of the temperature from this leaving air before it becomes exhaust air. And we&#39;re using that to preheat some outside air or pre cool some outside air if it&#39;s summer situation which it might be here. Now, 20 degrees outside, so we&#39;re going to be preheating that air. So tha</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 17 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 11 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 11</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An oce building seeks to reduce heat losses through the windows by 75% by installing insulating shades. The design conditions for winter are 10°F outside, 68°F inside. The existing windows are 1in thick single pane glass with thermal conductivity k = 0.7 Btu . 8 hr·ft·°F There will be an air gap between the windows and the shades, pro- viding additional resistance of R = 1.2hr·ft2·°F. The shades have a Btu thermal conductivity of k = 0.05 Btu . The convective heat transfer hr·ft·°F coecients inside and outside are 1.5 Btu and 4 Btu , respec- hr·ft2·°F hr·ft2·°F tively. What is the minimum thickness of the shades required to achieve the desired reduction in energy loss? 4 25
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1in</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>1in</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>2in</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>3in</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+In office building seeks to reduce heat losses through the windows by 75% by installing insulating shades. The design conditions for winter are 10 degrees outside, 68 degrees inside. The existing windows are 1-8 inch thick, single pane glass with thermal conductivity K equals 0.7. There will be an air gap between the windows and the shades, providing additional resistance of R equals 1.2. The shades have a thermal conductivity of K equals 0.05. The convective heat transfer coefficients inside and outside are 1.5 and 4 respectively. What is the minimum thickness of the shades required to achieve the desired reduction in energy loss? This sounds like a long problem and there&#39;s a lot of information here, but it&#39;s actually not too bad if we just break it down and take it step by step. So we&#39;re going to treat this situation with the shade as a composite wall and we&#39;ll compare the original state. Let&#39;s call it state 1 before any shades have been added to the new state after the shades have been added. So in the original condition, all we have is the glass which has some thickness and then we&#39;ve got the inside and the outside conditions and this is the glass. So basically we&#39;ve got 3 nodes here or 4 nodes rather from heat transfer perspective. We&#39;ve got the node for convection from the inside condition to the glass and we&#39;ve got some resistance going through the glass conduction and then we&#39;ve got more convection from the outside of the glass to outside. So 3 layers of the composite wall so to speak 4 nodes. In the after state, we&#39;re going to be adding let&#39;s take away our little thermal picture here. We&#39;re going to be adding a shade so another layer, some distance away of some thickness. So now this is our shade, this is still our glass inside is here, outside is here and there&#39;s an air gap here down the middle. So now we&#39;ve got more nodes, one for the inside, convection to the shade, conduction through the shade, we&#39;ve got the resistance of an air gap which is mostly convection but the values actually given to us. We&#39;ve got more resistance through the glass and then convection again to the outside. So now we&#39;ve got 1, 2, 3, 4, 5, 6 nodes and 5 layers to consider. But let&#39;s go back to that original case and ignore the shade really we only had 3 layers to consider. We&#39;ll be the resistance of just those 3 layers and actually before we even go into that, let&#39;s just think about from a high level what we expect the resistance to be in the new case as compared to the old. We should expect that the resistance is going to be greater because we&#39;re going to reduce the energy losses by 75% how much greater. Well to quantify that we can think about the heat losses after as compared to before. We might say Q.1 and Q.2 could both be expressed as UA Delta T, U1A Delta T and then we could divide by A to get a heat flux and we could also instead of multiplying by U the overall heat transfer coefficient we could divide by the total resistance R. So with a couple of small steps there we could be writing this more as like a Q.1 equals where that&#39;s a heat transfer pre-une area Delta T over R total for state 1. So now Q.2 is going to be only one fourth of Q.1 and what does that mean? Q.2 over Q.1 is going to be a fourth or 0.25. Where Q.2 and Q.1 can both be expressed this way as Delta T over the total resistance for state 2 after the shade has been added. We divided by Delta T divided by the total resistance at state 1 before the shade has been added. And the Delta T doesn&#39;t change because that&#39;s just inside and outside. So this becomes R.T1 over R.T2. And now if we multiply by R.T2 on both sides and then invert the 0.25 we find out that R.T2 equals 4 times R.T1 which shouldn&#39;t be too surprising if we&#39;re reducing the heat transfer by 75% then it&#39;s going to be a quarter of what it was before. The only way that&#39;s going to happen is if we have four times as much resistance. So you may go straight there.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • In office building seeks to reduce heat losses through the windows by 75% by installing insulating shades.<br><br><br><br>• The design conditions for winter are 10 degrees outside, 68 degrees inside.<br><br><br><br>• The existing windows are 1-8 inch thick, single pane glass with thermal conductivity K equals 0.7.<br><br><br><br>• There will be an air gap between the windows and the shades, providing additional resistance of R equals 1.2.<br><br><br><br>• The shades have a thermal conductivity of K equals 0.05.<br><br><br><br>• The convective heat transfer coefficients inside and outside are 1.5 and 4 respectively.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 11 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

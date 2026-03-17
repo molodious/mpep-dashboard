@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 7 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 7</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 7</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60°F to 130°F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·°F. The total heat Btu exchange surface area is 20ft2. What will the hot water supply (out- let) temperature be for the same 50gpm volume ow rate entering at 60°F under fouled conditions?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>100◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>110◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>120◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>125◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And I think the first reason for that is the first equation we want to use is actually something that&#39;s not included in.
+
+2. It was included in the mechanical engineering reference manual and used to fare a bit but in the computer based environm.
+
+3. So I&#39;m actually going to start by going through a quick derivation of this equation that we&#39;re going to need.
+
+4. And the way we&#39;ll start is you can search the reference handbook for fouling or you can also search for the somewhat lon.
+
+5. So any part of that phrase will get you in the right direction and then what we find is this equation.
+
+6. So there&#39;s a lot of simplification that I want to do here and the first thing is I&#39;m just going to make the assumption t.
+
+<strong>Full Solution:</strong>
+
+A clean new domestic hot water heater uses 25 PSIA saturated steam to heat 50 gpm of water from 60 degrees to 130 degrees. After a year of operation, the overall filing factor is found to be 0.001. The total heat exchange surface is 20 square feet. What will be the hot water supply outlet temperature for the same 50 gpm volume flow rate entering at 60 degrees under fouled conditions. Just to note on this one, there are 3 or 4 pretty significant concepts stacked together here. So I would consider this a challenge problem and I would set the expectation that it will take additional time unlike some of the other problems that are a bit more exam like. Just wanted to get that out up front as we go in. And I think the first reason for that is the first equation we want to use is actually something that&#39;s not included in the reference handbook. It was included in the mechanical engineering reference manual and used to fare a bit but in the computer based environment, this equation would have to be provided to you or you have to derive it. So I&#39;m actually going to start by going through a quick derivation of this equation that we&#39;re going to need. And the way we&#39;ll start is you can search the reference handbook for fouling or you can also search for the somewhat long phrase or part of this phrase overall heat transfer coefficient for concentric tube and shell and tube heat exchangeers. So any part of that phrase will get you in the right direction and then what we find is this equation. One over the overall heat transfer coefficient u times the area is the sum of one over h i the convection coefficient times the inside area plus the fouling factor for the inside over the inside area. Plus the natural log of the diameter outer over inner over 2 pi k l plus the outer fouling factor over the outer area plus one over the convection coefficient for the outside and the outside area. So there&#39;s a lot of simplification that I want to do here and the first thing is I&#39;m just going to make the assumption that the area is the same throughout. Obviously there&#39;s a thickness to the materials so the inside area and the outside area may not be exactly the same but because I know that the simpler equation exists. The question I was trying to answer is how would we arrive at the simpler version and it&#39;s pretty clear that the assumption is being made at the area in general is the inside area is the outside area and these are basically all the same. And there&#39;s probably some way we could come up with two pi l and then something with the diameters here that would equate to the area. I&#39;m not going to stress about it too much because I&#39;m going to end up canceling this term but for now let&#39;s just deal with the areas so we&#39;d be rewriting that as just one over you. So I&#39;m replacing all the areas and then multiplying by that everywhere. So one over H i plus one over the filing factor for the inside plus this term here I think it should be pi times diameter times the length to get that outer surface area which means we&#39;d end up with some kind of diameter and the numerator but we have this logarithmic thing. So I&#39;m just going to cross out two pi l for now don&#39;t worry too much about that aspect of it. It&#39;s like I said we&#39;re going to be canceling this term out plus the filing factor for the outside plus one over H oh and now we don&#39;t have a filing factor for the inside to filing factor for the outside. We&#39;re not making that distinction so I want to put these two together and just call it the overall filing factor and that&#39;s how the problem statement word overall filing factor. So RFI plus RFO just equals RF and in the middle term the K in the denominator is the thermal conductivity and I&#39;m assuming that the materials in a heat exchanger would be selected for a relatively large thermal conductivity such that this denominator becomes much larger than the numerator and this basically goes to zero.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A clean new domestic hot water heater uses 25 PSIA saturated steam to heat 50 gpm of water from 60 degrees to 130 degrees.<br><br><br><br>• After a year of operation, the overall filing factor is found to be 0.001.<br><br><br><br>• The total heat exchange surface is 20 square feet.<br><br><br><br>• What will be the hot water supply outlet temperature for the same 50 gpm volume flow rate entering at 60 degrees under fouled conditions.<br><br><br><br>• Just to note on this one, there are 3 or 4 pretty significant concepts stacked together here.<br><br><br><br>• So I would consider this a challenge problem and I would set the expectation that it will take additional time unlike some of the other problems that .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 108 · September 1st 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Any thoughts on whether this is as accurate as iteration?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, the first one was from TFS regarding heat transfer 7 and this one was about heat exchanger, steam heat exchanger. I&#39;m gonna ask everyone to mute if you want to unmute you can and speak or you can type in the chat, either it&#39;s fine, but if you&#39;re just listening, then better to sound mute because we do record these. So heat transfer 7, the solution video indicates that iteration is required to solve the problem and I&#39;m curious if an update is warranted. I reached the same point where I had determined an overall u factor for the Fowld state of 381. But at this point, I had set up the equality of the two duty calculations, Q equals u file times area times delta t log mean, equals m.cp delta t, cold. There&#39;s only one unknown in this equality and that&#39;s the cold outlet temperature. It requires a bit of math to solve, but I calculated a cold outlet temperature of 107 with this approach due to significant digits of intermediate calculations. Any thoughts on whether this is as accurate as iteration? Yeah, this was brilliant. I looked over your work and I looked over my work and it&#39;s not required to iterate. Absolutely right. I basically solved one side of that equation with an assu</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 40</div>
+      <div class="qa-question"><strong>Q:</strong> Why do you set the convection and radiation heat gain equal to the heat transfer from conduction?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> First one, heat transfer 7. Why do you set the convection and radiation heat gain equal to the heat transfer from conduction? So I kind of snip the beginning of the video as a way to give some context before diving into the solution here I really just want to go over the setup for this problem So referring to the diagram Imagine you have a pipe and this tan section is meant to represent the insulation and the gray is meant to represent the pipe itself and everything in-wirt which I&#39;m glossing over a lot of the detail But I think it might be beneficial to expand on some of that detail and just talk about some of the assumptions I&#39;m making because there&#39;s a lot of different potential forms of heat transfer here and there&#39;s only two which I&#39;m ultimately well three I guess you could say that I&#39;m ultimately Considering and I&#39;m dismissing all the others, but you should be comfortable with the rationale for why I&#39;m doing that and It&#39;s written up pretty well in the book if you want to check the written solution and watching the first five minutes of the video again Slowly and kind of pausing as I speak.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 7 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

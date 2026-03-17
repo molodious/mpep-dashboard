@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 20 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 20</span>
+  <span class="nav-badge">⭐ 9 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">9 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 20</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 20ft length of uninsulated pipe with 2in O.D. has a surface tem- perature of 180°F. The ambient air is 70°F. What is the heat loss by natural convection? hr hr hr hr 28
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>200Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>700Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1500Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>2100Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Most convection problems are governed by this equation Q dot equals H a delta t.
+
+2. And if we know H, then this equation is pretty easy to apply.
+
+3. And if you want to find this formula in the reference handbook, it&#39;s a little bit tricky to find just by searching conve.
+
+4. And then multiply that by the length, which is 20 feet.
+
+5. And to start that process in motion, you can search for natural open parentheses, free close parentheses convection.
+
+6. So that&#39;s a nasty little trick that they put in the reference handbook for us to enjoy.
+
+<strong>Full Solution:</strong>
+
+A 20-foot length of uninsulated pipe with 2-inch OD has a surface temperature of 180 degrees. The ambient air is 70 degrees. What is the heat loss by natural convection? Most convection problems are governed by this equation Q dot equals H a delta t. And if we know H, then this equation is pretty easy to apply. But if we don&#39;t know H, then it&#39;s a bit of a process to actually work that out. We have to do a bunch of lookups and make a number of assumptions. And sometimes that process can take a bit of time. So it&#39;s worth going through this problem slowly. And you can always add speed later. But I want to make sure you understand each of the steps of the process. And if you want to find this formula in the reference handbook, it&#39;s a little bit tricky to find just by searching convection. So search for Newton&#39;s Law of Cooling. And that&#39;ll get you to this one here. So the area and the delta t are actually pretty straightforward for this one. The area that we need is the surface area, the outside of the pipe. And that&#39;s going to be the circumference times the length. So pi d l would be the way to come at that. And the diameter, let&#39;s represent it in feet. So even though it&#39;s two inches outside diameter, we&#39;ll write that as two over 12 feet. And then multiply that by the length, which is 20 feet. And that gives us the surface area, which is 10 and a half square feet. And then the delta t, which we don&#39;t need till the very end, but we can get it now, is going to be the difference in temperature between the surface temperature of the pipe, 180 degrees, and the ambient air, which is 70 degrees. So that&#39;s 110. So now the whole problem really becomes about finding H. And to start that process in motion, you can search for natural open parentheses, free close parentheses convection. Unfortunately, if you search natural convection or free convection, it won&#39;t come up because of the parentheses. So that&#39;s a nasty little trick that they put in the reference handbook for us to enjoy. And the specific section under there that you want is able to be found with the term long horizontal cylinder in large body of stationary fluid, which is the specific geometry that we care about in the situation, because we have an uninsulated pipe, which is a long horizontal cylinder. And it&#39;s in a large body of stationary air. So that&#39;s the one we want. And they call it H bar. And that equals C times K over D times the Rayleigh number, which has a subscript D for diameter. I think that ties in with this geometry, because that subscripts different for other configurations. That&#39;s being raised to the power of N. We&#39;re C and N are constants that get looked up based on the value of the Rayleigh number. Well, how do we find the Rayleigh number? Well, that&#39;s also given in the same section. And that&#39;s a function of G times beta. We&#39;ll talk about what each of these are in a moment. Times T S minus T ambient. Times the diameter cubed times the parental number over the kinematic viscosity squared. So there&#39;s a bunch of values there that we have to look up. And the key with these heat transfer problems is that when we look up these parameters, we have to make sure we&#39;re looking them up at the film temperature. The film temperature is simply defined as the average of the temperature of the surface and the ambient fluid. So in this case, T S plus T ambient over 2 is going to be 180 plus 70 over 2. Which is 125 degrees Fahrenheit. So we&#39;re looking up these various values at 125. And if we have to do any approximating, then we&#39;ll want to make sure that the values we select are the same values as would be the case in the vicinity of that film temperature. And the way we&#39;re going to look this up is by searching the reference handbook for properties of air. And there&#39;s actually two different tables in the reference handbook that you&#39;ll find when you search properties of air.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 20-foot length of uninsulated pipe with 2-inch OD has a surface temperature of 180 degrees.<br><br><br><br>• What is the heat loss by natural convection.<br><br><br><br>• Most convection problems are governed by this equation Q dot equals H a delta t.<br><br><br><br>• And if we know H, then this equation is pretty easy to apply.<br><br><br><br>• But if we don&#39;t know H, then it&#39;s a bit of a process to actually work that out.<br><br><br><br>• We have to do a bunch of lookups and make a number of assumptions.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">9 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 85 · July 22nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> If that&#39;s the case, nothing&#39;s better than reality, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And TFS heat transfer 20, I tried to utilize the table 9.4.1 heat loss from bare steel pipe from the NC&#39;s reference handbook 1.8. Even that, the still air temp is slightly different from the one given in the problem. The results are significantly far apart when using table versus using natural convection equations. I assumed a reasonable error and 15% would occur due to the difference in temperature references, but the error was about 88%. Is there any way to tell which approach to take and if using the table is possible exclusively when all the problems given are in alignment with the conditions defined in the table, still air temp, pipe diameter, et cetera. Yeah, great question. I don&#39;t have a good answer for this one unfortunately. I was super interested to read this question so I took a look at the table and the way you calculated it and the way I did in the solution video. And it was literally off by almost a factor of two, which is troubling because if you used the table, you would choose answer choice D instead. I think the answer choice, the answer that I had calculated in the solution video is around 1500, whereas using this approach it would be around 2800. Like I said, a</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> And what situations would it be reasonable to use this typical value and what situations would warrant the more involved approach?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> we have heat transfer 20. In the Emmy handbook section 514 mentions a typical value for H is 1.2. This ends up being close to 1.3 which we found using the equation and saved the ton of time. And what situations would it be reasonable to use this typical value and what situations would warrant the more involved approach? On our related note, when you are finding the kinematic viscosity, you use absolute viscosity from section 1 to 7 and density at room temp. So let&#39;s take those one at a time. I think the answer to the first question is if you have actual data to find a real value for H in the problem statement, then you should probably use it. Otherwise, you would go to the default value. So yeah, you could save a lot of time by going to the default value, but then you would not be confident that the default value is applicable in that situation. So I would only use it if there&#39;s not enough other information provided to find it directly and correctly or not correctly, but precisely. And if you are not able to do that, then you would go to the default value. And then for the second part regarding the density and the kinematic viscosity, I think the question to the question here is ho</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 29</div>
+      <div class="qa-question"><strong>Q:</strong> My answer was 1382 which is pretty close to the actual answer if not, why is that given?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, next up we have heat transfer 20. This is also from KFS. Is it wrong to use the typical value of natural infection H given in session five dot one dot four of one point two B2 per hour per foot squared creep. My answer was 1382 which is pretty close to the actual answer if not, why is that given? So I took a look at this one and it looks like your answer 1382 is pretty close. So I would say it&#39;s okay. 1382 compared to the answered choice given which was 1518 and that&#39;s B2 per hour. So that&#39;s about a 9% difference. And you know this is one of the things that kind of the time that comes down to engineering judgment is how much of an error will you tolerate before you say it&#39;s too much? And that really depends on the type of problem. But what I will say is that for heat transfer problems there&#39;s generally speaking more of a tolerance for error. So you shouldn&#39;t expect to see like the answered choices for heat transfer problem super close together. If you&#39;re within 10% for a lot of heat transfer problems even if you&#39;re like 1520% you&#39;re probably fine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 39</div>
+      <div class="qa-question"><strong>Q:</strong> Also, if we should use this table, why would we not also use the head loss values in the table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluid&#39;s nine, still trying to understand when to use the standard weight steel pipe table versus the schedule 40 table. So we kind of just covered that. Also, if we should use this table, why would we not also use the head loss values in the table? I did the problems this way and came up with an answer, but it was a little lower than 38.9. If one of the answers is a 38, I would have gotten this wrong. Yeah, great question. And this actually comes up quite a lot. If you go back to some of the earlier office hours, archives, this was covered many times over, but I won&#39;t torture you to go back there. The short version is that you absolutely can use the head loss values from the table. And in many cases, it&#39;s faster, so you&#39;ll want to do that. I recommend knowing it both ways. I think it&#39;s useful to know how to go through the whole Darcy equation and work through that. But at the same time, there&#39;s no reason you should have to do that every time. If the values given in the table, then feel free to use it. And they should reconcile. And in cases where they don&#39;t reconcile, the deviations should be slight. And if in any of my problems, it&#39;s sort of been a borderline case.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> Are you assuming some sort of average heat loss to the duct to account for the changing air temp in the duct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19. Two questions on the approach to this problem. First, my approach, my first approach to this problem was that we&#39;re going to need to use the log-mean temperature difference, since the temperature of air is changing along the length of the duct similar to the previous chilled beam heat exchanger problem. However, you treated the duct as a forced convection problem with an average bulk temp for the delta t. Are you assuming some sort of average heat loss to the duct to account for the changing air temp in the duct? Second question, the new salt number equation is in the reference handbook, new salt equals HD over K, is only shown in intersections entitled exterior flow, but you use it for the flow inside the duct, is that always the new salt number equation. So part of the reason why I took the approach I did on this problem is because I wanted you to have a forced convection and example in the heat transfer module. So it might seem a little bit contrived, and it&#39;s not crazy that your first shot was to use a different method. In fact, I think it&#39;s probably quite reasonable. And a lot of times in heat transfer problems, there&#39;s more than one way to view it.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 82</div>
+      <div class="qa-question"><strong>Q:</strong> How can we use both the tables of properties of air at atmospheric pressure and at the properties of air at low pressure to solve this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transfers 15. How can we use both the tables of properties of air at atmospheric pressure and at the properties of air at low pressure to solve this problem? Is this a rare occurrence or can we use this approach for similar natural convection problems? This one was so natural convection and we had to look up some of the values to put into the formula so the properties of air and those were the two tables that we went to to collect those properties. So one thing that I&#39;ve just by using the reference handbook for a while, what they consider to be low pressure is actually quite a large range of pressures that includes atmospheric pressure and pressures that are much higher than that as well. So basically everything is low pressure. I mean not everything, right? If you have, so come up more in the thermal fluid, for example, if you have like compressible flow type problems with rockets or like converging diverging nozzles and things are going supersonic. That&#39;s those are high pressure conditions, shock waves, things like that. But pretty much anything incompressible and even air and gases in HVC systems that are moving sufficiently slow, which even in high pressure.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 97</div>
+      <div class="qa-question"><strong>Q:</strong> Wouldn&#39;t the overall heat transfer coefficient of the fouled condition take that to consideration?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Heat transfer 20 can you explain what leads you to iterate after initially calculating 103 degrees as the outlet temperature. In the rate of heat transfer in heat exchanger calculation F is there for the LMTD. Wouldn&#39;t the overall heat transfer coefficient of the fouled condition take that to consideration? The reason for iterating in this problem when we write this at one stage in this problem, this was one of a heat exchanger that&#39;s fouled. So you have some information about the clean conditions and then you&#39;re asked to analyze the fouled conditions and find the new delta T which is not going to be as big because the heat exchanger is dirty. At one point we find the rate of heat transfer Q dot fouled. I&#39;ll just call that Q dot F equals U times A times delta T. And by that point in the solution we found U for a fouled condition. So this is not the overall heat transfer coefficient for one&#39;s clean. It&#39;s for one&#39;s fouled and we showed in the solution how to get that. And the area doesn&#39;t change.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 107</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-67325939
+
+Alright, another one from Heat Transfer.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, another one from Heat Transfer. Could you help me understand why the max heat flux in this scenario is given by HI inside Film Co-Fishant times the Delta T T inside minus T DP which is due point. I&#39;m having trouble conceptualizing why this represents the maximum heat transfer work concerned with in this system I was able to accurately work through finding our total and the due point temperature, but fell short When I needed to determine the cue value needed to solve for K So this problem was pretty interesting problem. It kind of stacks two concepts together It&#39;s a heat it&#39;s truly a heat transfer problem because it&#39;s a composite wall of sorts It&#39;s a skylight and there&#39;s two layers of glass with some air in between and then there&#39;s film zumb both sides So it&#39;s a rich composite wall or a instrument already and then the twist in the problem is that it&#39;s also It also has a psychometrics aspect to it and And it sounds like from the way this question is phrase that you&#39;re good with the heat transfer aspects of the problem The the composite wall set up and dealing with the resistances and and the and all of that But the interesting piece was really right at the beginning of the p</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 109</div>
+      <div class="qa-question"><strong>Q:</strong> Why do you not have to consider the surface film coefficients when calculating the average heat flux through the wall?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 18. Why do you not have to consider the surface film coefficients when calculating the average heat flux through the wall? So, this was the situation when we had the composite wall. It was kind of an interesting problem because it was a composite wall where instead of having a bunch of materials in series, which is like the typical composite wall that everybody&#39;s seen or if you haven&#39;t seen it, you&#39;ll see it a few times in your travels. This was one where it was a parallel configuration. There was a window in the middle of a wall and you had to add them differently. Anyway, this question isn&#39;t about that, so we don&#39;t have to get into the nuance. It&#39;s probably covered pretty well in the solution. This question is just something that comes up a lot too, which is when do you have to consider the surface film coefficients versus not when you&#39;re dealing with heat transfer through a wall conduction through a wall? My problem statement might have been a little bit ambiguous. I just said that the temperature differential between the inside and outside surfaces was 20 degrees.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 20 · 9 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

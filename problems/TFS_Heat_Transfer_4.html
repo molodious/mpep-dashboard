@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 4 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 4</span>
+  <span class="nav-badge">⭐ 3 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 4</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      What is the viscosity of 150°F water? ft·hr ft·hr ft·hr ft·hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>5×10−6 lbm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>9×10−6 lbm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3×10−4 lbm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1 lbm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So this seems like a simple enough question at first, but if you go into the reference handbook and you search for prope.
+
+2. The first value you&#39;ll find is the absolute viscosity or the dynamic viscosity as it&#39;s often called, which has a value o.
+
+3. So that&#39;s curious, and then if you look for the kinematic viscosity, which has Greek letter new, that has a magnitude of.
+
+4. We have to do some other kind of unit conversion to get one of these into the form of the answer choices, which is pound.
+
+5. Well, what I would suggest is notice that the absolute viscosity has pound-four senate, and that&#39;s going to be more help.
+
+6. We remember the equation F equals Mg, force equals mass times gravity.
+
+<strong>Full Solution:</strong>
+
+What is the viscosity of 150 degree water? So this seems like a simple enough question at first, but if you go into the reference handbook and you search for properties of water, you&#39;ll find two values there. The first value you&#39;ll find is the absolute viscosity or the dynamic viscosity as it&#39;s often called, which has a value of 0.905 times 10 to the negative 5, and has units of pound-four seconds per foot squared, which are not what the answer choices are in. So that&#39;s curious, and then if you look for the kinematic viscosity, which has Greek letter new, that has a magnitude of 0.476 times 10 to the negative 5, with units of feet squared per second. Now we know we can go back and forth between absolute and kinematic viscosity by using the density, but that doesn&#39;t seem to be the issue here. We have to do some other kind of unit conversion to get one of these into the form of the answer choices, which is pound mass per foot per hour, which is another way to give density. So what are we going to do? Well, what I would suggest is notice that the absolute viscosity has pound-four senate, and that&#39;s going to be more helpful to us since we want at least have pound-mass in the final answer, whereas the kinematic viscosity doesn&#39;t have any pounds, whether be mass or force. So I&#39;d rather work with absolute in this case. So I&#39;m going to ignore the kinematic viscosity. And then I&#39;m going to just kind of remember back from physics and say, what is pound-four is? We remember the equation F equals Mg, force equals mass times gravity. That&#39;s one of the most common physics equations that all engineers have burned into their brain somewhere. But what are the units of that? Well, while we&#39;re really saying by saying that, even if you forgot physics, it&#39;s like saying one pound-four is equals, just the units of it, right? Equals one pound mass times 32.2, the acceleration to do gravity, feet per second square. So if the units of the absolute viscosity have pound-four in them already, we can replace pound-four with what it equals, which is this expression. And in theory, we aren&#39;t changing the value of the absolute viscosity by doing that. We&#39;re just changing the units around, we&#39;re changing the way it&#39;s represented, but it&#39;s still ultimately the same thing. So that should be an acceptable thing to do. Let&#39;s give it a go. So now we&#39;re going to say, instead, that mu equals 0.905 times 10 to the negative five times one pound mass times 32.2 feet per second squared. And now we still have to include seconds, because that was part of the units before. And we need to include feet per second in the denominator. So now let&#39;s multiply that out, 32.2 times 0.905 times 10 to the negative five. That turns out to be 0.00291. And what about the units? Well, we got rid of pound-four, we now have pound mass, and we can cancel out feet from the numerator and just keep one of the feet in the denominator, and we can cancel out one of the seconds, that&#39;s in the denominator. So this will go away and this will come down. So we end up with pound mass per foot second. And that&#39;s pretty close to the answer choices, which are pound mass foot hour. So all we&#39;ve really got to do now is convert seconds to hours. So let&#39;s just multiply that by 3600 seconds per hour. That will get rid of seconds, and we&#39;ll have the units that we want. And at least the magnitude&#39;s going in the right direction, because it&#39;s 3600 times 0.00291. So now we get a value for mu of 1.05 pounds per foot hour. And that&#39;s closest to answer choice D. I got this problem by stumbled upon another problem that forced me to think about how to use these units for viscosity. And I thought that was the hardest part of it, so I thought there should be a problem that&#39;s specifically about that, because I think we&#39;re pretty used doing absolute viscosity in these units here, and kinematic viscosity in these units here. And those are the most common, so that&#39;s certainly appropriate.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • What is the viscosity of 150 degree water.<br><br><br><br>• So this seems like a simple enough question at first, but if you go into the reference handbook and you search for properties of water, you&#39;ll find tw.<br><br><br><br>• The first value you&#39;ll find is the absolute viscosity or the dynamic viscosity as it&#39;s often called, which has a value of 0.905 times 10 to the negati.<br><br><br><br>• So that&#39;s curious, and then if you look for the kinematic viscosity, which has Greek letter new, that has a magnitude of 0.476 times 10 to the negativ.<br><br><br><br>• Now we know we can go back and forth between absolute and kinematic viscosity by using the density, but that doesn&#39;t seem to be the issue here.<br><br><br><br>• We have to do some other kind of unit conversion to get one of these into the form of the answer choices, which is pound mass per foot per hour, which.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">3 questions from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 29</div>
+      <div class="qa-question"><strong>Q:</strong> So the first question is can you please explain the rule of thumb for Q water and Q air?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, next up we got Cycromestrics 5 and there was actually two different questions for Cycromestrics 5 so I&#39;ll do them in order and I think one is kind of a more general question and the other is a bit more specific to the problem. So let&#39;s just take it one at a time. So the first question is can you please explain the rule of thumb for Q water and Q air? What is the logic behind it and what is the alternative using PU reference book? The logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the logic of the lo</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 97</div>
+      <div class="qa-question"><strong>Q:</strong> If the duct was insulated, how would you find the heat transfer through the cylindrical wall of a pipe, including conduction and outer convection?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Missileini has seen this applies to any questions in the last half of the heat transfer section. If the duct was insulated, how would you find the heat transfer through the cylindrical wall of a pipe, including conduction and outer convection? I mean, that would be the hardest possible, like, they&#39;re throwing everything at you. If they give you all that one problem, even I&#39;m not that cruel. And I give you some pretty hard heat transfer problems. But, you know, for the most general possible case, if it&#39;s a, let&#39;s say it&#39;s a round duct, the user example, cylindrical wall, and then it&#39;s insulated. There&#39;s levels of heat transfer going on here. So there&#39;s convection, forced internal convection going from the airflow. And then there&#39;s conduction through the duct itself, which is basically no resistance, because the duct is made of a conductive material like metal. But there is conduction through the insulation, which, uh, there&#39;s substantial resistance by definition. That&#39;s the purpose of insulation. And then there&#39;s resistance as we have natural convection from the outside of the insulation to the ambient space.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 99</div>
+      <div class="qa-question"><strong>Q:</strong> Since the question is asking about the total cooling load of the AHA, why don&#39;t you use 10,000 CFM in the final cooling load calculation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC pridesexant 1, number 58. Since the question is asking about the total cooling load of the AHA, why don&#39;t you use 10,000 CFM in the final cooling load calculation? I understand that 7500 CFM is going through the coil, but the AHA is supplying 10,000 CFM with an enthalpy delta of 5.67B2 per pound. Yeah, the answer is you could. You actually have a choice on this one. So this was a problem about an air handle with bypass. I&#39;ll keep this picture up here for a second. So we have the return air leaving the room. There&#39;s some exhaust and some outside air, which is kind of besides the point in terms of the question. But most of the air is being recirculated and it&#39;s being mixed with some outside air. You have this mixed air condition. And then some of the air is bypassing the coil, wrapping around, and some of it is going over the coil. So we need some additional terminology to distinguish what some of these conditions are. The mixed air and the entering air are the same condition, not the same volume, but the same condition, because there&#39;s nothing happening between here, just some of it splitting off and going another way.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 4 · 3 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

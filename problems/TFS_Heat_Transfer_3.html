@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 3 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 3</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Heat Transfer · Problem 3</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An uninsulated 8inch chilled water pipe carries 55°F chilled water through a factory maintained at 80°F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr 22
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3,500Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>4,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>40,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>120,000Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And if you search the reference handbook for radiation, it&#39;ll find the classic radiation formula that is often used.
+
+2. Also, the words that I used in the reference handbook for the search, and I was using, I think version 1.3 at the time.
+
+3. So the equation for the heat transfer by radiation is Q.
+
+4. Times Sigma, which is the Stefan Boltzmann constant, and you can look that up in the reference handbook, although you mi.
+
+5. Now I suppose I could go into the reference handbook if it&#39;s a nominal eight inch pipe and search for the exact dimensio.
+
+6. I don&#39;t think it&#39;s kind of dramatically affecting the answer here, but we do have to convert that to feet.
+
+<strong>Full Solution:</strong>
+
+An uninsulated, eight inch chilled water pipe. I don&#39;t know why you would have one of those, but I think I just wanted to write an interesting problem here. Carries 55 degree chilled water through a factory maintained 80 degrees. The length of the run is 75 feet. The pipe is painted with non-metallic paint. What is the net heat transfer by radiation? So it wouldn&#39;t be unreasonable to expect that there would be some convection in this situation. Probably a mixture of convection and radiation, but the problem statement specifically says what is the net heat transfer by radiation? So we&#39;re going to focus entirely on that. And if you search the reference handbook for radiation, it&#39;ll find the classic radiation formula that is often used. And that is very much the one we&#39;re going to use here. Also, the words that I used in the reference handbook for the search, and I was using, I think version 1.3 at the time. So if you&#39;re up to 1.4, hopefully this is still the same, is body that is small compared to its surroundings. Was the key word that I found. And that&#39;s true of this pipe even though it&#39;s an eight inch pipe, and it&#39;s pretty long. It&#39;s small relative to its surroundings. So the equation for the heat transfer by radiation is Q. EQUALS Epsilon, which is the emissivity. Times Sigma, which is the Stefan Boltzmann constant, and you can look that up in the reference handbook, although you might not remember how to spell Stefan Boltzmann. So you might instead just search for fundamental constants and find it that way. Times the area, times the difference in temperature raised to the fourth, and that has to be absolute temperature. So rank and not Fahrenheit for those. Let&#39;s go through each of these variables one by one and make sure we have what we need. We&#39;ve got this un-insulated eight inch pipe. So what&#39;s the area? Well, we want the surface area. So that&#39;s going to be the circumference times the length. So we&#39;ll work that out over here. Area is going to be circumference is pi D times length. Now I suppose I could go into the reference handbook if it&#39;s a nominal eight inch pipe and search for the exact dimensions in the schedule 40 steel pipe table. But I just used eight inches. I don&#39;t think it&#39;s kind of dramatically affecting the answer here, but we do have to convert that to feet. So let&#39;s do the substitution here. That&#39;s going to be pi times eight over 12 feet times the length, which is 75 feet. And that&#39;ll get us an answer with units of square feet area is 157 square feet approximately. So that&#39;s that. The step on Boltzmann constant that we can look up in the table called fundamental constants is a number that we can just look up. And then the emissivity is a function of what the outside surface of the pipe is treated with. In this case it&#39;s painted. So we have non-metallic paint and you can look up non-metallic paint directly in the reference handbook. And you&#39;ll find a table called emissivity of surfaces. And if you remember that that&#39;s also a great search term as well. You can look for emissivity of surfaces. And we get that epsilon value of 0.9 for non-metallic paint. So that&#39;s everything we need to make our substitutions. Let&#39;s go ahead and plug it in and run this calculation. One more thing actually is the temperature. Let&#39;s change those to rank in advance. So that we don&#39;t have any issues when we go to subtract. And the way to remember that is the units of the step on Boltzmann constant are going to force us to remember that it&#39;s B2 per hour per foot squared rank into the fourth. So we&#39;ve got 55 degrees. I&#39;m actually going to call that T2 because T1 is going to be the higher of the two temperatures. So we&#39;ll use 80 for T1 and 55 for T2. So the heat transfer due to radiation is 0.9 times and you want to make sure you use the imperial units version of this because I seem to remember from chemistry. 5.67 times 10 to the negative 8. But that is the SI version of the Stefan Boltzmann constant.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An uninsulated, eight inch chilled water pipe.<br><br><br><br>• I don&#39;t know why you would have one of those, but I think I just wanted to write an interesting problem here.<br><br><br><br>• Carries 55 degree chilled water through a factory maintained 80 degrees.<br><br><br><br>• The length of the run is 75 feet.<br><br><br><br>• The pipe is painted with non-metallic paint.<br><br><br><br>• What is the net heat transfer by radiation.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 106</div>
+      <div class="qa-question"><strong>Q:</strong> How can we use the pH diagram and enthalpy to solve for the COP here?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 15. How can we use the pH diagram and enthalpy to solve for the COP here? I know the cycle is different for a car. No cycle. I spent some time on doing this with this method, but a discussion on this would be helpful to understand. So how can we use the pH diagram and enthalpy to solve for COP here? I think you&#39;re question. If you&#39;re doing carno, you&#39;re doing carno COP. Just like we talked about in the previous example, it&#39;s a function of temperatures. You only really need the temperatures. So what does that have to do with the pH diagram? Well, it&#39;s remind ourselves what a heat pump cycle is going to look like on the pH diagram. Here&#39;s our refrigerant or gas, whatever you want to call it, because it&#39;s a heat pump cycle. But remember a heat pump cycle is exactly the same as our refrigeration cycle. It&#39;s just at the thing that we care about in a heat pump cycle is different. In other words, we&#39;re going to number our states all the same. One, two, three, four. Compressor, don&#39;t from one to two. Condenser from two to three. Expansion device from three to four. And evaporator from four to one. So evaporator absorbs heat and the condenser rejects heat in a refrigeration cycle.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Heat Transfer · Problem 3 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
