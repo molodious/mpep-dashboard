@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 9 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 9</span>
+  <span class="nav-badge">⭐ 23 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">23 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 9</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      In an eort to allow for increased ceiling heights, a design engineer species a 3:1 aspect ratio for a duct that delivers 500cfm. The velocity is to be kept under 400fpm. What is the dimension of the long side of the duct? 49
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>13in</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>14in</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>23in</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>24in</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we can see the units cancel.
+
+2. Let&#39;s turn that into inches because the answer choices are all given in inches and the duct is not so big as to be measu.
+
+3. So we&#39;ll multiply this by 144 square inches for one square foot.
+
+4. I&#39;m going to just keep it as an equal sign so we can solve it and I want to put you in a situation to solve inequalities.
+
+5. Okay, so divide by 3 on both sides x square equals 60 and then take the square root x equals 7.74 and then 3 x which wou.
+
+<strong>Full Solution:</strong>
+
+HVAC9. In an effort to allow for increased ceiling heights, a design engineer specifies a 3-to-1 aspect ratio for a duct that delivers 500 CFM. The velocity is to be kept under 400 feet per minute. What is the dimension of the long side of the duct? Okay, so we&#39;re going for a 3-to-1 aspect ratio. All that means is that the long side of the duct is 3 times the short side of the duct. So if the short side is x, then the long side is 3x. And the area is, like times with, 3x squared. So no rocket science there. Now, the key to picking the right size is this velocity requirement. We have to keep the velocity under 400 feet per minute. So what&#39;s the relationship between velocity and volume and area? Well volume flow rate, I&#39;ll use Q for volume flow rate equals velocity times area. So if you isolate for area, then we need volume flow rate over velocity. Okay, so in this case our volume flow rate is 500 CFM. And I&#39;ll write that as 500 cubic feet per minute. So we can see the units cancel. And the velocity is 400 feet per minute. So minutes will cancel and one of the feet will cancel with one of those feet so we get feet squared and that makes sense for an area. So that&#39;s 1.25 square feet of area. So as long as the area is at least 1.25 in the velocity will be 400 feet per minute or less, which is what we want. Let&#39;s turn that into inches because the answer choices are all given in inches and the duct is not so big as to be measured in feet. So we&#39;ll multiply this by 144 square inches for one square foot. And that works out to 180 square inches. Okay, so how do you make a duct? That&#39;s 180 square inches in area and has an aspect ratio of 3 to 1. While we can set this area 3 x square equal to 180 square inches. That&#39;s to be clear. We&#39;re writing an equal sign here but we could just as easily write greater than or equal to because we need our area to be at least 180 square inches. If it&#39;s any less, then the velocity will go up and we won&#39;t satisfy the condition. So let&#39;s keep that in mind. I&#39;m going to just keep it as an equal sign so we can solve it and I want to put you in a situation to solve inequalities probably haven&#39;t done that a long time but I just want to make sure we&#39;re we&#39;re since checking it with the physical requirements. Okay, so divide by 3 on both sides x square equals 60 and then take the square root x equals 7.74 and then 3 x which would be the long side of the duct would be 23.24. So what are our options here? Well, 7 and 23 we know we don&#39;t want to go 7 by 23 because that&#39;ll be too small and I&#39;ll just cross that out right off the bat. But maybe we could go 7 by 24. That might be enough since 24 is more than 23 or maybe we could go 8 by 23 or maybe we need to go 8 by 24. So these are kind of some reasonable suggestions that we might look at. If we go 7 by 23 like I said that&#39;s going to be too small it&#39;s not going to be 180 square inches less than 180 square inches. If we go 7 by 24 that gets us to 168 square inches which is still too small. If we go 8 by 23 that might be enough but it&#39;s not 3 to 1 because 3 times 8 is 24 so that&#39;s the problem with this one. If we go 8 by 24 then it&#39;s 190 2 square inches which is fine so the velocity will be sufficiently low and it is 3 to 1. So the velocity is going to be fine and the 3 to 1 is good. So what&#39;s the long side? 24 inches. Best answer choice is D.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • In an effort to allow for increased ceiling heights, a design engineer specifies a 3-to-1 aspect ratio for a duct that delivers 500 CFM.<br><br><br><br>• The velocity is to be kept under 400 feet per minute.<br><br><br><br>• What is the dimension of the long side of the duct.<br><br><br><br>• Okay, so we&#39;re going for a 3-to-1 aspect ratio.<br><br><br><br>• All that means is that the long side of the duct is 3 times the short side of the duct.<br><br><br><br>• So if the short side is x, then the long side is 3x.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">23 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 25 · November 19 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 25</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, psychometrics. I cannot use Q equals 500 Q delta t because it&#39;s asking for condensate not water also need to account for massive air, question mark. Also I get tripped up identifying which specific volume to use for this problem I see entering CFM is given so that&#39;s why we&#39;re using state ones entering specific volume question. Okay, so couple of things there. This is a sensible and latent cooling problem. So you&#39;re right, we&#39;re not going to use 500 gpm delta t. 500 gpm delta t is for the sensible heating or cooling of water. So we have a flow of water through system and some energies being added or removed from that water. That&#39;s where we use 500 gpm delta t. But this is a case where we&#39;re cooling air. So we&#39;re cooling air and as a result of that, we&#39;re cooling that air not only sensibly, not only reducing its temperature, but also running that air over cooling coil to the point where it&#39;s cooled past its dew point. When that happens, we&#39;re going to strip moisture from that air. And we call that latent cooling. So we&#39;re going to be cooling and dehumidifying. So the way we look that up in the reference handbook. And then you need to be annotating again. It&#39;s an actually right </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 30 · February 4 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 30</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> System 9 is it possible to solve this question using the reference book 9.2.3 at ebatic mixing of two moist air streams? Yes, so actually I think to do it using 9.2.3 mixing two air streams is formally the best way to do it arguably the right way to do it and what I did is faster, that&#39;s why I did it. I wanted to say it some time, but a little looser in terms of the you know the rigidity or the the rigor of the approach and I&#39;ll explain what I mean there. So to use these equations it&#39;s weighted average of by mass and that&#39;s the right thing to do. This equation right here. So you&#39;re taking the mass of stream 1 times the enthalpy of stream 1 plus the mass of stream 2 times enthalpy of stream 2 and in this problem we&#39;re basically mixing two air streams. So if we really wanted to be formal about it we should use exactly this equation. We should find the enthalpy of those two incoming flows and we should find the masses. Well what does it mean to find the masses? If we&#39;re given the volumes then we need to know the density or the specific volume. But fortunately both of those states are fully defined so we can use the psychometric chart to find the specific volumes and we can turn those </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65 · August 14th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-47857149
+
+HVAC9 in the solution, I understand that we are using the area of the rectangle, but shouldn&#39;t we use the hydraulic diameter to calculate the velocity in the duct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC9 in the solution, I understand that we are using the area of the rectangle, but shouldn&#39;t we use the hydraulic diameter to calculate the velocity in the duct? So this comes up quite a bit and it&#39;s also kind of related to what we just talked about with hydraulic diameter. So there&#39;s two different formulas and you can also look at previous office hours because this is a common question. There&#39;s the hydraulic diameter, which is this idea that the hydraulic diameter equals four times the area over the perimeter. And there&#39;s an alternate equation right underneath that that you&#39;ll find by using the search term, rectangular ducts, rectangular ducts. And that&#39;s this formula that you&#39;re pointing out. And my guide in on this is if it&#39;s a duct, use this. That&#39;s what it&#39;s for, but the rectangular duct, this is the exact words that the use in the reference handbook are this, the circular equivalent of a rectangular duct. So if you have a rectangular duct, this is how you find the circular equivalent. For other geometries, this won&#39;t work, this only works for rectangular ducts, so you have no choice, but to use the hydraulic diameter equation. But if you have a rectangular duct, this is you</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-27921741
+
+Do we need to memorize the formulas for calculating air fuel ratio and percent excess air?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Do we need to memorize the formulas for calculating air fuel ratio and percent excess air? I don&#39;t see where the coefficients are coming from. This question is slightly concerning. I never want you to memorize much. I think there are things that you&#39;re going to memorize. It&#39;s inevitable. Enough repetition and 1.08 CFM Delta T is going to be burned into the back of your brain. So deeply that you&#39;ll never forget it. But memorize like no. And especially not something that fits into one corner of the supporting topics world. I think I&#39;ve probably been on my soapbox for long enough about supporting topics to know that I don&#39;t want you to spend too much time with these things anyway. But if you are going to, my suggestion would be to find problems and I think I&#39;ve given you some problems. Find good problems to work on and work them deeply and understand what they&#39;re asking and understand the procedures for how to work through them. And understand how to use the resources that are in the reference handbook. There&#39;s a good table in there about reactions, combustion reactions for common fuels.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> Do you interpolate to solve for specific volume?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 3. Do you interpolate to solve for specific volume? In this case, using 25% as far between drier and saturated air as you are? I think the answer is no to this one. It&#39;s a fully defined state, so I won&#39;t go into the details of the problem, but just to address that particular state, if I draw a really bad psychometric chart here. You know the temperature, well, I mean, I draw it there actually. It&#39;s 25% humidity, so you know the temperature and the relative humidity at that state. I think it&#39;s 70 and 25. And that&#39;s fully defined. So if you want to know the specific volume, there&#39;s no need to interpolate. You have lines of constant specific volume on the psychometric chart that go kind of like this. And then if you&#39;re between two lines, I think they label every half, so you might see a label for like 13.5 and then 14.5. And if you&#39;re in between, there&#39;s enough tick lines there that you should be able to get it down to a tenth. And then if you&#39;re in between those lines, then you can take a shot at at the hundredths place, which you won&#39;t have confidence in the hundredths place. And that&#39;s okay.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 32</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-33560202
+
+Thermo 9, can you break down the conversion of foot pound force per pound mass rank in to beat you per pound?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 9, can you break down the conversion of foot pound force per pound mass rank in to beat you per pound? So this came up in the context of a problem that was finding the work done by a compressor. And I won&#39;t go into the details about that problem and why you use this formula. But given that you&#39;ve already identified that this is the formula that you want to use, it&#39;s the universal gas. I&#39;m not the universal, the specific gas constant for that gas, which I believe in this case was air, times delta t, the change in temperature, and the compressor, or 1 minus k, or k is the ratio of specific heats. And the question is just breaking down that conversion. Well, the conversion to beat you per pound, you can find in measurement relationships in the reference handbook. That&#39;s something you can look up directly, not the per pound part. We&#39;ll get to that. So 1 B to U, equal 778 foot pound force. So just keep that in the back of your mind as working through this. And we&#39;re not necessarily interested in working the numbers right now, but just kind of plugging in for each of these variables, what the units would be and seeing what happens with that.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-39706833
+
+And you got another new denominator for the next one, 1790.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And you got another new denominator for the next one, 1790. I just don&#39;t like, you know, I don&#39;t like that denominator. I did do that a lot on accident. I bit 1790 a lot. So it happens, you know, you&#39;re going through a lot of these problems. And there&#39;s going to be a lot of little things. That&#39;s part of the reason we do as many practice problems as possible. Yeah, so this one, I did, I did go straight for that P1 minus 2 over gamma approach. So I realized that misses it. It doesn&#39;t capture the pump, everything that&#39;s going on. I will say that both of these problems also lacked proper look up from the steel table tables on HF. So I snagged 5.2, I think I snagged 5.2 feet from the table. And I forgot to multiply that by the length of five. So I just took that straight from the table and ran with it without actually thinking about it. So that&#39;s a, on the state that I saw a couple of times. All right, well, don&#39;t kick yourself about it, just, you know, try to sort it out for the next one.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> However, why do you not subtract the 5k per year for maintenance before converting to present value?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And supporting knowledge 14, the reference handbook says that straight line depreciation is cost-minus salvage value over n. I understand why that&#39;s not included for tax purposes. However, the question came up that flat out asked for what the straight line depreciation would it not be. Cost-minus salvage over n. I&#39;m going to jump in right here and say yes, it should be. And actually have a correction coming out for this one because I didn&#39;t use the salvage value and I should have. So it should be cost-minus salvage over n. Also, you subtracted the tax from the annual revenue and I understand how you got there. However, why do you not subtract the 5k per year for maintenance before converting to present value? I think you&#39;d still have the annual cost subtracted from your annual profit. For this one, I might not have made it super clear in the solution, but I did use 50,000 minus 5,000. So the before tax profit was 50,000 and then the after tax profit is 45,000. So it&#39;s profit minus maintenance, get you the 45,000 and then you subtract the tax and it&#39;s smaller still. And then we apply P given it, find the present value from there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 71</div>
+      <div class="qa-question"><strong>Q:</strong> Why do you not use straight line depreciation for the annual tax rate similar to supporting topic problem 15?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Well, price exam, two problem three. Why do you not use straight line depreciation for the annual tax rate similar to supporting topic problem 15? Yeah, fair point on this one. I took a look at this one preparing for tonight. And for whatever reason, I didn&#39;t include depreciation. So I&#39;ve added a note underneath the question that says to depreciation does not apply. So ignored depreciation. So that it would align with the solution as it&#39;s written. But to your point against problem 15 side by side, you would you&#39;re right to consider that depreciation. One of my thoughts when I first read it was, it says that there&#39;s an investment at the beginning, or something as purchase and assets purchase. And I was going to say, we don&#39;t know for a fact that that&#39;s a depreciable asset. Maybe they bought a marketing contractor, something like that. We don&#39;t know that they bought a building or a tool, or something like that. But then I realized I couldn&#39;t say that because I gave a salary to you. So if it&#39;s an asset with a salary value, then it&#39;s definitely something that depreciation&#39;s going to apply to. And you&#39;re right to ask the question. So thank you.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 78</div>
+      <div class="qa-question"><strong>Q:</strong> In isentropic process, how did you know it was an open system, no PE or KE change?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, first up we have thermo 9. In isentropic process, how did you know it was an open system, no PE or KE change? So I was a little bit confused about this question because it was submitted as being from the HVAC program from one of the full practice exams, problem number 9. But I looked at both of those number 9&#39;s and it doesn&#39;t really make sense for this question. I think this was actually related to thermo 9. But the solution for thermo 9, that problem is about the compression of atmospheric air and it did involve dealing with an isentropic process, but it was not an open system, it was a closed system, in that there is no mass crossing the system boundary. So there is no reference in the problem statement to any mass flow rate. So we have no reason to believe that there is anything crossing the system boundary. Now, it doesn&#39;t explicitly say that there isn&#39;t, but there wouldn&#39;t be enough information to solve the problem. We would need to know some kind of a mass flow rate. It would be a completely different problem.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Are you going to have new switchboards and new transformers coming into the building?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Just an explanation of which is the better approach. Okay, this one was about 500 megawatt power plant. The fuel-low-bease is natural gas, which is the following is an advantage of the combined cycle power plant over a conventional steam power plant. So the difference between the combined cycle, so let&#39;s just talk about what a conventional power plant is first. I think they&#39;re just talking about like a general gas turbine. So that&#39;s produced this burning natural gas, and that&#39;s putting heat in, and that&#39;s making electricity, let&#39;s say. Usually, that&#39;s typically what the goal is, is to make electricity. The difference with the combined cycle is that they&#39;re taking some of the waste gas from that gas turbine, which is still hot. Excuse me, and they&#39;re using that to run a steam turbine. And that&#39;s always the way, like I&#39;ve looked at this for buildings, you have excess energy in the form of waste heat, and it&#39;s not easy to make use of that. Because so that&#39;s kind of the limitation or the downside, is that the, because your question is like an explanation of what&#39;s a better approach.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Why they took into consideration the mass flow rate and assume one for the entering mass flow rate?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and here we have a combined cycle, so that&#39;s perfect segue. Why they took into consideration the mass flow rate and assume one for the entering mass flow rate? Yeah, this problem was kind of cute. I like it, but I can see why this was annoying if it if you just saw this so What are they doing here? Their question is the thermal efficiency of the combined cycle. Let&#39;s start at the end. So the thermal efficiency of a combined cycle is Is the network over the heat in? The heat in is this Q And Q is going to be the difference between the enthalpy at 3 and the enthalpy at 2. So 3 minus 2 is 646 minus 272. That&#39;s our denominator. So that parts pretty easy. The numerator is harder. What is the network of the cycle? Well, if there wasn&#39;t a steam if they weren&#39;t taking advantage of the waste heat That comes out at state 4 and goes through this heat exchanger and drives this steam turbine and makes extra power If none of this existed and it was just a pure gas turbine Then The network W net which is given would be the numerator and the question would just be 1.37 Over 646 minus 272 and we&#39;re done But they do have the steam turbine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 108</div>
+      <div class="qa-question"><strong>Q:</strong> What&#39;s the best way to assess whether I truly understand the fundamentals versus just memorizing formulas?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Another general study question. I&#39;m concerned about gaps in my conceptual understanding that might hurt me on the PE exam. What&#39;s the best way to assess whether I truly understand the fundamentals versus just memorizing formulas? And how can I strengthen weak areas efficiently? So this is a common theme and a common question that comes up for folks, especially towards the very beginning of their study process. And the key, and this is something I talk about a lot, if anybody, not just the person that has this question, but if anybody hasn&#39;t watched the orientation at the beginning of the mechanical engineering fundamentals, please go back and watch the orientation, because I hit on a lot of these key points. But the key is really to squeeze the juice out of the practice problems. That&#39;s how you find out whether you truly understand the fundamentals or are just memorizing formulas. Because memorizing formulas is only going to get you so far, and it&#39;s not very far. Because it&#39;s just like, if you recently did the F.E. Then you know how to study in a way that&#39;s like very topical surface level, tops of the waves.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-27921741
+
+Do we need to memorize the formulas for calculating air fuel ratio and percent excess air?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Do we need to memorize the formulas for calculating air fuel ratio and percent excess air? I don&#39;t see where the coefficients are coming from. This question is slightly concerning. I never want you to memorize much. I think there are things that you&#39;re going to memorize. It&#39;s inevitable. Enough repetition and 1.08 CFM Delta T is going to be burned into the back of your brain. So deeply that you&#39;ll never forget it. But memorize like no. And especially not something that fits into one corner of the supporting topics world. I think I&#39;ve probably been on my soapbox for long enough about supporting topics to know that I don&#39;t want you to spend too much time with these things anyway. But if you are going to, my suggestion would be to find problems and I think I&#39;ve given you some problems. Find good problems to work on and work them deeply and understand what they&#39;re asking and understand the procedures for how to work through them. And understand how to use the resources that are in the reference handbook. There&#39;s a good table in there about reactions, combustion reactions for common fuels.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31</div>
+      <div class="qa-question"><strong>Q:</strong> Do you interpolate to solve for specific volume?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 3. Do you interpolate to solve for specific volume? In this case, using 25% as far between drier and saturated air as you are? I think the answer is no to this one. It&#39;s a fully defined state, so I won&#39;t go into the details of the problem, but just to address that particular state, if I draw a really bad psychometric chart here. You know the temperature, well, I mean, I draw it there actually. It&#39;s 25% humidity, so you know the temperature and the relative humidity at that state. I think it&#39;s 70 and 25. And that&#39;s fully defined. So if you want to know the specific volume, there&#39;s no need to interpolate. You have lines of constant specific volume on the psychometric chart that go kind of like this. And then if you&#39;re between two lines, I think they label every half, so you might see a label for like 13.5 and then 14.5. And if you&#39;re in between, there&#39;s enough tick lines there that you should be able to get it down to a tenth. And then if you&#39;re in between those lines, then you can take a shot at at the hundredths place, which you won&#39;t have confidence in the hundredths place. And that&#39;s okay.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 32</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-33560202
+
+Thermo 9, can you break down the conversion of foot pound force per pound mass rank in to beat you per pound?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 9, can you break down the conversion of foot pound force per pound mass rank in to beat you per pound? So this came up in the context of a problem that was finding the work done by a compressor. And I won&#39;t go into the details about that problem and why you use this formula. But given that you&#39;ve already identified that this is the formula that you want to use, it&#39;s the universal gas. I&#39;m not the universal, the specific gas constant for that gas, which I believe in this case was air, times delta t, the change in temperature, and the compressor, or 1 minus k, or k is the ratio of specific heats. And the question is just breaking down that conversion. Well, the conversion to beat you per pound, you can find in measurement relationships in the reference handbook. That&#39;s something you can look up directly, not the per pound part. We&#39;ll get to that. So 1 B to U, equal 778 foot pound force. So just keep that in the back of your mind as working through this. And we&#39;re not necessarily interested in working the numbers right now, but just kind of plugging in for each of these variables, what the units would be and seeing what happens with that.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-39706833
+
+And you got another new denominator for the next one, 1790.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And you got another new denominator for the next one, 1790. I just don&#39;t like, you know, I don&#39;t like that denominator. I did do that a lot on accident. I bit 1790 a lot. So it happens, you know, you&#39;re going through a lot of these problems. And there&#39;s going to be a lot of little things. That&#39;s part of the reason we do as many practice problems as possible. Yeah, so this one, I did, I did go straight for that P1 minus 2 over gamma approach. So I realized that misses it. It doesn&#39;t capture the pump, everything that&#39;s going on. I will say that both of these problems also lacked proper look up from the steel table tables on HF. So I snagged 5.2, I think I snagged 5.2 feet from the table. And I forgot to multiply that by the length of five. So I just took that straight from the table and ran with it without actually thinking about it. So that&#39;s a, on the state that I saw a couple of times. All right, well, don&#39;t kick yourself about it, just, you know, try to sort it out for the next one.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> However, why do you not subtract the 5k per year for maintenance before converting to present value?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And supporting knowledge 14, the reference handbook says that straight line depreciation is cost-minus salvage value over n. I understand why that&#39;s not included for tax purposes. However, the question came up that flat out asked for what the straight line depreciation would it not be. Cost-minus salvage over n. I&#39;m going to jump in right here and say yes, it should be. And actually have a correction coming out for this one because I didn&#39;t use the salvage value and I should have. So it should be cost-minus salvage over n. Also, you subtracted the tax from the annual revenue and I understand how you got there. However, why do you not subtract the 5k per year for maintenance before converting to present value? I think you&#39;d still have the annual cost subtracted from your annual profit. For this one, I might not have made it super clear in the solution, but I did use 50,000 minus 5,000. So the before tax profit was 50,000 and then the after tax profit is 45,000. So it&#39;s profit minus maintenance, get you the 45,000 and then you subtract the tax and it&#39;s smaller still. And then we apply P given it, find the present value from there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 71</div>
+      <div class="qa-question"><strong>Q:</strong> Why do you not use straight line depreciation for the annual tax rate similar to supporting topic problem 15?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Well, price exam, two problem three. Why do you not use straight line depreciation for the annual tax rate similar to supporting topic problem 15? Yeah, fair point on this one. I took a look at this one preparing for tonight. And for whatever reason, I didn&#39;t include depreciation. So I&#39;ve added a note underneath the question that says to depreciation does not apply. So ignored depreciation. So that it would align with the solution as it&#39;s written. But to your point against problem 15 side by side, you would you&#39;re right to consider that depreciation. One of my thoughts when I first read it was, it says that there&#39;s an investment at the beginning, or something as purchase and assets purchase. And I was going to say, we don&#39;t know for a fact that that&#39;s a depreciable asset. Maybe they bought a marketing contractor, something like that. We don&#39;t know that they bought a building or a tool, or something like that. But then I realized I couldn&#39;t say that because I gave a salary to you. So if it&#39;s an asset with a salary value, then it&#39;s definitely something that depreciation&#39;s going to apply to. And you&#39;re right to ask the question. So thank you.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 78</div>
+      <div class="qa-question"><strong>Q:</strong> In isentropic process, how did you know it was an open system, no PE or KE change?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, first up we have thermo 9. In isentropic process, how did you know it was an open system, no PE or KE change? So I was a little bit confused about this question because it was submitted as being from the HVAC program from one of the full practice exams, problem number 9. But I looked at both of those number 9&#39;s and it doesn&#39;t really make sense for this question. I think this was actually related to thermo 9. But the solution for thermo 9, that problem is about the compression of atmospheric air and it did involve dealing with an isentropic process, but it was not an open system, it was a closed system, in that there is no mass crossing the system boundary. So there is no reference in the problem statement to any mass flow rate. So we have no reason to believe that there is anything crossing the system boundary. Now, it doesn&#39;t explicitly say that there isn&#39;t, but there wouldn&#39;t be enough information to solve the problem. We would need to know some kind of a mass flow rate. It would be a completely different problem.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Are you going to have new switchboards and new transformers coming into the building?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Just an explanation of which is the better approach. Okay, this one was about 500 megawatt power plant. The fuel-low-bease is natural gas, which is the following is an advantage of the combined cycle power plant over a conventional steam power plant. So the difference between the combined cycle, so let&#39;s just talk about what a conventional power plant is first. I think they&#39;re just talking about like a general gas turbine. So that&#39;s produced this burning natural gas, and that&#39;s putting heat in, and that&#39;s making electricity, let&#39;s say. Usually, that&#39;s typically what the goal is, is to make electricity. The difference with the combined cycle is that they&#39;re taking some of the waste gas from that gas turbine, which is still hot. Excuse me, and they&#39;re using that to run a steam turbine. And that&#39;s always the way, like I&#39;ve looked at this for buildings, you have excess energy in the form of waste heat, and it&#39;s not easy to make use of that. Because so that&#39;s kind of the limitation or the downside, is that the, because your question is like an explanation of what&#39;s a better approach.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Why they took into consideration the mass flow rate and assume one for the entering mass flow rate?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and here we have a combined cycle, so that&#39;s perfect segue. Why they took into consideration the mass flow rate and assume one for the entering mass flow rate? Yeah, this problem was kind of cute. I like it, but I can see why this was annoying if it if you just saw this so What are they doing here? Their question is the thermal efficiency of the combined cycle. Let&#39;s start at the end. So the thermal efficiency of a combined cycle is Is the network over the heat in? The heat in is this Q And Q is going to be the difference between the enthalpy at 3 and the enthalpy at 2. So 3 minus 2 is 646 minus 272. That&#39;s our denominator. So that parts pretty easy. The numerator is harder. What is the network of the cycle? Well, if there wasn&#39;t a steam if they weren&#39;t taking advantage of the waste heat That comes out at state 4 and goes through this heat exchanger and drives this steam turbine and makes extra power If none of this existed and it was just a pure gas turbine Then The network W net which is given would be the numerator and the question would just be 1.37 Over 646 minus 272 and we&#39;re done But they do have the steam turbine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 108</div>
+      <div class="qa-question"><strong>Q:</strong> What&#39;s the best way to assess whether I truly understand the fundamentals versus just memorizing formulas?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Another general study question. I&#39;m concerned about gaps in my conceptual understanding that might hurt me on the PE exam. What&#39;s the best way to assess whether I truly understand the fundamentals versus just memorizing formulas? And how can I strengthen weak areas efficiently? So this is a common theme and a common question that comes up for folks, especially towards the very beginning of their study process. And the key, and this is something I talk about a lot, if anybody, not just the person that has this question, but if anybody hasn&#39;t watched the orientation at the beginning of the mechanical engineering fundamentals, please go back and watch the orientation, because I hit on a lot of these key points. But the key is really to squeeze the juice out of the practice problems. That&#39;s how you find out whether you truly understand the fundamentals or are just memorizing formulas. Because memorizing formulas is only going to get you so far, and it&#39;s not very far. Because it&#39;s just like, if you recently did the F.E. Then you know how to study in a way that&#39;s like very topical surface level, tops of the waves.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 9 · 23 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
