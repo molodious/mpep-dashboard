@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 22 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 22</span>
+  <span class="nav-badge">⭐ 11 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">11 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 22</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      80gpm of 60°F water is pumped from 100ft below the surface of a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? 29
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>7hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. We&#39;re going to solve some water going across and then there&#39;s a pump.
+
+2. That&#39;s going to be given by Q delta H or sometimes we call this HAA the head added by the pump divided by 30960.
+
+3. So we&#39;re going to start with the modified version of the Bernoulli equation which is adapted to find the delta H or the.
+
+<strong>Full Solution:</strong>
+
+Fluids 22. 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above ground, through 400 feet of 3-inch nominal schedule 40 welded steel pipe. The piping run contains 4 90 degree elbows and a glow valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? So we have water being pumped up from a lake. Let&#39;s draw ourselves a little lake here and it says it&#39;s being pumped from the bottom so we can create some state 1 that&#39;s right at the bottom of the lake. We&#39;re going to solve some water going across and then there&#39;s a pump. I&#39;m drawing it floating in space since it&#39;s just kind of a schematic concept. I&#39;m sure there would be some more sensible way to locate that and then we have a tank and that&#39;s got some water levels well. And let&#39;s say that the top of that tank is state 2 and we know a couple things about the heights. We know that the water is being pumped from a 100 feet below the surface of the lake. The lake could actually be deeper and it&#39;s just that it&#39;s pumped from a 100 feet below the surface or it could be that the lake is actually 150 and it&#39;s pumped from the right bottom. Either way the distance between the top of the lake and where the water is being pumped from is a 100 feet and then the top of the tank is a 100 feet above the ground. So this distance is also 100 feet but it&#39;s a 100 feet of air as opposed to a 100 feet of water and then we should probably connect our pumps to the top of the tank. And then the question is what&#39;s the hydraulic horsepower for this application? Well hydraulic horsepower is WHP water horsepower and this is water so we don&#39;t have to deal with specific gravity or anything like that. That&#39;s going to be given by Q delta H or sometimes we call this HAA the head added by the pump divided by 30960. And we actually know the GPM already, right? It&#39;s 80 GPM so it&#39;s really just how much head pressure is added by the pump. If we could find that then we could find the water horsepower. So we&#39;re going to start with the modified version of the Bernoulli equation which is adapted to find the delta H or the H sub A if you like to think of that way which I do. And that&#39;s the difference in pressure for the discharge side compared to the suction side including all the so the static pressure difference is P2 minus P1 over gamma plus the velocity V2 squared minus V1 squared over 2G plus the difference in height Z2 minus Z1 plus the losses H sub F. Now for this application the water in the lake probably isn&#39;t moving and then the water in the tank is like kind of a reservoir above. That&#39;s not moving either so it&#39;s probably the case that V2 and V1 both equals 0 or near 0. So we&#39;re just going to ignore this velocity term and that&#39;s not unusual to do that. For the static pressure we know that the storage tank is that atmospheric pressure. So P2 equals 1m is here. P1 is all the way at the bottom of the lake. So there&#39;s a hydrostatic pressure of the entire column of water that is the lake sitting on top of that 0.1. So P1 then equals 100 feet of water column H2. Now I could turn that into PSI by dividing by 2.31. But I&#39;m going to keep it in feet since the other terms are feet anyway we may as well keep it and it also includes any additional pressure between the top surface of the water and 2. But we said that 2 is open to the atmosphere and atmospheric pressure is also what the top surface of the lake is being exposed to. So the only difference really is the 100 feet of air and what is the pressure that arises as a result of a column of air that&#39;s 100 feet. It&#39;s not very much. If you walk up a hill that&#39;s 100 feet is their significantly less pressure up there not really. It takes significant change in elevation before the pressure starts to meaningfully change. So we&#39;re going to ignore that 100 feet of air column and just say that P1 is 100 feet and that&#39;s 100 feet in addition to the atmosphere.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above ground, through 400 feet of 3-inch no.<br><br><br><br>• The piping run contains 4 90 degree elbows and a glow valve.<br><br><br><br>• The storage tank is at atmospheric pressure.<br><br><br><br>• What is the required hydraulic horsepower for this application.<br><br><br><br>• So we have water being pumped up from a lake.<br><br><br><br>• Let&#39;s draw ourselves a little lake here and it says it&#39;s being pumped from the bottom so we can create some state 1 that&#39;s right at the bottom of the .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">11 questions from 9 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Are we assuming at 68 degrees outside?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, fluids 22, how do you know you can use water horse power equals our favorite formula, QdL to H over 30960 for problem 22 in the fluid section. I&#39;m getting confused by the at 68 degrees Fahrenheit water has the density of statement. This is from the reference handbook. Are we assuming at 68 degrees outside? No, this is the temperature of water. So yeah, that&#39;s going to be, that&#39;s just making sure that the water temperature is based on assumption. So at 68 degrees water temperature, water has that density 62.3. I&#39;ve also seen it as 62.4, like my whole engineer and career have taken it as 62.4. So hopefully that slight difference doesn&#39;t matter too much. But no, it doesn&#39;t have anything to do with the at the temperature of the air. It has everything to do with the temperature of the water. The idea there is that density is a function of temperature, temperature of the water, not temperature of the air. And you know, if you have significantly warmer water, it&#39;s going to be a bit less dense, which means this number is going to go down. And that means these constants in the denominator might change slightly. That&#39;s not a major thing to worry about. I think the only time that gets a</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35 · May 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 35</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Flood&#39;s 22. Hello there are three parts to my question. First I tried to use the Hesian Williams equation to calculate friction laws but it gave me a different result than what you calculated is there a reason why it wouldn&#39;t work here. Also why do you set the starting pressure P1 as 100 feet of water plus 1ATM? I thought it would be 200 feet of water plus 1ATM. Finally why don&#39;t you multiply by multiply the Z2-MNC1 and HF terms in the Bernoulli equations. By the specific weight when solving for HF. HA being the head out of the pump. So it was just take those 1 by 1 starting with the first part the Hesian Williams equation. I would say this is my guidance and you know I can&#39;t say this with 100% confidence but I&#39;m probably 95% confident and less of problems specifically gives you the value of the Hesian Williams constant or coefficient whatever it&#39;s called the value of C. I would use the Darcy equation. Darcy equations more general it&#39;s fundamental it comes up often. They&#39;re both meant to like so the only criticism of Darcy is that it&#39;s highly theoretical so you could say it may not match up with reality so some folks might prefer to use the steel pipe friction tables in certain cas</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 46 · October 19 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 46</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Flood&#39;s 22. This is one about a pumping situation. I&#39;ll bring that one up as well. I actually have your work up on the screen if you wanna kind of talk through. Okay. Yeah. So I think looking back at it. All the hours. Again, PE guy. I&#39;m sorry. I got, I&#39;m sorry. Yeah, I&#39;m sorry. I think I went to the right. I went straight for Delta P. I&#39;d like to know if this method I chose is probably the method that a cinnamon system says. I chose to solve for Delta P and plug that into our water horsepower equation. Yeah, 1709 is a typo. It&#39;s supposed to be 1714. So probably not the reason for the problem, all right, pretty minor. Yeah, I went straight for Delta P. I like the head added approach that I&#39;ve seen continuously used for these types of problems. You&#39;ll do U slash way you&#39;ll do head added equals Delta P. Delta P plus V2 minus V1 plus difference in height plus your major minor losses. I went straight for Delta P. So I did basically Delta P, P2 minus P1 over gamma equals the rest of that. And that&#39;s what I was wondering about. All right, so I guess let&#39;s jump back to more just vanilla Bernoulli situation here. So we&#39;ve P1 plus V2 plus rho gz. I guess we would say this is more doing ever</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 64 · July 31st 2023</div>
+      <div class="qa-question"><strong>Q:</strong> When time is critical, is it really necessary to include the extra sig figs or are there scenarios, pipe sizes that can yield significant differences?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So first up fluids 22, this is a general question that applies to problems using the steel pipe friction tables. In most cases, values from the steel pipe friction tables for pipe size and pipe diameter are extremely close and solving this problem using three inches instead of 3.068 inches still rounds to the correct answer. When time is critical, is it really necessary to include the extra sig figs or are there scenarios, pipe sizes that can yield significant differences? So my guidance here is about an 8 inch cut off. So if the pipe is 8 inches or bigger, I&#39;m not going into the tables to get the exact value. Like it doesn&#39;t matter if it&#39;s 8 inches or 8.0, whatever. If it&#39;s a big pipe, so I&#39;ll just go ahead and round. If it says nominal or standard weight or standard weight steel, I&#39;m not going into the table for that. But if it&#39;s smaller, if it&#39;s on the smaller side, it can make a difference. Now, nothing necessarily makes a difference because the answer choices might be spaced out a bit, but it could. And it&#39;s especially troubling when you get down to some smaller pipe sizes that are very close. You can have inch and a quarter, inch and a half and two inches, right? All very clo</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 75</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, so let&#39;s do it to 22. Can you explain about P2 and P1 term? When we calculate P1 from the reference line, we added 100 feet of water, but when we calculate for P2, we are not adding 100 feet of air to it. Why? Okay, so we want the delta P, so we&#39;re interested in P1 and P2. Now keep in mind the data misarbitrary. So this reference line is arbitrary. We didn&#39;t have to put it here. You could redo this problem with the data and being at the top of the water tank. You can redo this problem with the data and being at the bottom of the pond. And you should get the same answer in all cases. But when I&#39;m going to do it three times, you go away and do it the other two times and confirm that it matches. But in the solution, I put the reference line at the top of the pond. And we&#39;ll stick with that for the sake of conversation here. But I just want to kind of start from that, recognizing that that&#39;s arbitrary. Once you make that selection, you stick with that assumption throughout. But you are free to make that selection in a place that&#39;s convenient that helps the problem be simpler. So assuming we do it there, the first part is P1, which is at the bottom of the pond. So what is P1? We s</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> How can you rearrange the Bernoulli equation to solve for the head loss H sub A?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And lots of fluid questions today. Fluids 22 actually it&#39;s a very same problem. How can you rearrange the Bernoulli equation to solve for the head loss H sub A? This is the Bernoulli equation arranged for H sub A, but H sub A is not the head loss. H sub A is the head added by the pump. So that&#39;s a key idea. It&#39;s a short answer, but I want to make sure that&#39;s clear. So the Bernoulli equation, when there&#39;s no pump involved, when it&#39;s just a piping system, we say P1 over gamma plus V1 squared over 2G plus C1 equals P2 over gamma plus V2 squared over 2G plus Z2 plus losses on the downstream side on the two side. H sub F had losses H sub F. So if you want to find H sub F by itself, you can do H sub F equals the one minus the two&#39;s and do the algebra there. That&#39;s calculating the head loss in a piping system. There&#39;s still losses in a pumping system. The question is, where do you add the head added by a pump? So the head added by a pump is energy that&#39;s added to the first side that shows up on the second side downstream of the pump. So you can think of the head added by the pump as being on the right side. That&#39;s where you would add it if you were going to add it. And then if you want to</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92 · November 25th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 92</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads 22, when should we use the Darcy Weiss back equation to find frictional loss versus when should we use the head loss per hundred feet value from the steel piping table? I understand they both signify the same. Yeah, I&#39;m glad you said that at the end and this is a super common question. This is come up many times in previous office hours so if you dig through the archive you&#39;ll you&#39;ll see different versions of this question coming up from time to time. The short answer is really what you said at the end there they do lead to the same or approximately the same result most of the time. So it&#39;s your choice. I think most engineers prefer to use the steel pipe friction tables so if you have a steel pipe then that&#39;s going to be faster for you you&#39;re probably going to want to go that way and I would argue with you. That said if anybody&#39;s listening and they&#39;re like oh good I don&#39;t need to deal with the Darcy equation. No you should definitely know the Darcy equation how to use the moody chart how to find the friction factor based on the Reynolds number and the relative roughness and all that good stuff because you might not be dealing with a steel pipe and if they&#39;re looking to test y</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Why is P100 feet when we factor in the 100 feet of H20 in the Z term?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 22. Why is P100 feet when we factor in the 100 feet of H20 in the Z term? Is that not double counting and how to available? So this one was about pumping from a lake up into a tank that was above the lake. Just draw a little picture of that one. We had a lake and then it was a pump pumping from the bottom of the lake up into some reservoir. And the question is why is P100 feet when we factor in a 100 feet of water in the Z term? Okay so there&#39;s some confusion about when we set up the Bernoulli equation we have, let&#39;s do head out by the pump again, the same equation we used last time. P1, let&#39;s do, I forget how we called our 1 and 2 in the problem. Probably 2 is going to be up here and 1 is going to be here at the bottom. Yeah, that&#39;s it. So we&#39;re going to do P2 minus P1 over gamma. There&#39;s not going to be a velocity term and then there&#39;s going to be an elevation term. So Z2 minus Z1 is easy because the problem statement says that these are 200 feet apart. So if we set our data at the bottom here, then Z2 minus Z1 is going to be 200 feet. Alright 200 minus 0 you could say. Then the question is what&#39;s the static pressure? And we don&#39;t want to conflate the static pressure with </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 103 · May 26th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Then what would delta P be?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids 22. If you can explain the part at 550 when you explain how the hydrostatic pressure at state 1 at the bottom of the lake helps push the water from the bottom to the top. I understand that the hydrostatic force increases by depth and acts on the point at state 1. I don&#39;t understand how that force helps push the water up. Let&#39;s redraw this one. This comes up every once in a while and it is a little tricky to think about. I kind of definitely was bothered by these types of problems too when I was studying fluids. So every time I see it, I feel a lot of compassion for those of you that are dealing with these kinds of questions. So in this situation we had like a reservoir and that reservoir was elevated over a lake and that lake was of some depth. That&#39;s a draw a lake. And the delta and height between the top of the reservoir and the top of the lake was 100 feet. And it was another 100 feet to the bottom of the lake. I know that&#39;s not to scale but bear with me. And we put the pump here at the bottom and we&#39;re pumping all the way up. And we want to know delta P, the static pressure. We can do it in head terms. We can do it in H. And I&#39;m going to write P anyway even th</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> Won&#39;t there be radiation between duct work and the surrounding air as well?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 21. This problem involves convection and radiation. For radiation, we consider the radiation between the duck work and the wall. Won&#39;t there be radiation between duct work and the surrounding air as well? Technically, yes, but we don&#39;t often consider that. The mode of heat transfer that dominates between a solid surface and a fluid, and when I say a fluid, I mean either a liquid or a gas, is convection. And the whole conduction convection radiation, convection is literally the study of heat transfer from solids to fluids, which can be liquids or gases. So that&#39;s the big story. And that&#39;s why in this problem, we&#39;re considering convection and radiation because the duck is surrounded by a fluid that is air, and we know something about that air temperature, and we&#39;re interested in quantifying what that heat transfer due to convection is. Separately from that, we&#39;re in the business of quantifying the heat transfer by radiation as well. And that has to do with what&#39;s happening over electromagnetic waves between two surfaces, two solids.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> Won&#39;t there be radiation between duct work and the surrounding air as well?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 21. This problem involves convection and radiation. For radiation, we consider the radiation between the duck work and the wall. Won&#39;t there be radiation between duct work and the surrounding air as well? Technically, yes, but we don&#39;t often consider that. The mode of heat transfer that dominates between a solid surface and a fluid, and when I say a fluid, I mean either a liquid or a gas, is convection. And the whole conduction convection radiation, convection is literally the study of heat transfer from solids to fluids, which can be liquids or gases. So that&#39;s the big story. And that&#39;s why in this problem, we&#39;re considering convection and radiation because the duck is surrounded by a fluid that is air, and we know something about that air temperature, and we&#39;re interested in quantifying what that heat transfer due to convection is. Separately from that, we&#39;re in the business of quantifying the heat transfer by radiation as well. And that has to do with what&#39;s happening over electromagnetic waves between two surfaces, two solids.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 22 · 11 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
