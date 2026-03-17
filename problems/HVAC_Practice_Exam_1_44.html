@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 44 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 44</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 44</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Ahydronic systemoperatesaccorinding to thesystemcurve shown below. The system is being designed to include two pumps in parallel, each with the characteristics of the pump curve shown below. What is the maximum hydraulic horsepower available to the system? 95
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.05hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.13hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.19hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.29hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+The operating pressure in a hydronic system is 15 feet of head and the required flow is 120 GPM. The system has been designed with three pumps operating in parallel. Referring to the pump curves below, what is the minimum impeller size sufficient for the system? So the question is asking about the impeller size that&#39;s shown here on the left of the chart. We&#39;ve got four choices. So in this four curves, we want to figure out what&#39;s the right one for the job. Now when you have pumps in parallel, the pressure that they generate, the head pressure is the same. And the volume flow rate is additive. So for every additional pump that we add in parallel, we get the additional flow rate contributed by that pump, but all of the pumps operate at the same delta P or the same head. So in this case, if the total required flow is 120 GPM, and we&#39;re going to be using three pumps to achieve that, then each individual pump only needs to generate one third of that. So we can say that our Q for any one pump is 120 GPM or three, which is 40 GPM. But the head is not a third of 15. It&#39;s the full 15 because each and every pump has to operate, making the full 15 feet. So we&#39;re going to find that point. We&#39;ll come horizontally over on the 15 foot line of the vertical axis and then vertically up from 40 on the horizontal axis and we identify this point here. That&#39;s our operating point that we want to select from. And we have to make a choice because we&#39;re in between four and a quarter and four and a half. And we should choose the larger one because we don&#39;t want to be too small. We&#39;d rather be too big. So we don&#39;t have a shortfall. Best answer choice is C.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • The operating pressure in a hydronic system is 15 feet of head and the required flow is 120 GPM.<br><br><br><br>• The system has been designed with three pumps operating in parallel.<br><br><br><br>• Referring to the pump curves below, what is the minimum impeller size sufficient for the system.<br><br><br><br>• So the question is asking about the impeller size that&#39;s shown here on the left of the chart.<br><br><br><br>• So in this four curves, we want to figure out what&#39;s the right one for the job.<br><br><br><br>• Now when you have pumps in parallel, the pressure that they generate, the head pressure is the same.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 99 · March 3rd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 99</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> That&#39;s exam 1, number 44. Since the question was asking for the maximum horsepower available, why is the pressure that&#39;s used in the water horsepower equation 8 versus 10? I think I&#39;m mixing up my understanding of operating point versus design pump curve operations. So this one was about a pump curve and a system curve, and it was two pumps operating in parallel. So the thing to remember about these pump curve problems is that the system curve is non-negotiable. The system curve is a function of the system. So if you&#39;re a design engineer and you show up and it&#39;s your job to pick the pumps, you have some, I mean if it hasn&#39;t been built yet, you can&#39;t measure it, but you have some idea about what the system, what the relationship is going to be between head, belt of p or head depending on what you like to think about it and volume flow rate. It&#39;s going to have this kind of a quadratic shape, and it&#39;s not really negotiable. If it&#39;s already built, it&#39;s definitely not negotiable. You know, this is, it&#39;s a fact of physical reality that this is a physical relationship between head and volume flow rate, which is a function of the system. That line is drawn and then it doesn&#39;t move. Now, as</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 44 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

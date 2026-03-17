@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 50 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 50</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 50</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      The ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>59ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>69ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>74ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>79ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Well, if we look in the reference handbook for Mach number, we find that it&#39;s defined as velocity, which we know, right,.
+
+2. Now, if we also search for speed of sound in the reference handbook, we&#39;ll find this formula that says that C equals the.
+
+3. The only other thing that&#39;s missing here is that this equation is really for SI units.
+
+4. When we&#39;re doing US customary units, we have to include G sub C to make the units work.
+
+5. So that&#39;s something that may not be obvious, but if we start plugging in values using imperial units, we&#39;re going to fin.
+
+6. But once we have that, we&#39;re pretty close to being able to solve this problem without much trouble at all.
+
+<strong>Full Solution:</strong>
+
+The SR-71 Blackbird aircraft travels at 2,193 miles per hour at an altitude of 70,000 feet where the temperature is minus 70. What is the Mach number? Well, if we look in the reference handbook for Mach number, we find that it&#39;s defined as velocity, which we know, right, 2193 miles per hour, divided by C, which is the speed of sound. Now, if we also search for speed of sound in the reference handbook, we&#39;ll find this formula that says that C equals the square root of KRT, where K is the ratio of specific heats, R is the specific gas constant, and T is the temperature in absolute terms that needs to be in rankin. The only other thing that&#39;s missing here is that this equation is really for SI units. When we&#39;re doing US customary units, we have to include G sub C to make the units work. So that&#39;s something that may not be obvious, but if we start plugging in values using imperial units, we&#39;re going to find that they don&#39;t work out without G sub C in there. But once we have that, we&#39;re pretty close to being able to solve this problem without much trouble at all. This is going to come out in feet per second, so we&#39;ll also have to do a unit conversion on the velocity at the end, but that&#39;s no big deal. So let&#39;s start with K, the ratio of specific heats, which we typically take as 1.4, that&#39;s unit less, and then R is the specific gas constant for air, which we can take as 53.3, sometimes it&#39;s written 3.5. I think we don&#39;t need to go to the 100th place for this. These answer choices are not that close, and that&#39;s foot pound force, per, pound mass rankin. And then the temperature has to be an absolute terms or rankin, so we&#39;re doing minus 70 plus 460, that&#39;s 390 rankin. That&#39;ll get rid of rankin. And then we need G sub C, because there&#39;s no way this was going to come out to a speed, right? If we&#39;ve got pound force, pound mass, we got to get rid of that. So that&#39;s 32.2, feet per second squared, and times pound mass over pound force. So that gets rid of pound mass, gets rid of pound force, keeps the feet, so we end up with feet squared per second squared, and when we take the square root, we&#39;ll end up with feet per second. So the speed of sound at 70,000 feet in the air, where the temperature is minus 70, it&#39;s really a function of the temperature, not so much the altitude, but the fact that it&#39;s so cold is sort of a function of the altitude. In the case, that speed is 968 feet per second. And now we&#39;re ready to come back to this equation with the understanding that we just have to change miles per hour to feet per second, so that we have apples to apples. The mock numbers meant to be unit less, so we&#39;ve got to have the same units in numerator and denominator. So let&#39;s make that 2193 miles per hour. We can multiply by 88 feet per minute per mile per hour, that gets rid of miles per hour, but we want to go to seconds, so that we&#39;ll multiply by one minute over 60 seconds. And that will get rid of minutes. And now in the denominator, so numerator is now feet per second, that&#39;s great. And the denominator is just C, 968 feet per second. So feet per second, cancels, we are totally unit less, and we have a mock number of 3.3, best answer choices B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • The SR-71 Blackbird aircraft travels at 2,193 miles per hour at an altitude of 70,000 feet where the temperature is minus 70.<br><br><br><br>• Well, if we look in the reference handbook for Mach number, we find that it&#39;s defined as velocity, which we know, right, 2193 miles per hour, divided .<br><br><br><br>• Now, if we also search for speed of sound in the reference handbook, we&#39;ll find this formula that says that C equals the square root of KRT, where K i.<br><br><br><br>• The only other thing that&#39;s missing here is that this equation is really for SI units.<br><br><br><br>• When we&#39;re doing US customary units, we have to include G sub C to make the units work.<br><br><br><br>• So that&#39;s something that may not be obvious, but if we start plugging in values using imperial units, we&#39;re going to find that they don&#39;t work out wit.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 50 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
