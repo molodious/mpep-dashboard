@@ -136,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -191,26 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
-}
-.qa-topic-header {
-  font-size: 13px;
-  font-weight: 700;
-  color: #92400e;
-  margin: 18px 0 10px 0;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #fde68a;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -236,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Thermodynamics &middot; Problem 14</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 14</span>
   <span class="nav-badge">⭐ 1 OH session</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session &middot; Answer: D</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: D</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 14</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 14</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A Carnot heat pump operates between 20°F and 70°F. What is the coefficient of performance?
+      A Carnot heat pump operates between 20◦F and 70◦F. What is the coe(cid:30)cient of performance? 19
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -264,79 +233,29 @@ body {
       <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Quick Overview &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box">1. Identify: Carnot heat pump COP = T_H / (T_H - T_L).
-
-2. Convert temperatures to absolute (Rankine): T_H = 70 + 460 = 530°R, T_L = 20 + 460 = 480°R.
-
-3. COP_HP = T_H / (T_H - T_L) = 530 / (530 - 480) = 530 / 50 = 10.6.
-
-4. Select Answer D.</div>
-
-      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
-        Show Full Solution &#9660;
-      </button>
-      <div class="solution-box" id="full-box">The Carnot COP is the maximum possible COP for any heat pump operating between two temperature reservoirs.
-
-For a heat pump (delivering heat to the warm space):
-COP_HP = Q_H / W_net = T_H / (T_H - T_L)
-
-CRITICAL: Temperatures MUST be in absolute units (Rankine or Kelvin).
-
-Given:
-• T_H = 70°F + 460 = 530°R (heated space)
-• T_L = 20°F + 460 = 480°R (cold source)
-
-COP_HP = 530 / (530 - 480) = 530 / 50 = 10.6 → Answer D.
-
-Common mistakes:
-1. Using °F instead of °R: 70/(70-20) = 1.4 → Wrong! (That&#x27;s answer B — a trap!)
-2. Using the refrigeration COP formula: T_L/(T_H - T_L) = 480/50 = 9.6 → Wrong! (That&#x27;s answer C — for refrigerators, not heat pumps)
-
-The relationship between heat pump and refrigerator COP: COP_HP = COP_R + 1 = 9.6 + 1 = 10.6 ✓</div>
-
-      <div class="video-box">
-        <strong>&#x1F4F9; Video Solution Synthesis:</strong><br><br>
-        • Dan stresses the #1 mistake: forgetting to convert to absolute temperature (Rankine).<br><br>
-        • Answer B (1.4) is the &#x27;trap&#x27; answer you get if you use °F directly — Dan specifically warns about this.<br><br>
-        • Answer C (9.6) is what you get if you accidentally use the refrigeration COP formula.<br><br>
-        • Dan explains the physical meaning: COP of 10.6 means you get 10.6 units of heat for every 1 unit of work input.<br><br>
-        • The relationship COP_HP = COP_R + 1 is derived and shown to be a useful check.
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#x2B50; Key Takeaways:</strong><br>
-        • ALWAYS convert to absolute temperature (Rankine = °F + 460) for Carnot COP calculations.<br><br>
-        • Heat pump COP: COP_HP = T_H / (T_H - T_L). Refrigerator COP: COP_R = T_L / (T_H - T_L).<br><br>
-        • COP_HP = COP_R + 1 — use this as a sanity check.<br><br>
-        • The Carnot COP is the theoretical maximum — real heat pumps always have lower COP.
-      </div>
+      <div class="solution-box" id="sol-box">handbook and (cid:28)nd the Coe(cid:30)cient of Performance formulas. A Carnot heat pump operates at the upper limit of COP, which is a function of the temperatures of the hot and cold reservoirs which the heat pump is operating between. T COP = H HP,carnot (T −T ) H L The temperatures must be in absolute terms i.e. Rankine, so add 460 to ◦F before substituting into the formula. (Technically, there is no need to change to absolute in the denominator since the di(cid:27)erence will remain unchanged.) T (70+460) 530R COP = H = = =10.6 HP,carnot (T −T ) (70−20) 50R H L Answer D</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">1 session</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
-
-    <div class="qa-topic-header">📝 Problem Discussion</div>
-
-    <div class="qa-group">
-      <div class="qa-session">OH 106</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 14?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 106 | July 7th, 2025 lesson: Lesson-66900150 lesson_pos: 2 chapter_pos: 91 content_id: 66900150 wistia_id: o9k06dl2xp transcribed_at: 2026-03-15T03:49:23.939391 whisper_model: tiny duration_seconds: 217.5 elapsed_sec: 146.9 --- Alright, thermal 14. Why do we have to use the absolute temperature here? So this problem was about a Carnot heat pump and the COP for a Carnot heat pump. And the equation for the COP of a Carnot heat pump is based only on the temperatures. So it&#x27;s TH over TH minus TH T L where...</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 106 · July 7, 2025</div>
+      <div class="qa-transcript">Alright, thermal 14. Why do we have to use the absolute temperature here? So this problem was about a Carnot heat pump and the COP for a Carnot heat pump. And the equation for the COP of a Carnot heat pump is based only on the temperatures. So it&#x27;s TH over TH minus TH T L where TH is the temperature of the high temperature reservoir and T L is the low temperature reservoir. But it&#x27;s absolutely crucial when you do these problems, especially the Carnot in particular because normally if we&#x27;re dealing with COP of a refrigerator or a heat pump, we&#x27;re going to be dealing with enthalpies. But when we do the Carnot COP, we&#x27;re dealing with the assumption that what&#x27;s happening is the refrigeration process or in this case it&#x27;s a heat pump but either way that cycle is ideal is one way to say it or another way to say the same thing is that it&#x27;s reversible. And when that&#x27;s the case and only when that&#x27;s the case, this is what&#x27;s special about the Carnot cycle. It&#x27;s kind of a fictitious ideal cycle. It can&#x27;t exist in real life but we can think about it in theory. The COP is based on the temperatures. But we absolutely need to use absolute temperatures. And this isn&#x27;t really an explanation exactly why that is but a way to help you see that that must be true is that if you were to do this calculation with Fahrenheit, you&#x27;d get some answer, right? But then if you were to go and do it with Celsius, you&#x27;d get a different answer. And how can that be? The COP for a Carnot heat pump can&#x27;t be different just because we chose to use different temperatures. But if we use absolute temperatures, like Rankin, so we got to add 460 to all of these, or Kelvin if we&#x27;re working in SI units, then we get the same answer. So when we do it in absolute temperature it aligns. And if you think about just comparing Fahrenheit and Rankin, the delta is going to be the same. So the denominator doesn&#x27;t change whether you&#x27;re in Fahrenheit or Rankin. Only the numerator changes. So the key idea is that these ratios within heat engines are proportional to absolute temperatures. They&#x27;re not proportional to the temperature scales Fahrenheit and Celsius, which are, I won&#x27;t say arbitrary, but they&#x27;re based on a specific reference point, specifically water. You know, we defined in Celsius the freezing point of water zero and the boiling point is 100. And Fahrenheit, we do it as 32 and 212. And that&#x27;s what we&#x27;ve chosen to do and that works. But when we need to do ratios, it&#x27;s got to be a reference against absolute temperatures for a to work. And this comes up in chemistry. There&#x27;s a few different occasions when this comes up. If you&#x27;re nervous about that, you can just use absolute temperatures all the time. It&#x27;ll never steer you wrong. But it&#x27;s a little unusual. And I think once you&#x27;ve done enough problems, you&#x27;ll kind of get clear on when you need to go absolute and when it&#x27;s not required. Because most cases you don&#x27;t need to, but this is the case where you do.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 14 &middot; 1 OH session &middot; Generated 2026-03-16</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 14 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -344,13 +263,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Quick Overview \u25B2' : 'Quick Overview \u25BC';
-}
-function toggleFull() {
-  const box = document.getElementById('full-box');
-  const btn = document.getElementById('full-toggle');
-  const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Full Solution \u25B2' : 'Show Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

@@ -136,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -191,26 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
-}
-.qa-topic-header {
-  font-size: 13px;
-  font-weight: 700;
-  color: #92400e;
-  margin: 18px 0 10px 0;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #fde68a;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -236,19 +206,18 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Thermodynamics &middot; Problem 15</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 15</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions &middot; Answer: C</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 15</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 15</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      In a Carnot heat pump, R-22 evaporates at 31 psia and condenses at 211 psia. What is the coefficient of performance?
+      In a Carnot heat pump, R-22 evaporates at 31psia and condenses at 211psia. What is the coe(cid:30)cient of performance?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -264,85 +233,33 @@ body {
       <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Quick Overview &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box">1. For a Carnot heat pump using a refrigerant: need saturation temperatures at the given pressures.
-
-2. Look up R-22 saturation temperatures: at 31 psia → T_L, at 211 psia → T_H.
-
-3. At 31 psia: T_sat ≈ 0°F = 460°R. At 211 psia: T_sat ≈ 100°F = 560°R.
-
-4. COP_HP = T_H / (T_H - T_L) = 560 / (560 - 460) = 560 / 100 = 5.6.
-
-5. With more precise R-22 table values, COP ≈ 5.1 → Answer C.</div>
-
-      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
-        Show Full Solution &#9660;
-      </button>
-      <div class="solution-box" id="full-box">This problem combines refrigerant property lookup with Carnot COP calculation.
-
-For a Carnot cycle, the heat pump operates between the evaporator temperature (T_L) and condenser temperature (T_H). Since a Carnot cycle is internally reversible, the refrigerant changes phase at constant temperature.
-
-Step 1: Look up R-22 saturation temperatures at the given pressures.
-• At 31 psia (evaporator): T_L ≈ 0°F = 460°R (from R-22 tables)
-• At 211 psia (condenser): T_H ≈ 100°F = 560°R (from R-22 tables)
-
-Note: Exact values depend on the R-22 property table edition. The NCEES reference handbook may give slightly different saturation temperatures.
-
-Step 2: Apply Carnot heat pump COP:
-COP_HP = T_H / (T_H - T_L) = 560 / (560 - 460) = 560 / 100 = 5.6
-
-With the exact R-22 table values from the NCEES reference, the answer works out closer to 5.1 → Answer C.
-
-The key skill here is recognizing that you need to go from pressure → saturation temperature via the refrigerant property tables, then apply the Carnot COP formula with absolute temperatures.</div>
-
-      <div class="video-box">
-        <strong>&#x1F4F9; Video Solution Synthesis:</strong><br><br>
-        • Dan demonstrates looking up R-22 saturation temperatures at the two given pressures.<br><br>
-        • The video emphasizes that in a Carnot cycle, the evaporator and condenser operate at the saturation temperatures.<br><br>
-        • Dan reminds students to convert to absolute temperature before applying the COP formula.<br><br>
-        • The difference between this problem and a simple Carnot COP problem: you must look up temperatures from pressures first.<br><br>
-        • Dan notes that R-22 is being phased out but still appears on PE exams because the NCEES reference includes its properties.
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#x2B50; Key Takeaways:</strong><br>
-        • When given pressures for a refrigerant Carnot cycle, look up saturation temperatures from the refrigerant tables.<br><br>
-        • The evaporator temperature is T_L and the condenser temperature is T_H in a heat pump/refrigeration cycle.<br><br>
-        • Always use absolute temperatures (Rankine) for Carnot COP calculations.<br><br>
-        • R-22 property tables are in the NCEES PE Reference Handbook — practice finding saturation temperatures by pressure.
-      </div>
+      <div class="solution-box" id="sol-box">for Refrigerant 22 and read from the chart the tem- peratures for the evaporator and condenser based on the pressures given. These correspond to the low and high temperature reservoirs, respectively, for the heat pump: T =T ≈−10◦F +460=450◦R L evaporator@P=31psia T =T ≈100◦F +460=560◦R H condenser@P=211psia Look up the Carnot Cycle in the reference handbook and (cid:28)nd the coe(cid:30)cient of performance formula: T 560◦R COP = H = =5.1 HP,carnot (T −T ) 560◦R−450◦R H L Answer C 175</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
-
-    <div class="qa-topic-header">📝 Problem Discussion</div>
-
-    <div class="qa-group">
-      <div class="qa-session">OH 106</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 15?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 106 | July 7th, 2025 lesson: Lesson-66900147 lesson_pos: 3 chapter_pos: 91 content_id: 66900147 wistia_id: 4qka6nqagb transcribed_at: 2026-03-15T03:50:11.022386 whisper_model: tiny duration_seconds: 226.0 elapsed_sec: 170.7 --- Thermal 15. How can we use the pH diagram and enthalpy to solve for the COP here? I know the cycle is different for a car. No cycle. I spent some time on doing this with this method, but a discussion on this would be helpful to understand. So how can we use the pH diagram and e...</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 88 · September 17, 2024</div>
+      <div class="qa-transcript">Thermal 15. My question concerns problems 15, 17 and 18. Does the problem have to state that it&#x27;s a Carnot cycle in order for us to use the following equations? And these are the COP equations, the Carnot COP equations, for heat pumps where you have the temperature from the hot reservoir and the numerator and then for a refrigerator and air conditioner, you have the low temperature reservoir and the numerator. So what do you guys think? Y&#x27;all let out a type in in the chat. Do you need to, does it need to be Carnot to use these equations? No. Why else could you use it? I didn&#x27;t even do whatever there&#x27;s a, it tells for a refrigerator or cooling, cooling heating. So anytime you&#x27;re finding a COP, you can go for at least two. Specifically the ones that are highlighted. Yes. Any takers for the, for the opposite? I think it says only in life or carnot. Only those in life. Why do you think that? Because this is the maximum so be that can be achieved within this choose of our temperature. Right. So that&#x27;s exactly right. This is the maximum theoretical efficiency for a heat pump or a refrigerator. So whether it&#x27;s heat pump or a refrigerator, it&#x27;s refrigeration cycle. If you know the temperature of the hot reservoir and the temperature of the cold reservoir, that&#x27;s all you need to know to find the Carnot efficiency, the maximum theoretical efficiency. So does the problem have to state that it&#x27;s a Carnot cycle? It can say it&#x27;s Carnot or it can say it&#x27;s the maximum theoretical efficiency. Those are definitely some keywords that you want to look out for. But it&#x27;s, it&#x27;s got to be something to that effect. It can&#x27;t just be a regular whole heat pump or regular refrigerator just because the temperatures are given. You&#x27;re not going to be able to use these. You have to use these if it&#x27;s a regular cycle. That&#x27;s not, that&#x27;s not Carnot, which means you need to know QH or QL and the work of the compressor. Yeah, the other times you would use it is just when it is used in inverse of order is actually for bolers and per once maybe with these B Carnot cycles. I don&#x27;t think this works for anything other than Carnot cycle. To my knowledge, if you come across something that you would you would nominate this equation for, I would entertain it. But I&#x27;m looking for those keywords. Carnot cycle or maximum theoretical efficiency before I&#x27;m pulling out either one of these two equations. But if those other systems that you mentioned are operating as a Carnot cycle, then I&#x27;m open again. But these are the two that come up again and again in HVAC refrigeration. So definitely look for those keywords and that will help distinguish. It also depends on the given information too. If you&#x27;re given QH, QL, WN or or NLP and mass flow rate and there&#x27;s another way to come at it, you&#x27;re probably going to find the real COP, not the upper limit, not the maximum theoretical efficiency. If on the other hand you&#x27;re not given any of those things and you&#x27;re given temperatures, then you&#x27;ll probably also see those keywords, Carnot or max theoretical efficiency.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 88</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 15?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 88 | September 17th, 2024 lesson: Lesson-58779605 lesson_pos: 2 chapter_pos: 74 content_id: 58779605 wistia_id: u9sp0d9jre transcribed_at: 2026-03-15T00:47:11.778734 whisper_model: tiny duration_seconds: 242.6 elapsed_sec: 42.6 --- Thermal 15. My question concerns problems 15, 17 and 18. Does the problem have to state that it&#x27;s a Carnot cycle in order for us to use the following equations? And these are the COP equations, the Carnot COP equations, for heat pumps where you have the temperature from the...</div>
+      <div class="qa-session">OH 106 · July 7, 2025</div>
+      <div class="qa-transcript">Thermal 15. How can we use the pH diagram and enthalpy to solve for the COP here? I know the cycle is different for a car. No cycle. I spent some time on doing this with this method, but a discussion on this would be helpful to understand. So how can we use the pH diagram and enthalpy to solve for COP here? I think you&#x27;re question. If you&#x27;re doing carno, you&#x27;re doing carno COP. Just like we talked about in the previous example, it&#x27;s a function of temperatures. You only really need the temperatures. So what does that have to do with the pH diagram? Well, it&#x27;s remind ourselves what a heat pump cycle is going to look like on the pH diagram. Here&#x27;s our refrigerant or gas, whatever you want to call it, because it&#x27;s a heat pump cycle. But remember a heat pump cycle is exactly the same as our refrigeration cycle. It&#x27;s just at the thing that we care about in a heat pump cycle is different. In other words, we&#x27;re going to number our states all the same. One, two, three, four. Compressor, don&#x27;t from one to two. Condenser from two to three. Expansion device from three to four. And evaporator from four to one. So evaporator absorbs heat and the condenser rejects heat in a refrigeration cycle. We care about the quantity of heat being absorbed as we go from four to one. We care about the evaporator because our desired output is removing heat, performing cooling. And heat pump is exactly the same cycle. But what we&#x27;re interested in is the amount of heat that&#x27;s rejected from two to three because we&#x27;re trying to do heating. So but anyway, we need to know the temperatures because the Carnot COP as we wrote here is a function of temperatures. So then the question becomes, what are the operating temperatures for this cycle? In other words, we need to know T-LO and T-I. Well, inside the vapor dome, the temperature is constant. So from one to four, the temperature is in changing. It&#x27;s just phase change at a particular temperature. So if you want to look up the PH diagram for that particular refrigerant in that problem, you could do that. That diagrams available in the reference handbook. And then you would say T-L is equal to T1 or you could also say T4 or anything in between because it&#x27;s just the horizontal line and that&#x27;s a line of constant temperature. Now two to three is a little bit different because the temperature at two is greater than it is everywhere from three to this point right here when we start to go out into the superheated region. But in terms of defining the high temperature, we should use what&#x27;s inside the vapor dome because the amount of sensible heat transfer that happens from two to this location here on the right side when we go into the superheated region is negligible and the big story is what happens inside the vapor dome. Where there&#x27;s actually phase change. That&#x27;s that&#x27;s really where the magic&#x27;s happening. So T-H will define it as T3. So if you wanted to go away and do that graphically on the PH diagram, you could grab these two temperatures that way and then proceed with the COP for a Carnot heat pump using this formula. And that&#x27;s what we did in the in the solution video so you you&#x27;re welcome to go back and rewatch that. You can also use the table right below that refrigerant&#x27;s PH diagram and that&#x27;ll give you the same values as well. And do remember just as we talked about in your last question, you do have to change these to absolute temps. It&#x27;s very important. I&#x27;ll reinforce that one.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 15 &middot; 2 OH sessions &middot; Generated 2026-03-16</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 15 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -350,13 +267,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Quick Overview \u25B2' : 'Quick Overview \u25BC';
-}
-function toggleFull() {
-  const box = document.getElementById('full-box');
-  const btn = document.getElementById('full-toggle');
-  const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Full Solution \u25B2' : 'Show Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>

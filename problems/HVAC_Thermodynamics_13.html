@@ -136,22 +136,6 @@ body {
   word-break: break-word;
 }
 .solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -191,26 +175,12 @@ body {
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
+.qa-transcript {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #444;
-}
-.qa-topic-header {
-  font-size: 13px;
-  font-weight: 700;
-  color: #92400e;
-  margin: 18px 0 10px 0;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #fde68a;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .footer {
   background: white;
@@ -236,135 +206,68 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Thermodynamics &middot; Problem 13</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 13</span>
   <span class="nav-badge">⭐ 4 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions &middot; Answer: C</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions · Answer: B</span>
 </div>
 
 <div class="layout-container">
-  <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 13</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 13</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Steam with a quality of 90% expands isentropically from 350 psia to 120 psia. What is the change in enthalpy?
+      Steam with a quality of 90% expands isentropically from 350psia to 120psia. What is the change in enthalpy? lb lb lb lb
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>40 Btu/lb</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>80 Btu/lb</span></div>
-      <div class="choice correct"><span class="choice-letter">C.</span><span>90 Btu/lb ✓</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>120 Btu/lb</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>40Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>80Btu ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>90Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>120Btu</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
+      <span class="answer-tag">Answer: B</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Quick Overview &#9660;
+        Show Solution ▼
       </button>
-      <div class="solution-box" id="sol-box">1. Initial state: saturated mixture at 350 psia, quality x₁ = 0.90.
-
-2. Find h₁ = h_f + x₁ × h_fg at 350 psia from steam tables.
-
-3. Find s₁ = s_f + x₁ × s_fg at 350 psia (needed for isentropic expansion).
-
-4. Final state: s₂ = s₁ at 120 psia. Determine if still in two-phase region and find x₂.
-
-5. Calculate h₂ = h_f + x₂ × h_fg at 120 psia.
-
-6. Δh = h₂ - h₁ ≈ 90 Btu/lb → Answer C.</div>
-
-      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
-        Show Full Solution &#9660;
-      </button>
-      <div class="solution-box" id="full-box">This problem involves an isentropic (constant entropy) expansion of wet steam through a two-phase region.
-
-Initial State (350 psia, x₁ = 0.90):
-From saturated steam tables at 350 psia:
-• h_f ≈ 409.7 Btu/lbm, h_fg ≈ 794.2 Btu/lbm
-• s_f ≈ 0.6214 Btu/(lbm·°R), s_fg ≈ 0.8630 Btu/(lbm·°R)
-
-h₁ = h_f + x₁ × h_fg = 409.7 + 0.90 × 794.2 = 409.7 + 714.8 = 1124.5 Btu/lbm
-s₁ = s_f + x₁ × s_fg = 0.6214 + 0.90 × 0.8630 = 0.6214 + 0.7767 = 1.3981 Btu/(lbm·°R)
-
-Final State (120 psia, s₂ = s₁ = 1.3981):
-From saturated steam tables at 120 psia:
-• s_f ≈ 0.4919 Btu/(lbm·°R), s_fg ≈ 0.9895 Btu/(lbm·°R), s_g ≈ 1.4814 Btu/(lbm·°R)
-
-Since s₂ = 1.3981 &lt; s_g = 1.4814, the steam is still in the two-phase region.
-x₂ = (s₂ - s_f) / s_fg = (1.3981 - 0.4919) / 0.9895 = 0.9062 / 0.9895 = 0.916
-
-h₂ = h_f + x₂ × h_fg at 120 psia
-• h_f ≈ 312.5 Btu/lbm, h_fg ≈ 878.5 Btu/lbm
-h₂ = 312.5 + 0.916 × 878.5 = 312.5 + 804.7 = 1117.2 Btu/lbm
-
-Δh = h₂ - h₁ = 1117.2 - 1124.5 = -7.3 Btu/lbm... 
-
-Note: The exact values depend on which steam table edition you use. With the answer being ~90 Btu/lb, the steam table values used in the course may differ slightly from what&#x27;s shown here. The methodology is correct: find entropy at state 1, use constant entropy to determine state 2, then compute the enthalpy difference.</div>
-
-      <div class="video-box">
-        <strong>&#x1F4F9; Video Solution Synthesis:</strong><br><br>
-        • Dan emphasizes the isentropic process means s₁ = s₂ — entropy is the bridge between the two states.<br><br>
-        • The video walks through looking up properties at both pressures in the saturated steam tables.<br><br>
-        • Quality is computed at the exit using the entropy equality and the s_f/s_fg values at the new pressure.<br><br>
-        • Dan shows how to verify the steam is still in the two-phase region (s_f &lt; s &lt; s_g).<br><br>
-        • The solution emphasizes the systematic approach: define both states fully before computing any differences.
-      </div>
-
-      <div class="takeaway-box">
-        <strong>&#x2B50; Key Takeaways:</strong><br>
-        • For isentropic processes, s₁ = s₂ — use entropy to link the initial and final states.<br><br>
-        • In the two-phase region, any property can be found using: property = property_f + x × property_fg.<br><br>
-        • Always verify whether the final state is still two-phase or has become superheated (compare s with s_g).<br><br>
-        • Isentropic expansion through the two-phase region is common in steam turbine problems on the PE exam.
-      </div>
+      <div class="solution-box" id="sol-box">ater and Steam in the Reference Handbook organized by pressure and (cid:28)nd 350psia. Call this State 1. From the table, h =409.8Btu and h =794.62Btu. f lb fg lb Calculate the enthalpy at State 1: (cid:18) (cid:19) Btu Btu Btu h =h +χh =409.8 +(0.9) 794.62 =1125 1 f fg lb lb lb Also gather entropy values from the same line in the table, s = 0.6059 Btu and s = f lbm·◦F fg 0.8914 Btu . Calculate the entropy at State 1: lbm·◦F (cid:18) (cid:19) Btu Btu Btu s =s +χs =0.6059 +(0.9) 0.8914 =1.408 1 f fg lb ·◦F lb ·◦F lb ·◦F m m m Since the expansion from State 1 to State 2 is isentropic: Btu s =s =1.408 2 1 lb ·◦F m Gather entropy values from the table for State 2, which has a pressure of P = 120psia. s = 2 f 0.4919 Btu and s =1.0965 Btu . Find the quality at State 2 (after the isentropic expansion): lbm·◦F fg lbm·◦F (cid:16) (cid:17) (cid:16) (cid:17) 1.408 Btu − 0.4919 Btu χ= s 2 −s f = lbm·◦F lbm·◦F =0.835 (cid:16) (cid:17) s fg 1.0965 Btu lbm·◦F Gather enthalpy values from the table for State 2. h = 312.55Btu and h = 878.2Btu. f lb fg lb Calculate the enthalpy at State 2: (cid:18) (cid:19) Btu Btu Btu h =h +χh =312.55 +(0.835) 878.2 =1046 2 f fg lb lb lb Finally, calculate the change in enthalpy from State 1 to State 2: Btu Btu Btu ∆h=h −h =1125 −1046 =79 1 2 lb lb lb Answer B 174</div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours Q&amp;A
       <span class="oh-count">4 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
-
-    <div class="qa-topic-header">📝 Problem Discussion</div>
-
-    <div class="qa-group">
-      <div class="qa-session">OH 115</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 13?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 115 | March 2nd, 2026 lesson: Lesson-73255806 lesson_pos: 8 chapter_pos: 100 content_id: 73255806 wistia_id: p3mc763fpi transcribed_at: 2026-03-15T04:29:05.124227 whisper_model: tiny duration_seconds: 219.1 elapsed_sec: 187.3 --- And Thermal 13, for state 1, you looked up the values for P equals 350. I think we&#x27;re back in the steam table, right? Yep. Um, you needed to get H1 and S1. We didn&#x27;t have two parameters there, just pressure and quality. Two, same for state 2, you had pressure and entropy. Tha...</div>
+    <p class="oh-subtitle">Dan&#39;s live office hours discussions about this problem.</p>
+        <div class="qa-group">
+      <div class="qa-session">OH 115 · March 2, 2026</div>
+      <div class="qa-transcript">And Thermal 13, for state 1, you looked up the values for P equals 350. I think we&#x27;re back in the steam table, right? Yep. Um, you needed to get H1 and S1. We didn&#x27;t have two parameters there, just pressure and quality. Two, same for state 2, you had pressure and entropy. That came from the value of state 1, from there you calculated the rest. My question is, why are you able to just get the pressure for steam and straight up get the other necessary values for the other calculations? Don&#x27;t we need at least two? Yep. This comes back to the point. We discussed a little bit earlier, but let&#x27;s hammer it home. So if we have a quality, that&#x27;s between 0 and 1, inclusive, then that means where on the vapor dome in the middle, somewhere in here. All right, quality, e, oop. You can&#x27;t write quality equals 0 here. Quality equals 1 here. Anywhere inside there, on that, on that ISO bar T S, we know we have a saturated mixture. So having a temperature implies a pressure and or having a pressure implies that temperature. You only need to know 1 in order to know the other. Now that doesn&#x27;t mean that you know the entropy, the enthalpy or the specific volume, because you could be anywhere along that line. But if we know the quality, then that locates our position along that line. And graphically, you can already see how a specific position along that line is going to give you the entropy. You stuff to do the analysis and go in a steam table and get the numbers. But you can see that jumping off the page as we&#x27;re going to have an entropy value there. And the principle of how we calculate that is the same for entropy, enthalpy, and specific volume. It&#x27;s this idea that how do they write it? So the quality by definition, quality by definition is going to be let&#x27;s let&#x27;s call that point along the line. Give it a variable. We&#x27;ll call it s1 minus sf divided by sg minus sf. So if we keep the numerator the same, s1 minus sf, but they&#x27;re denominator, what is sg minus sf? We have a special name for that. We call it sfg. And there&#x27;s a separate column in the steam table for that for that very reason. So and you&#x27;ll see this rearranged in the reference handbook. You see this equation come up different ways. But I like to come back to this. This to me is very definitional. It&#x27;s like what is s1 minus sf? Well, it&#x27;s graphically the distance between the point I care about and the entropy for a saturated liquid. And the denominator is the entire length of that line from a saturated vapor to a saturated liquid, which gets its own special number. So how are we able to pick this number so quickly out of the steam table? Well, we got to do this calculation. We&#x27;re finding for a given temperature or a given pressure. Doesn&#x27;t matter which. We can go away and get this value and this value. And if we know the quality, so now there&#x27;s only two unknowns, the quality and this. So if we know the quality, then we can find the entropy at that point. And the process is the same refining the enthalpy and the same refining the specific volume. Practice this. This is really important stuff. And I&#x27;m going to say it one more time just to be annoying. So for a given temperature or a given pressure, they not only imply each other, either one will give you the other and it will give you hf, hg, hfg, sf, sg, sfg, and all of the specific volumes. I don&#x27;t know exactly how those are offered up in the chart, but probably just two maybe vf and vg. And if you want the delta, you got to subtract them because that just doesn&#x27;t come up that much. But yeah, all those things are noble for any temperature and or pressure. Steam tables for the wind.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 88</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 13?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 88 | September 17th, 2024 lesson: Lesson-58779604 lesson_pos: 1 chapter_pos: 74 content_id: 58779604 wistia_id: vtk2ba93kw transcribed_at: 2026-03-15T00:46:28.993974 whisper_model: tiny duration_seconds: 141.0 elapsed_sec: 24.5 --- Okay, thermo 13. All the pressures on problem thermo 13 do not have values in the steam tables within the handbook version 1.9. What would be the alternative? I took a look at this one and I did not find that to be the case. I am using version 1.9 as well. That problem was ...</div>
+      <div class="qa-session">OH 32 · March 7, 2022</div>
+      <div class="qa-transcript">Thermo 13, can you please show on the enthalpy versus pressure diagram, where does this star and where exactly we&#x27;re finding the enthalpy and also the point the entropy on the diagram as well. Thanks. So this problem was I believe about a constant entropy process or a constant entropy process. I can&#x27;t remember, but I took a look and it&#x27;s not recommended to solve this graphically. This is one that you want to use the steam table for. If you did want to kind of see what this looks like on a diagram, what I would recommend is to take a look at the molar diagram, which is a little different from the pressure enthalpy diagram that we normally use. So if you&#x27;re not a little bit familiar with the molar diagram, you may want to just have a look at that one. You should know it exists. It&#x27;s an option for different problems that deal with steam, where either enthalpy or entropy is being held constant. So I&#x27;d say take a look at it. It probably doesn&#x27;t come up as much as you would think. But as far as using a pH diagram, I wouldn&#x27;t recommend that. I really think the steam table is the way to go with this one. And if the video solution isn&#x27;t getting you kind of a clear direction on how to best do that, then you can take a look at the written solution as well. They should complement one another. And yeah, strong support there for using the steam table only for this one.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 82</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 13?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 82 | June 10th, 2024 lesson: Lesson-56090534 lesson_pos: 1 chapter_pos: 69 content_id: 56090534 wistia_id: csz23hvdhc transcribed_at: 2026-03-15T00:39:45.545574 whisper_model: tiny duration_seconds: 139.0 elapsed_sec: 35.6 --- Yeah, well, this is really good. Let me read this one for everyone. So I know you&#x27;re probably moving slower, so you can explain it as you go through. This problem takes eight minutes. Yeah, the video solution was eight minutes. There&#x27;s a lot of values to look up right down and a...</div>
+      <div class="qa-session">OH 82 · June 10, 2024</div>
+      <div class="qa-transcript">Yeah, well, this is really good. Let me read this one for everyone. So I know you&#x27;re probably moving slower, so you can explain it as you go through. This problem takes eight minutes. Yeah, the video solution was eight minutes. There&#x27;s a lot of values to look up right down and a lot of opportunities for mistakes in that process. Why not just use the Muller diagram and save yourself a lot of time and trouble. Same thing. Absolutely use the Muller diagram and save yourself lots of time and trouble. And go through that entire process and make sure you can do it that way too. Because you just never know how the question is going to be formulated. It could be it could start in the middle. It could right. So like every step in that process that I&#x27;m trying to show you is valuable. It just may not be absolutely required for this particular problem, but it could be required for a different one. So when it comes to analyzing steam, Muller diagram is definitely valid and useful and fast. And go into the steam tables and finding the entropy and interpolating and figuring out what&#x27;s happening. If it&#x27;s isentropic, that whole process also very valuable. And if you had the luxury of time, you might actually want to do a problem twice once on the first time through quickly. And then if you flag it and say, okay, I&#x27;ve got an hour left at the end of the exam. I could just walk out. I could be good or I could say I got another 60 minutes to work with here. I&#x27;m going to play around and see if I can just add more certainty and confidence to some of the questions I&#x27;ve already done. Is that helpful? I know that I&#x27;m not trying to give you tough love here. That&#x27;s. No, it&#x27;s helpful. Okay, cool. I&#x27;ve just not. It&#x27;s time to test them. I&#x27;m also looking for the quickest way to get through. Well, of course, and you should and when you&#x27;re in the exam environment, I want you to think that way when you&#x27;re at the practice table. I want you to kind of relax that. So you know what, I&#x27;m going to play with this problem for a while. And if your first instinct was to go moly your diagram and you just did this problem perfectly and quickly, no problem, then like, that&#x27;s awesome. Because that&#x27;s that means that you already have a connection between this idea means this solution and I&#x27;m going to go. So I&#x27;m I&#x27;m celebrating that and I just want to add to it. That&#x27;s all.</div>
     </div>
-
     <div class="qa-group">
-      <div class="qa-session">OH 32</div>
-      <div class="qa-question"><strong>Q:</strong> How do you approach Thermodynamics Problem 13?</div>
-      <div class="qa-answer"><strong>Dan:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 32 | March 7, 2022 lesson: Lesson-33560176 lesson_pos: 1 chapter_pos: 19 content_id: 33560176 wistia_id: ndb87twl6t transcribed_at: 2026-03-14T22:37:46.715155 whisper_model: tiny duration_seconds: 82.4 elapsed_sec: 6.8 --- Thermo 13, can you please show on the enthalpy versus pressure diagram, where does this star and where exactly we&#x27;re finding the enthalpy and also the point the entropy on the diagram as well. Thanks. So this problem was I believe about a constant entropy process or a constant entro...</div>
+      <div class="qa-session">OH 88 · September 17, 2024</div>
+      <div class="qa-transcript">Okay, thermo 13. All the pressures on problem thermo 13 do not have values in the steam tables within the handbook version 1.9. What would be the alternative? I took a look at this one and I did not find that to be the case. I am using version 1.9 as well. That problem was about steam at 350 psi a and a quality of 0.9 and that steam was expanding to 120 psi a. It was expanding ice and tropical. So we had to go into the steam table. We had to interpolate to find the initial enthalpy, call it H1 and then from there we could also find the entropy S1. And then we say if it is expanding ice and tropical then S2 equals S1. And that enables us to find the quality at state 2. Once we know the quality at state 2 we can find H2 and then we can find Delta H. So that was the problem road map solution road map. And as far as where you find that stuff in the reference handbook just go to the steam table. It is going to be properties of saturated water and steam. You probably won&#x27;t ask anybody who is deep into this. You probably never type that full search phrase. You&#x27;ll just start typing properties is saturated and then you&#x27;ll stop. But you also know that there&#x27;s two versions of the steam table. This one that&#x27;s organized by temperature which comes first and then this one that&#x27;s organized by pressure which comes second. So for this problem it&#x27;s better to use the one that&#x27;s organized by pressure because we know the initial pressure. We don&#x27;t know the temperature and we know the final pressure. And it&#x27;s in there you&#x27;ve got to interpolate but yeah. Those values are very much in the steam table.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 13 &middot; 4 OH sessions &middot; Generated 2026-03-16</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 13 · 4 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -372,13 +275,7 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Quick Overview \u25B2' : 'Quick Overview \u25BC';
-}
-function toggleFull() {
-  const box = document.getElementById('full-box');
-  const btn = document.getElementById('full-toggle');
-  const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Full Solution \u25B2' : 'Show Full Solution \u25BC';
+  btn.textContent = open ? 'Hide Solution ▲' : 'Show Solution ▼';
 }
 </script>
 </body>
