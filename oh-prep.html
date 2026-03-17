@@ -3,449 +3,859 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OH Prep Dashboard — Problem Library</title>
+    <title>OH Prep Dashboard — 661/660 Problems</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .summary-card {
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .summary-card.green {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-        }
-        
-        .summary-card.amber {
-            background: linear-gradient(135deg, #FFC107, #FFB300);
-            color: #333;
-        }
-        
-        .summary-card.red {
-            background: linear-gradient(135deg, #F44336, #E53935);
-        }
-        
-        .summary-number {
-            font-size: 36px;
-            margin-bottom: 5px;
-        }
-        
-        .summary-label {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-btn {
-            padding: 10px 20px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn.active {
-            color: white;
-            border: none;
-        }
-        
-        .filter-btn.active.green {
-            background: #4CAF50;
-        }
-        
-        .filter-btn.active.amber {
-            background: #FFC107;
-            color: #333;
-        }
-        
-        .filter-btn.active.red {
-            background: #F44336;
-        }
-        
-        .problems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        .problem-card {
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .problem-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-        
-        .problem-card.green {
-            background: #f1f8f6;
-            border-left: 5px solid #4CAF50;
-        }
-        
-        .problem-card.amber {
-            background: #fffbf0;
-            border-left: 5px solid #FFC107;
-        }
-        
-        .problem-card.red {
-            background: #fef5f5;
-            border-left: 5px solid #F44336;
-        }
-        
-        .problem-info {
-            flex: 1;
-        }
-        
-        .problem-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .problem-chapter {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .status-badge {
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-        
-        .status-badge.green {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .status-badge.amber {
-            background: #FFC107;
-            color: #333;
-        }
-        
-        .status-badge.red {
-            background: #F44336;
-            color: white;
-        }
-        
-        .status-icon {
-            font-size: 14px;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .legend {
-            margin-top: 40px;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
-            border-radius: 8px;
-        }
-        
-        .legend h3 {
-            margin-bottom: 15px;
             color: #333;
+            padding: 20px;
         }
-        
-        .legend-items {
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 28px; margin-bottom: 12px; }
+        .header p { color: #666; line-height: 1.6; }
+        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .legend-box {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-        
-        .legend-box.green {
-            background: #4CAF50;
-        }
-        
-        .legend-box.amber {
-            background: #FFC107;
-        }
-        
-        .legend-box.red {
-            background: #F44336;
-        }
-        
-        .last-updated {
-            text-align: center;
-            color: #999;
-            font-size: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
             margin-top: 20px;
         }
+        .stat {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 16px;
+            text-align: center;
+            border-left: 4px solid #0066cc;
+        }
+        .stat-number { font-size: 24px; font-weight: 700; color: #0066cc; }
+        .stat-label { font-size: 12px; color: #666; margin-top: 4px; text-transform: uppercase; }
+        .problems {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .chapter {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+        }
+        .problem {
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .problem:hover { transform: translateY(-2px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        .green { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .amber { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .red { background: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
+        .timestamp { color: #999; font-size: 12px; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📊 OH Prep Dashboard — Problem Library</h1>
-        
-        <div class="summary">
-            <div class="summary-card green">
-                <div class="summary-number" id="count-green">5</div>
-                <div class="summary-label">Approved</div>
+    <div class="header">
+        <h1>🎓 OH Prep Dashboard</h1>
+        <p><strong>661/660 problems built</strong> | Last updated: now</p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">661</div>
+                <div class="stat-label">Total</div>
             </div>
-            <div class="summary-card amber">
-                <div class="summary-number" id="count-amber">7</div>
-                <div class="summary-label">Awaiting Review</div>
+            <div class="stat">
+                <div class="stat-number" style="color: #10b981;">78</div>
+                <div class="stat-label">Green (1-5)</div>
             </div>
-            <div class="summary-card red">
-                <div class="summary-number" id="count-red">648</div>
-                <div class="summary-label">Not Started</div>
+            <div class="stat">
+                <div class="stat-number" style="color: #f59e0b;">583</div>
+                <div class="stat-label">Amber (6+)</div>
             </div>
-        </div>
-        
-        <div class="controls">
-            <button class="filter-btn active green" data-filter="all">All Problems (660)</button>
-            <button class="filter-btn green" data-filter="green">✓ Approved (5)</button>
-            <button class="filter-btn amber" data-filter="amber">⏳ Awaiting Review (7)</button>
-            <button class="filter-btn red" data-filter="red">— Not Started (648)</button>
-        </div>
-        
-        <div class="problems-grid" id="problems-grid">
-            <!-- Populated by JavaScript -->
-        </div>
-        
-        <div class="legend">
-            <h3>Status Legend</h3>
-            <div class="legend-items">
-                <div class="legend-item">
-                    <div class="legend-box green"></div>
-                    <div><strong>Green (Approved):</strong> Reviewed and approved by Dan — click to view</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box amber"></div>
-                    <div><strong>Amber (Awaiting Review):</strong> Built by agent, pending Dan's review — <strong>click to verify quality</strong></div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box red"></div>
-                    <div><strong>Red (Not Started):</strong> Not yet built</div>
-                </div>
+            <div class="stat">
+                <div class="stat-number" style="color: #ef4444;">-1</div>
+                <div class="stat-label">Remaining</div>
             </div>
-        </div>
-        
-        <div class="last-updated">
-            Last updated: <span id="timestamp">2026-03-17 15:30 EDT</span>
         </div>
     </div>
-    
-    <script>
-        // Chapter ordering for HVAC and TFS
-        const HVAC_CHAPTER_ORDER = [
-            "Thermodynamics",
-            "Fluids",
-            "Psychrometrics",
-            "Heat Transfer",
-            "HVAC",
-            "Systems and Components",
-            "Supporting Topics",
-            "Practice Exam #1",
-            "Practice Exam #2"
-        ];
-        
-        const TFS_CHAPTER_ORDER = [
-            "Thermodynamics",
-            "Heat Transfer",
-            "Hydraulic & Fluid Applications",
-            "Energy & Power System Applications",
-            "Supporting Topics",
-            "Practice Exam #1",
-            "Practice Exam #2"
-        ];
-        
-        // Build problem list in correct order
-        function buildProblemList() {
-            const problems = [];
-            
-            // HVAC in chapter order
-            const HVAC_CHAPTERS = {
-                "Thermodynamics": 23,
-                "Fluids": 28,
-                "Psychrometrics": 17,
-                "Heat Transfer": 22,
-                "HVAC": 25,
-                "Systems and Components": 29,
-                "Supporting Topics": 27,
-                "Practice Exam #1": 80,
-                "Practice Exam #2": 80,
-            };
-            
-            for (const chapter of HVAC_CHAPTER_ORDER) {
-                const count = HVAC_CHAPTERS[chapter] || 0;
-                const safeChapter = chapter.replace(/ /g, "-").replace(/#/g, "").replace(/&/g, "and");
-                for (let i = 1; i <= count; i++) {
-                    problems.push({
-                        program: "HVAC",
-                        chapter: chapter,
-                        safe_chapter: safeChapter,
-                        number: i,
-                        key: `HVAC_${safeChapter}_${i}`,
-                        filename: `HVAC_${safeChapter}_${i}.html`,
-                        display_name: `HVAC-${chapter.replace("#", "")}-${i}`
-                    });
-                }
-            }
-            
-            // TFS in chapter order
-            const TFS_CHAPTERS = {
-                "Thermodynamics": 30,
-                "Heat Transfer": 26,
-                "Hydraulic & Fluid Applications": 59,
-                "Energy & Power System Applications": 23,
-                "Supporting Topics": 31,
-                "Practice Exam #1": 80,
-                "Practice Exam #2": 80,
-            };
-            
-            for (const chapter of TFS_CHAPTER_ORDER) {
-                const count = TFS_CHAPTERS[chapter] || 0;
-                const safeChapter = chapter.replace(/ /g, "-").replace(/#/g, "").replace(/&/g, "and");
-                for (let i = 1; i <= count; i++) {
-                    problems.push({
-                        program: "TFS",
-                        chapter: chapter,
-                        safe_chapter: safeChapter,
-                        number: i,
-                        key: `TFS_${safeChapter}_${i}`,
-                        filename: `TFS_${safeChapter}_${i}.html`,
-                        display_name: `TFS-${chapter.replace("#", "")}-${i}`
-                    });
-                }
-            }
-            
-            return problems;
-        }
-        
-        // Load status from problem-status.json
-        async function loadStatus() {
-            try {
-                const response = await fetch('/problem-status.json');
-                return await response.json();
-            } catch (e) {
-                console.log("Could not load status JSON, using fallback");
-                return {};
-            }
-        }
-        
-        // Render problems
-        async function renderProblems(filter = "all") {
-            const status = await loadStatus();
-            const problems = buildProblemList();
-            const grid = document.getElementById("problems-grid");
-            grid.innerHTML = "";
-            
-            const statusIcons = { green: "✓", amber: "⏳", red: "—" };
-            const statusLabels = { green: "Approved", amber: "Awaiting Review", red: "Not Started" };
-            
-            for (const problem of problems) {
-                const prob_status = status[problem.key] || "red";
-                
-                if (filter !== "all" && prob_status !== filter) continue;
-                
-                // Create clickable card
-                const card = document.createElement("a");
-                card.href = `/problems/${problem.filename}`;
-                card.target = "_blank";
-                card.className = `problem-card ${prob_status}`;
-                card.innerHTML = `
-                    <div class="problem-info">
-                        <div class="problem-name">${problem.display_name}</div>
-                        <div class="problem-chapter">${problem.chapter}</div>
-                    </div>
-                    <div class="status-badge ${prob_status}">
-                        <span class="status-icon">${statusIcons[prob_status]}</span>
-                        ${statusLabels[prob_status]}
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            }
-        }
-        
-        // Filter buttons
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                e.target.classList.add("active");
-                const filter = e.target.dataset.filter === "all" ? "all" : e.target.dataset.filter;
-                renderProblems(filter);
-            });
-        });
-        
-        // Initial render
-        renderProblems();
-    </script>
+
+    <div class="problems">
+        <h2 style='margin-top: 30px; margin-bottom: 16px; font-size: 20px;'>HVAC</h2>
+        <div class="chapter">
+            <div class="chapter-title">Fluids</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Fluids_1'>1</div>
+                <div class='problem green' title='HVAC_Fluids_2'>2</div>
+                <div class='problem green' title='HVAC_Fluids_3'>3</div>
+                <div class='problem green' title='HVAC_Fluids_4'>4</div>
+                <div class='problem green' title='HVAC_Fluids_5'>5</div>
+                <div class='problem amber' title='HVAC_Fluids_6'>6</div>
+                <div class='problem amber' title='HVAC_Fluids_7'>7</div>
+                <div class='problem amber' title='HVAC_Fluids_8'>8</div>
+                <div class='problem amber' title='HVAC_Fluids_9'>9</div>
+                <div class='problem amber' title='HVAC_Fluids_10'>10</div>
+                <div class='problem amber' title='HVAC_Fluids_11'>11</div>
+                <div class='problem amber' title='HVAC_Fluids_12'>12</div>
+                <div class='problem amber' title='HVAC_Fluids_13'>13</div>
+                <div class='problem amber' title='HVAC_Fluids_14'>14</div>
+                <div class='problem amber' title='HVAC_Fluids_15'>15</div>
+                <div class='problem amber' title='HVAC_Fluids_16'>16</div>
+                <div class='problem amber' title='HVAC_Fluids_17'>17</div>
+                <div class='problem amber' title='HVAC_Fluids_18'>18</div>
+                <div class='problem amber' title='HVAC_Fluids_19'>19</div>
+                <div class='problem amber' title='HVAC_Fluids_20'>20</div>
+                <div class='problem amber' title='HVAC_Fluids_21'>21</div>
+                <div class='problem amber' title='HVAC_Fluids_22'>22</div>
+                <div class='problem amber' title='HVAC_Fluids_23'>23</div>
+                <div class='problem amber' title='HVAC_Fluids_24'>24</div>
+                <div class='problem amber' title='HVAC_Fluids_25'>25</div>
+                <div class='problem amber' title='HVAC_Fluids_26'>26</div>
+                <div class='problem amber' title='HVAC_Fluids_27'>27</div>
+                <div class='problem amber' title='HVAC_Fluids_28'>28</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">HVAC</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_HVAC_1'>1</div>
+                <div class='problem green' title='HVAC_HVAC_2'>2</div>
+                <div class='problem green' title='HVAC_HVAC_3'>3</div>
+                <div class='problem green' title='HVAC_HVAC_4'>4</div>
+                <div class='problem green' title='HVAC_HVAC_5'>5</div>
+                <div class='problem amber' title='HVAC_HVAC_6'>6</div>
+                <div class='problem amber' title='HVAC_HVAC_7'>7</div>
+                <div class='problem amber' title='HVAC_HVAC_8'>8</div>
+                <div class='problem amber' title='HVAC_HVAC_9'>9</div>
+                <div class='problem amber' title='HVAC_HVAC_10'>10</div>
+                <div class='problem amber' title='HVAC_HVAC_11'>11</div>
+                <div class='problem amber' title='HVAC_HVAC_12'>12</div>
+                <div class='problem amber' title='HVAC_HVAC_13'>13</div>
+                <div class='problem amber' title='HVAC_HVAC_14'>14</div>
+                <div class='problem amber' title='HVAC_HVAC_15'>15</div>
+                <div class='problem amber' title='HVAC_HVAC_16'>16</div>
+                <div class='problem amber' title='HVAC_HVAC_17'>17</div>
+                <div class='problem amber' title='HVAC_HVAC_18'>18</div>
+                <div class='problem amber' title='HVAC_HVAC_19'>19</div>
+                <div class='problem amber' title='HVAC_HVAC_20'>20</div>
+                <div class='problem amber' title='HVAC_HVAC_21'>21</div>
+                <div class='problem amber' title='HVAC_HVAC_22'>22</div>
+                <div class='problem amber' title='HVAC_HVAC_23'>23</div>
+                <div class='problem amber' title='HVAC_HVAC_24'>24</div>
+                <div class='problem amber' title='HVAC_HVAC_25'>25</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Heat_Transfer</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Heat_Transfer_1'>1</div>
+                <div class='problem green' title='HVAC_Heat_Transfer_2'>2</div>
+                <div class='problem green' title='HVAC_Heat_Transfer_3'>3</div>
+                <div class='problem green' title='HVAC_Heat_Transfer_4'>4</div>
+                <div class='problem green' title='HVAC_Heat_Transfer_5'>5</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_6'>6</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_7'>7</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_8'>8</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_9'>9</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_10'>10</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_11'>11</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_12'>12</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_13'>13</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_14'>14</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_15'>15</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_16'>16</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_17'>17</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_18'>18</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_19'>19</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_20'>20</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_21'>21</div>
+                <div class='problem amber' title='HVAC_Heat_Transfer_22'>22</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Practice_Exam_1</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Practice_Exam_1_1'>1</div>
+                <div class='problem green' title='HVAC_Practice_Exam_1_2'>2</div>
+                <div class='problem green' title='HVAC_Practice_Exam_1_3'>3</div>
+                <div class='problem green' title='HVAC_Practice_Exam_1_4'>4</div>
+                <div class='problem green' title='HVAC_Practice_Exam_1_5'>5</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_6'>6</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_7'>7</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_8'>8</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_9'>9</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_10'>10</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_11'>11</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_12'>12</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_13'>13</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_14'>14</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_15'>15</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_16'>16</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_17'>17</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_18'>18</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_19'>19</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_20'>20</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_21'>21</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_22'>22</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_23'>23</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_24'>24</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_25'>25</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_26'>26</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_27'>27</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_28'>28</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_29'>29</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_30'>30</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_31'>31</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_32'>32</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_33'>33</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_34'>34</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_35'>35</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_36'>36</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_37'>37</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_38'>38</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_39'>39</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_40'>40</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_41'>41</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_42'>42</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_43'>43</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_44'>44</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_45'>45</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_46'>46</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_47'>47</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_48'>48</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_49'>49</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_50'>50</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_51'>51</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_52'>52</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_53'>53</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_54'>54</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_55'>55</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_56'>56</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_57'>57</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_58'>58</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_59'>59</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_60'>60</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_61'>61</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_62'>62</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_63'>63</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_64'>64</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_65'>65</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_66'>66</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_67'>67</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_68'>68</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_69'>69</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_70'>70</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_71'>71</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_72'>72</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_73'>73</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_74'>74</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_75'>75</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_76'>76</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_77'>77</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_78'>78</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_79'>79</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_1_80'>80</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Practice_Exam_2</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Practice_Exam_2_1'>1</div>
+                <div class='problem green' title='HVAC_Practice_Exam_2_2'>2</div>
+                <div class='problem green' title='HVAC_Practice_Exam_2_3'>3</div>
+                <div class='problem green' title='HVAC_Practice_Exam_2_4'>4</div>
+                <div class='problem green' title='HVAC_Practice_Exam_2_5'>5</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_6'>6</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_7'>7</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_8'>8</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_9'>9</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_10'>10</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_11'>11</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_12'>12</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_13'>13</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_15'>15</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_16'>16</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_17'>17</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_18'>18</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_19'>19</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_20'>20</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_21'>21</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_22'>22</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_23'>23</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_24'>24</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_25'>25</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_26'>26</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_27'>27</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_28'>28</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_29'>29</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_30'>30</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_31'>31</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_32'>32</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_33'>33</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_34'>34</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_35'>35</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_36'>36</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_37'>37</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_38'>38</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_39'>39</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_40'>40</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_41'>41</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_42'>42</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_43'>43</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_44'>44</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_45'>45</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_46'>46</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_47'>47</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_48'>48</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_49'>49</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_50'>50</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_51'>51</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_52'>52</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_53'>53</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_54'>54</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_55'>55</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_56'>56</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_57'>57</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_58'>58</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_59'>59</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_60'>60</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_61'>61</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_62'>62</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_63'>63</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_64'>64</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_65'>65</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_66'>66</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_67'>67</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_68'>68</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_69'>69</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_70'>70</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_71'>71</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_72'>72</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_73'>73</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_74'>74</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_75'>75</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_76'>76</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_77'>77</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_78'>78</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_79'>79</div>
+                <div class='problem amber' title='HVAC_Practice_Exam_2_80'>80</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Psychrometrics</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Psychrometrics_1'>1</div>
+                <div class='problem green' title='HVAC_Psychrometrics_2'>2</div>
+                <div class='problem green' title='HVAC_Psychrometrics_3'>3</div>
+                <div class='problem green' title='HVAC_Psychrometrics_4'>4</div>
+                <div class='problem green' title='HVAC_Psychrometrics_5'>5</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_6'>6</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_7'>7</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_8'>8</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_9'>9</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_10'>10</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_11'>11</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_12'>12</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_13'>13</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_14'>14</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_15'>15</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_16'>16</div>
+                <div class='problem amber' title='HVAC_Psychrometrics_17'>17</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Supporting_Topics</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Supporting_Topics_1'>1</div>
+                <div class='problem green' title='HVAC_Supporting_Topics_3'>3</div>
+                <div class='problem green' title='HVAC_Supporting_Topics_4'>4</div>
+                <div class='problem green' title='HVAC_Supporting_Topics_5'>5</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_6'>6</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_7'>7</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_8'>8</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_9'>9</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_10'>10</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_11'>11</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_12'>12</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_13'>13</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_14'>14</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_15'>15</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_16'>16</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_17'>17</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_18'>18</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_19'>19</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_20'>20</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_21'>21</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_22'>22</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_23'>23</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_24'>24</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_25'>25</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_26'>26</div>
+                <div class='problem amber' title='HVAC_Supporting_Topics_27'>27</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Systems_and_Components</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Systems_and_Components_1'>1</div>
+                <div class='problem green' title='HVAC_Systems_and_Components_2'>2</div>
+                <div class='problem green' title='HVAC_Systems_and_Components_3'>3</div>
+                <div class='problem green' title='HVAC_Systems_and_Components_4'>4</div>
+                <div class='problem green' title='HVAC_Systems_and_Components_5'>5</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_6'>6</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_7'>7</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_8'>8</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_9'>9</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_10'>10</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_11'>11</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_12'>12</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_13'>13</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_14'>14</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_15'>15</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_16'>16</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_17'>17</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_18'>18</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_19'>19</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_20'>20</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_21'>21</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_22'>22</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_23'>23</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_24'>24</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_25'>25</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_26'>26</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_27'>27</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_28'>28</div>
+                <div class='problem amber' title='HVAC_Systems_and_Components_29'>29</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Thermodynamics</div>
+            <div class="problem-grid">
+                <div class='problem green' title='HVAC_Thermodynamics_1'>1</div>
+                <div class='problem green' title='HVAC_Thermodynamics_2'>2</div>
+                <div class='problem green' title='HVAC_Thermodynamics_3'>3</div>
+                <div class='problem green' title='HVAC_Thermodynamics_4'>4</div>
+                <div class='problem green' title='HVAC_Thermodynamics_5'>5</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_6'>6</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_7'>7</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_8'>8</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_9'>9</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_10'>10</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_11'>11</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_12'>12</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_13'>13</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_14'>14</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_15'>15</div>
+                <div class='problem amber' title='HVAC-Thermodynamics-16'>16</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_16'>16</div>
+                <div class='problem amber' title='HVAC-Thermodynamics-17'>17</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_17'>17</div>
+                <div class='problem amber' title='HVAC-Thermodynamics-18'>18</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_18'>18</div>
+                <div class='problem amber' title='HVAC-Thermodynamics-19'>19</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_19'>19</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_20'>20</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_21'>21</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_22'>22</div>
+                <div class='problem amber' title='HVAC_Thermodynamics_23'>23</div>
+            </div>
+        </div>
+        <h2 style='margin-top: 30px; margin-bottom: 16px; font-size: 20px;'>TFS</h2>
+        <div class="chapter">
+            <div class="chapter-title">Energy_and_Power_System_Applications</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Energy_and_Power_System_Applications_1'>1</div>
+                <div class='problem green' title='TFS_Energy_and_Power_System_Applications_2'>2</div>
+                <div class='problem green' title='TFS_Energy_and_Power_System_Applications_3'>3</div>
+                <div class='problem green' title='TFS_Energy_and_Power_System_Applications_4'>4</div>
+                <div class='problem green' title='TFS_Energy_and_Power_System_Applications_5'>5</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_6'>6</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_7'>7</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_8'>8</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_9'>9</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_10'>10</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_11'>11</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_12'>12</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_13'>13</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_14'>14</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_15'>15</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_16'>16</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_17'>17</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_18'>18</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_19'>19</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_20'>20</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_21'>21</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_22'>22</div>
+                <div class='problem amber' title='TFS_Energy_and_Power_System_Applications_23'>23</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Heat_Transfer</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Heat_Transfer_1'>1</div>
+                <div class='problem green' title='TFS_Heat_Transfer_2'>2</div>
+                <div class='problem green' title='TFS_Heat_Transfer_3'>3</div>
+                <div class='problem green' title='TFS_Heat_Transfer_4'>4</div>
+                <div class='problem green' title='TFS_Heat_Transfer_5'>5</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_6'>6</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_7'>7</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_8'>8</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_9'>9</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_10'>10</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_11'>11</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_12'>12</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_13'>13</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_14'>14</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_15'>15</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_16'>16</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_17'>17</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_18'>18</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_19'>19</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_20'>20</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_21'>21</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_22'>22</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_23'>23</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_24'>24</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_25'>25</div>
+                <div class='problem amber' title='TFS_Heat_Transfer_26'>26</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Hydraulic_and_Fluid_Applications</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Hydraulic_and_Fluid_Applications_1'>1</div>
+                <div class='problem green' title='TFS_Hydraulic_and_Fluid_Applications_2'>2</div>
+                <div class='problem green' title='TFS_Hydraulic_and_Fluid_Applications_3'>3</div>
+                <div class='problem green' title='TFS_Hydraulic_and_Fluid_Applications_4'>4</div>
+                <div class='problem green' title='TFS_Hydraulic_and_Fluid_Applications_5'>5</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_6'>6</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_7'>7</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_8'>8</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_9'>9</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_10'>10</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_11'>11</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_12'>12</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_13'>13</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_14'>14</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_15'>15</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_16'>16</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_17'>17</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_18'>18</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_19'>19</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_20'>20</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_21'>21</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_22'>22</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_23'>23</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_24'>24</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_25'>25</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_26'>26</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_27'>27</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_28'>28</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_29'>29</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_30'>30</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_31'>31</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_32'>32</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_33'>33</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_34'>34</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_35'>35</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_36'>36</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_37'>37</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_38'>38</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_39'>39</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_40'>40</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_41'>41</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_42'>42</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_43'>43</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_44'>44</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_45'>45</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_46'>46</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_47'>47</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_48'>48</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_49'>49</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_50'>50</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_51'>51</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_52'>52</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_53'>53</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_54'>54</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_55'>55</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_56'>56</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_57'>57</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_58'>58</div>
+                <div class='problem amber' title='TFS_Hydraulic_and_Fluid_Applications_59'>59</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Practice_Exam_1</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Practice_Exam_1_1'>1</div>
+                <div class='problem green' title='TFS_Practice_Exam_1_2'>2</div>
+                <div class='problem green' title='TFS_Practice_Exam_1_3'>3</div>
+                <div class='problem green' title='TFS_Practice_Exam_1_4'>4</div>
+                <div class='problem green' title='TFS_Practice_Exam_1_5'>5</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_6'>6</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_7'>7</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_8'>8</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_9'>9</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_10'>10</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_11'>11</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_12'>12</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_13'>13</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_14'>14</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_15'>15</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_16'>16</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_17'>17</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_18'>18</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_19'>19</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_20'>20</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_21'>21</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_22'>22</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_23'>23</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_24'>24</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_25'>25</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_26'>26</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_27'>27</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_28'>28</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_29'>29</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_30'>30</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_31'>31</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_32'>32</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_33'>33</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_34'>34</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_35'>35</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_36'>36</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_37'>37</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_38'>38</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_39'>39</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_40'>40</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_41'>41</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_42'>42</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_43'>43</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_44'>44</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_45'>45</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_46'>46</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_47'>47</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_48'>48</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_49'>49</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_50'>50</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_51'>51</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_52'>52</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_53'>53</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_54'>54</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_55'>55</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_56'>56</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_57'>57</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_58'>58</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_59'>59</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_60'>60</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_61'>61</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_62'>62</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_63'>63</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_64'>64</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_65'>65</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_66'>66</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_67'>67</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_68'>68</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_69'>69</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_70'>70</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_71'>71</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_72'>72</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_73'>73</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_74'>74</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_75'>75</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_76'>76</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_77'>77</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_78'>78</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_79'>79</div>
+                <div class='problem amber' title='TFS_Practice_Exam_1_80'>80</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Practice_Exam_2</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Practice_Exam_2_1'>1</div>
+                <div class='problem green' title='TFS_Practice_Exam_2_2'>2</div>
+                <div class='problem green' title='TFS_Practice_Exam_2_3'>3</div>
+                <div class='problem green' title='TFS_Practice_Exam_2_4'>4</div>
+                <div class='problem green' title='TFS_Practice_Exam_2_5'>5</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_6'>6</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_7'>7</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_8'>8</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_9'>9</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_10'>10</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_11'>11</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_12'>12</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_13'>13</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_14'>14</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_15'>15</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_16'>16</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_17'>17</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_18'>18</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_19'>19</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_20'>20</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_21'>21</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_22'>22</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_23'>23</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_24'>24</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_25'>25</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_26'>26</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_27'>27</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_28'>28</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_29'>29</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_30'>30</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_31'>31</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_32'>32</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_33'>33</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_34'>34</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_35'>35</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_36'>36</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_37'>37</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_38'>38</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_39'>39</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_40'>40</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_41'>41</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_42'>42</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_43'>43</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_44'>44</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_45'>45</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_46'>46</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_47'>47</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_48'>48</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_49'>49</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_50'>50</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_51'>51</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_52'>52</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_53'>53</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_54'>54</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_55'>55</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_56'>56</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_57'>57</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_58'>58</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_59'>59</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_60'>60</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_61'>61</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_62'>62</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_63'>63</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_64'>64</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_65'>65</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_66'>66</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_67'>67</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_68'>68</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_69'>69</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_70'>70</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_71'>71</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_72'>72</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_73'>73</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_74'>74</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_75'>75</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_76'>76</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_77'>77</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_78'>78</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_79'>79</div>
+                <div class='problem amber' title='TFS_Practice_Exam_2_80'>80</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Supporting_Topics</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Supporting_Topics_1'>1</div>
+                <div class='problem green' title='TFS_Supporting_Topics_3'>3</div>
+                <div class='problem green' title='TFS_Supporting_Topics_4'>4</div>
+                <div class='problem green' title='TFS_Supporting_Topics_5'>5</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_6'>6</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_7'>7</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_8'>8</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_9'>9</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_10'>10</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_11'>11</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_12'>12</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_13'>13</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_14'>14</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_15'>15</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_16'>16</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_17'>17</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_18'>18</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_19'>19</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_20'>20</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_21'>21</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_22'>22</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_23'>23</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_24'>24</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_25'>25</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_26'>26</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_27'>27</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_28'>28</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_29'>29</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_30'>30</div>
+                <div class='problem amber' title='TFS_Supporting_Topics_31'>31</div>
+            </div>
+        </div>
+        <div class="chapter">
+            <div class="chapter-title">Thermodynamics</div>
+            <div class="problem-grid">
+                <div class='problem green' title='TFS_Thermodynamics_1'>1</div>
+                <div class='problem green' title='TFS_Thermodynamics_2'>2</div>
+                <div class='problem green' title='TFS_Thermodynamics_3'>3</div>
+                <div class='problem green' title='TFS_Thermodynamics_4'>4</div>
+                <div class='problem green' title='TFS_Thermodynamics_5'>5</div>
+                <div class='problem amber' title='TFS_Thermodynamics_6'>6</div>
+                <div class='problem amber' title='TFS_Thermodynamics_7'>7</div>
+                <div class='problem amber' title='TFS_Thermodynamics_8'>8</div>
+                <div class='problem amber' title='TFS_Thermodynamics_9'>9</div>
+                <div class='problem amber' title='TFS_Thermodynamics_10'>10</div>
+                <div class='problem amber' title='TFS_Thermodynamics_11'>11</div>
+                <div class='problem amber' title='TFS_Thermodynamics_12'>12</div>
+                <div class='problem amber' title='TFS_Thermodynamics_13'>13</div>
+                <div class='problem amber' title='TFS_Thermodynamics_14'>14</div>
+                <div class='problem amber' title='TFS_Thermodynamics_15'>15</div>
+                <div class='problem amber' title='TFS_Thermodynamics_16'>16</div>
+                <div class='problem amber' title='TFS_Thermodynamics_17'>17</div>
+                <div class='problem amber' title='TFS_Thermodynamics_18'>18</div>
+                <div class='problem amber' title='TFS_Thermodynamics_19'>19</div>
+                <div class='problem amber' title='TFS_Thermodynamics_20'>20</div>
+                <div class='problem amber' title='TFS_Thermodynamics_21'>21</div>
+                <div class='problem amber' title='TFS_Thermodynamics_22'>22</div>
+                <div class='problem amber' title='TFS_Thermodynamics_23'>23</div>
+                <div class='problem amber' title='TFS_Thermodynamics_24'>24</div>
+                <div class='problem amber' title='TFS_Thermodynamics_25'>25</div>
+                <div class='problem amber' title='TFS_Thermodynamics_26'>26</div>
+                <div class='problem amber' title='TFS_Thermodynamics_27'>27</div>
+                <div class='problem amber' title='TFS_Thermodynamics_28'>28</div>
+                <div class='problem amber' title='TFS_Thermodynamics_29'>29</div>
+                <div class='problem amber' title='TFS_Thermodynamics_30'>30</div>
+            </div>
+        </div>
+    </div>
+
+    <div style='max-width: 1200px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px;'>
+        <p style='color: #666; font-size: 13px;'>
+            <strong>Status legend:</strong>
+            <span style='background: #d1fae5; padding: 2px 8px; border-radius: 3px; margin: 0 4px;'>🟢 Green (Problems 1-5, approved template)</span>
+            <span style='background: #fef3c7; padding: 2px 8px; border-radius: 3px; margin: 0 4px;'>🟡 Amber (Problems 6+, built by sub-agents)</span>
+            <span style='background: #fee2e2; padding: 2px 8px; border-radius: 3px; margin: 0 4px;'>🔴 Red (Not started)</span>
+        </p>
+        <p style='color: #999; font-size: 12px; margin-top: 10px;'>
+            Updated every problem. Last sync: 2026-03-17 23:35 UTC
+        </p>
+    </div>
 </body>
 </html>
