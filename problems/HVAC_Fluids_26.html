@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 26 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 26</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 26</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Three 90% ecient secondary chilled water pumps operate in a parallel redundant N+1 conguration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted ow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>28hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>42hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>63hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>95hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+Fluids 26, 390% efficient, secondary chilled water pumps operate in a parallel redundant N plus 1 configuration supplying a total of 1500 gpm against 200 feet of total dynamic head. In normal operation with all pumps running, the pumps have a speed of 900 rpm. When one pump fails, the remaining pumps increase speed to provide consistent, uninterrupted flow to the cooling loads. During a pump failure, what break horsepower is required to drive the two running pumps? Okay, so let&#39;s draw this system under the normal operation and under the failure mode and then describe what the difference is from both the system perspective and from the individual pump perspective. So starting with the system, in normal operation, we have three pumps and presumably there would be some return header which we can draw. Water enters the suction side of the pumps and then that goes to maybe a common supply header. We can also draw and then it&#39;s discharged from that header. And that system provides a volume flow rate of 1500 gpm with a total dynamic head which I&#39;ll call HA of 200 feet. Now in the failure mode when one pump fails, what happens? This is a single pump failure and not a multiple pump failure that would be another story altogether. Now we&#39;re down one of these pumps, right? So there&#39;s only two. So we can actually ignore and not even draw the other one. You still have water entering return header and you still have water discharging to a common supply header and leaving the system and what about the performance? Well, the cooling loads demand their 1500 gpm, right? So that doesn&#39;t change. The system has to deliver 1500 gpm and in order for it to work, it has to meet the system pressure as well. So the total dynamic head is still 200 feet. That&#39;s the whole point of designing the system with this redundancy, is that when a pump fails, the performance is exactly the same. So then what changed? Well, what changed is what&#39;s happening on an individual pump level. Here we had three pumps delivering the 1500 gpm. Now we have to deliver the 1500 gpm with only two pumps. So they&#39;re going to have to move more volume. They&#39;re going to speed up to compensate for the additional required volume flow rate. Now the head added by the pumps was the same because the pumps are in parallel anyway. So when we go from three to two, they still have a discharge head of 200 feet anyway. So that was the case before and after. So that doesn&#39;t actually represent a change from the initial state to the final state. So now that we&#39;re ready to start analyzing what&#39;s happening with the pumps on an individual basis, let&#39;s make a table to separately articulate those comparisons. So for the individual pumps, and we&#39;ll do the same thing. We&#39;ll describe for the normal state, which we can call state one and the failure state, which we&#39;ll call state two. In the normal state, the volume flow rate for an individual pump was 500 gpm. In the failure state, Q2, it&#39;s 750. The discharge head in the initial case was 200 feet and for the failure case it&#39;s still 200 feet because the pumps are in parallel. The speed was originally 900 rpm. What&#39;s the new speed going to be? We&#39;ll based on the pump affinity laws. Let&#39;s look that up. We have this relationship here between the flow and the speed. There basically a linear relationship, Q2, Q1 equals N2 to N1. So if the volume flow rate has to increase by 50% in the failure scenario, then the speed&#39;s going to have to increase by 50%. So N2 equals N1 times Q2 over Q1, which equals 900 rpm and I&#39;m skipping the units here. Times 750 gpm over 500 gpm, which is basically a 50% increase. So the new speed is going to be 1350 rpm. But the question is, what is the break horsepower required to drive these running pumps in the failure scenario? So there&#39;s some BHP in the normal operation and that&#39;s going to change for the failure mode. It&#39;s going to take more power to run the pumps when they have to move more volume.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids 26, 390% efficient, secondary chilled water pumps operate in a parallel redundant N plus 1 configuration supplying a total of 1500 gpm against .<br><br><br><br>• In normal operation with all pumps running, the pumps have a speed of 900 rpm.<br><br><br><br>• When one pump fails, the remaining pumps increase speed to provide consistent, uninterrupted flow to the cooling loads.<br><br><br><br>• During a pump failure, what break horsepower is required to drive the two running pumps.<br><br><br><br>• Okay, so let&#39;s draw this system under the normal operation and under the failure mode and then describe what the difference is from both the system pe.<br><br><br><br>• So starting with the system, in normal operation, we have three pumps and presumably there would be some return header which we can draw.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">6 questions from 6 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18 2021</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-25478293
+
+Fluids 26.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 26. I understand the process you went through with the pumps in parallel and using the pump affinity laws, but I&#39;m curious as to why you can&#39;t use water horse power equals Q delta H over 3960, right off the get go when you have Q and H for the failure state. So let me give a bit of context on this problem for folks that. So this was a situation where you had three pumps in parallel. And in the problem.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 41 · August 8th 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Why did you use the pump affinity laws to get your answer?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one, fluids 26. Why did you use the pump affinity laws to get your answer? If you use the affinity law for pressure, the pumping pressure is increased by 2.25 times. However, I would think the pumping pressure is the same at 200 feet since the volume flow rate is staying constant. So this was a problem where we had redundant pumps in parallel, and there were 3 pumps in a 2 plus 1 arrangement. And yeah, I&#39;ve had other candidates kind of challenging questions this problem too, and it kind of confused me for a bit thinking about it. But I think I&#39;ve got an answer, and if you don&#39;t find it satisfying, then maybe we&#39;ll have to poke at it a bit more. But I guess I&#39;ll come at it two ways. I want to talk affinity laws and general relationships, and then talk about parallel pumps, and that&#39;s why I have this up here. But my first thought was, okay, the water horsepower, or it could be very coarse power, water horsepower, whichever you like. You know, the state of the affinity laws is going to be a function of the speed cubed. And the speed is linear with the volume flow rate, so that should be tracking with volume flow rate cubed. Okay, fair enough. Then, then I thought about the equati</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 73 · January 22nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> And now you might say, well, how can they change shape?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one was from Fluids 26. I understand how we got to the final answer using the affinity laws. However, my question is why can&#39;t we use the BHP equation, which is the water horsepower of the pump efficiency, to get a final result. I say that because for the second state, the failure state. We have the pressure head and the flow rate for each individual pump, as well as their efficiency. So in my mind, we could simply do GPM times head over 30960 and efficiency, to get the result, which this method yields an answer 42 horsepower. I kept thinking that if the problem was very similar, but the initial state of the system gave us a situation where the total GPM of the system was 2250 GPM with a head of 200, we would use that formula to calculate the BHP and find 42 for state one as each of the three pumps would provide 750 GPM at 200 feet. Yeah, so for context, for folks that haven&#39;t seen this problem, or aren&#39;t looking at it right now, this is a pair of excuse me, parallel pump arrangement where you have three pumps and a two plus one redundant configuration, where if one pump fails, then they&#39;re controlled by variable speeds, so the other two pumps will speed up to account for</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74 · February 5th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 74</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loots 26. Why don&#39;t you have to double the BHP 2 since there are two running pumps? Yeah, okay, this was fair. So this is just kind of the question at the end. I asked during a pump failure What break horsepower is required to drive the two running pumps? But what I&#39;m really asking is what&#39;s the break horsepower to run one of those pumps? So what I should have said is What&#39;s the break horsepower required to drive each? Of the two remaining pumps that are running, but I didn&#39;t say that so it might have read as You know the total So if you interpreted it that way and you calculated 190 horsepower instead of 95 good job I&#39;ll give you full credit for that and Little ambiguity for me to clean up in the language there But if you calculated something other than 190 Then take a look at the solution there may be something else going on</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87 · September 2nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> But why isn&#39;t Q2 also 500gpm?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, Fluids 26. I don&#39;t understand how the value of Q2 is determined. I understand that each pump is 1500 over 3 equals 500gpm each because the pumps are in parallel. But why isn&#39;t Q2 also 500gpm? How did it become 750gpm? This one was a parallel piping arrangement. There were 3 pumps in parallel. Being fed by a common header. So there would be a common disk charge header. Let this be the supply. Let this be the disk charge. So we&#39;re pumping to the right. And it&#39;s a 2 plus 1 redundant and plus 1 redundant operation. Such that. Oh, and the total volume flow rate was 1500gpm. So you said in the problem statement you understand that since there&#39;s 3 they&#39;re going to split the volume flow rate equally. And they&#39;re going to be 500gpm each. And your question is why is Q2 in other words the volume flow rate per pump after the failure? Because we&#39;re going to have one pump fail. How does that become 750? Well, if one of these goes away, the volume flow rate is non-negotiable. There&#39;s a certain amount of water flow that&#39;s required to satisfy the cooling loads. So now we have, we&#39;re down to n. We&#39;re non-radundant. We need both pumps to run. And we still need 1500gpm, but we needed across 2 pu</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain how this works out to be the correct answer if the head is technically not supposed to change?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Loads 26, although it&#39;s a parallel operation, I use the pump affinity laws to check the head relation with the speed change. Can you explain how this works out to be the correct answer if the head is technically not supposed to change? The head doesn&#39;t change. So this was a parallel pumping operation where it was a two plus one redundant set up. There were three pumps and in the question one pump fails and we go to two and we want to know how much power, how the power requirement change. The head doesn&#39;t change, it can&#39;t change because the system has to produce a certain volume flow rate at a certain pressure to meet the system requirements and that&#39;s true where there are all three pumps are running or a pump fails and we lose that redundant pump and now the other two pumps have to speed up but the system still has to produce the same volume flow rate at the same pressure. So the head is not going to change. What is going to change is the speed of the remaining pumps because when there were three running it was circulating 500 GPM a piece for 1500 total and now that there&#39;s only two running we have to do 750 GPM a piece and we know that from the affinity laws that the volume flow r</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 26 · 6 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
