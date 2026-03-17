@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 2 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 2</span>
+  <span class="nav-badge">⭐ 16 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">16 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 2</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A pump delivers 200gpm of water at 130ft of total dynamic head, operating from 7am-7pm Monday through Friday. The pump is 80% ecient and the motor is 93% ecient. What is the annual cost of operation at $0.13 per kWh?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$2670</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$3490</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$3750</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$5030</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And we&#39;ve been given the flow rate 200 GPM and the head or pressure that the pump is able to develop 130 feet.
+
+2. So those two numbers taken together will allow us to calculate the water horsepower or hydraulic horsepower for the pump.
+
+3. And then what comes out of the pump is some flow rate at a given delta P or head pressure, which taken together is water.
+
+4. So let&#39;s start by calculating the water horsepower based on the numbers we were given.
+
+5. And there&#39;s a quick formula we can use specifically for water, search WHP.
+
+6. And right on the first page down the bottom here we get Q times delta H, which is flow rate times total dynamic head div.
+
+<strong>Full Solution:</strong>
+
+Fluids number 2, a pump delivers 200 GPM of water at 130 feet of total dynamic head operating from 7am to 7pm Monday through Friday. The pump is 80% efficient and the motor is 93% efficient. What is the annual cost of operation at 13 cents per KWH? So we need to figure out how much electricity this pump consumes. And we&#39;ve been given the flow rate 200 GPM and the head or pressure that the pump is able to develop 130 feet. So those two numbers taken together will allow us to calculate the water horsepower or hydraulic horsepower for the pump. But of course there is some inefficiency because no pump is 100% efficient. So you have some losses in the pump and that&#39;s an 80% efficiency. And then you have some losses in the motor that&#39;s driving the pump. So when it comes to figuring out how much electricity we&#39;re going to have to account for both of those losses. And a quick model to kind of remember how to put this together since this comes up many times. Let&#39;s suppose you have a motor and it&#39;s driving a pump. What enters the motor is electricity. So that&#39;s let&#39;s say kilowatts. And then what comes out of the motor is a spinning shaft that&#39;s mechanical power. So we&#39;ll call that BHP break horsepower. And then what comes out of the pump is some flow rate at a given delta P or head pressure, which taken together is water horsepower that&#39;s doing that&#39;s doing useful work. So all of these things are power. This is hydraulic horsepower. This is brake horsepower. And this is the power of electricity. So let&#39;s start by calculating the water horsepower based on the numbers we were given. And there&#39;s a quick formula we can use specifically for water, search WHP. And right on the first page down the bottom here we get Q times delta H, which is flow rate times total dynamic head divided by 3960. And that&#39;s only for water. So that assumes a density of 62.3 pounds per cubic foot. So for any other fluid we have to account for the specific gravity. But if it&#39;s water we can use this formula for water horsepower. So water horsepower equals Q times delta H divided by 3960. And Q has to be in GPM and it is. So it&#39;s 200. I want to even write the units. It has to be in those units in the first place. Delta H has to be in feet of head and it is. So that&#39;s 130. And we&#39;re dividing by 30 non 60, which gives us 6.566 horsepower. And that&#39;s the hydraulic horsepower. Now the brake horsepower has to account for the inefficiency of the pump. So if I were to write an equation for that, it would be BHP equals. WHP over the efficiency of the pump. In the same vein, if I were to write a formula for the power required for the motor, I&#39;ll call that P electrical. But it&#39;s going to have units of KW eventually. That would be the brake horsepower divided by the efficiency of the motor. And now if we put that all together by substituting this brake horsepower expression in to this formula, we&#39;ll get the electrical power for the whole pump set, including the motor and the pump, is the hydraulic horsepower WHP divided by both efficiencies. Fistancy of the pump and the efficiency of the motor. And the product of those two efficiencies can be calculated by multiplying the two together and then we&#39;ll say that that&#39;s the overall efficiency of the pump set. But it&#39;s fine to keep them separate as well. We&#39;re going to include both here. So let&#39;s find out the electrical power that this pump consumes. It&#39;s the 6.566 horsepower that we calculated, divided by the efficiency of the pump. 0.8, and the efficiency of the motor.93. And typically we don&#39;t talk about electricity in terms of horsepower. We talk about it in terms of watts. So let&#39;s multiply this by 0.746 KW per horsepower. And if you don&#39;t know that number off the top of your head, you can just look it up. You can search for measurement relationships right at the beginning of the reference handbook. And that works out to 6.58 KW. Now the pump doesn&#39;t run all the time.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids number 2, a pump delivers 200 GPM of water at 130 feet of total dynamic head operating from 7am to 7pm Monday through Friday.<br><br><br><br>• The pump is 80% efficient and the motor is 93% efficient.<br><br><br><br>• What is the annual cost of operation at 13 cents per KWH.<br><br><br><br>• So we need to figure out how much electricity this pump consumes.<br><br><br><br>• And we&#39;ve been given the flow rate 200 GPM and the head or pressure that the pump is able to develop 130 feet.<br><br><br><br>• So those two numbers taken together will allow us to calculate the water horsepower or hydraulic horsepower for the pump.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">16 questions from 0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> How is this not double counting kinetic and potential energy?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So just a few questions today, there were four questions that came up. Not a ton of questions, so I mean, I know people are at different points in the process, so maybe you&#39;re just kind of no-derrick. We don&#39;t even, or at least I don&#39;t, I don&#39;t know if anybody else does. Yeah, no dice. So I like I was saying, I know people are different points in the process, but maybe you&#39;re just kind of working through the material. And obviously the video solutions are there and it&#39;s on demand. So if you don&#39;t have tons of questions right now, that&#39;s okay. And when you do, we&#39;ll take a mon of that point. I&#39;m hoping that&#39;s a good sign, and that means that as you guys are studying, the explanations are that are there useful. So let&#39;s look at the ones that we have for today. But with the annotations going to stay, that&#39;s no good. We&#39;ve got to clear that up. Okay. All right, so we got a couple of general questions. And one fluid, one psychometrics, and that&#39;s it, just four. First one was in your properties of substance class video, and I believe this is from the Fundamentals course on internal energy. You define internal energy as all the potential and kinetic energy in a substance.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 61</div>
+      <div class="qa-question"><strong>Q:</strong> The sensible cooling of the water, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this one I think was from an outside program, but that&#39;s fine. I think it&#39;s a pretty straightforward question that we can adhere is about a hot water coil and outside air handling unit delivers 5,000 CFM of outside air. On a winter day the outside air is 18 degrees atteted to 68 using a hot water coil. Hot water is supplied at 165 and returned at 140. What&#39;s the required full array of hot water. So my question in the solution is how to know that QS equals QW and the respective equations any references to the handbook. So we have an air handler. We know the volume flow rate. We know the delta T on the air side. And we know the hot water delta T, but not the volume flow rate. And your question is how to know that QS equals QW. Honestly, I think it&#39;s, I, there&#39;s not a equation you&#39;re going to find in the handbook that gives you that guiding principle. I think that&#39;s the fundamental idea of this problem. So, we have a coil. It&#39;s got some volume flow rate, GPM flowing through it. We don&#39;t know what that is. We do know the delta T on the water side. So Q1, T2 call it. And then on the air side, we know the CFM. And we know the air temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-47857150
+
+So starting off fluids module number three, why do you assume it&#39;s a steel pipe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So starting off fluids module number three, why do you assume it&#39;s a steel pipe? So this was a friction loss, Darcy equation problem. And it&#39;s a fair question, I think when you&#39;re getting started on these problems, you are not necessarily used to some of the common assumptions that are made and the problem doesn&#39;t explicitly say that it&#39;s a steel pipe. So why would we assume that it is? One answer and this is kind of a cop out, but it&#39;s just very common that we&#39;re dealing with water flowing and steel pipes. So if in doubt or there&#39;s insufficient information given, that&#39;s probably a pretty safe bet. But in this particular problem, we use the Darcy equation, which is HF equals FL v squared over 2DG. And the only thing we really use the steel pipe friction tables for is for finding the inside diameter of the pipe. So it&#39;s not necessarily that we&#39;re assuming that it&#39;s steel. We&#39;re given the relative roughness. We&#39;re going to go through that whole Darcy equation process where we&#39;re using the moody diagram with the roughness to figure out the friction factor. And that&#39;s what gets plugged into the Darcy equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 72</div>
+      <div class="qa-question"><strong>Q:</strong> How do you know that to get into pounds of water per cubic foot?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 13. How do you know that to get into pounds of water per cubic foot? You had to multiply delta w by one over specific volume as opposed to multiplying w times one over Delta specific volume. So I&#39;m going to read that really carefully because I think it was Frays to very carefully. And I want to honor that. This problem is about a cooling tower. So some kind of a, I&#39;m going to straight line. Some kind of a cooling tower set up here. And we&#39;ve got some entering air and some leaving air. And what&#39;s happening in a cooling tower? We have some air entering that&#39;s generally speaking Hello moisture and some air leaving that&#39;s high moisture. So that air is not necessarily being saturated, although potentially being saturated, but certainly moving in the direction of saturation. So on the psychometric chart. Moving up into the left. Maybe a long line of constant wet bulb. Maybe not. Maybe a line like this. Don&#39;t want to say that it&#39;s necessarily a constant wet bulb process, but certainly up into the left. So the point being more important than that it&#39;s going to the left that&#39;s coming up.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 79</div>
+      <div class="qa-question"><strong>Q:</strong> Why do we take ads sensibly heat of water for material total heat?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This is an interesting one. It&#39;s always about drying a material. We have a whole bunch of given information. Why do we take ads sensibly heat of water for material total heat? See solution? Why aren&#39;t we using circulating air temperature 160 for makeup air? So let&#39;s just talk through this. We&#39;re drying magnesium hydroxide for 82% to 4% moisture. The optimum circulating air temperature for drying is 160 the following data apply. We&#39;ve got the specific heat capacity of air, the specific heat capacity of the material, and the specific heat capacity of water. We&#39;ve got heat transfer information about the sensible heat of water, material, and vapor. And then the latent heat of evaporation for drying it out, so we&#39;re getting rid of the water. Then we&#39;ve got air data, which is the mass flow rate of the air, of the makeup air. We&#39;ve got the exhaust temperature, which is lower than what it&#39;s being introduced to that, right? It&#39;s coming at 160. It&#39;s leaving at 123. And then the makeup air temperature, and I guess before it&#39;s being heated to 160, it&#39;s only 70 degrees. So that&#39;s also good to know.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 103</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-65520493
+
+The first one was from Fluids from the TFS program.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one was from Fluids from the TFS program. Can you give the clarification for solving it using the RFS area as promised please and highlighting what is wrong with the reference manual please as it pertains to this question. Thank you. So this one was about an RFS plate or an RFS meter. And I put the snip from the reference handbook below to sort of explain where this went wrong for me. Because I have a clarification for my explanation for my underneath the solution video. Everything was okay in the solution except for one little bit. So there&#39;s this definition at the bottom left here of the contraction coefficient which is A2 over A0. So that corresponds to this area here which is called the VINA contracta as compared to the area of the ORFIS opening. So the flow is going from left to right there&#39;s some initial diameter D1. But the diameter of the ORFIS opening is less than that that&#39;s D0. And then there&#39;s a further reduction in the diameter of the flow downstream of the ORFIS opening. That&#39;s D2 that&#39;s called the VINA contracta. So that&#39;s a critical idea for dealing with ORFIS plates at ORFIS meters. And oops. In the solution I wrote this formula.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 107</div>
+      <div class="qa-question"><strong>Q:</strong> Can you just look up the enthalpy of water at 50 degrees and pick the HF value of 18B2 per pound?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermos 7. Can you just look up the enthalpy of water at 50 degrees and pick the HF value of 18B2 per pound? So this was a situation where we had a fully defined state. We knew the temperature and pressure. The temperature was 50 degrees. The pressure was 5 psi G, which is about 20 psi A. And if you look in the saturated steam table for that, what you&#39;ll find is that we&#39;re dealing with sub-cooled water. So it&#39;s a sub-cooled liquid. And when that happens, we&#39;ve actually talked about that a few times in the last couple months, I would say this is somewhat variant of this question is come up on office hours a lot lately. If you&#39;re dealing with a sub-cooled liquid, then you have to deal with the fact that the enthalpy is not HF per say, because it&#39;s not a saturated liquid. It&#39;s a sub-cooled liquid. So let&#39;s draw that on a vapor dome. So on the vapor dome, we&#39;re talking about this point right here, which would be HF. That&#39;s a saturated liquid. So in between the vapor dome is a mixture. And when you get to the point where the quality is zero and you have all liquid, that&#39;s a saturated liquid. But if you continue along that isobar, so usually we do temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111</div>
+      <div class="qa-question"><strong>Q:</strong> Why is it necessary to add elevation change to P2, considering the pressure indicator is already at elevation, wouldn&#39;t it have already detected losses associated with elevation change?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up, staying with fluids. Why is it necessary to add elevation change to P2, considering the pressure indicator is already at elevation, wouldn&#39;t it have already detected losses associated with elevation change? So delta pressure is really just P2 minus P1. Okay, let&#39;s step back and draw picture on this one. So this was a pumping system, and I&#39;m gonna simplify it a bit. So we don&#39;t have to get into all the specifics of that problem, but we can just talk about what&#39;s important to this question. So in the problem, we have a pump. And on the suction side of that pump, we have a gauge. And we&#39;re measuring P1 at that location. And then there&#39;s some piping. And then there&#39;s an elevation change, it goes up. And then we&#39;re measuring the pressure at this location P2. And in the problem, we&#39;re finding the power out of by the pump, so the water horsepower is what we&#39;re after. And those gauges are gonna be important for that. So if we were to ignore the 10 feet of elevation, just to try that on, try that idea on, then we would redraw this, and we would say, okay, we&#39;re gonna keep the inlet side the same, but on the discharge side, we&#39;re just gonna keep it flat.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 01</div>
+      <div class="qa-question"><strong>Q:</strong> How is this not double counting kinetic and potential energy?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So just a few questions today, there were four questions that came up. Not a ton of questions, so I mean, I know people are at different points in the process, so maybe you&#39;re just kind of no-derrick. We don&#39;t even, or at least I don&#39;t, I don&#39;t know if anybody else does. Yeah, no dice. So I like I was saying, I know people are different points in the process, but maybe you&#39;re just kind of working through the material. And obviously the video solutions are there and it&#39;s on demand. So if you don&#39;t have tons of questions right now, that&#39;s okay. And when you do, we&#39;ll take a mon of that point. I&#39;m hoping that&#39;s a good sign, and that means that as you guys are studying, the explanations are that are there useful. So let&#39;s look at the ones that we have for today. But with the annotations going to stay, that&#39;s no good. We&#39;ve got to clear that up. Okay. All right, so we got a couple of general questions. And one fluid, one psychometrics, and that&#39;s it, just four. First one was in your properties of substance class video, and I believe this is from the Fundamentals course on internal energy. You define internal energy as all the potential and kinetic energy in a substance.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 61</div>
+      <div class="qa-question"><strong>Q:</strong> The sensible cooling of the water, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this one I think was from an outside program, but that&#39;s fine. I think it&#39;s a pretty straightforward question that we can adhere is about a hot water coil and outside air handling unit delivers 5,000 CFM of outside air. On a winter day the outside air is 18 degrees atteted to 68 using a hot water coil. Hot water is supplied at 165 and returned at 140. What&#39;s the required full array of hot water. So my question in the solution is how to know that QS equals QW and the respective equations any references to the handbook. So we have an air handler. We know the volume flow rate. We know the delta T on the air side. And we know the hot water delta T, but not the volume flow rate. And your question is how to know that QS equals QW. Honestly, I think it&#39;s, I, there&#39;s not a equation you&#39;re going to find in the handbook that gives you that guiding principle. I think that&#39;s the fundamental idea of this problem. So, we have a coil. It&#39;s got some volume flow rate, GPM flowing through it. We don&#39;t know what that is. We do know the delta T on the water side. So Q1, T2 call it. And then on the air side, we know the CFM. And we know the air temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-47857150
+
+So starting off fluids module number three, why do you assume it&#39;s a steel pipe?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So starting off fluids module number three, why do you assume it&#39;s a steel pipe? So this was a friction loss, Darcy equation problem. And it&#39;s a fair question, I think when you&#39;re getting started on these problems, you are not necessarily used to some of the common assumptions that are made and the problem doesn&#39;t explicitly say that it&#39;s a steel pipe. So why would we assume that it is? One answer and this is kind of a cop out, but it&#39;s just very common that we&#39;re dealing with water flowing and steel pipes. So if in doubt or there&#39;s insufficient information given, that&#39;s probably a pretty safe bet. But in this particular problem, we use the Darcy equation, which is HF equals FL v squared over 2DG. And the only thing we really use the steel pipe friction tables for is for finding the inside diameter of the pipe. So it&#39;s not necessarily that we&#39;re assuming that it&#39;s steel. We&#39;re given the relative roughness. We&#39;re going to go through that whole Darcy equation process where we&#39;re using the moody diagram with the roughness to figure out the friction factor. And that&#39;s what gets plugged into the Darcy equation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 72</div>
+      <div class="qa-question"><strong>Q:</strong> How do you know that to get into pounds of water per cubic foot?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 13. How do you know that to get into pounds of water per cubic foot? You had to multiply delta w by one over specific volume as opposed to multiplying w times one over Delta specific volume. So I&#39;m going to read that really carefully because I think it was Frays to very carefully. And I want to honor that. This problem is about a cooling tower. So some kind of a, I&#39;m going to straight line. Some kind of a cooling tower set up here. And we&#39;ve got some entering air and some leaving air. And what&#39;s happening in a cooling tower? We have some air entering that&#39;s generally speaking Hello moisture and some air leaving that&#39;s high moisture. So that air is not necessarily being saturated, although potentially being saturated, but certainly moving in the direction of saturation. So on the psychometric chart. Moving up into the left. Maybe a long line of constant wet bulb. Maybe not. Maybe a line like this. Don&#39;t want to say that it&#39;s necessarily a constant wet bulb process, but certainly up into the left. So the point being more important than that it&#39;s going to the left that&#39;s coming up.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 79</div>
+      <div class="qa-question"><strong>Q:</strong> Why do we take ads sensibly heat of water for material total heat?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This is an interesting one. It&#39;s always about drying a material. We have a whole bunch of given information. Why do we take ads sensibly heat of water for material total heat? See solution? Why aren&#39;t we using circulating air temperature 160 for makeup air? So let&#39;s just talk through this. We&#39;re drying magnesium hydroxide for 82% to 4% moisture. The optimum circulating air temperature for drying is 160 the following data apply. We&#39;ve got the specific heat capacity of air, the specific heat capacity of the material, and the specific heat capacity of water. We&#39;ve got heat transfer information about the sensible heat of water, material, and vapor. And then the latent heat of evaporation for drying it out, so we&#39;re getting rid of the water. Then we&#39;ve got air data, which is the mass flow rate of the air, of the makeup air. We&#39;ve got the exhaust temperature, which is lower than what it&#39;s being introduced to that, right? It&#39;s coming at 160. It&#39;s leaving at 123. And then the makeup air temperature, and I guess before it&#39;s being heated to 160, it&#39;s only 70 degrees. So that&#39;s also good to know.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 103</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-65520493
+
+The first one was from Fluids from the TFS program.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one was from Fluids from the TFS program. Can you give the clarification for solving it using the RFS area as promised please and highlighting what is wrong with the reference manual please as it pertains to this question. Thank you. So this one was about an RFS plate or an RFS meter. And I put the snip from the reference handbook below to sort of explain where this went wrong for me. Because I have a clarification for my explanation for my underneath the solution video. Everything was okay in the solution except for one little bit. So there&#39;s this definition at the bottom left here of the contraction coefficient which is A2 over A0. So that corresponds to this area here which is called the VINA contracta as compared to the area of the ORFIS opening. So the flow is going from left to right there&#39;s some initial diameter D1. But the diameter of the ORFIS opening is less than that that&#39;s D0. And then there&#39;s a further reduction in the diameter of the flow downstream of the ORFIS opening. That&#39;s D2 that&#39;s called the VINA contracta. So that&#39;s a critical idea for dealing with ORFIS plates at ORFIS meters. And oops. In the solution I wrote this formula.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 107</div>
+      <div class="qa-question"><strong>Q:</strong> Can you just look up the enthalpy of water at 50 degrees and pick the HF value of 18B2 per pound?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermos 7. Can you just look up the enthalpy of water at 50 degrees and pick the HF value of 18B2 per pound? So this was a situation where we had a fully defined state. We knew the temperature and pressure. The temperature was 50 degrees. The pressure was 5 psi G, which is about 20 psi A. And if you look in the saturated steam table for that, what you&#39;ll find is that we&#39;re dealing with sub-cooled water. So it&#39;s a sub-cooled liquid. And when that happens, we&#39;ve actually talked about that a few times in the last couple months, I would say this is somewhat variant of this question is come up on office hours a lot lately. If you&#39;re dealing with a sub-cooled liquid, then you have to deal with the fact that the enthalpy is not HF per say, because it&#39;s not a saturated liquid. It&#39;s a sub-cooled liquid. So let&#39;s draw that on a vapor dome. So on the vapor dome, we&#39;re talking about this point right here, which would be HF. That&#39;s a saturated liquid. So in between the vapor dome is a mixture. And when you get to the point where the quality is zero and you have all liquid, that&#39;s a saturated liquid. But if you continue along that isobar, so usually we do temperature.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 111</div>
+      <div class="qa-question"><strong>Q:</strong> Why is it necessary to add elevation change to P2, considering the pressure indicator is already at elevation, wouldn&#39;t it have already detected losses associated with elevation change?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up, staying with fluids. Why is it necessary to add elevation change to P2, considering the pressure indicator is already at elevation, wouldn&#39;t it have already detected losses associated with elevation change? So delta pressure is really just P2 minus P1. Okay, let&#39;s step back and draw picture on this one. So this was a pumping system, and I&#39;m gonna simplify it a bit. So we don&#39;t have to get into all the specifics of that problem, but we can just talk about what&#39;s important to this question. So in the problem, we have a pump. And on the suction side of that pump, we have a gauge. And we&#39;re measuring P1 at that location. And then there&#39;s some piping. And then there&#39;s an elevation change, it goes up. And then we&#39;re measuring the pressure at this location P2. And in the problem, we&#39;re finding the power out of by the pump, so the water horsepower is what we&#39;re after. And those gauges are gonna be important for that. So if we were to ignore the 10 feet of elevation, just to try that on, try that idea on, then we would redraw this, and we would say, okay, we&#39;re gonna keep the inlet side the same, but on the discharge side, we&#39;re just gonna keep it flat.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 2 · 16 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
