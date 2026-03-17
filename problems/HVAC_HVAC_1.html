@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 1 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 1</span>
+  <span class="nav-badge">⭐ 14 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">14 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · HVAC · Problem 1</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      5000cfm of 76°F air with 60% RH is returned to an air handling unit with a total capacity of 15tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43°F chilled water which leaves the coil at 54°F. The supply air conditions are 58°F dry bulb and 56°F wet bulb. What percentage of the sensible cooling capacity is available as spare?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>23%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>46%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>54%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>77%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. 5,000 CFM of 76 degree air with 60% relative humidity is returned to an air handling unit with a total capacity of 15 to.
+
+2. So let&#39;s work out what the sensible capacity is first and then we&#39;ll figure out what the sensible load is and we can sub.
+
+3. So we&#39;ll start with that 15 tons.
+
+4. Now we can convert that to BT&#39;s power by multiplying by 12,000 BT&#39;s power per ton.
+
+5. So now the sensible heat ratio, you can just multiply by 0.7, but I just want to show it for background sensible heat ra.
+
+6. So we can rearrange that to solve for sensible only by multiplying by total on both sides Q.S equals the sensible heat r.
+
+<strong>Full Solution:</strong>
+
+Hi, welcome to HVAC Extra Practice for the PE exam. This is Damelae and we&#39;ve got a great set of 25 practice problems here, so let&#39;s dive right in. HVAC 1. 5,000 CFM of 76 degree air with 60% relative humidity is returned to an air handling unit with a total capacity of 15 tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43 degree chilled water, which leaves the coil at 54 degrees. The supply air conditions are 58 degrees dry bulb and 56 degrees wet bulb. What percentage of the sensible cooling capacity is available as spare? So we&#39;ve got a lot of information here, we may not need all of it. What they want to know is the sensible cooling capacity and in particular what percent of that capacity is spare. So we know from the problem statement that we have 15 tons of total cooling, right? That&#39;s the total capacity, but only 70% of that is sensible cooling capacity. So let&#39;s work out what the sensible capacity is first and then we&#39;ll figure out what the sensible load is and we can subtract. So we&#39;ll start with that 15 tons. So the total capacity is 15 tons. Now we can convert that to BT&#39;s power by multiplying by 12,000 BT&#39;s power per ton. So that&#39;s 180,000 BT&#39;s power tons cancels. So that&#39;s the total capacity including both sensible and latent. So now the sensible heat ratio, you can just multiply by 0.7, but I just want to show it for background sensible heat ratio. In general is equal to the sensible heat Q.S over the total Q.T, where the total equals Q.S plus Q.T, the sensible and the latent cooling. So we can rearrange that to solve for sensible only by multiplying by total on both sides Q.S equals the sensible heat ratio times the total. And we know the total and we know the sensible heat ratio is 0.7. So we can substitute that in 0.7 times 180,000 BT&#39;s power. And that gives us a sensible heat capacity of 126,000 BT&#39;s power. Okay, so that&#39;s the sensible capacity, but what&#39;s the actual sensible load? Well, we&#39;ve actually got quite a bit of information here. We know about the chilled water. We know about the weep bulb conditions. But we don&#39;t need all that. Really the only thing that matters is the CFM and the delta T. So we just need the dry bulb temperatures. We know the CFM and we know that the air is being returned at 76 degrees dry bulb. Doesn&#39;t matter how much moisture is in the air. The humidity is not important if we&#39;re just talking about sensible heat. And the chilled water is not relevant in terms of figuring out how much load the unit is actually cooling. We really just need the dry bulb temperature of the supply and the return and the CFM. Because we&#39;re going to use one of the most prevalent rules of thumb, sensible cooling equals for the air side 1.08 CFM delta T. And this is very often used rule of thumb formula. So if you haven&#39;t got a family with it already, you certainly will be by the end of this set of practice problems. And when we use it, we&#39;re going to plug in the volume flow rate in CFM and we&#39;re going to plug in the delta T in degrees Fahrenheit. And as long as we use those units, the sensible heat will come out and be used per hour. So we don&#39;t need to include the units and write them over and over as long as we always put them in that way. So 1.08 times 5,000 times the return temperature 76 degrees minus the supply temperature 58 degrees. So we&#39;ve got an 18 degree delta T there and that gives us a sensible load of 97,200 BT per hour. So the spare capacity then is going to be the difference. So 126,000 minus 97,200. And that gives us 28,800. And the answer choices are given us percentages, so we want that as a percentage of the sensible cooling capacity 126,000. Which is 0.229. So that&#39;s pretty close to 23%, which is answer choice A. So just be careful not to divide by the total capacity, but rather by the total sensible cooling capacity. It&#39;s very carefully worded what percentage of the sensible cooling capacity 126,000 is available as spare.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Hi, welcome to HVAC Extra Practice for the PE exam.<br><br><br><br>• This is Damelae and we&#39;ve got a great set of 25 practice problems here, so let&#39;s dive right in.<br><br><br><br>• 5,000 CFM of 76 degree air with 60% relative humidity is returned to an air handling unit with a total capacity of 15 tons and a design sensible heat .<br><br><br><br>• The cooling coil is supplied with 43 degree chilled water, which leaves the coil at 54 degrees.<br><br><br><br>• The supply air conditions are 58 degrees dry bulb and 56 degrees wet bulb.<br><br><br><br>• What percentage of the sensible cooling capacity is available as spare.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">14 questions from 6 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 18 · July 16 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 18</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC25, do we assume diameter does not change because they don&#39;t mention anything about it for the initial condition? So this is a finidule law problem and they&#39;re changing the speed to meet the new application. So the short answer here would be yes. No change to the diameter because there&#39;s no mention of changing the diameter. So we don&#39;t want to inject any additional complexity unless we&#39;re specifically asked to our given reason too. So we&#39;ll just assume that the diameter stays the same.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 29 · January 20 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 29</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, we&#39;ve got another one of those frustration questions here. Great. I want to know how we are supposed to pull accurate values off the Psychometric chart in actual CBT exam using only the completely bogus line tool available to us in the exam. I think I need to get dialed in on how to clearly calculate these answers and test because the line tool offers a real POS but it lately is there a way to do this. Well, first of all, I want to acknowledge your frustration. I guess maybe some bad experiences in the past with the line tool. It&#39;s funny. I&#39;ve heard some complaints about the line tool but when I watched the The NC&#39;s video about how to use it, it just looks like it makes straight lines and then you can control Z to erase it. So, you know, it won&#39;t be dismissive of the question but it just sounds like it&#39;s not that big of a deal to me but maybe there&#39;s something I&#39;m missing. So, you know, I don&#39;t want to, like I said, I don&#39;t want to ignore the question and I just want to make sure that we want the solution more than then we want the prop and then we can move forward. So, I&#39;m not going to re-solve this whole problem again because again, it&#39;s in the solution video but I wan</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 30 · February 4 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 30</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Can you please solve this outside source problem psychometrics? A room contains air 80 degrees dry bulb and 67 wet bulb temperature. The total pressure is 1 ATM. The specific heat of the air in the room is most nearly what? So there&#39;s an easy way and an hard way. I actually have a problem pretty much exactly like this in my thermomodule, I want to say. I don&#39;t know if I made the answer choices quite the way these answer choices are, but regardless, easy way. What is type in the chat or unmute and tell them if you know what is the specific heat capacity of air? 236. CPair is 0.236. I&#39;m not sure if I&#39;m going to do a check. What temperature does it vary with temperatures, doesn&#39;t it? Or is it pressure on CPE that would be CPE? 0.24. So we can use a browned ranking. Yep. Yeah, these units, right? And that&#39;s a very typical value that you can take and use to acknowledge your point about this. It&#39;s a change of temperature. Yes, it does, but it&#39;s very slight. Like you can literally write this as 0.240 from from most purposes. And this question is specifically trying to get you to look at what happens when we introduce water vapor. This is not dry air. So this is the specific heat capacity </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 31 · February 18 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 31</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, question asks, a simple rank and cycle operates between steam and during a turbine at 1200 degrees and 700 PSIA and entering a pump at 2 PSIA. What is the cycle&#39;s maximum efficiency? I struggle breaking it down to understand how to attack the table and get the values and looking for. Okay, I&#39;m not gonna do this problem out fully. I want to challenge and invite the person who asked this question to kind of double down on attacking the table. And the reason for that is it&#39;s so important to be able to find the information you need in the reference handbook quickly and reliably. And you have to be patient with yourself at first. So if you&#39;re at the beginning of your study process and you haven&#39;t kind of gone through the pain of figuring out how to find these things then unfortunately you gotta do that. If I spoon feed that to you, I&#39;m doing you a disservice. So what I will do is we can step through the assumptions and steps of the process from a high level. And then that&#39;ll give you enough bread crumbs to go into the tables, get the values you need and do the actual, you know, algebra along the way to get to the answer. So the first thing you wanna do is just search rank and cycl</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 32 · March 7 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 32</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Can you solve this question that would be great? Thanks. I want to solve the whole question, but I will give you the principles and I will leave you to apply them. So, this question is about a acoustical reduction reducing the sound power level by using a duct liner. So, there&#39;s actually a table in the reference handbook that you can find by searching insertion loss. That&#39;s a great key search term to know in case this comes up. So, what&#39;s the idea? The idea is you have just a bare metal duct and you can measure at different octave frequencies. They probably put like a test, you know, speaker in there and then little receivers at certain locations to try to figure out how much sound is being transmitted. And that&#39;s that SPL figure. So, the opportunity is to line the duct with something that&#39;s acoustically insulating. And in doing that, to actually reduce the sound power level that&#39;s observed. So, that depends on a number of things. It depends on the size of the duct. So, it matters that it&#39;s 36 by 36. And it matters the thickness of the insulation. Now, it&#39;s also relevant to note that that&#39;s reducing the internal area inside the duct. So, you might be increasing the velocity. In thi</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 64 · July 31st 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 64</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC number one, you used 28,000 VTU per hour for your spare, but it should be 28, so the answer should be 16%, not 23%. So this one was about an air handler, and the question asked about calculating the spare sensible cooling capacity. And I think you&#39;re referring to the very end of the problem, where I calculate the spare sensible cooling capacity in VTU per hour, and I unfortunately wrote 28,000, and you&#39;re saying I should have written 28, I agree. That&#39;s true. So I&#39;ve added a clarification on you that problem. Thank you for reporting that. However, I then calculate the percentage spare to be 23%. And that is correct. It&#39;s 22.9 with some more decimals and it rounds off, and that is the correct answer. So I think what probably happened is I just wrote the wrong thing in the solution video, but I probably left 28 in my calculator, so when I divided and got 23% I did end up with the right answer. So definitely standing by the answer there, I think the mistake that you may have made, and it&#39;s an easy mistake to make, is the denominator. So if we&#39;re finding the sensible cooling capacity, sensible cooling capacity, and we&#39;re need to do the spare capacity divided by the sensible coolin</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 18</div>
+      <div class="qa-question"><strong>Q:</strong> 08 CFM Delta T?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one, HVAC1. To calculate the sensible demand for the room, can you explain more about the states of 1 and 2 for the sensible heat gain equation 1.08 CFM Delta T? To figure out the sensible demand, I assume that the Delta T comes from the supplier and room air. I would agree with that. And therefore CFM must be the supply volumetric flow rate and not the return. Or can you assume that it is all returned and there is no exhaust room pressure. Yeah, yes, to the last part, I think there&#39;s no information given about exhaust or room pressure. So you should assume that the supply volum is equal to the return volume. Obviously in real life applications, this is one of those situations where your experience can actually hurt you because you&#39;re thinking about a real life application. And of course there would be some kind of exhaust or some kind of room pressureization or things like that. So you want to count for that in real life. But in a simple theoretical problem, like this, just assume that the supply and return are equal. Everything is flowing in a circle and don&#39;t overthink it.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96</div>
+      <div class="qa-question"><strong>Q:</strong> Is that just the coincidence at what point does the temperature impact the specific volume?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 4, onto HVAC now, I got the same answer point 1, 1, 2 using the specific volume of propane from the table 10, 1 and took the inverse of that to find the density. Is that just the coincidence at what point does the temperature impact the specific volume? No, not a coincidence, you&#39;re good here. At what temperature does the, does the, does it impact the specific volume? It continuously impacts the specific volume. The question is, a matter of degree. So how much does a certain change in temperature impact the specific volume? So that&#39;s, that&#39;s not a binary answer, that&#39;s something that you have to recognize as a linear, linear or even a nonlinear relationship. And you have to make a judgment called this and how far out you are. Anyway, you&#39;re fine in terms of the method that you use, you got the right answer, you got the same answer and I would encourage you to know both ways. So watch this solution video or check the written solution as well and be sure you can go both ways.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 99</div>
+      <div class="qa-question"><strong>Q:</strong> Is the efficiency supposed to be in the numerator or the denominator like you had solved in the problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC, Pratt&#39;s Exam 1, No. 74. I looked up the equation to find the power and horsepower in the handbook, and the efficiency is in the numerator, not the denominator, when I saw for the torque I got 820 feet foot pounds instead of 1,010 foot pounds. Is the efficiency supposed to be in the numerator or the denominator like you had solved in the problem? Yeah, so the distinction here is between an AC motor and an AC generator. So, in an AC motor, and I&#39;ll just kind of sketch out what this would look like. If it&#39;s an AC motor, it&#39;s being fed with electricity. So we&#39;ll call that W dot, maybe I&#39;ll use the subscript, ELEC for electrical, but it&#39;s W dot, it&#39;s a electrical work. KW would be the units, right? And it&#39;s outputting mechanical power, which is to say it&#39;s spinning a shaft, and we&#39;ll call that horsepower specifically, break horsepower, because it&#39;s mechanical power spinning a shaft. We wanted to distinguish that from an AC generator. It&#39;s kind of doing the opposite. It&#39;s being powered by a spinning shaft. It&#39;s receiving break horsepower. Now, what does that break horsepower come from? It probably comes from an internal combustion engine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 102</div>
+      <div class="qa-question"><strong>Q:</strong> Why can&#39;t the fan affinity laws be used in this question?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this is from the HVAC practice exam and this batch is a bunch more that follow these are all from the second practice exam and the HVAC program. Why can&#39;t the fan affinity laws be used in this question? I would have thought that you could calculate the pressure adjustment from altitude as well as air density to get a revised CFM. However, the result in answer would give you a lower CFM instead. So this question was about an elevation correction, situation and you&#39;re being asked to find the CFM with the circumstances of being at elevation. And it&#39;s an interesting idea to use the affinity laws. At first glance, it doesn&#39;t seem crazy. In fact, the affinity laws are often used to deal with change. So just out of glance, I might be looking at something like 1B as a possibility where you have this relationship between density and speed, RPM. Because we know that the volume flow rate is linear with the speed. So we could in theory replace the ends with Q&#39;s and the diameter is not changing. And the pressure is also not changing, or at least the delta P the pressure being developed by the fan. So really, it&#39;s just a relationship between density and volume flow rate.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 18</div>
+      <div class="qa-question"><strong>Q:</strong> 08 CFM Delta T?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one, HVAC1. To calculate the sensible demand for the room, can you explain more about the states of 1 and 2 for the sensible heat gain equation 1.08 CFM Delta T? To figure out the sensible demand, I assume that the Delta T comes from the supplier and room air. I would agree with that. And therefore CFM must be the supply volumetric flow rate and not the return. Or can you assume that it is all returned and there is no exhaust room pressure. Yeah, yes, to the last part, I think there&#39;s no information given about exhaust or room pressure. So you should assume that the supply volum is equal to the return volume. Obviously in real life applications, this is one of those situations where your experience can actually hurt you because you&#39;re thinking about a real life application. And of course there would be some kind of exhaust or some kind of room pressureization or things like that. So you want to count for that in real life. But in a simple theoretical problem, like this, just assume that the supply and return are equal. Everything is flowing in a circle and don&#39;t overthink it.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96</div>
+      <div class="qa-question"><strong>Q:</strong> Is that just the coincidence at what point does the temperature impact the specific volume?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 4, onto HVAC now, I got the same answer point 1, 1, 2 using the specific volume of propane from the table 10, 1 and took the inverse of that to find the density. Is that just the coincidence at what point does the temperature impact the specific volume? No, not a coincidence, you&#39;re good here. At what temperature does the, does the, does it impact the specific volume? It continuously impacts the specific volume. The question is, a matter of degree. So how much does a certain change in temperature impact the specific volume? So that&#39;s, that&#39;s not a binary answer, that&#39;s something that you have to recognize as a linear, linear or even a nonlinear relationship. And you have to make a judgment called this and how far out you are. Anyway, you&#39;re fine in terms of the method that you use, you got the right answer, you got the same answer and I would encourage you to know both ways. So watch this solution video or check the written solution as well and be sure you can go both ways.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 99</div>
+      <div class="qa-question"><strong>Q:</strong> Is the efficiency supposed to be in the numerator or the denominator like you had solved in the problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC, Pratt&#39;s Exam 1, No. 74. I looked up the equation to find the power and horsepower in the handbook, and the efficiency is in the numerator, not the denominator, when I saw for the torque I got 820 feet foot pounds instead of 1,010 foot pounds. Is the efficiency supposed to be in the numerator or the denominator like you had solved in the problem? Yeah, so the distinction here is between an AC motor and an AC generator. So, in an AC motor, and I&#39;ll just kind of sketch out what this would look like. If it&#39;s an AC motor, it&#39;s being fed with electricity. So we&#39;ll call that W dot, maybe I&#39;ll use the subscript, ELEC for electrical, but it&#39;s W dot, it&#39;s a electrical work. KW would be the units, right? And it&#39;s outputting mechanical power, which is to say it&#39;s spinning a shaft, and we&#39;ll call that horsepower specifically, break horsepower, because it&#39;s mechanical power spinning a shaft. We wanted to distinguish that from an AC generator. It&#39;s kind of doing the opposite. It&#39;s being powered by a spinning shaft. It&#39;s receiving break horsepower. Now, what does that break horsepower come from? It probably comes from an internal combustion engine.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 102</div>
+      <div class="qa-question"><strong>Q:</strong> Why can&#39;t the fan affinity laws be used in this question?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this is from the HVAC practice exam and this batch is a bunch more that follow these are all from the second practice exam and the HVAC program. Why can&#39;t the fan affinity laws be used in this question? I would have thought that you could calculate the pressure adjustment from altitude as well as air density to get a revised CFM. However, the result in answer would give you a lower CFM instead. So this question was about an elevation correction, situation and you&#39;re being asked to find the CFM with the circumstances of being at elevation. And it&#39;s an interesting idea to use the affinity laws. At first glance, it doesn&#39;t seem crazy. In fact, the affinity laws are often used to deal with change. So just out of glance, I might be looking at something like 1B as a possibility where you have this relationship between density and speed, RPM. Because we know that the volume flow rate is linear with the speed. So we could in theory replace the ends with Q&#39;s and the diameter is not changing. And the pressure is also not changing, or at least the delta P the pressure being developed by the fan. So really, it&#39;s just a relationship between density and volume flow rate.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · HVAC · Problem 1 · 14 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
