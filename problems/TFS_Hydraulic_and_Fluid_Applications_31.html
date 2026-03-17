@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 31 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 31</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 31</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 70% ecient pump driven by an 85% ecient motor transfers   50gpm of canola oil ρ = 57lbm from an open tank to a sealed tank ft3 held at 10psig and located 20ft below. What is the power input to the motor?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>80W</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>400W</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>700W</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>800W</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So we&#39;ll use the Bernoulli equation and now that we&#39;ve seen the Bernoulli equation enough times, I think I&#39;m going to ju.
+
+2. So first of all, what is gamma for this Canola oil.
+
+3. But the units will work out that it&#39;s basically changing from palmas to pound force.
+
+4. Eventually you&#39;ll just seamlessly go between density and specific weight knowing that it has the same magnitude and just.
+
+5. You need not multiply by g over gc until you&#39;re blown the face.
+
+6. So once we have that, we&#39;re basically ready to solve the first part of this and the elevations we have.
+
+<strong>Full Solution:</strong>
+
+A 70% efficient pump driven by an 85% efficient motor transfers 50GPM of Canola oil with a density of 57 from an open tank to a sealed tank held at 10psiG and located 20 feet below. What is the power input to the motor? So to find the power we have the GPM we need the head added by the pump. So we&#39;ll use the Bernoulli equation and now that we&#39;ve seen the Bernoulli equation enough times, I think I&#39;m going to just state right out of the gate here that we&#39;re going to ignore the velocity terms since they&#39;re going to be negligible. And in this case we don&#39;t have any information about the losses. We don&#39;t know the length of pipe. We don&#39;t know the diameter of the pipe. So there&#39;s really no chance we&#39;ll be able to quantify the losses. So let&#39;s ignore those as well. And we&#39;ll just say in a sort of simplified fashion that the head added by the pump is going to be p2 minus p1 over gamma. Plus the difference in elevation z2 minus z1 where z2 is the final. It&#39;s the tank that&#39;s below and z1 is the initial. So it&#39;s going to be at the higher elevation. And so often in problems that involve water all ignore the fact that GAM is here. And just kind of use the 2.31 conversion factor. But here we&#39;re actually going to use it. So first of all, what is gamma for this Canola oil? Well, if the density is 57 pound mass per cubic foot, then the specific weight is going to be 57 pound force per cubic foot. And if you want to do that the formal way you can say gamma equals rho g over gc and then g over gc cancels in terms of the magnitude 32.2. But the units will work out that it&#39;s basically changing from palmas to pound force. And this is what you get as a specific weight. Think for most engineers as you get through this process. Eventually you&#39;ll just seamlessly go between density and specific weight knowing that it has the same magnitude and just changing the units and trusting the process. You need not multiply by g over gc until you&#39;re blown the face. So once we have that, we&#39;re basically ready to solve the first part of this and the elevations we have. So let&#39;s go ahead and plug in for HA. So what we do is at 10 psi g. So just write that as 10 psi and remember that it&#39;s gauge pressure. And the tank that it&#39;s coming from P1 is at atmospheric pressure. So for talking engage, that&#39;s going to be 0 psi. You could also add 14.7 to the first number and get 24.7, but then you got to use 14.7 psi a for the second number as well. Either way, the delts is going to be 10. So we are going to multiply by our divide rather by this specific weight. We&#39;re going to keep that in because this is canal oil not water. So that&#39;s 57 pound force per foot cubed. And this is pound force per inch squared. So let&#39;s also multiply by 144 inches squared per foot squared. And then I&#39;ll get rid of the denominator here. Let&#39;s actually change this to pound force per inches squared since this is not particularly useful. So that will cancel inches squared and pound force and two of the feet square will cancel with two of these. So we have feet coming up to the numerator. So this whole term has units of feet. And now we&#39;re adding the difference in height. So now P2 z2 rather the height of the tank that&#39;s below is going to be minus 20 feet. If we put the data at the elevation of the first tank. And then that&#39;s minus zero feet for the first tank. So all of that turns out to be 5.3 feet. That&#39;s the head at a by the pump. So now we want to find the power input to the motor. So that&#39;s going to be worked on by the pump. We can use this formula here. Q H times specific gravity over 3960 times efficiency. And normally we just include the pump efficiency because we&#39;re interested in the break horsepower. But in this case, we want the input power to the pump. So let&#39;s also include the motor efficiency. We could do that as a separate step. And that&#39;s fine. But I&#39;m going to include it all in one. So we can jump right to the power the input power to the motor.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 70% efficient pump driven by an 85% efficient motor transfers 50GPM of Canola oil with a density of 57 from an open tank to a sealed tank held at 10.<br><br><br><br>• What is the power input to the motor.<br><br><br><br>• So to find the power we have the GPM we need the head added by the pump.<br><br><br><br>• So we&#39;ll use the Bernoulli equation and now that we&#39;ve seen the Bernoulli equation enough times, I think I&#39;m going to just state right out of the gate.<br><br><br><br>• And in this case we don&#39;t have any information about the losses.<br><br><br><br>• We don&#39;t know the length of pipe.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 31 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 43 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 43</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 43</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 95% ecient three-phase motor draws 50A at 480V with a power factor of 0.8. The motor drives a pump which distributes 300gpm of water with a dierential pressure of 150psi. What is the eciency of the pump?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>27%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>62%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>79%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>83%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. On general the efficiency of the pump is the hydraulic horsepower or WHP water horsepower divided by the brake horsepowe.
+
+2. In this case we know the volume flow rate and the delta P so we can calculate the hydraulic horsepower WHP and we also k.
+
+3. If we were just given the brake horsepower of the motor directly that would make this problem much easier but we&#39;re not.
+
+4. So let&#39;s start with WHP the water horsepower.
+
+5. A lot of times we use the version of this equation that is QH the head added by the pump and phi over 3960.
+
+6. This is an equally common equation which says Q delta P over 1714 and what you&#39;ll notice is that if you had the head add.
+
+<strong>Full Solution:</strong>
+
+A 95% efficient 3 phase motor draws 50 amps at 480 volts with a power factor of 0.8. The motor drives the pump which distributes 300gpm of water with a differential pressure of 150 psi. What is the efficiency of the pump? On general the efficiency of the pump is the hydraulic horsepower or WHP water horsepower divided by the brake horsepower that&#39;s driving the pump. In this case we know the volume flow rate and the delta P so we can calculate the hydraulic horsepower WHP and we also know the current and the voltage and the power factor for a 3 phase motor we can calculate the input power to the motor in KW and then using the efficiency we can find the brake horsepower produced by that motor. If we were just given the brake horsepower of the motor directly that would make this problem much easier but we&#39;re not so we&#39;re going to use some of this data about the power to figure out how much power is actually coming out of that motor and that&#39;s what&#39;s driving our pump. So let&#39;s start with WHP the water horsepower. A lot of times we use the version of this equation that is QH the head added by the pump and phi over 3960. This is an equally common equation which says Q delta P over 1714 and what you&#39;ll notice is that if you had the head added by the pump it would be 2.31 times the delta P and PSI and that&#39;s why the constant that it&#39;s being divided by if you multiply that by 2.31 you get the 3960 that we normally use. So these equations are basically the same thing and that&#39;s why you can comfortably use either one. So since we have PSI this is definitely the way to go. 300 GPM times 150 PSI divided by 1714 and that gives us 26.25 horsepower. So that&#39;s our numerator and then for the denominator we can search the reference handbook for power for different motor phases and there&#39;s a table there that will give us the power in KW for three phase motor based on the current voltage and power factor which is exactly what we need and this isn&#39;t really so much a rule of thumb formula so I&#39;ll write all the units in as we go. But it is convenient and helpful to have that table there just for the extra reassurance because there&#39;s a few different flavors of this equation that you could pick and it&#39;s nice not to have to commit anything to memory and just to have that as a reference. So we&#39;ll do root 3 times the current which is 50 amps times the voltage which is 180 volts times the power factor which is 0.8 and a lot of times people write that and just sort of ignore the units and say okay this is unitless but in reality you&#39;re converting from a parent power to real power so I like to actually think of it as KW over KVA and that makes things work out and it&#39;s denominator really nicely because now we have this conversion of 1000 which is really 1000 VA volt amps divided by KVA. So now we cancel volts cancel amps and we cancel KVA and we&#39;re left with KW which is what we want it&#39;s the input power to the motor and that&#39;s 33.25 KW but that&#39;s the input power we really want to know what&#39;s the output and we want to know what it is in horsepower not KW so let&#39;s do two things we&#39;ll do unit conversion and we&#39;ll multiply by the efficiency. So the BHP for the motor the mechanical power of a rotating shaft that&#39;s actually coming out of that motor and driving the pump is the 33.25 KW times the conversion will say for one horsepower we have 0.7457 KW which gets a ready KW and keeps horsepower and then we&#39;ll multiply by the efficiency which is 0.95 and that gives us a breakhorse power of 42.37 horsepower and that&#39;s our denominator so we&#39;re ready to find the efficiency of the pump that&#39;s going to be 26.25 divided by 42.37 now equals about 0.62 or 62% best answer choices be.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 95% efficient 3 phase motor draws 50 amps at 480 volts with a power factor of 0.8.<br><br><br><br>• The motor drives the pump which distributes 300gpm of water with a differential pressure of 150 psi.<br><br><br><br>• What is the efficiency of the pump.<br><br><br><br>• On general the efficiency of the pump is the hydraulic horsepower or WHP water horsepower divided by the brake horsepower that&#39;s driving the pump.<br><br><br><br>• In this case we know the volume flow rate and the delta P so we can calculate the hydraulic horsepower WHP and we also know the current and the voltag.<br><br><br><br>• If we were just given the brake horsepower of the motor directly that would make this problem much easier but we&#39;re not so we&#39;re going to use some of .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 43 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

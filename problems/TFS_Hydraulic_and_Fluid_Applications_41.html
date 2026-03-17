@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 41 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 41</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 41</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A pump was originally specied to deliver 300gpm of water against 200ft of head. To be conservative, the design engineer makes a selection that is 10% oversized by gpm and head. The pump and motor eciencies are 75% and 95%, respectively. The cost of elec- tricity is $0.16 per KWH. What is the additional annual cost to operate the oversized pump continuously?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>$3300</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>$4700</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>$6300</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>$27,000</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. It&#39;s going to have more cost and we can calculate how much more cost it&#39;s going to have.
+
+2. So we&#39;re going to look up water horse power in the reference handbook or maybe you&#39;re starting to get close to memorizin.
+
+3. While I&#39;m right down the formula first just for completeness here.
+
+4. Or you could just take 15.15 and multiply it by 1.1 squared.
+
+5. So let&#39;s just calculate the delta.
+
+<strong>Full Solution:</strong>
+
+A pump was originally specified to deliver 300 GPM of water against 200 feet of head. To be conservative, the design engineer makes a selection that&#39;s 10% oversized by GPM and head. The pump and motor efficiencies are 75% and 95% respectively. The cost of electricity is 16 cents per kilowatt hour. What is the additional annual cost to operate the oversized pump continuously? Now in real life, I would hope and think that a design engineer is specifying an oversized pump would provide a variable speed drive to go with it. That was worthwhile to spend that upfront cost and get the right controls in place so that you could slow the pump down and ride down the system curve and capture those savings. But still have the extra capacity there in case it&#39;s needed and be conservative. But the interesting part of this problem is that it&#39;s a fixed speed pump. By providing an oversized fixed speed pump, there&#39;s going to be some waste there. There&#39;s going to be more going to be over pumping and it&#39;s going to use more energy. It&#39;s going to have more cost and we can calculate how much more cost it&#39;s going to have. Then a pump that was exactly the right size. I&#39;m not actually critiquing the design engineer for being conservative. I don&#39;t think it&#39;s inappropriate. I just want to point that out that the goal isn&#39;t always to be as efficient as possible sometimes you have to protect against the possibility of needing the extra capacity. So as with anything there are trade-offs. But let&#39;s try to quantify what that cost difference would be. So we&#39;re going to look up water horse power in the reference handbook or maybe you&#39;re starting to get close to memorizing this one by now. That&#39;s okay. And we&#39;ll kind of define two states. State one being if the pump was selected as just right size. No 10% oversized. Then there wouldn&#39;t be any waste. We could quantify how big of a pump that would be. It needs to be 300GPM. While I&#39;m right down the formula first just for completeness here. QH over 3960. Where Q would be 300GPM and H would be the head added by the pump that&#39;s 200 feet. So the water horse power for a right sized pump is 15.15 horsepower. How about for the oversized pump? Let&#39;s get that down for comparison. Well it&#39;s 10% oversized on both volume flow rate and head. So we&#39;ll just say 300 times 1.1 times 200 times 1.1 all over 3960. Or you could just take 15.15 and multiply it by 1.1 squared. You&#39;ll get the same thing. That&#39;s 18.33 horsepower. So the waste, the extra energy, the extra expense is going to come from the difference between these two. So let&#39;s just calculate the delta. There&#39;s no indication in the problem statement that the efficiency changes as a function of the speed because it&#39;s fixed speed. There&#39;s no change. So that&#39;s to say that if the pump was selected to be right size, these would be deficiencies and if it&#39;s oversized, these would still be efficiencies. That&#39;s not necessarily the case in real life either, but we have to be able to work reasonable problem. So the assumption is that the efficiencies are fixed regardless of what selection is made. And it should be WHP2. So that delta then, WHP2 minus WHP1 is 18.33 minus 15.15, which is 3.18 horsepower. So it&#39;s the cost associated with that 3.18 horsepower that we want to go after. And the next thing we have to consider is the fact that there are efficiencies. So the power input to the pump is greater than 3.18 horsepower. Once we account for the pump efficiency, so we&#39;ll divide by 0.75. And the motor efficiency, because we&#39;re talking about input power, which is electricity that we&#39;re going to pay, some unit cost per KWH for. So that has to be included as well. And that&#39;s 95%. So now that number becomes larger now, it&#39;s 4.47 horsepower. Now we want to get that over into KW. So we&#39;ll multiply by the conversion factor 0.7457 KW per horsepower. And that gives us 3.33 KW. And now to find the cost, we&#39;ll multiply by time and the cost of electricity.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A pump was originally specified to deliver 300 GPM of water against 200 feet of head.<br><br><br><br>• To be conservative, the design engineer makes a selection that&#39;s 10% oversized by GPM and head.<br><br><br><br>• The pump and motor efficiencies are 75% and 95% respectively.<br><br><br><br>• The cost of electricity is 16 cents per kilowatt hour.<br><br><br><br>• What is the additional annual cost to operate the oversized pump continuously.<br><br><br><br>• Now in real life, I would hope and think that a design engineer is specifying an oversized pump would provide a variable speed drive to go with it.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 41 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

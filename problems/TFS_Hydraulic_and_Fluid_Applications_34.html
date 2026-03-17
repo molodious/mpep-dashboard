@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 34 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 34</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 34</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An 8in standard weight steel pipe (I.D. 7.98in, O.D. 8.625in) carries 500gpm of water initially at 200°F. Insulation must be specied to limit the heat loss to 1°F per 500ft of length. The ambient temperature in the space around the pipe is 70°F. Assume the inside and outside lm coecients on either side of the pipe are innite and the thermal resistance of the pipe wall is negligible. The thermal conductivity of the insulation is 0.05 Btu·ft . The lm hr·ft2·°F coecient for the outside of the insulation is assumed to be innite. What is the minimum required thickness for the insulation? 4 8 2 4
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1in</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>3in</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>1in</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>3in</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. An 8-inch standard weight steel pipe with inside diameter and outside diameter given carries 500gpm of water initially a.
+
+2. So let&#39;s start with some dimensions and running through some of the assumptions.
+
+3. Since the outside of the pipe meets the inside of the insulation so we can actually find that number right out of the ga.
+
+<strong>Full Solution:</strong>
+
+An 8-inch standard weight steel pipe with inside diameter and outside diameter given carries 500gpm of water initially at 200 degrees. Insulation must be specified to limit the heat loss to 1 degree per 500 feet of length. The ambient temperature in the space around the pipe is 70 degrees, assumed that inside an outside film coefficient is on either side of the pipe are infinite and the thermal resistance of the pipe wall is negligible. The thermal conductivity of the insulation is 0.05, the film coefficient for the outside of the insulation is assumed to be infinite. What is the minimum required thickness for the insulation? So let&#39;s start with some dimensions and running through some of the assumptions. We can say that we have the pipe in gray and the insulation in the tan and then this is the internal cross section of the pipe in white and we can specify some of the dimensions we&#39;re going to need the radius inside radius of the insulation which we&#39;ll call R1 is going to be half of the outside diameter of the pipe, right? Since the outside of the pipe meets the inside of the insulation so we can actually find that number right out of the gate we can say R1 equals that outside diameter 8.625 inches divided by 2 equals 4.3125 inches. We&#39;ll need that later but just in general R2 is the outside radius for the insulation which is unknown because the thickness is unknown and that&#39;s what we&#39;re being asked to find in this problem is what&#39;s going to be the thickness of the insulation that&#39;s going to make this work out. And a couple of things that we can say about the relationship between the radius and the thickness which will come back to and use again momentarily is that the thickness is the different so R2 minus R1 is going to give us that thickness or another way to say the same thing is that R2 equals R1 plus the thickness. So hold that thought for now and now let&#39;s talk about some of the other assumptions that we&#39;re making. We have the inside and outside film coefficients on either side of the pipe are infinite. What does that mean? Well, it means there&#39;s no resistance, right? If the film coefficient is infinite one over an infinite number is approximately zero so there&#39;s no resistance at the film at the surface inside or outside the pipe and the thermal resistance of the pipe wall is negligible. So there&#39;s no resistance by thermal conductivity through the pipe wall or at least that&#39;s what we&#39;re assuming in this case. And the film coefficient for the outside of the insulation is assumed to be infinite. So again now on the outside of the insulation to the surrounding air one over H is going to be approximately zero. So the sole source of thermal resistance in this problem is the insulation and that&#39;s pretty common that the insulation is the big story. It&#39;s not always the case that we neglect everything else but we&#39;ve specifically been told in this problem to ignore everything else. So it&#39;s only the thermal conductivity of the insulation that we&#39;re going to concern ourselves with. And how are we going to approach this in terms of what formulas do we need? Search the reference handbook for conduction through a cylindrical wall and a parentheses it says heat loss through a pipe. That&#39;s the formula we want. That says that Q dot equals 2 pi k l times delta t to 1 minus t to over the natural log of the ratio of r 2 to r 1. And we can actually improve on that denominator there are 2 over r 1 because we have some substitutions we could make. That&#39;s what we know this is going to come in handy. We could say that r 2 is r 1 plus t over r 1 and then that breaks up into r 1 over r 1 is just 1 plus t over r 1. So we can make that replacement and now we&#39;ve got 2 pi k l t 1 minus t to over the natural log of 1 plus thickness over r 1. And r 1 is known and the temperatures are known right because it&#39;s 200 degree water flowing inside the pipe and 70 degree air surrounding the pipe. So those are both good.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An 8-inch standard weight steel pipe with inside diameter and outside diameter given carries 500gpm of water initially at 200 degrees.<br><br><br><br>• Insulation must be specified to limit the heat loss to 1 degree per 500 feet of length.<br><br><br><br>• The ambient temperature in the space around the pipe is 70 degrees, assumed that inside an outside film coefficient is on either side of the pipe are .<br><br><br><br>• The thermal conductivity of the insulation is 0.05, the film coefficient for the outside of the insulation is assumed to be infinite.<br><br><br><br>• What is the minimum required thickness for the insulation.<br><br><br><br>• So let&#39;s start with some dimensions and running through some of the assumptions.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 34 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 46 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 46</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 46</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A piping system transports 500gpm of water from one open reservoir to another open reservoir located 80ft higher in elevation using a single pump. The suction piping consists of 300ft of 6in standard weight steel piping with (2) 90-degree elbows and (2) gate valves. The discharge piping consists of 1200ft of 5in piping with (4) 45- degree elbows, (2) gate valves, and (1) globe valve. All ttings are anged. What is the total dynamic head for the pump?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>111ft</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>149ft</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>180ft</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>191ft</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. You&#39;ve had a lot of repetition on the Bernoulli equation now.
+
+2. We&#39;re never really done with the Bernoulli equation.
+
+3. Can you confidently do it look up.
+
+4. So this is really a great opportunity to practice putting it all together.
+
+5. So we&#39;re going to start with the Bernoulli equation and we&#39;re going to use the version of the Bernoulli equation that al.
+
+6. That means we need to handle the suction piping and the discharge piping separately and we&#39;ve been given major and minor.
+
+<strong>Full Solution:</strong>
+
+A piping system transports 500gpm of water from one open reservoir to another open reservoir located 80 feet higher in elevation using a single pump. The suction piping consists of 300 feet of 6 inch standard weight steel piping with 290 gail boasts and 2 gail valves. The discharge piping consists of 1200 feet of 5 inch piping with 445 gail boasts, 2 gail valves and 1 glow valve. All fittings are flanged. What is the total dynamic head for the pump? So this problem is about speed. You&#39;ve had a lot of repetition on the Bernoulli equation now. We&#39;re never really done with the Bernoulli equation. It&#39;s probably an important lesson or take away from this problem from this chapter in general. Really what this question is checking for is can you rip through this stuff fast? Can you confidently do it look up? There&#39;s nothing particularly complicated about this problem if you&#39;ve done enough fluid examples like this up until now. So this is really a great opportunity to practice putting it all together. So we&#39;re going to start with the Bernoulli equation and we&#39;re going to use the version of the Bernoulli equation that already separates out the head added by the pump, especially since that&#39;s what&#39;s being asked for, which is the total dynamic head for the pump. And that&#39;s the difference in static pressure p2 minus p1 over gamma plus the difference in velocity v2 squared minus v1 squared over 2g plus the difference in elevation z2 minus z1 plus the losses. And now if we want to just draw a little picture real quick, we can have our two reservoirs there both open and we&#39;re pumping from one to the other, single pump and then that goes up some elevation to the nearest of or and this is one and this is two. They&#39;re both open to the atmosphere and there&#39;s some elevation increase here of about 80 feet going from one to the other or maybe that bottom line should be at the top of the water level for number one but you get the point. So this difference is going to be 80 basically is what we&#39;re saying. The velocity terms are going to be negligible as is often the case and because both tanks are open to the atmosphere p2 and p1 are the same, they&#39;re both atmosphere pressure. So that difference also equals zero and this is contributing nothing. So really then the problem comes down to quantifying the losses and what can we say about the losses? We&#39;ve got a lot of information here. One of the interesting facts is that the diameter is changing. So we&#39;re going from six inches to five inches. Six inches on the suction side of five inches on the discharge side. That&#39;s going to change the velocity. That means we need to handle the suction piping and the discharge piping separately and we&#39;ve been given major and minor losses. So we&#39;ve really got to consider HF on the suction side major plus HF on the suction side minor plus HF on the discharge side major plus HF on the discharge side minor. And I do recommend for this one let&#39;s just break it up into those four separate terms so that we don&#39;t lose track of anything and that&#39;s probably our best chance to avoid any mistakes. Alright so start with the steel pipe friction tables. Let&#39;s start with the suction piping and we&#39;ll go right after the major losses for that one. So we know the volume flow rate is constant throughout that&#39;s 500gpm and we have six inch nominal pipe on the suction side. So we can look up the velocity in the steel pipe friction tables. That&#39;s going to be 5.55 feet per second. We actually don&#39;t need that for the first part but we will need it for the minor losses so we should make note. And then the head loss from the table is 3.2 feet per hundred. So we can say then that HF on the suction side major equals 3.2 over 100 times 300 feet. The length of piping on the suction side that&#39;s this and on the discharge side it&#39;s going to be 1200 feet. And I&#39;m just kind of crossing out the fee over feet that&#39;s right just for about 3.200. So the major losses on the suction side are 9.6 feet.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A piping system transports 500gpm of water from one open reservoir to another open reservoir located 80 feet higher in elevation using a single pump.<br><br><br><br>• The suction piping consists of 300 feet of 6 inch standard weight steel piping with 290 gail boasts and 2 gail valves.<br><br><br><br>• The discharge piping consists of 1200 feet of 5 inch piping with 445 gail boasts, 2 gail valves and 1 glow valve.<br><br><br><br>• What is the total dynamic head for the pump.<br><br><br><br>• You&#39;ve had a lot of repetition on the Bernoulli equation now.<br><br><br><br>• We&#39;re never really done with the Bernoulli equation.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 115 · March 2nd 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 115</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, TFS hydrocholkin fluids number 46. I use the full Darcy equation for this problem and got B. You use the loss from the friction factor pipe table and got D. What in the problem indicates that we can use the table? As you have discussed previously, the table has a fudge factor for safety, so the answer comes out quite a bit larger. Is the phrase standard way it&#39;s still piping enough to okay using the loss value from the table? I assume that if the problem did not mention a surface roughness C, then we should use the Darcy equation for reference. I got these numbers. Also for the K-factor, there&#39;s no 5 inch pipe. Would we split the difference? 964 or just use 4? I used 4 and got close to your values, but I wanted to confirm how to approach that part of the problem. Let&#39;s tackle the second part first. I think you&#39;re probably okay either way to be honest. I like your approach of using 4 just to be a bit more conservative. But if you split the difference, I think it&#39;s going to be close enough. So I wouldn&#39;t lose too much sleep about that. I think you&#39;re okay either way. To the first part of your question, as you noted, it&#39;s a super common question. I have come to realize that t</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 46 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

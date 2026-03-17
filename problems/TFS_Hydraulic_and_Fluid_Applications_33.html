@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 33 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 33</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 33</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      To partially empty an above-ground swimming pool on a calm day, a siphon is set up with one end of a garden hose submerged below the surface of the water, and the other end at ground level. The highest point is where the hose is positioned over the side of the pool, 18in above the surface of the water. Water is owing out of the hose at 3gpm. The inside diameter of the hose is 5in. What is 8 the pressure inside the siphon at the highest point? 41
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3psia</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>8psia</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>14psia</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>32psia</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the given information and what the problem is asking for.
+
+2. Look up the relevant formulas and reference handbook sections.
+
+3. Set up the equation with consistent units.
+
+4. Solve step by step, showing all unit conversions.
+
+5. Select the answer choice that matches your calculated result.
+
+<strong>Full Solution:</strong>
+
+To partially empty in a above ground swimming pool on a calm day, a siphon is set up with one end of a garden hose submerged below the surface of the water and the other end at ground level. The highest point is where the hose is positioned over the side of the pool 18 inches above the surface of the water. Water is flowing out of the hose at 3GPM. The inside diameter of the hose is 580m. What is the pressure inside the siphon at the highest point? Sounds like my idea of a calm day, siphoning the pool and getting an empty. So let&#39;s draw a picture of what&#39;s going on here. We&#39;ve got our pool and it&#39;s filled with water up to maybe 18 inches short of the top. So let&#39;s draw the hose which is submerged down past the water level. Comes up over the side of the pool to some highest point and then down and out emptying 3GPM out of the hose. I&#39;m going to define state 1 right here at the water level at the datum. I&#39;m going to go into a bit more detail in that moment. And then state 2 is the highest point. That&#39;s the point at which we&#39;re interested in finding the pressure. And then I think that&#39;s all we need. We can define a state 3 down here. Some other problems might take an interest in that, but I don&#39;t know that this one does. And then let&#39;s also just define that height from the highest point down to the water level is about 18 inches we&#39;ve been told. Great. So let&#39;s write the Bernoulli equation and then talk about how we&#39;re defining each of these two positions here. So there&#39;s no pump involved. And if we&#39;ve defined state 1 and 2 like this then we can say p1 over gamma equals v plus rather v1 squared over 2G plus z1 equals p2 over gamma plus v2 squared over 2G plus z2. And we&#39;re ignoring losses here. So pretty short length of length of hose here. So if we set our datum at the top level of the pool we could say that the z term 1 is zero feet and we could cross out the z1 term which I am going to suggest that we do in a moment, but I want to give it a bit more explanation as to that. So the hose the end of the hose is submerged down into the pool. So at the immediate location even though there&#39;s 3G pm flowing through the entire hose and we could find the velocity which is going to be constant throughout and we will do that in a moment. The velocity at the entrance, maybe in the immediate vicinity of the entrance those water molecules are starting to rush into the hose. But in the body of water sort of in general and in the vicinity of the hose there&#39;s nearly no velocity and then suddenly the water that&#39;s closest to the hose gets sucked in. But we want to make the assumption that v1 equals zero and then v2 is going to be the full velocity whatever corresponds to that 3G pm which is constant throughout the whole hose. The way I&#39;ve labeled this now it&#39;s almost definitely true that at state 1 where I&#39;ve drawn it the velocity is not going to be zero. So how am I going to justify crossing that out? Well I could relocate state 1 and say it&#39;s down here. This could be one prime if you like and I didn&#39;t have to draw it up there and then what happens? Well that makes the static pressure and the hydrostatic pressure will be more complicated because now for our z-term or below the datum so we have to have a negative value for z and that&#39;s arbitrary. The problem statement doesn&#39;t tell us how far into the water it&#39;s submerged. But what&#39;s interesting that happens there is that for every inch or every foot that we submerge that hose down below the top of the water level as we get a reduction in z inch for inch foot for foot. We&#39;re going to get a corresponding increase in the static pressure because there&#39;s a column of water sitting on top of that point that&#39;s getting larger and larger as we submerge farther and farther. So we&#39;re making an even trade-off from elevation to static pressure hydrostatic pressure by virtue of the column of water and it&#39;s happening in lockstep, it&#39;s happening in exactly equal and opposite.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • To partially empty in a above ground swimming pool on a calm day, a siphon is set up with one end of a garden hose submerged below the surface of the .<br><br><br><br>• The highest point is where the hose is positioned over the side of the pool 18 inches above the surface of the water.<br><br><br><br>• Water is flowing out of the hose at 3GPM.<br><br><br><br>• The inside diameter of the hose is 580m.<br><br><br><br>• What is the pressure inside the siphon at the highest point.<br><br><br><br>• Sounds like my idea of a calm day, siphoning the pool and getting an empty.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 33 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

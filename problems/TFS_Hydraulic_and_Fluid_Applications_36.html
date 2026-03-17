@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydraulic and Fluid Applications · Problem 36 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Hydraulic and Fluid Applications · Problem 36</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 36</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      20,000lb of steam at 500°F and 500psia ows in a 4in nominal steel hr pipe. The friction factor is 0.022. What is the pressure drop per foot of pipe? 42
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.0004psi</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.03psi</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.3psi</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>4psi</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So pressure drop we&#39;re definitely looking at using the Darcy equation.
+
+2. So search the reference handbook for Darcy dash, vice-back equation, and we get HF equals FLV squared over 2DG.
+
+3. Well, we know we&#39;ve got a 4-inch nominal steel pipe so we can use the schedule 40 steel pipe table to look up the diamet.
+
+4. And then the friction factor has been given F is known, which is wonderful.
+
+5. But what we need is the velocity and we&#39;ve been given the mass flow rate of steam.
+
+6. Well, let&#39;s write down some general formula is that are really simple and common that we know and try to figure out a wa.
+
+<strong>Full Solution:</strong>
+
+20,000 pounds per hour of steam at 500 degrees and 500 psi a flows in a 4-inch nominal steel pipe. The friction factor is 0.022. What is the pressure drop per foot of pipe? So pressure drop we&#39;re definitely looking at using the Darcy equation. So search the reference handbook for Darcy dash, vice-back equation, and we get HF equals FLV squared over 2DG. So what do we know? Well, we know we&#39;ve got a 4-inch nominal steel pipe so we can use the schedule 40 steel pipe table to look up the diameter and we&#39;re also going to need the area. So let&#39;s grab both of those values right off the bat. The diameter is going to be 4.026 inches and the area is going to be 12.724 square inches. So we&#39;ve got diameter, we know G. We&#39;re finding the pressure drop per foot. So for the length we can just use one foot, that&#39;s not an issue. And then the friction factor has been given F is known, which is wonderful. We don&#39;t have to go into the moody diagram and go through that whole thing. But what we need is the velocity and we&#39;ve been given the mass flow rate of steam. It&#39;s not a water situation here. So how are we going to find the velocity? Well, let&#39;s write down some general formula is that are really simple and common that we know and try to figure out a way to put them together to get that velocity. So we know Q equals VA. So we could say V equals Q over A. But we don&#39;t know Q. So we&#39;re going to need a little more than that. We could say the mass flow rate equals density times volume flow rate. That&#39;s helpful. So we could, especially since we have mass flow rate. And we also know that the specific volume, little V is one over density. That&#39;s probably going to come in handy here as well. So let&#39;s start with this guy. We&#39;ll say V equals Q over A as a rearrangement. And then if we rearrange this, we can say Q equals mass flow rate over R. So we&#39;ll replace Q with M dot over R. And we need to of course, still be times area. And then we can use this fact that the specific volume is one over R. To make this M dot specific volume over area. And we know the mass flow rate given the specific volume we can look up in the steam table, which we&#39;ll do in a moment. And the area we have from the schedule 40 steel pipe table, we looked it up. So let&#39;s find that specific volume from the steam table, search properties of superheated steam. And look for 500 degrees and 500 PSIA. And we find that the specific volume is 0.996 cubic feet per pound. So that&#39;s everything we need to find the velocity. So let&#39;s just be clear and distinguish. This is supposed to be big V for velocity. And this is little V for specific volume. So now we&#39;re plugging in the mass flow rate 20,000 pounds per hour. Times the specific volume. I almost made that exact mistake after specifically clarifying it. cubic feet per pound and divided by the area, which we have in square inches. We&#39;re going to want that in square feet. So we&#39;ll write 12.724 inches squared times 1 foot squared divided by 144 inches squared. That gets rid of inches squared. Pounds goes away and feet squared cancels with two of these. And we end up with feet per hour. We&#39;d really rather have feet per second. So let&#39;s throw in one more conversion here. We&#39;ll say one hour is 3600 seconds. And now we&#39;ve got ourselves canceling out the hours and we&#39;re going to have feet per second. That would be good. So the velocity equals 62.6 feet per second. I know that seems high, but keep in mind this is not water flowing in a pipe. We&#39;re normally we don&#39;t expect to see things much beyond at five feet per second. Maybe six seven or eight in an exceptional case, but certainly not 62. But this is steam. So we&#39;ve got vapor flowing in a pipe and that can go considerably faster. So that is everything we need to proceed with finding HF from the Darcy equation. So let&#39;s go right ahead with that. HF equals 0.022 times 1 foot because we&#39;re finding the loss per foot times the velocity squared 62.6 feet per second squared.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 20,000 pounds per hour of steam at 500 degrees and 500 psi a flows in a 4-inch nominal steel pipe.<br><br><br><br>• What is the pressure drop per foot of pipe.<br><br><br><br>• So pressure drop we&#39;re definitely looking at using the Darcy equation.<br><br><br><br>• So search the reference handbook for Darcy dash, vice-back equation, and we get HF equals FLV squared over 2DG.<br><br><br><br>• Well, we know we&#39;ve got a 4-inch nominal steel pipe so we can use the schedule 40 steel pipe table to look up the diameter and we&#39;re also going to nee.<br><br><br><br>• So let&#39;s grab both of those values right off the bat.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Hydraulic and Fluid Applications · Problem 36 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
