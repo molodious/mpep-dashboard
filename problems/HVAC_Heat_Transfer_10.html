@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 10 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat Transfer · Problem 10</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Heat Transfer · Problem 10</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Anexteriorwallismadeupof4inchbrickcladding k = 0.42 Btu·ft , hr·ft2·°F   31/ 2 in mineral ber batt insulation C = 0.077 Btu , and 5/ 8 inch hr·ft2·°F   gypsum board C = 1.78 Btu . The external surface of the brick hr·ft2·°F is 0°F and the inside surface of the gypsum board is maintained at 70°F. What is the temperature at the interface between the brick and the insulation?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>4◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>9◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>13◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. There would also potentially be a convection component in this problem potentially if the outside and inside temperature.
+
+2. And it&#39;s very possible that each one of these will have a slightly different formulation as to how we develop how much r.
+
+3. In the case of the brick we&#39;ve been given a conductivity or resistance, and sometimes use these interchangeably which I.
+
+4. So that&#39;s going to be an L over K formulation, which is slightly different than the insulation, which is given as a cond.
+
+5. And I think that&#39;ll make sense because these units beat you per hour, foot squared, degree F are pretty similar to what.
+
+6. And conductance was also given for the gypsum, so that&#39;s going to be a 1 over C as well.
+
+<strong>Full Solution:</strong>
+
+Heat transfer 10. An exterior wall is made up of 4 inch brick cladding with thermal conductivity 3.5 inch mineral fiber bat insulation with a conductance or conductivity and 5.8 inch gypsum board also with conductance. The external surface of the brick is zero degrees and the inside surface of the gypsum board is maintained at 70 degrees. What&#39;s the temperature at the interface between the brick and the insulation? This is a classic conduction through a composite wall problem and let&#39;s draw it out and model everything along the way. There would also potentially be a convection component in this problem potentially if the outside and inside temperatures were given but they were very careful in the wording here. It actually states that the surface of the gypsum board is maintained at 70 and the surface of the brick is maintained at zero. So that means we don&#39;t have to deal with film coefficients going to the outside or inside environments. We can jump right into the conduction aspects of this problem. So let&#39;s draw the 4 inch brick, 3.5 inch insulation and the 5.8 gypsum board. Let&#39;s call the outside condition T1, that&#39;s zero degrees on that outside surface and then T2 is the interface between the brick and the insulation, which is what we&#39;re after. T3 would then be the boundary between the insulation and the gypsum and T4 is the inside surface condition which is 70 degrees. And if we want to think about the resistances contributed by each of these layers, we can model them as resistances. And it&#39;s very possible that each one of these will have a slightly different formulation as to how we develop how much resistance it contributes to the total. In the case of the brick we&#39;ve been given a conductivity or resistance, and sometimes use these interchangeably which I probably shouldn&#39;t, but the point is that I look at the units and that&#39;s kind of the guide for how to apply them. So I don&#39;t really care much if it&#39;s a K or an R. As long as it makes sense in terms of resistance that I can add to the other resistances, that&#39;s where we&#39;re ultimately going. So that&#39;s going to be an L over K formulation, which is slightly different than the insulation, which is given as a conductance. So that is going to be a 1 over C. And I think that&#39;ll make sense because these units beat you per hour, foot squared, degree F are pretty similar to what you would see for a film coefficient or an overall heat transfer coefficient. So the larger the value, the more heat transfer happens. So something like insulation would have a very low conductance, whereas the gypsum board doesn&#39;t have as low of a conductance. And conductance was also given for the gypsum, so that&#39;s going to be a 1 over C as well. And then the total resistance is the sum of these three. And then the overall heat transfer coefficient is the reciprocal of the total resistance. So this is classic composite wall stuff, really want to make sure that that makes sense, and that you know several of the different ways that these may be put together and let the units be your guide. So let&#39;s go ahead and find the total resistance. Well, first of all, where are we going? We&#39;re going to find the total resistance. We know the delta t. So we can find the amount of heat transfer per unit area through the entire wall. Once we know that, we can then analyze, he&#39;s, since that heat transfer is going through the entire wall, we can analyze one segment only. And that segment will have a different resistance. And therefore, a different overall heat transfer coefficient, and that will give us a different delta t, which is suitable because the delta t should be only a fraction of the total delta t. You can imagine incrementally higher temperatures at each boundary condition as we go from material to material stepping from zero to 70. In fact, you can imagine t2 is probably going to be a lot closer to zero because the brick doesn&#39;t have anywhere near the insulating properties of insulation.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An exterior wall is made up of 4 inch brick cladding with thermal conductivity 3.5 inch mineral fiber bat insulation with a conductance or conductivit.<br><br><br><br>• The external surface of the brick is zero degrees and the inside surface of the gypsum board is maintained at 70 degrees.<br><br><br><br>• What&#39;s the temperature at the interface between the brick and the insulation.<br><br><br><br>• This is a classic conduction through a composite wall problem and let&#39;s draw it out and model everything along the way.<br><br><br><br>• There would also potentially be a convection component in this problem potentially if the outside and inside temperatures were given but they were ver.<br><br><br><br>• It actually states that the surface of the gypsum board is maintained at 70 and the surface of the brick is maintained at zero.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">6 questions from 6 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 16</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, he transferred 10. Why do we exclude the interior and exterior film coefficients in calculating R and U? If you include them, you still get the correct answer, but I was curious if there was a way to quickly tell if it can be included or excluded. I would say if the problem statement gives you the film coefficients for a composite wall, include them, because, you know, doesn&#39;t take much additional effort to, right? So it doesn&#39;t save you much time to exclude them. If it doesn&#39;t, then you could potentially assume values for for each for the convection film coefficients. If you thought it was reasonable to do so, however, I don&#39;t think it&#39;s very common for that to be the expectation. So if they&#39;re not given, there&#39;s a decent chance that they probably aren&#39;t required. Also, another thing to kind of give you some comfort around that, if the wall is, if there&#39;s a lot of insulation, like let&#39;s suppose you have, I don&#39;t know, you got plywood, and then you&#39;ve got some thick insulation, and then you&#39;ve got an air gap, and then you&#39;ve got sheet rock on the inside. You&#39;ve got all these layers, and then now we&#39;re going to tack on a film coefficient on either side of that composite wall. </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 19 · July 30 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 19</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> So this is heat transfer 10. I solved the problem a little differently. In the handbook I saw C equals K over L. And so I did C times L to find K. I realized now it was a longer method, but I got a slightly different value than you. So I wanted to make sure this method of solving is correct. So I think it is, basically you saw C equals K over L. And then you did C times L, multiplying L on both sides to get K. And then what did you do once you had K? I think the answer is down here. You did L over K, which we just talked about in the last problem, is a way of representing resistance. And then you worked with the resistance as adding up the individual resistances and series to get the total resistance and the rest of your solution process is perfectly in line with what I would expect. So what&#39;s the, to your point, it&#39;s a longer method, yes. And the sense that you solved for K by multiplying by L. And then you did L over K to get the resistance. So kind of did something and then undid it. Here&#39;s a more general way. And there&#39;s nothing wrong with that, right? It&#39;s only one extra step. So if you&#39;re comfortable with that and it makes sense, then I think there&#39;s probably nothing to fix h</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 64 · July 31st 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 64</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, he transferred 10. Is there a reason you didn&#39;t take the film coefficients into account when determining the u factor? When I accounted for those, the temperature I calculated between the brick and the insulation was 4.46 degrees, which still led me to choice A, which is the correct answer, but I want to make sure for the exam if I should use the film coefficients or not. I pulled them from the Rp and Tam book, 9.1.11, don&#39;t worry, this is properties, and I use the winter condition for the outside film, since it&#39;s zero degrees, and use the value for the vertical wall with horizontal heat transfer, non-reflective for the end or film coefficient. Yeah, so this was a composite wall problem, and in the problem, I gave you the surface temperatures. I don&#39;t remember how many layers there were, but I told you the temperature of this surface, all this surface A, and the temperature of this surface, called this surface B. So you do not need to use the films, because I gave you the surface temperatures. If instead of giving you the surface temperatures, I had given you the air temperatures. So out here in the space, maybe this is B, T, ambient A, of the air generally, and you still don</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 82 · June 10th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 82</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next one&#39;s from heat transfer 10. I solve this question in a different way, which looking at the solution seems like the long way. We&#39;re given the outside and inside temperatures and corresponding A and or C values for each material. We can find the total R and thus total U factor and then total heat transfer Q inside to out. From there I assumed Q total equals Q brick plus Q insulation plus Q gypsum. Where each Q is the heat transfer between each adjacent material. From there I used algebra since we had all unknowns to find the interface temperature of the brick and insulation. I got 3.93, which is the answer. In the solution video you set the total heat transfer equal to the heat transfer just across the brick. I&#39;m having difficulty understanding why that&#39;s valid. The solution shows we get the same answer. But conceptually I don&#39;t see how the total heat transfer is equal to the heat transfer through a portion of the composite wall. Yeah, good question. A little hard to visualize these composite wall questions sometimes. Let&#39;s go on out with my cursor. There we go. Alright, so composite wall. Draw some layers. I&#39;m not going to recreate the whole problem, but I think we&#39;ll just ill</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 86 · August 5th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 86</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 10. I&#39;m not grasping the idea of the heat flux Q, deferring from the overall heat transfer Q, big Q. And the solution you stated that the heat flux is constant across all layers of the wall, but wouldn&#39;t the actual heat transfer a big Q be different for each layer? AKA the heat transfer rate, the Q for the brick going through the brick, be higher than heat transfer rate, Q for the insulation going through the insulation. Yeah, that&#39;s a great question. It&#39;s the right question. And it&#39;s really the key idea to these composite wall heat transfer problems. And the short, I&#39;ll draw an image as well, but the short answer is, no, it&#39;s not different. It&#39;s not a different Q going through the brick than through the insulation. It&#39;s the same Q going through the whole wall. And I&#39;ll draw that out to kind of explain why that is. But before I do, I&#39;m actually going to use an electrical analogy, which may not be helpful if you don&#39;t have background electrical, but I don&#39;t know why, but for some reason when it comes to these heat transfer problems, I always come back to this. And it helps me think about, sort of connecting the dots to the mechanical. So I&#39;ll offer this. And if it hel</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 104 · June 9th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 104</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, he transferred 10. I did the question using the RX over our total equation from the handbook and got 4.5 degrees F for the temperature. Can you solve this question using this equation? Yes, absolutely. So I looked at it a little bit differently. I don&#39;t like sometimes just plugging and chucking on an equation because I&#39;m nervous that I don&#39;t understand all of the embedded assumptions in that equation. So if you did that and it worked out and you&#39;re okay and you&#39;re comfortable and you know all of the reasons why you did what you did with each variable, all power to you. If we got the same answer, I&#39;m very happy. I guess my one comment would be, no both ways. Take a look at my solution video. Hear me out on how I did it, not to say that my way is better. It&#39;s just different. More options is better. It&#39;s good if you have two ways to do something instead of one. Make sure that when you do kind of take the plug and chug approach with this or anything. Keep your intuition in play. Don&#39;t just check it at the door and say, okay, we&#39;re going to trust this thing from here. That just feels super risky to me. So you almost want to force yourself to get a little bit dirty with it. So I me</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Heat Transfer · Problem 10 · 6 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
