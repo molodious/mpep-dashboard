@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy and Power System Applications · Problem 19 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Energy and Power System Applications · Problem 19</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Energy and Power System Applications · Problem 19</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      250lb of steam enters a turbine at 900°F and 500psia and exits hr at 8psia. The turbine has an isentropic eciency of 80% and a mechanical eciency of 90%. What is the power produced by the turbine?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>21KW</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>23KW</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>26KW</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>29KW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So this is a great opportunity to pause try on your own.
+
+2. Only watch the rest of this video if you get stuck and once some extra clarification to get unstuck otherwise I think yo.
+
+3. So to start off let&#39;s draw our turbine.
+
+4. We&#39;ve got our entering conditions at state one which we know 900 degrees and 500 PSIA that&#39;s going to be a super heated.
+
+5. So starting with state one we know the pressure and temperature P1 equals 500 PSIA and T1 equals 900 degrees F and then.
+
+6. All right so we&#39;ve got all the values we&#39;re going to need and now for the entropy at state two we&#39;re making the assumpti.
+
+<strong>Full Solution:</strong>
+
+250 pounds per hour of steam enters the turbine at 900 degrees and 500 PSIA and exits at 8 PSIA. The turbine has a nice and tropical efficiency of 80 percent and a mechanical efficiency of 90 percent. What is the power produced by the turbine? So this is a similar problem to one we&#39;ve seen probably two or three times before in this chapter at least. So this is a great opportunity to pause try on your own. Only watch the rest of this video if you get stuck and once some extra clarification to get unstuck otherwise I think you&#39;ll find most of this to be a bit repetitive but that&#39;s a great opportunity to build your speed and confidence to do these things on your own. So to start off let&#39;s draw our turbine. We&#39;ve got our entering conditions at state one which we know 900 degrees and 500 PSIA that&#39;s going to be a super heated steam and then leaving at state two we know only the pressure it&#39;s 8 PSIA and we&#39;ve been given the efficiency of the turbine and there&#39;s also a mechanical efficiency so there&#39;s going to be more losses down extreme in addition to just what&#39;s going to be given up in terms of not achieving the final enthalpy that we could that&#39;s the ice and tropical efficiency and then there&#39;s losses on the mechanical side in producing actual power as well. So we&#39;ll make sure to include both of those at the end. So starting with state one we know the pressure and temperature P1 equals 500 PSIA and T1 equals 900 degrees F and then using the super heated steam table we can get the enthalpy and the entropy. enthalpy at state one is 1466.9 and the entropy at state one is 1.699 and now from there we can go into the superheated the saturated steam table rather and based on the leaving pressure which is known to be 8 PSIA that&#39;s P2 we can figure out what the quality would be after having gone to that expansion and then we can use the quality to find the enthalpy of that saturated mixture at state two but to do that we&#39;re going to have to gather some values so let&#39;s write down SF, SFG, HF and HFG from the steam table. All right so we&#39;ve got all the values we&#39;re going to need and now for the entropy at state two we&#39;re making the assumption that the entropy at two is equal to the entropy at one which is to say that the turbine expansion is ice and tropical which we know flow well it is not but we&#39;re using that as a starting point in order to find out what the enthalpy would be for an ice and tropical expansion and then we&#39;re going to apply the ice and tropical efficiency of 80% to account for the fact that that&#39;s not the case so let&#39;s find the quality at state two, quality at state two will be S2 minus SF over SFG and we can skip the units for this portion 1.699 minus 0.2676 over SFG which is 1.538 that gives us a quality of 0.93 so a pretty close to being a saturated vapor and then we can use that quality to find the enthalpy at state two this is the ideal enthalpy that&#39;s going to be H2 equals HF plus quality at two times HFG so that&#39;s 150.85 plus 0.93 times 98.15 that gives us an enthalpy at state two and ideal enthalpy of 1070.5 okay so now we&#39;re ready to find out what the actual enthalpy is at state two how do we go about that? Well the ice and tropical efficiency is defined as the work that you get out divided by the work that you put in for a turbine when you have a turbine the whole point is to produce work so work is what you get out and it&#39;s the enthalpy that you have to put in or I guess the steam right the energy that you have to put in the difference between H1 and H2 is what you&#39;re giving up in order to get that work so it always works against you that&#39;s the way to remember efficiency can&#39;t be 100% and it certainly can&#39;t be more than 100%. So H1 minus H2 prime which I&#39;ll use the prime there to denote that it&#39;s the actual enthalpy at state two which we don&#39;t know and that difference in enthalpy that&#39;s actually going to be realized is but a fraction of what it could be.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 250 pounds per hour of steam enters the turbine at 900 degrees and 500 PSIA and exits at 8 PSIA.<br><br><br><br>• The turbine has a nice and tropical efficiency of 80 percent and a mechanical efficiency of 90 percent.<br><br><br><br>• What is the power produced by the turbine.<br><br><br><br>• So this is a similar problem to one we&#39;ve seen probably two or three times before in this chapter at least.<br><br><br><br>• So this is a great opportunity to pause try on your own.<br><br><br><br>• Only watch the rest of this video if you get stuck and once some extra clarification to get unstuck otherwise I think you&#39;ll find most of this to be a.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Energy and Power System Applications · Problem 19 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

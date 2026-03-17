@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy and Power System Applications · Problem 17 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Energy and Power System Applications · Problem 17</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Energy and Power System Applications · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Hexane (C H ) is combusted with a stoichiometric quantity of dry 6 14 air at atmospheric pressure. What is the dew point of the product gas? 55
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>69◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>128◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>155◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>186◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So first of all, what is the dew point in general.
+
+2. But it&#39;s a little harder to get started because if we search the reference handbook for combustion reactions of common f.
+
+3. However much is on the left is also going to appear on the right and we&#39;ll calculate what that mole coefficient should b.
+
+4. So let&#39;s start by balancing the carbon and this always goes in the same order.
+
+<strong>Full Solution:</strong>
+
+Hexane C6H14 is combusted with a stoichiometric quantity of dry air at atmospheric pressure. What is the dew point of the product gas? So first of all, what is the dew point in general? The dew point is the temperature at which when you cool air or you cool a mixture of gases, the water vapor that&#39;s present in that mixture will condense and fall out of the mixture. So it depends on how much water vapor is in the mixture. And we can find that out by analyzing the combustion reaction and figuring out what the mole fraction of water vapor is and then finding the partial pressure of water vapor and then using the steam table to figure out the dew point. But it&#39;s a little harder to get started because if we search the reference handbook for combustion reactions of common fuel constituents and we can find the table there and there are some common hydrocarbons with the reactions already pre-written for us. Unfortunately, Hexane is not one of them. So we&#39;ve got to write the reaction ourselves and attempt to balance it. Unfortunately, it&#39;s not too much trouble to do that, so let&#39;s dive right in. We&#39;ve got C6H14 and now we&#39;re burning that in stoichiometric air which means there&#39;s no excess air. It&#39;s just the right amount so that all the oxygen gets used up and all the Hexane is able to burn. So we&#39;re just right air which is 0 to plus n to. But the nitrogen always exists in exactly the same proportion which is to say, for every 1 molecule of 0 to, there will be 3.77 molecules of n to. And we just need to allow for that amount of air to scale up or down in order to make sure it&#39;s the stoichiometric quantity. So we&#39;ll apply an arbitrary constant A out in front of that and we&#39;re going to find out what A is along with the mole coefficients for the other constituents in the products coming up now. What are the products? We&#39;ve got CO2 as usual. We don&#39;t know how much so it&#39;s going to be arbitrary constant B plus H2O. These are the things we would expect to see when burning a hydrocarbon in air. We&#39;re going to have CO2 and H2O. And then the nitrogen is just along for the ride. However much is on the left is also going to appear on the right and we&#39;ll calculate what that mole coefficient should be. We&#39;ll call it D. So let&#39;s start by balancing the carbon and this always goes in the same order. It&#39;s going to be carbon, hydrogen, oxygen, nitrogen. So on the left we&#39;ve got 6 for the hexane and on the right carbon only appears in CO2 and there are B moles of CO2. So it&#39;s going to be B equals 6. For the hydrogen, that only appears in the hexane on the left as well. There are 14 of them. And then on the right it only appears in H2O and there&#39;s going to be 2 per molecule and there&#39;s C number of molecules. So 2 times C. See that equals 7. Now for the oxygen, on the left it only shows up in air. So 2 times A. But on the right it shows up in both CO2 and H2O. So it&#39;s going to be 2 times B plus 1 times C for the H2O. And now we know B and C. But we&#39;ve got to get A by itself. So A equals 2B plus C over 2, which is 2 times 6 plus 7 over 2 is 12 and 7 is 19 over 2 is 9 and a half. So now we&#39;ve got A and the last thing that we need is D, the nitrogen. On the left side we&#39;ve got 2 times 3.77 times A, which we already know to be 9.5. So let&#39;s throw that right in. And then on the right side we&#39;ve got 2 times D. So the 2s are going to cancel and then D is just 3.77 times 9 and 1 half, which is 35.8. So all these numbers we just found are the number of moles. They&#39;re the coefficients on these various molecules. And since everything is now known, we can analyze the products and we can find the mole fraction of water vapor in the product mix. So I&#39;ll use N to represent the number of moles, which is the same as the reference handbook does. So the moles of H2O, as compared to the total number of moles of products, will be the mole fraction of water vapor and air. We have 7 moles of H2O, C equals 7.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Hexane C6H14 is combusted with a stoichiometric quantity of dry air at atmospheric pressure.<br><br><br><br>• What is the dew point of the product gas.<br><br><br><br>• So first of all, what is the dew point in general.<br><br><br><br>• The dew point is the temperature at which when you cool air or you cool a mixture of gases, the water vapor that&#39;s present in that mixture will conden.<br><br><br><br>• So it depends on how much water vapor is in the mixture.<br><br><br><br>• And we can find that out by analyzing the combustion reaction and figuring out what the mole fraction of water vapor is and then finding the partial p.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Energy and Power System Applications · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
