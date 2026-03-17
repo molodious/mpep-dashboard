@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 21 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 21</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 21</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      10,000cfm of atmospheric air is compressed adiabatically to 40psia by a 70% ecient compressor. What brake horsepower is required to drive the compressor?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>370hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>530hp</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>760hp</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1060hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So in previous examples with compressors, we&#39;ve used the constant entropy assumption, and if you search the reference ha.
+
+2. There&#39;s a different formula in the reference handbook for adiabatic compression.
+
+3. So search the reference handbook for adiabatic compression, and you&#39;ll find this formula here.
+
+4. The input work to the compressor to drive this compression process, without any temperature being included in the formul.
+
+5. So there&#39;s a lot going on in that equation, but we actually have most of this information.
+
+6. The volume flow rate is 10,000 CFM, so we&#39;ll write that as cubic feet per minute, and we&#39;ll have to get these units to w.
+
+<strong>Full Solution:</strong>
+
+10,000 CFM of atmospheric air is compressed adiabatically to 40 PSIA by 70% efficient compressor. What break horsepower is required to drive the compressor? So in previous examples with compressors, we&#39;ve used the constant entropy assumption, and if you search the reference handbook for constant entropy, you&#39;ll find formulas there that allow us to figure out the exit temperature based on the ratio of the pressures and the inlet temperature. But in this case, we don&#39;t know the inlet temperature, and we also don&#39;t have an isentropic process. So maybe we should take a different approach. And a good way to go here, the keyword is adiabatically. There&#39;s a different formula in the reference handbook for adiabatic compression. So search the reference handbook for adiabatic compression, and you&#39;ll find this formula here. The input work to the compressor to drive this compression process, without any temperature being included in the formula is a function of the mass flow rate m dot times the inlet pressure, which we have times the ratio of specific heats k, which we can take as 1.4 times k minus 1 quantity. times the density at the inlet times the efficiency of the compressor, which we have all times the ratio of the exit pressure to the inlet pressure raised to the 1 minus 1 over k, all minus 1 quantity. So there&#39;s a lot going on in that equation, but we actually have most of this information. The only thing we don&#39;t have is the density of the inlet air, but we can make a substitution because we don&#39;t have the mass flow rate either. We can use the fact that mass flow rate equals density times volume flow rate. So if we make that substitution in the numerator, put density times volume flow rate in the numerator, then the density will cancel, and we&#39;ll just end up with volume flow rate in the numerator, which we have. So this whole thing gets a little bit simpler, and becomes volume flow rate times pressure at the inlet times k, over k minus 1, no density needed, efficiency, and then this whole term stays the same. So let&#39;s substitute in some of the values we do have and see where this goes. The volume flow rate is 10,000 CFM, so we&#39;ll write that as cubic feet per minute, and we&#39;ll have to get these units to work out as we go. The pressure at the inlet is atmospheric, so that&#39;s 14.7 psi. Let&#39;s write that as pound-force per inch squared. Then we have k, which we can take as 1.4 standard value for the ratio of specific heats divided by k minus 1, so 1.4 minus 1, and also divided by the efficiency 70% of 0.7. Now we&#39;re going to have some incompatibility here with feet cubed and inches squared. So why don&#39;t we also multiply by 144 square inches divided by 1 square foot. That&#39;ll get rid of two out of three of these feet and square inches. So we&#39;re going to end up with in this term foot pound-force per minute, which is a unit of power that we can kind of work with in the next step. The next piece is going to be unitless because psi is going to cancel. So the exit pressure is 40 psi a and the inlet pressure is 14.7, and that&#39;s being raised to the 1 minus 1 over 1.4 for k, all minus 1. Now be very careful on the algebra here. Just not so much the algebra but to calculator work, right? You&#39;ve got to make sure you get these quantities, this whole exponent is together before you raise this to the exponent, then subtract one. This is a great chance to kind of use your calculator to store values. So you can do all this, figure out what that value equals, into the left side, figure out that equals, and then multiply it together. These are simple things and you know, you want to just make sure you&#39;re fast and comfortable on your calculator so it doesn&#39;t cause any issues for you. So ultimately this comes out to be 3.5 times 10 to the 7th foot pound force per minute. But we want our answer to be in horsepower, there is a conversion for foot pound force per second, not foot pound force per minute.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 10,000 CFM of atmospheric air is compressed adiabatically to 40 PSIA by 70% efficient compressor.<br><br><br><br>• What break horsepower is required to drive the compressor.<br><br><br><br>• So in previous examples with compressors, we&#39;ve used the constant entropy assumption, and if you search the reference handbook for constant entropy, y.<br><br><br><br>• But in this case, we don&#39;t know the inlet temperature, and we also don&#39;t have an isentropic process.<br><br><br><br>• So maybe we should take a different approach.<br><br><br><br>• And a good way to go here, the keyword is adiabatically.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 21 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

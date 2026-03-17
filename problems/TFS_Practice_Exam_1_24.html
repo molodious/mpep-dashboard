@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 24 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 24</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 24</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Air enters a compressor at 80°F and 14.7psia and exits at 180psia. What is the change in enthalpy during the compression process? lb lb lb lb
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>115Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>135Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>155Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>175Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. One was to make the assumption that it&#39;s isentropic and then as long as you&#39;re given the inlet temperature you can use t.
+
+2. A second way that we&#39;ve seen in a recent problem in this chapter is that we can use a different equation if the compress.
+
+3. So rather than talk about that in the abstract, let&#39;s actually put that into practice, search the reference handbook for.
+
+4. This is only available for air, but if you know the temperature T1 will use T1 for the answering condition and will use.
+
+5. It&#39;s just a reference pressure that we can use to compare the pressure to other states.
+
+<strong>Full Solution:</strong>
+
+Air enters a compressor at 80 degrees and 14.7 PSIA and exits at 180 PSIA. What is the change in enthalpy during the compression process? So up to this point we&#39;ve seen a couple of different ways of analyzing compressors. One was to make the assumption that it&#39;s isentropic and then as long as you&#39;re given the inlet temperature you can use the constant entropy process, equations, figure out what the leaving temperature is and that can drive your analysis. A second way that we&#39;ve seen in a recent problem in this chapter is that we can use a different equation if the compression process is adiabatic. Now in this case we have not been told that it&#39;s adiabatic. Now there&#39;s a third way that we can use as long as the compressor is compressing air and that air is that a reasonably low pressure, which for all intents and purposes ranges up into higher pressures than you would probably expect. So for most practical purposes, everything is low pressure for the PD exam. So otherwise you&#39;re going to run out of different methods at some point. They give you some astronomical pressure. They just won&#39;t be as strategy available for that. So if that&#39;s the case, if it&#39;s air at low pressure, then there&#39;s an air table and we can make the assumption that the temperature is a function of the enthalpy only or something called a relative pressure. So rather than talk about that in the abstract, let&#39;s actually put that into practice, search the reference handbook for air at low pressure and that&#39;ll get you to the air table. Now look at how easy this is. This is only available for air, but if you know the temperature T1 will use T1 for the answering condition and will use the subscript 2 for the leaving condition from the compressor. If T1 is 80 degrees, then the enthalpy can be said to be a function of the temperature and only the temperature. So H1 is approximately and this is right out of the table so don&#39;t take my word for or you&#39;re checking the table to see that you can bring this value back as well. It&#39;s BTU per pound, 129 BTU per pound. So now we already know the enthalpy at state 1 and the goal of the problem is to find the change in enthalpy. So we&#39;re pretty good ways along here. Now the other aspect, the only other thing we know about this compressor is the inlet pressure and the leaving pressure. So it&#39;s the ratio of those pressures that&#39;s going to get us to the exit conditions to be able to fully define state 2. And how does that work? What we can say from that same line in the air table where we picked up the enthalpy, you can gather this data point, PR1 where PR is the relative pressure. It&#39;s not saying that that&#39;s the actual pressure. It&#39;s just a reference pressure that we can use to compare the pressure to other states. And that&#39;s exactly what we&#39;re going to do now. We can write a proportion that says the relative pressure at state 2, which is unknown. As compared to the relative pressure at state 1, which is what we just found, is equal to the actual pressure ratio P2 to P1, both of which were given. So we know P2, we know P1, and we now know the relative pressure at 1. So given all of that, we can find the relative pressure at state 2. And that will get us to a new line in the air table. And from that new line, we can pull any other pieces of information we would want. Temperature, enthalpy, you name it. It&#39;s the enthalpy in particular that we&#39;re interested in. So let&#39;s get PR2 by itself. PR2 equals PR1 times that ratio P2 to P1. And then substituting in 1.386 times P2 over P1, which is 180 over 14.7. And that equals 16.97. So now we find 16.97 in the air table. You might not find it exactly. And if you&#39;re halfway between two, then you can interpolate. But if you&#39;re pretty close to one, then you can just round off. And I&#39;m finding the closest row. And the enthalpy at that row, enthalpy at state 2, is approximately. Let me not say it&#39;s exact, because there is a bit of rounding involved here. 264 B2 per pound.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Air enters a compressor at 80 degrees and 14.7 PSIA and exits at 180 PSIA.<br><br><br><br>• What is the change in enthalpy during the compression process.<br><br><br><br>• So up to this point we&#39;ve seen a couple of different ways of analyzing compressors.<br><br><br><br>• One was to make the assumption that it&#39;s isentropic and then as long as you&#39;re given the inlet temperature you can use the constant entropy process, e.<br><br><br><br>• A second way that we&#39;ve seen in a recent problem in this chapter is that we can use a different equation if the compression process is adiabatic.<br><br><br><br>• Now in this case we have not been told that it&#39;s adiabatic.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 24 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
