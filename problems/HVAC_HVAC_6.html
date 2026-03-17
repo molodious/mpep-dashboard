@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 6 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 6</span>
+  <span class="nav-badge">⭐ 5 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">5 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 6</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 5000ft2 laboratory has 200 occupants in the summer. In addition to the required fresh air, additional outside air at 90◦F db, 75◦F wb in(cid:28)ltrates into the building at 1 air change per hour. The building volume is 75,000ft3 and the inside design conditions are 72◦F and 50% RH. What is the total cooling delivered by the ventilation system? 48
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>7tons</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>8tons</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>19tons</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>21tons</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from HVAC apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the HVAC chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this HVAC problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within HVAC are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in HVAC problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 02</div>
+      <div class="qa-question"><strong>Q:</strong> What&#x27;s the total cooling delivered by the ventilation system in this question?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 15 | May 28, 2021 transcribed_at: 2026-03-14T22:09:43.383017 Okay, HVAC6. Getting hung up on what the question wants you to answer. What&#x27;s the total cooling delivered by the ventilation system in this question? The ventilation consists of infiltration and fresh air requirements, both of which you&#x27;re taking from outdoor conditions, which are known. How can ventilation deliver any cooling when the outdoor air is much warmer than the...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 08</div>
+      <div class="qa-question"><strong>Q:</strong> Can you solve the problem using the quality formula?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 21 | September 10, 2021 transcribed_at: 2026-03-14T22:18:42.643903 system&#x27;s 19. Can you solve the problem using the quality formula? Quality equals HG over HG plus HF. This question may be nervous and I wish the person that asked it was on so that I could maybe ask some follow-up questions and try to understand what&#x27;s behind this. This is not the quality equation. That&#x27;s pretty concerning. So no, this is a short answer and I reall...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 100</div>
+      <div class="qa-question"><strong>Q:</strong> I think we&#x27;re back in the steam table, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 115 | March 2nd, 2026 transcribed_at: 2026-03-15T04:29:05.124227 And Thermal 13, for state 1, you looked up the values for P equals 350. I think we&#x27;re back in the steam table, right? Yep. Um, you needed to get H1 and S1. We didn&#x27;t have two parameters there, just pressure and quality. Two, same for state 2, you had pressure and entropy. That came from the value of state 1, from there you calculated the rest. My question is, why are...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 100</div>
+      <div class="qa-question"><strong>Q:</strong> delth in the NC&#x27;s handbook?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 115 | March 2nd, 2026 transcribed_at: 2026-03-15T04:31:00.715102 Thermon 19, would you mind sharing where you found the equation QL equals m.delth in the NC&#x27;s handbook? I was stuck in this problem and when I watched the video with the answers as soon as you found that equation, I managed to finalize the problem without any issues. All right, so this is a different flavor of the earlier question, where is m.delth and my answer is i...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 19</div>
+      <div class="qa-question"><strong>Q:</strong> As shown in my solution, how come in the video solution didn&#x27;t convert PSIA to PSIA for P2?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 32 | March 7, 2022 transcribed_at: 2026-03-14T22:40:50.826730 Okay, another question on the same one. This one&#x27;s getting a little more into the weeds here. P2, given as a gauge pressure, 30 psi G plus 14.7. Now to convert height to pressure, SG, after adding and converting back to PSIA. So a lot of converting going on here. As shown in my solution, how come in the video solution didn&#x27;t convert PSIA to PSIA for P2? I do all my pres...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 32</div>
+      <div class="qa-question"><strong>Q:</strong> Do you think they will?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 45 | October 2, 2022 transcribed_at: 2026-03-14T23:01:25.577300 All right, let&#x27;s dive right in. This is a fluid&#x27;s question that ties into a few different problems, so 9, 9, 11 and 12. But relatively the same relates to finding the head loss via the Darcy equation or the steel pipe tables with water as the substance. For question nine, I can pull 6.2 feet of head loss from the table and then calculate 3.2 from the Darcy equation. S...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 33</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain the ADPI?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 34</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-39809477
+
+HVAC6, how can I use the tables right below the Cycrometric chart to pull H values for this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 47 | October 30, 2022 transcribed_at: 2026-03-14T23:05:08.412135 HVAC6, how can I use the tables right below the Cycrometric chart to pull H values for this problem? The enthalpy HDA, H sub AS, and H sub S values are so different from the H values I can pull from the Cycrometric chart at the fully defined state one. And he&#x27;s got a temperature and a weckled there and state two temperature and relative humidity. Why and how are thes...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> And the efficiency one I think again, just try it on, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 48 | November 14, 2022 transcribed_at: 2026-03-14T23:04:59.783312 Number six, where do I need to go in the handbook to see the formulas for the efficiency of steam and for Q. steam equals m delta H and we have a snip. So I don&#x27;t know that you&#x27;ll find these formulas directly in the reference handbook. I think you&#x27;ll find m. delta H, but probably not under a steam heat exchanger. I only was able to find explicitly by looking for tur...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 38</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain the correct method?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 47</div>
+      <div class="qa-question"><strong>Q:</strong> Can you help me find the error here?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 60 | June 5th, 2023 transcribed_at: 2026-03-14T23:25:37.958234 And this one was a fantastic catch by Travis. I&#x27;ll call you out Travis. I&#x27;ll read it out and then I&#x27;ll kind of explain how we found this. So this is some practice exam number 75. And no one&#x27;s found this. We&#x27;ve been through, I want to say, two major updates to the program in the last couple of years. So a lot of like little kind of minor issues have been buttoned up. Bu...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> Do I need to significantly improve my line drawing abilities, or are these answer choices simply too close together?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 66 | August 28th , 2023 transcribed_at: 2026-03-15T00:07:02.916934 And the last submission was the full-press exam 1, number 58. My question is regarding the amount of precision expected on the actual PE exam. For this question, I calculated very similar enthalpy values. And the fever returns 30 and a half. The outside air enthalpy is 38.6 and the supply enthalpy is 25. With these, I ended with a mixed enthalpy value of 31.3, carr...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain a little further?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 70 | November 6th, 2023 transcribed_at: 2026-03-15T00:13:43.132719 All right, in practice exam, two number 42. In the answer solution, you state that the inside surface is maintained at a specific temperature. So there&#x27;s no need to account for an inside film coefficient. I didn&#x27;t know this was the case. Can you explain a little further? I thought you always needed to use an inside and outside film coefficient to account for convec...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> How do you use the two equivalent link charts on page 216?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:28:46.461187 Loads 12. How do you use the two equivalent link charts on page 216? Why do we use K-factors instead? So this one was about finding the losses and we have to deal with major losses and minor losses so for the minor losses specifically that&#x27;s where this came into play and let&#x27;s bring this one up in the reference handbook. So that was section 3.4.2.10 I believe. I thin...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 79</div>
+      <div class="qa-question"><strong>Q:</strong> Can you please explain the concept?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 83</div>
+      <div class="qa-question"><strong>Q:</strong> 72 to find the Reynolds number?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 98 | February 17th, 2025 transcribed_at: 2026-03-15T01:18:47.840141 Prior to this exam, 52. Why don&#x27;t you have to multiply the specific gravity of 0.72 to find the Reynolds number? I multiplied by the specific gravity because the fluid is gasoline and not water. I got 180,000, but that&#x27;s not the answer. So this one was about finding the Reynolds number and I threw you a little red herring, which is that I gave you the specific gra...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 85</div>
+      <div class="qa-question"><strong>Q:</strong> Why do we add 10 psi g on the suction side in the top scenario and not in the bottom scenario?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 85</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-63667187
+
+Why do we account for the minimum load condition?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 88</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-65520498
+
+And HVAC6, why are we ignoring the heat load from the number of occupants in this question?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 103 | May 26th, 2025 transcribed_at: 2026-03-15T03:41:44.999528 And HVAC6, why are we ignoring the heat load from the number of occupants in this question? I understand you need to assume an activity level, table 911, human cooling loads, but even if that many people are assumed seated and at rest as in a seated theater, they represent a pretty significant load. So this problem was about finding the total cooling load in a buildin...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> How much time do I want to spend working on these last seven problems?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 6 &middot; 5 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
