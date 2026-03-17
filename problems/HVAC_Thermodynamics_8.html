@@ -132,10 +132,37 @@ body {
   line-height: 1.75;
   color: #444;
   display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .solution-box.open { display: block; }
+.solution-box p { margin-bottom: 10px; }
+.solution-box .step-block {
+  margin-bottom: 14px;
+  padding-left: 10px;
+  border-left: 2px solid #ccd6ff;
+}
+.solution-box .step-label {
+  font-weight: 700;
+  color: #0050aa;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 4px;
+}
+.solution-box .formula {
+  font-family: 'Courier New', Courier, monospace;
+  background: #f4f6fb;
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 12.5px;
+  display: block;
+  margin: 5px 0;
+  white-space: pre-wrap;
+}
+.solution-box ol {
+  padding-left: 18px;
+  margin-bottom: 10px;
+}
+.solution-box ol li { margin-bottom: 6px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
@@ -145,6 +172,8 @@ body {
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
 }
+.video-box ul { padding-left: 18px; }
+.video-box ul li { margin-bottom: 6px; }
 .takeaway-box {
   background: #fffbf0;
   padding: 12px;
@@ -152,6 +181,8 @@ body {
   margin-top: 10px;
   border-left: 3px solid #f59e0b;
 }
+.takeaway-box ul { padding-left: 18px; }
+.takeaway-box ul li { margin-bottom: 6px; font-size: 13px; }
 .oh-section-title {
   font-size: 15px;
   font-weight: 600;
@@ -240,53 +271,107 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 8</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      A chiller plant producing a low chilled water supply temperature of 40°F uses a glycol/water mixture of 30% glycol by volume. At 40°F, glycol has a specic heat capacity of 0.56 Btu and a specic gravity lbm °F of 1.15. What is the specic heat capacity of the mixture? lbm°F lbm°F lbm°F lbm°F
+      A chiller plant producing a low chilled water supply temperature of 40&deg;F uses a glycol/water mixture of 30% glycol by volume. At 40&deg;F, glycol has a specific heat capacity of 0.56 Btu/(lbm&middot;&deg;F) and a specific gravity of 1.15. What is the specific heat capacity of the mixture?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.86 Btu</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>0.87 Btu</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>0.88 Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>0.89 Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>0.86 Btu/(lbm&middot;&deg;F) &#10003;</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>0.87 Btu/(lbm&middot;&deg;F)</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>0.88 Btu/(lbm&middot;&deg;F)</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>0.89 Btu/(lbm&middot;&deg;F)</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
+      <span class="answer-tag">Answer: A &mdash; 0.86 Btu/(lbm&middot;&deg;F)</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
         Show Quick Overview &amp; Full Solution &#9660;
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
 
-1. So let&#39;s start by thinking about this mixture.
+      <div class="solution-box" id="sol-box">
 
-2. So if we were to just take 0.3 times the 0.56 plus 0.7 times the specific heat capacity of water, which is 1, we would n.
+        <strong>&#128161; Quick Overview</strong>
+        <ol style="margin-top:8px;">
+          <li>Recognize that the problem gives volume percentages, but specific heat of a mixture is a <em>mass-weighted</em> average — not a volume-weighted one. Using volumes directly will yield the wrong answer.</li>
+          <li>Assume a convenient reference volume of 100 ft&sup3; for the mixture: 70 ft&sup3; water + 30 ft&sup3; glycol. The total volume assumed will cancel out and does not affect the result.</li>
+          <li>Use specific gravity to find glycol density: &rho;<sub>glycol</sub> = SG &times; &rho;<sub>water</sub> = 1.15 &times; 62.4 lb/ft&sup3; = 71.76 lb/ft&sup3;.</li>
+          <li>Calculate the mass of each component: m<sub>water</sub> = 62.4 &times; 70 = 4,368 lbm &nbsp;|&nbsp; m<sub>glycol</sub> = 71.76 &times; 30 = 2,152.8 lbm.</li>
+          <li>Apply the mass-weighted mixing formula: c<sub>p,mix</sub> = (c<sub>p,glycol</sub> &times; m<sub>glycol</sub> + c<sub>p,water</sub> &times; m<sub>water</sub>) &divide; (m<sub>glycol</sub> + m<sub>water</sub>).</li>
+          <li>Compute the result: c<sub>p,mix</sub> = (0.56 &times; 2,152.8 + 1.0 &times; 4,368) &divide; 6,520.8 = <strong>0.855 Btu/(lbm&middot;&deg;F)</strong> &rarr; closest to Answer A (0.86).</li>
+        </ol>
 
-3. So if you don&#39;t remember what specific gravity is jump back over the reference manual and look that up, you&#39;ll find this.
+        <hr style="border:none;border-top:1px solid #e0e0e0;margin:14px 0;">
 
-4. Well we can say CP for the mixture is equal to the CP for glycol times the mass of glycol plus CP for water times the ma.
+        <strong>&#128196; Full Solution</strong>
 
-5. So let&#39;s plug all those numbers in.
+        <p style="margin-top:8px;">A chiller plant at 40&deg;F uses a glycol/water mixture with 30% glycol by volume. Given: c<sub>p,glycol</sub> = 0.56 Btu/(lbm&middot;&deg;F), SG<sub>glycol</sub> = 1.15, c<sub>p,water</sub> = 1.0 Btu/(lbm&middot;&deg;F) (known), &rho;<sub>water</sub> = 62.4 lb/ft&sup3; (known). Find the specific heat capacity of the mixture.</p>
 
-6. Which is closest to answer choice A in the.
+        <p>The key physical principle: specific heat capacity of a fluid mixture is a <strong>mass-weighted</strong> average, not a volume-weighted average. Glycol is denser than water (SG &gt; 1), so the 30% glycol by volume actually represents a <em>higher</em> fraction of the total mass than its volume implies. Using volume fractions directly would overestimate the mixture's thermal capacity.</p>
 
-<strong>Full Solution:</strong>
+        <div class="step-block">
+          <div class="step-label">Step 1 &mdash; Set Up Reference Volumes</div>
+          <p>Assume a total mixture volume of 100 ft&sup3; (arbitrary; cancels out):</p>
+          <code class="formula">V_water = 0.70 &times; 100 ft&sup3; = 70 ft&sup3;
+V_glycol = 0.30 &times; 100 ft&sup3; = 30 ft&sup3;</code>
+        </div>
 
-Thermo 8, a chiller plant producing a low chilled water supply temperature 40 degrees uses a glycol water mixture of 30% glycol by volume. At 40 degrees, glycol has a specific heat capacity of 0.56 BTU per pound degree Fahrenheit and a specific gravity of 1.15. What is the specific heat capacity of the mixture? So let&#39;s start by thinking about this mixture. It&#39;s 30% glycol by volume. So let&#39;s imagine we have a tank, not that it&#39;s in a tank, it&#39;s probably in a piping system being pumped around, but just for the sake of conversation we have a large volume. And we could sort of break that up 7030. Let&#39;s even assume that it&#39;s a 100 cubic feet exactly a volume. And 70 of those cubic feet are water and 30 are glycol. But the overall specific heat capacity of the mixture turns out to be a weighted average by mass, not by volume. So if we were to just take 0.3 times the 0.56 plus 0.7 times the specific heat capacity of water, which is 1, we would not get the right answer using that approach. We have to use the mass. And in order to figure out the mass, we have to get the specific gravity involved. So if you don&#39;t remember what specific gravity is jump back over the reference manual and look that up, you&#39;ll find this formula here, specific gravity equals density over the density of water. So the way you use this is the density of glycol would go here and the specific gravity of glycol would go here. So if we&#39;re interested in knowing the density of glycol, we can rearrange this density of glycol equals density of water times the specific gravity of glycol. So that equals 62.4 pounds per cubic foot times 1.15. So glycol is 15% more dense than water and that density works out to 71.76 pounds per cubic foot. Okay so now that we know the density of glycol, we can find out the mass of glycol. Since we know the volume, we don&#39;t know the volume but we&#39;re assuming a volume based on an assumed total volume. So the mass of glycol will be the density of glycol times the assumed volume of glycol, which is 71.76 times 30 cubic feet. That&#39;s a mass of 21.52.8 pounds. Now for the water, we can use the density of water which we know and the volume of water which we&#39;re assuming. So that&#39;s 62.4 times 70 cubic feet. And that works out to 43.68 pounds. And as we said before, the specific heat capacity of the mixture is a weighted average based on mass, not based on volume. So how do we set that up? Well we can say CP for the mixture is equal to the CP for glycol times the mass of glycol plus CP for water times the mass of water all divided by the total mass. Which is the mass of glycol plus the mass of water. Hopefully that makes some intuitive sense what we&#39;re doing there. Taking a weighted average of the two. So let&#39;s plug all those numbers in. 0.56 is the specific heat capacity of glycol. And mass is 21.52.8 plus one for water times 43.68. All over 21.52.8 plus 43.68. And that works out to 0.85.5. B2 per pound to degree Fahrenheit. Which is closest to answer choice A in the answer grouping is very close. So we really have to sharpen your pencil on this one. Otherwise it&#39;s easy to end up with one of the other choices.</div>
+        <div class="step-block">
+          <div class="step-label">Step 2 &mdash; Find Glycol Density via Specific Gravity</div>
+          <p>From the NCEES Reference Handbook (Properties of Substances):</p>
+          <code class="formula">SG = &rho;_glycol / &rho;_water
+&rho;_glycol = SG &times; &rho;_water = 1.15 &times; 62.4 lb/ft&sup3; = 71.76 lb/ft&sup3;</code>
+        </div>
 
-      <div class="video-box">
-        <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermo 8, a chiller plant producing a low chilled water supply temperature 40 degrees uses a glycol water mixture of 30% glycol by volume.<br><br><br><br>• At 40 degrees, glycol has a specific heat capacity of 0.56 BTU per pound degree Fahrenheit and a specific gravity of 1.15.<br><br><br><br>• What is the specific heat capacity of the mixture.<br><br><br><br>• So let&#39;s start by thinking about this mixture.<br><br><br><br>• So let&#39;s imagine we have a tank, not that it&#39;s in a tank, it&#39;s probably in a piping system being pumped around, but just for the sake of conversation .<br><br><br><br>• And we could sort of break that up 7030.
+        <div class="step-block">
+          <div class="step-label">Step 3 &mdash; Find the Mass of Each Component</div>
+          <code class="formula">m_water  = &rho;_water  &times; V_water  = 62.4 lb/ft&sup3; &times; 70 ft&sup3;  = 4,368 lbm
+m_glycol = &rho;_glycol &times; V_glycol = 71.76 lb/ft&sup3; &times; 30 ft&sup3; = 2,152.8 lbm</code>
+        </div>
+
+        <div class="step-block">
+          <div class="step-label">Step 4 &mdash; Mass-Weighted Mixing Formula</div>
+          <code class="formula">c_p,mix = (c_p,glycol &times; m_glycol + c_p,water &times; m_water) / (m_glycol + m_water)
+
+c_p,mix = (0.56 Btu/(lbm&middot;&deg;F) &times; 2,152.8 lbm + 1.0 Btu/(lbm&middot;&deg;F) &times; 4,368 lbm)
+          / (2,152.8 lbm + 4,368 lbm)
+
+c_p,mix = (1,205.6 + 4,368) / 6,520.8
+
+c_p,mix = 5,573.6 / 6,520.8 = 0.855 Btu/(lbm&middot;&deg;F)</code>
+          <p style="margin-top:6px;">Rounded to the nearest answer choice: <strong>0.86 Btu/(lbm&middot;&deg;F) &rarr; Answer A</strong>.</p>
+        </div>
+
+        <p style="font-size:12px;color:#666;border-top:1px solid #eee;padding-top:8px;margin-top:4px;">
+          <strong>Handbook note:</strong> The current NCEES reference handbook includes tables for the specific heat capacity of aqueous ethylene glycol and propylene glycol solutions at 30%, 40%, and 50% concentrations. If the problem specifies the glycol type and the concentration matches a tabulated value, reading from the table is a valid shortcut. The analytical mass-weighted approach is always the fallback and remains the foundational method to master.
+        </p>
+
+      </div><!-- /solution-box -->
+
+      <div class="video-box" style="margin-top:12px;">
+        <strong>&#128249; Video Solution Synthesis</strong>
+        <ul style="margin-top:8px;">
+          <li>The instructor opens by flagging the trap: 30% glycol is given <em>by volume</em>, but specific heat capacity of a mixture must be mixed by <em>mass</em> &mdash; doing 0.3 &times; 0.56 + 0.7 &times; 1.0 with the raw volume fractions gives a result that is close but wrong.</li>
+          <li>To make the arithmetic tractable, assume a 100 ft&sup3; total volume: 70 ft&sup3; water + 30 ft&sup3; glycol &mdash; the assumed volume cancels out, so the choice of 100 is purely for convenience.</li>
+          <li>Glycol density is derived from the given specific gravity: &rho;<sub>glycol</sub> = 1.15 &times; 62.4 = 71.76 lb/ft&sup3;, which then gives m<sub>glycol</sub> = 2,152.8 lbm and m<sub>water</sub> = 4,368 lbm.</li>
+          <li>The mass-weighted mixing formula &mdash; c<sub>p,mix</sub> = &Sigma;(c<sub>p,i</sub> &times; m<sub>i</sub>) / &Sigma;m<sub>i</sub> &mdash; yields 0.855 Btu/(lbm&middot;&deg;F), closest to answer A (0.86); the choices are tight by design to catch the volume-weighting error.</li>
+          <li>The instructor notes that glycol is denser than water, so it carries proportionally more mass per unit volume &mdash; this is precisely why volume-weighting underestimates the mass fraction of glycol and therefore underestimates how much glycol drags down the mixture's thermal capacity.</li>
+        </ul>
       </div>
 
-      <div class="takeaway-box">
-        <strong>⭐ Key Takeaways:</strong><br>
-        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      <div class="takeaway-box" style="margin-top:12px;">
+        <strong>&#11088; Key Takeaways</strong>
+        <ul style="margin-top:8px;">
+          <li>Specific heat of a fluid mixture is always mass-weighted, not volume-weighted &mdash; this is a fundamental physical principle, not a handbook formula to look up.</li>
+          <li>When a problem gives volume percentages for a mixture, use density (via specific gravity) to convert to mass fractions before applying any mixing calculation.</li>
+          <li>The answer choices in this problem are deliberately close (0.86&ndash;0.89) to penalize the volume-weighting shortcut &mdash; precise method matters just as much as precise arithmetic.</li>
+          <li>The modern NCEES handbook includes glycol solution tables at standard concentrations &mdash; if the glycol type is specified and the concentration is tabulated, the table is a valid and faster route on exam day.</li>
+        </ul>
       </div>
-    </div>
-  </div>
+
+    </div><!-- /solution-area -->
+  </div><!-- /sidebar-left -->
 
   <!-- RIGHT PANEL -->
   <div class="sidebar-right">
@@ -298,51 +383,58 @@ Thermo 8, a chiller plant producing a low chilled water supply temperature 40 de
     <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
 
     <div class="qa-group">
-      <div class="qa-session">OH 15 · May 28 2021</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 15</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up, thermo eight. For thermo problem eight, how do you know that the specific heat is a mass weighted average? I couldn&#39;t find that in the practice manual. If it&#39;s pure memorization, do you have any other terms that you would recommend memorizing that are mass weighted average versus volume? So a bit of context on what that problem was, it was a situation where you have a water and glycolem mixture and the problem was asking to find the specific heat of the mixture. And what a lot of candidates will quickly do, and I came across this myself when I was going through my study process back in the day, which is why I included a similar problem in the practice modules to expose you to it. There&#39;s a temptation to just do a volume weighted mixture of the two and that leads to the wrong answer. So the key is to do a mass weighted mixture. And the question here of, you know, how are you supposed to know that it&#39;s it&#39;s mass weighted, you won&#39;t find that anywhere in the practice manual. I mean, we have to kind of get away at some point from just expecting the reference handbook to serve up. You know, these fundamental ideas we have to bring that experience and background to th</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 18 · July 16 2021</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 18</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, first one, thermo eight. Do we have to use the mass because the density of the two fluids is different? I originally solved it, just using the specific heat and volume. And this was the one if you recall about mixing water with glycol and figuring out what the specific heat capacity of that mixture would be. And the key to this problem was that I had to be done on a mass basis. It depends on how much mass of water and how much mass of glycol. And the trap is to do the mixing based on the volume percentages which leads to the wrong answer, which is the sensor here. And the way around that is to do exactly what the question is asking. So yes, you&#39;re meant to multiply by the density to get the mass. And then you can do the mixing. So mass equals density times volume. We&#39;ll do that for both substances, water, and glycol. And then you can do a mixing calculation with those two masses. And just to sort of rationalize the answer, we know that for glycol, the density is higher, which means that the amount of mass per unit volume is going to be higher. This is the density of that tire. So the mass per unit volume is higher. And the specific heat capacity of glycol is lower. So yo</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 115 · March 2nd 2026</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 115</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, thermo 8. There you use the density for water at standard conditions. At T equals 68 and found the density of 62.4, then you apply this value to find the density of glycol, which was at 40 degrees, specific gravity 1.15. Using the same logic, why can&#39;t we use the specific heat capacity water equals 1 at standard conditions and just average out the values to find Cp in the mixture? Well, we can do that in terms of the specific heat capacities, so I don&#39;t think there&#39;s any issue there with these values 0.56 and 1. The problem is with the 0.7 and the 0.3, this was a mixing problem about water and glycol, water glycol mix, and the problem is, and almost everybody falls into this trap myself included, we cannot calculate the specific heat capacity of the mixture as weighted by their volumes. It&#39;s weighted by their masses. That&#39;s really the key to this problem. So even though it&#39;s 70% by volume of 1 of them and 30% by volume of the other, we need to know exactly how much it is by mass. So that&#39;s why we need to get the densities and, yeah, use that really, should we actually talk about it earlier? We&#39;re doing this problem, but this idea that density equals mass over volume by d</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 35 · May 2 2022</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 35</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 8. There&#39;s a chart in the P-AM book that has the glycol percentages in a chart and can get the answer faster. The answer in the solutions explains in detail how to get the answer. Does this problem solution have a underlying theory that is important for us to learn? Because while I can follow the solution it will take much more time on the exam to complete it using the step-by-step approach. Well, first of all, great job finding the table and glide you&#39;re able to solve it using that method and that you&#39;re able to save time. I think that&#39;s great. So, how to make a general statement here. Anytime you&#39;re able to find a shortcut or a faster way of doing something, then I commend you for it and I would welcome you to use it as long as it&#39;s equally valid, which in this case is certainly was. So, no objection there. To answer your question of does this problem have an underlying theory? It&#39;s important for us to learn. The answer is yes. What I would have wanted you to take from this problem as a main idea is that the specific heat capacity of a mixture has to do with the relative mass of the two things better being mixed together. I think when a lot of candidates first approach th</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 60 · June 5th 2023</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 60</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, let&#39;s jump right in. Thermo 8. Why is page 246247 of the reference manual not helpful or used in the development of the solution? Specifically, why can&#39;t we get the density of the glycol when instead we are calculating it? And why can&#39;t we get the specific heat of glycol instead we are provided it and not in the same tables? So this problem was about calculating the specific heat of a glycol water mixture. And in the problem, I give you the specific heat capacity of pure glycol and the specific heat capacity of water you&#39;re meant to know. The question is why aren&#39;t we using the tables? And these are the tables that are provided in the reference handbook for a clean glycol and both for the density and for the specific heat. So really the question is why can&#39;t we just pull the specific heat directly from the table and the answer is you can. So I probably be labored that but that&#39;s a long way of saying you absolutely can use these tables. And the reason I didn&#39;t do that in the solution is simply because these tables were not available in the earlier versions of the reference handbook. So you had no choice but to do it in an analytical way. And that&#39;s why I had to give you t</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 85 · July 22nd 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 85</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVSC Thermo 8, specific heat of the glycoll water mixture with 30% glycoll by volume, can we use specific heat of aqueous solutions of propylene glycoll table and C-Samboc page 250? Yeah, this one was about mixing glycoll and water and in the solution we do the mixing calculation. Of course we do it by mass, not by volume, that&#39;s the common trap, but a lot of folks fall into doing the mixture real quick, you know, 0.3 times 1 plus 0.7 times the other because the volumes are given, but we really need to do it by mass, so we need to get the densities involved. But after this problem was written and C started publishing a table in the reference handbook. So if it happens to be a 30, 40 or 50% mixture by volume, which this one is 30% by volume, then we can use the table instead. So if you did that, then great, the answers should reconcile. And, you know, of course I feel you should know both ways, just in case it&#39;s not one of those percentages, but those are also common percentages that would be used in application. So that&#39;s why they&#39;re in the table in the first place. And also it should be linear between them so if you got something in between that was like 35% or 45% you could inter</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 92 · November 25th 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 92</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 8 from where can we get the CP equation? So this one was about finding the specific heat capacity of a mixture, specifically a mixture of liquid water and glycol. And this isn&#39;t so much a formula that you&#39;ll find in the reference handbook. You know, this isn&#39;t there&#39;s no page that has exactly this on it. It&#39;s more of an idea, which is to say that different attributes of materials. Have a weighted average by either mass or by volume. And specific heat capacity is one that&#39;s going to have a weighted average by mass. And that&#39;s really what this formula is capturing. So you have glycol mixture, which is neither entirely glycol nor entirely water. It&#39;s some percentage of each. And you can get those percentages by volume. But really when it comes to finding the specific heat capacity of the mixture, it&#39;s always going to be a function of the relative amounts of mass of each of the two contributing. Or constituents, I guess you would say. And that&#39;s true not only if there are two, but also if there are three or four or more any number. If you had glycol and water and oil and you know something else. And you knew all of their individual masses, then you could use the same idea, and t</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 101 · March 31st 2025</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 101</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Thermo 8 can we use the table specific heat of aqueous solutions of ethylene glycol in the handbook to find this answer. It gives a different value than what we saw in the solution but it would still have gotten us the right answer in fewer steps. Yes absolutely yes this table didn&#39;t use to exist so that problem was written a little earlier than they started including this table in the reference handbook so that&#39;s why I didn&#39;t use it but you&#39;re absolutely welcome to use it and yeah you&#39;re right there is a probably slight deviation there between the handwritten solution based on the given information versus this table but it should be a small tolerable error.</div>
+      <div class="qa-session">OH 15 &middot; May 28, 2021</div>
+      <div class="qa-question"><strong>Q:</strong> How do you know the specific heat is a mass-weighted average? I couldn't find that in the practice manual &mdash; is it pure memorization?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> You won't find it in the reference handbook &mdash; it's a judgment call rooted in fundamentals. Think about density: density = mass/volume. If density changes slightly with temperature, the volume changes but the mass stays constant. If specific heat were volume-dependent, the thermal performance of the mixture would shift as conditions change, which would be problematic in engineering practice. So it's the mass that's the constant, meaningful quantity. I also chose the answer options close together intentionally &mdash; to force you to distinguish between a volume-weighted and a mass-weighted mixture. Expect more of these &ldquo;traps&rdquo; as you move through the program; uncovering them in practice is the whole point.</div>
     </div>
 
-  </div>
-</div>
+    <div class="qa-group">
+      <div class="qa-session">OH 18 &middot; July 16, 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Do we have to use mass because the density of the two fluids is different? I originally solved it just using specific heat and volume fractions.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Exactly right &mdash; the mixing must be done on a mass basis. Because glycol is denser than water (SG = 1.15), the same 30% volume fraction of glycol corresponds to a higher mass fraction than you'd expect. So not only does glycol drag down the blended specific heat capacity, it does so in greater proportion than its volume implies. That's why you get the wrong answer when you mix by volume: you underestimate how much glycol (by mass) is actually in the system.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 35 &middot; May 2, 2022</div>
+      <div class="qa-question"><strong>Q:</strong> There's a chart in the reference manual for glycol percentages &mdash; can we just use that instead of the long analytical approach? Does this problem have underlying theory we need to learn?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Yes &mdash; if you're able to use the table, use it. But the underlying theory is non-negotiable: specific heat capacity of a mixture is weighted by relative <em>mass</em>, not relative <em>volume</em>. That main idea is what I want you to take away. The analytical path &mdash; density from SG, mass from density &times; volume, mixing formula &mdash; is only a few minutes of work and isn't particularly complex. Being comfortable with both the table shortcut and the first-principles approach is what prepares you for variations you might see on exam day.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 60 &middot; June 5, 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Why aren't we using the glycol tables on pages 246&ndash;247 of the reference manual? Why do we calculate density instead of reading it, and why is the specific heat given in the problem rather than pulled from the table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> You absolutely can use those tables &mdash; they're valid. The reason I didn't use them in the solution video is that those tables didn't exist in earlier editions of the handbook when this problem was written, so I had to give you the values directly and solve analytically. At 30% ethylene glycol at 40&deg;F the table gives 0.861, which reconciles with our analytical result. One important caution: there are separate tables for ethylene glycol and propylene glycol. If the problem doesn't specify which type, you can't use the table. Know both approaches.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 85 &middot; July 22, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Can we use the &ldquo;Specific Heat of Aqueous Solutions of Propylene Glycol&rdquo; table (CAMS/BOC page 250) for this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Yes, if it's the right glycol type and the right concentration. The table covers 30%, 40%, and 50% mixtures by volume &mdash; this problem is exactly 30%, so you're good. If you encounter an intermediate concentration (say 35% or 45%), interpolate; you can even extrapolate slightly. That said, you should know both ways: the table when it applies, and the mass-weighted analytical method for everything else. The answers should reconcile within tolerable rounding.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 92 &middot; November 25, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Where does the c<sub>p</sub> mixing formula come from? I couldn't find it in the reference handbook.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> It's not a formula you'll find written out in the handbook &mdash; it's a conceptual idea. Different material properties take their &ldquo;weighted average&rdquo; by either mass or by volume, and specific heat capacity is one that's weighted by mass. So: c<sub>p,mix</sub> = &Sigma;(m<sub>i</sub> &times; c<sub>p,i</sub>) / &Sigma;m<sub>i</sub>. This generalizes to any number of constituents. The bigger lesson: try to let go of pure plug-and-chug and instead extract the general idea behind each problem. That mindset will serve you on variations you haven't seen before.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 101 &middot; March 31, 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Can we use the &ldquo;Specific Heat of Aqueous Solutions of Ethylene Glycol&rdquo; table in the handbook? It gives a slightly different value than the written solution, but would still land on the right answer.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Absolutely, yes. The table didn't exist when this problem was originally written, which is why the solution takes the analytical route. But you're entirely welcome to use it &mdash; and you're correct that there may be a slight deviation between the table value and the analytically derived one; that's expected given rounding in the table and the specific values provided in the problem. As long as you land on the right answer choice, both methods are valid.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 115 &middot; March 2, 2026</div>
+      <div class="qa-question"><strong>Q:</strong> You used &rho;<sub>water</sub> = 62.4 lb/ft&sup3; (density at standard conditions, ~68&deg;F) even though the problem is at 40&deg;F. Using the same logic, why can't we just use c<sub>p,water</sub> = 1.0 Btu/(lbm&middot;&deg;F) and average the specific heats by volume?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Using c<sub>p,water</sub> = 1.0 and c<sub>p,glycol</sub> = 0.56 is perfectly fine &mdash; no issue there. The problem is with the 0.7 and 0.3. Those are volume fractions, not mass fractions. Because glycol is denser than water, the 30% by volume corresponds to a different (larger) fraction by mass. The mixing calculation must use mass fractions. That's the key to this problem: density &times; volume = mass, and mass is what drives the mixing formula. Everything else follows from there.</div>
+    </div>
+
+  </div><!-- /sidebar-right -->
+</div><!-- /layout-container -->
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 8 · 8 OH sessions · Generated 2026-03-17</span>
+  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 8 &middot; 8 OH sessions &middot; Generated 2026-03-17</span>
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 
@@ -351,7 +443,9 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open
+    ? 'Hide Quick Overview & Full Solution \u25B2'
+    : 'Show Quick Overview & Full Solution \u25BC';
 }
 </script>
 </body>
