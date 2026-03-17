@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 37 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 37</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 37</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      60gpm of hot water is produced by a steam heat exchanger. 5psig saturated steam is provided, and the condensate leaves as a satu- rated liquid. The ow rate of steam is 2,000lb. If cold water enters hr at 55°F, what is the temperature of leaving hot water? Neglect losses. 78
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>113◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>116◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>119◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>122◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And all of the heat that&#39;s given up by the steam as it goes through the heat exchanger from state 1 to state 2 is transf.
+
+2. So let&#39;s start by analyzing the steam side, figuring out how much heat is being transferred in and set that equal to the.
+
+3. It&#39;s going to be the amount of enthalpy that&#39;s given up as we go from state 1 to state 2.
+
+4. Both of those are fully defined and we can find out what those enthalpy are by looking in the reference handbook and sea.
+
+5. That&#39;s the latent heat of vaporization given up in the process of changing from a vapor to a liquid.
+
+<strong>Full Solution:</strong>
+
+60GPM of hot water is produced by a steam heat exchanger. 5 PSIG saturated steam is provided and the condensate leaves as saturated liquid. The flow rate of steam is 2,000 pounds per hour. If cold water enters at 55 degrees, what is the temperature of leaving hot water? The glazed losses. So let&#39;s draw a heat exchanger and then we&#39;ll put the steam side on the right. Call that state 1, state 2 leaving. We&#39;re coming in with a known mass flow rate, that 2,000 pounds per hour of saturated steam at a known pressure 5 PSIG. So P1 is 5 PSIG, which is about the same as 20 PSIA. And we also know that it&#39;s saturated. So that&#39;s a fully defined state. And then state 1 is of course going to be the same mass flow rate and the same pressure. And that turns out to be a saturated liquid. So P2 equals P1 and it&#39;s a saturated liquid. And all of the heat that&#39;s given up by the steam as it goes through the heat exchanger from state 1 to state 2 is transferred into the water. The water comes in while that&#39;s state 3. And it&#39;s 55 degrees as it comes in, T3. And we&#39;d like to know what it&#39;s going to be when it leaves. Call that state 4, T4. And that&#39;s liquid water. So there&#39;s no phase change there. We can just assume that that&#39;s subcooled at all times. It&#39;s not being heated to the point of boiling. It&#39;s not a boiler, it&#39;s just a hot water heater. And we&#39;d like to know T4, the temperature of that leaving water. So let&#39;s start by analyzing the steam side, figuring out how much heat is being transferred in and set that equal to the amount of heat that must have been added to the water. So we&#39;ll say Q. steam equals Q. water with the understanding that in terms of the direction the heat is coming out of the steam and going into the water through the heat exchanger. So on the left side for the steam we&#39;ll write that as an M.Delta H, where M. is the mass flow rate of steam. And then for the right side for the water, we&#39;ll just use the sensible heating rule of thumb for water, which is 500 gpm delta T. So now let&#39;s go into what delta H is going to be. It&#39;s going to be the amount of enthalpy that&#39;s given up as we go from state 1 to state 2. Both of those are fully defined and we can find out what those enthalpy are by looking in the reference handbook and searching properties of saturated water. And looking at the steam table. It&#39;s a table that&#39;s organized by pressure and for a saturated steam that&#39;s going to be HG. So we can jot down that number. H1 is equal to HG at 20 psi A, which is 1156 B2 per pound and H2 now it&#39;s a saturated liquid. So H2 is going to equal HF at that same pressure, which is 196 B2 per pound. And now delta H is going to be the difference between the two. As an alternative, by the way, you could just find HFG because what is HF minus HG. That&#39;s HFG. That&#39;s the latent heat of vaporization given up in the process of changing from a vapor to a liquid. So if you want to find that directly, that would be perfectly fine as well. That&#39;s published in the steam table already and it&#39;s available for your use, whatever you find more convenient. But it&#39;s certainly valid to do HG minus HF since that&#39;s the definition of HFG. So let&#39;s go ahead and plug in on the left side. We&#39;ll get 2,000 pounds per hour times that difference and I&#39;ll use the individual values HG and HF since I&#39;ve already looked them up. And then for the right side of the equation, it&#39;s 500 GPM delta T, where the GPM is the volume flow rate on the water side. So that&#39;s just going to be 60. And since this is a rule of thumb on the right side, it&#39;s expected that as long as the volume flow rates in GPM and the temperatures are in degrees Fahrenheit, then this will come out and be used per hour. And the left side you&#39;ll notice is B2&#39;s per hour because pounds cancel. So that&#39;s great. And we should expect this delta T to be in degrees F, which it will be. So what we want to know is the final temperature T4 leaving and the entering temperature we know to be 65 degrees.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 60GPM of hot water is produced by a steam heat exchanger.<br><br><br><br>• 5 PSIG saturated steam is provided and the condensate leaves as saturated liquid.<br><br><br><br>• The flow rate of steam is 2,000 pounds per hour.<br><br><br><br>• If cold water enters at 55 degrees, what is the temperature of leaving hot water.<br><br><br><br>• So let&#39;s draw a heat exchanger and then we&#39;ll put the steam side on the right.<br><br><br><br>• Call that state 1, state 2 leaving.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Multiple solution paths exist for this problem — knowing more than one gives you a backup on exam day.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 37 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

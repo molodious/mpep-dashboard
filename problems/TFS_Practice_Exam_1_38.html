@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 38 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 38</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 38</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 75KVA transformer with 99% eciency is located in an electrical room at70°F. The transformer’s enclosure is a oor standing box with dimensions of 3ft height, 2ft width, 3ft depth. The exposed surfaces have an average temperature of 85°F. The load is resistive and uses 60% of the transformer’s capacity. What is the overall heat transfer coecient? hr·ft2·°F hr·ft2·°F hr·ft2·°F hr·ft2·°F
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1.9 Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2.4 Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>2.8 Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>4.7 Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if you search the reference handbook for overall heat transfer coefficient, you will find the formula that I think by.
+
+2. And the idea of this formula is that sort of like convection is H.A.
+
+3. So we&#39;re less concerned with the mode of heat transfer, and just sort of backing into if we know everything else, we can.
+
+4. And let&#39;s just divide that by the area and the delta T, and we can find out what the overall heat transfer coefficient i.
+
+5. And now coming back to our early equation here, we know the area and we know the delta t.
+
+<strong>Full Solution:</strong>
+
+A 75KVA transformer with 99% efficiency is located in an electrical room at 70 degrees. The transformer&#39;s enclosure is a floor standing box with dimensions 3 feet height, 2 feet width, and 3 foot depth. The exposed surfaces have an average temperature of 85 degrees, the load is resistive, and uses 60% of the transformer&#39;s capacity. What is the overall heat transfer coefficient? So if you search the reference handbook for overall heat transfer coefficient, you will find the formula that I think by this point, you&#39;re likely to have become familiar with, but you can find it there. It&#39;s Q. equals U.A. Delta T. And the idea of this formula is that sort of like convection is H.A. Delta T, we replace H with U, and then we set the expectation that U, the overall heat transfer coefficient, will include not only convection, but also any radiation that may be present. So we&#39;re less concerned with the mode of heat transfer, and just sort of backing into if we know everything else, we can calculate U. So how do we do that? Well, we&#39;d say, well, what&#39;s the total heat transfer Q? And let&#39;s just divide that by the area and the delta T, and we can find out what the overall heat transfer coefficient is. Now that may change for other conditions, but we can find what it is for this set of conditions at least. Alright, so that&#39;s fine. But how do we find the area of this box? We&#39;ve got a floor standing box with some dimensions. So since it&#39;s on the floor, I&#39;m going to draw it like this. We&#39;re going to lose one of the areas by virtue of being on the floor, and I&#39;ll try to draw it 3D here. See how this goes? It could be bad. Okay, so this thing&#39;s sitting on the floor. It&#39;s 3ft and height, 2ft and width, and 3ft in depth. So to find it&#39;s total surface area, we&#39;re going to add up the area of all the surfaces with the understanding that no heat is going to be rejected through the bottom. So we&#39;ve got a front and a back, a right and a left, and a top, but no bottom. So let&#39;s add all that up. So for the sides, that&#39;s 3ft by 3ft, there&#39;s going to be 2 of those. Plus the front and the back, there&#39;s going to be 2 of those. And actually the top is also 2ft by 3ft. So why don&#39;t we just say those. 3ft is that are 2ft by 3ft, and that&#39;ll do it. That&#39;s 5ft. That&#39;s what we need. That&#39;s going to be 36ft. Really common mistake is to include the base, which unfortunately since it&#39;s sitting on the ground, you don&#39;t get any heat transfer through that face. Okay, and then the delta t is pretty straightforward because we&#39;re told the surface temperature of the outside of the box is 85 degrees. And the ambient air temperature and the temperature of the room generally is 70 degrees. So that&#39;s a delta t of 15. And now coming back to our early equation here, we know the area and we know the delta t. All we need is the Q-DOT. Well how much heat needs to be transferred out of this enclosure? That&#39;s more of an electrical question because what is this transform actually doing? It&#39;s a 75 KVA transformer. The load is purely resistive, so thinking about it from a power factor perspective, we think about the power factor as being the real power divided by the apparent power. So that&#39;s the KW divided by the KVA. But for a purely resistive load, the power factor is assumed to be 1. So if it&#39;s a 75 KVA transformer that&#39;s supporting a resistive load, then it can support 75 KW. They support less than 75 KW. If it&#39;s an inductive load or a capacitive load, which is not unusual, that there be a non-unity power factor for a transformer. But in this case, we&#39;re told that it&#39;s resistive, so the KW is also 75. But that doesn&#39;t mean that there&#39;s 75 KW worth of heat coming out of this box because most of the electrical energy that enters the primary side of the transformer leaves on the secondary side as actual electricity that goes through the transformer. Having a small amount of it is coming out as heat, as waste heat, because it&#39;s 99% efficient.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A 75KVA transformer with 99% efficiency is located in an electrical room at 70 degrees.<br><br><br><br>• The transformer&#39;s enclosure is a floor standing box with dimensions 3 feet height, 2 feet width, and 3 foot depth.<br><br><br><br>• The exposed surfaces have an average temperature of 85 degrees, the load is resistive, and uses 60% of the transformer&#39;s capacity.<br><br><br><br>• What is the overall heat transfer coefficient.<br><br><br><br>• So if you search the reference handbook for overall heat transfer coefficient, you will find the formula that I think by this point, you&#39;re likely to .<br><br><br><br>• And the idea of this formula is that sort of like convection is H.A.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 38 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

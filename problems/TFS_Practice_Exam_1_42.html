@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 42 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 42</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 42</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Anexteriorwallismadeupof4inchbrickcladding k = 0.42 Btu·ft , hr·ft2·°F   31inch mineral ber batt insulation C = 0.077 Btu , and 5inch 2 hr·ft2·°F 8   gypsum board C = 1.78 Btu . The external surface of the brick hr·ft2·°F is 0°F and the inside surface of the gypsum board is maintained at 70°F. What is the temperature at the interface between the brick and the insulation? 80
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>4◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>6◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>9◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>13◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Let&#39;s start by drawing a picture.
+
+2. We&#39;ll start with the brick.
+
+3. But instead of being given a thermal conductivity K, we&#39;re given a conductance C, so that tells us the total conductance.
+
+4. Now a lot of times in composite wall problems, there&#39;ll also be a film coefficient given.
+
+5. But in this case, we&#39;ve been given actual surface temperatures for the outside of the brick and the inside of the gypsum.
+
+6. Certainly there is some convection heat transfer happening on both sides of the equation here.
+
+<strong>Full Solution:</strong>
+
+An exterior wall is made up of 4-inch brick cladding with a known thermal conductivity, and 3.5 inch mineral fiber bat insulation with a known conductance, and 5-8 inch gypsum board with a known conductance. The external surface of the brick is 0 degrees, and the inside surface of the gypsum board is maintained at 70 degrees. What is the temperature at the interface between the brick and the insulation? So this is going to be a composite wall problem. Let&#39;s start by drawing a picture. We&#39;ll start with the brick. We know we&#39;ve got 4 inches of brick, and we know the thickness, and we know the thermal conductivity, so the resistance for that segment is going to be specified by an L over K term. And then we have the insulation, which is 3.5 inches thick. But instead of being given a thermal conductivity K, we&#39;re given a conductance C, so that tells us the total conductance for that entire thickness. We don&#39;t have to consider that it&#39;s 3.5 inches, except that it&#39;s incidentally 3.5 inches, but the conductance tells us everything we need to know. So that&#39;s just going to be a 1 over C term when it comes to calculating the resistance for that thickness. And then lastly, we have the gypsum board, which I&#39;ve probably drawn a bit too thick there. It&#39;s only meant to be 5-8ths of an inch, but need a bit of room, and we know the conductance for that as well, so its resistance is going to be a 1 over C term. So if we were to draw this as a thermal network, we could say that there are nodes at each of these boundaries between the exterior air and the outside surface of the brick, for which we have a known temperature, that&#39;s zero degrees outside. And then there&#39;s another node at the interface of the brick and insulation with an unknown temperature, which we&#39;re particularly interested in finding out. We will call that point A. Or maybe we&#39;ll call this A, call this B, C, and D, to define the boundaries. I might just make it easier to have that bit of a nomenclature in there. So then this is the temperature of B that we&#39;re interested in. That&#39;s the boundary between the brick and the insulation. And then we have another thermal resistance going from B to C, which we said is 1 over C term and another 1 over C term for the resistance going from C to D. And then we know the temperature at the internal temperature on the inside of the gypsum board is 70 degrees. Now a lot of times in composite wall problems, there&#39;ll also be a film coefficient given. So there&#39;ll be one more layer of resistance as you go through a film either from the outside area to the outside surface of the brick or the inside surface of the gypsum to the inside area. And that&#39;s perfectly valid. But in this case, we&#39;ve been given actual surface temperatures for the outside of the brick and the inside of the gypsum. So those temperatures already known. Certainly there is some convection heat transfer happening on both sides of the equation here. But if we already know the temperature at that surface, then we can ignore presumably the convection is happening before that. Maybe the outside area is negative 10 degrees and it&#39;s only getting the outside of the brick to 0 and all the way to negative 10 or something like that. So the next thing we want to do here is find the total resistance. So we&#39;re going to add up these three terms and specify RT. So that&#39;s going to be L over K for the brick plus 1 over C for the insulation plus 1 over C for the gypsum. And now let&#39;s go ahead and add those up. So we&#39;ve got four inches. Let&#39;s turn that into feet. We&#39;ll multiply by one foot over 12 inches and divide that by the thermal conductivity for brick, which is 0.42. Notice the units here. BTU foot, our feet squared degrees F. So feet is going to inches going to cancel and then feet is going to cancel. So this ends up our foot squared. Greef comes to the numerator and this has units of resistance that we would expect.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • An exterior wall is made up of 4-inch brick cladding with a known thermal conductivity, and 3.5 inch mineral fiber bat insulation with a known conduct.<br><br><br><br>• The external surface of the brick is 0 degrees, and the inside surface of the gypsum board is maintained at 70 degrees.<br><br><br><br>• What is the temperature at the interface between the brick and the insulation.<br><br><br><br>• So this is going to be a composite wall problem.<br><br><br><br>• Let&#39;s start by drawing a picture.<br><br><br><br>• We know we&#39;ve got 4 inches of brick, and we know the thickness, and we know the thermal conductivity, so the resistance for that segment is going to b.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 1 · Problem 42 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
