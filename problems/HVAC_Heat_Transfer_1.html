@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 1 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 1</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 1</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      14.11 10,000cfm of air enters a cooling coil at 78°F and 60% relative hu- midity and exits at 58°F db / 54°F wb. At what rate is condensate removed? hr hr hr hr 14.12 55°F chilled water at 150psig enters a 10ton cooling coil and leaves at 65°F and 135psig after passing through the coil and the control valve located on the return side. Under these conditions, the cooling coil control valve is backed o by 50% and the coil is providing half of its rated capacity . The pressure drop through the coil...
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>4.7</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>5.7</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>8.1</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>25.9hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the mode of heat transfer: conduction, convection, radiation, or combined
+
+2. List given information: temperatures, dimensions, material properties, and flow conditions
+
+3. Select the appropriate heat transfer equation or correlation
+
+4. Calculate intermediate values like thermal resistance, heat transfer coefficient, or LMTD
+
+5. Solve for the unknown heat transfer rate, temperature, or surface area
+
+6. Verify the answer with a quick reasonableness check
+
+<strong>Full Solution:</strong>
+
+This is Problem 1 from the Heat Transfer module of the HVAC &amp; Refrigeration Practice Book.
+
+The problem asks: 14.11 10,000cfm of air enters a cooling coil at 78°F and 60% relative hu- midity and exits at 58°F db / 54°F wb. At what rate is condensate removed? hr hr hr hr 14.12 55°F chilled water at 150psig enters a 10ton cooling coil and leaves at 65°F and 135psig after passing through the coil and the control valve located on the return side. Under these conditions, the cooling coil control valve is backed o by 50% and the coil is providing half of its rated capacity . The pressure drop through the coil is 10ft of water. What is the required control valve ow coecient? 8414.13 2000cfm of 55°F conditioned air with 40% relative humidity en- ters a kitchen where it collects heat and moisture before being extracted as 80°F air with 70% relative humidity. What is the rate of moisture removal from the kitchen? min min min min 14.14 Water traveling at 2fps in a nominal 5in pipe is combined with water traveling at 5fps in a nominal 3in pipe at a tee connection. Downstream of the tee, the piping has a nominal 6in diameter. What is the velocity downstream of the tee? 14.15 A 100lb mass rests on 4 springs, each with a spring constant of m lb 15 f. The mass is initially displaced from its equilibrium position, in then released. What is the resulting period of oscillation? 14.16 Methane is burned with 20% excess air. What is the air-to-fuel ratio? lb lb lb lb 8514.17 A refrigeration cycle using R-134a has a refrigeration eect of 8000Btu and a coecient of performance of 11. What is the power hr required to run the compressor? 14.18 100,000lbmof steam at 5psig with quality χ = 0.9 ows through a hr pipe with an inside diameter of 20in. What is the velocity? s s s s 14.19 What is the maximum theoretical eciency of a power cycle op- erating with a minimum temperature of 70°F and a maximum temperature of 900°F? 14.20 What is the thermal eciency of a reversible heat engine operating between a cold and hot reservoir with temperatures of 100°F and 500°F, respectively? 8614.21 10,000cfm of atmospheric air is compressed adiabatically to 40psia by a 70% ecient compressor. What brake horsepower is required to drive the compressor? 14.22 A 1.5hp motor drives a re-circulation fan serving a room with a 7500ft3volume of room temperature air. The fan and fan motor are located in an adjacent mechanical room which is a return plenum for the conditioned space. What is the maximum possible increase in the room air temperature if the fan is left to run for 30 minutes? 14.23 In a steam heat exchanger, 750lb of 500°F steam at atmospheric hr pressure is used to heat 80gpm of cold water initally at 50°F. If the steam exits as a saturated liquid, what is the nal temperature of the water assuming there are no losses? 8714.24 Air enters a compressor at 80°F and 14.7psia and exits at 180psia. What is the change in enthalpy during the compression process? lb lb lb lb 14.25 A steam boiler uses 50lb of 40psia saturated steam to heat 10gpm hr of water. What is the expected increase in temperature for the water? 14.26 200lb of 5psig saturated steam enters a heating coil which supplies hr 100MBH. What percent of the exiting steam is in a liquid phase? 14.27 A 5lbm mass hangs from a spring with a spring constant of 15lbf. in What is the linear frequency of vibration for the system? 8814.28 A museum is maintained at 68°F and 45% relative humidity. What is the vapor pressure of the space? 14.29 Saturted liquid water at 50psig is boiled in a sealed vessel at con- stant pressure until one third of the water by mass has changed to a vapor phase. What is the change in entropy of the mixture during this process? lbm·°R lbm·°R lbm·°R lbm·°R 14.30 A counterow heat exchanger is used to cool a uid from 180°F to 140°F. The cooling medium temperature increases from 60°F to 120°F. What is the log mean temperature dierence? 8914.31 A heat sink is designed to remove 25W from a computer CPU. The ambient air inside the machine is 90°F and the surface temperature of the heat sink is not to exceed 140°F. The combined heat transfer coecient, including both convection and radiation, is 3 Btu . hr·ft2·°F What is the minimum required surface area for the heat sink? 14.32 5000cfm of air at 75°F db / 68°F wb enters a spray chamber using 90°F water. The bypass factor for the spray chamber is 0.15. What is the dry bulb temperature of the leaving air? 14.33 A pizza oven has a ame temperature of 1000°F and the internal walls are 700°F. Assuming all surfaces are considered to be black, what is the rate of heat transfer per square foot due to radiation? hr·ft2 hr·ft2 hr·ft2 hr·ft2 9014.34 A 50ft length of hot water piping with 1inO.D. runs uninsulated through an open basement. The ambient temperature and av- erage temperature of the walls and other surfaces is 60°F. The convective heat transfer coecient is 6 Btu . The average sur- hr·ft2·°F face temperature of the pipe is 120°F. The emissivity for the pipe is 0.9. What is the total heat loss? hr hr hr hr 14.35 A variable frequnecy drive producing 100Wof waste heat during continuous operation is housed in an insulated sheet matal enclo- sure mounted in a machine room. The insulation is 1in thick with 8 a thermal conductivity of 0.2 Btu . The thermal resistance of the hr·ft·°F sheet metal is negligible. The surface area of the enclosure is 8ft2. The machine room is maintained at 76°F. The lm coecients both inside and outside the enclosure are 4 Btu . What is the hr·ft2·°F steady state temperature inside the enclosure? 14.36 In a counterow heat exchanger, the cold uid increases in temper- ature from 50°F to 100°F and the warm uid is cooled from 180°F to 145°F. What is the logarithmic mean temperature dierence? 9114.37 A composite wall is composed of 3in of stucco, 8in normal weight 4 concrete blocks, and 1in gypsum board. The inside and out- 2 side surface conductances are 6 Btu and 1.5 Btu , respectively. hr·ft2·°F hr·ft2·°F What is the U-factor for the wall? hr·ft2·°F hr·ft2·°F hr·ft2·°F hr·ft2·°F 14.38 A uid with a kinematic viscosity of 3centistokes and a specic gravity of 0.88 ows through a nominal 3in pipe at 4fps. What is the Reynolds number? 14.39 What is the quality of 1300psia steam produced by a boiler that adds 600Btu to 250°F saturated liquid feedwater? lb 9214.40 Equal mass ow rates of water and a 50/50 glycol-water mixture with specic heat capacity 0.75 Btu ow on either side of a shell and tube heat exchanger. Wat lb e m r °F enters at 90°F and the glycol mixture enters at 38°F. What could be the leaving temperatures of the water and glycol-water mixture, respectively? 14.41 A 7lb cast iron pan (c = 0.1 Btu ) is heated uniformly to 500°F durin m g cooking, then pl p aced in lbm a °F sink lled with 4 gallons of 60°F water. Neglecting losses, what is the nal equilibrium tempera- ture? 14.42 A refrigeration system using R-22 operates between 80°F condens- ing and 0°F evaporation. The refrigerant exits the evaporator as a dry, saturated vapor. What is the specic work done by the compressor assuming isentropic compression? lb lb lb lb 9314.43 The operating pressure in a hydronic system is 15ft of head and the required ow is 120gpm. The system has been designed with 3 pumps operating in parallel. Referring to the pump curves below, what is the minimum impeller size sucient for the system? 9414.44 Ahydronic systemoperatesaccorinding to thesystemcurve shown below. The system is being designed to include two pumps in parallel, each with the characteristics of the pump curve shown below. What is the maximum hydraulic horsepower available to the system? 9514.45 A 70% ecient pump driven by a 93% ecient motor delivers 150gpm of 120°F hot water at a head of 40ft with a rotational speed of 1800rpm. The pump runs from 7am-7pm Monday-Friday year round. The average cost of electricity is $0.12/kWh. What is the annual cost to run the pump? 14.46 A condenser water pump is located 5ft below the top of the wa- terline of a cooling tower basin. The leaving water temperature is 75°F. The friction loss on the suction side of the pump is 9ft of head. What is the net positive suction head available? 14.47 The ow of a centrifugal pump developing 150ft of head is reduced from 500gpm to 300gpm. After the speed reduction, what is the head added by the pump? 9614.48 A manometer uses mercury to measure the pressure inside a gas storage tank. One end of the manometer is open to the atmost- phere. The height of the column of mercury is 18in. What is the pressure inside the tank? 14.49 The SR-71 Blackbird aircraft travels at 2193mph at an an altitude of 70,000ft where the temperature is −70°F. What is the Mach number? 9714.50 The ow rate at the operating point of a 71HP pump described 2 by the pump curve below is 300gpm. What is the amount of pump head needed at the pump shaft? 14.51 A pump is driven by a 4-pole synchronous motor. What is the nominal rotational speed? Ignore slip. 9814.52 The pressure drop through a chilled water coil at the design ow rate of 25gpm is 8psi. During normal operation, the actual ow rate is 4gpm. What is the pressure drop in normal operation? 14.53 Air exits a nozzle at 500ft into a 70°F room at atmospheric pres- s sure. What is the Mach number? 14.54 20gpm of oil with specic gravity 0.88 ows through a valve with a valve coecient of 4.5. What is the pressure drop across the valve? 9914.55 1000gpm of water is pumped up an incline of 200ft. The suction pressure is 50psig and the pressure at the extent of the discharge piping is 250psig. The head loss through the discharge piping is 40ft, and losses through the suction piping are negligible. The suc- tion and discharge piping diameters are 12in and 8in, respectively. How much horsepower is supplied by the pump? 14.56 A threaded 3in pipe has (4) 90-degree long radius elbows and (6) 4 45-degree elbows. The volume ow rate is 5gpm. What is the minor head loss for the system? 14.57 A 6in gate valve with ow coecient 150 permits 500gpm of oil (SG = 0.88) to ow through a piping system. What is the pressure drop across the valve? 10014.58 An air handler uses 52°F chilled water to cool and dehumidify a room which is maintained at 78°F and 50% relative humidity. The AHU has a single chilled water coil from which air is discharged at 60°F db / 58°F wb. The unit also has a bypass damper which is modulated to allow 25% of the required airow to bypass the coil under normal operating conditions. The unit provides 10,000cfm of supply air to the space. Prior to returning to the unit, 10% of the air is exhausted and outside air at 95°F db / 75°F wb is mixed into the return stream for ventilation. What is the total cooling load provided by the air handler? 14.59 A fan rated for 15bhp is controlled by a variable frequency drive and runs at 900rpm which is 50% of its maximum speed, supplying 20,000cfm of air against a system pressure of 1.5inwg. The exist- ing lters are replaced with new high eciency lters increasing the pressure drop by 0.75inwg. What is the required fan speed following this upgrade? 10114.60 An atypical hydronic system permits the velocity of water to reach a maximum of 12ft when required. What is the smallest nominal s schedule 40 steel pipe size that should be selected for a ow rate of 50gpm? 14.61 1200gpm of water ows through a 50ft length of pipe with a 8in inside diameter and a friction factor of 0.02. What is the pressure drop? 14.62 A pump delivers 250gpm and produces 125ft of head. The uid being distributed has a density of 71lbm and the pump is 80% ft3 ecient. What is the brake horsepower required to drive the pump? 10214.63 A heat pump operated in cooling mode has a capacity of 2 refrig- eration tons and uses a 1500W compressor. What is the coecient of performance?
+
+The answer choices are:
+  A) 4.7
+  B) 5.7
+  C) 8.1
+  D) 25.9hp
+
+To solve this problem, apply the relevant engineering principles from the Heat Transfer section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video identifies the heat transfer mode and selects the right approach<br><br>• Required material properties and correlations are looked up from reference tables<br><br>• The thermal circuit or heat transfer equation is set up and solved systematically<br><br>• Important assumptions and their validity are discussed<br><br>• Exam strategy for heat transfer problems is outlined
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • Identify conduction, convection, and radiation modes before selecting equations<br><br>• Thermal resistance analogies simplify complex multi-layer or combined-mode problems<br><br>• LMTD and NTU are two approaches to heat exchanger problems — choose based on given information<br><br>• Radiation problems require absolute temperatures (Rankine) — a common unit error
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 59</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 59 | May 24th, 2023 lesson: Lesson-45679327 lesson_pos: 1 chapter_pos: 46 content_id: 45679327 wistia_id: </div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, so next one was on heat transfer. Please show a composite wall heat transfer problem. That has a two foot air gap and insulation number one with an R value four, insulation number two with an R value eight, not the same as resistance equals two resistance equals four. I know why you're asking this question. And that's fine. I've gotten this question before and I had some confusion myself about how to handle an air gap that's that large. So I thought about it some more and I think I ha</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 1 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
