@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 75 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 75</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 75</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Afourstroke12-cylinderbackupdieselgeneratorrotatesat1800rpm. Each cylinder has a stroke of 6.5in and a bore of 5.5in. The indi- cated mean eective pressure is 300psi. How much power does the generator produce?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>160KW</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>210KW</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>940KW</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1890KW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. We&#39;re going to use the formula for internal combustion engines to calculate the horsepower produced by the engines, so y.
+
+2. Times L, times A, times N, we&#39;ll talk about what each of these variables represents, divided by K, and in the previous e.
+
+3. Now we&#39;ve been given everything in US customary units, but that&#39;s okay because there&#39;s two flavors of K.
+
+4. There&#39;s a different value of K that we can use if we&#39;re working in SI units, and we expect the mean effect of pressure t.
+
+5. Versus if we&#39;re working in US customary units, then we can choose a version of K, which expects these variables to come.
+
+6. And the first thing we want to do is calculate this N, which is not the rotational speed, and that&#39;s probably the most c.
+
+<strong>Full Solution:</strong>
+
+A four-stroke 12-cylinder backup diesel generator rotates at 1800 rpm. Each cylinder has a stroke of 6.5 inches and a bore of 5.5 inches. The indicated mean effect of pressure is 300 psi, how much power does the generator produce? We&#39;re going to use the formula for internal combustion engines to calculate the horsepower produced by the engines, so you can use that search phrase in the reference handbook, internal combustion engines, and we&#39;ll find the formula, which I believe we&#39;ve used at least once before. It says that the horsepower is equal to the mean effect of pressure, MEP. Times L, times A, times N, we&#39;ll talk about what each of these variables represents, divided by K, and in the previous example that we did, we were working in SI units. Now we&#39;ve been given everything in US customary units, but that&#39;s okay because there&#39;s two flavors of K. There&#39;s a different value of K that we can use if we&#39;re working in SI units, and we expect the mean effect of pressure to go in with units of bar, and all of the other variables to be SI units as well. Versus if we&#39;re working in US customary units, then we can choose a version of K, which expects these variables to come in in US customary units as well. So that&#39;s what we&#39;re going to do here. And the first thing we want to do is calculate this N, which is not the rotational speed, and that&#39;s probably the most commonly made mistake. I know I&#39;ve been there myself, but N is a function of the rotational speed. It&#39;s two times the rotational speed times, and there&#39;s this little formula that&#39;s shown directly under this one on the reference handbook. The number of cylinders, and divided by the number of strokes per cycle. So in this case, the rotational speed is 1800 rpm, so two times 1800. times 12 because the 12 cylinder engine divided by 4 because it&#39;s a four stroke engine. And that gives us a value for N of 10,800. Now let&#39;s just check the units for the other variables before we make our substitution. For the MEP, the mean effect of pressure, that has to be in PSI. And fortunately it has been given in PSI. I&#39;ll put the units down here to show what the rules are, so we can make sure we&#39;re following them. So that equals 300, so nothing to do there. Now for the length of the stroke L, that needs to be in feet, but it&#39;s been given in inches, 6.5 inches. So let&#39;s multiply that by 1 foot over 12 inches. Can&#39;t sling out inches and getting the final answer in feet. That&#39;s going to be 0.542. And then for A, A is the area of the cylinder, which is a function of its diameter or bore, which means the same thing. That&#39;s the diameter of the cylinder. So to get the area in square inches, it&#39;s not square feet at square inches. That is required. That&#39;s going to be pi over 4 times 5.5 inches squared. And that gives us 23.758. And lastly, the value of k, k is the constant that we&#39;re just selecting from two options, depending on if we want SI units or US customer units. That&#39;s going to be 33,000. And that is arranged to make everything work out, so that the final result comes out in horsepower. So now we&#39;re ready to plug into the main equation here, and we now don&#39;t have to worry about units, because we&#39;ve followed all the rules going in. That&#39;s going to be 300 times 0.542 times 23.758 times 10,800. All divided by 33,000. And that gives us 1264.3. And now let&#39;s just make sure we&#39;re answering the question that&#39;s being asked, how much power does the generator produce in kw? We&#39;ve just got to do a unit conversion here at the very end to get the power in kw. That&#39;s going to be 1264.3 horsepower times 0.7457. kw per horsepower. You can get that conversion factor in measurement relationships. And that equals 942.8. kw. And the best answer choice is c.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A four-stroke 12-cylinder backup diesel generator rotates at 1800 rpm.<br><br><br><br>• Each cylinder has a stroke of 6.5 inches and a bore of 5.5 inches.<br><br><br><br>• The indicated mean effect of pressure is 300 psi, how much power does the generator produce.<br><br><br><br>• We&#39;re going to use the formula for internal combustion engines to calculate the horsepower produced by the engines, so you can use that search phrase .<br><br><br><br>• It says that the horsepower is equal to the mean effect of pressure, MEP.<br><br><br><br>• Times L, times A, times N, we&#39;ll talk about what each of these variables represents, divided by K, and in the previous example that we did, we were wo.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 75 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

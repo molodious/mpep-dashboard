@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 73 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 73</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 73</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      Steam enters a turbine at a pressure of 1000psia and a temperature of 800°F and exits at a pressure of 90psia and a temperature of 400°F. What is the eciency?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>52%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>67%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>72%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>89%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And it turns out both of those conditions are super heated, so the steam is still super heated at state 2, but it&#39;s give.
+
+2. And at that exit pressure P2, we can look up what SF and SFG would be at 90PSIA.
+
+3. Using the saturated steam table, so search the reference handbook for saturated water and steam, organized by pressure 9.
+
+4. And I&#39;ll skip the units for this part.
+
+<strong>Full Solution:</strong>
+
+Steam enters a turbine at a pressure of 1,000 PSIA and a temperature of 800 degrees, and exits at a pressure of 90 PSIA and a temperature of 400 degrees. What is the efficiency? So we&#39;ve done a fair amount of turbine efficiency problems in previous sections of this program. So I definitely suggest you try this one on your own and just come back here to the solution if you get stuck on something. So as a reminder, we have a turbine, in this case we have two fully defined states. The entering condition we know the temperature in the pressure of 1,800, but I&#39;ll just write T1, P1. Since those are known, and for the leaving conditions, we&#39;ll call that state 1, so state 2. We also know the pressure in the temperature, E2 and T2. And it turns out both of those conditions are super heated, so the steam is still super heated at state 2, but it&#39;s given up quite a bit of its enthalpy. Let&#39;s find out what those enthalpy is on. So for state 1, we have P1 is a thousand, PSIA and T1 is 800 degrees, and if we look in the super heated steam table, we&#39;ll find that H1 is 1389 BTU per pound. And let&#39;s also grab the entropy at state 1. We&#39;re going to need that in a subsequent step, and you&#39;ll see why, 1.567 BTU per pound degrees Fahrenheit. Now state 2 is also fully defined, lower pressure now, 90 PSIA, and the temperature is down to 400, but it&#39;s still high enough for it to be super heated, and we can find the enthalpy at state 2. Now I wanted to distinguish the enthalpy H2 as being the actual enthalpy, because we want to compare that to the ideal enthalpy at state 2, if the turbine was isentropic, even though it isn&#39;t. So I&#39;m going to reserve H2 without the accent mark for the ideal state 2, and H2 with the accent mark will be the actual enthalpy at state 2. So the actual enthalpy at state 2, since state 2 is fully defined, is 1229.3. And where are we going with this? Let&#39;s actually jump to the end. The efficiency of the turbine is going to be the actual delta H compared to the ideal delta H, which is H1-H2 prime over H1-H2. So we know H1, and we know H2 prime. So the only thing we don&#39;t know is H2, which is the ideal enthalpy, if the expansion process, where I is entropic. So S2 equals S1, is our assumption for that. If it&#39;s isentropic expansion, is 1.567. And at that exit pressure P2, we can look up what SF and SFG would be at 90PSIA. Using the saturated steam table, so search the reference handbook for saturated water and steam, organized by pressure 90PSIA, and we find out that SF is 0.4643. And SFG is 1.1474. So that allows us to find the quality for the ideal state 2, which we can then use to find the enthalpy. So the quality for the ideal state 2 is S2-SF over SFG. And I&#39;ll skip the units for this part. So it&#39;s going to be 1.567-0.4643 over 1.1474 would be a quality of 0.961. So let&#39;s just talk about what happened for a minute. In an ideal world, the expansion would have dipped into the saturated range. It would have had a quality less than 1, which is to say it would have started to condense. But in fact, it didn&#39;t get quite that far. It was still superheated at state 2. Not that much enthalpy had been removed through the expansion in the actual case. So that&#39;s interesting to note. And then how do we find the enthalpy based on the quality? We can say H2, and this is H2 ideal now, is HF plus the quality at state 2. Times HFG, and those numbers would need to be looked up in the same row of the steam table as these. So let&#39;s grab those as well. HF and HFG, or 90 PSIA, HF is a 290.76. And HFG is 894.9. Now let&#39;s get those plugged in. 290.76 plus 0.961 times 894.9. It gives us an H2 of 1150.7. And that&#39;s BTU per pound. And now we&#39;re ready to find the efficiency. So H1 minus H2 prime is 1389 minus 1229.3. Over 1389 minus 1150.7. And everything&#39;s got units of BTU per pound. So don&#39;t worry about that. That works out to be 0.67. So about 67% for the efficiency. Best answer choice is B.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Steam enters a turbine at a pressure of 1,000 PSIA and a temperature of 800 degrees, and exits at a pressure of 90 PSIA and a temperature of 400 degre.<br><br><br><br>• So we&#39;ve done a fair amount of turbine efficiency problems in previous sections of this program.<br><br><br><br>• So I definitely suggest you try this one on your own and just come back here to the solution if you get stuck on something.<br><br><br><br>• So as a reminder, we have a turbine, in this case we have two fully defined states.<br><br><br><br>• The entering condition we know the temperature in the pressure of 1,800, but I&#39;ll just write T1, P1.<br><br><br><br>• Since those are known, and for the leaving conditions, we&#39;ll call that state 1, so state 2.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 73 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 2 · Problem 56 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 2 · Problem 56</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 56</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A uid with a specic gravity of 1.1 is pumped by a 150hp pump which generates 300ft of head. What is the increase in pressure observed at the pump outlet?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>130psi</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>143psi</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3300psi</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>20,600psi</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. A lot of times we don&#39;t get into this detail when we&#39;re dealing with water because we can just multiply the delta p by 2.
+
+2. We can divide the feet of head by 2.31 feet per psi and quickly immediately convert to pressure units.
+
+3. But technically, if we&#39;re dealing with something that is not water, then we have to write this equation in order to go f.
+
+4. We end up multiplying by 144 square inches per square foot.
+
+5. We&#39;re actually going to do what&#39;s underneath that with the non unity specific gravity and see how it plays out in the si.
+
+6. So the magnitude of g and g sub c cancel out and only the units change, which is why so often we take the liberty of goi.
+
+<strong>Full Solution:</strong>
+
+A fluid with a specific gravity of 1.1 is pumped by a 150-horsepower pump which generates 300 feet of head. What is the increase in pressure observed at the pump outlet? So the increase in pressure is really just a function of the feet of head, added by the pumps. If the pump generates 300 feet of head, then that is going to directly drive the delta p, depending on the specific weight of the fluid and the fluid is not water. It&#39;s some other fluid with a specific gravity of 1.1. So what&#39;s the relationship between head added and delta p? Well delta p equals gamma h, the specific weight times the head added. A lot of times we don&#39;t get into this detail when we&#39;re dealing with water because we can just multiply the delta p by 2.31 to get the feet of head or vice versa. We can divide the feet of head by 2.31 feet per psi and quickly immediately convert to pressure units. But technically, if we&#39;re dealing with something that is not water, then we have to write this equation in order to go from pressure units to feet and back. And basically what this requires us to do is get the specific gravity involved. Now why is that? Well if this was water, it&#39;s specific weight would be 62.4. And then it&#39;s the conversion factor from the square inches to square feet. We end up multiplying by 144 square inches per square foot. And it&#39;s the 144 over 62.4 that equals 2.31. So that&#39;s where that conversion factor comes from. So now we&#39;re going to unpack that. We&#39;re actually going to do what&#39;s underneath that with the non unity specific gravity and see how it plays out in the situation. So what is the specific weight of this fluid? Well in general, specific weight is equal to rho g over g sub c. So the magnitude of g and g sub c cancel out and only the units change, which is why so often we take the liberty of going back and forth between density and specific weight. Let&#39;s go back to talking about water for a minute. We would say the specific weight is 62.4 pound force per cubic foot and the density is 62.4 pounds mass per cubic foot. And we just take the liberty of going back and forth and we don&#39;t have to write g and g sub c every time we know that the density has to be pound mass and the specific weight has to be pound force. So that&#39;s fine. We don&#39;t have to go into that. What we do have to address is the definition of the specific gravity. And you can find this in the reference handbook by searching for specific gravity. So we&#39;ll tell us that sg equals gamma over a gamma sub w, which is for water. So the specific weight for any fluid divided by the specific weight of water gives you the specific gravity. So for example, in our case, we have a specific gravity of 1.1. Then the specific weight is 10% more than the specific weight of water. So let&#39;s rearrange this algebraically and say that the specific weight of this fluid that we&#39;re dealing with 1.1 is going to be specific gravity times. The specific weight of water, which is 1.1 times the specific weight of water, which we know is 62.4 pound force per cubic foot and we could quantify that. But I&#39;m actually just going to plug it into the final equation at the end. But this would certainly be true. So now if we take this expression, specific gravity times the specific weight of water, we can plug this in, substitute that in for gamma. So now we&#39;re saying that the delta p pressure units, pressure added by the pump, is going to be the specific gravity times the specific weight of water times the head added by the pump in feet. And now we&#39;re ready to plug in. So delta p is 1.1 times this is just repeating what I wrote over here. I was getting out of myself. 62.4 pound force per cubic foot times the head added by the pump 300 feet. And we want the final answer in PSI pound force per square inch. So we have to do that conversion factor now, 1 square foot over 144 square inches. So what happens? We&#39;re going to get feet times feet squared is feet cubed. So that cancels with these feet cubed.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A fluid with a specific gravity of 1.1 is pumped by a 150-horsepower pump which generates 300 feet of head.<br><br><br><br>• What is the increase in pressure observed at the pump outlet.<br><br><br><br>• So the increase in pressure is really just a function of the feet of head, added by the pumps.<br><br><br><br>• If the pump generates 300 feet of head, then that is going to directly drive the delta p, depending on the specific weight of the fluid and the fluid .<br><br><br><br>• It&#39;s some other fluid with a specific gravity of 1.1.<br><br><br><br>• So what&#39;s the relationship between head added and delta p.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems · Practice Exam 2 · Problem 56 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
