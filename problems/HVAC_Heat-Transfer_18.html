@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer · Problem 18 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Heat Transfer &middot; Problem 18</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 18</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      In the summer, a warehouse is maintained at 72◦F by several chilled beams supplied with 58◦F chilled water which returns at 65◦F. Treating the chilled beam coil as a heat exchanger, what is the log mean temperature di(cid:27)erence?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>7◦F</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>10◦F</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>11◦F</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>14◦F</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from Heat Transfer apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the Heat Transfer chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this Heat Transfer problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within Heat Transfer are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in Heat Transfer problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 02</div>
+      <div class="qa-question"><strong>Q:</strong> Where is the equation W equals p delta v come from?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 15 | May 28, 2021 transcribed_at: 2026-03-14T22:07:45.768104 Okay, thermal 12. Where is the equation W equals p delta v come from? I see a constant volume process. In the equation you see W equals v delta p, but not p delta v. So I found the formula for you. It&#x27;s in this section here. This is just a snip from the reference handbook. It&#x27;s for dot 3 dot 1 dot 1. So there it is. However, I wanted to add try not to focus too much on j...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 05</div>
+      <div class="qa-question"><strong>Q:</strong> So inside the vapor dome, can you guys see my mouse by the way, if I&#x27;m pointing like this?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 18 | July 16, 2021 transcribed_at: 2026-03-14T22:13:28.362584 Thermal 22, the temperature range is zero to 80 degrees. The solution provided indicates 80 degrees corresponds to saturated liquid state 3, but I thought the range would include the state which would have a higher temperature state 2, and therefore would need to find state 2 at 80 degrees. When temperature range is listed in the problem, is it assumed the range is cond...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 05</div>
+      <div class="qa-question"><strong>Q:</strong> How did you calculate the specific volume for the initial condition in problem 1?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 18 | July 16, 2021 transcribed_at: 2026-03-14T22:13:01.168504 system 2. How did you calculate the specific volume for the initial condition in problem 1? I thought it would need to be between 12.085 dry and 12.12.1227 saturated, but the solution has 12.16 cubic feet per pound. I calculated 12.106 taking half of the, yeah, taking the average basically in the 20. Similar to how we calculate humidity ratio. I took a look at this one,...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 06</div>
+      <div class="qa-question"><strong>Q:</strong> Then what&#x27;s going on on the inlet side?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 10</div>
+      <div class="qa-question"><strong>Q:</strong> Is this something I need to improve on or will there be a more accurate way to read this data on the new CBT exam?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 23 | October 08, 2021 transcribed_at: 2026-03-14T22:58:22.204069 The remote 21, I&#x27;m having trouble with accuracy when having to read the data from the pressure versus enthalpy curves. I&#x27;m trying to reproduce the exam conditions, so I&#x27;m reading the data straight from the screen without PDF tools. For question 21, below are my values versus the correct values. This makes my answer far off from the correct answer, but the correct ans...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 22</div>
+      <div class="qa-question"><strong>Q:</strong> Does this problem solution have a underlying theory that is important for us to learn?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 35 | May 2, 2022 transcribed_at: 2026-03-14T22:44:54.241803 Thermal 8. There&#x27;s a chart in the P-AM book that has the glycol percentages in a chart and can get the answer faster. The answer in the solutions explains in detail how to get the answer. Does this problem solution have a underlying theory that is important for us to learn? Because while I can follow the solution it will take much more time on the exam to complete it usin...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 23</div>
+      <div class="qa-question"><strong>Q:</strong> Perhaps I&#x27;m overthinking this, however, why are we using the specific volume of state 1 versus state 2?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 36 | May 16, 2022 transcribed_at: 2026-03-14T22:45:38.993324 All right, psychometrics 9. Perhaps I&#x27;m overthinking this, however, why are we using the specific volume of state 1 versus state 2? Yeah, this is a problem that comes up for pretty much everyone when they&#x27;re studying for this exam. So I&#x27;m just going to draw a simple case which is suitable for this problem, psychometrics 9, but it&#x27;s also really typical case as well. So im...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 27</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-37347859
+
+HVC Solutions 48 says the static pressure will be increased by an inch and a half or a gauge meaning.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 40 | July 25th, 2022 transcribed_at: 2026-03-14T22:51:54.363422 HVC Solutions 48 says the static pressure will be increased by an inch and a half or a gauge meaning. New pressure will be two times one and a half equals three inches or this question means to add two plus one and a half equals three and a half. Both give different answers and are both choices. Please clarify. It&#x27;s the latter. Just to read it exactly the way they wro...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 28</div>
+      <div class="qa-question"><strong>Q:</strong> Why wasn&#x27;t the Darcy equation used for fluid flow in conduits?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 41 | August 8th, 2022 transcribed_at: 2026-03-14T22:52:28.898447 Systems in Caponets 21. Why wasn&#x27;t the Darcy equation used for fluid flow in conduits? I use this formula and got 0.185 inches of water gauge. So first of all, thank you for showing your work. Really appreciate when when folks do that, it helps me kind of just sense check your process and this all looks good. So I want you to know both ways. So earlier in the module ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 34</div>
+      <div class="qa-question"><strong>Q:</strong> What we use the continuity equation, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 36</div>
+      <div class="qa-question"><strong>Q:</strong> I always give the same answer to this question which is like Do your best the best answer I&#x27;ve ever seen to this question on reddit was a guy who said to hold your paper up to the screen From your SHR line on the protractor and then keep the paper just hold it and then scroll the whole page up or down To get it even with your your state point on the site chart and then use your line tool to draw straight line So did it last put again?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 49 | November 28th, 2022 transcribed_at: 2026-03-14T23:06:53.606887 This one was about that everyone&#x27;s favorite question. This is actually my number one most popular YouTube videos about this is that question In someone help draw more accurate line on the SHR protractor in context of the problem You calculate in .73 which is correct, but you&#x27;re getting an ADP of 46 or 47 and I&#x27;m getting 44 and then We kind of diverge from there. S...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 38</div>
+      <div class="qa-question"><strong>Q:</strong> Yeah, so there&#x27;s not really a question here, but I think excuse me, the question is, why isn&#x27;t that correct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 51 | January 30th, 2023 transcribed_at: 2026-03-14T23:10:39.655811 HVAC, full practice exam number two, problem 31. I tried using the latent heat gain equation to solve for CFM by equating that to the four pound per minute, converted to B2 per hour. This problem was about ventilating a pool room, where there was a evaporation from a swimming pool, and we&#x27;re trying to figure out the quantity of air to dehumidify the room. And the q...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 44</div>
+      <div class="qa-question"><strong>Q:</strong> Is that in the book?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 45</div>
+      <div class="qa-question"><strong>Q:</strong> Ultimately, in engineering, the only thing that matters is the final result that either works or it doesn&#x27;t, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 58 | May 8th, 2023 transcribed_at: 2026-03-14T23:18:42.298218 Let&#x27;s get started with the first one, which was from the thermo module with NTFS. Number 16. The formula used to find Qn is m.deltah plus W out, but it seems like in your solution you did m.deltah with the exit and inlet entail piece interchange. I got the answer A by doing it the other way, that I get my figures backwards. I think so, and I probably caused some confusi...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46</div>
+      <div class="qa-question"><strong>Q:</strong> Am I over thinking this or would you need to know the FCU configuration solve this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 59 | May 24th, 2023 transcribed_at: 2026-03-14T23:23:37.953991 And also from past exam two, this is number 67. For this question, you draw the fan to the right of the cooling and reheat coils. So this was a situation where there&#x27;s some reheat coil dedicated electric reheat coil. And the fan itself is doing a little bit of reheat as well, driving one degree of temperature increase in addition and there&#x27;s a cooling coil. My understa...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 51</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain more how that is possible?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 64 | July 31st, 2023 transcribed_at: 2026-03-14T23:59:07.497528 Next up, Psychometrics 13. The problem immediately prior to this one, Psych 12, was about an air washer, which you said must cool air along the line of constant weapon. Assuming that the cooling tower in this problem operates on the same principle as the air washer, I thought that it would also cool along a constant weapon of AK weapon, the entering air, equals weapon...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 53</div>
+      <div class="qa-question"><strong>Q:</strong> Is there anything wrong with that?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 66 | August 28th , 2023 transcribed_at: 2026-03-15T00:56:30.773931 Next up we have psychromatrix 3. Rather than using the specific volume at the first condition, I use the standard density of air and water to convert the humidity ratio into cubic feet of water per cubic feet of air. Is there anything wrong with that? So I took a look at this one. This problem is about a humidifier and we&#x27;re trying to humidify a room of a known vol...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 56</div>
+      <div class="qa-question"><strong>Q:</strong> Do you agree that the question is misleading?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-50455663
+
+Next up, Thermo21, trying to solve this problem by looking at values from the table, not sure which temperature should be used, what are bubble and due temperatures, and when can we use it?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 59</div>
+      <div class="qa-question"><strong>Q:</strong> Should I just be committing to memory that he transfers thermal conductivity K can go by different variables and the reference manual?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 72 | January 8th, 2024 transcribed_at: 2026-03-15T00:19:49.481982 He transfer 15. On this problem, I noticed that you used Lambda from the low pressure air table. It was noted as the thermal conductivity, but very annoying that it isn&#x27;t just listed as K, dim thermal world interfering. Yeah. Should I just be committing to memory that he transfers thermal conductivity K can go by different variables and the reference manual? Yeah. N...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 60</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-52345700
+
+Okay, HVSC4, why are we using the specific volume at the outdoor condition?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 73 | January 22nd, 2024 transcribed_at: 2026-03-15T01:00:22.326647 Okay, HVSC4, why are we using the specific volume at the outdoor condition? I use the indoor condition initially in a Rami and the wrong direction. Yeah, this was an outdoor air handler where the outside conditions were very cold and dry. And my answer is the same as it always is for these questions, which is always use the entering conditions. Always use the enter...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> I then finished the solution video and realized the ideal gas law is my approach wrong or is that an alternative way to get the mass?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:27:39.606806 Okay, thermal 12, we got a two-part question. I peaked at the solution to see which equation to start with using the Charles Law equation under 4.3.1. It made sense, so I stopped the video there. I was able to follow and get work equals 1.7.1B2 per pound. From there I use density equals mass over volume using table 1.2.1 and interpolating for 95 degrees. I got a dens...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> In the video, I make that statement that term would get smaller, where did you say that?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:28:15.747351 Loads 21. I&#x27;m still a bit confused on Flutes 21 when calculating the Delta P term in the Bernoulli equation. If you take out the specific gravity term of 1.1 from the denominator, your Delta P term gets larger. This makes sense because water is less dense than the fluid with specific gravity 1.1. The video mentions the term getting smaller. When I calculate this with...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> Where in the Reference Handbook is that located?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:29:48.313368 All right, next one was HVC 11. In your video, you said there&#x27;s a formula for work. Equals Air Horse Power. Q times delta P over 60, 356. Where in the Reference Handbook is that located? And what is the search term? If you ever want to know the search term for something I&#x27;m finding, if I don&#x27;t say it out loud in the solution video, I usually do. But if I don&#x27;t, then ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 65</div>
+      <div class="qa-question"><strong>Q:</strong> To answer your question, is it okay to use the table instead of the PH diagram that is an emphatic?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 78 | April 1st, 2024 transcribed_at: 2026-03-15T00:31:58.146044 Next up we have Thermo 21. I was able to solve this problem and ended up with a COP of 4.385 closest answer being A. I looked at your solution and I did the problem in a slightly different way and I wasn&#x27;t sure if my approach was correct or I got lucky. For starters, I only used the P versus H chart for R410 to get the enthalpy at state 2. For state 1 and 3, I used th...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 66</div>
+      <div class="qa-question"><strong>Q:</strong> Why is it okay to assume that the outside air in the problem doesn&#x27;t have a latent component?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 79 | April 15th, 2024 transcribed_at: 2026-03-15T00:32:37.743120 Okay, thermal 11. Why is it okay to assume that the outside air in the problem doesn&#x27;t have a latent component? This is something I&#x27;ve struggled with because it seems like a 50-50 chance using the sensible heat formula versus some other component I&#x27;m missing that indicates the total heat formula should be used. In the real world, wouldn&#x27;t outside air virtually always...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 76</div>
+      <div class="qa-question"><strong>Q:</strong> So how do we calculate the input electricity while we&#x27;re going to divide?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 79</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-61282512
+
+I think this one referred to, where&#x27;s the problem statement?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 82</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-62413720
+
+HVSC 19 and your solution I understand why we multiply the inches by the provided, but isn&#x27;t R equals L over K.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 97 | February 3rd, 2025 transcribed_at: 2026-03-15T01:15:03.590787 HVSC 19 and your solution I understand why we multiply the inches by the provided, but isn&#x27;t R equals L over K. This was a problem about like a composite wall type situation. And S here right, R equals L over K, but these values are not K. And the problem of conductivity. So it&#x27;s just a bit of terminology. And you almost don&#x27;t need the terminology because you alrea...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 83</div>
+      <div class="qa-question"><strong>Q:</strong> How do you make these determinations properly?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 98 | February 17th, 2025 transcribed_at: 2026-03-15T01:18:24.340527 Prats Exam number 18. You&#x27;re probably 14. You used standard atmospheric pressure, but on 18, you used 80 degrees. How do you make these determinations properly? These two problems that are being referenced here asked for, I actually did deal with the moisture load, the latent load, of some amount of steam that was entering the room. And a good number to remember f...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 84</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-63254300
+
+HVSC6, why does the infiltrated air in this problem get taken into consideration as a part of the total cooling delivered by the ventilation system?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 99 | March 3rd, 2025 transcribed_at: 2026-03-15T01:20:03.651940 HVSC6, why does the infiltrated air in this problem get taken into consideration as a part of the total cooling delivered by the ventilation system? Isn&#x27;t infiltrated air defined as air that enters the building via miscellaneous means, such as open doors, open windows, and building leakage? I would normally assume that this gets treated separately than air brought in ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-65284245
+
+Practice Exam 39 are the equations for thermal expansion given anywhere in the manual or is this just one that needs to be memorized?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 102 | May 13th, 2025 transcribed_at: 2026-03-15T03:33:52.597273 Practice Exam 39 are the equations for thermal expansion given anywhere in the manual or is this just one that needs to be memorized? So thermal expansion, there&#x27;s a table in the reference handbook 1.2.12. And that gives a bunch of the coefficient of linear expansion values for different metals and things. So that&#x27;s the value of this alpha coefficient of thermal expan...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 89</div>
+      <div class="qa-question"><strong>Q:</strong> Can you solve this question using this equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 104 | June 9th, 2025 transcribed_at: 2026-03-15T03:40:44.419654 Okay, he transferred 10. I did the question using the RX over our total equation from the handbook and got 4.5 degrees F for the temperature. Can you solve this question using this equation? Yes, absolutely. So I looked at it a little bit differently. I don&#x27;t like sometimes just plugging and chucking on an equation because I&#x27;m nervous that I don&#x27;t understand all of th...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 90</div>
+      <div class="qa-question"><strong>Q:</strong> How do we know that the 25 PSI A Steam is condensing?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This question was discussed during the live Office Hours session. Review the recording for Dan&#x27;s complete explanation.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> Am I looking at the right table?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 107 | July 21st, 2025 transcribed_at: 2026-03-15T03:52:17.020400 Alright, first one&#x27;s from Thermo 2. Number 6.2. You show CP units of BTU per pound ranking. The reference time book table 1.2.7 properties of air, low pressure, has units of BTU per pound degree Fahrenheit. Am I looking at the right table? Yes, you are looking at the right table. It&#x27;s okay regardless of which unit is used there. Whether it&#x27;s ranking or Fahrenheit, be...</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Heat Transfer &middot; Problem 18 &middot; 1 OH session &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
