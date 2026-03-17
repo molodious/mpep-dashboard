@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 1 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 1</span>
+  <span class="nav-badge">⭐ 20 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">20 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 1</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A fan supplies air through a 12in by 18in rectangular sheet metal duct with 1in berglass insulation. The duct run is 15ft long. Local octave band measurements of the sound power level for the fan are 125Hz, 95dB; 250Hz, 94dB; 500Hz, 92dB; 1000Hz, 90dB; 2000Hz, 85dB; 4000Hz, 69dB. What is the expected sound power level for the 1000Hz octave band at the end of the duct run?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>35dB</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>52dB</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>69dB</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>86dB</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So first of all, we know that for the 1000 Hertz octobane, the sound power level is 90 decibels.
+
+2. So that&#39;s our starting point.
+
+3. So in order to find the insertion loss, which are the losses based on having this insulation, we can search the referenc.
+
+4. And you&#39;ll find the table there for 1 inch insulation, and we can look up the dimensions of the duct, and it&#39;ll tell us.
+
+5. And then based on that, all we need to do is multiply by the length of the duct.
+
+6. So it&#39;s as simple as multiplying those two together.
+
+<strong>Full Solution:</strong>
+
+A fan supplies air through 12x18 inch rectangular sheet metal duct with 1 inch fiber glass insulation. The duct run is 15 feet long, local octobane measurements of the sound power level for the fan are, and it gives the decibels for each octobane in Hertz. What is the expected sound power level for the 1000 Hertz octobane at the end of the duct run? So first of all, we know that for the 1000 Hertz octobane, the sound power level is 90 decibels. So that&#39;s our starting point. That&#39;s just based on a measurement taken from the fan. But now we&#39;re going to have some reduction in the sound power level based on the fact that we have 1 inch fiber glass insulation in this duct, and we know the dimensions of the duct. So in order to find the insertion loss, which are the losses based on having this insulation, we can search the reference handbook for insertion loss for rectangular sheet metal ducts. And you&#39;ll find the table there for 1 inch insulation, and we can look up the dimensions of the duct, and it&#39;ll tell us exactly for each octobane, what the reduction is in decibels per foot. So if you look in that table, you&#39;ll find that the reduction for the 1000 Hertz octobane based on these dimensions for 1 inch fiber glass insulation is 3.7 decibels per foot. So find that table, make sure you&#39;re able to come back with that value. And then based on that, all we need to do is multiply by the length of the duct. We&#39;re going to get 3.7 decibel reduction for every linear foot of duct, and in our case, we&#39;ve got a 15 foot duct run. So it&#39;s as simple as multiplying those two together. Feed cancel, we end up with 55.5 decibels, and that&#39;s going to be the reduction that&#39;s observed, so we can subtract that from the original. And that&#39;ll give us the sound power level at the end of the duct run. That&#39;s 34.5 decibels, best answer choices A.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A fan supplies air through 12x18 inch rectangular sheet metal duct with 1 inch fiber glass insulation.<br><br><br><br>• The duct run is 15 feet long, local octobane measurements of the sound power level for the fan are, and it gives the decibels for each octobane in Her.<br><br><br><br>• What is the expected sound power level for the 1000 Hertz octobane at the end of the duct run.<br><br><br><br>• So first of all, we know that for the 1000 Hertz octobane, the sound power level is 90 decibels.<br><br><br><br>• That&#39;s just based on a measurement taken from the fan.<br><br><br><br>• But now we&#39;re going to have some reduction in the sound power level based on the fact that we have 1 inch fiber glass insulation in this duct, and we .
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">20 questions from 20 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 45 · October 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 45</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, HVAC practice exam number eight. Practice exam one number eight. I went a different route and calculated the mass flow ratio and multiplied that by the initial CFM. Answer came out to 2293 CFM. Initial density was one over V from the steam table. I reviewed your answer and understand that you used ideal gas equations to determine the ratio, but I do not understand why mass flow rate wouldn&#39;t work. Is it because it does not incorporate the pressure rise? So this is a situation with a compressor and we know the CFM and we want to know what the standard CFM would be. So I&#39;m not sure why we&#39;re using the steam table, I guess. That&#39;s my question to this question. Because we&#39;re dealing with air, alright, it&#39;s an air compressor. So a little confused there. I don&#39;t know if anybody wants to chat or type to kind of shut some light on that, but the approach that was used here was to take the actual CFM at these conditions. And then it&#39;s not really ideal gas, but I kind of thought about that after this question came in. Maybe that is a good way to think about it. And it kind of ties into that problem we&#39;re talking about before. So let&#39;s try on that idea. Imagine we have the same relati</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 45 · October 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 45</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, another one from the Pratt&#39;s exam number 55. HF is friction loss or head loss. No distinction. No distinction for me. Open to a follow-up question on this one, but I&#39;ve been using those terms interchangeably and pretty freely. I guess not all head loss is caused by friction, but I think that&#39;s really a corner case that. Yeah, actually, damn, I had this, this is my question. So what happened is initially when I was doing the problem, right? So I actually had 40 feet on this H, like HA, I got a little confused about HA and HF, right? So I was doing the problem in a understanding that like HA should be 40, then I got it like, you know, messed up. So that&#39;s why I raised a question. But I actually like, I have to, what do you call it? Was did we do it over again for? Okay, okay. All right, yeah, I mean, yeah, hopefully the video. And even just this, this screenshot, right? Of kind of saying, all right, HF, usually in the video, I&#39;ll kind of talk through and I&#39;ll check it off. Like, okay, you know, head loss is given 40 feet check, you know? So you just kind of, and I think this is the process of studying, right? We&#39;re going through the problems. A lot of information here, rig</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 45 · October 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 45</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> practice exam one number 70 is there any relation between quality of steam and efficiency steam quality one means 100% gas. I have to consider HG on the properties of saturation table right. Followed question on 23. So there&#39;s three questions here. You sent the question about 1170 and we can talk through this problem if you want. But then you sent a snap which was about steam traps. Yes. A related question that&#39;s about a heat exchanger. Yes. Actually what happened is when I was solving the problem right. So this problem I had because my first question was like if the steam quality is 100% steam right. So I tried to like sneak it&#39;s not like I didn&#39;t see the solution video first. But I went to the super heated what do you call like steam table right and somehow use that the following formula right on this one right. But this H liquid right I just like what you call like forcefully inserted what you call saturation temperature like not the super liquid. The saturation steam table or something. The HF value right and I got the answer correct. But the problem happened is that that&#39;s why I was a little confused about the steam table. I&#39;m sorry the quality of steam. So that&#39;s why I I ask </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 58 · May 8th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 58</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, this is a long one. Travis, can I hand you the ball here and you can kind of either read this or summarize it for us as you go? I think it was a good question. I just be good to hear another voice here. Yeah, absolutely. So, I&#39;m sorry, it&#39;s so long. I just said that&#39;s okay. Honestly, the, all right, so basically my question has to do with the process lines for air washers. And so I just wanted to verify. So, I read a source that basically said the way that you treat an air washer is you, you take the temperature of the water. And you take that as 100% saturation. So you, you put that point on the saturation curve of the psych chart. And then the process line is going to be the point of the air existing air on the psych chart connected to that point on the process line. And you know, like, like always the, the distance traveled the process line will depend on the efficiency of the air sprayer. And so what kind of threw me off on this was in the problem you were saying that basically all that&#39;s really happening here is that the water&#39;s heating the air. And so I think that my, I just wanted to make sure that this understanding of how you draw a process line for, for an air washe</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 66 · August 28th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 66</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Alright, we&#39;re moving pretty fast here just a couple left. This one&#39;s from practice exam number one, and I believe the next one&#39;s also from practice exam number one. It&#39;s about question 24, and this one was about air undergoing compression. Why is the enthalpy listed in the air tables or air-low pressure tables so much higher than that found in a psychometric chart? The problem deals with air entering a compressor of the age of degrees, which has an enthalpy of 129 B2 how is that possible when the thermodynamic properties of moist air indicate saturated air only has an enthalpy of 43.7 B2 per pound, and dry air is only 19.2 B2 per pound to 80 degrees. How do we know when to use air-low pressure tables versus thermodynamic properties of moist air? Yeah, this is enough to drive you nuts, huh? So I&#39;m gonna let you in on a little secret. The enthalpy values in the low pressure air table, right? Air-low pressure are not really reliable values in terms of the absolute magnitude of those numbers. What they are are useful for relative comparison between two states. They&#39;re very reliable for that. It&#39;s almost like measuring heights with people standing on a staircase, right? We can&#39;t compar</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 66 · August 28th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 66</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And the last submission was the full-press exam 1, number 58. My question is regarding the amount of precision expected on the actual PE exam. For this question, I calculated very similar enthalpy values. And the fever returns 30 and a half. The outside air enthalpy is 38.6 and the supply enthalpy is 25. With these, I ended with a mixed enthalpy value of 31.3, carrying this through the formula resulted in answer 17.6 tons, answer choice C. Do I need to significantly improve my line drawing abilities, or are these answer choices simply too close together? So I took a look at this one for you. And I know you submitted your lines, your lines look fine. And I agree with all of the values that you selected, except for the room enthalpy, which is this one here. The line looks fine. But for some reason, you said that this is 30 and a half. And I think what you meant is that it&#39;s halfway between 30, flat, and the first tick mark, which would be like 30.2, or maybe you think it&#39;s a quarter or the way. So then it&#39;d be 30.05. So it&#39;s 1.20 of the way between 30 and 31. I could buy that. If you said that this was 30.05, I&#39;m rolling. But not 30.5 because that would be considerably closer to the </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 68 · September 25th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 68</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Well, practice exam one number 22. I understand conceptually what you&#39;re getting at in this problem. I found an alternative solution that actually results in a higher heat gain than you calculated. In the reference handbook, there&#39;s a table average efficiencies representing typical electric motors per NEMA for a 1.5-horsepower motor where both the motor and driven equipment, which is the case in this problem. The heat gain is 4400BT per hour, which would be 226BT for a half hour per this problem, which is a bit higher than your analysis. I would think this is a result of the inefficiency of the motor itself, as listed. If there were a problem on the exam like this, would you think this is a valid way to solve the problem using the reference handbook? So this problem was about a motor driving a fan. Or a motor, a motor driving some equipment where the heat gain was in the room. Yes, I think that using the table as you did is good. I think you&#39;re absolutely right. It is the efficiency that&#39;s causing the delta between my solution and the way you did it. I didn&#39;t assume any efficiency, so I just left it to be, you know, no other information given. So I just assumed that you would figur</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 68 · September 25th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 68</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Rats exam 1, number 52. I use the affinity laws to find that the square of the volume flow rate is proportional to pressure drop. I wasn&#39;t sure if the affinity law applies here, since it&#39;s a coil and not a pump, you use the Bernoulli, which seems to result in the same equation. I mostly understand how used Bernoulli, but it was not something I would have thought of on my own, was my method valid. So this one was about pressure and volume going through a coil. And yeah, your approach definitely was valid. We actually arrived at the same fundamental solution, me coming from Bernoulli and you coming from the affinity laws. But yeah, I like the way you did it. It&#39;s actually pretty simple and elegant. If basically just using the idea, I think coming back to the basics here, we know that from the affinity laws, that volume flow rate, you want to over Q2, is linear with speed, so n1 over n2. And then pressure, P1 over P2, goes with the square of the speed. They present this a little bit differently in the reference handbook, but I think these are just things that you should remember. And then power, W1 over W2 goes with the cube of the speed. We don&#39;t need that one for this, but just for </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 68 · September 25th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 68</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Full Prats Exam 1, number 40. The first Prats Exam, the specific key capacity is given, but it does not say if it is CP or CV, I assume it&#39;s CP as none of the problems I have done have every CV for the key equation when it&#39;s CV used. The distinction between CP and CV, CP is for constant pressure, heating or cooling. CV is for constant volume heat change. It is a thing, it doesn&#39;t come up as much, you&#39;re right, but technically the idea that QEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQ is relatively constant for most liquids, so not completely constant, or even with water, but you need a significant amount of temperature change before the density changes. So if we take the density as being relatively constant, then that means the volume isn&#39;t going to change very much as we hear cool. So that is to say that if the density is constant, is then the volume is constant, ish, right? So we don&#39;t end up using CV for liquids, not for liquids in general. But we could definitely use it for gases. So I would say the time that would be most </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 68 · September 25th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 68</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And exam two number 63. Can you explain why in this problem? You need to convert to PSIA. Oh, this isn&#39;t from my exam. This is from the NC exam. All right. There&#39;s a similar problem on NC&#39;s practice exam. Oh, I see it&#39;s comparing my problem to an NC&#39;s problem, which solves it using the maximum operating gauge pressure to find the enthalpy of saturated steam. Yeah, so in my problem, I look up the enthalpy of steam with the pressure in PSIA. And in this problem, that&#39;s on the left. In this problem, the NC&#39;s problem is on the right. They look up the pressure. The enthalpy corresponded to the pressure at 250 PSIA G. And I think that&#39;s wrong. So I think you have to use PSIA. And the only reason that I got away with it is because the enthalpy at 250 PSIG is only, it&#39;s a very, very tiny percent. It&#39;s like 12.1 versus 12.03 or something like that. So it&#39;s not even close to 1% difference. So they get away with it. But technically, that&#39;s not correct. They sometimes have, I&#39;ve seen steam tables that are organized by PSIG, but the one in the reference handbook is organized by PSIA. So you really want to make that conversion first. And you would look to suck at, let&#39;s say, 265 PSIA. And that w</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 71 · December 18th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 71</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> We&#39;ll practice exam number one problem 45. The equation you are using to find water horsepower is at 68 degrees. At 120 degrees, water&#39;s density is different. I believe that we should be using break horsepower equals GPM times head time specific gravity and putting 0.808 for specific gravity of water at 120. So I agree that the density of water is a function of water&#39;s temperature. That&#39;s absolutely true. However, I do not agree that at 120 degrees, the specific gravity is 20% lower. That&#39;s far too dramatic of a correction. So the density at 120 compared to the density at, what was it, 80, 68, which is standard? This is going to be a little bit greater. But we&#39;ll be greater or less. Warmer water lowered density, a little bit less. But that difference is going to be not even 1%. And you can check that. So I&#39;m not sure where the point A is coming from for specific gravity. I think the water would have evaporated before it got to. If it was liquid water, the density is going to be very stable for a long time. And so you get the very high temperatures. And then eventually you&#39;re going to have phase change. So yeah, I think for higher temperatures, you do want to start to take this into</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74 · February 5th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 74</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And an HVAC full practice exam number one problem 74. There are several refrigeration questions that always give a capacity in BTU per hours or tons. Does that always apply to the evaporator? Are there any cases where that would apply to the condenser? See the attached example problem? So this example problem was a refrigeration cycle with a cooling capacity given in tons. And this other example was a heat pump operating and cooling mode where the capacity is given in refrigeration tons. So the answer is if it&#39;s given in tons, yes, it always refers to the evaporator because the problem is about refrigeration or air conditioning or heat pump that&#39;s being operated in cooling mode. So it&#39;s about refrigeration cycle in all those cases. If it&#39;s a heat pump being operated in heating mode, then we would not refer to the capacity in tons. We would have to say BTU&#39;s per hour in that case. And it&#39;s also worth reminding that the capacity of the heat pump operating and heating mode is going to be not only stated in different units, that&#39;s to be BTU per hour instead of tons. And by the way, the cooling capacity could be stated in BTU per hour or tons. But just the fact that it&#39;s stated in tons </div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 77 · March 18th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 77</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> I did have one more question at the end. Sure. This is the answer, so, thank you. So, the question is, which is, this one&#39;s very applicable. I talked about the 80% rather principle, but it&#39;s problem nine on the practice exam one. It&#39;s about a pipe that diverges its parallel piping. You put in a equation where the head loss is equal to branch A to branch B. And for some reason, my wire to this cross, and I can understand how in parallel piping the head loss could be the same. If branch A is a straight run. And branch B has elbows and reality actually has valves and pressure gauges and all that stuff. If you want, I can share my screen, but I&#39;m not sure. I&#39;m not sure. I think we&#39;re just going to kind of hit the concept there because that&#39;s all this is a concept. So, we got two parallel piping paths. Now, had I drawn them to look the same like that? No. I did. But if I had, I&#39;m asking. Would you have been more comfortable with the idea that had loss would be equal? Yeah, if they&#39;re exactly the same like mere copies of each other, sure. Right. Okay. So, there&#39;s some volume flow rate going. It&#39;s kind of split. Maybe it&#39;s going to split 50, 50, and the pressure loss would be equal and th</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 78 · April 1st 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 78</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Next up we have full price exam number one problem 22. Can we solve this problem by using the formula mentioned in the handbook for temperature rise across fan. I went with that approach and still got the answer. See my solution. And you provide the formula here in the reference handbook for anyone that&#39;s looking for this. And the answer here is yes, absolutely. You can use that formula. I would recommend that you know both ways. So this problem was about the temperature rise across the fan. And the way I did it was I took the horsepower of the fan as kind of my starting point. Said okay, let&#39;s assume that all this energy from the fan goes into the air and has additional heat and produces some kind of a temperature rise. And then we could figure out the mass of air that we&#39;re dealing with. And then I just wrote Q equals MC delta T. So Q is the quantity of heat. As a result of that air horsepower M is the mass of the air and Cp is the specific heat capacity of air which is a constant. And that&#39;s everything we need except delta T. So that was just an intuitive way for me to go about it. But this formula offered in the reference handbook is perhaps a more direct approach. And ultimate</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 79 · April 15th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 79</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This was from the full practice exam number one in the HVC program. It was number 50. Why did you not select the dashed line for seven and a half horsepower, which goes all the way up, shown as highlighted, and selected the eight inch impeller diameter dark line? Yeah, okay. So this one was about finding the input, horsepower, or the input input head, which is a kind of a funny way to put it. It was a tricky problem. But I started with the horsepower, seven and a half horsepower, and identified that dotted line, the one that you highlighted here. So we&#39;re on the same page about that. But then I didn&#39;t pick the eight and a half inch impeller, picked the eight inch impeller. And the reason I did that was it didn&#39;t feel right to pick the eight and a half with the understanding that even though it said the flow is only 300GPM, which is to the left of the green line, my concern was that if the flow ever increased, it seemed like the seven and a half horsepower motor would no longer be sufficient to satisfy that flow rate. And I know it isn&#39;t operating at a higher flow rate. It&#39;s only operating at 300GPM, but I just wasn&#39;t comfortable selecting the eight and a half inch curve for that re</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87 · September 2nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 87</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Full practice exam 68 this one came through and it was tagged as many tests But that doesn&#39;t make sense because it&#39;s 68 and it&#39;s not 68 on the many tests. So I think it was actually meant to be for the full practice exam and the problem was about an enthalpy wheel So I hope I&#39;m answering the question about the right question But in any case, I believe I&#39;m talking about full practice exam number 68 and the question is Why did we use the dribble temperature of the outside air and not the weple temperature of the outside air? Isn&#39;t that technically the lowest temperature? We can get out of that air. I think you mean the weple temperature? The dribble temperature outside air and not the weple. Yeah, okay. I think you might be thinking about Open cooling towers where the weple temperature outside is the lowest temperature that you can get out Of the air. It&#39;s the lowest temperature you can achieve So the weple kind of dictates how much cooling you can do with an open cooling tower as far as an enthalpy wheel An enthalpy wheel is doing something a little bit different. It&#39;s it&#39;s not a evaporative cooling It&#39;s the transfer of sensible and latent energy through the enthalpy wheel. So In th</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87 · September 2nd 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 87</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Right, it&#39;s exam one number 77. I used the late and he gained a equation, 48, 40 times CFM times delta humidity ratio, and I got BT per hour, then divided by 1076 BT per pound to get pounds per hour. My answer was 109 pounds per hour, obviously far from the 136 that you got, but it got me to guess the right answer. Is it an okay approach or am I tackling it wrong altogether? So this problem was about moisture load, so you were right to use this equation, 48, 40 CFM times delta W. There&#39;s one small problem with that. Does anybody want to take a guess what the problem might be? Without even if you&#39;re not familiar with this particular problem, when should you be cautious about using these rule of thumb equations? Potentially. Maybe you&#39;re worried, maybe you&#39;re not. You&#39;re at least aware of the potential for trouble when you use these rule of thumb equations when. Sensible heating and cooling elevation. Well, sensible heating and cooling yeah, all of them. So sensible heating and cooling 1.08 CFM delta t, or if it&#39;s both in 4.5 CFM delta h. What was the other one? 41 40, I always forget 48 40 CFM delta humidity ratio. What is elevation is good? Yeah, why? Why elevation? What is the key</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 96</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Practics exam one number 13 when doing this problem. I use the specific volume of the returning air But when I look at your solution I noticed you use the entering conditions to pick your specific volume is there ever a reason to use returning conditions for the specific volume? I was thinking you would use whichever condition has the highest specific volume because when looking at similar problem Of when condensate is removed. We used the higher specific volume. I don&#39;t think it&#39;s about using the higher value per say I think I Think you want to align the location where you take the specific volume with where the volume flow rate is specified and you should try to align that so Let&#39;s say you have an air handler and Let&#39;s just make it super simple put a coil in there Fan let&#39;s say it&#39;s blowing left the right and maybe the problem tells you that a 1000 CFM of Air at a particular condition right entering condition and maybe that entering conditions are fully defined You know the temperature, dry bowl, wet bowl, whatever And it tells you that a thousand CFM entered the unit Then you should probably use the specific volume that corresponds to that entering air condition Because that&#39;s w</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22nd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 96</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Practice Exam 1 number 23. I understand how you find the enthalpy for the superheated steam at 500. How did you know that you needed to subtract the enthalpy at 14.7 psi in the regular saturated steam table? I get confused with delta h being hfg or h1-h2 when multiplied by the mass. Alright, so let me make sure I understand what this is asking. So we want to subtract from going from 1 to 2. So in this problem, I&#39;ll just draw the vapor dome again. We had steam. This is our state 1. It&#39;s superheated steam and it&#39;s ending it too, which is saturated liquid. And state 1 was a known temperature 500f and a known pressure 14.7 psi. And we know that it&#39;s superheated. So that&#39;s more than enough information to go and find h1. I think that part was clear to you. The question is about h2, which is saturated liquid. That was given in the problem statement. Saturated liquid. But what might not have been obvious is that the steam is going at constant pressure. So that was probably the missing piece. So p2 equals p1. It&#39;s still atmosphere pressure. And now we have a fully defined state with two pieces of information. We know that it&#39;s saturated. We know the pressure. And that&#39;s enough information t</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 99 · March 3rd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 99</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> HVAC pridesexant 1, number 58. Since the question is asking about the total cooling load of the AHA, why don&#39;t you use 10,000 CFM in the final cooling load calculation? I understand that 7500 CFM is going through the coil, but the AHA is supplying 10,000 CFM with an enthalpy delta of 5.67B2 per pound. Yeah, the answer is you could. You actually have a choice on this one. So this was a problem about an air handle with bypass. I&#39;ll keep this picture up here for a second. So we have the return air leaving the room. There&#39;s some exhaust and some outside air, which is kind of besides the point in terms of the question. But most of the air is being recirculated and it&#39;s being mixed with some outside air. You have this mixed air condition. And then some of the air is bypassing the coil, wrapping around, and some of it is going over the coil. So we need some additional terminology to distinguish what some of these conditions are. The mixed air and the entering air are the same condition, not the same volume, but the same condition, because there&#39;s nothing happening between here, just some of it splitting off and going another way. But then after the unit, the discharge air directly from th</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 1 · 20 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

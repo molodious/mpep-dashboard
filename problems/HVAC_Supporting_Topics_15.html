@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 15 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 15</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 15</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A company purchases a factory for $1M. The factory will generate a gross annual revenue of $140K and incur annual expenses of $60K. The facility has an expected life of 20 years and no salvage value. Assuming straight-line depreciation and a 30% eective tax rate, what is the after tax rate of return if the company sells the factory for $800K and exits the investment after 5 years? Ignore tax implications of capital losses at the time of sale.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1.5%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>3.5%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>5.5%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>7.5%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Well, we act like we&#39;re about to find the present value and then we set it equal to zero and we solve for the interest r.
+
+2. So let&#39;s start with our cash flow diagram and I won&#39;t draw the whole thing.
+
+3. So the depreciation on that basis is a million dollars divided by 20 years.
+
+<strong>Full Solution:</strong>
+
+A company purchases a factory from million dollars. The factory will generate a gross annual revenue of 140k and incur annual expenses of 60k. The facility has an expected life of 20 years and no salvage value. Assuming straight line depreciation and a 30% effective tax rate, what is the after tax rate of return if the company sells the factory for $800,000 and exits the investment after five years, ignore tax implications of capital losses at the time of sale. So similar to the previous problem, we have to deal with depreciation again. It&#39;s going to be straight line depreciation again, so at least that&#39;s a simplifying assumption. But a couple of differences. One is that the investment doesn&#39;t run its entire course. So the factory sold after just five years, even though it had an expected life of 20 years, so the company decided to exit the investment. So we may find a little bit of a mismatch between the depreciation, you know, how much of the initial million dollars actually gets depreciated before they exit the transaction. And the other difference is that the question being asked is not the present value, it&#39;s the rate of return. So how do we find the rate of return? Well, we act like we&#39;re about to find the present value and then we set it equal to zero and we solve for the interest rate that would make the present value zero. That&#39;s what the rate of return is. It&#39;s the interest rate that makes the present value of the investment zero. So let&#39;s start with our cash flow diagram and I won&#39;t draw the whole thing. We&#39;ll just draw five years worth. So there&#39;s this initial capital at outlay of a million. And then every year there&#39;s 140,000 revenue and 60,000 of expense. So that&#39;s year one. And we&#39;re going to do the same thing in years two, three, four, and five, and five will also have the 100,000 coming out as we can think of it like a salvage value. And there would have been 15 more years of revenue and expenses to draw. But again, they exited the investment after five years. So this is really all we need to consider. So let&#39;s look at the profit before tax. Free years one through five. And we&#39;ll look nor they $800,000 return at the end. We&#39;ll just focus on the cash for years one through five, which was 140,000 revenue minus 60,000 expenses. So they cleared 80K before tax profit in each of those years. But because there&#39;s depreciation, the taxes are not assessed against the before tax profit of 80,000. It&#39;s actually going to be less than that. We have to reduce to 80,000 by the depreciation. Well how much is the depreciation? Well, they thought that we&#39;re going to have it for 20 years. That was the expected useful life of the facility. So the depreciation on that basis is a million dollars divided by 20 years. So that would have been 50,000 a year. So now we&#39;re saying that their taxable income then, and this is similar to the previous problem, taxable income, is revenue minus expenses minus depreciation. That&#39;s going to be 80,000 minus the depreciation. So just 30K. And now the actual tax liability, the tax that they owe, to find that, we take the taxable income and apply the tax rate, which is 30%. So 30K times 0.3 is 9,000. And now we want to find the net profit after tax. So we&#39;re returning to a cash basis here. We want to know how much cash they actually cleared after tax. Well, their pre-tax profit was 80K and they paid 9,000 of taxes. So their net profit after tax was 71,000. And that happened every year, years 1 through 5. So we basically have three types of cash flows. We have the initial outlay, which is negative 1 million. And then we have this annualized value over 5 years of plus 71,000. And then we have the plus 800,000 only in year 5. So if we want to find the present value of this, we don&#39;t know the interest rate. That&#39;s what we&#39;re after. It&#39;s the rate of return based on adding up these cash flows.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A company purchases a factory from million dollars.<br><br><br><br>• The factory will generate a gross annual revenue of 140k and incur annual expenses of 60k.<br><br><br><br>• The facility has an expected life of 20 years and no salvage value.<br><br><br><br>• Assuming straight line depreciation and a 30% effective tax rate, what is the after tax rate of return if the company sells the factory for $800,000 a.<br><br><br><br>• So similar to the previous problem, we have to deal with depreciation again.<br><br><br><br>• It&#39;s going to be straight line depreciation again, so at least that&#39;s a simplifying assumption.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 question from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 98 · February 17th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 98</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 15, I applied a tax on the sale of the business at year five and thus got the wrong answer What&#39;s my framework for knowing when taxes applied or not? So If tax isn&#39;t mentioned in the problem then you don&#39;t have to worry about it because they would have to tell you the tax rate Otherwise you&#39;d have no way here and I meant to memorize tax rates going in there So if tax is mentioned plan on dealing with it if it&#39;s not then you&#39;re good So that should be clear, but as far as how to do it It&#39;s income tax so Any year that the company has profit right revenue minus expenses is profit before tax Any year that the revenue exceeds the expenses than this profit then there&#39;s gonna be income tax and The income tax in In real life we pay income tax the year after we have we have net income But in accounting or engineering economics The taxes are recognized in the same year in which the revenue and expenses are realized so that&#39;s That&#39;s actually a good thing that keeps our lives a lot simpler so That&#39;s how you have to think about it any year that there&#39;s net profit There needs to be income tax if the problem wants you to deal with the tax Doing it at the end of year five doesn&#39;t </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 15 · 1 OH session · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

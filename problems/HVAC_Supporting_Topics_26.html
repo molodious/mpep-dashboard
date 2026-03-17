@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 26 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 26</span>
+  <span class="nav-badge">⭐ 20 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">20 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 26</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A cooling tower has a range of 15°F and a volume ow rate of 50gpm. Air enters at 88°F dry bulb and 75°F wet bulb and exits at 92°F and 75% relative humidity. Assuming no losses, what is the required volume ow rate of air?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>3,300cfm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>7,700cfm</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>8,200cfm</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10,900cfm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So let&#39;s start with just the overarching statement that the heat rejected by the condenser water is equal to the quantit.
+
+2. The heat rejected by the condenser water which has to be transferred into the air is 500 times the gpm which is 50 and t.
+
+3. So starting with state one dry bulb is 88 degrees, we have a 75 degrees and according to the psychometric chart if we fo.
+
+<strong>Full Solution:</strong>
+
+A cooling tower has a range of 50 in degrees and a volume flow rate of 50 gpm. Air enters a 88 degrees drive bulb and 75 degrees wet bulb and exits at 92 degrees and 75% relative humidity. Assuming no losses, what is the required volume flow rate of air? So the overall principle here is that whatever heat is rejected by the condenser water has to be absorbed into the air, that&#39;s the heat transfer that&#39;s taking place. So for the water side we can just use the sensible heat rule of thumb and we can determine the quantity of heat that was removed from the condenser water and then for the air side we&#39;ll use the mass flow rate of air times delta h and then later on we&#39;ll change that mass flow rate into a volume flow rate using the specific volume. So let&#39;s start with just the overarching statement that the heat rejected by the condenser water is equal to the quantity of heat added to the air and for the left side we&#39;ll use 500 gpm delta t. So let&#39;s go ahead and quantify that. The heat rejected by the condenser water which has to be transferred into the air is 500 times the gpm which is 50 and this is a real thumb so we don&#39;t have the right the units times the delta t and we&#39;ve been told that the range is 15 degrees. So that&#39;s another way of saying the delta t because range is defined as entering water temperature minus leaving water temperature. So that equals 375,000 B2&#39;s power and now for the air side we&#39;ll write Q dot for the air equals m dot the mass flow rate of air times delta h equals that 375,000. That we know that number. And why delta h? Well the heat that&#39;s being absorbed into the air it&#39;s a mix of sensible and latent. So we don&#39;t know the exact temperature of the entering condenser water it could be 90 degrees, it could be 95 degrees, it could be 100 degrees. So you know the entering air is colder than that there could be some sensible cooling happening there and it&#39;s depending on the delta t will impact what degree of sensible cooling there is if any. But regardless of that there&#39;s also going to be evaporation and there&#39;s going to be significant amount of evapative cooling because that&#39;s the fundamental principle behind how an open cooling tower works. So we don&#39;t have to care too much about how that mixture shakes out you know what percentages it is of each both are encapsulated in the enthalpy. So we&#39;ll just focus on enthalpy here. Unfortunately we have two fully defined states we have a fully defined entering air condition where we have a dry bulb and a bulb temperature and we have a fully defined leaving condition where we have dry bulb temperature and relative humidity. So let&#39;s find the enthalpy for both states we&#39;re going to use the psychometric charge to do this and we&#39;ll also find the specific volume for state one the entering condition. So starting with state one dry bulb is 88 degrees, we have a 75 degrees and according to the psychometric chart if we follow the line of constant enthalpy up into the left we get an enthalpy at state one of 38.47 Btu per pound and let&#39;s also grab the specific volume at state one which is on a diagonal line that sort of goes from top left to bottom right a little steeper than the enthalpy line. 14.2 cubic feet per pound of drier. Now for state two this is the leaving condition they are now so it should have higher enthalpy. That&#39;s got a temperature of 92 degrees and we don&#39;t have to specify that that&#39;s a dry bulb that&#39;s implied and it&#39;s got a relative humidity of 75% as given. So the enthalpy at state two is going to be 49.23 and as expected that&#39;s higher than for each one and you don&#39;t necessarily have to have this level of precision for the enthalpy where you&#39;re coming out to the hundreds place.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A cooling tower has a range of 50 in degrees and a volume flow rate of 50 gpm.<br><br><br><br>• Air enters a 88 degrees drive bulb and 75 degrees wet bulb and exits at 92 degrees and 75% relative humidity.<br><br><br><br>• Assuming no losses, what is the required volume flow rate of air.<br><br><br><br>• So the overall principle here is that whatever heat is rejected by the condenser water has to be absorbed into the air, that&#39;s the heat transfer that&#39;.<br><br><br><br>• So for the water side we can just use the sensible heat rule of thumb and we can determine the quantity of heat that was removed from the condenser wa.<br><br><br><br>• So let&#39;s start with just the overarching statement that the heat rejected by the condenser water is equal to the quantity of heat added to the air and.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">20 questions from 5 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 45 · October 2 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 45</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next up supporting topics, 26. Oh, you guys are gonna love this one. For Qair, why did we not use 4.5 CFM Delta H instead of M Delta H? This problem was a situation where I think it was a cooling tower and you had the mass flow. You had all the information about the water, so it was gonna be 500 GPM Delta T for the heat removed from the water. And then on the air side, it was this hot humid air entering the cooling tower. So let&#39;s draw that on a sickometric chart. And a hot humid air was way the heck up here somewhere. And the question that comes up all the time, we talk about it almost every week is what condition should you use when you have air entering a coil, or in this case, it&#39;s entering the cooling tower fill. And I always say just use the entering air and you&#39;ll be fine. And the question is, well, when will you not get away with using the rule of thumb? And the rule of thumb here is 4.5 CFM Delta H. Qdah equals 4.5 CFM Delta H. And the answer is, you can usually use the rule of thumb, but you can&#39;t when the density or the specific volume, which is the reciprocal of the density, deviates too much from the assumption that&#39;s baked into this 4.5 constant. And it&#39;s t</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 75 · February 19th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 75</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26. Why can&#39;t you use the rule of thumb for .5 CFM Delta H equals Q on the air side of a cooling tower? Is this because that rule only applied to temperatures used in a condition typical space? I did and wound up getting 70, 70, 80, 80 CFM leading me to choose C. Yeah, so you got all the way to the last step. You did everything right. And you got to the last step of the problem. And the last step of the problem, we calculate the volume flow rate of air equals the mass flow rate of air times the specific volume. Or you could say that that equals the mass flow rate over the density. Those are equivalent statements. And the question becomes, what specific volume should we use? What density should we use? And just like when dealing with an air conditioning application like a cooling coil or heating coil, my standard recommendation is always to use the entering air conditions. So you know we&#39;re talking about a cooling tower now. I&#39;m going to recommend that we use the entering air conditions or that cooling tower. So I say let&#39;s use the specific volume at state 1 for the air that&#39;s entering or the density at state 1 for the air that&#39;s entering. And if we do that, the sp</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 99 · March 3rd 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 99</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26 Dan this one is driving me a bit crazy. Why couldn&#39;t we balance our two rules of thumb equations and solve for the volume flow rate? I approach to using 500 gpm delta t equals 4.5 CFM delta h My enthalpy values are very close to what you got and all I did was plug and chug I got an answer of 7500 CFM using the approach which is wrong This problem was about an open cooling tower and Your absolutely right in your overall approach from a high level of setting the amount of heat given up by the water You&#39;re using 500 gpm delta t rule of thumb for that. That&#39;s totally fine and you&#39;re setting that equal to the amount to the quantity of heat that is acquired by the air and You&#39;re using the rule of thumb 4.5 CFM delta h Which is okay in principle and nine times out of ten you&#39;ll get away with that But in this particular problem I Wanted you to be aware of the embedded assumption In her and in that 4.5 CFM delta h Which is the density of air and this is also true in the 1.08 CFM delta t if using sensible heating rule of thumb and Same for the one for the humidity ratio embedded in that assumption for the airflow of the CFM Is the associated density or specific volume wh</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 105 · June 23th 2025</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 105</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Supporting topics 26. We use the equation for the water to be 500 gpm delta t, however Airside we did not use 4.5 CFM delta h. Can we not use the airside equation in this case? If that&#39;s the case, when do we use the airside equation and can we not use the airside equation? Also, is there a scenario where we cannot use the waterside equation too? So this problem was about an open cooling tower and the fundamental idea for analyzing this open cooling tower. It was to set equal the amount of heat that&#39;s rejected from the condenser water. Let&#39;s call that Q. condenser water. Is equal to the amount of heat that is removed by the air. I&#39;ll just call that Q. air. And for the condenser water side, we use the real of thumb 500 gpm delta t. And that&#39;s okay. And that&#39;s always going to be okay. Why is that always going to be okay? Because all this happening in the condenser water is that it&#39;s changing. It&#39;s sensible cooling of the condenser water. So it&#39;s all driven by that delta t. So as long as it&#39;s pure water, then this constant is good. If it&#39;s like a water glycol mix, all bets are off. But for water, this is your go to. You really can&#39;t go wrong with that. If you prefer to do an m.cp delta</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 114 · February 16th 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 114</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> When do you advise against using Ruluthum Total Heat gain equation? Air density of 0.075. If I use this equation 774CFM is calculated, which is closest to answer choice B, if using density from state 1, then the best answer is C. 80-200. Yeah, so this is a super common question that comes up. What value should I use for the specific volume? Is it okay to just use the rules of thumb, or do I need to go and actually take the entering air state? And figure out precisely what the specific volume is. And I like the way you phrase the question, because you actually know why the answer was different. It&#39;s because of this assumption that&#39;s embedded. It&#39;s the density being 0.075 versus 0.070. So clearly, for this problem, at least the discrepancy is coming from that, and it would be better to get the real specific volume than to use the Ruluthum the rule of thumb will. We&#39;ll cause a problem in this one. But more generally, to answer your general question, it has to do with how far away you are from that line. So I put it on the psychometric chart here, just so we can kind of think about it graphically. This scribbled line roughly approximates where the specific volume is 13.3. So here&#39;s 13.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 15</div>
+      <div class="qa-question"><strong>Q:</strong> Why do we multiply and not divide?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, thermo 23, the 90% efficiency for the generator. Why do we multiply and not divide? I would think that if the generator is receiving the power and it&#39;s 90% that the power requirement would be higher than that of a generator with a 100% efficiency. So this problem was about a turbine driving a generator. So I think what might be helpful here is to draw out roughly what that process looks like just from a high level. So you have some steam entering the turbine and some steam leaving the turbine. You can call that state one state two if you want. And then that&#39;s driving a shaft, which is rotating. There&#39;s some work out of the turbine. And then that is turning a generator. And then there&#39;s electricity being produced by the generator, some amount of KW let&#39;s say. And in the problem, it gives the efficiency for the turbine as 70%. And the efficiency for the generator as 90%. And the question is why do we multiply by the 90% efficiency? And I think it&#39;s as simple as realizing that there are losses at every step. So in an ideal world, you would hope to get work out of the turbine to the tune of H1 minus H2.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 18</div>
+      <div class="qa-question"><strong>Q:</strong> When can I assume standard density, when can I not?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, systems two. I was wondering why you can&#39;t use or you get a different answer if you use the density of air to determine the mass flow rate of air. If you use the density of air to sell the problem, I get the instead of C. So this is the other density example to kind of circle back for the one we&#39;re looking at earlier. Here, this is the correct version, there&#39;s two slides here, so you can come out of two ways. If you use the density of 14, well, this is not density of specific volume, but specific volume being the inverse of density. So if you use the specific volume 14.4, you get the right answer. And that&#39;s based on the entering air conditions for this problem. That&#39;s always my default recommendation is use the entering air conditions to choose the specific volume from the second metric chart. If on the other hand, you were to just assume standard values for density 0.075, then the corresponding mass flow rate would be different. And that&#39;s enough to lead you astray. So the density that corresponds to this 14.4 is about 0.069, compare that to 0.075 used here.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 26</div>
+      <div class="qa-question"><strong>Q:</strong> We talk a lot about what should I memorize and what should I look up?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The first one was about unit conversions. And this one was not from my program. So I actually don&#39;t know if, I don&#39;t know what the right answer is. Maybe it&#39;s a test for me, but so someone asked, if you have this many BTO per hour, foot degree F, and I assume that&#39;s a lookup probably from the reference of the time of the program. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. So I think that&#39;s a very good example. And a unit conversion. So I would suggest first getting rid of BTO&#39;s per hour, and getting into watts. So one watts, 3.412, BTO per hour. We talk a lot about what should I memorize and what should I look up? Obviously that&#39;s a number that you can look up, but not a terrible idea to memorize it because we do use it quite a bit.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 28</div>
+      <div class="qa-question"><strong>Q:</strong> This problem has to be all about the enthalpy of entering and leaving steam conditions, which have to be looked up in the steam tables, correct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, another one from a separate source here. This problem has to be all about the enthalpy of entering and leaving steam conditions, which have to be looked up in the steam tables, correct? I don&#39;t know. Am I the only one that hates steam and quality problems? I think there&#39;s some frustration building up. I get it. I take in the PE several times now, and every time I burn so much time on these types of problems, then I end up just guessing the answer, which is never a good idea. Yeah, that&#39;s to be avoided if we can. I need to get a grasp on these ASAP, please help. Yeah, all right, let&#39;s just break it down. In eight inch pipe carrying 35 PSIG saturated steam, enters a 250 foot long steam tunnel that is ventilated to maintain 80 degrees. The insulation has fallen off the piping in the tunnel leaving bare schedule 40 piping. The heat loss of the bare pipe is 1235 B2 power, per linear foot. If the steam flow rate entering the tunnel is a thousand pounds per hour, the quality of the steam when the pipe leaves the tunnel is most nearly what? And we have some notes here from the solution, which we can refer to, but let&#39;s try to frame out this problem as best we can.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 41</div>
+      <div class="qa-question"><strong>Q:</strong> Isn&#39;t there a range of air conditions, however, bigger small that allows us to use these numbers in HVAC calcs, and you&#39;ll accurate numerical solutions?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Speaking of psychometrics, this was a long one, but let&#39;s go through it. I&#39;m unsure as to the range of air conditions, temperature, relative humidity, that allow for the use of the typical HVAC calculation rules of thumb. Isn&#39;t there a range of air conditions, however, bigger small that allows us to use these numbers in HVAC calcs, and you&#39;ll accurate numerical solutions? I thought it was something like if the air is close to 70 to 73 degrees, but that&#39;s not always true. It seems conversely outside of this range, we need to retrieve and use specific volume and the mass flow rate and determine due to differences in density, et cetera, of the outside area in this range. I can&#39;t seem to be able to identify when I should or shouldn&#39;t shift from using a rules of thumb values to needing to obtain the use of specific volume for psychometric calculations. Please make sense. Please let me know. As I firmly believe this misconception of mine is holding me back from passing the exam, I&#39;ve noticed that on these types of problems, the incorrect solution is always one of the four multiple choice answers offered. Okay.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> And what else did we know?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one, TFS practice is exam one number 38. A good example need a bit more clarification on power factor. So this problem was about a transformer, and it didn&#39;t really require getting to involved in the electrical, but I&#39;m happy to kind of share a few of the primary insights around power factor that might come in handy. Maybe it&#39;ll come up, maybe it won&#39;t, but I&#39;ll share what it can. And so in the problem, it was a situation where we had a 100 KVA transformer, and it was operating at, I think it was 60% efficiency. 60% not 60% efficiency, 60% of its rated capacity. And what else did we know? The power factor was unity. No idea what&#39;s going on my pen here, sorry. Power factor is 1. Okay, so although we really had to do in this particular problem, was because the power factor is unity, we needed to be able to work with KW because we want to know how much heat the transformer is going to generate. And energy is watts, right? That&#39;s energy pre unit time, whereas KVA is really a parent power, so we need to convert that to real power. So how do we think about this? Well, we can draw the power factor triangle.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 57</div>
+      <div class="qa-question"><strong>Q:</strong> And what did you get?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, and this one&#39;s from Prax Exam 1, number 22. The context of this one was it was a one and a half horsepower motor, which was driving a fan and heating a room with a volume of 7,500 cubic feet. And the question was to figure out what the delta T was going to be, how much heat that fan was going to add to the room. And the question is, could we use Q equals 1.1 CFM delta T, sensible heat rule of thumb, and take the volume divided by 30 minutes to get a cubic feet per minute. I got the same answer. Yeah, let me just kind of break down those two options so we can put them side by side. Sure answer is yes, but I want to kind of explain why. So what you&#39;re proposing is to use the sensible heat rule of thumb, which says that Q dot equals 1.1 or 1.08, whatever you like. I&#39;m CFM delta T. And what I had done in the solution in the video was I made it a once-through process. So I said Q not Q dot just a quantity of heat and B to use equals MCP delta T. So the difference is that what you&#39;re proposing is like a steady state where there&#39;s a volume flow rate CFM. And there&#39;s a rate of heat transfer and this would be happening on a continuous steady state basis.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> How does a cooling tower work if it&#39;s raining?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, miscellaneous HVC, I like this question. It&#39;s another one that got me thinking this week. How does a cooling tower work if it&#39;s raining? Isn&#39;t it technically 100% humidity and we can&#39;t evaporate in any water? So, yeah, I think, yes, I think that&#39;s right. Can&#39;t evaporate anything into air that&#39;s 100% humidity. Now, maybe if it&#39;s lightly raining or if it&#39;s missed, then is it true that the air is truly 100% relative humidity? Is there any capacity for that air to absorb a bit of water vapor? If the answer is yes, we&#39;re going to get something out of the process. But to your point, if it&#39;s truly 100% humidity, then there is nothing that&#39;s going to happen in terms of late and cooling. There&#39;s no evaporation. However, we still have sensible cooling. All right, so the total cooling that the cooling tower is able to provide is the sum of the sensible cooling and the late cooling. Of course, the big story for open cooling towers is usually late in because there is an enormous amount of evaporation going on, hopefully, if the air is able to accept additional water vapor, but to your point, if it&#39;s not here, this becomes zero. And all we&#39;re going to get is the sensible cooling.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 76</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-53548018
+
+And he transfers seven.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And he transfers seven. The problem statement in the quiz gives us a thermal resistance for the two-inch insulation as 1.8 BTU inch per hour for its grid grief. The wording resistance threw me off so I consulted the solution video and you reference thermal conductivity rather than resistance. I looked at the problem set from the book and it shows thermal conductivity as well. The issue may just be a typo in the quiz, however, should I assume thermal conductivity is to be used based on the units that were given. BTU inch per hour foot squared grief. Yeah, the units are your guide and I think it may not be great practice to use these terms interchangeably because they are inverses of one another and they mean the exact opposite. But you will hear people, including the occasional and say one when you mean the other because they&#39;re opposite sides of the same coin. To know the resistance is to know the conductivity and to know the conductivity is to know the resistance since they&#39;re inverses. So it&#39;s a little disingenuous. I didn&#39;t put it there to confuse you. It wasn&#39;t a trick or a trap or anything like that. Strictly speaking conductivity would be the correct term to use there.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> 4 for air and calculate CV from that in lieu of CP minus CV equals R?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, so let&#39;s start out with thermo3. So the first question is, why couldn&#39;t we use the CP over CV equals 1.4 for air and calculate CV from that in lieu of CP minus CV equals R? So this problem was about finding the ratio of specific heats for air when it&#39;s at a very different temperature from what would normally be assumed a much higher temperature. And the reason we can&#39;t assume that it&#39;s 1.4 is because K is what we&#39;re looking to calculate in this problem. So let&#39;s bring up the whiteboard. K is the ratio of specific heats. You guys can see my whiteboard, right? Cool. Okay, so K is CP over CV. And K is what we&#39;re looking to find. It&#39;s our unknown. So if we find CV by assuming K, then the value of CV that we get will lead to us just circling back circular. Whatever value we find of CV when we go and put that in later will end up just finding out that K equals 1.4 because that&#39;s what we assume from the outset. So if we&#39;re going to, if we&#39;re going to assume K equals 1.4, then we should just choose answer choice K equals 1.4 and be done with it. But the whole purpose of this problem is that it&#39;s at different temperatures.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 88</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-58779607
+
+And lastly, full price exam 2, number 26.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And lastly, full price exam 2, number 26. I went through with using W equals CP Delta T, and I got T2 equals 42, 38, and your answer you found H2 equals 1126, which on the air table corresponds to a T value of 41, 25. Not the T equals 36, 65 that you got. Please make it make sense. So this one was about heating air, and the solution roadmap was to use the air table. So going to that table, which I think he&#39;d said, yeah, on the air table. So that&#39;s good. We&#39;re looking at the right table. And let&#39;s bring that one up, actually. It&#39;s going to be air low pressure. Yeah. So on this table, there&#39;s two columns, one for rank-in, and one for Fahrenheit. And I think that&#39;s what&#39;s gone wrong here. We found a temperature of 41, 25. Not 36, 65. Those actually are the same temperature. 41, 25 would be in between here, and 36, 65. If you interpolate, those all align in between these two lines. Simple mistake. We&#39;ve all been there. So hopefully that makes sense.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 92</div>
+      <div class="qa-question"><strong>Q:</strong> And what do we know?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And then this is the last one. Water Antelopees don&#39;t match what&#39;s in the book for those temperatures. And you highlighted two specifically. This is another complex but a problem with that has a lot going on. So I&#39;m just going to answer the part of your question that applies specifically to the Antelopee at state C and the Antelopee at state D. They zoom in on the closed feed water heater, which is the sky here. And B is the steam side, that&#39;s the primary side, and then D and C is the secondary side. And what do we know? We know we have HC at 400. I agree with you. Water at 400. And then HD at 100. I think HD is at 110. So slightly different there. It should be 110. But I think your question still applies. So what&#39;s the pressure? The pressure, it&#39;s a closed feed water heater. So the pressure is going to be 300 psi A. And these are both liquid water. Oh, you know what this is? This connects to your previous question about finding the temperature of water in the subcooled region. This is exactly the same point. So let&#39;s draw our little picture again. We have this point here, which is our HF at 300 psi A. And we can get that value.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 96</div>
+      <div class="qa-question"><strong>Q:</strong> I know fan laws should be used in this kind of problem, but the way it has been solved is a little complicated Can you walk through and explain the concept to solve this problem, please?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Missileinius B. I know fan laws should be used in this kind of problem, but the way it has been solved is a little complicated Can you walk through and explain the concept to solve this problem, please? We&#39;ve got a fan array for fans To turn down to 15% of the total design flow rate Assuming the fans have a minimum turn down percentage of 15% while operating the most efficient operation points listed below for the four fans is most nearly what So this is related to a question that came up earlier, which was about pumps, but it&#39;s true for fans as well If you have four fans and you only need 15% of the design flow rate Then the relationship between speed and flow rate is linear Flying flow rate is proportional speed So if we only need 15% of the total flow rate We can reduce the speed to 15% as long as that&#39;s not less than the minimum turn down ratio for the fans Which it&#39;s not the minimum turn down ratio is 15% so we can go all the way down to 15% So that&#39;s what we should do The most efficient operation for these four fans is to just run them all at 15% so don&#39;t overthink it on this The best efficiency is the most fans running at the lowest possible speed and as long as you stay abo</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 98</div>
+      <div class="qa-question"><strong>Q:</strong> So any of those are your keywords, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Cratch Exam 20. I interpreted the reversible heat engine to mean that they were asking for the refrigeration COP on a heat pump with a reversing valve that&#39;s performing refrigeration. I now understood what the problem meant by reversible, but I&#39;d appreciate any tips on the language subtleties here to make sure I don&#39;t mess this up again. Thanks. So a heat engine and compasses all devices that move heat from one reservoir to another. So there&#39;s really only two devices that come to mind in that realm which is the air conditioner and the heat pump and really an air conditioner is a heat pump that only does cooling but that&#39;s more practical reality. In theory land there&#39;s two types of heat engines. There&#39;s a reversible heat engine which is ideal which is the Carnot cycle. So any of those are your keywords, right? The language subtleties. If you see words like reversible ideal or Carnot that problem is trying to get you to think about a heat engine which is 100% efficient. No losses. It&#39;s the maximum not just no losses.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 98</div>
+      <div class="qa-question"><strong>Q:</strong> And I also came up earlier, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> And if you general questions, when should you take ADP into consideration, I guess if the problem statement mentions it of course and then if there&#39;s a related term like coil surface temperature, it&#39;s kind of a term that you might hear where they&#39;re trying to get you to think about. And I also came up earlier, right? There&#39;s a situation the one with the 148 that you asked about, that was a heating coil surface temperature. You can think about that as an ADP, even though it&#39;s not an air conditioning problem, but the same kind of idea applies where there&#39;s a bypass factor and there&#39;s a coil efficiency, which is the complement of the bypass factor and that&#39;s kind of going to drive with the delta T&#39;s are. That&#39;s really, that&#39;s the only thing that comes to mind for me. Is breakhorse power just the actual power with efficiency taken into account? Let&#39;s see how we think about this. So any time we have a pump set, a motor driving a pump, you&#39;ve probably seen me draw this more times than you&#39;d like. But we&#39;ll draw it again. A motor and AC motor takes electrical input power. You might use the variable W dot for that and measure that rate of consumption for that demand in kilowatts.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 26 · 20 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

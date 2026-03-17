@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 17 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 17</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A $100,000 investment today pays back $10,000 in years 1 through 9 and $100,000 in year 10. What is the rate of return? 77
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>7.8%</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>8.6%</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>9.4%</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>10.3%</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So in order to do that, let&#39;s start with a cash flow diagram.
+
+2. So it&#39;s p given a, we&#39;re going to look that up in the economic cash flow factor tables for some interest rate which we d.
+
+3. That&#39;s the rate of return that we&#39;re looking for is i and that&#39;s going to happen over nine years plus the 100,000 coming.
+
+4. We can guess and check answers.
+
+5. We can use the answer choices as a guide for how to do that.
+
+6. So let&#39;s just start with 8%.
+
+<strong>Full Solution:</strong>
+
+$100,000 investment today pays back 10,000 in years one through nine and 100,000 in your 10. What is the rate of return? So rate of return is code word for ROI. It&#39;s the same thing that we&#39;ve been finding in the last couple of problems. It&#39;s the interest rate for which the present value equals zero. So in order to do that, let&#39;s start with a cash flow diagram. It should extremely helpful tool for these sorts of problems. In year zero, this is our initial investment today of 100,000. And then every year it&#39;s going to pay back 10 grand and that&#39;s going to happen over years one through nine and then in year 10, this is your nine. So your zero year one, your nine and then in year 10, there&#39;s no 10,000 just the 100,000 coming back in your 10. So how would we write an expression for the present value of this investment? We would say it&#39;s negative 100,000 now plus 10,000 every year. There&#39;s an annualized 10,000 over nine years. So it&#39;s p given a, we&#39;re going to look that up in the economic cash flow factor tables for some interest rate which we don&#39;t know. That&#39;s the rate of return that we&#39;re looking for is i and that&#39;s going to happen over nine years plus the 100,000 coming back to us at the end times p given f because that&#39;s a future cash flow discounted back at some interest rate i. That&#39;s the rate of return over nine years. And that whole thing has to equal zero. So because there&#39;s two terms here that are factors of i and we don&#39;t know i is what we&#39;re looking for is not much of a direct solution. We can guess and check answers. We can use the answer choices as a guide for how to do that. We do have in the economic cash flow factors options for 8% and 10% which would be helpful things to try and then we may have to interpolate between the two. So let&#39;s just start with 8%. So we&#39;ll say the present value for an interest rate of 8% or a rate of return just to use the language of the problem statement which still be that minus 100,000 plus 10,000 times p given a at an interest rate of 8% over nine years and that value is 6.2469. Make sure you&#39;re able to get those values out of the reference handbook and not just taking my word for it. Plus the future value which is 100,000 coming back and being multiplied by p given f, and value based on future for an interest rate of 8% in nine years that&#39;s 0.4632. And that equals 8,789 which is positive. So what does that mean that it&#39;s positive? That means that the interest rate must be higher and when the interest rate is higher we discount those future cash flows more and reduce the present value, reduce it hopefully from 8700 down to about zero. So now we&#39;re going to try a higher interest rate and by the way we can cross out answer choice A at this point because we know it&#39;s higher than 8%. So the pv for an interest rate of 10% is minus 100,000 plus 10,000 times p given a 10% nine years which is 5.759 plus 100,000 times p given f 10% nine years is 0.3855. And that gives us a present value of negative 3,860 which is less than 0. So that means that the interest rate is lower which will discount the future positive cash flows less and increase the present value. Make sure that intuition is clear because this is something that I had to think about for a while before I was really clear on it. So the relationship between interest rates and how much a cash flow is actually going to impact the present value. And the interest rate is higher, future cash flows are discounted more. So the time value of money is more severe. You get less money back if it&#39;s discounted back to the present when the interest rate is really high. On the other hand if you&#39;re an investor and you&#39;re putting your money away and saving for later then you want the highest possible interest rate because you want the value of your money in the future to be higher. So take the time to really think through that and make sure that gets clear.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • $100,000 investment today pays back 10,000 in years one through nine and 100,000 in your 10.<br><br><br><br>• So rate of return is code word for ROI.<br><br><br><br>• It&#39;s the same thing that we&#39;ve been finding in the last couple of problems.<br><br><br><br>• It&#39;s the interest rate for which the present value equals zero.<br><br><br><br>• So in order to do that, let&#39;s start with a cash flow diagram.<br><br><br><br>• It should extremely helpful tool for these sorts of problems.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 17 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

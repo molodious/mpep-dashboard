@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Exam 1 · Problem 12 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Practice Exam 1 · Problem 12</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Practice Exam 1 · Problem 12</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      55°F chilled water at 150psig enters a 10ton cooling coil and leaves at 65°F and 135psig after passing through the coil and the control valve located on the return side. Under these conditions, the cooling coil control valve is backed o by 50% and the coil is providing half of its rated capacity . The pressure drop through the coil is 10ft of water. What is the required control valve ow coecient? 84
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1.1</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2.4</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>3.7</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>5.4</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. And then the name of the game is if we want to know what rate condensate is being removed we&#39;re going to have to look up.
+
+2. So we&#39;ll be interested in the humidity ratio for state one, the starting point and the humidity ratio for state two, the.
+
+3. So let&#39;s summarize what&#39;s going to come out of some of those look up.
+
+4. So for state one as given we have a dry bulb temperature of 78 degrees and a relative humidity at state one of 60% and t.
+
+5. So for state two we were given the drier bulb temperature 58 degrees Fahrenheit and the wet bulb temperature was 54 degr.
+
+6. And the formula we want to use for this you can use this for dehumidification and also for humidification actually so it.
+
+<strong>Full Solution:</strong>
+
+10,000 CFM of air enters a cooling coil at 78 degrees and 60% relative humidity and exits at 58 degrees dry bulb and 54 degrees wepp bulb. At what rate is condensate removed? So let&#39;s draw on the psychometric chart and I&#39;m going to do this in a simplified psych chart. You&#39;re going to be looking up the values on the actual psych chart which we&#39;ve covered how to do that in the fundamentals of mechanical engineering. So you should be able to quickly and confidently bring back any psychometric parameters based on a fully defined state. But just to summarize where we&#39;re going here, this is a cooling coil. So we&#39;ve got some known temperature and relative humidity. We&#39;ll call that state one and then there&#39;s some cooling and some dehumidification happening as we travel down into the left to a fully defined state two where we know the dry bulb temperature and the wepp bulb temperature. So if I said to say that if we know any two things then that state is fully defined. And then the name of the game is if we want to know what rate condensate is being removed we&#39;re going to have to look up the humidity ratio for both of those states. So we&#39;ll be interested in the humidity ratio for state one, the starting point and the humidity ratio for state two, the ending point as we leave the coil. So let&#39;s summarize what&#39;s going to come out of some of those look up. So for state one as given we have a dry bulb temperature of 78 degrees and a relative humidity at state one of 60% and the humidity ratio at state one from the psychometric chart is 0.01235 and the has units of pounds of water per pound of drier. And now let&#39;s also grab the specific volume for state one. We typically take the specific volume for the condition of the air entering the coil and we&#39;ll see why that&#39;s going to be useful in a subsequent step 13.88 cubic feet per pound of drier. And now we&#39;re going to do the same thing for state two. We want to know what that humidity ratio is. So for state two we were given the drier bulb temperature 58 degrees Fahrenheit and the wet bulb temperature was 54 degrees and that&#39;s enough to get us the humidity ratio for state two which is 0.00798. And the formula we want to use for this you can use this for dehumidification and also for humidification actually so it could be going either direction. You can find it in the reference handbook by searching moist dash air cooling and dehumidification. This comes in really handy and it says that the mass flow rate of water and this is literally water being removed during this cooling process during this dehumidification process. And again if you&#39;re using this for humidification it can be the opposite direction as well. It can be how much if we were going from two to one how much moisture is being added to the air as we heat and humidify. But in this case it&#39;s cooling and dehumidification which is very typical. So the mass flow rate of water that&#39;s being removed the condensate that&#39;s being removed is a function of the mass flow rate of air that&#39;s flowing over the coil times the difference in the humidity ratio across those two states. So humidity ratio 1 minus humidity ratio 2 and fortunately for us we&#39;ve now looked up both of those two values already so we&#39;re ready to go there. And the only other thing that&#39;s a bit interesting here is the mass flow rate of air we&#39;ve been given a volume flow rate of entering air. So let&#39;s work on turning that into a mass flow rate of air. We&#39;ll use the relationship that mass flow rate of air equals density times volume flow rate and what is density density is 1 over a specific volume and that&#39;s why we looked up the specific volume at state 1 because we want to know what it is at the entering condition since it&#39;s the entering volume flow rate that we know. So we&#39;ll rearrange this to be volume flow rate over a specific volume specifically at state 1. And now let&#39;s make that substitution 10,000 CFM.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • 10,000 CFM of air enters a cooling coil at 78 degrees and 60% relative humidity and exits at 58 degrees dry bulb and 54 degrees wepp bulb.<br><br><br><br>• At what rate is condensate removed.<br><br><br><br>• So let&#39;s draw on the psychometric chart and I&#39;m going to do this in a simplified psych chart.<br><br><br><br>• You&#39;re going to be looking up the values on the actual psych chart which we&#39;ve covered how to do that in the fundamentals of mechanical engineering.<br><br><br><br>• So you should be able to quickly and confidently bring back any psychometric parameters based on a fully defined state.<br><br><br><br>• But just to summarize where we&#39;re going here, this is a cooling coil.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Practice Exam 1 · Problem 12 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>

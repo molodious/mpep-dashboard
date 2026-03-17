@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporting Topics · Problem 16 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Supporting Topics · Problem 16</span>
+  <span class="nav-badge" style="background:#f5f5f5;color:#888;border-color:#ddd;">No OH coverage</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">0 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Supporting Topics · Problem 16</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A project has an initial cost of $200K and generates $30K per year in net prots. After 15 years there is a salvage value of $40K. What is the return on investment for the project?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. 30,000 we&#39;re going to multiply that by p given a the present value given an annualized value for some interest rate that.
+
+2. And that&#39;s times p given f the future value at some interest rate i which we don&#39;t know yet over 15 years.
+
+3. And we can&#39;t just go and look that up in a table and work backwards to solve for i.
+
+4. But here&#39;s one thing you can do as a starting point just to get a sense of the problem.
+
+5. But I&#39;m saying as a first pass let&#39;s imagine that that future value didn&#39;t really contribute much right.
+
+<strong>Full Solution:</strong>
+
+A project has an initial cost of 200k and generates 30k per year in net profits. After 15 years there&#39;s a salvage value of 40k. What is the return on investment for the project? So another ROI problem similar to the last one. Unfortunately this time we don&#39;t have to deal with depreciation so that simplifies the cash flow diagram a bit. Let&#39;s jump right in with the diagram in year zero we have the initial cost of 200,000. And then every year we&#39;re going to have net profits of 30k so we don&#39;t have to worry about revenues and costs. We already have the net profit separated out so we can just draw a positive cash flow there of 30k. And that&#39;s going to happen every year for 15 years. So I&#39;m not going to draw 15 little arrows. I&#39;ll just jump right to the last one. So this is year zero. This is year one and this is year 15. And then also in year 15 we have a salvage value of an additional 40k on top of the 30. So we&#39;ll put that there. And that&#39;s pretty much the story. Three types of cash flow is going on. A present value and annualized value and a future value. So to find the ROI we want to find the interest rate that would make the present value of this initiative zero. So how do we do that? Well let&#39;s write an expression for the present value. We would have the 200,000 in costs upfront so that&#39;s going to be negative. And now we have to add to that the annualized cost which we&#39;ve got to discount back to a present value. So we&#39;ve got this 30,000 in that present net profits every year. 30,000 we&#39;re going to multiply that by p given a the present value given an annualized value for some interest rate that we don&#39;t know. So we&#39;ll just call it i. That&#39;s going to happen over 15 years plus we&#39;re also going to add the future value of 40,000. And that&#39;s times p given f the future value at some interest rate i which we don&#39;t know yet over 15 years. And in order to find the interest rate we want to use the present value that equals zero. So all of this has to add to zero and whatever the interest rate is that makes that true. That is the return on investment. That&#39;s the ROI. That&#39;s how that&#39;s defined. So unfortunately the math is a bit challenging because we have these two terms which have the interest rate embedded in them. And we can&#39;t just go and look that up in a table and work backwards to solve for i. But here&#39;s one thing you can do as a starting point just to get a sense of the problem. We&#39;ve got 30,000 a year every year for 15 years. That&#39;s going to be the big driver right and is a big upfront cost as well. So we want to make sure we include those two terms. But the 40,000 that&#39;s coming back is only once and it&#39;s 15 years from now. So that&#39;s going to be discounted back many times. So I&#39;m not saying it&#39;s negligible and we can just ignore it. But I&#39;m saying as a first pass let&#39;s imagine that that future value didn&#39;t really contribute much right. And then at least we can get a ballpark value for i without having to do multiple interpolation and all that stuff. We can just get a sense of the answer. So we would do negative 200,000 equals 30,000 times p given a i 15. And then we can divide both sides by 30,000. Actually that has to this should be a plus sign right here. And that has to equal zero. So we can add 200,000 to the right side and then divide by 30,000. And now we&#39;re saying p given a i 15 equals 200,000 over 30,000. And that equals about 6.7. And now if we go into the economic factor tables, check out the table for i equals 12. This is kind of interesting. And go to the column for p given a with interest rate of 12 over 15 years. And you&#39;ll notice that the factor is 6.8 or 6.81 doing a bit arounding. Which is higher than 6.7. And we know that p given a gets smaller as the interest rate goes up because the larger the interest rate, the more we&#39;re discounting present cash flows as compared to an annualized cash flow. So if we&#39;re noticing that the value in the table is 6.7, then the interest rate is already too high.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • A project has an initial cost of 200k and generates 30k per year in net profits.<br><br><br><br>• After 15 years there&#39;s a salvage value of 40k.<br><br><br><br>• What is the return on investment for the project.<br><br><br><br>• So another ROI problem similar to the last one.<br><br><br><br>• Unfortunately this time we don&#39;t have to deal with depreciation so that simplifies the cash flow diagram a bit.<br><br><br><br>• Let&#39;s jump right in with the diagram in year zero we have the initial cost of 200,000.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">No coverage</span>
+    </div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet. Check back as new sessions are added.</p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Supporting Topics · Problem 16 · 0 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
