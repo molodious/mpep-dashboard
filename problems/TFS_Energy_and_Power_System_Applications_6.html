@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy &amp; Power System Applications · Problem 6 | TFS OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS &middot; Energy &amp; Power System Applications &middot; Problem 6</span>
+  <span class="nav-badge">⭐ 1 OH session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">Thermal &amp; Fluids Systems &middot; Energy &amp; Power System Applications &middot; Problem 6</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      13.30 A refrigerator draws 800W of power and absorbs 4000Btu from the hr internal volume. What is the coecient of performance? 10113.31 What quantity of heat is released per unit mass when copper is cooled from 250F to 75F? lb lb lb lb 13.32 A refrigeration cycle provides 8tons of cooling with a COP of 4.2. What is the required compressor horsepower? 13.33 A 4in thick composite wall has an R-value of of 8hr·ft2·°F. The inside Btu and outside convective heat transfer coecients are 1.5 Btu and hr·...
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>173MBH</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>189MBH</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>200MBH</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>231MBH</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify the energy system: boiler, turbine, heat engine, generator, or combined cycle
+
+2. List all given information: enthalpies, pressures, temperatures, flow rates, and efficiencies
+
+3. Apply the appropriate energy balance or cycle analysis equation
+
+4. Account for all efficiency factors and energy losses
+
+5. Calculate the requested power output, efficiency, or energy quantity
+
+6. Select the closest answer choice with correct units
+
+<strong>Full Solution:</strong>
+
+This is Problem 6 from the Energy &amp; Power System Applications module of the Thermal &amp; Fluids Systems Practice Book.
+
+The problem asks: 13.30 A refrigerator draws 800W of power and absorbs 4000Btu from the hr internal volume. What is the coecient of performance? 10113.31 What quantity of heat is released per unit mass when copper is cooled from 250F to 75F? lb lb lb lb 13.32 A refrigeration cycle provides 8tons of cooling with a COP of 4.2. What is the required compressor horsepower? 13.33 A 4in thick composite wall has an R-value of of 8hr·ft2·°F. The inside Btu and outside convective heat transfer coecients are 1.5 Btu and hr·ft2·°F 3 Btu , respectively. What is the total thermal resistance? hr·ft2·°F 0.1hr·ft2·°F Btu 0.9hr·ft2·°F Btu 1.1hr·ft2·°F Btu 9.0hr·ft2·°F Btu 13.34 An object with a surface area of 10ft2 and a surface temperature of 40°F gains 1000Btu through a combination of radiation and con- hr vection. The ambient temperature as well as the temperature of the surrounding surfaces is 80°F. The emmissivity is 0.8. What is the convection lm coecient? hr·ft2°F hr·ft2°F hr·ft2°F hr·ft2°F 10213.35 A hot water heat exchanger is supplied with 55°C LTHW which is used to heat 2Lof domestic water from 20°C to 50°C . The return s LTHW temperature is 47°C. What is the volume ow rate of LTHW required? s s s s 13.36 During winter operation, a cooling plant reduces energy use by using a parallel ow plate and frame heat exchanger instead of its chillers. The system consists of two loops, (1) an open condenser water loop which is fed by cooling towers outside, and (2) a closed chilled water loop which is distributed throughout the facility. If the condenser water enters the heat exchanger at 40°F and leaves at 46°F and the chilled water enters at 60°F and leaves at 48°F, what is the log mean temperature dierence? 13.37 An uninsulated hot water pipe runs horizontally through a room. The water entering the pipe is 130°F. Where the pipe leaves the room, the water temperature is 110°F. The room temperature is 70°F. What is the lm temperature? 10313.38 A radiator is designed for 100°F entering air and 150°F leaving air. The inlet water is expected to enter at 212°F and leave at 195°F. The radiator may be treated as a counterow heat exchanger with a heat transfer surface area of 10ft2 and an overall coeeient of heat transfer of 11 Btu . What is the rate of heat transfer? hr·ft2·°F hr hr hr hr 13.39 An 8ft long, 1in diameter solid aluminum alloy rod with coecient of linear thermal expansion of 12.8×10−6 1 is heated from 70°F to °F 230°F. What is the change in cross-sectional area? 13.40 A 25ft long hot water pipe with a 3in O.D. has an an average sur- face temperature of 175°F in a room with an ambient temperature of 60°F. The convection coecient is 2 Btu . What is the total hr·ft2·°F heat loss from the pipe, assuming all surfaces are considered to be black, and no insulation is used? hr hr hr hr 10413.41 Saturated steam at 300psia enters a closed feedwater heater and heats entering water with a temperature of 60°F. The steam leaves as a saturated liquid. If the mass ow rate of water is 10 times the mass ow rate of steam, what is the exit temperature of the water? 13.42 Anexteriorwallisconstructedfrom 5inplasterboard(R = 0.56hr·ft2·°F), 8 Btu 3.5in batt insulation (R = 13hr·ft2·°F), and 3.5in brick (k = 6 Btu·in ). Btu hr·ft2·°F The inside surface of the plasterboard is maintained at 72°F. The outside lm coecient is 1.5 Btu and the outside temperature hr·ft2·°F is 20°F. What is the temperature at the interface of the brick and the insulation? 13.43 A building has 8 oce oors and a basement chiller plant, with 15ft of vertical spacing per oor. The chiller plant houses a set of pumps distributing chilled water via a central core riser to air handling units located in the building core on each oor of the building. Each oor has one air handling unit designed for 100gpm and 8ft of head pressure drop for the coil and 4psi of pressure drop for the control valve. The chillers are piped in parallel and have a maximum pressure drop of 15ft of head in all modes of operation. The head loss for the piping at the maximum ow rate is 4ft per 100ft of pipe. What is the head pressure that must be added by the pump set? 10513.44 A 75% ecient fuel pump supplies 50gpm of No. 2 diesel fuel (SG = 0.88). The dierential pressure accross the pump is 30psi. The motor driving the pump is 82% ecient. What is the electri- cal demand to run the pump? 13.45 A 90% ecient pump normally delivers 50gpm of 50°F chilled water at a head of 20ft of water with a rotational speed of 900rpm. What is the percent increase in brake horsepower required to increase the volume ow rate by 10%? Assume the pump is oversized and has sucient capacity in reserve to deliver the additional ow. 13.46 100gpm of a liquid with a specic gravity of 0.8 is supplied by a pump operating with a dierential pressure of 10psi. What is the hydraulic horsepower? 10613.47 Waste water ows to a common drain from 3 upstream sources. The pipes have inside diameters of 1in, 2in, and 3in. The velocity in each upstream pipe is 3ft. If the main drain downstream is s sized such that the velocity in is not to exceed 2ft, what is the s minimum diameter? 13.48 What is the Reynolds number for 1500gpm of 70°F water owing in a standard weight steel pipe with a diameter of 10in? 13.49 A gauge reads the static pressure for air owing in a pipe as 1psig. A pitot tube reads the total pressure as 60mm of mercury. What is the velocity of the air? 13.50 An open loop condenser water system holds 20,000 gallons. The system is to be treated with a 45% by volume biocide solution until the average concentration after mixing is 10ppm. Ignoring evaporation and the addition of make-up water, what volume of the solution is required? 10713.51 The ow of 20°C water through a hose with an inside diameter of 25mm is at the lower boundary of the fully turbulent range. How long will it take to ll a 50,000L swimming pool? 13.52 800gpm of gasoline (SG = 0.72) is transported through an 18in steel pipe. The kinematic viscosity of gasoline is 6 × 10−6ft2 . What is s the Reynolds number? 13.53 A water main is required to transport 8000gpm of water. What is the smallest diameter of pipe that should be used? 13.54 A pressurized tank contains air at 300psia. What is the Mach number of air exiting to the atmosphere through a hole in the tank? 10813.55 A pump requires 120hp to transport 1400gpm. What percent re- duction in power will be realized when the ow rate is reduced to 800gpm? 13.56 A uid with a specic gravity of 1.1 is pumped by a 150hp pump which generates 300ft of head. What is the increase in pressure observed at the pump outlet? 13.57 A pump running at 1750rpm delivers 250gpm and generates 150ft of head. What is the head generated by the pump after the impeller is trimmed by 25%, assuming the speed remains the same? 13.58 A pump is used to distribute 90°F water from an open tank at 5gpm. The centerline of the pump is located 8ft above the surface of the water. The manufacturer’s specications state the inlet pressure for this arrangement must be at least 30psi. What is the net positive suction head required? 10913.59 A water-cooled chiller produces 500gpm of 45°F supply chilled wa- ter from 56°F return chilled water. The chiller has a coecient of performance of 4.8. What is the load on the condenser? 13.60 A single phase 240V motor drives a pump that supplies 100lbm min of 80°F water and adds 400ft of pressure head. The pump is 70% ecient and the motor is 90% ecient. What is the current drawn by the motor? 13.61 Olive oil has a dynamic viscosity of 40cP and a specic gravity of 0.92. What is the kinematic viscosity? 4.3×10−5ft2 s 4.7×10−4ft2 s 2.0×10−3ft2 s 1.7ft2 s 13.62 900gpm of a uid ows through 500ft of a 8in pipe. The Reynolds number is 80,000 and the relative roughness is 0.0003. What is the total pressure drop? 11013.63 A chiller plant producing a low chilled water supply temperature of 40°F uses a glycol/water mixture of 30% glycol by volume. At 40°F, glycol has a specic heat capacity of 0.56 Btu and a specic lbm·°F gravity of 1.15. What is the specic heat capacity of the mixture? lbm·°F lbm·°F lbm·°F lbm·°F 13.64 900gpm of water ows through an 8 inch pipe with a relative rough- ness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe? 13.65 What is the friction loss per hundred feet for 800gpm of 80°F water owing through an 8 inch nominal schedule 40 steel pipe? 13.66 20,000gpm of water ows through a turbine in a hydroelectric power application. The inlet pressure is 50psig and the exit pres- sure is 1 atmosphere. The turbines have an overall eciency of 80%. What is the electrical capacity of the hydroelectric plant? 11113.67 A 1600rpm centrifugal pump with an 8 inch impeller requires 7.5bhp when delivering 250gpm of water at a head of 75ft. What is the new capacity when the impeller diameter is increased to 12 inches? 13.68 A make up pump that cycles on and o intermittently as required has a service factor of 1.25 and provides a water horsepower of 15hp. The pump eciency is 84%. The pump is driven by an electric motor with an eciency of 93%. What is the smallest motor that could be used? 13.69 A boiler feed pump circulates 30gpm against 30 feet of head. A booster pump in series is rated for 5 feet of head at 30 GPM. What is the combined total discharge head for this arrangement? 13.70 20lbm of 50°F air at atmostpheric pressure enters an air compres- min sor and exits at 350°F. What is the power required to drive the compressor? 11213.71 A 1GW natural gas power plant has a heat rate of 7500 Btu . The kWh higher heating value of natural gas is 21,000Btu. The specic car- lb bon content of natural gas is 0.75 lbC . Assuming all the carbon lb fuel produced becomes carbon dioxide, what is the mass of carbon dioxide generated by the plant annually? 13.72 A 460-V three phase AC motor rated for 60hp operates with an eciency of 93% and a power factor of 0.85. How much current will the motor draw? 13.73 Steam enters a turbine at a pressure of 1000psia and a temperature of 800°F and exits at a pressure of 90psia and a temperature of 400°F. What is the eciency? 13.74 The volumetric compression ratio of an air-standard diesel engine operated at sea level is 15. What is the pressure in the cylinder after the compression stroke? 11313.75 Afourstroke12-cylinderbackupdieselgeneratorrotatesat1800rpm. Each cylinder has a stroke of 6.5in and a bore of 5.5in. The indi- cated mean eective pressure is 300psi. How much power does the generator produce? 13.76 The net power output from a Rankine cycle with an isentropic turbine is 200MW. Steam enters the turbine at 1000°F and 1400psia. The condenser pressure is 10psia. What is the mass ow rate of steam through the cycle? hr hr hr hr 13.77 How much air is required to burn 25lb of methane with 30% excess air? 13.78 50 lb of steam enters a turbine at 800°F and 600psia and exits min at 10psia. How much power is produced by the turbine assuming 100% eciency? 11413.79 15,000lbm of air enters a gas turbine at 800°F and 70psia. The hr turbine produces 300hp of net work and the air exits the turbine at 14.7psia. What is the eciency of the turbine? 13.80 A hot water heating system is rated for 200,000Btu at sea level. The hr system includes a fuel gas burner and a combustion intake fan. What would the heating capacity be if the system was installed at an elevation of 4000ft above sea level? 115
+
+The answer choices are:
+  A) 173MBH
+  B) 189MBH
+  C) 200MBH
+  D) 231MBH
+
+To solve this problem, apply the relevant engineering principles from the Energy &amp; Power System Applications section of the PE reference handbook. Carefully track all units throughout the calculation and verify your answer is physically reasonable before selecting from the answer choices.
+
+Refer to the solution video for a detailed step-by-step walkthrough of this problem.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        • The solution video provides a clear step-by-step walkthrough of this problem<br><br>• Key reference data and equations are identified and applied systematically<br><br>• Unit conversions and intermediate calculations are shown in detail<br><br>• Common pitfalls and exam strategy tips are highlighted<br><br>• The conceptual understanding behind the solution approach is reinforced
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        • Read the problem statement carefully — the answer is often embedded in the details<br><br>• Track units at every step to avoid conversion errors<br><br>• Use reference tables and charts efficiently — speed matters on the exam<br><br>• When in doubt, check your answer's reasonableness against engineering intuition
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> --- course: Office Hours with Dan Molloy, PE course_short: Office-Hours chapter: Office Hours 35 | May 2, 2022 lesson: Lesson-34862682 lesson_pos: 5 chapter_pos: 22 content_id: 34862682 wistia_id: z20</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Last one, I don't think I'm going to get too much into the details this question because it was pretty superficial in terms of what we need to sort it out. It's a situation where you have a gas turbine and it's came from the TFS, so I'm not sure if anyone here is in that one, but it's a compressor, then a combustor, which is that constant pressure elevated pressure. And then a turbine expanding right after, so that's an air standard gas turbine setup. And the question is, why do we consider a pr</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Thermal &amp; Fluids Systems &middot; Energy &amp; Power System Applications &middot; Problem 6 &middot; 1 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
