@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 17 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.no-coverage {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; HVAC &middot; Problem 17</span>
+  <span class="nav-badge">⭐ 6 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">6 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 17</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 20,000ft2 factory uses LED lighting with a power density of 0.7W/ ft2 for the LED strips plus 15% for drivers. The space con- tains eight 93% e(cid:30)cient 7.5hp motors operating at an average of 70% of their rated capacity. The machinery driven by the motors is located within the conditioned space. There are 120 factory em- ployees performing light machine work. What is the total internal heat gain? hr hr hr hr
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>180,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>185,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>280,000Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>330,000Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Read the problem statement carefully and identify all given information and what is being asked.
+
+2. Determine which fundamental principles and equations from HVAC apply to this problem.
+
+3. Set up the solution by organizing given values with proper units and identifying the target variable.
+
+4. Apply the relevant equations step by step, maintaining unit consistency throughout.
+
+5. Solve for the answer and verify it matches one of the provided choices.
+
+6. Double-check units and reasonableness of the final answer.
+
+<strong>Full Solution:</strong>
+
+This problem is from the HVAC chapter. Review the problem statement above and work through it using the applicable principles from this topic area.
+
+The solution video walks through this problem step by step, demonstrating the proper approach and highlighting common pitfalls. Key considerations include identifying the correct equations, maintaining consistent units throughout the calculation, and verifying the final answer against the available choices.
+
+When solving this type of problem on the PE exam, start by listing all given information, identify what you need to find, select the appropriate equation(s), and solve systematically. Always check that your answer is reasonable and matches the units expected.
+
+<strong>Office Hours Insights:</strong>
+
+Students have asked about this problem in Office Hours sessions. See the Q&A panel on the right for detailed discussions and Dan's explanations of common approaches and pitfalls.</div>
+
+      <div class="video-box">
+        <strong>&#128249; Video Solution Synthesis:</strong><br><br>
+        &bull; The solution video walks through this HVAC problem from start to finish, identifying given information and the target variable.<br><br>
+        &bull; Key equations and principles are identified and applied step by step with careful attention to units.<br><br>
+        &bull; Common mistakes and unit conversion traps specific to this problem type are highlighted.<br><br>
+        &bull; The video demonstrates how to verify the answer is reasonable before selecting from the multiple choice options.<br><br>
+        &bull; Connections to related concepts within HVAC are noted for building broader understanding.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>&#11088; Key Takeaways:</strong><br>
+        &bull; Always start by carefully listing given information and identifying what the problem is asking for &mdash; rushing past this step is the most common source of errors.<br><br>
+        &bull; Unit consistency is critical in HVAC problems &mdash; convert all values to compatible units before plugging into equations.<br><br>
+        &bull; Know multiple solution approaches when possible &mdash; having a backup method builds confidence and catches errors.<br><br>
+        &bull; On exam day, if your calculated answer doesn&rsquo;t match any choice, re-check your unit conversions first &mdash; that&rsquo;s where most mistakes hide.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">6 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 08</div>
+      <div class="qa-question"><strong>Q:</strong> For the motor heat gain, why did you not divide the horsepower by the efficiency?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 21 | September 10, 2021 transcribed_at: 2026-03-14T22:20:23.982431 HVAC 17. For the motor heat gain, why did you not divide the horsepower by the efficiency? Looking at the reference handbook section 9.1.4 electric motors, the equation you used is if the motor is outside the condition space or air stream. But the equation above for motors in a condition space does divide the horsepower by the efficiency. So let&#x27;s draw. I think the...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 64</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-53973202
+
+HVAC17, why don&#x27;t we divide the motor efficiency as it is operating in a condition space?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 77 | March 18th, 2024 transcribed_at: 2026-03-15T00:30:30.011339 HVAC17, why don&#x27;t we divide the motor efficiency as it is operating in a condition space? Instead of that, we are using the equation considering the motor outside the condition space C-screen shots from the reference book. Yes, so this was one of those problems where we were calculating the heat gain in a room. We had some humans, we had some lights, and we had some ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 72</div>
+      <div class="qa-question"><strong>Q:</strong> Wouldn&#x27;t we not be concerned with heat load of the equipment if it&#x27;s in a different space altogether?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 86 | August 5th, 2024 transcribed_at: 2026-03-15T00:42:44.877940 Alright, HVAC 17. I understand that since the motors are in the room, there are full load should be accounted for. What I do not understand is that you mention, if the motors were in a different location, we would only account for 7% of the load. I get the efficiency portion, not the location making a difference portion. Wouldn&#x27;t we not be concerned with heat load of...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 76</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-59828666
+
+HVAC17, how can we use total power of motor as heat load?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 90 | October 28th, 2024 transcribed_at: 2026-03-15T00:50:52.027253 HVAC17, how can we use total power of motor as heat load? Shouldn&#x27;t it be 0.07 of total motor power as heat load? Since efficiency is 93%, if we&#x27;re assuming 100% of the motor power is converted to heat, then what&#x27;s the difference between a motor and the electric unit heater? I was under the assumption that 93% will be converted to mechanical load, and 7% to heat lo...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 85</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-63667183
+
+HVAC17.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 100 | March 17th, 2025 transcribed_at: 2026-03-15T01:24:30.631714 HVAC17. For the motor heat gain portion of the question, the equation used in your solution doesn&#x27;t take into account the motor efficiency, whereas the formula given in the handbook states to divide the motor power rating by the motor efficiency should the handbook formula be used here instead. So, yeah, and this question, that my solution doesn&#x27;t take into account ...</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 86</div>
+      <div class="qa-question"><strong>Q:</strong> 93 because we wanted to include all of the heat from the motor, not just the losses, right?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> course: Office Hours with Dan Molloy, PE chapter: Office Hours 101 | March 31st, 2025 transcribed_at: 2026-03-15T02:54:54.174581 HVAC17, why didn&#x27;t we need to multiply by 0.93 for the motor efficiency in this problem, but we included 0.7 for the operating capacity. So this was a problem where we were finding the heat load in a room and there was a variety of different things in the room, like three or four different things, but the most interesting was these motors. And the problem statement ...</div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; HVAC &middot; Problem 17 &middot; 6 OH sessions &middot; Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
