@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 15 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 15</span>
+  <span class="nav-badge">⭐ 13 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">13 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 15</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      20,000gpm of water ows through a turbine in a hydroelectric power application. The inlet pressure is 50psig and the exit pressure is 1atm. The turbines have an overall eciency of 80%. What is the electrical capacity of the hydroelectric plant?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>350KW</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>435KW</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>470KW</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>540KW</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. So if you go searching through the reference handbook or the murm for turbines, you&#39;ll probably go down a rabbit hole an.
+
+2. Of course there&#39;s efficiency going on throughout that process and we have an overall efficiency given here of 80%.
+
+3. But a high level principle here is that you have hydraulic horsepower entering and I&#39;m not even going to draw the interm.
+
+4. Okay, so how do we then calculate what that&#39;s worth.
+
+5. Well, the same way we would calculate if it was the other action, if it was a pump, we&#39;d be putting electricity in and g.
+
+6. We could use the hydraulic horsepower equation, which says that the flow rate in GPM times either the head or the delta.
+
+<strong>Full Solution:</strong>
+
+Fluids 15, 20,000 GPM of water flows through a turbine in a hydroelectric power application. The inlet pressure is 50 psi G and the exit pressure is 1 atmosphere. The turbines have an overall efficiency of 80 percent. What is the electrical capacity of the hydroelectric plant? So if you go searching through the reference handbook or the murm for turbines, you&#39;ll probably go down a rabbit hole and it&#39;s important to know about turbines. But this problem is actually like a pump running in reverse and that&#39;s the main insight that makes this quite an easy problem. But it&#39;s not obvious just reading about a hydroelectric power application with the turbine that it&#39;s sort of a pump running backwards. If you think about what a pump is, you put electrical power into a motor and it changes that into mechanical power, BHP, and then changes that into hydroelectric horsepower and does some useful pumping work. A hydroelectric power application is sort of the opposite where you have this hydroelectric horsepower entering, maybe water coming off a waterfall. That&#39;s turning a turbine, creating mechanical power and that mechanical power is turning a generator and making electrical power. Of course there&#39;s efficiency going on throughout that process and we have an overall efficiency given here of 80%. So if we can actually think of this arrangement like a pump running backwards, then that&#39;s what a hydroelectric turbine is. So what do we really mean by that? Let&#39;s say we&#39;ve been drawing pumps, so let&#39;s just say we have a turbine at least in concept, right? We could talk about what this arrangement really looks like. But a high level principle here is that you have hydraulic horsepower entering and I&#39;m not even going to draw the intermediate step of brake horsepower because we have an overall efficiency given. So I&#39;ll even abstract away that middle layer and just say hydraulic horsepower enters and electricity comes out. And that comes at some cost. Some inefficiency there are losses, losses of 20% that leave us with only 80% of the electricity that we could have if it was perfectly 100% efficient. Okay, so how do we then calculate what that&#39;s worth? Well, the same way we would calculate if it was the other action, if it was a pump, we&#39;d be putting electricity in and getting hydraulic horsepower out. Why can&#39;t we put hydraulic horsepower in and get electricity out? We could use the hydraulic horsepower equation, which says that the flow rate in GPM times either the head or the delta P. In this case, I think we&#39;ll go for the delta P over 1714. And normally the hydraulic horsepower is a fraction of what it could be because we&#39;re using electrical or mechanical energy to do pumping. But now it&#39;s going the other way where it&#39;s the hydraulic horsepower that&#39;s entering and the electricity that&#39;s coming out. So we can also say that the electrical power that emerges from this is a fraction of the hydraulic horsepower that enters. So normally it would be WHP over the efficiency and now it&#39;s times the efficiency. So if we want to put those two together, we could just write one formula and do all our substitutions in one shot. So let&#39;s do that. The electrical power is going to be the efficiency times the flow rate in GPM times the delta P and PSI over 1714. And the overall efficiency is 0.8. The GPM is 20,000. The delta P is 50 PSI gauge at the inlet. And then one atmosphere on the exit pressure. So the delta is 50 PSI, right? Because gauge pressure is 50 PSI plus the pressure of the atmosphere and the exit pressure is atmospheric. So the change in pressure is the 50 PSI. Hopefully that makes sense. And now this is going to come out in horsepower because this equation always gives us WHP. We&#39;re probably going to want KW. That number is 466.7 horsepower. And now to change that to KW, we can multiply by 0.7457 KW per horsepower. And we get an electrical power of 348 KW, which is closest to an inch of choice A.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Fluids 15, 20,000 GPM of water flows through a turbine in a hydroelectric power application.<br><br><br><br>• The inlet pressure is 50 psi G and the exit pressure is 1 atmosphere.<br><br><br><br>• The turbines have an overall efficiency of 80 percent.<br><br><br><br>• What is the electrical capacity of the hydroelectric plant.<br><br><br><br>• So if you go searching through the reference handbook or the murm for turbines, you&#39;ll probably go down a rabbit hole and it&#39;s important to know about.<br><br><br><br>• But this problem is actually like a pump running in reverse and that&#39;s the main insight that makes this quite an easy problem.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">13 questions from 3 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 41 · August 8th 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Can you elaborate on the relation between total pressure, gauge pressure and absolute pressure?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Fluids 15. Can you elaborate on the relation between total pressure, gauge pressure and absolute pressure? I&#39;m having a little trouble wrapping my head around how these parameters are intertwined. So I guess I&#39;ll answer this in two ways. One will just talk definitions. And then we&#39;ll talk about the context of the specific problem, or at least the aspect of it where we&#39;re finding the delta P. So in general, we&#39;ll say that the gauge pressure, plus the atmospheric pressure, equals the absolute pressure. So that&#39;s just purely definitional. The way I like to think of this is if we were measuring our height, you know, I&#39;m six feet tall, but I&#39;m standing on a stage. So if you measure my height from the stage, then I&#39;m six feet tall, but if the stage is a foot high, then I&#39;m seven feet tall with respect to the floor. So that&#39;s the difference between absolute pressure and gauge pressure. The atmosphere pressure is like the height of the stage. It&#39;s just everything is exposed to atmosphere pressure, everything that&#39;s under the atmosphere. Including the system that has a gauge on it. So when we measure the pressure with a gauge, it&#39;s measuring the pressure above and beyond that of the atmosph</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 68 · September 25th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> 7 psi converted from 1 ATM?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> All right, fluids, 15. In the answer video, you calculated the LTP as 50 psi g minus 1 ATM. We mentioned that the exit pressure is 0. Why is the exit pressure not 14.7 psi converted from 1 ATM? This one was about a water turbine. So converting the energy from moving water into electrical energy. And the first step was to find the pressure difference across the turbine, kind of treating it like a pump operating in reverse. So instead of power going in and making water horsepower, we&#39;re taking that water horsepower and turning into electricity. And so the question is, why is the exit pressure not 14.7 psi? I think we need to distinguish, again, this comes up a lot, gauge pressure from absolute pressure. So remember, 1 ATM is sphere equals 14.7 psi, which I know you know, because you just pointed that out. And that&#39;s PSI A. That&#39;s the absolute pressure. So one atmosphere, an absolute pressure is 14.7 psi A, which is what is that in PSI G? Shout it out. Zero. Zero. Because what is gauge pressure? gauge pressure is the pressure above or below, but usually above our data, which is the pressure of the atmosphere. 14.7 psi A. So how much pressure is it above and beyond that of the atmosphe</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74 · February 5th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 74</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Well, it&#39;s 15. How do you determine if it&#39;s one atmosphere standard or one atmosphere? There are different conversion factors at the front of the handbook. Doesn&#39;t matter. These are all the same. So actually kind of, ties into what we just talked about with the units from the previous one. And I just kind of sniped this from the reference handbook. So we have atmosphere given in centimeters of mercury. Not the most popular unit that we go to, but it is provided in centimeters of mercury. You can turn that into millimeters of mercury, right? You&#39;ve probably seen 760 millimeters of mercury. You can do it in atmospheres. So 29.9 inches of mercury. So that&#39;s just converting from centimeters to inches. It&#39;s really the same piece of information there. It&#39;s really a length conversion. If nothing else standard atmosphere in PSI 14.7. That&#39;s a number that we probably will have memorized. If you want that in feed of water, it&#39;s 33.9. We&#39;ll back to my thing over here. I couldn&#39;t remember what the decimal is. But now I know 13.9. If we want it in Pascal&#39;s, it&#39;s 1.013 times 10 to the fifth. I seem to remember that number from chemistry class as 101325 has been. 5 Pascal&#39;s or 101.325 KPA. Good n</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-27921746
+
+Why do you use HG instead of HFG on this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Why do you use HG instead of HFG on this problem? Is it because you&#39;re not changing the steam from steam to a liquid and therefore it remains steam and you stick with HG on the problem? Sometimes with coil problems we use HFG, since it produces condensate, since we don&#39;t want condensate here, is that why we use HG? Where is this problem? Eris. Let&#39;s read this problem. Because I think there&#39;s a reframing that needs to happen here. A stream of air flows through a humidifier to rate of 4,000 cubic feet at a dribble temperature 70 degrees in a relative humidity of 20. The air is humidified with 15 psi g saturated steam in a dew point of 50. The temperature of the air down on the stream of humidifiers is mostly OK. The thing here is we have air flowing through a humidifier. Water vapor at some temperature and some pressure, 15 psi g is being introduced into the air. It&#39;s being mixed. It&#39;s in the same space. It&#39;s in the same volume. So air is the vapor. What is air? Air is the mixture of nitrogen and oxygen. And if it&#39;s moist there also water vapor, which this air has some humidity.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> 25 for P4 over P3 instead of 4?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Last one, I don&#39;t think I&#39;m going to get too much into the details this question because it was pretty superficial in terms of what we need to sort it out. It&#39;s a situation where you have a gas turbine and it&#39;s came from the TFS, so I&#39;m not sure if anyone here is in that one, but it&#39;s a compressor, then a combustor, which is that constant pressure elevated pressure. And then a turbine expanding right after, so that&#39;s an air standard gas turbine setup. And the question is, why do we consider a pressure ratio of 0.25 for P4 over P3 instead of 4? Well, the pressure ratio of 4 says that atmospheric air is compressed at a 4 to 1 ratio, and we use this formula ratio of temperature is equals ratio of the pressures raised to the K minus 1 over K. That pressure ratio is 4 for the compressor. Then we combust at that elevated pressure, constant pressure. And then the turbine is an expansion process, and it says that it expands back to 1 atmosphere. So it&#39;s atmospheric when an enters and it&#39;s atmospheric when it leaves at state 4. So all that pressure that we built up going from 1 to 2 for 1 ratio, we&#39;re giving all that back as we go from 3 to 4.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 45</div>
+      <div class="qa-question"><strong>Q:</strong> So you got you found 1170 story about the turbine?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> practice exam one number 70 is there any relation between quality of steam and efficiency steam quality one means 100% gas. I have to consider HG on the properties of saturation table right. Followed question on 23. So there&#39;s three questions here. You sent the question about 1170 and we can talk through this problem if you want. But then you sent a snap which was about steam traps. Yes. A related question that&#39;s about a heat exchanger. Yes. Actually what happened is when I was solving the problem right. So this problem I had because my first question was like if the steam quality is 100% steam right. So I tried to like sneak it&#39;s not like I didn&#39;t see the solution video first. But I went to the super heated what do you call like steam table right and somehow use that the following formula right on this one right. But this H liquid right I just like what you call like forcefully inserted what you call saturation temperature like not the super liquid. The saturation steam table or something. The HF value right and I got the answer correct. But the problem happened is that that&#39;s why I was a little confused about the steam table. I&#39;m sorry the quality of steam.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 61</div>
+      <div class="qa-question"><strong>Q:</strong> How do you feel about abbreviating calculations of head loss through a straight pipe by using the hazelnut Williams equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This one is kind of a general question about the hazelnut Williams. How do you feel about abbreviating calculations of head loss through a straight pipe by using the hazelnut Williams equation? I found that using hazelnut Williams coefficient of 140 yields accurate head loss calculations for schedule 40 carbon steel. Rather than having to calculate both the Reynolds, Dumber and the Friction factor, this seems more reliable, no moody diagram with fewer steps. So this is an interesting idea. I think it&#39;s pretty cool that you kind of took the time to figure this out and come up with an alternative that you have found to be fairly reliable. So that&#39;s interesting. I have to look into it a bit more, but I want you to know both is the really kind of the thrust of my answer here. If this works, then that&#39;s great. But I&#39;m a little, it&#39;s too new of an idea for me to feel comfortable. I&#39;ve just done hundreds and hundreds of problems and it hasn&#39;t been necessary to find a shorter way. And for most folks that are well prepared, time doesn&#39;t end up usually being a crippling factor. Usually it&#39;s skills and knowledge and being able to work fast enough.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 80</div>
+      <div class="qa-question"><strong>Q:</strong> I understand that there are different fluids, air versus water, but why the different ways to determine the look up temperature?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Heat transfer 15. I am struggling to understand which temperature to use to look up values such as kinematic viscosity and pranel number. In problem heat transfer 15, you use the surface temperature 100 degrees, but in problem 16, you use the film temperature. I understand that there are different fluids, air versus water, but why the different ways to determine the look up temperature? Yeah, this is a common question that&#39;s come up before on office hours. You can go back and look at the archive and see previous times that heat transfer 15 has been questioned for this exact reason. You should use the film temperature. You might get away with it. I think I got away with it in this problem. If you calculate the film temperature and repeat the problem, the look up values for kinematic viscosity and pranel number are going to be close enough that you ultimately get the same answer. That&#39;s pretty common and heat transfer problems because the level of precision that is available in heat transfer problems is not as high as some of the other domains that we study for the mechanical PE exam. You should expect that for heat transfer, but that&#39;s no excuse.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 21</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-27921746
+
+Why do you use HG instead of HFG on this problem?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Why do you use HG instead of HFG on this problem? Is it because you&#39;re not changing the steam from steam to a liquid and therefore it remains steam and you stick with HG on the problem? Sometimes with coil problems we use HFG, since it produces condensate, since we don&#39;t want condensate here, is that why we use HG? Where is this problem? Eris. Let&#39;s read this problem. Because I think there&#39;s a reframing that needs to happen here. A stream of air flows through a humidifier to rate of 4,000 cubic feet at a dribble temperature 70 degrees in a relative humidity of 20. The air is humidified with 15 psi g saturated steam in a dew point of 50. The temperature of the air down on the stream of humidifiers is mostly OK. The thing here is we have air flowing through a humidifier. Water vapor at some temperature and some pressure, 15 psi g is being introduced into the air. It&#39;s being mixed. It&#39;s in the same space. It&#39;s in the same volume. So air is the vapor. What is air? Air is the mixture of nitrogen and oxygen. And if it&#39;s moist there also water vapor, which this air has some humidity.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 35</div>
+      <div class="qa-question"><strong>Q:</strong> 25 for P4 over P3 instead of 4?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Last one, I don&#39;t think I&#39;m going to get too much into the details this question because it was pretty superficial in terms of what we need to sort it out. It&#39;s a situation where you have a gas turbine and it&#39;s came from the TFS, so I&#39;m not sure if anyone here is in that one, but it&#39;s a compressor, then a combustor, which is that constant pressure elevated pressure. And then a turbine expanding right after, so that&#39;s an air standard gas turbine setup. And the question is, why do we consider a pressure ratio of 0.25 for P4 over P3 instead of 4? Well, the pressure ratio of 4 says that atmospheric air is compressed at a 4 to 1 ratio, and we use this formula ratio of temperature is equals ratio of the pressures raised to the K minus 1 over K. That pressure ratio is 4 for the compressor. Then we combust at that elevated pressure, constant pressure. And then the turbine is an expansion process, and it says that it expands back to 1 atmosphere. So it&#39;s atmospheric when an enters and it&#39;s atmospheric when it leaves at state 4. So all that pressure that we built up going from 1 to 2 for 1 ratio, we&#39;re giving all that back as we go from 3 to 4.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 45</div>
+      <div class="qa-question"><strong>Q:</strong> So you got you found 1170 story about the turbine?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> practice exam one number 70 is there any relation between quality of steam and efficiency steam quality one means 100% gas. I have to consider HG on the properties of saturation table right. Followed question on 23. So there&#39;s three questions here. You sent the question about 1170 and we can talk through this problem if you want. But then you sent a snap which was about steam traps. Yes. A related question that&#39;s about a heat exchanger. Yes. Actually what happened is when I was solving the problem right. So this problem I had because my first question was like if the steam quality is 100% steam right. So I tried to like sneak it&#39;s not like I didn&#39;t see the solution video first. But I went to the super heated what do you call like steam table right and somehow use that the following formula right on this one right. But this H liquid right I just like what you call like forcefully inserted what you call saturation temperature like not the super liquid. The saturation steam table or something. The HF value right and I got the answer correct. But the problem happened is that that&#39;s why I was a little confused about the steam table. I&#39;m sorry the quality of steam.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 61</div>
+      <div class="qa-question"><strong>Q:</strong> How do you feel about abbreviating calculations of head loss through a straight pipe by using the hazelnut Williams equation?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> This one is kind of a general question about the hazelnut Williams. How do you feel about abbreviating calculations of head loss through a straight pipe by using the hazelnut Williams equation? I found that using hazelnut Williams coefficient of 140 yields accurate head loss calculations for schedule 40 carbon steel. Rather than having to calculate both the Reynolds, Dumber and the Friction factor, this seems more reliable, no moody diagram with fewer steps. So this is an interesting idea. I think it&#39;s pretty cool that you kind of took the time to figure this out and come up with an alternative that you have found to be fairly reliable. So that&#39;s interesting. I have to look into it a bit more, but I want you to know both is the really kind of the thrust of my answer here. If this works, then that&#39;s great. But I&#39;m a little, it&#39;s too new of an idea for me to feel comfortable. I&#39;ve just done hundreds and hundreds of problems and it hasn&#39;t been necessary to find a shorter way. And for most folks that are well prepared, time doesn&#39;t end up usually being a crippling factor. Usually it&#39;s skills and knowledge and being able to work fast enough.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 80</div>
+      <div class="qa-question"><strong>Q:</strong> I understand that there are different fluids, air versus water, but why the different ways to determine the look up temperature?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Heat transfer 15. I am struggling to understand which temperature to use to look up values such as kinematic viscosity and pranel number. In problem heat transfer 15, you use the surface temperature 100 degrees, but in problem 16, you use the film temperature. I understand that there are different fluids, air versus water, but why the different ways to determine the look up temperature? Yeah, this is a common question that&#39;s come up before on office hours. You can go back and look at the archive and see previous times that heat transfer 15 has been questioned for this exact reason. You should use the film temperature. You might get away with it. I think I got away with it in this problem. If you calculate the film temperature and repeat the problem, the look up values for kinematic viscosity and pranel number are going to be close enough that you ultimately get the same answer. That&#39;s pretty common and heat transfer problems because the level of precision that is available in heat transfer problems is not as high as some of the other domains that we study for the mechanical PE exam. You should expect that for heat transfer, but that&#39;s no excuse.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 15 · 13 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
