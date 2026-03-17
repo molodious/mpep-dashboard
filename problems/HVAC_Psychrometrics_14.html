@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 14 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 14</span>
+  <span class="nav-badge">⭐ 10 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">10 OH sessions</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 14</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An auditorium has a sensible heat load of 300,000Btu and a moisture hr load of 100lb. Air is supplied at 62°F and 50% relative humidity. hr The space is not to exceed a temperature of 74°F or a relative humidity of 60%. What are the return air conditions?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>71◦F, 60% RH</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>72◦F, 43% RH</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>74◦F, 38% RH</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>74◦F, 60% RH</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution &#9660;
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Or it might be quite balanced where the latent load and the sensible load are in such a proportion that based on that se.
+
+2. So let&#39;s start by recording some of the things we know.
+
+3. We can say that the sensible heat load is 300,000 BTUs per hour, that was given.
+
+4. And the latent load was not given in BTUs per hour, it was given in pounds per hour.
+
+5. And one useful piece of information in the reference handbook.
+
+6. So I&#39;m going to multiply this by 1076 BTU per pound.
+
+<strong>Full Solution:</strong>
+
+Psychometric&#39;s problem 14. In Auditorium has a sensible heat load of 300,000 BTUs per hour and a moisture load of 100 pounds per hour. Air is supplied at 62 degrees Fahrenheit and 50% relative humidity. The space is not to exceed a temperature of 74 degrees or a relative humidity of 60%. What are the return air conditions? So this is an interesting problem because we don&#39;t know whether the sensible heat in the space, the 300,000 BTUs per hour, or the latent load in the space, the 100 pounds per hour, is the driving force for how much volume we actually need. It may be that we&#39;re bumping into the 74 degree limit in order to meet the sensible load. We have to provide enough air to meet the 74 degree return condition. And in so doing, there&#39;s plenty of volume for us to meet the latent load. Or it might be the other way around. We might have so much humidity being created in the space that we have to move enough volume to meet the latent load. And we&#39;re actually overperforming from a sensible cooling perspective and the return temperature is lower than 74. Or it might be quite balanced where the latent load and the sensible load are in such a proportion that based on that sensible heat ratio and the available capacity, it turns out that it comes back at exactly 74 and 60% in which case answer choice of D is going to be the best one. So we don&#39;t really know until we take a look. So let&#39;s start by recording some of the things we know. We can say that the sensible heat load is 300,000 BTUs per hour, that was given. And the latent load was not given in BTUs per hour, it was given in pounds per hour. And one useful piece of information in the reference handbook. This is a good number to memorize, but even if you don&#39;t memorize it, you can search for it when you need it. Search for latent heat gain. And you&#39;ll find this number here. 1,076 BTU per pound. So for every pound of water vapor that&#39;s being created for every pound of latent load, there are 1,076 BTUs per pound approximately based on these condition 50% RH and 75 degrees Fahrenheit. Even if you&#39;re not at exactly those conditions, you can use this as a quick number. That way you can go from pounds per hour to BTUs per hour so it&#39;s really convenient. So I&#39;m going to multiply this by 1076 BTU per pound. And now we know the latent load in BTUs per hour. It&#39;s going to be 107,600. So just roughly if we would define the sensible heat ratio would be 300,000 plus a little over 100,000 divided by a little over 400,000. So we have a sensible heat ratio of about let&#39;s say 75%, it&#39;s just a touch lower than that but close enough. And that&#39;s pretty typical. So I&#39;m going to make an assumption that since most air conditioning equipment is designed to deal with a sensible heat ratio, that&#39;s on the order of 70 to 80% let&#39;s say, that the latent load is not so much of a factor. And that the CFM required to cool the space will be based on the sensible load only. And then we can check what would be the latent capacity if we had that CFM. And compare that to the latent load and if we have more latent capacity than latent load, then we&#39;ll know that my assumption was good. And if it goes the other way, then we&#39;ll know that my assumption was bad and that it actually is the latent load that drives the situation and there&#39;s more than enough sensible capacity. So to summarize the key assumption that I&#39;m making here, and this is a bit of a guess but it&#39;s based on the fact that the sensible heat ratio is about 0.75. I&#39;m assuming that the sensible load drives the required CFM. Okay, so if that&#39;s true, if the sensible load drives the required CFM, then I can use the sensible load real of thumb, 1.08 CFM delta T. And I don&#39;t know the CFM, that&#39;s what I want to know. But I&#39;m going to assume that the delta T based on this goes all the way from the supply condition 62 degrees to the maximum allowable return condition 74 degrees. So that entire 12 degree delta is going to be in play.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • In Auditorium has a sensible heat load of 300,000 BTUs per hour and a moisture load of 100 pounds per hour.<br><br><br><br>• Air is supplied at 62 degrees Fahrenheit and 50% relative humidity.<br><br><br><br>• The space is not to exceed a temperature of 74 degrees or a relative humidity of 60%.<br><br><br><br>• What are the return air conditions.<br><br><br><br>• So this is an interesting problem because we don&#39;t know whether the sensible heat in the space, the 300,000 BTUs per hour, or the latent load in the s.<br><br><br><br>• It may be that we&#39;re bumping into the 74 degree limit in order to meet the sensible load.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• The PE reference handbook contains the key formulas needed — practice finding them quickly.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">10 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 54 · March 13th 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 54</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Let&#39;s start with psychometrics. So this is one number 14. We calculate the SHR at near 75% and assume that the sensible is the driver. Then we calculate the CFM needed assuming the worst condition of return error at 74 degrees yielding 23,000 CFM. We check the CFM in the late and heat rule of thumb and find that it has five times the capacity needed. So we know the sensible he drives the CFM, but we assumed 74 degrees seems like you could calculate CFM with any other number less than 74 and find another solution. How can we be sure 74 is right? And the only valid temperature of the return error. So this one was about an auditorium where we had a maximum amount, a maximum temperature and a maximum relative humidity. And we were given the sensible load, we just jot down some of the things we were given. We&#39;re not to do the numbers, but I just want to go over the concept. We were given the sensible load for the space. We were given the latent load, but not as a queue we were given as an M dot. So a latent load in terms of the mass flow rate of water vapor being out of the air. We were given the supply conditions in terms of the dribbled temperature and the relative humidity for the su</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 80 · May 13th 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 80</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics 14. This question was slightly difficult for me and I tried my best to make an attempt at solving before looking at the solution. I assumed if T return max is 74 and the sensible load is 300,000 BT&#39;s per hour. I can find the max CFM to achieve a max delta T of 12. I found the total latent load by converting pounds per hour to BT per hour. I then plotted the dribble temperature 62 degrees and 50% relative humidity to get H1. Then I used the total heat formula 4.5 CFM delta H to find H2. Is this a valid step since I see used different approach in the solution video? I then was stuck because although I found the max CFM assuming the return temperature 74, I didn&#39;t technically solve for it and I wasn&#39;t sure if the temp could be lower than that. I attempted plotting 74 degrees and my H2 and I got an RAH between 35 and 40% and chose the answer to choice C. Even with the solution I&#39;m still unclear, we are certain that the return temperature 74 and not a lower value. Also does answer choice D. Technically still satisfy the criteria. Yeah, great questions there. This was a tough one. This was about cooling and auditorium where we know the sensible load and the moisture load. A</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 43</div>
+      <div class="qa-question"><strong>Q:</strong> How would I have known that simply reheating back to the SHR slope would still satisfy the room load, refer to the second page of my understanding of the system travel path?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics, miscellaneous. I don&#39;t always know how to apply the sensible hierasia. How would I have known that simply reheating back to the SHR slope would still satisfy the room load, refer to the second page of my understanding of the system travel path? Also, what does the sensible hierasia actually provide me? Is it the theoretical travel path or cooling the room load? Presumed the pink dashed line doesn&#39;t match the slope of the SHR because the actual system occurs losses. Really good question about a common problem that comes up. I&#39;m actually going to read this problem out and then I&#39;m going to jump over to the really nice drawing that you did on the psychometric chart. We&#39;ll spend a couple of minutes on this. So the question is, a room is maintained at 75 degrees and 50% are H. The room sensible hierasia is 0.66, the apparatus 2.38 degrees. The air conditioning unit discharge air temperature is 52 degrees dry bulb, 51 degrees Wepp bulb.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 51</div>
+      <div class="qa-question"><strong>Q:</strong> Did not understand the concept of why the fuel should be heated to a thousand degrees F?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, the next one was also from TFS. It was from energy and power systems. There&#39;s number 11. Did not understand the concept of why the fuel should be heated to a thousand degrees F? So, this is an interesting question. This question was about taking some waste heat from some industrial process, which is in the form of flu gas, and heating it up by burning fuel. Now, the flu gas is already a thousand degrees F. And the question is, what&#39;s going to be the final temperature after the heating based on a mass flow rate of fuel that&#39;s being burned, that&#39;s at some initial temperature and has a particular heating value? So, the way we go about this is the first thing we want to know is, how much heat, how much energy is that fuel providing? So, we do the mass flow rate of fuel times the heating value. And that gives us this number here, this 1.7 times 10 to the night. But as I explained in the solution video, not all of that heat goes into heating the flu gas. Why? Because the fuel itself is only 70 degrees. It&#39;s not at a thousand degrees. So some of that heat has to go into just heating the fuel just to get it up to baseline.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain a little further why the latent heat of vaporization used to find the energy contributed by the latent load?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and full price exam two, number 14. Can you explain a little further why the latent heat of vaporization used to find the energy contributed by the latent load? I&#39;m having a hard time wrapping my head around this method because the load may not necessarily be people boiling water to make steam. The latent load could be just from sweating people in a gym, which seems different than boiling water at two, 12 to make steam. Can&#39;t a latent load be added even if water is in boiled? Yeah, yeah, I can, you&#39;re right. So I guess we want to kind of, there&#39;s going to be different sources. So in this problem statement, I had written that there was a certain mass flow rate of water being added to the air. It was 12 pounds per hour. So that&#39;s the latent load. That&#39;s the mass flow rate of water being added to the air. But I didn&#39;t say anything about how that was being done. And then in the solution, I kind of said, like, you can imagine boiling so much water, which is one way of thinking about it, but probably not the other. And I think it&#39;s a fair point that there&#39;s different sources of water. It could be someone sweating in a gym.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 101</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-64020492
+
+Missile NSC, finding the cool and coil entering conditions makes sense, but for finding the leaving our conditions, if the sensible and late-in-heat gains, if given sensible and late-heat gains, do we assume the outside air temperature load is not provided in the total load?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Missile NSC, finding the cool and coil entering conditions makes sense, but for finding the leaving our conditions, if the sensible and late-in-heat gains, if given sensible and late-heat gains, do we assume the outside air temperature load is not provided in the total load? If the enthalpy of the mixed air condition accounts for the outside air, isn&#39;t the outside air load already accounted for? So it&#39;s not obvious. The answer is it depends, and that&#39;s why I always try to draw a picture. One of the challenges working with some of these solutions through other sources is that they don&#39;t give you a picture. I don&#39;t think I could start pulling out equations and solving things until I had a sketch that I felt like I could rely on for a situation like this. I think what this problem is about, I know what this problem is about, is an outside air handling unit, which means that, and the way they&#39;ve kind of presented it from the beginning of the problem here, is that the room has these characteristics, sensible heat gain, late-in-heat gain, and those are characteristics of the room.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 43</div>
+      <div class="qa-question"><strong>Q:</strong> How would I have known that simply reheating back to the SHR slope would still satisfy the room load, refer to the second page of my understanding of the system travel path?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Psychometrics, miscellaneous. I don&#39;t always know how to apply the sensible hierasia. How would I have known that simply reheating back to the SHR slope would still satisfy the room load, refer to the second page of my understanding of the system travel path? Also, what does the sensible hierasia actually provide me? Is it the theoretical travel path or cooling the room load? Presumed the pink dashed line doesn&#39;t match the slope of the SHR because the actual system occurs losses. Really good question about a common problem that comes up. I&#39;m actually going to read this problem out and then I&#39;m going to jump over to the really nice drawing that you did on the psychometric chart. We&#39;ll spend a couple of minutes on this. So the question is, a room is maintained at 75 degrees and 50% are H. The room sensible hierasia is 0.66, the apparatus 2.38 degrees. The air conditioning unit discharge air temperature is 52 degrees dry bulb, 51 degrees Wepp bulb.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 51</div>
+      <div class="qa-question"><strong>Q:</strong> Did not understand the concept of why the fuel should be heated to a thousand degrees F?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, the next one was also from TFS. It was from energy and power systems. There&#39;s number 11. Did not understand the concept of why the fuel should be heated to a thousand degrees F? So, this is an interesting question. This question was about taking some waste heat from some industrial process, which is in the form of flu gas, and heating it up by burning fuel. Now, the flu gas is already a thousand degrees F. And the question is, what&#39;s going to be the final temperature after the heating based on a mass flow rate of fuel that&#39;s being burned, that&#39;s at some initial temperature and has a particular heating value? So, the way we go about this is the first thing we want to know is, how much heat, how much energy is that fuel providing? So, we do the mass flow rate of fuel times the heating value. And that gives us this number here, this 1.7 times 10 to the night. But as I explained in the solution video, not all of that heat goes into heating the flu gas. Why? Because the fuel itself is only 70 degrees. It&#39;s not at a thousand degrees. So some of that heat has to go into just heating the fuel just to get it up to baseline.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 70</div>
+      <div class="qa-question"><strong>Q:</strong> Can you explain a little further why the latent heat of vaporization used to find the energy contributed by the latent load?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Okay, and full price exam two, number 14. Can you explain a little further why the latent heat of vaporization used to find the energy contributed by the latent load? I&#39;m having a hard time wrapping my head around this method because the load may not necessarily be people boiling water to make steam. The latent load could be just from sweating people in a gym, which seems different than boiling water at two, 12 to make steam. Can&#39;t a latent load be added even if water is in boiled? Yeah, yeah, I can, you&#39;re right. So I guess we want to kind of, there&#39;s going to be different sources. So in this problem statement, I had written that there was a certain mass flow rate of water being added to the air. It was 12 pounds per hour. So that&#39;s the latent load. That&#39;s the mass flow rate of water being added to the air. But I didn&#39;t say anything about how that was being done. And then in the solution, I kind of said, like, you can imagine boiling so much water, which is one way of thinking about it, but probably not the other. And I think it&#39;s a fair point that there&#39;s different sources of water. It could be someone sweating in a gym.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 101</div>
+      <div class="qa-question"><strong>Q:</strong> # Lesson-64020492
+
+Missile NSC, finding the cool and coil entering conditions makes sense, but for finding the leaving our conditions, if the sensible and late-in-heat gains, if given sensible and late-heat gains, do we assume the outside air temperature load is not provided in the total load?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Missile NSC, finding the cool and coil entering conditions makes sense, but for finding the leaving our conditions, if the sensible and late-in-heat gains, if given sensible and late-heat gains, do we assume the outside air temperature load is not provided in the total load? If the enthalpy of the mixed air condition accounts for the outside air, isn&#39;t the outside air load already accounted for? So it&#39;s not obvious. The answer is it depends, and that&#39;s why I always try to draw a picture. One of the challenges working with some of these solutions through other sources is that they don&#39;t give you a picture. I don&#39;t think I could start pulling out equations and solving things until I had a sketch that I felt like I could rely on for a situation like this. I think what this problem is about, I know what this problem is about, is an outside air handling unit, which means that, and the way they&#39;ve kind of presented it from the beginning of the problem here, is that the room has these characteristics, sensible heat gain, late-in-heat gain, and those are characteristics of the room.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 14 · 10 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+}
+</script>
+</body>
+</html>
