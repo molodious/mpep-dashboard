@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 18 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+.oh-empty .oh-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.oh-empty strong {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.right-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+.right-section-title:first-child { margin-top: 0; }
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 18</span>
+  <span class="nav-badge">0 OH sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 18</div>
+
+    <div class="problem-statement">
+      Crude oil is pumped by a centrifugal pump with a performance curve given by the equation
+      <strong>H<sub>p</sub> = 50 − Q²/25 − Q</strong>, where head is in units of feet and flow rate
+      is in units of cubic feet per second. The system curve is described by the equation
+      <strong>H<sub>s</sub> = Q²/25 + Q/10</strong>, with the same units.
+      Neglecting efficiency and losses, what is the power required by the pump?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>16 hp</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B</span>
+        <span>30 hp &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>35 hp</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>53 hp</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B — 30 hp</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">pump–system curve intersection + power</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li><strong>Identify the operating point method:</strong> The pump operates where its performance curve intersects the system curve — set H<sub>p</sub> = H<sub>s</sub>.</li>
+          <li><strong>Set curves equal and rearrange:</strong> Combine the two equations into a single quadratic equation in Q.</li>
+          <li><strong>Solve the quadratic for Q:</strong> Use the quadratic formula; take the positive root. This gives the operating flow rate Q ≈ 19.05 cfs.</li>
+          <li><strong>Find the operating head H:</strong> Substitute Q back into either curve equation to get H ≈ 16.43 ft.</li>
+          <li><strong>Look up fluid property:</strong> For crude oil, use specific gravity SG ≈ 0.85, so γ = 0.85 × 62.4 = 53.04 lb/ft³.</li>
+          <li><strong>Compute power:</strong> Use P = γQH/550 (converts ft·lb/s to horsepower). Result ≈ 30 hp → <strong>Answer B</strong>.</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 "Neglecting efficiency" means η = 1:</strong> When the problem says to neglect efficiency and losses, you treat the pump as 100% efficient. This means water (or fluid) power equals shaft power — no additional division by η is needed. The power formula P = γQH/550 gives shaft power directly in horsepower.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            A centrifugal pump's <strong>performance curve</strong> (H<sub>p</sub>) describes how much head the pump can deliver as a function of flow rate. The <strong>system curve</strong> (H<sub>s</sub>) describes how much head the system demands at any given flow rate. The pump will naturally operate at the intersection of these two curves — the <strong>operating point</strong>.
+          </p>
+
+          <p><strong>Step 1 — Set H<sub>p</sub> = H<sub>s</sub>:</strong></p>
+          <span class="math-line">H_p = H_s</span>
+          <span class="math-line">50 − Q²/25 − Q  =  Q²/25 + Q/10</span>
+
+          <p style="margin-top: 10px;"><strong>Step 2 — Rearrange to standard quadratic form:</strong></p>
+          <p>Move all terms to one side:</p>
+          <span class="math-line">50  =  Q²/25 + Q/10 + Q²/25 + Q</span>
+          <span class="math-line">50  =  2Q²/25 + Q(1 + 1/10)</span>
+          <span class="math-line">50  =  2Q²/25 + 11Q/10</span>
+          <p style="margin-top: 8px;">Multiply every term by 50 to clear fractions:</p>
+          <span class="math-line">2500  =  4Q² + 55Q</span>
+          <span class="math-line">4Q² + 55Q − 2500  =  0</span>
+
+          <p style="margin-top: 10px;"><strong>Step 3 — Apply the quadratic formula:</strong></p>
+          <span class="math-line">Q = [−b ± √(b² − 4ac)] / (2a)</span>
+          <span class="math-line">a = 4,   b = 55,   c = −2500</span>
+          <span class="math-line">discriminant = 55² + 4(4)(2500) = 3,025 + 40,000 = 43,025</span>
+          <span class="math-line">√43,025 ≈ 207.42</span>
+          <span class="math-line">Q = (−55 + 207.42) / (2 × 4)  =  152.42 / 8  ≈  19.05 cfs</span>
+          <p style="margin-top: 6px; font-size: 12.5px; color: #666;">(The negative root gives a physically meaningless negative flow rate — discard it.)</p>
+
+          <p style="margin-top: 10px;"><strong>Step 4 — Find the operating head H:</strong></p>
+          <p>Substitute Q = 19.05 cfs into the system curve:</p>
+          <span class="math-line">H = Q²/25 + Q/10</span>
+          <span class="math-line">H = (19.05)²/25 + 19.05/10</span>
+          <span class="math-line">H = 362.9/25 + 1.905</span>
+          <span class="math-line">H = 14.52 + 1.91  ≈  16.43 ft</span>
+          <p style="margin-top: 6px; font-size: 12.5px; color: #666;">(Verify with pump curve: H_p = 50 − (19.05)²/25 − 19.05 = 50 − 14.52 − 19.05 = 16.43 ft ✓)</p>
+
+          <p style="margin-top: 10px;"><strong>Step 5 — Fluid specific weight for crude oil:</strong></p>
+          <p>
+            Crude oil has a specific gravity of approximately <strong>SG = 0.85</strong> (a standard PE exam value; crude typically ranges 0.80–0.97).
+          </p>
+          <span class="math-line">γ = SG × γ_water = 0.85 × 62.4 lb/ft³ = 53.04 lb/ft³</span>
+
+          <p style="margin-top: 10px;"><strong>Step 6 — Compute required power:</strong></p>
+          <p>
+            With η = 1 (neglecting efficiency), fluid power equals shaft power:
+          </p>
+          <span class="math-line">P = γ × Q × H / 550</span>
+          <span class="math-line">P = 53.04 lb/ft³ × 19.05 ft³/s × 16.43 ft / 550</span>
+          <span class="math-line">P = 53.04 × 312.8 / 550</span>
+          <span class="math-line">P = 16,591 ft·lb/s / 550</span>
+          <span class="math-line">P ≈ 30.2 hp</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Answer: B — 30 hp.</strong>
+          </p>
+
+          <p>
+            The factor of 550 converts from ft·lb/s to horsepower (1 hp = 550 ft·lb/s). Since efficiency is neglected (η = 1), there is no denominator efficiency term — every unit of power delivered to the fluid equals one unit of shaft power drawn by the pump.
+          </p>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <!-- Section 1: Quick Overview -->
+    <div class="right-section-title">📋 Section 1 — Quick Overview</div>
+    <ol style="padding-left: 20px; font-size: 13px; line-height: 1.8; color: #444; margin-bottom: 16px;">
+      <li><strong>Identify the operating point condition:</strong> The pump delivers exactly the head the system demands — find Q where H<sub>p</sub> = H<sub>s</sub>.</li>
+      <li><strong>Set curves equal and simplify:</strong> Substitute both equations and rearrange into a standard quadratic: 4Q² + 55Q − 2500 = 0.</li>
+      <li><strong>Solve the quadratic:</strong> Apply the quadratic formula to get Q ≈ 19.05 cfs (take positive root only).</li>
+      <li><strong>Calculate operating head:</strong> Plug Q back into either curve → H ≈ 16.43 ft.</li>
+      <li><strong>Determine fluid specific weight:</strong> Crude oil SG ≈ 0.85 → γ = 53.04 lb/ft³.</li>
+      <li><strong>Compute power:</strong> P = γQH / 550 ≈ 30 hp (Answer B).</li>
+    </ol>
+
+    <!-- Section 2: Full Solution -->
+    <div class="right-section-title">📐 Section 2 — Full Solution</div>
+    <div style="font-size: 13px; line-height: 1.8; color: #444; margin-bottom: 16px;">
+      <p style="margin-bottom: 10px;">
+        This is a classic <strong>pump operating point</strong> problem. Two curves are given — a pump performance curve that shows decreasing head with increasing flow (typical centrifugal pump behavior), and a system curve that shows increasing head demand with increasing flow (friction and elevation losses).
+      </p>
+      <p style="margin-bottom: 10px;">
+        The operating point is where the pump can deliver exactly the head the system requires. Mathematically, we set H<sub>p</sub> = H<sub>s</sub> and solve for the flow rate Q. Both curves contain Q² terms, so when combined, they form a quadratic equation.
+      </p>
+      <p style="margin-bottom: 10px;">
+        After solving 4Q² + 55Q − 2500 = 0, the positive root gives Q ≈ 19.05 cfs. Plugging this back into either curve confirms the operating head H ≈ 16.43 ft. Both curves agree — this validates the solution.
+      </p>
+      <p style="margin-bottom: 10px;">
+        The power calculation uses the standard hydraulic power formula P = γQH, converted to horsepower by dividing by 550 (since 1 hp = 550 ft·lb/s). Since the problem says "neglecting efficiency," we use η = 1, meaning fluid power equals shaft power directly.
+      </p>
+      <p style="margin-bottom: 10px;">
+        The crucial detail many students miss: this is <strong>crude oil, not water</strong>. The specific weight γ must be adjusted using the specific gravity of crude oil (SG ≈ 0.85), giving γ = 53.04 lb/ft³ instead of 62.4 lb/ft³.
+      </p>
+    </div>
+
+    <!-- Section 3: Video Synthesis -->
+    <div class="right-section-title">📺 Section 3 — Video Synthesis</div>
+    <div class="video-box" style="margin-bottom: 16px;">
+      <strong>Key Concepts for Pump Curve Problems</strong>
+      <ul style="padding-left: 18px; margin-top: 8px;">
+        <li style="margin-bottom: 6px;">The <strong>operating point</strong> of any pump-system combination is always at the intersection of the pump performance curve and the system curve — this is a fundamental concept you must know cold for the PE exam.</li>
+        <li style="margin-bottom: 6px;">Setting H<sub>p</sub> = H<sub>s</sub> and rearranging almost always yields a <strong>quadratic equation in Q</strong> when both curves contain Q² terms — be prepared to use the quadratic formula quickly.</li>
+        <li style="margin-bottom: 6px;">The power formula <strong>P = γQH / 550</strong> (in US customary units) applies when η = 1. If efficiency η is given, shaft power becomes P = γQH / (550 × η).</li>
+        <li style="margin-bottom: 6px;">For fluid properties: always check whether the problem involves water (γ = 62.4 lb/ft³) or another fluid. For crude oil, use SG ≈ 0.85 unless the problem specifies otherwise.</li>
+        <li style="margin-bottom: 6px;">In SI units the power equation is <strong>P = γQH</strong> (in watts, with γ in N/m³, Q in m³/s, H in m). Know both unit systems for the PE exam.</li>
+        <li style="margin-bottom: 6px;">A typical centrifugal pump curve shows <strong>head decreasing as flow increases</strong>. System curves show <strong>head increasing with flow</strong> (friction ∝ Q²). Their intersection defines the unique stable operating point.</li>
+      </ul>
+    </div>
+
+    <!-- Section 4: Key Takeaways -->
+    <div class="right-section-title">⚡ Section 4 — Key Takeaways</div>
+    <div class="takeaway-box" style="margin-bottom: 16px;">
+      <ul>
+        <li>The <strong>operating point is always at the intersection</strong> of the pump curve and system curve — set them equal, solve for flow rate, then find head.</li>
+        <li>On the PE exam, pump problems involving non-water fluids almost always require you to adjust the specific weight — never blindly use 62.4 lb/ft³ without checking the fluid.</li>
+        <li><strong>"Neglecting efficiency"</strong> is exam shorthand for η = 1, which simplifies the power calculation — no extra denominator, no guessing at pump efficiency.</li>
+        <li>When the system curve and pump curve both contain Q² terms, expect to clear fractions and use the <strong>quadratic formula</strong> — practice this algebra quickly.</li>
+      </ul>
+    </div>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <div class="oh-section-title">
+      🎓 Section 5 — Office Hours Q&A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <div class="oh-empty">
+      <span class="oh-empty-icon">📭</span>
+      <strong>No Office Hours coverage for this problem yet.</strong>
+      This problem hasn't been discussed in any recorded Office Hours sessions.
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 18</span>
+  <span>|</span>
+  <a href="../oh-prep.html">← Back to OH Prep</a>
+  <span>|</span>
+  <span>Mechanical PE Exam Prep</span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (box.classList.contains('open')) {
+    box.classList.remove('open');
+    btn.querySelector('span').textContent = '▶ Show Solution';
+  } else {
+    box.classList.add('open');
+    btn.querySelector('span').textContent = '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
