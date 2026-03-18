@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC Fluids #17 – Pumps in Parallel</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; min-height: 100vh; }
+    .nav-bar { background: white; border-bottom: 1px solid #e0e0e0; padding: 12px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-wrap: wrap; }
+    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+    .nav-bar a:hover { text-decoration: underline; }
+    .nav-badge { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; border-radius: 3px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .layout-container { display: flex; gap: 0; margin: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; min-height: calc(100vh - 130px); }
+    .sidebar-left { flex: 0 0 50%; padding: 24px; background: #fafafa; border-right: 1px solid #e0e0e0; overflow-y: auto; max-height: calc(100vh - 130px); }
+    .sidebar-right { flex: 1; padding: 24px; overflow-y: auto; max-height: calc(100vh - 130px); }
+    .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 8px; }
+    .problem-meta { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .problem-statement { background: #f0f4ff; padding: 14px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .choice { padding: 10px 12px; background: white; border-left: 3px solid #ddd; border-radius: 3px; font-size: 13px; display: flex; gap: 8px; }
+    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+    .choice.correct .choice-letter { color: #16a34a; }
+    .answer-tag { display: inline-block; background: #e6ffe6; color: #15803d; border: 1px solid #22c55e; border-radius: 3px; padding: 2px 8px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+    .solution-area { margin-top: 24px; }
+    .solution-toggle { width: 100%; text-align: left; background: none; border: 1px solid #ddd; border-radius: 4px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: #555; cursor: pointer; display: flex; justify-content: space-between; }
+    .solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+    .solution-box { background: white; border-left: 3px solid #0066cc; border-radius: 3px; padding: 16px; margin-top: 10px; font-size: 13px; line-height: 1.75; color: #444; display: none; white-space: pre-wrap; word-break: break-word; }
+    .solution-box.open { display: block; }
+    .video-box { background: #f0f4ff; padding: 12px; border-radius: 4px; margin-top: 10px; font-size: 13px; line-height: 1.7; border-left: 3px solid #7c3aed; }
+    .takeaway-box { background: #fffbf0; padding: 12px; border-radius: 4px; margin-top: 10px; border-left: 3px solid #f59e0b; }
+    .oh-section-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #1a1a1a; border-bottom: 2px solid #f59e0b; padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .oh-count { font-size: 12px; background: #fef3c7; color: #92400e; border-radius: 10px; padding: 1px 8px; font-weight: 600; }
+    .oh-subtitle { font-size: 13px; color: #666; margin-bottom: 14px; }
+    .qa-group { background: #fffbf0; border-left: 3px solid #f59e0b; padding: 12px 14px; margin-bottom: 14px; border-radius: 4px; }
+    .qa-session { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #d97706; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .qa-question { font-weight: 500; color: #333; font-size: 13px; line-height: 1.6; margin-bottom: 4px; }
+    .qa-answer { margin-top: 6px; font-size: 12px; line-height: 1.5; color: #444; }
+    .footer { background: white; border-top: 1px solid #e0e0e0; padding: 10px 20px; display: flex; align-items: center; gap: 16px; font-size: 12px; color: #888; flex-wrap: wrap; }
+    .footer a { color: #0066cc; text-decoration: none; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+    @media (max-width: 900px) { .layout-container { flex-direction: column; margin: 10px; } .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; } .sidebar-right { max-height: none; } }
+
+    /* Additional local styles */
+    .solution-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #0066cc;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    .solution-section-label:first-child { margin-top: 0; }
+    .solution-steps ol {
+      padding-left: 18px;
+      margin-bottom: 10px;
+    }
+    .solution-steps ol li {
+      margin-bottom: 5px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .solution-full p {
+      margin-bottom: 10px;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .highlight-answer {
+      background: #e6ffe6;
+      border: 1px solid #22c55e;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #15803d;
+    }
+    .video-box ul, .takeaway-box ul {
+      padding-left: 18px;
+    }
+    .video-box ul li, .takeaway-box ul li {
+      margin-bottom: 5px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .video-box-title, .takeaway-box-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 16px 0;
+    }
+    .no-oh-notice {
+      background: #f9f9f9;
+      border: 1px dashed #ccc;
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+    .no-oh-notice .no-oh-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .nav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .nav-sep {
+      color: #ccc;
+      font-size: 14px;
+    }
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+    .config-table th {
+      background: #e8eeff;
+      padding: 6px 10px;
+      text-align: left;
+      font-weight: 700;
+      color: #1a1a1a;
+      border: 1px solid #c5d0f0;
+    }
+    .config-table td {
+      padding: 6px 10px;
+      border: 1px solid #dde4f5;
+      color: #333;
+    }
+    .config-table tr:nth-child(even) td {
+      background: #f5f7ff;
+    }
+    .config-table tr.highlight-row td {
+      background: #e6ffe6;
+      font-weight: 600;
+      color: #15803d;
+    }
+    .config-table tr.wrong-row td {
+      background: #fff1f0;
+      color: #b91c1c;
+    }
+    .choice-eval { font-size: 12px; color: #666; margin-top: 4px; padding-left: 24px; font-style: italic; }
+    .choice-eval.valid { color: #15803d; }
+    .choice-eval.invalid { color: #b91c1c; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span class="nav-sep">|</span>
+  <span class="nav-title">HVAC &amp; Refrigeration · Fluids · Problem 17</span>
+  <span class="nav-sep">|</span>
+  <span class="nav-badge">No OH</span>
+  <span class="nav-sep">|</span>
+  <span style="font-size:12px; color:#555;">Answer: <strong style="color:#16a34a;">A — To increase pressure</strong></span>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+
+    <div class="problem-meta">HVAC &amp; Refrigeration &nbsp;·&nbsp; Fluids &nbsp;·&nbsp; Problem 17</div>
+
+    <div class="problem-statement">
+      Which of the following is <strong>not</strong> a reason for pumps to be placed in parallel?
+    </div>
+
+    <!-- ANSWER CHOICES -->
+    <div class="section-title" style="margin-top: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct">
+        <span class="choice-letter">A ✓</span>
+        <span>To increase pressure</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>To increase volume flow rate</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>To improve efficiency</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>To add redundancy</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">✓ Correct Answer: A — To increase pressure</span>
+
+      <button class="solution-toggle" onclick="toggleSolution()" id="sol-btn">
+        <span>Show Solution</span>
+        <span id="sol-arrow">▼</span>
+      </button>
+
+      <div class="solution-box" id="sol-box">
+
+        <!-- QUICK OVERVIEW -->
+        <div class="solution-section-label">⚡ Quick Overview</div>
+        <div class="solution-steps">
+          <ol>
+            <li>Read carefully — the question asks for what is <strong>NOT</strong> a valid reason for placing pumps in parallel. You need the one wrong answer, not the right ones.</li>
+            <li>Recall the fundamental behavior of parallel pumps: they share the same suction and discharge headers, so each pump adds its <strong>flow</strong> to the total at the same system head.</li>
+            <li>Choice B — increasing volume flow rate — IS the primary reason to use parallel pumps. The combined flow curve is obtained by adding flows at each head value. Valid reason → eliminate B.</li>
+            <li>Choice D — adding redundancy — IS a major practical reason. If one pump trips offline, the remaining pump(s) keep the system running. Valid reason → eliminate D.</li>
+            <li>Choice C — improving efficiency — IS a valid reason. Running two smaller pumps near their Best Efficiency Point (BEP) can be more efficient than one oversized pump running far off its BEP. Valid reason → eliminate C.</li>
+            <li>Choice A — increasing pressure/head — is what <strong>series</strong> pumps do, not parallel. Parallel pumps do NOT add head; they add flow. This is NOT a valid reason → <strong>Answer A</strong>.</li>
+          </ol>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- FULL SOLUTION -->
+        <div class="solution-section-label">📋 Full Solution</div>
+        <div class="solution-full">
+
+          <p><strong>Step 1 — Understand the two fundamental pump configurations.</strong></p>
+          <p>
+            When multiple pumps are combined in a system, there are two standard configurations: <em>parallel</em> and <em>series</em>. The key distinction lies in <strong>what each configuration adds to the system</strong> — flow or head.
+          </p>
+
+          <table class="config-table">
+            <thead>
+              <tr>
+                <th>Configuration</th>
+                <th>How Connected</th>
+                <th>What It Adds</th>
+                <th>Pump Curve Construction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Parallel</strong></td>
+                <td>Same suction &amp; discharge headers; pumps run side-by-side</td>
+                <td><strong>Flow (Q)</strong> at the same head</td>
+                <td>Add flow rates horizontally at each head value</td>
+              </tr>
+              <tr>
+                <td><strong>Series</strong></td>
+                <td>Discharge of one feeds inlet of the next; pumps run in-line</td>
+                <td><strong>Head (H)</strong> at the same flow</td>
+                <td>Add heads vertically at each flow rate value</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            This distinction is the entire key to this problem. The question asks which choice is <em>not</em> a reason for using parallel pumps — and the answer is the one that describes what <strong>series</strong> pumps do instead.
+          </p>
+
+          <p><strong>Step 2 — Evaluate each answer choice.</strong></p>
+
+          <p>
+            <strong>Choice A: To increase pressure</strong><br />
+            Increasing system pressure or head is accomplished by connecting pumps in <em>series</em>. In a series arrangement, the discharge of the first pump feeds directly into the suction of the second pump. Each pump adds its head to the total, so the combined head at any given flow equals the sum of the individual pump heads. Parallel pumps, by contrast, operate at the <em>same</em> head point — they do not stack head. Therefore, "to increase pressure" is <strong>NOT</strong> a valid reason for parallel pumping. This is the correct answer.
+          </p>
+
+          <p>
+            <strong>Choice B: To increase volume flow rate</strong><br />
+            This IS the primary and most fundamental reason to use parallel pumps. When two identical pumps operate in parallel, the combined pump curve is constructed by adding their individual flow rates at each head value. The result: the system can deliver twice the flow (for two identical pumps) at any given head. Parallel pumping is the go-to solution when the required flow rate exceeds what a single pump can provide. Valid reason — not the answer.
+          </p>
+
+          <p>
+            <strong>Choice C: To improve efficiency</strong><br />
+            This IS a valid — though secondary — reason. Every centrifugal pump has a Best Efficiency Point (BEP), the flow and head combination at which it operates most efficiently. A single large pump sized for peak demand will often run well off its BEP during partial-load conditions, wasting energy. By instead using two smaller pumps in parallel, the system can run one pump alone during low-demand periods (keeping that pump near its BEP) and activate the second pump when demand increases. This staging strategy can yield meaningful efficiency gains in real HVAC systems. Valid reason — not the answer.
+          </p>
+
+          <p>
+            <strong>Choice D: To add redundancy</strong><br />
+            This IS a valid and very common practical reason — especially in mission-critical HVAC applications like data centers, hospitals, and large commercial buildings. If one pump fails or requires maintenance, the other pump(s) in the parallel bank continue to supply flow, preventing a complete system shutdown. Redundancy (also called N+1 or standby pump arrangements) is standard practice in the industry. Valid reason — not the answer.
+          </p>
+
+          <p><strong>Step 3 — Confirm the answer.</strong></p>
+          <p>
+            Choices B, C, and D are all legitimate reasons to use pumps in parallel. Choice A describes a benefit of <em>series</em> pumping, not parallel pumping. The question asks for the choice that is NOT a reason for parallel pumps.
+          </p>
+
+          <div class="highlight-answer">
+            ✓ Answer: A — To increase pressure (this is what SERIES pumps accomplish, not parallel)
+          </div>
+
+        </div>
+
+        <hr class="divider" />
+
+        <!-- VIDEO SYNTHESIS -->
+        <div class="video-box">
+          <div class="video-box-title">📹 What the Solution Video Covers</div>
+          <ul>
+            <li>Visual walkthrough of parallel vs. series pump configurations — how the piping differs and what each adds to the system</li>
+            <li>How to construct combined pump curves: horizontal addition of flows (parallel) vs. vertical addition of heads (series)</li>
+            <li>Strategy for "NOT" questions on the PE exam — evaluate every choice before committing to an answer</li>
+            <li>Real HVAC examples of parallel pump installations: chilled water plants, condenser water loops, and why redundancy matters</li>
+            <li>Efficiency staging: how running one of two parallel pumps at partial load can beat running one oversized pump all the time</li>
+            <li>Quick mental model to remember: <em>parallel = flow adds up, head stays the same; series = head adds up, flow stays the same</em></li>
+          </ul>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- KEY TAKEAWAYS -->
+        <div class="takeaway-box">
+          <div class="video-box-title">⭐ Key Takeaways</div>
+          <ul>
+            <li><strong>Parallel pumps add FLOW; series pumps add HEAD.</strong> This is the single most important distinction — commit it to memory. Confusing the two is the most common error on pump configuration questions.</li>
+            <li><strong>Redundancy is a major practical reason for parallel installations.</strong> In real HVAC systems, parallel pumps are often sized so the system can operate at acceptable capacity even if one pump goes offline. This design intent shows up in PE exam conceptual questions.</li>
+            <li><strong>"NOT" questions require you to evaluate every choice.</strong> Don't stop at the first answer that sounds plausible. The exam often includes multiple reasonable-sounding options, and the question is specifically testing whether you can identify the one that doesn't belong.</li>
+            <li><strong>Pump curve construction differs by configuration.</strong> For parallel pumps, add flow rates horizontally at each head value to get the combined curve. For series pumps, add heads vertically at each flow value. Understanding this graphical method helps on problems that show pump curves directly.</li>
+          </ul>
+        </div>
+
+      </div><!-- end solution-box -->
+    </div><!-- end solution-area -->
+
+  </div><!-- end sidebar-left -->
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live Office Hours sessions covering this problem.</div>
+
+    <div class="no-oh-notice">
+      <div class="no-oh-icon">🎙️</div>
+      <strong>No Office Hours coverage for this problem yet.</strong>
+      <p style="margin-top:6px; font-size:12px; color:#aaa;">When students ask about this problem in a live session, the Q&amp;A will appear here.</p>
+    </div>
+
+    <!-- SUPPLEMENTAL CONTEXT FOR RIGHT PANEL -->
+    <div style="margin-top: 28px;">
+      <div class="section-title">About This Problem Type</div>
+      <div style="font-size: 13px; line-height: 1.75; color: #555;">
+        <p style="margin-bottom: 10px;">
+          Parallel vs. series pump configuration questions are a <strong>recurring conceptual topic</strong> on the HVAC &amp; Refrigeration PE exam. Unlike calculation-heavy problems, these test your understanding of fundamental hydraulic principles and your ability to reason through a "which is NOT" question format.
+        </p>
+        <p style="margin-bottom: 10px;">
+          The core mental model: think of pumps in parallel as adding lanes to a highway — more cars (flow) can travel simultaneously, but the speed limit (pressure/head) doesn't change. Series pumps are like adding turbochargers in sequence — each stage boosts the pressure further, but the total volume moved per unit time doesn't increase.
+        </p>
+        <p style="margin-bottom: 10px;">
+          On the PE exam, these conceptual questions often appear alongside affinity law problems. Make sure you can distinguish: <em>Is this asking about changing pump speed/size? Or about how multiple pumps interact in a system?</em>
+        </p>
+        <p>
+          "NOT" questions are a deliberate exam technique. They require you to identify the one incorrect statement among several true ones — testing deeper understanding rather than simple recall. Always process all choices before selecting.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-title">Parallel vs. Series: Quick Reference</div>
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Parallel</th>
+            <th>Series</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>What increases</td>
+            <td>Flow rate (Q)</td>
+            <td>Head / Pressure (H)</td>
+          </tr>
+          <tr>
+            <td>Combined curve method</td>
+            <td>Add Q at same H (horizontal)</td>
+            <td>Add H at same Q (vertical)</td>
+          </tr>
+          <tr>
+            <td>Use when...</td>
+            <td>Flow demand exceeds one pump's capacity</td>
+            <td>Head demand exceeds one pump's capacity</td>
+          </tr>
+          <tr>
+            <td>Redundancy benefit</td>
+            <td>Yes — system runs at reduced flow if one fails</td>
+            <td>Limited — series failure can shut down flow</td>
+          </tr>
+          <tr>
+            <td>Efficiency staging</td>
+            <td>Yes — stage pumps on/off to track load</td>
+            <td>Less common</td>
+          </tr>
+          <tr>
+            <td>Common HVAC application</td>
+            <td>Chilled water &amp; condenser water loops</td>
+            <td>High-rise buildings, booster pump systems</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-title">Related Concepts</div>
+      <div style="font-size: 13px; line-height: 1.75; color: #555;">
+        <ul style="padding-left: 18px;">
+          <li style="margin-bottom: 6px;"><strong>System Curve</strong> — the relationship between head and flow for the piping system; the operating point is where it intersects the pump curve</li>
+          <li style="margin-bottom: 6px;"><strong>Best Efficiency Point (BEP)</strong> — the flow/head combination where the pump operates most efficiently; parallel staging keeps pumps near their BEP</li>
+          <li style="margin-bottom: 6px;"><strong>Affinity Laws</strong> — govern how a single pump's performance changes with speed or impeller diameter; distinct from multi-pump configuration effects</li>
+          <li style="margin-bottom: 6px;"><strong>Pump Curve Shape</strong> — the shape matters when combining pumps; steep curves and flat curves behave differently in parallel installations</li>
+          <li style="margin-bottom: 6px;"><strong>NPSH Requirements</strong> — must be verified for each pump individually in a parallel arrangement; the suction conditions are shared</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-title">Answer Choice Evaluation Summary</div>
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Choice</th>
+            <th>Reason for Parallel Pumps?</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="wrong-row">
+            <td><strong>A. Increase pressure</strong></td>
+            <td>No — that's what SERIES pumps do</td>
+            <td><strong>NOT valid → Correct Answer</strong></td>
+          </tr>
+          <tr>
+            <td>B. Increase flow rate</td>
+            <td>Yes — primary purpose of parallel configuration</td>
+            <td>Valid reason</td>
+          </tr>
+          <tr>
+            <td>C. Improve efficiency</td>
+            <td>Yes — staging pumps near BEP saves energy</td>
+            <td>Valid reason</td>
+          </tr>
+          <tr>
+            <td>D. Add redundancy</td>
+            <td>Yes — system continues if one pump fails</td>
+            <td>Valid reason</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- end sidebar-right -->
+
+</div><!-- end layout-container -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>HVAC &amp; Refrigeration &nbsp;·&nbsp; Fluids &nbsp;·&nbsp; Problem 17</span>
+  <span>|</span>
+  <span>File ID: HVAC_Fluids_17</span>
+  <span>|</span>
+  <span>Correct Answer: A — To increase pressure</span>
+  <span>|</span>
+  <span>Generated: 2026-03-18</span>
+  <span>|</span>
+  <a href="../oh-prep.html">← Back to OH Prep Dashboard</a>
+</footer>
+
+<script>
+  function toggleSolution() {
+    const box = document.getElementById('sol-box');
+    const btn = document.getElementById('sol-btn');
+    const arrow = document.getElementById('sol-arrow');
+    const isOpen = box.classList.contains('open');
+    box.classList.toggle('open', !isOpen);
+    btn.querySelector('span:first-child').textContent = isOpen ? 'Show Solution' : 'Hide Solution';
+    arrow.textContent = isOpen ? '▼' : '▲';
+  }
+</script>
+
+</body>
+</html>
