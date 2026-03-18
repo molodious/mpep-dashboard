@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC &amp; Refrigeration · Fluids · Problem 21</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .nav-bar {
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+    .nav-bar a:hover { text-decoration: underline; }
+    .nav-badge {
+      background: #e6ffe6;
+      color: #15803d;
+      border: 1px solid #22c55e;
+      border-radius: 3px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .layout-container {
+      display: flex;
+      gap: 0;
+      margin: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      min-height: calc(100vh - 130px);
+    }
+    .sidebar-left {
+      flex: 0 0 50%;
+      padding: 24px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .sidebar-right {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 8px;
+    }
+    .problem-meta {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .problem-statement {
+      background: #f0f4ff;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .choice {
+      padding: 10px 12px;
+      background: white;
+      border-left: 3px solid #ddd;
+      border-radius: 3px;
+      font-size: 13px;
+      display: flex;
+      gap: 8px;
+    }
+    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+    .choice.correct .choice-letter { color: #16a34a; }
+    .answer-tag {
+      display: inline-block;
+      background: #e6ffe6;
+      color: #16a34a;
+      border: 1px solid #22c55e;
+      border-radius: 3px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+    .section-block { margin-bottom: 24px; }
+    .section-block:last-child { margin-bottom: 0; }
+    .step-list { list-style: decimal; padding-left: 20px; }
+    .step-list li { margin-bottom: 8px; font-size: 13px; }
+    .narrative { font-size: 13px; line-height: 1.7; }
+    .narrative p { margin-bottom: 12px; }
+    .bullet-list { list-style: disc; padding-left: 20px; }
+    .bullet-list li { margin-bottom: 6px; font-size: 13px; }
+    .takeaway-list { list-style: none; padding-left: 0; }
+    .takeaway-list li {
+      padding: 8px 12px;
+      background: #fffbe6;
+      border-left: 3px solid #f59e0b;
+      margin-bottom: 6px;
+      font-size: 13px;
+      border-radius: 3px;
+    }
+    .oh-block {
+      background: #f0f4ff;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .oh-label {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 800px) {
+      .layout-container { flex-direction: column; margin: 10px; }
+      .sidebar-left, .sidebar-right { max-height: none; flex: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav-bar">
+    <a href="oh-prep.html">← Back to Dashboard</a>
+    <a href="HVAC_Fluids_20.html">← Prev Problem</a>
+    <a href="HVAC_Fluids_22.html">Next Problem →</a>
+    <span class="nav-badge">6 OH Sessions</span>
+  </div>
+
+  <div class="layout-container">
+
+    <!-- LEFT SIDEBAR: Problem + Choices -->
+    <div class="sidebar-left">
+      <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 21 &nbsp;|&nbsp; Global #44 of 660</div>
+      <div class="section-title">Problem Statement</div>
+      <div class="problem-statement">
+        A viscous liquid with a specific gravity of 1.1 is pumped with a volume flow rate of 100 gpm. The suction pressure measured at the inlet of the pump is 5 psi of vacuum. The discharge pressure measured 3 ft above the pump outlet is 10 psig. The diameter of the piping reduces from 4 in on the suction side to 2 in on the discharge side. The pump has a mechanical efficiency of 80%. What is the input power to the pump?
+      </div>
+
+      <div class="section-title">Answer Choices</div>
+      <div class="choices">
+        <div class="choice">
+          <span class="choice-letter">A</span>
+          <span>3/4 hp</span>
+        </div>
+        <div class="choice">
+          <span class="choice-letter">B</span>
+          <span>1 hp</span>
+        </div>
+        <div class="choice correct">
+          <span class="choice-letter">C</span>
+          <span>1-1/4 hp</span>
+        </div>
+        <div class="choice">
+          <span class="choice-letter">D</span>
+          <span>1-1/2 hp</span>
+        </div>
+      </div>
+      <span class="answer-tag">✓ Correct Answer: C — 1-1/4 hp</span>
+    </div>
+
+    <!-- RIGHT SIDEBAR: 5 Sections -->
+    <div class="sidebar-right">
+
+      <!-- Section 1: Quick Overview -->
+      <div class="section-block">
+        <div class="section-title">1 · Quick Overview</div>
+        <ol class="step-list">
+          <li>Identify the given information: flow rate (100 gpm), suction pressure (−5 psig / vacuum), discharge pressure (10 psig at 3 ft elevation), pipe diameters (4 in suction, 2 in discharge), specific gravity 1.1, efficiency 80%.</li>
+          <li>Convert pressures to head in feet of the actual fluid — multiply the psi-to-feet-of-water factor (2.31 ft/psi) by the pressure, then divide by SG (1.1) to get feet of fluid.</li>
+          <li>Calculate velocities at the suction and discharge using the continuity equation (flow rate ÷ pipe area), then find the velocity head difference in feet of fluid.</li>
+          <li>Add up all three head components (pressure head difference + elevation change + velocity head difference) to get total differential head ΔH in feet of fluid.</li>
+          <li>Use the head-based water horsepower formula — WHP = Q · ΔH · SG / 3960 — applying SG exactly once here.</li>
+          <li>Divide WHP by mechanical efficiency (0.80) to get input power. Round to the nearest answer choice: ~1.24 hp ≈ 1-1/4 hp → Answer C.</li>
+        </ol>
+      </div>
+
+      <!-- Section 2: Full Solution -->
+      <div class="section-block">
+        <div class="section-title">2 · Full Solution</div>
+        <div class="narrative">
+          <p><strong>Given:</strong> Q = 100 gpm, SG = 1.1, P₁ = −5 psig (vacuum), P₂ = 10 psig, z₂ − z₁ = 3 ft (discharge gauge is 3 ft above pump outlet), D₁ = 4 in, D₂ = 2 in, η = 0.80.</p>
+
+          <p><strong>Step 1 — Pressure head difference (feet of fluid).</strong><br>
+          The suction side is a vacuum: 5 psi vacuum = −5 psig.<br>
+          ΔP = P₂ − P₁ = 10 − (−5) = 15 psi<br>
+          Convert to feet of water: 15 psi × 2.31 ft/psi = 34.65 ft of water<br>
+          Convert to feet of fluid: 34.65 ÷ 1.1 = 31.5 ft of fluid</p>
+
+          <p><strong>Step 2 — Elevation head (feet of fluid).</strong><br>
+          The discharge gauge is already 3 ft above the pump outlet, so the elevation difference is directly:<br>
+          Δz = 3 ft of fluid (no conversion needed — elevation is already in feet of fluid)</p>
+
+          <p><strong>Step 3 — Velocity head difference (feet of fluid).</strong><br>
+          Flow area: A = π/4 × D²<br>
+          Convert Q = 100 gpm to ft³/s: 100 ÷ 449 = 0.2227 ft³/s<br>
+          A₁ (4-in pipe): π/4 × (4/12)² = π/4 × 0.1111 = 0.08727 ft²<br>
+          A₂ (2-in pipe): π/4 × (2/12)² = π/4 × 0.02778 = 0.02182 ft²<br>
+          V₁ = 0.2227 / 0.08727 = 2.552 ft/s<br>
+          V₂ = 0.2227 / 0.02182 = 10.21 ft/s<br>
+          Velocity head difference: (V₂² − V₁²) / (2g) = (10.21² − 2.552²) / (2 × 32.2)<br>
+          = (104.24 − 6.51) / 64.4 = 97.73 / 64.4 = 1.518 ft of fluid</p>
+
+          <p><strong>Step 4 — Total differential head ΔH.</strong><br>
+          ΔH = 31.5 + 3.0 + 1.518 ≈ 36.02 ft of fluid</p>
+
+          <p><strong>Step 5 — Water horsepower (WHP).</strong><br>
+          Using the head-based formula with SG applied once:<br>
+          WHP = Q × ΔH × SG / 3960<br>
+          WHP = 100 × 36.02 × 1.1 / 3960<br>
+          WHP = 3962.2 / 3960 ≈ 1.0006 hp<br><br>
+          <em>Note: With slightly rounded ΔH values, WHP ≈ 1.00 hp (water horsepower).</em></p>
+
+          <p><strong>Step 6 — Input power (accounting for efficiency).</strong><br>
+          Input Power = WHP / η = 1.00 / 0.80 = 1.25 hp ≈ 1-1/4 hp<br><br>
+          Dan's OH 111 calculation yields ~1.24 hp before dividing by efficiency, confirming the answer rounds to <strong>C) 1-1/4 hp</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Section 3: Video Synthesis -->
+      <div class="section-block">
+        <div class="section-title">3 · Video Synthesis</div>
+        <ul class="bullet-list">
+          <li>The most important teaching point is the "SG once" rule — specific gravity must be applied exactly one time, whether in the Bernoulli head terms or in the WHP formula, never in both.</li>
+          <li>Two equivalent approaches exist: (a) convert all head terms to feet of water and use WHP = Q·ΔH/3960 without SG, or (b) keep all head terms in feet of actual fluid and use WHP = Q·ΔH·SG/3960 with SG once at the end.</li>
+          <li>Vacuum pressure is negative gauge pressure: "5 psi vacuum" means P = −5 psig. The total ΔP across the pump becomes 10 − (−5) = 15 psi, which is larger than it might initially appear.</li>
+          <li>The 2.31 ft/psi conversion factor is derived for water (SG = 1.0). Dividing by SG adjusts the feet-of-water result to feet of the actual fluid — a denser fluid (SG &gt; 1) requires a shorter column to produce the same pressure.</li>
+          <li>Even though velocity head is a small contributor relative to pressure head in this problem, it should not be ignored — the pipe area ratio is 4:1 (since the diameter halves), causing the velocity to quadruple on the discharge side.</li>
+          <li>This problem evolved over multiple OH sessions — Dan initially had a sign error, then corrected to answer D, then after further review confirmed C as the final correct answer in OH 111.</li>
+        </ul>
+      </div>
+
+      <!-- Section 4: Key Takeaways -->
+      <div class="section-block">
+        <div class="section-title">4 · Key Takeaways</div>
+        <ul class="takeaway-list">
+          <li><strong>Apply SG exactly once.</strong> Double-counting specific gravity (once in head conversion and once in the WHP formula) is the single most common error on this problem type. Decide your approach upfront and stick to it throughout.</li>
+          <li><strong>Vacuum pressure is negative gauge pressure.</strong> "5 psi vacuum" = −5 psig. Always flip the sign before doing arithmetic — the total pressure rise across the pump will be larger than it looks.</li>
+          <li><strong>Pipe diameter changes mean velocity changes matter.</strong> When the discharge pipe is smaller than the suction pipe, velocity head adds to the total pump head. Don't skip the velocity term just because it seems minor.</li>
+          <li><strong>Efficiency divides, not multiplies.</strong> Divide the water horsepower by efficiency to get the (larger) input power. On the exam, if your WHP is close to one answer choice and efficiency is less than 1, the input power must be higher — confirm the final step every time.</li>
+        </ul>
+      </div>
+
+      <!-- Section 5: Office Hours Q&A -->
+      <div class="section-block">
+        <div class="section-title">5 · Office Hours Q&amp;A</div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 111 · Jan 2026</div>
+          <p><strong>Q:</strong> A student asked Dan to clarify the correct answer once and for all — some sessions pointed to D, but the setup seems like SG is only supposed to appear once. Which is right?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan walked through the full solution carefully. The key is that when using the head-based WHP formula (Q·ΔH·SG/3960), ΔH must be in feet of the actual fluid. That means converting psi to feet of water using 2.31, then dividing by SG to get feet of fluid. Elevation and velocity are already in feet of fluid. After summing all head terms and multiplying by SG once in the WHP formula, the result is ~1.00 WHP, and dividing by 0.80 efficiency gives ~1.25 hp. Dan removed a prior correction note and confirmed the answer is <strong>C) 1-1/4 hp</strong>.</p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 96 · Jan 2025</div>
+          <p><strong>Q:</strong> A student noticed that in the original video, SG was applied to the pressure term but not to the elevation term. Why would you treat those two terms differently?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan acknowledged this was an error in the video — he had double-counted SG by applying it inside the Bernoulli head terms AND again in the WHP formula. The correct rule is: apply SG exactly once. Either convert every Bernoulli term to feet of water (so ΔH is in feet of water) and drop SG from the WHP formula, or keep all terms in feet of fluid and include SG once at the end. Mixing the two approaches creates the inconsistency the student noticed.</p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 83 · Jun 2024</div>
+          <p><strong>Q:</strong> A student questioned why the solution assumed steel pipe dimensions. The problem never specifies the pipe material — doesn't that affect the calculation?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan agreed the problem statement should have specified the pipe material. For the 4-inch nominal pipe, the difference between nominal and actual inside diameter is small enough that it doesn't significantly change the result. However, for pipes under 2 inches, the discrepancy matters more — since velocity depends on area, which depends on diameter squared, even a small diameter difference can produce a noticeable velocity error. On exam problems, assume nominal diameter equals actual unless told otherwise.</p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 77 · Mar 2024</div>
+          <p><strong>Q:</strong> A student pointed out that if you remove SG from the denominator of the pressure-head conversion, the ΔP head term gets <em>larger</em>, not smaller — but Dan said it would make it smaller in the original video. Who's right?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan agreed the student was correct. Dividing by SG (1.1) reduces the feet-of-fluid result compared to feet of water; removing that division (i.e., not dividing by 1.1) would give a larger head value. Dan confirmed the student's sign logic was right and noted answer D in that session — though he later revised the final answer back to C in OH 111 after the full accounting of SG was sorted out.</p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 32 · Mar 2022</div>
+          <p><strong>Q:</strong> A student asked whether using SG in the Bernoulli equation and again in the WHP formula is really double-counting, or whether each use serves a distinct purpose that justifies both.</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan explained that using SG inside Bernoulli converts head to feet of the viscous liquid (not water), and using SG in the WHP formula corrects for the fact that the constant 3960 was derived for water. Both uses are legitimate in isolation — but you can only do one. If your Bernoulli terms are already in feet of fluid, you need SG in the WHP formula. If your Bernoulli terms are in feet of water, you don't. Dan also clarified vacuum pressure: 5 psi vacuum = −5 psig = approximately 9.7 psia. Vacuum pressure is just negative gauge pressure.</p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 16 · Jun 2021</div>
+          <p><strong>Q:</strong> A student asked Dan to explain why there are two different WHP formulas — one using pressure in psi (Q·ΔP/1714) and one using head in feet (Q·ΔH/3960) — and when SG appears in each.</p>
+          <p style="margin-top:6px;"><strong>A:</strong> Dan explained that the two formulas are mathematically equivalent — the factor 2.31 (ft of water per psi) is the only difference between the denominators (3960 = 1714 × 2.31). SG appears in the head version because a denser fluid produces the same pressure from a shorter column height; the formula needs SG to reconcile the fluid's actual head with the water-based constant. His recommendation: pick one approach at the start (all in psi, or all in feet) and stay consistent throughout the entire problem.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end sidebar-right -->
+  </div><!-- end layout-container -->
+
+</body>
+</html>
