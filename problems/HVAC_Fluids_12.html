@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 12 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-qa-block {
+  background: white;
+  border-left: 3px solid #f59e0b;
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+}
+.oh-qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 3px;
+  padding: 1px 7px;
+  margin-left: 6px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 12</span>
+  <span class="nav-badge">4 OH sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 12</div>
+
+    <div class="problem-statement">
+      200 gpm of 90°F water flows through 500 ft of 4 in nominal schedule 40 steel pipe, with a discharge that is 30 ft higher than the entrance. The pipe contains the following flanged welded pipe fittings: (4) 90° elbows, (2) 90° long radius elbows, (2) gate valves, and (1) globe valve. What is the pressure difference between the two ends of the pipe?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>7 psi</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B</span>
+        <span>19 psi &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>22 psi</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>34 psi</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B — 19 psi</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">Bernoulli + Darcy-Weisbach + K-factor minor losses</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Set up the <strong>Bernoulli equation</strong> between entrance (1) and discharge (2). Since pipe diameter is constant, velocities cancel — the pressure difference equals elevation head plus total head loss.</li>
+          <li>Look up 4 in schedule 40 pipe geometry: <strong>D = 4.026 in = 0.3355 ft</strong>, <strong>A = 0.08840 ft²</strong>. Compute velocity from Q = 200 gpm = 0.4456 ft³/s → <strong>V = 5.04 ft/s</strong>.</li>
+          <li>Calculate <strong>major (friction) losses</strong> using Darcy-Weisbach: find Re, use Moody/Colebrook to get <strong>f ≈ 0.0185</strong>, apply h_f = f·(L/D)·(V²/2g) → <strong>h_major ≈ 10.9 ft</strong>. (Alternatively, use steel pipe friction loss tables for 4 in pipe at 200 gpm.)</li>
+          <li>Calculate <strong>minor losses</strong> using K-factors: assign K to each fitting type, sum all K values → K_total ≈ 11.8. Apply h_minor = K_total·(V²/2g) → <strong>h_minor ≈ 4.7 ft</strong>.</li>
+          <li>Sum all head loss terms plus elevation:
+            <strong>(P₁−P₂)/γ = 30 + 10.9 + 4.7 ≈ 45.6 ft</strong> of water.</li>
+          <li>Convert feet of water to psi using the <strong>2.31 ft/psi rule</strong>: 45.6 ÷ 2.31 ≈ <strong>19.7 psi → Answer B: 19 psi</strong>.</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Two methods note:</strong> Major losses can be found with either the Darcy-Weisbach equation or steel pipe friction loss tables — both are valid for steel pipe with water. For minor losses, K-factors are preferred over equivalent length tables because K-factors cover all fitting types (valves included), whereas equivalent length data in the reference handbook only covers elbows. Know both approaches; they should reconcile to the same answer.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            This is a <strong>pipe system pressure drop</strong> problem. We need the pressure difference between entrance and discharge, accounting for elevation change, pipe friction, and fitting losses. The tool is the <strong>Bernoulli equation with head loss terms</strong>.
+          </p>
+
+          <p><strong>Step 1 — Set up Bernoulli equation:</strong></p>
+          <p>
+            Apply steady-state Bernoulli from point 1 (entrance) to point 2 (discharge):
+          </p>
+          <span class="math-line">P₁/γ + V₁²/2g + z₁ = P₂/γ + V₂²/2g + z₂ + h_L</span>
+          <p>
+            The pipe is uniform (constant diameter), so V₁ = V₂ and the velocity heads cancel. Rearranging:
+          </p>
+          <span class="math-line">(P₁ − P₂)/γ = (z₂ − z₁) + h_L = 30 ft + h_major + h_minor</span>
+
+          <p><strong>Step 2 — Pipe geometry and flow velocity:</strong></p>
+          <span class="math-line">4 in nominal schedule 40 → ID = 4.026 in = 0.3355 ft</span>
+          <span class="math-line">A = π/4 × (0.3355)² = 0.08840 ft²</span>
+          <span class="math-line">Q = 200 gpm ÷ 448.83 gpm/(ft³/s) = 0.4456 ft³/s</span>
+          <span class="math-line">V = Q / A = 0.4456 / 0.08840 = 5.04 ft/s</span>
+          <span class="math-line">V²/2g = (5.04)² / (2 × 32.2) = 25.40 / 64.4 = 0.3944 ft</span>
+
+          <p><strong>Step 3 — Major (friction) head loss via Darcy-Weisbach:</strong></p>
+          <p>
+            Find the Reynolds number using water properties at 90°F (kinematic viscosity ν ≈ 8.20 × 10⁻⁶ ft²/s):
+          </p>
+          <span class="math-line">Re = V × D / ν = 5.04 × 0.3355 / (8.20 × 10⁻⁶) ≈ 206,200</span>
+          <p>
+            Relative roughness for commercial steel pipe (ε = 0.00015 ft):
+          </p>
+          <span class="math-line">ε/D = 0.00015 / 0.3355 = 0.000447</span>
+          <p>
+            From the Colebrook-White equation (or Moody chart) at Re ≈ 206,000 and ε/D ≈ 0.000447:
+          </p>
+          <span class="math-line">1/√f = −2.0 log(ε/3.7D + 2.51/(Re√f))  →  f ≈ 0.0185</span>
+          <p>
+            Apply Darcy-Weisbach for 500 ft of pipe:
+          </p>
+          <span class="math-line">h_major = f × (L/D) × V²/2g</span>
+          <span class="math-line">h_major = 0.0185 × (500 / 0.3355) × 0.3944</span>
+          <span class="math-line">h_major = 0.0185 × 1490.3 × 0.3944 ≈ 10.9 ft</span>
+
+          <p><strong>Step 4 — Minor losses via K-factors:</strong></p>
+          <p>
+            Assign K-factors for each fitting type (flanged, 4 in diameter) and tabulate:
+          </p>
+          <span class="math-line">  Fitting                   | K each | Qty | K subtotal</span>
+          <span class="math-line">  90° standard elbow (flgd) |  0.30  |  4  |   1.20</span>
+          <span class="math-line">  90° long radius elbow     |  0.20  |  2  |   0.40</span>
+          <span class="math-line">  Gate valve (fully open)   |  0.10  |  2  |   0.20</span>
+          <span class="math-line">  Globe valve (fully open)  | 10.00  |  1  |  10.00</span>
+          <span class="math-line">  ─────────────────────────────────────────────────</span>
+          <span class="math-line">  K_total                                =  11.80</span>
+          <p>
+            Apply the minor loss formula:
+          </p>
+          <span class="math-line">h_minor = K_total × V²/2g = 11.80 × 0.3944 ≈ 4.65 ft</span>
+
+          <p><strong>Step 5 — Total head difference from Bernoulli:</strong></p>
+          <span class="math-line">(P₁ − P₂)/γ = (z₂ − z₁) + h_major + h_minor</span>
+          <span class="math-line">(P₁ − P₂)/γ = 30 + 10.9 + 4.65 ≈ 45.6 ft of water</span>
+
+          <p><strong>Step 6 — Convert feet of water to psi:</strong></p>
+          <p>
+            Use the rule of thumb for water: <strong>2.31 ft of water = 1 psi</strong> (which is γ/144 = 62.4/144):
+          </p>
+          <span class="math-line">P₁ − P₂ = 45.6 ft ÷ 2.31 ft/psi ≈ 19.7 psi</span>
+          <p>
+            <strong>Answer: B — 19 psi.</strong>
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="padding-left: 18px; margin-top: 6px;">
+            <li>This problem combines <strong>major losses</strong> (Darcy-Weisbach friction), <strong>minor losses</strong> (K-factor fittings), and <strong>elevation change</strong> — all inside the Bernoulli equation framework.</li>
+            <li>The <strong>globe valve dominates minor losses</strong> (K = 10) — it dwarfs all the elbows and gate valves combined. Recognizing this helps with sanity checks on exam problems.</li>
+            <li>The <strong>2.31 ft/psi conversion</strong> only works for water. For any other fluid, use P = γ × h / 144 directly.</li>
+            <li><strong>K-factors are the preferred exam method</strong> for minor losses because they work for all fitting types; equivalent length data in the reference handbook only covers elbows.</li>
+            <li>Steel pipe friction tables are a valid shortcut for major losses in water-in-steel problems — results should reconcile with Darcy-Weisbach to the same answer choice.</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>Always check whether the globe valve dominates your minor losses — a single fully-open globe valve often contributes more head loss than all the elbows and gate valves combined.</li>
+            <li>On the exam, use K-factors for minor losses when you have mixed fitting types (elbows, valves); save equivalent length tables for elbow-only situations if tables are available.</li>
+            <li>The Darcy-Weisbach equation works for any fluid and material; steel pipe friction tables are only valid for steel with water but are faster when applicable.</li>
+            <li>When converting head loss to pressure difference in psi, the 2.31 ft/psi shortcut is water-only — always state or verify the fluid before applying it.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">4 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+    <!-- OH 103 -->
+    <div class="oh-qa-block">
+      <p style="margin-bottom: 10px;">
+        <strong>OH 103</strong> <em style="font-size: 12px; color: #888;">May 26, 2025</em>
+      </p>
+
+      <p style="margin-bottom: 8px;">
+        <strong>Q:</strong> What is the difference between using the steel pipe friction tables versus the Darcy equation? The Darcy equation seems to account for additional factors like friction factor. I'm getting h_f major = 21.5 ft using the tables — does the table not account for all those values?
+      </p>
+
+      <p style="margin-bottom: 10px;">
+        <strong>A (Dan):</strong> Both methods are valid for steel pipe with water. Darcy-Weisbach is more general and theoretical — useful for any material or fluid. The steel pipe friction tables are only for steel pipe, but since the majority of PE problems involve water in steel pipe, they're faster and very convenient. You should have mastery of both. If you work the problem both ways, the results should reconcile — there may be a small percentage difference, but examine the <em>absolute</em> error, not just the relative one. Neither method is inherently "right" or "wrong" for steel pipe. For non-steel pipe, you must use Darcy.
+      </p>
+
+      <p style="font-size: 12px; color: #92400e;">
+        <span class="oh-qa-session">OH 103</span>
+      </p>
+    </div>
+
+    <!-- OH 77 -->
+    <div class="oh-qa-block">
+      <p style="margin-bottom: 10px;">
+        <strong>OH 77</strong> <em style="font-size: 12px; color: #888;">March 18, 2024</em>
+      </p>
+
+      <p style="margin-bottom: 8px;">
+        <strong>Q:</strong> How do you use the two equivalent length charts in the handbook? And why do we use K-factors for minor losses instead of equivalent lengths?
+      </p>
+
+      <p style="margin-bottom: 10px;">
+        <strong>A (Dan):</strong> The equivalent length tables require you to know the pipe diameter and velocity, and they only cover 90° elbows — not valves or other fitting types. K-factors are preferred because they work for every fitting: just assign a K to each fitting, multiply by quantity, sum to get K_total, and compute all minor losses in a single formula: h_minor = K_total × V²/2g. Dan builds a quick table — fitting type, K each, quantity, K subtotal — to stay organized. Equivalent lengths were standard in the old open-book exam era, but when the CBT format started the reference handbook dropped that data. They've now reintroduced some of it, but only for elbows. Know both, but K-factors are more flexible and exam-reliable.
+      </p>
+
+      <p style="font-size: 12px; color: #92400e;">
+        <span class="oh-qa-session">OH 77</span>
+      </p>
+    </div>
+
+    <!-- OH 63 -->
+    <div class="oh-qa-block">
+      <p style="margin-bottom: 10px;">
+        <strong>OH 63</strong> <em style="font-size: 12px; color: #888;">July 17, 2023</em>
+      </p>
+
+      <p style="margin-bottom: 8px;">
+        <strong>Q:</strong> Instead of K-factors I used the equivalent length tables for minor losses, added that to the 500 ft of pipe, and got 19.4 psi — compared to 14.6 psi using the K-factor method. Do both methods actually work here?
+      </p>
+
+      <p style="margin-bottom: 10px;">
+        <strong>A (Dan):</strong> Yes, both methods work. Equivalent lengths were the standard approach in the old mechanical engineering reference manual days. When the CBT exam launched, the reference handbook initially had no equivalent length tables, so K-factors became necessary. The handbook has since reintroduced some equivalent length data — but only for elbows, not valves. The bottom line: know both methods. When done correctly, both should round to the same answer choice. That's definitely not a coincidence — the two approaches are mathematically equivalent when using consistent data.
+      </p>
+
+      <p style="font-size: 12px; color: #92400e;">
+        <span class="oh-qa-session">OH 63</span>
+      </p>
+    </div>
+
+    <!-- OH 58 -->
+    <div class="oh-qa-block">
+      <p style="margin-bottom: 10px;">
+        <strong>OH 58</strong> <em style="font-size: 12px; color: #888;">May 8, 2023</em>
+      </p>
+
+      <p style="margin-bottom: 8px;">
+        <strong>Q:</strong> After solving Bernoulli I get (P₁ − P₂)/γ, but the problem asks for P₁ − P₂ in psi. Why don't we need to divide the head losses by specific weight separately? Isn't γ getting ignored?
+      </p>
+
+      <p style="margin-bottom: 10px;">
+        <strong>A (Dan):</strong> After solving Bernoulli you get (P₁ − P₂)/γ = 46 ft. To go from feet of water to psi, use the rule of thumb: <strong>2.31 ft of water = 1 psi</strong>. So 46 ÷ 2.31 ≈ 19.3 psi. Alternatively, multiply by γ = 62.4 lb/ft³ and divide by 144 in²/ft² — same result, since 62.4/144 = 1/2.31. Nothing is being ignored; the conversion from feet of head to psi is just a shortcut that folds γ in. Note that the 2.31 rule only works for water — for any other fluid, use the fundamental γ approach.
+      </p>
+
+      <p style="font-size: 12px; color: #92400e;">
+        <span class="oh-qa-session">OH 58</span>
+      </p>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 12</span>
+  <span>·</span>
+  <span>4 OH sessions</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
