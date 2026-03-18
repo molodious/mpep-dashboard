@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 17 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-notice {
+  background: #fef3c7;
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.6;
+}
+.formula-line {
+  display: block;
+  font-family: 'Courier New', Courier, monospace;
+  background: #f4f4f8;
+  padding: 4px 8px;
+  border-radius: 3px;
+  margin: 6px 0;
+  font-size: 12.5px;
+  color: #1a1a2e;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+.nav-arrows {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 13px;
+}
+.nav-arrows a {
+  color: #0066cc;
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid #dde;
+  border-radius: 4px;
+  background: white;
+}
+.nav-arrows a:hover { background: #f0f4ff; border-color: #0066cc; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep</a>
+  <span style="color:#bbb;font-size:13px;">&rsaquo;</span>
+  <span style="font-size:13px;color:#555;">Thermodynamics</span>
+  <span style="color:#bbb;font-size:13px;">&rsaquo;</span>
+  <span style="font-size:13px;font-weight:600;color:#1a1a1a;">Problem 17</span>
+  <span class="nav-badge">HVAC &middot; Thermodynamics</span>
+</div>
+
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Quick Overview + Key Takeaways -->
+  <div class="sidebar-left">
+    <div class="section-title">Problem 17 &mdash; Reversed Carnot Refrigeration (Work Input)</div>
+
+    <div class="problem-meta">Thermodynamics &middot; Reversed Carnot Cycle &middot; Refrigeration COP</div>
+    <div class="problem-statement">
+      The cold and hot reservoirs of a reversed Carnot refrigeration cycle are &minus;20&deg;F and 80&deg;F, respectively. 3,000&nbsp;Btu/hr are absorbed from the cold reservoir. What is the work input?
+    </div>
+
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>160 W</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B.</span>
+        <span>200 W &nbsp;&#10003;</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C.</span>
+        <span>700 W</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D.</span>
+        <span>1100 W</span>
+      </div>
+    </div>
+
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B &mdash; 200 W</span>
+
+      <!-- Section 1: Quick Overview -->
+      <div style="margin-top:20px;">
+        <div class="section-title">Quick Overview</div>
+        <div style="background:white;border-left:3px solid #0066cc;border-radius:3px;padding:16px;font-size:13px;line-height:1.8;color:#444;">
+          <ol style="padding-left:18px;">
+            <li>Identify the reversed Carnot cycle (refrigeration) and given temperatures: T<sub>cold</sub>&nbsp;=&nbsp;&minus;20&deg;F, T<sub>hot</sub>&nbsp;=&nbsp;80&deg;F, Q<sub>cold</sub>&nbsp;=&nbsp;3,000&nbsp;Btu/hr.</li>
+            <li>Convert temperatures from &deg;F to absolute (Rankine): add 459.67 to each &deg;F value.</li>
+            <li>Calculate the Carnot COP for refrigeration:
+              <span class="formula-line">COP = T_cold / (T_hot &minus; T_cold)</span>
+            </li>
+            <li>Use the COP definition to solve for work input W:
+              <span class="formula-line">W = Q_cold / COP</span>
+            </li>
+            <li>Convert W from Btu/hr to Watts using the conversion factor 1&nbsp;Btu/hr&nbsp;=&nbsp;0.29307&nbsp;W.</li>
+            <li>Compare to answer choices and select the closest value.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Section 4: Key Takeaways -->
+      <div style="margin-top:24px;">
+        <div class="section-title" style="border-color:#f59e0b;">Key Takeaways</div>
+        <div class="takeaway-box">
+          <ul style="padding-left:16px;font-size:13px;line-height:2;color:#555;">
+            <li>Always use <strong>absolute temperatures (Rankine or Kelvin)</strong> in Carnot efficiency calculations &mdash; using &deg;F or &deg;C directly will give wrong answers.</li>
+            <li><strong>Refrigeration COP can be greater than 1</strong>, which confuses many students; it means you move more heat than the work you put in &mdash; the refrigeration cycle leverages the temperature difference to transfer heat, not generate it.</li>
+            <li><strong>Unit conversion between Btu/hr and Watts</strong> shows up repeatedly on the PE exam &mdash; memorize the conversion factor: 1&nbsp;Btu/hr&nbsp;=&nbsp;0.29307&nbsp;W (or equivalently, 1&nbsp;W&nbsp;=&nbsp;3.412&nbsp;Btu/hr).</li>
+            <li>The <strong>reversed Carnot cycle sets the theoretical upper limit</strong> for any real refrigeration system &mdash; no real device can exceed Carnot COP at the same operating temperatures.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Nav Arrows -->
+    <div class="nav-arrows">
+      <a href="HVAC_Thermodynamics_16.html">&larr; Problem 16</a>
+      <a href="HVAC_Thermodynamics_18.html">Problem 18 &rarr;</a>
+    </div>
+
+  </div><!-- /sidebar-left -->
+
+  <!-- RIGHT PANEL: Full Solution + Video Synthesis + Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <!-- Section 2: Full Solution -->
+    <div class="section-title">Full Solution</div>
+    <span class="answer-tag">Answer: B &mdash; 200 W</span>
+
+    <div style="font-size:13px;line-height:1.8;color:#444;margin-top:10px;">
+
+      <p style="margin-bottom:10px;"><strong>Step 1: Identify the given information</strong></p>
+      <p style="margin-bottom:12px;">
+        This is a <em>reversed Carnot refrigeration cycle</em> &mdash; the most efficient possible refrigeration cycle operating between two temperature reservoirs. We are given:
+      </p>
+      <ul style="padding-left:18px;margin-bottom:12px;">
+        <li>Cold reservoir temperature: T<sub>cold</sub> = &minus;20&deg;F</li>
+        <li>Hot reservoir temperature: T<sub>hot</sub> = 80&deg;F</li>
+        <li>Heat absorbed from cold reservoir: Q<sub>cold</sub> = 3,000 Btu/hr</li>
+        <li>Find: Work input W (in Watts)</li>
+      </ul>
+
+      <p style="margin-bottom:10px;"><strong>Step 2: Convert temperatures to Rankine</strong></p>
+      <p style="margin-bottom:6px;">Carnot COP formulas require absolute temperatures. In the English system, convert &deg;F to Rankine by adding 459.67:</p>
+      <span class="formula-line">T_cold = &minus;20&deg;F + 459.67 = 439.67 &deg;R</span>
+      <span class="formula-line">T_hot  =  80&deg;F + 459.67 = 539.67 &deg;R</span>
+      <p style="margin-bottom:12px;margin-top:8px;">Note that T<sub>hot</sub> &minus; T<sub>cold</sub> = 539.67 &minus; 439.67 = <strong>100 &deg;R</strong>. The even 100&deg;R difference is a convenient feature of this problem.</p>
+
+      <p style="margin-bottom:10px;"><strong>Step 3: Calculate the Carnot COP for refrigeration</strong></p>
+      <p style="margin-bottom:6px;">For a reversed Carnot (refrigeration) cycle, the COP is:</p>
+      <span class="formula-line">COP_Carnot = T_cold / (T_hot &minus; T_cold)</span>
+      <span class="formula-line">COP_Carnot = 439.67 / (539.67 &minus; 439.67)</span>
+      <span class="formula-line">COP_Carnot = 439.67 / 100 = 4.397</span>
+      <p style="margin-bottom:12px;margin-top:8px;">A COP of 4.397 means the refrigerator moves 4.397 Btu of heat for every 1 Btu of work input. This is greater than 1, which is normal and expected for refrigeration cycles.</p>
+
+      <p style="margin-bottom:10px;"><strong>Step 4: Solve for work input W</strong></p>
+      <p style="margin-bottom:6px;">The COP definition relates Q<sub>cold</sub>, W, and COP:</p>
+      <span class="formula-line">COP = Q_cold / W  &rArr;  W = Q_cold / COP</span>
+      <span class="formula-line">W = 3,000 Btu/hr / 4.397</span>
+      <span class="formula-line">W = 682.3 Btu/hr</span>
+
+      <p style="margin-bottom:10px;margin-top:12px;"><strong>Step 5: Convert Btu/hr to Watts</strong></p>
+      <p style="margin-bottom:6px;">The answer choices are in Watts, so convert using the standard conversion factor:</p>
+      <span class="formula-line">1 Btu/hr = 0.29307 W</span>
+      <span class="formula-line">W = 682.3 Btu/hr &times; 0.29307 W/(Btu/hr)</span>
+      <span class="formula-line">W &asymp; 200 W</span>
+
+      <p style="margin-bottom:10px;margin-top:12px;"><strong>Step 6: Select the answer</strong></p>
+      <p style="margin-bottom:12px;">200 W matches answer choice <strong>B</strong> exactly. The other choices (160 W, 700 W, 1100 W) would result from temperature conversion errors (not using Rankine) or COP formula errors (using T<sub>hot</sub> instead of T<sub>cold</sub> in the numerator).</p>
+
+      <div style="background:#e6ffe6;border:1px solid #22c55e;border-radius:4px;padding:10px 14px;margin-top:12px;font-size:13px;color:#15803d;">
+        <strong>&#10003; Final Answer: B &mdash; 200 W</strong>
+      </div>
+    </div>
+
+    <!-- Section 3: Video Synthesis -->
+    <div style="margin-top:28px;">
+      <div class="section-title" style="border-color:#7c3aed;">Video Synthesis</div>
+      <div class="video-box">
+        <strong style="color:#7c3aed;">&#127891; Key Insights for This Problem</strong>
+        <ul style="padding-left:18px;margin-top:10px;line-height:2;">
+          <li>The <strong>reversed Carnot cycle is the theoretical maximum efficiency</strong> for refrigeration &mdash; any real system operating between the same two temperatures will have a lower COP.</li>
+          <li><strong>Always convert to absolute temperature (Rankine)</strong> before applying COP formulas &mdash; substituting &deg;F values directly into the Carnot expression gives a physically meaningless result.</li>
+          <li>The <strong>COP for refrigeration uses the cold reservoir temperature in the numerator</strong>: COP<sub>ref</sub> = T<sub>cold</sub> / (T<sub>hot</sub> &minus; T<sub>cold</sub>). Using T<sub>hot</sub> in the numerator gives the heat pump COP instead.</li>
+          <li><strong>Unit conversion between Btu/hr and Watts is a common exam trap</strong> &mdash; the problem is set up so that the work in Btu/hr (682 Btu/hr) does not match any answer choice; you must convert to Watts to find 200 W.</li>
+          <li>The <strong>Carnot COP gives the maximum possible COP</strong> for any device operating between the given temperatures &mdash; real systems are always lower due to irreversibilities.</li>
+          <li>Know the difference: <strong>COP<sub>refrigeration</sub> = T<sub>cold</sub> / (T<sub>hot</sub> &minus; T<sub>cold</sub>)</strong> vs <strong>COP<sub>heat&nbsp;pump</sub> = T<sub>hot</sub> / (T<sub>hot</sub> &minus; T<sub>cold</sub>)</strong> &mdash; and that COP<sub>HP</sub> = COP<sub>ref</sub> + 1.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <div style="margin-top:28px;">
+      <div class="oh-section-title">
+        Office Hours Q&amp;A
+        <span class="oh-count">No sessions</span>
+      </div>
+      <div class="oh-notice">
+        &#8505;&nbsp; No Office Hours coverage for this problem yet.
+      </div>
+    </div>
+
+  </div><!-- /sidebar-right -->
+
+</div><!-- /layout-container -->
+
+<div class="footer">
+  <span>HVAC OH Prep</span>
+  <span>&middot;</span>
+  <a href="../oh-prep.html">&larr; Back to Problem List</a>
+  <span>&middot;</span>
+  <span>Thermodynamics &middot; Problem 17</span>
+  <span style="margin-left:auto;">
+    <a href="HVAC_Thermodynamics_16.html">&larr; Prev</a>
+    &nbsp;&nbsp;
+    <a href="HVAC_Thermodynamics_18.html">Next &rarr;</a>
+  </span>
+</div>
+
+</body>
+</html>
