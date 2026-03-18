@@ -204,6 +204,14 @@ body {
   line-height: 1.5;
   color: #444;
 }
+.qa-topic-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 18px 0 10px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #fde68a;
+}
 .footer {
   background: white;
   border-top: 1px solid #e0e0e0;
@@ -228,10 +236,10 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 5</span>
-  <span class="nav-badge">⭐ 26 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">26 OH sessions</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: D</span>
 </div>
 
 <div class="layout-container">
@@ -240,7 +248,7 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 5</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      Water at 400psi and 700°F is in what thermodynamic state?
+      Water at 400 psi and 700°F is in what thermodynamic state?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
@@ -248,204 +256,99 @@ body {
       <div class="choice"><span class="choice-letter">A.</span><span>Liquid</span></div>
       <div class="choice"><span class="choice-letter">B.</span><span>Saturated Mixture</span></div>
       <div class="choice"><span class="choice-letter">C.</span><span>Saturated Vapor</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>Superheated Vapor</span></div>
+      <div class="choice correct"><span class="choice-letter">D.</span><span>Superheated Vapor ✓</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
+      <span class="answer-tag">Answer: D</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Quick Overview ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+      <div class="solution-box" id="sol-box">1. Identify given information: Water at P = 400 psi and T = 700°F. Determine the thermodynamic state.
 
-1. We can start with a hunch.
+2. Open the saturated steam table organized by pressure and find the entry for 400 psi.
 
-2. So I suppose you could start anywhere.
+3. Read the saturation temperature at 400 psi: T_sat ≈ 444.6°F.
 
-3. You could start with the saturated steam table.
+4. Compare the actual temperature to the saturation temperature: 700°F ≫ 444.6°F — the actual temperature is far above saturation.
 
-4. I&#39;m going to start with the superheated vapor table because it&#39;s such a high temperature.
+5. Conclude: Since T_actual > T_sat at this pressure, the water must be superheated vapor (it's past the saturation curve, to the right on a T-s diagram).
 
-5. So I&#39;m jumping over to the reference manual and searching superheated.
+6. Select the answer: Superheated Vapor → Answer D.</div>
 
-6. So that means it is superheated vapor and the best answer choice is deep.
+      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="full-box">This is a foundational thermodynamics problem that tests your ability to determine the phase/state of water using the steam tables. It's simpler than most PE exam problems, but the underlying skill — identifying thermodynamic state — is used repeatedly in more complex problems.
 
-<strong>Full Solution:</strong>
+The approach: Look up the saturation temperature corresponding to the given pressure in the saturated steam tables.
 
-Thermofive water at 400 psi and 700 degrees is in what thermodynamic state. Liquid saturated mixture, saturated vapor, or superheated vapor. So this one is pretty much a pure look-up. We can start with a hunch. It&#39;s at a very high temperature, which makes you think it&#39;s probably a vapor, whether it&#39;s saturated vapor, or superheated vapor is hard to say. It could also be a mixture. It is at a very high pressure, so that&#39;s sort of a competing interest. Might make you think it&#39;s more in the mixture range. It&#39;s not so high of a pressure as to make me think that it&#39;s a compressed liquid, but if you don&#39;t have a lot of experience working with the steam table, then you may not have a gut instinct. So I suppose you could start anywhere. You could start with the saturated steam table. I&#39;m going to start with the superheated vapor table because it&#39;s such a high temperature. So I&#39;m jumping over to the reference manual and searching superheated. So we get properties of superheated steam. And now we know the temperature is 700 degrees F and the pressure is 400 psi. This is organized by pressure, so jump down a few pages. 400 psi is here and the temperature is 700. And there are values for that. So the fact that there are values in the superheated steam table at that pressure and temperature means it is superheated steam. If you got cold or cold or cold or suppose it was only 440 degrees, which is not cold, but it&#39;s colder. Then there&#39;s no values for that. So that would imply that it&#39;s no longer in the superheated range. It would be in the saturated range. And it says here T sub S, which is saturated, is 444. So at this pressure, that&#39;s the threshold where it goes from superheated to saturated. And in any case, there are values at 700. So that means it is superheated vapor and the best answer choice is deep.</div>
+At 400 psi, the saturation temperature is approximately 444.6°F. This means that at 400 psi, water exists as a saturated mixture (part liquid, part vapor) only at exactly 444.6°F.
+
+Our water is at 700°F — far above 444.6°F. Since the temperature exceeds the saturation temperature at this pressure, the water must be in the superheated vapor region. It has passed completely through the two-phase (saturated) region and is now a single-phase superheated gas.
+
+You can think of it on a T-s (temperature-entropy) diagram: the saturation curve forms a dome. At a given pressure, points on the dome represent saturated conditions. Points to the right of the dome (higher temperature at the same pressure) are superheated. Points to the left (lower temperature) are subcooled/compressed liquid.
+
+The general rules:
+• If T_actual > T_sat at the given pressure → Superheated vapor
+• If T_actual = T_sat at the given pressure → Saturated (could be liquid, mixture, or vapor — need quality or another property to distinguish)
+• If T_actual < T_sat at the given pressure → Subcooled (compressed) liquid
+
+Equivalently, you can compare pressures:
+• If P_actual < P_sat at the given temperature → Superheated vapor
+• If P_actual = P_sat at the given temperature → Saturated
+• If P_actual > P_sat at the given temperature → Subcooled liquid</div>
 
       <div class="video-box">
         <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermofive water at 400 psi and 700 degrees is in what thermodynamic state.<br><br><br><br>• Liquid saturated mixture, saturated vapor, or superheated vapor.<br><br><br><br>• So this one is pretty much a pure look-up.<br><br><br><br>• It&#39;s at a very high temperature, which makes you think it&#39;s probably a vapor, whether it&#39;s saturated vapor, or superheated vapor is hard to say.<br><br><br><br>• It is at a very high pressure, so that&#39;s sort of a competing interest.<br><br><br><br>• Might make you think it&#39;s more in the mixture range.
+        • The solution video looks up 400 psi in the pressure-organized saturated steam table and finds T_sat ≈ 444.6°F.<br><br>
+        • Since 700°F is far greater than 444.6°F, the water is definitively in the superheated vapor region.<br><br>
+        • Dan draws the saturation curve on a T-s diagram to illustrate where superheated, saturated, and subcooled regions fall.<br><br>
+        • The video emphasizes that this is a fundamental skill you'll apply over and over in more complex thermo, HVAC, and fluids problems.<br><br>
+        • Both the temperature-comparison and pressure-comparison approaches for determining state are demonstrated.
       </div>
 
       <div class="takeaway-box">
         <strong>⭐ Key Takeaways:</strong><br>
-        • Always track your units through every step — unit errors are the #1 source of wrong answers on the PE exam.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+        • Determining thermodynamic state is a foundational skill — you'll do it as a sub-step in nearly every steam/water problem on the PE exam.<br><br>
+        • Compare T_actual vs T_sat (at the given pressure), or P_actual vs P_sat (at the given temperature). Higher temperature or lower pressure → superheated.<br><br>
+        • At the saturation line, you need a third property (quality, enthalpy, or entropy) to distinguish between saturated liquid, mixture, and saturated vapor.<br><br>
+        • Subcooled liquid is sometimes called "compressed liquid" — same thing, just higher pressure or lower temperature than the saturation point.
       </div>
     </div>
   </div>
 
   <!-- RIGHT PANEL -->
   <div class="sidebar-right">
-
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">26 questions from 2 sessions</span>
+      <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
+
+    <!-- TOPIC: Determining Thermodynamic State -->
+    <div class="qa-topic-header">🌡️ Determining Thermodynamic State from Steam Tables</div>
 
     <div class="qa-group">
-      <div class="qa-session">OH 15 · May 28 2021</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 15</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Water at 400 psi and 700f is in what thermodynamic state. So this question is probably simpler than what you might actually be asked on the PE exam. It&#39;s really a foundational question. You&#39;ll probably find yourself answering questions like this over and over again while solving more involved problems. And the question is, could you provide examples for water in other states, liquid saturated mixture and saturated vapor? So I actually challenged the individual who asked this question to come up with some answers on their own. And now I&#39;ll take a couple of minutes to talk about how you would do that. We can look in the steam tables and show that. So first of all, just answering the question, how do you know that water at 400 psi and 700f? What state that&#39;s in? So we can look in the saturated steam table and you can use either the saturated steam or the superheated steam either way will be able to get there. And in this case, the pressure was 400 and the temperature was 700. So we&#39;ll go down. This is two tables as you probably know the one organized by temperature and one organized by pressure. So if you go to the one organized by pressure drop down to 400, we&#39;ll notice that the corr</div>
+      <div class="qa-session">OH 108 · Sep 1, 2025</div>
+      <div class="qa-question"><strong>Q:</strong> (This session focused on TFS Heat Transfer 7 — iteration vs. direct algebraic solution for heat exchangers. While not directly about Thermo 5, the theme of choosing the right approach connects.)</div>
+      <div class="qa-answer"><strong>Dan:</strong> A student showed that what appeared to require iteration could actually be solved algebraically by keeping the outlet temperature as a variable instead of guessing a value. Dan agreed: "Your work proves it by holding the outlet temperature as a variable. You're not solving for a value on one side — you're holding it as an unknown. It just happens to be wrapped up in a quantity with subtraction, which is why you end up with an exponential function and natural log. It's just a bit of math." The broader lesson: always consider whether a problem can be solved directly before resorting to iteration or estimation.</div>
     </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 108 · September 1st 2025</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 108</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermal 5. And Thermal 5 you mentioned using gut instinct to determine which steam table to use when finding water properties. For the PE exam, what systematic approach or quick decision rules can I use to instantly know whether water is an mixed saturated or superheated state? I want to avoid wasting time flipping between tables. Okay, so similar, similar themes here to the previous problems about being concerned about time and wasting time. So at the risk of being a broken record, we don&#39;t want to worry too much about time when we&#39;re studying. What will probably happen is you&#39;ll learn your way around the tables and then you&#39;ll become very good at looking for what you want and finding it quickly. But you get faster by doing it slowly to figure it out and then you do it a little faster and then a little faster and a little faster and a little faster. And then one day you wake up and you&#39;re like man, I&#39;m quick. But you know, you don&#39;t just get fast without that without going to the steam tables a lot of times. I don&#39;t think there&#39;s a real shortcut there, but anyway, as it relates to this particular question about how to inst... There&#39;s no possible way to instantly know the state tha</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 18</div>
-      <div class="qa-question"><strong>Q:</strong> 7 for this problem?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, he transferred 19. Why can&#39;t we use the equation heat gain loss from uninsulated duct from 9.3.6.7 for this problem? I took a look at that one. Let me bring it up. So this question is, this was formula is interesting because it has a lot of the pieces that we would need perimeter, length, volume, specificity, capacity, density, and area to find the temperature gain. The one it doesn&#39;t have is q. And q is the heat flux that he lost through the wall in B2 per hour per unit area. And if you don&#39;t have that, then how would you get that becomes an x-questioned? And I think one way of coming at that might be to come back to this sort of an equation. Maybe I&#39;ll use big q. At least does a starting point. And then, or if it&#39;s convection, maybe instead of u, you might use h. And then the question is going to be, well, how do I determine h? Because we know the area. And then we&#39;re right back into dealing with forced convection problem. So it&#39;s forced convection. It&#39;s turbulent flow. We&#39;re going to have to find the new salt number equals hd over k. And go through that whole process, which the solution kind of does. And it&#39;s a lot. It&#39;s a difficult problem. So I don&#39;t know.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> 7 for finding Reynolds number?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19. How do you know when to use the equation 5.3.7 for finding Reynolds number? So I will answer that question specifically, but first I just want to take one click out and answer the question more generally of why are we finding the Reynolds number at all? Not so much specifically about this equation, but like when do you need to go find the Reynolds number in the process of solving a heat transfer problem? So in general, if the problem gives you the film coefficient, so the heat transfer coefficients that you need for convection, they&#39;re giving you the value of H. Then chances are you&#39;re going to have a much more straightforward solution path, because you&#39;re probably going to end up doing Q dot for convection is H.A. Delta T or something similar to that. And you have the H you need, so you&#39;re on your way. When it gets considerably more interesting is if H is not given, and you know there is convection in play, right? Because if H is not given, and it&#39;s a radiation problem, or a conduction problem maybe you don&#39;t need H.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-26631943
 
-System 22.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> System 22. When I did this problem and solved for Q steam, I multiplied 28,000, 28,800 BTUs times .9, which is 1-0.1 for the bypass, and I used 25,920 BTU for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2 1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q</div>
-    </div>
     <div class="qa-group">
-      <div class="qa-session">OH 25</div>
-      <div class="qa-question"><strong>Q:</strong> Should they be memorized?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, HVC general, HP AirHorse Power equals Q delta P over 63, 56 and velocity pressure V squared over 45, do not seem to be in the handbook. Should they be memorized? Both seem very helpful. Yes, they are very helpful and they are in the handbook. So you shouldn&#39;t have to memorize them. I&#39;ll give you this one. Can I say something? Yeah, fire away. Sure, so the velocity pressure one actually did find that. Oh good. I said I couldn&#39;t find it because I just controlled F-4,000 and 5. I think, yeah. Yeah. So happy day. Yes. Yes. Okay. Yes, so the search term for that one is actually just velocity pressure. Yes, okay. For that one. The other one is a little trickier. The search term for that one is not airhorse power and not HP. It&#39;s fan power. So take a look at that search fan power and if you find it on page 450. Great. Thanks. You&#39;re welcome.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 30</div>
-      <div class="qa-question"><strong>Q:</strong> Should I memorize?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, HVC Solutions 19. I cannot find stack effect formula in the PE reference. Should I memorize? I found 9.1.16 residential infiltration. Can you explain the formula and how to use it if there&#39;s a 1, 2 or 3 story building and how to use a table? How to use the table 1, 2 and 3. So as for the stack effect formula, it&#39;s funny. It was in the previous materials. It was obviously in the mirror. It&#39;s in all the old stuff, which is how it got into this program. Right? It&#39;s from some older stuff. It&#39;s not in the reference handbook. I agree. You won&#39;t find it there. So should you memorize it? Probably not. I would argue that, you know, by creating the reference handbook and transitioning to CBT. Things that that the that NCS has elected to omit from that document are not fair game. So beyond fair to ask you a question about stack effect. That said, I would encourage you to watch the solution video and understand the fundamentals of stack effect. What&#39;s going on there in terms of creating pressure differences in buildings and just have kind of have some intuition around that. But maybe you don&#39;t worry too much about the quantitative side of solving problems like that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 44</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-38917302
-
-Systems in Components 20.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Systems in Components 20. Could you have found the dewpoint temperature 76.7 for state 1 for the outside air and found the answer enthalpy 40.7B2 per pound for state 3 from the chart without having to use the heat exchange efficiency to find T3 for state 3. I would say take a look at the solution video again on this one. If you start maybe I don&#39;t know if you got all the way through it but if you start from four minutes I do exactly that and this is a highlight of the steps followed. So take a look and hopefully that answers your question because I was looking at this in preparation for today&#39;s call and I think that&#39;s exactly what we do. So I&#39;m not sure if that answers the question but if it is followed I&#39;m happy to go more into that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 61</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this wrong?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, last one, HVAC number 278. He was soon a constant temp of 77 degrees when calculating the log mean temperature difference. And discount the superheating delta T as negligible to the Q in the heating. But with H2 of 125 B2 found and using T3 of 77 degrees to draw horizontal line on the pH diagram, I find a T2 in the superheated region of 100 degrees. Using this, I get a log mean temperature difference of 14.9 degrees, which is much bigger. And results in a Q of 5960 B2 power, which is much more than 3840 that I found. The mass flow rate would then be near 70 pounds per hour. Why is this wrong? This is a great question. And this is a nuanced question. It&#39;s one that no one has really asked, but it makes sense that you&#39;re asking it. And I have a reason that I hope you&#39;ll find satisfying. So I&#39;ll share that with you. But you might not find it satisfying. But I think it&#39;s valid. So let&#39;s go into it. This problem just as background context is about a heat exchanger. And we have to use this Q equals UA delta T log mean to analyze the heat exchanger. I won&#39;t go too much into that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 71</div>
-      <div class="qa-question"><strong>Q:</strong> Is your solution?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 22. Is your solution? In your solution you mentioned the first thing we&#39;re analyzing is the turbulent flow and to look up turbulent flow in a circular tube in the reference manual. How do you know it was turbulent flow right away? For air flow related problems should we save time and assume air flow and duct work is turbulent rather than spend the time calculating the Reynolds number to verify that it&#39;s turbulent slash laminar. Yeah, you&#39;re right. I didn&#39;t do that up front and the reason for that is exactly what you&#39;re suggesting for each VAC application is the air flow is always going to be turbulent. There&#39;s no reason from a physics perspective that air has to move in a turbulent manner. There&#39;s some critical Reynolds number below which the flow would be laminar. But for HVC applications it&#39;s it&#39;s almost never the case for for a variety of reasons we need to maintain pressure in the duct work so that we can push through the terminals. We want to encourage mixing if there&#39;s any any of that happening in the system.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 76</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was on heat transfer number two. I tried to use the reference handbook formula where it&#39;s asking for hot cold side inlet outlet temperatures. When I sketch this problem out, the hot side versus the cold side seems counterintuitive, normally the condenser cooling tower side would be the hot side and the chiller is the cold side. When I worked out the problem, it appeared the hot side is on the chilled water side. Why is this? Yeah, it&#39;s a great question. So, and I love how you ask this and provide a picture to kind of say like, all right, you know, here&#39;s option one option two one way. I get this negative value out which doesn&#39;t make sense, so I do it the other way. And it comes out to be a positive value which is the correct answer. So that must be the right setup, but intuitively doesn&#39;t make sense why that would be the right setup because how is the chiller, the chilled water side, the hot side and the condenser water is the cold side, like how can that be? And it is counterintuitive, but your picture is perfect and it points to exactly why this is the answer.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 79</div>
-      <div class="qa-question"><strong>Q:</strong> Where does this number come from?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 20. The dew point for state one is listed as 76.7 degrees F. Where does this number come from? I get 82.9 from the chart and 83 degrees F with a calculator for a dry bulb temp of 90 degrees and 80% our age. This problem appears to be unsolvable if the dew point of T3 is actually higher than the dry bulb of T3 equals 78.5 degrees F. This was about an air to air heat exchange. I think the question here was just an issue of looking up the dew point for that one state. And I think the issue with what you&#39;re doing either whether it&#39;s on the site chart or with the site calculator is you&#39;re doing 80% our age. But it&#39;s actually 80 degrees weple. So you do have two pieces of information of the dry bulb temperature and the in the weple temperature and not the relative humidity. So yeah, if you if you do that 90 degrees dry bulb 80 degrees weple you&#39;ll get the. You&#39;ll get the right dew point not 82.9 to much lower that&#39;s all that was.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 98</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-62881661
-
-Missileinus B.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Missileinus B. I guess on this one using basic understanding But I don&#39;t fully understand why I got it right. What is the sedentary one met and LCL equals 0.5 CLO mean besides basically fluff info so If you figured it out from your intuition and by reading the chart then that&#39;s a good start There&#39;s gonna be questions like that remember like try not to get thrown off by that when you think about the P exam There&#39;s gonna be something that you haven&#39;t seen you don&#39;t know what it means You didn&#39;t expect it but you can figure it out why because you can read a chart because you can think on your feet Because you&#39;re a good critical thinker because you don&#39;t panic under pressure So all those skills are gonna be on display during your P exam, but anyway Let&#39;s have some curiosity about this specific problem. What&#39;s going on so Met what is a Met is a metabolic equivalent task It&#39;s a unit of energy expenditure so They use this for like runners and endurance athletes and weight lifters Basically if you&#39;re trying to figure out how much cooling to put in a room and the people are doing a lot of physical work then You can do it in increments of metabolic equivalent task So if you&#39;ve never heard th</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 113</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, and this was price exam 2, number 49. When I use the conversion right from the book for millimeters of mercury to PSI, for Ptole I get a completely different value, throwing off my whole answer. Why is this? Why don&#39;t you solve the question you&#39;re using the providing conversion for the pressure in millimeters of mercury? Typical question for many of the conversions and or formulas used throughout the course. So I had a question for this question. What do you consider to be a typical conversion or formula for converting from millimeters of mercury to PSI? Well, just the one that&#39;s in the, I don&#39;t think that in the solution. The one that&#39;s right there in the measurement relationships. You, I don&#39;t think, unless I&#39;m missing something that you used that one. I think I use the inverse of this so I had one over that value. Okay, then I guess that&#39;s, I guess that would be my question. Like it&#39;s not very productive. I would say to like use the inverse of that and I know going from my last question, it&#39;s counterintuitive, but they are related to each other. But like for the conversions, I&#39;m just curious why you would use the inverse.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 18</div>
-      <div class="qa-question"><strong>Q:</strong> 7 for this problem?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, he transferred 19. Why can&#39;t we use the equation heat gain loss from uninsulated duct from 9.3.6.7 for this problem? I took a look at that one. Let me bring it up. So this question is, this was formula is interesting because it has a lot of the pieces that we would need perimeter, length, volume, specificity, capacity, density, and area to find the temperature gain. The one it doesn&#39;t have is q. And q is the heat flux that he lost through the wall in B2 per hour per unit area. And if you don&#39;t have that, then how would you get that becomes an x-questioned? And I think one way of coming at that might be to come back to this sort of an equation. Maybe I&#39;ll use big q. At least does a starting point. And then, or if it&#39;s convection, maybe instead of u, you might use h. And then the question is going to be, well, how do I determine h? Because we know the area. And then we&#39;re right back into dealing with forced convection problem. So it&#39;s forced convection. It&#39;s turbulent flow. We&#39;re going to have to find the new salt number equals hd over k. And go through that whole process, which the solution kind of does. And it&#39;s a lot. It&#39;s a difficult problem. So I don&#39;t know.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> 7 for finding Reynolds number?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 19. How do you know when to use the equation 5.3.7 for finding Reynolds number? So I will answer that question specifically, but first I just want to take one click out and answer the question more generally of why are we finding the Reynolds number at all? Not so much specifically about this equation, but like when do you need to go find the Reynolds number in the process of solving a heat transfer problem? So in general, if the problem gives you the film coefficient, so the heat transfer coefficients that you need for convection, they&#39;re giving you the value of H. Then chances are you&#39;re going to have a much more straightforward solution path, because you&#39;re probably going to end up doing Q dot for convection is H.A. Delta T or something similar to that. And you have the H you need, so you&#39;re on your way. When it gets considerably more interesting is if H is not given, and you know there is convection in play, right? Because if H is not given, and it&#39;s a radiation problem, or a conduction problem maybe you don&#39;t need H.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-26631943
-
-System 22.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> System 22. When I did this problem and solved for Q steam, I multiplied 28,000, 28,800 BTUs times .9, which is 1-0.1 for the bypass, and I used 25,920 BTU for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2 1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q-2-0.1 for the Q</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 25</div>
-      <div class="qa-question"><strong>Q:</strong> Should they be memorized?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, HVC general, HP AirHorse Power equals Q delta P over 63, 56 and velocity pressure V squared over 45, do not seem to be in the handbook. Should they be memorized? Both seem very helpful. Yes, they are very helpful and they are in the handbook. So you shouldn&#39;t have to memorize them. I&#39;ll give you this one. Can I say something? Yeah, fire away. Sure, so the velocity pressure one actually did find that. Oh good. I said I couldn&#39;t find it because I just controlled F-4,000 and 5. I think, yeah. Yeah. So happy day. Yes. Yes. Okay. Yes, so the search term for that one is actually just velocity pressure. Yes, okay. For that one. The other one is a little trickier. The search term for that one is not airhorse power and not HP. It&#39;s fan power. So take a look at that search fan power and if you find it on page 450. Great. Thanks. You&#39;re welcome.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 30</div>
-      <div class="qa-question"><strong>Q:</strong> Should I memorize?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, HVC Solutions 19. I cannot find stack effect formula in the PE reference. Should I memorize? I found 9.1.16 residential infiltration. Can you explain the formula and how to use it if there&#39;s a 1, 2 or 3 story building and how to use a table? How to use the table 1, 2 and 3. So as for the stack effect formula, it&#39;s funny. It was in the previous materials. It was obviously in the mirror. It&#39;s in all the old stuff, which is how it got into this program. Right? It&#39;s from some older stuff. It&#39;s not in the reference handbook. I agree. You won&#39;t find it there. So should you memorize it? Probably not. I would argue that, you know, by creating the reference handbook and transitioning to CBT. Things that that the that NCS has elected to omit from that document are not fair game. So beyond fair to ask you a question about stack effect. That said, I would encourage you to watch the solution video and understand the fundamentals of stack effect. What&#39;s going on there in terms of creating pressure differences in buildings and just have kind of have some intuition around that. But maybe you don&#39;t worry too much about the quantitative side of solving problems like that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 44</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-38917302
-
-Systems in Components 20.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Systems in Components 20. Could you have found the dewpoint temperature 76.7 for state 1 for the outside air and found the answer enthalpy 40.7B2 per pound for state 3 from the chart without having to use the heat exchange efficiency to find T3 for state 3. I would say take a look at the solution video again on this one. If you start maybe I don&#39;t know if you got all the way through it but if you start from four minutes I do exactly that and this is a highlight of the steps followed. So take a look and hopefully that answers your question because I was looking at this in preparation for today&#39;s call and I think that&#39;s exactly what we do. So I&#39;m not sure if that answers the question but if it is followed I&#39;m happy to go more into that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 61</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this wrong?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, last one, HVAC number 278. He was soon a constant temp of 77 degrees when calculating the log mean temperature difference. And discount the superheating delta T as negligible to the Q in the heating. But with H2 of 125 B2 found and using T3 of 77 degrees to draw horizontal line on the pH diagram, I find a T2 in the superheated region of 100 degrees. Using this, I get a log mean temperature difference of 14.9 degrees, which is much bigger. And results in a Q of 5960 B2 power, which is much more than 3840 that I found. The mass flow rate would then be near 70 pounds per hour. Why is this wrong? This is a great question. And this is a nuanced question. It&#39;s one that no one has really asked, but it makes sense that you&#39;re asking it. And I have a reason that I hope you&#39;ll find satisfying. So I&#39;ll share that with you. But you might not find it satisfying. But I think it&#39;s valid. So let&#39;s go into it. This problem just as background context is about a heat exchanger. And we have to use this Q equals UA delta T log mean to analyze the heat exchanger. I won&#39;t go too much into that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 71</div>
-      <div class="qa-question"><strong>Q:</strong> Is your solution?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> He transferred 22. Is your solution? In your solution you mentioned the first thing we&#39;re analyzing is the turbulent flow and to look up turbulent flow in a circular tube in the reference manual. How do you know it was turbulent flow right away? For air flow related problems should we save time and assume air flow and duct work is turbulent rather than spend the time calculating the Reynolds number to verify that it&#39;s turbulent slash laminar. Yeah, you&#39;re right. I didn&#39;t do that up front and the reason for that is exactly what you&#39;re suggesting for each VAC application is the air flow is always going to be turbulent. There&#39;s no reason from a physics perspective that air has to move in a turbulent manner. There&#39;s some critical Reynolds number below which the flow would be laminar. But for HVC applications it&#39;s it&#39;s almost never the case for for a variety of reasons we need to maintain pressure in the duct work so that we can push through the terminals. We want to encourage mixing if there&#39;s any any of that happening in the system.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 76</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, next one was on heat transfer number two. I tried to use the reference handbook formula where it&#39;s asking for hot cold side inlet outlet temperatures. When I sketch this problem out, the hot side versus the cold side seems counterintuitive, normally the condenser cooling tower side would be the hot side and the chiller is the cold side. When I worked out the problem, it appeared the hot side is on the chilled water side. Why is this? Yeah, it&#39;s a great question. So, and I love how you ask this and provide a picture to kind of say like, all right, you know, here&#39;s option one option two one way. I get this negative value out which doesn&#39;t make sense, so I do it the other way. And it comes out to be a positive value which is the correct answer. So that must be the right setup, but intuitively doesn&#39;t make sense why that would be the right setup because how is the chiller, the chilled water side, the hot side and the condenser water is the cold side, like how can that be? And it is counterintuitive, but your picture is perfect and it points to exactly why this is the answer.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 79</div>
-      <div class="qa-question"><strong>Q:</strong> Where does this number come from?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, systems and components 20. The dew point for state one is listed as 76.7 degrees F. Where does this number come from? I get 82.9 from the chart and 83 degrees F with a calculator for a dry bulb temp of 90 degrees and 80% our age. This problem appears to be unsolvable if the dew point of T3 is actually higher than the dry bulb of T3 equals 78.5 degrees F. This was about an air to air heat exchange. I think the question here was just an issue of looking up the dew point for that one state. And I think the issue with what you&#39;re doing either whether it&#39;s on the site chart or with the site calculator is you&#39;re doing 80% our age. But it&#39;s actually 80 degrees weple. So you do have two pieces of information of the dry bulb temperature and the in the weple temperature and not the relative humidity. So yeah, if you if you do that 90 degrees dry bulb 80 degrees weple you&#39;ll get the. You&#39;ll get the right dew point not 82.9 to much lower that&#39;s all that was.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 98</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-62881661
-
-Missileinus B.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Missileinus B. I guess on this one using basic understanding But I don&#39;t fully understand why I got it right. What is the sedentary one met and LCL equals 0.5 CLO mean besides basically fluff info so If you figured it out from your intuition and by reading the chart then that&#39;s a good start There&#39;s gonna be questions like that remember like try not to get thrown off by that when you think about the P exam There&#39;s gonna be something that you haven&#39;t seen you don&#39;t know what it means You didn&#39;t expect it but you can figure it out why because you can read a chart because you can think on your feet Because you&#39;re a good critical thinker because you don&#39;t panic under pressure So all those skills are gonna be on display during your P exam, but anyway Let&#39;s have some curiosity about this specific problem. What&#39;s going on so Met what is a Met is a metabolic equivalent task It&#39;s a unit of energy expenditure so They use this for like runners and endurance athletes and weight lifters Basically if you&#39;re trying to figure out how much cooling to put in a room and the people are doing a lot of physical work then You can do it in increments of metabolic equivalent task So if you&#39;ve never heard th</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 113</div>
-      <div class="qa-question"><strong>Q:</strong> Why is this?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, and this was price exam 2, number 49. When I use the conversion right from the book for millimeters of mercury to PSI, for Ptole I get a completely different value, throwing off my whole answer. Why is this? Why don&#39;t you solve the question you&#39;re using the providing conversion for the pressure in millimeters of mercury? Typical question for many of the conversions and or formulas used throughout the course. So I had a question for this question. What do you consider to be a typical conversion or formula for converting from millimeters of mercury to PSI? Well, just the one that&#39;s in the, I don&#39;t think that in the solution. The one that&#39;s right there in the measurement relationships. You, I don&#39;t think, unless I&#39;m missing something that you used that one. I think I use the inverse of this so I had one over that value. Okay, then I guess that&#39;s, I guess that would be my question. Like it&#39;s not very productive. I would say to like use the inverse of that and I know going from my last question, it&#39;s counterintuitive, but they are related to each other. But like for the conversions, I&#39;m just curious why you would use the inverse.</div>
+      <div class="qa-session">OH 15 · May 28, 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Water at 400 psi and 700°F is in what thermodynamic state? Could you provide examples of water in the other states — liquid, saturated mixture, and saturated vapor?</div>
+      <div class="qa-answer"><strong>Dan:</strong> Great foundational question. Look in the saturated steam table organized by pressure — at 400 psi, the saturation temperature is 444.6°F. Our water is at 700°F, far above saturation, so it must be superheated vapor. More generally: any pair of values in the steam table (like 400 psi / 444.6°F) represents saturation conditions. At that exact temperature and pressure, you could be anywhere from saturated liquid to saturated vapor — you'd need quality, enthalpy, or entropy to pin down exactly where. If your temperature is <em>higher</em> than T_sat at your pressure (or your pressure is <em>lower</em> than P_sat at your temperature), you're superheated. If it's lower (or pressure is higher), you're subcooled/compressed liquid. For example, at 400 psi and exactly 444.6°F you could be a saturated mixture. This is a skill you'll use over and over — get comfortable with it early.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 5 · 26 OH sessions · Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 5 · 2 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -453,7 +356,13 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Quick Overview ▲' : 'Quick Overview ▼';
+}
+function toggleFull() {
+  const box = document.getElementById('full-box');
+  const btn = document.getElementById('full-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
 }
 </script>
 </body>

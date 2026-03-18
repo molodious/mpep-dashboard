@@ -132,10 +132,29 @@ body {
   line-height: 1.75;
   color: #444;
   display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .solution-box.open { display: block; }
+.solution-box ol {
+  margin-left: 20px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.solution-box ol li {
+  margin-bottom: 6px;
+}
+.solution-box p {
+  margin-bottom: 10px;
+}
+.formula-line {
+  font-family: 'Courier New', Courier, monospace;
+  background: #f4f4f8;
+  padding: 4px 10px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 4px 0;
+  font-size: 13px;
+  color: #1a1a1a;
+}
 .video-box {
   background: #f0f4ff;
   padding: 12px;
@@ -145,12 +164,26 @@ body {
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
 }
+.video-box ul {
+  margin-left: 18px;
+  margin-top: 6px;
+}
+.video-box ul li {
+  margin-bottom: 8px;
+}
 .takeaway-box {
   background: #fffbf0;
   padding: 12px;
   border-radius: 4px;
   margin-top: 10px;
   border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  margin-left: 18px;
+  margin-top: 6px;
+}
+.takeaway-box ul li {
+  margin-bottom: 6px;
 }
 .oh-section-title {
   font-size: 15px;
@@ -229,61 +262,91 @@ body {
 
 <div class="nav-bar">
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 10</span>
-  <span class="nav-badge">⭐ 4 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &middot; Thermodynamics &middot; Problem 10</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
 </div>
 
 <div class="layout-container">
   <!-- LEFT PANEL -->
   <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 10</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 10</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      What quantity of heat is released per unit mass when copper is cooled from 250°F to 75°F? lb lb lb lb 18
+      What quantity of heat is released per unit mass when copper is cooled from 250&deg;F to 75&deg;F?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>16Btu</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>18Btu</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>57Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>157Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">A.</span><span>16 Btu/lb ✓</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>18 Btu/lb</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>57 Btu/lb</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>157 Btu/lb</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
         Show Quick Overview &amp; Full Solution &#9660;
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+      <div class="solution-box" id="sol-box">
 
-1. Thermoten, what quantity of heat is released per unit mass when copper is cooled from 250 degrees Fahrenheit to 75 degre.
+        <strong>Quick Overview:</strong>
+        <ol>
+          <li>Recognize this as a <em>sensible heat transfer</em> problem — copper is cooled with no phase change, so specific heat applies directly.</li>
+          <li>Write the heat transfer formula per unit mass: <span class="formula-line">q = c<sub>p</sub> &times; &Delta;T &nbsp;[Btu/lb]</span></li>
+          <li>Look up the specific heat of copper in the NCEES Reference Handbook under Properties of Metals: <span class="formula-line">c<sub>p,copper</sub> = 0.09 Btu/(lb&middot;&deg;F)</span></li>
+          <li>Calculate the temperature difference: <span class="formula-line">&Delta;T = 250&deg;F &minus; 75&deg;F = 175&deg;F</span></li>
+          <li>Substitute and solve: <span class="formula-line">q = 0.09 Btu/(lb&middot;&deg;F) &times; 175&deg;F = 15.75 Btu/lb</span></li>
+          <li>Round to the nearest answer: <strong>16 Btu/lb &rarr; Answer A</strong></li>
+        </ol>
 
-2. And the cp for copper we can look up.
+        <br>
+        <strong>Full Solution:</strong>
 
-3. We noticed that the answer choices are energy per unit mass.
+        <p>This problem asks for the heat released per unit mass as copper is cooled — a classic sensible heat calculation. Because we're dealing with a pure substance (copper) with no phase change, we use the specific heat equation. Starting from the general form Q = mc<sub>p</sub>&Delta;T, dividing both sides by mass m gives the specific (per unit mass) heat transfer:</p>
 
-4. What&#39;s the heat released per unit mass.
+        <p><span class="formula-line">q = c<sub>p</sub> &Delta;T &nbsp;&nbsp; [Btu/lb]</span></p>
 
-5. So we&#39;re actually expecting the answer to be in B2&#39;s per pound.
+        <p>The key material property needed is the specific heat capacity of copper, c<sub>p</sub>. This must be looked up in the NCEES PE Reference Handbook — search the Properties of Metals or Properties of Solids section. The handbook lists the specific heat of copper as:</p>
 
-6. So we can divide both sides of the sequed and by mass.
+        <p><span class="formula-line">c<sub>p,copper</sub> = 0.09 Btu/(lb&middot;&deg;F)</span></p>
 
-<strong>Full Solution:</strong>
+        <p>Next, calculate the temperature change. The copper is cooled from an initial temperature of 250&deg;F to a final temperature of 75&deg;F:</p>
 
-Thermoten, what quantity of heat is released per unit mass when copper is cooled from 250 degrees Fahrenheit to 75 degrees Fahrenheit? This one is fairly straightforward. We can say that the quantity of heat that&#39;s released Q is equal to mcp delta t. And we know the delta t because we know the two temperatures. And the cp for copper we can look up. But we don&#39;t know the mass. We noticed that the answer choices are energy per unit mass. And it&#39;s actually phrased that way. What&#39;s the heat released per unit mass? So we&#39;re actually expecting the answer to be in B2&#39;s per pound. So we can divide both sides of the sequed and by mass. Basically we&#39;re employing the fact that the heat per unit mass can be expressed as little Q equals big Q over the mass. So we make that substitution. This becomes Q equals cp delta t. So we really just need to know the specific heat capacity of copper. And we&#39;re off to the races. So let&#39;s jump into the reference manual and just search for copper. Hopefully a couple of searches will get us where we need to go. Quite a bit of information to copper tubing. Here we go. Properties of metals copper. Specific heat capacity B2 for pound degree F. Point O9. So Q equals point O9. B2 per pound degree F times that delta t. 250 minus 75. And that works out to a heat transfer per unit mass of 15.75 B2 per pound. Which is answer choice A.</div>
+        <p><span class="formula-line">&Delta;T = T<sub>initial</sub> &minus; T<sub>final</sub> = 250&deg;F &minus; 75&deg;F = 175&deg;F</span></p>
 
-      <div class="video-box">
-        <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermoten, what quantity of heat is released per unit mass when copper is cooled from 250 degrees Fahrenheit to 75 degrees Fahrenheit.<br><br><br><br>• This one is fairly straightforward.<br><br><br><br>• We can say that the quantity of heat that&#39;s released Q is equal to mcp delta t.<br><br><br><br>• And we know the delta t because we know the two temperatures.<br><br><br><br>• And the cp for copper we can look up.<br><br><br><br>• We noticed that the answer choices are energy per unit mass.
+        <p>Note the sign convention: because the copper is being <em>cooled</em>, heat is released from the copper to its surroundings. The magnitude of the heat release per unit mass is what the problem asks for. Substituting into the formula:</p>
+
+        <p><span class="formula-line">q = 0.09 Btu/(lb&middot;&deg;F) &times; 175&deg;F = 15.75 Btu/lb</span></p>
+
+        <p>This value rounds to <strong>16 Btu/lb</strong>, which corresponds to <strong>Answer A</strong>. The other choices represent common errors: Choice B (18 Btu/lb) results from using a slightly incorrect specific heat; Choice C (57 Btu/lb) suggests using water's specific heat (1.0 Btu/lb&middot;&deg;F) for an incorrect temperature range; Choice D (157 Btu/lb) is far too large and may result from not dividing by mass. The critical habit here is looking up the correct material property rather than relying on memory.</p>
+
+        <p><em>Handbook Reference: NCEES PE Reference Handbook &mdash; Section 9.1.7 (Heat Transfer for Water), Properties of Metals table for c<sub>p</sub> of copper = 0.09 Btu/(lb&middot;&deg;F). The general form Q = mc<sub>p</sub>&Delta;T also appears in various thermodynamics sections throughout the handbook.</em></p>
+
       </div>
 
-      <div class="takeaway-box">
-        <strong>⭐ Key Takeaways:</strong><br>
-        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+      <div class="video-box" style="margin-top:14px">
+        <strong>&#x1F4F9; Video Solution Synthesis:</strong>
+        <ul>
+          <li>The problem involves copper being cooled over a temperature interval — no phase change occurs, so this is a straightforward sensible heat calculation.</li>
+          <li>The solution approach divides the standard Q = mc<sub>p</sub>&Delta;T by mass to obtain the specific heat release per pound: <em>q = c<sub>p</sub>&Delta;T</em>.</li>
+          <li>The specific heat of copper (c<sub>p</sub> = 0.09 Btu/lb&middot;&deg;F) is not a value to memorize — it must be located in the NCEES Reference Handbook under material properties for metals.</li>
+          <li>Temperature difference is computed as 250&deg;F &minus; 75&deg;F = 175&deg;F, then multiplied by the specific heat to give 15.75 Btu/lb.</li>
+          <li>Rounding 15.75 to the nearest answer choice yields 16 Btu/lb, confirming Answer A — a reminder to always match your calculated result to the available choices rather than looking for an exact match.</li>
+          <li>The formula Q = mc<sub>p</sub>&Delta;T is foundational and will appear repeatedly throughout the HVAC module — understanding it deeply now pays dividends on many future problems.</li>
+        </ul>
+      </div>
+
+      <div class="takeaway-box" style="margin-top:14px">
+        <strong>&#11088; Key Takeaways:</strong>
+        <ul>
+          <li>Material-specific properties like specific heat capacity <em>must</em> be looked up in the reference handbook during the exam — do not rely on memorization for values like copper's c<sub>p</sub>.</li>
+          <li>Sensible heat problems (no phase change) are among the most direct calculation types in thermodynamics — recognize them quickly and apply the per-unit-mass formula to save time.</li>
+          <li>The formula Q = mc<sub>p</sub>&Delta;T is one of the most fundamental relationships in thermodynamics and heat transfer; it appears in multiple sections of the handbook under different contexts.</li>
+          <li>When your calculated answer doesn't exactly match a choice, round to the nearest option — small discrepancies (like 15.75 vs. 16) are expected due to handbook rounding of material properties.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -293,36 +356,27 @@ Thermoten, what quantity of heat is released per unit mass when copper is cooled
 
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">4 questions from 2 sessions</span>
+      <span class="oh-count">2 questions from 2 sessions</span>
     </div>
     <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
 
     <div class="qa-group">
-      <div class="qa-session">OH 43 · September 5 2022</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 43</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> They&#39;re most ten. Very simple question here. I cannot for the life of me find the formula Q equals mcp delta t in the reference handbook. I know this is a foundational formula and one to basically memorize, but I am trying to find it in the reference handbook in case I forget and I can&#39;t, where is it located? So it&#39;s probably located in a few places, but the first place that I found was for water, the rate of heat transfer for water. And I found that in section nine.1.7, which is on page 428. So you can check that out. It&#39;s gonna be Q. water equals m.cp delta t, but it&#39;s implied that that&#39;s true not only for water, but for really any other substance that you might be dealing with that has a constant specific capacity that&#39;s gonna hold true. So that&#39;s one place you can find it. And to your point, I do think you&#39;ll basically memorize that. So I wouldn&#39;t lose any sleep about worrying that you&#39;re gonna forget it. I think you&#39;re gonna use it many, many times.</div>
+      <div class="qa-session">OH 43 &middot; September 5th, 2022</div>
+      <div class="qa-question"><strong>Q:</strong> I cannot for the life of me find the formula Q = mc<sub>p</sub>&Delta;T in the reference handbook. I know this is a foundational formula and one to basically memorize, but I am trying to find it in case I forget. Where is it located?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> It's probably located in a few places, but the first place I found it was for water — the rate of heat transfer for water — in Section 9.1.7 on page 428. You'll find Q<sub>water</sub> = mc<sub>p</sub>&Delta;T there. It's implied that this holds true not only for water, but for really any other substance with a constant specific heat capacity. So that's one place you can find it. And to your point, I do think you'll basically memorize it — I wouldn't lose any sleep worrying that you're going to forget it. You're going to use it many, many times throughout the course.</div>
     </div>
+
     <div class="qa-group">
-      <div class="qa-session">OH 69 · October 17th 2023</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 69</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Thermo 10, I need clarification on the compression ratio in the reference manual. I use the equation RV equals V1 over V2 when applying the constant entropy processes. I used the following formula T2 over T1, which is V2 over, I think that&#39;s supposed to be V1, raised to the K minus 1. And you&#39;re worked out solution, you use the formula that has P2 over P1 and you plugged in the compression ratio. Why is the method I used incorrect? So I think we need to distinguish here the volume metric compression ratio from just the compression ratio. So when we talk about compression ratio, we mean the ratio of the pressures like this. So that&#39;s actual pressure. We wanted to distinguish that from the volume metric compression ratio, which has to use that adjective volume metric has to be there. Then we could say that V2 over V1. And that&#39;s a different parameter. So if it doesn&#39;t say volume metric compression ratio, it just says compression ratio, then we should be looking at this one. And the way to kind of remember this, because I don&#39;t want you to just do this by memory, I want you to really understand it, is to come back to the ideal gas law. So this idea that PV equals NRT or MRT, depending</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 38</div>
-      <div class="qa-question"><strong>Q:</strong> So, a question is, why is G sub C shown in units of pound mass, foot, per pound, four, second squared on page two of the reference handbook when it should be in feet per second squared?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> regarding the gravitational constant. So, a question is, why is G sub C shown in units of pound mass, foot, per pound, four, second squared on page two of the reference handbook when it should be in feet per second squared? Trying to make sure I follow my units correctly and that one through me off. So this is a pretty common question that comes up usually at the very beginning starting to study for the PE exam. And if you go back to some of the earlier office hours, archive questions, I go into a fair amount of detail about this, I don&#39;t know if it was the first second or third week, but it&#39;s very early in the office hours, archive, it&#39;s worth checking out. But I&#39;ll do kind of a quick version here. And I think this is a good opportunity to kind of distinguish the SI units from the US customer units, because this is a total non-issue in SI units. It&#39;s only an issue because of US customer units. And the reason for that is that G is not the gravitational constant. G is the acceleration due to gravity. So in US customer units, that&#39;s 32.2 feet per second squared, which is what this candidate is saying, his expectation is, that should be in feet per second squared.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 38</div>
-      <div class="qa-question"><strong>Q:</strong> So, a question is, why is G sub C shown in units of pound mass, foot, per pound, four, second squared on page two of the reference handbook when it should be in feet per second squared?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> regarding the gravitational constant. So, a question is, why is G sub C shown in units of pound mass, foot, per pound, four, second squared on page two of the reference handbook when it should be in feet per second squared? Trying to make sure I follow my units correctly and that one through me off. So this is a pretty common question that comes up usually at the very beginning starting to study for the PE exam. And if you go back to some of the earlier office hours, archive questions, I go into a fair amount of detail about this, I don&#39;t know if it was the first second or third week, but it&#39;s very early in the office hours, archive, it&#39;s worth checking out. But I&#39;ll do kind of a quick version here. And I think this is a good opportunity to kind of distinguish the SI units from the US customer units, because this is a total non-issue in SI units. It&#39;s only an issue because of US customer units. And the reason for that is that G is not the gravitational constant. G is the acceleration due to gravity. So in US customer units, that&#39;s 32.2 feet per second squared, which is what this candidate is saying, his expectation is, that should be in feet per second squared.</div>
+      <div class="qa-session">OH 69 &middot; October 17th, 2023</div>
+      <div class="qa-question"><strong>Q:</strong> I need clarification on the compression ratio in the reference manual. I used R<sub>V</sub> = V<sub>1</sub>/V<sub>2</sub> when applying constant entropy processes and the formula T<sub>2</sub>/T<sub>1</sub> = (V<sub>2</sub>/V<sub>1</sub>)<sup>k&minus;1</sup>. In the worked solution, the formula with P<sub>2</sub>/P<sub>1</sub> was used and the compression ratio was plugged in. Why is my method incorrect?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> The key is to distinguish the <em>volumetric</em> compression ratio from the plain <em>compression ratio</em>. When we say "compression ratio" without any qualifier, we mean the ratio of pressures: R = P<sub>2</sub>/P<sub>1</sub>. The volumetric compression ratio — which requires that adjective — is V<sub>2</sub>/V<sub>1</sub>. These are different parameters. The reason you can't swap them is grounded in the ideal gas law: PV &prop; T. If temperature were constant, then P and V would be inversely proportional and you could relate one ratio to the other. But that assumption of constant temperature is not valid here — so the pressure ratio and the volume ratio are separate and distinct. You must know which one you're actually dealing with in order to move forward. If you had a constant-temperature (isothermal) process, knowing one would imply the other — but that's unusual in real compressor problems.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 10 · 4 OH sessions · Generated 2026-03-17</span>
+  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 10 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 

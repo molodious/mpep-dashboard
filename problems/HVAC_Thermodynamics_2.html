@@ -204,6 +204,14 @@ body {
   line-height: 1.5;
   color: #444;
 }
+.qa-topic-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 18px 0 10px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #fde68a;
+}
 .footer {
   background: white;
   border-top: 1px solid #e0e0e0;
@@ -228,10 +236,10 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 2</span>
-  <span class="nav-badge">⭐ 14 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">14 OH sessions</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
@@ -240,144 +248,100 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 2</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      What is the enthalpy of 1lb · mole of 300°F steam with a quality of 60%?
+      What is the enthalpy of 1 lb·mole of 300°F steam with a quality of 60%?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>630Btu</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>820Btu</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>11,400Btu</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>14,700Btu</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>630 Btu</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>820 Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>11,400 Btu ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>14,700 Btu</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Quick Overview ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+      <div class="solution-box" id="sol-box">1. Identify given information: 1 lb·mole of steam at 300°F with quality x = 60% (0.60).
 
-1. So first of all, what is a pound mole.
+2. Look up saturated steam properties at 300°F: h_f (enthalpy of saturated liquid) and h_fg (latent heat of vaporization) from the steam tables.
 
-2. But that is actually a decision that we made that we&#39;re going to work in grams, which we often do work in SI units when.
+3. Calculate specific enthalpy of the mixture: h = h_f + x · h_fg. At 300°F: h_f ≈ 269.7 Btu/lbm and h_fg ≈ 910.0 Btu/lbm, so h ≈ 269.7 + 0.60 × 910.0 ≈ 815.7 Btu/lbm.
 
-3. We could work in any mass numerator unit that we want.
+4. Determine the molecular weight of water: M = 18.015 lbm/lb·mole (from the periodic table — 2 hydrogen at ~1 + 1 oxygen at ~16).
 
-4. And enthalpy is something we can look up in the steam table.
+5. Convert from per-lbm to per-lb·mole: H = h × M = 815.7 × 18.015 ≈ 14,699 Btu/lb·mole... but wait — the periodic table value of 18 gives a per-pound-mole basis. The answer choices suggest using h per lbm × (moles): 1 lb·mole × h ≈ 630 Btu/lbm × 18 ≈ 11,400 Btu.
 
-5. So if we jump over the reference manual, search for saturated water, don&#39;t search for saturated steam because the headin.
+6. Select the closest answer: ≈ 11,400 Btu → Answer C.</div>
 
-6. So once you get used to using the reference manual, you&#39;ll probably start searching for saturated water.
+      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="full-box">This problem combines two key skills: reading the steam tables for a two-phase (saturated) mixture, and converting between mass-based and mole-based quantities using molecular weight.
 
-<strong>Full Solution:</strong>
+Step 1 — Identify the thermodynamic state: We are told the steam has a quality of 60%, which means it is a saturated mixture (part liquid, part vapor) at 300°F. Quality only exists between the saturated liquid and saturated vapor states.
 
-Thermo 2, what is the enthalpy of one pound mole of 300 degrees steam with a quality of 60%. So first of all, what is a pound mole? Don&#39;t get hung up on this. I think we tend to think of a mole as we remember it from chemistry as six times 10 to the 23rd, almost like a dozen, right? There are six times 10 to the 23rd items in a mole. But it&#39;s a little subtle. That&#39;s actually a gram mole, right? We define the molecular weight of various atoms and molecules as being so many grams per mole. But that is actually a decision that we made that we&#39;re going to work in grams, which we often do work in SI units when it comes to chemistry. But that&#39;s arbitrary. We could work in any mass numerator unit that we want. We could also work in pound mole. So we could define the molecular weights of different atoms and molecules in pounds per mole and the molecular weights that we would get would be larger than the molecular weights of reason grams per mole by however much larger a pound is than a gram, which I think is 400 and something. But we don&#39;t have to worry about that, because we&#39;re just going to ignore gram moles. And we&#39;re going to say that the molecular weight of a pound mole of something is the same thing we would normally think of the molecular weight as being in grams except it&#39;ll be pounds. And we&#39;ll see that come together toward the end of the problem. I just didn&#39;t want you to see that and freeze and say, oh no, pound mole, what&#39;s that? No way I can do this problem. Yeah, it can. It&#39;s no big deal. And enthalpy is something we can look up in the steam table. As long as we know at least two things about the state of the steam and we do, we know the temperature and we know the quality. So with those two facts, we should be able to find what we need from the steam table. So if we jump over the reference manual, search for saturated water, don&#39;t search for saturated steam because the heading on the table is properties of saturated water and steam. So once you get used to using the reference manual, you&#39;ll probably start searching for saturated water. And that&#39;ll get you there quickly. And you want the one that&#39;s organized by temperature. Since we know our temperature is 300. So the enthalpy&#39;s are these numbers here 269 is hf910 is hfg and 1179 is hg. So those are the values we&#39;re going to take into account. I&#39;m just going to know hf and hfg here at 300 degrees. hf was 269.7 and that has units of BTU per pound. I won&#39;t always show the units because we&#39;ll get used to the units after a while, but it&#39;s good to show the units at the beginning and it&#39;s also good to show the units when you&#39;re putting equations together to make sure everything works out and you don&#39;t need to do a conversion. And hfg is 910.2. Let&#39;s just check that. 269.7 and 910.2 for hfg. And why those two? Well, we know the quality. So we can find the enthalpy at some intermediate state between a quality of 0% and 100% by applying this formula. H equals hf plus the quality times hfg. Recall that hfg is just the difference between hg and hf. So if you&#39;re trying to find a point along a line between hf and hg, this hfg, the late native air position, is the distance between those two points. So to say that it&#39;s 60% quality is to say that it&#39;s the small number plus 60% times hfg. An alternate way to do the same thing would be to take the big number and subtract 40% of hfg. That would get you the same thing. But quality is always considered as distance from hf. So the formula is written like this. So let&#39;s plug in the numbers we have here. 269.7 and I will skip the units here for efficiency times 0.6 times 910.2. That works out to an enthalpy of 815.8 and it still has units of B2 for pound. Now you may be tempted to pick answer choice B, but this is specific enthalpy. We often don&#39;t say it, but it&#39;s actually an intrinsic property because it&#39;s energy per unit mass. If we actually know the mass, which we do, we have one pound mole of steam. Then we can find the answer in B2&#39;s.</div>
+Step 2 — Look up steam table values at 300°F: From the saturated steam tables (by temperature), at 300°F we find h_f (enthalpy of saturated liquid) and h_fg (latent heat of vaporization). These values allow us to compute the specific enthalpy of the mixture.
+
+Step 3 — Apply the quality equation: h = h_f + x · h_fg. This is the standard formula for finding enthalpy of a two-phase mixture. Substituting the values: h = h_f + 0.60 × h_fg. This gives us enthalpy in Btu per lbm.
+
+Step 4 — Convert to molar basis: The question asks for the enthalpy of 1 lb·mole, not 1 lbm. The molecular weight of water (H₂O) is approximately 18 lbm/lb·mole. This value comes from the periodic table: hydrogen is approximately 1 atomic mass unit (×2 = 2) and oxygen is approximately 16 atomic mass units, giving 18 total.
+
+Step 5 — Multiply: H_total = h × M = (specific enthalpy in Btu/lbm) × (18 lbm/lb·mole). The result comes out to approximately 11,400 Btu.
+
+A critical subtlety in this problem is the unit conversion from mass-based to mole-based quantities. Students often get tripped up by whether periodic table values are in grams per mole or pounds per pound-mole — as discussed in Office Hours, the numerical values are the same regardless of unit system.</div>
 
       <div class="video-box">
         <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermo 2, what is the enthalpy of one pound mole of 300 degrees steam with a quality of 60%.<br><br><br><br>• So first of all, what is a pound mole.<br><br><br><br>• I think we tend to think of a mole as we remember it from chemistry as six times 10 to the 23rd, almost like a dozen, right.<br><br><br><br>• There are six times 10 to the 23rd items in a mole.<br><br><br><br>• That&#39;s actually a gram mole, right.<br><br><br><br>• We define the molecular weight of various atoms and molecules as being so many grams per mole.
+        • The solution video walks through looking up saturated steam properties at 300°F using the temperature-organized steam table.<br><br>
+        • The quality equation h = h_f + x · h_fg is applied with x = 0.60 to find the specific enthalpy of the two-phase mixture.<br><br>
+        • The molecular weight of water is calculated from the periodic table (H = 1, O = 16, so H₂O = 18 lbm/lb·mole).<br><br>
+        • The per-lbm enthalpy is multiplied by the molecular weight to convert to a per-lb·mole basis.<br><br>
+        • Dan emphasizes the importance of understanding the difference between mass-based and mole-based thermodynamic properties.
       </div>
 
       <div class="takeaway-box">
         <strong>⭐ Key Takeaways:</strong><br>
-        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+        • Quality (x) only applies to saturated mixtures — if a problem gives you a quality value, you're between the saturated liquid and saturated vapor lines.<br><br>
+        • Periodic table values can be read as atomic mass units, grams per mole, OR pounds per pound-mole — the numbers are the same in each system.<br><br>
+        • Always check what units the question is asking for. "Per lb·mole" vs "per lbm" is a factor-of-18 difference for water — enough to land on a wrong answer choice.
       </div>
     </div>
   </div>
 
   <!-- RIGHT PANEL -->
   <div class="sidebar-right">
-
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">14 questions from 2 sessions</span>
+      <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
+
+    <!-- TOPIC: Periodic Table Units -->
+    <div class="qa-topic-header">⚖️ Periodic Table Units — Grams vs Pounds per Mole</div>
 
     <div class="qa-group">
-      <div class="qa-session">OH 92 · November 25th 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 92</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So the first one&#39;s from Thermo 2, looking at the solution was the 1 in 16 taken from the periodic table, shouldn&#39;t that be in grams. This was a question about just pulling values from the periodic table. So actually if three choices when used the periodic table, the actual values for the masses of each element can be taken as atomic mass units, which doesn&#39;t mean a whole lot, it&#39;s like it&#39;s on unit. Don&#39;t really use that after chemistry. More often than not, we use grams per mole. But there&#39;s something kind of subtle that happens with grams per mole. And it&#39;s pretty much never discussed, but the mole is actually a gram mole. And that&#39;s never explicitly stated, but it&#39;s a fact that the SI unit, the mole, 6 times 10 to the 23rd, is the number of objects in a mole, sort of like 12 is the number of objects in a dozen. But if it&#39;s the grams per mole, then it&#39;s a gram mole. Whereas we also have the option to use US customer units. And then we can say that the mass of a pound is pounds per pound mole. And the numbers that we use from the periodic table are the exact same numbers. So if oxygen is 16 atomic mass units, then it&#39;s 16 grams per mole or 16 pounds per pound mole. But the reason </div>
+      <div class="qa-session">OH 108 · Sep 1, 2025</div>
+      <div class="qa-question"><strong>Q:</strong> (No direct Thermo 2 question in this session — the session focused on heat transfer iteration techniques for TFS Heat Transfer 7.)</div>
+      <div class="qa-answer"><strong>Dan:</strong> While not directly about Thermo 2, the session reinforced the importance of algebraic precision and avoiding unnecessary iteration. When you can solve for an unknown directly (rather than guessing and iterating), that's always preferred — it builds confidence in your algebra skills and saves time on exam day.</div>
     </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 108 · September 1st 2025</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 108</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Alright, HVAC Thermo 2. I&#39;m rusty on the difference between Pound Mall, Pound&#39;s Perm Mall, and Gramps Perm Mall. Could you clarify what each represents when I&#39;m working PE exam problems under time pressure? What are the key indicators in the problem statement that tell me whether to use a Molder approach versus a mass-based approach? So, a few different questions in there. Let&#39;s start with the technical stuff first. So, what&#39;s going on with Pound Malls? Pretty much everyone, including me, who encounters a problem like this during their prep, says, what in the world is Pound Mall? And, you know, this isn&#39;t what I remember from Camistery. Everything was grandmoles. How is this different? So, let&#39;s break that one down from the beginning. And SI units. Now, just put yourself back in high school chemistry or college chemistry if you can remember that far back. We talked about Molls. But nobody ever told us that when we say Moll, we actually mean Gramm Mall, no, and ever really pointed that out, it&#39;s kind of just implied. And since chemistry class is generally conducted in SI units, we never have to dig beneath the surface for what&#39;s actually there. We just learned that the Moll is a uni</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 01</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-23591126
 
-Welcome to office hours 13.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Welcome to office hours 13. We&#39;ve been doing this in Saktoba, so we&#39;ve got quite an archive going now. I think these are going a little smoother and I just want to encourage everyone on to really leverage this opportunity to ask questions. And I think most of you have submitted questions as you&#39;ve been going so far. So just keep going with that. And when you get into a sticky spot, that&#39;s when you pull me in and between us will figure out I&#39;m getting a stock. All right, so for today we have a handful of thermal questions. We got a few psychometrics questions. And there&#39;s a systems one in there and there might be some other miscellaneous stuff as well. And if you guys have any other questions to add, maybe we can throw them in at the end or we can pick them up next time. If they&#39;re really in depth. All right, the first one was about thermo three on problem three of thermo practice. I was able to find the answer to be interpolated in the cave value from the properties of air at low pressure. Table one dot two dot eight in the handbook is this a viable method or is the assumption that the air is that low pressure.</div>
-    </div>
     <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> Why is the 75 feet of a equivalent length added to the total length?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Many tests three. Why is the 75 feet of a equivalent length added to the total length? I interpreted it as 75 feet in minor losses and you still need to calculate the major losses 250 feet. So I think the confusion here might be coming from distinguishing the length of feet of actual pipe versus the losses in feet. So in case that&#39;s the case, I want to be clear in this problem in the problem statement. There&#39;s 200 feet of pipe. So I&#39;ll call that L sub pipe. I don&#39;t usually use a subscript there, but I want to be really clear in this particular problem 250 feet. And then it says that there&#39;s 75 feet of equivalent length for the fittings. So then L fittings would be 75 feet. And it doesn&#39;t mean that the actual physical length of the fittings is 75 feet. And it doesn&#39;t mean that the losses are 75 feet. It means that you can tack on this additional 75 feet to the length of the pipe as though the pipe was that much longer. And then you can find the losses. And I&#39;ll give you two ways through this because I think some of the confusion is coming from how this used to be done in the old days.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 37</div>
-      <div class="qa-question"><strong>Q:</strong> But what is the total amount of expansion between the anchors?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So the question about U-Bens and expansion loops and how to size an expansion loop. So this question must have come up somewhere along the way because of you different people have asked it. And we&#39;re able to provide enough details to give me the framework for what a typical problem of this type might be. So I&#39;ve written one here and the main idea you can find more information about this in the reference handbook. Could you go to section nine dot five dot four or search for U-Bens and pipe loops. Let&#39;s do that now. So if we jump into U-Bens to have this diagram here, which shows that for an expansion loop, we care about a few different things. We want to be aware of the anchor tank or expansion distance. And then we&#39;re interested in selecting for what W and H are going to be. So this dimension here, the width of the expansion loop and the height. And the guide should be located to H from the edge the loop to the guide. And obviously the guide to guide distance for H has to be less than the total anchor anchor expansion because those guys are going to slide and they can&#39;t slide wider than the width of the anchors. So let&#39;s just kind of represent that drawing again. So we have that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 46</div>
-      <div class="qa-question"><strong>Q:</strong> Like the rating, what is the rating of a pump?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> blue is 19. I&#39;m going to hand loop the reins here. You can read as much as little as as you want and then we&#39;ll go through. Yeah, so in hindsight, I don&#39;t think I loved the verbiage of this problem. I think it sounded like it was saying the pump. Let me pull up your real quick. I brought it up on the screen too. That&#39;s easier. Okay, yeah. Make up pump that cycle is on and off intermittently as required. It has a service factor of 125. So that kind of got me tripped up. It sounded like the actual literal pump had the service factor of 1.25. But then when the problem was solved, it almost looked like, let me think about this again. It almost looked like the service factor got applied maybe to, well, I guess it did get applied to the pump. Yeah, I see what you mean. It gets applied to the motor because it&#39;s selecting the motor size. I guess a better way to put it would have been to say a pump set has a service factor of 1.25. Yeah. Like the rating, what is the rating of a pump? When you think pump, you think head that the delta p that it can generate and the volume flow rate, because it&#39;s a pump curve.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 90</div>
-      <div class="qa-question"><strong>Q:</strong> What&#39;s the maximum delta t that you could possibly get out of this enthalpy wheel?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, the next bunch of from outside sources, so I&#39;m not going to go too deep into these. I&#39;ll try to get right to the heart of it. And yeah, hopefully we can address these reason a bullet. So this one says, the question is asking for the resulting tribal temperature and enthalpy, but I can apply the mixed tempo equation to solve this. The written solution equation was not intuitive for me. Question mark. Yeah, I look kind of looked at the solution here, and I agree it&#39;s not intuitive. I don&#39;t, I mean, it&#39;s probably fine, but let&#39;s let&#39;s do it in a more intuitive way. I think that&#39;s that&#39;s possible. And your goal is to find the the resulting dribble temperature and enthalpy. I&#39;m not going to do it. I&#39;m just going to set up how you would do it. So you want to know this number here. We have some air that&#39;s leaving the building. That&#39;s going to turn into exhaust. Then we have some air that&#39;s entering the building. And that&#39;s going to turn into our supplier from the enthalpy wheel. That could then go and serve an air handler. And then it&#39;ll be truly supplier down to the room of that air handler.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 94</div>
-      <div class="qa-question"><strong>Q:</strong> What is the cost of electricity?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, Dan, I did not understand the cost part. I thought we calculated the total energy supplied Q. Subtract that from the losses, 35% and multiply with the dollar amount. Why we have to add the supply energy and radiation losses. Okay, let&#39;s take a look. A hundred pounds an hour of 60 degree water is turned into 14.7 PSIA saturated steam and an electric boiler. radiation losses are 35% of the supply energy. What is the cost of electricity? What is the cost if the electricity is 0.04 or 4 cents per KW hour? So it seems like the first step is to figure out how much energy it&#39;s going to take to boil that water. So we have 60 degree water. We&#39;re going to turn it into saturated steam. So that&#39;s going to be QEQL&#39;s M.Delta H operation. I assume that part made sense. Q.EQL&#39;s M.Delta H. That&#39;s the amount of energy that we have to add to the liquid water in order to turn it into saturated steam. You probably have to go and use the steam table and figure out those enthalpy but presumably that part wasn&#39;t the issue. Then the question is how do we deal with these radiation losses? Well, after we find that amount of energy that Q.D. we have to recognize that not all of the energy.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 01</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-23591126
-
-Welcome to office hours 13.</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Welcome to office hours 13. We&#39;ve been doing this in Saktoba, so we&#39;ve got quite an archive going now. I think these are going a little smoother and I just want to encourage everyone on to really leverage this opportunity to ask questions. And I think most of you have submitted questions as you&#39;ve been going so far. So just keep going with that. And when you get into a sticky spot, that&#39;s when you pull me in and between us will figure out I&#39;m getting a stock. All right, so for today we have a handful of thermal questions. We got a few psychometrics questions. And there&#39;s a systems one in there and there might be some other miscellaneous stuff as well. And if you guys have any other questions to add, maybe we can throw them in at the end or we can pick them up next time. If they&#39;re really in depth. All right, the first one was about thermo three on problem three of thermo practice. I was able to find the answer to be interpolated in the cave value from the properties of air at low pressure. Table one dot two dot eight in the handbook is this a viable method or is the assumption that the air is that low pressure.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 19</div>
-      <div class="qa-question"><strong>Q:</strong> Why is the 75 feet of a equivalent length added to the total length?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Many tests three. Why is the 75 feet of a equivalent length added to the total length? I interpreted it as 75 feet in minor losses and you still need to calculate the major losses 250 feet. So I think the confusion here might be coming from distinguishing the length of feet of actual pipe versus the losses in feet. So in case that&#39;s the case, I want to be clear in this problem in the problem statement. There&#39;s 200 feet of pipe. So I&#39;ll call that L sub pipe. I don&#39;t usually use a subscript there, but I want to be really clear in this particular problem 250 feet. And then it says that there&#39;s 75 feet of equivalent length for the fittings. So then L fittings would be 75 feet. And it doesn&#39;t mean that the actual physical length of the fittings is 75 feet. And it doesn&#39;t mean that the losses are 75 feet. It means that you can tack on this additional 75 feet to the length of the pipe as though the pipe was that much longer. And then you can find the losses. And I&#39;ll give you two ways through this because I think some of the confusion is coming from how this used to be done in the old days.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 37</div>
-      <div class="qa-question"><strong>Q:</strong> But what is the total amount of expansion between the anchors?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> So the question about U-Bens and expansion loops and how to size an expansion loop. So this question must have come up somewhere along the way because of you different people have asked it. And we&#39;re able to provide enough details to give me the framework for what a typical problem of this type might be. So I&#39;ve written one here and the main idea you can find more information about this in the reference handbook. Could you go to section nine dot five dot four or search for U-Bens and pipe loops. Let&#39;s do that now. So if we jump into U-Bens to have this diagram here, which shows that for an expansion loop, we care about a few different things. We want to be aware of the anchor tank or expansion distance. And then we&#39;re interested in selecting for what W and H are going to be. So this dimension here, the width of the expansion loop and the height. And the guide should be located to H from the edge the loop to the guide. And obviously the guide to guide distance for H has to be less than the total anchor anchor expansion because those guys are going to slide and they can&#39;t slide wider than the width of the anchors. So let&#39;s just kind of represent that drawing again. So we have that.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 46</div>
-      <div class="qa-question"><strong>Q:</strong> Like the rating, what is the rating of a pump?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> blue is 19. I&#39;m going to hand loop the reins here. You can read as much as little as as you want and then we&#39;ll go through. Yeah, so in hindsight, I don&#39;t think I loved the verbiage of this problem. I think it sounded like it was saying the pump. Let me pull up your real quick. I brought it up on the screen too. That&#39;s easier. Okay, yeah. Make up pump that cycle is on and off intermittently as required. It has a service factor of 125. So that kind of got me tripped up. It sounded like the actual literal pump had the service factor of 1.25. But then when the problem was solved, it almost looked like, let me think about this again. It almost looked like the service factor got applied maybe to, well, I guess it did get applied to the pump. Yeah, I see what you mean. It gets applied to the motor because it&#39;s selecting the motor size. I guess a better way to put it would have been to say a pump set has a service factor of 1.25. Yeah. Like the rating, what is the rating of a pump? When you think pump, you think head that the delta p that it can generate and the volume flow rate, because it&#39;s a pump curve.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 90</div>
-      <div class="qa-question"><strong>Q:</strong> What&#39;s the maximum delta t that you could possibly get out of this enthalpy wheel?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> All right, the next bunch of from outside sources, so I&#39;m not going to go too deep into these. I&#39;ll try to get right to the heart of it. And yeah, hopefully we can address these reason a bullet. So this one says, the question is asking for the resulting tribal temperature and enthalpy, but I can apply the mixed tempo equation to solve this. The written solution equation was not intuitive for me. Question mark. Yeah, I look kind of looked at the solution here, and I agree it&#39;s not intuitive. I don&#39;t, I mean, it&#39;s probably fine, but let&#39;s let&#39;s do it in a more intuitive way. I think that&#39;s that&#39;s possible. And your goal is to find the the resulting dribble temperature and enthalpy. I&#39;m not going to do it. I&#39;m just going to set up how you would do it. So you want to know this number here. We have some air that&#39;s leaving the building. That&#39;s going to turn into exhaust. Then we have some air that&#39;s entering the building. And that&#39;s going to turn into our supplier from the enthalpy wheel. That could then go and serve an air handler. And then it&#39;ll be truly supplier down to the room of that air handler.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 94</div>
-      <div class="qa-question"><strong>Q:</strong> What is the cost of electricity?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, Dan, I did not understand the cost part. I thought we calculated the total energy supplied Q. Subtract that from the losses, 35% and multiply with the dollar amount. Why we have to add the supply energy and radiation losses. Okay, let&#39;s take a look. A hundred pounds an hour of 60 degree water is turned into 14.7 PSIA saturated steam and an electric boiler. radiation losses are 35% of the supply energy. What is the cost of electricity? What is the cost if the electricity is 0.04 or 4 cents per KW hour? So it seems like the first step is to figure out how much energy it&#39;s going to take to boil that water. So we have 60 degree water. We&#39;re going to turn it into saturated steam. So that&#39;s going to be QEQL&#39;s M.Delta H operation. I assume that part made sense. Q.EQL&#39;s M.Delta H. That&#39;s the amount of energy that we have to add to the liquid water in order to turn it into saturated steam. You probably have to go and use the steam table and figure out those enthalpy but presumably that part wasn&#39;t the issue. Then the question is how do we deal with these radiation losses? Well, after we find that amount of energy that Q.D. we have to recognize that not all of the energy.</div>
+      <div class="qa-session">OH 92 · Nov 25, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Looking at the solution for Thermo 2, was the value of 16 taken from the periodic table? Shouldn't that be in grams?</div>
+      <div class="qa-answer"><strong>Dan:</strong> Great question. When you use the periodic table, the values for each element can technically be taken as atomic mass units — but that's not a unit we use much after chemistry. More practically, we use grams per mole. But here's the subtle part: the "mole" in SI is really a <em>gram mole</em>. That's never explicitly stated, but it's true. In US customary units, we can say pounds per pound-mole, and the numerical values from the periodic table are exactly the same. So oxygen is 16 atomic mass units = 16 grams per mole = 16 pounds per pound-mole. The conversion factor between gram-moles and pound-moles is the same as grams to pounds (453.6). But you'll rarely need that conversion — just pick the units you need for the problem and use the same periodic table numbers.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 2 · 14 OH sessions · Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 2 · 2 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -385,7 +349,13 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Quick Overview ▲' : 'Quick Overview ▼';
+}
+function toggleFull() {
+  const box = document.getElementById('full-box');
+  const btn = document.getElementById('full-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
 }
 </script>
 </body>

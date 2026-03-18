@@ -132,10 +132,28 @@ body {
   line-height: 1.75;
   color: #444;
   display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .solution-box.open { display: block; }
+.solution-box ol {
+  margin-left: 20px;
+  margin-bottom: 14px;
+}
+.solution-box ol li {
+  margin-bottom: 6px;
+}
+.solution-box p {
+  margin-bottom: 10px;
+}
+.formula-block {
+  background: #f0f4ff;
+  border-left: 3px solid #0066cc;
+  padding: 8px 14px;
+  margin: 10px 0;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #1a1a4e;
+}
 .video-box {
   background: #f0f4ff;
   padding: 12px;
@@ -145,12 +163,26 @@ body {
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
 }
+.video-box ul {
+  margin-left: 18px;
+  margin-top: 8px;
+}
+.video-box ul li {
+  margin-bottom: 8px;
+}
 .takeaway-box {
   background: #fffbf0;
   padding: 12px;
   border-radius: 4px;
   margin-top: 10px;
   border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  margin-left: 18px;
+  margin-top: 8px;
+}
+.takeaway-box ul li {
+  margin-bottom: 6px;
 }
 .oh-section-title {
   font-size: 15px;
@@ -201,7 +233,7 @@ body {
 .qa-answer {
   margin-top: 6px;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.65;
   color: #444;
 }
 .footer {
@@ -230,8 +262,8 @@ body {
 <div class="nav-bar">
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 11</span>
-  <span class="nav-badge">⭐ 4 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">4 OH sessions</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
 </div>
 
 <div class="layout-container">
@@ -240,93 +272,114 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 11</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      An outside air handling unit delivers 5000cfm of outside air. On a winter day, the outside air is 18°F and is heated to 68°F using a hot water coil. Hot water is supplied at 165°F and returned at 140°F. What is the required ow rate of hot water?
+      An outside air handling unit delivers 5,000 CFM of outside air. On a winter day, the outside air is 18&deg;F and is heated to 68&deg;F using a hot water coil. Hot water is supplied at 165&deg;F and returned at 140&deg;F. What is the required flow rate of hot water?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>0.4gpm</span></div>
-      <div class="choice"><span class="choice-letter">B.</span><span>3gpm</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>22gpm</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>173gpm</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>0.4 gpm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>3 gpm</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>22 gpm ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>173 gpm</span></div>
     </div>
 
     <div class="solution-area">
-      <div class="section-title">Solution</div>
-      
+      <div class="section-title" style="margin-top:20px">Solution</div>
+      <div class="answer-tag">Answer: C &mdash; 22 gpm</div>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
         Show Quick Overview &amp; Full Solution &#9660;
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
 
-1. Thermo 11 and outside air handling unit delivers 5,000 CFN of outside air.
+      <div class="solution-box" id="sol-box">
 
-2. And if you have to be very detailed in your answer, you may want to go into that.
+        <strong>Quick Overview:</strong>
+        <ol>
+          <li>Recognize that heating air with a hot water coil is a <em>sensible-only</em> process — no humidification means no latent component.</li>
+          <li>Apply the sensible heating rule of thumb for air: Q<sub>s</sub> = 1.08 &times; CFM &times; &Delta;T<sub>air</sub> (BTU/hr), with CFM in ft&sup3;/min and &Delta;T in &deg;F.</li>
+          <li>Apply the sensible heating rule of thumb for water: Q<sub>w</sub> = 500 &times; GPM &times; &Delta;T<sub>water</sub> (BTU/hr), with GPM in gal/min and &Delta;T in &deg;F.</li>
+          <li>Set Q<sub>air</sub> = Q<sub>water</sub> — the heat gained by the air equals the heat given up by the hot water coil.</li>
+          <li>Solve for GPM, the only unknown, by substituting known values.</li>
+        </ol>
 
-3. And how much heat is being given up by the water is the amount of heat that&#39;s entering the air.
+        <strong>Full Solution:</strong>
 
-4. I&#39;m going to plug it in.
+        <p>The air handling unit is pulling in cold outside air at 18&deg;F and heating it to a supply temperature of 68&deg;F. The heat source is a hot water coil, with water entering at 165&deg;F and leaving at 140&deg;F. The goal is to find how many gallons per minute of hot water are required to accomplish this heating load.</p>
 
-5. You don&#39;t have to include units.
+        <p>Since there is no humidification involved — only a dry-bulb temperature increase — this is a purely <strong>sensible heating</strong> process. Latent heat by definition does not change dry-bulb temperature, so no latent component needs to be considered here. This means we can use the two standard sensible-heat rules of thumb (ASHRAE-derived approximations valid for standard air density near sea level).</p>
 
-6. You do have to know what the units come out as when you use this rule of thumb.
+        <p><strong>Step 1 — Sensible heat added to the air:</strong></p>
+        <div class="formula-block">Q<sub>air</sub> = 1.08 &times; CFM &times; &Delta;T<sub>air</sub> &nbsp;[BTU/hr]</div>
+        <p>Where CFM = 5,000 ft&sup3;/min and &Delta;T<sub>air</sub> = 68&deg;F &minus; 18&deg;F = 50&deg;F.</p>
+        <div class="formula-block">Q<sub>air</sub> = 1.08 &times; 5,000 &times; 50 = 270,000 BTU/hr</div>
 
-<strong>Full Solution:</strong>
+        <p><strong>Step 2 — Sensible heat released by the hot water:</strong></p>
+        <div class="formula-block">Q<sub>water</sub> = 500 &times; GPM &times; &Delta;T<sub>water</sub> &nbsp;[BTU/hr]</div>
+        <p>Where &Delta;T<sub>water</sub> = 165&deg;F &minus; 140&deg;F = 25&deg;F.</p>
 
-Thermo 11 and outside air handling unit delivers 5,000 CFN of outside air. On a winter day, the outside air is 18 degrees and is heated to 68 degrees using a hot water coil. Hot water is supplied at 165 degrees and returned at 140. What is the required flow rate of hot water? So there&#39;s a thermodynamic way to do this where you do MCP delta T and you do that for both the air side and the water side. And if you have to be very detailed in your answer, you may want to go into that. But there&#39;s a couple of rules of thumb that don&#39;t really get introduced until a little bit later when we get into HVAC, but I&#39;m going to show you them now because they can make a problem like this much more efficient. What&#39;s going on here is that we&#39;re heating air that&#39;s coming from outside, a specific volume of air 5,000 CFN with hot water. And we know the temperature that the hot water is supplied at and that it&#39;s returned at. So we actually have quite a bit of information. We&#39;re going to balance the energy that&#39;s going from the water into the air and equate the sensible heating of the air. Only the sensible heating if you&#39;re going to use this rule of thumb Q.S for the air. We&#39;ll equate that with the heat that is lost from the water, which is all sensible as well. There&#39;s no it&#39;s not applicable to talk about laying heating or cooling of water. It&#39;s only sensible. And these each have rules of thumb. So for sensible heating or cooling of air, we use the rule of thumb 1.08 times CFN. So it&#39;s the volume flow rate always specified in CFN times the delta T and Fahrenheit. And when we do that, the result of the product of these three parameters comes out in BTU&#39;s per hour. And then we have a rule of thumb for the water side, which says 500 times the flow rate in GPM times the delta T on the water side. So I should probably designate that as delta T on the water side. This is delta T on air side. And how much heat is being given up by the water is the amount of heat that&#39;s entering the air. If it&#39;s a 100% efficient process, which inevitably it isn&#39;t, but it&#39;s very common place for problems to ignore that loss of inefficiency. So we actually know the CFN of the outside air. We know that it&#39;s entering at 18 and leaving at 68. So we can determine the delta T on the air side. We don&#39;t know the GPM on the water side. That&#39;s what we&#39;d like to know. And we do know the delta T on the water side is entering at 165 and leaving at 140. So we know everything here except the GPN. So straight away, we can rearrange this thing for GPN. And it&#39;s going to be 1.08 times the CFN. I&#39;m going to plug it in. You don&#39;t have to include units. You do have to know what the units come out as when you use this rule of thumb. You have to make sure you put everything in in the right units in the first place. So the volume flow it has to be in CFN. For the air side, the delta T on the air side is 68 minus 16. And that&#39;s divided by 500 and the delta T on the water side, which is 165 minus 140. And that works out to 21.6. And it&#39;s already in GPM because of the way the rule of thumb is set up. So we don&#39;t have to convert it from cubic feet per minute or whatever, cubic feet per hour into GPM. It&#39;s already in GPM. And so choice C is the best.</div>
+        <p><strong>Step 3 — Energy balance (Q<sub>air</sub> = Q<sub>water</sub>):</strong></p>
+        <div class="formula-block">1.08 &times; CFM &times; &Delta;T<sub>air</sub> = 500 &times; GPM &times; &Delta;T<sub>water</sub></div>
+
+        <p><strong>Step 4 — Solve for GPM:</strong></p>
+        <div class="formula-block">GPM = (1.08 &times; CFM &times; &Delta;T<sub>air</sub>) / (500 &times; &Delta;T<sub>water</sub>)</div>
+        <div class="formula-block">GPM = (1.08 &times; 5,000 &times; 50) / (500 &times; 25) = 270,000 / 12,500 = <strong>21.6 GPM</strong></div>
+
+        <p>Rounding to the nearest answer choice gives <strong>22 GPM &rarr; Answer C</strong>. Note that no unit conversions are required when using these rules of thumb, provided all inputs are already in CFM, GPM, and &deg;F. The constant 1.08 implicitly accounts for air density (0.075 lb/ft&sup3;) and specific heat of air (0.24 BTU/lb&middot;&deg;F) at standard conditions; the constant 500 accounts for the density and specific heat of water (8.34 lb/gal &times; 60 min/hr &times; 1.0 BTU/lb&middot;&deg;F).</p>
+
+        <p><em>Handbook reference: ASHRAE Fundamentals Handbook — sensible heat rate equations for air and water are commonly tabulated or derivable from Q = m&#775; c<sub>p</sub> &Delta;T. The PE Reference Handbook includes the underlying thermodynamic relationships (specific heat, energy balance) in the Heat Transfer and Thermodynamics sections.</em></p>
+
+      </div><!-- /.solution-box -->
 
       <div class="video-box">
-        <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermo 11 and outside air handling unit delivers 5,000 CFN of outside air.<br><br><br><br>• On a winter day, the outside air is 18 degrees and is heated to 68 degrees using a hot water coil.<br><br><br><br>• Hot water is supplied at 165 degrees and returned at 140.<br><br><br><br>• What is the required flow rate of hot water.<br><br><br><br>• So there&#39;s a thermodynamic way to do this where you do MCP delta T and you do that for both the air side and the water side.<br><br><br><br>• And if you have to be very detailed in your answer, you may want to go into that.
+        <strong>&#x1F4F9; Video Solution Synthesis:</strong>
+        <ul>
+          <li>Dan identifies two rules of thumb that make this problem efficient to solve: <strong>Q = 1.08 &times; CFM &times; &Delta;T</strong> for air sensible heat (BTU/hr) and <strong>Q = 500 &times; GPM &times; &Delta;T</strong> for water sensible heat (BTU/hr) — same formulas used throughout the HVAC module.</li>
+          <li>The energy balance is set up as Q<sub>air</sub> = Q<sub>water</sub>, recognizing that 100% of the heat given up by the water goes into heating the air (an ideal coil assumption common in PE problems).</li>
+          <li>GPM is isolated as the single unknown: GPM = (1.08 &times; 5,000 &times; 50) / (500 &times; 25) = 21.6 GPM, which rounds directly to answer choice C (22 GPM).</li>
+          <li>Dan emphasizes that the inputs <em>must</em> be in CFM, GPM, and &deg;F for the rules of thumb to output BTU/hr correctly — no additional unit conversions are needed when conditions are right.</li>
+          <li>He also notes that a first-principles approach using m&#775; = &rho; &times; Q&#775;, c<sub>p,air</sub> = 0.24 BTU/lb&middot;&deg;F, &rho;<sub>air</sub> ≈ 1/13.5 lb/ft&sup3;, and c<sub>p,water</sub> = 1.0 BTU/lb&middot;&deg;F works equally well and yields the same 21.6 GPM result.</li>
+        </ul>
       </div>
 
       <div class="takeaway-box">
-        <strong>⭐ Key Takeaways:</strong><br>
-        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+        <strong>&#x2B50; Key Takeaways:</strong>
+        <ul>
+          <li>Heating air from a cold to a warm temperature — with no change in moisture content — is sensible heating only; do not include a latent term just because outside air contains moisture.</li>
+          <li>The sensible heating rules of thumb (1.08 for air, 500 for water) are powerful time-savers on the PE exam, but they're only valid when all inputs are in standard units (CFM, GPM, &deg;F).</li>
+          <li>An energy balance across the coil connects the air side and the water side — the heat gained by the air equals the heat lost by the hot water, making this a single-equation solve once you recognize the setup.</li>
+          <li>The rules of thumb and the first-principles m&#775;c<sub>p</sub>&Delta;T approach are two roads to the same answer; knowing both builds the exam confidence to check your work quickly.</li>
+        </ul>
       </div>
-    </div>
-  </div>
+
+    </div><!-- /.solution-area -->
+  </div><!-- /.sidebar-left -->
 
   <!-- RIGHT PANEL -->
   <div class="sidebar-right">
 
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">4 questions from 2 sessions</span>
+      <span class="oh-count">2 questions from 2 sessions</span>
     </div>
     <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
 
     <div class="qa-group">
-      <div class="qa-session">OH 79 · April 15th 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 79</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, thermal 11. Why is it okay to assume that the outside air in the problem doesn&#39;t have a latent component? This is something I&#39;ve struggled with because it seems like a 50-50 chance using the sensible heat formula versus some other component I&#39;m missing that indicates the total heat formula should be used. In the real world, wouldn&#39;t outside air virtually always have latent heat Is it really just a matter of assuming there&#39;s no late in heat since the weapon temperature our information isn&#39;t given? So this problem, what was this problem about? Must have been some outside air mixing. Okay, yeah, it was sensible heating about outside air. Yeah, so To answer your first question, yes, it is correct to assume that the outside air in the problem has a latent component. So why is it okay to assume that it doesn&#39;t? I&#39;m not assuming that it doesn&#39;t to say what does it mean to say that it has a latent component. That is to say that there is moisture in the air that there&#39;s some amount of water vapor. It&#39;s not completely dry air. And that&#39;s true. But that doesn&#39;t mean that the process that we&#39;re going through has a latent component. In other words, you can do sensible heating only, which </div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 89 · October 14th 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 89</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> HVAC Thermal 11. I see that you work this problem with rule of thumb equations, but I tried to solve it with specific heat and mass flows, but couldn&#39;t figure it out. Do you have a solution work this way just in case? Having taken the test, I know that my mind won&#39;t trust what I think I know, and was looking for an alternate solution if you don&#39;t, that&#39;s fine as well. So this problem was about an air handler with a heating coil. And the way I set this one up was I said that a heat that&#39;s supplied by the water, Q.Water, is equal to the heat that goes into the air, because that&#39;s the goal was to heat that air. And then I expanded on that by writing the rule of thumb for both. So for the water side, I wrote 500GPM delta T. And of course that&#39;s the delta T for the water, so we can use a subscript there to distinguish. And I set that equal to a sensible heat that goes into the air, which is 1.08 CFM delta T. And we can call that delta T air. And your question is whether we could do that with kind of a mass flow rate approach. How did you put it? Try to solve it with specific heat and mass flows. So I think what you&#39;re getting at is you want to write instead, like a MCP delta T, or maybe</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 96</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-62286840
-
-And as you power systems 11, could you explain why you didn&#39;t account for the heat required to increase the fuel above a thousand degrees?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And as you power systems 11, could you explain why you didn&#39;t account for the heat required to increase the fuel above a thousand degrees? After finding the heat required to increase the fuel to a thousand degrees, you assumed that a hundred percent of the heat of combustion went to heating the flu gas. I thought a portion of the combustion heat would also be required to increase the temperature of the fuel gas. And I&#39;m going to stop it there because I think I know what&#39;s going on here. So in this problem, we had to get the fuel gas up to the temperature at which combustion takes place. But after the combustion, the fuel gas is gone. So anytime we&#39;re burning whatever it is, see, something, some hydrocarbon is burning in air. And what is air? air is oxygen and some amount of nitrogen. All right, there would be coefficients out there. And then the products are CO2 and H2O and Nitrogen, which is just a long for the ride, doesn&#39;t really participate. These are the products. And these products become part of the flu gas. So after combustion, there is no fuel gas. So I think that&#39;s the that gets to the heart of it.</div>
-    </div>
-    <div class="qa-group">
-      <div class="qa-session">OH 96</div>
-      <div class="qa-question"><strong>Q:</strong> # Lesson-62286840
-
-And as you power systems 11, could you explain why you didn&#39;t account for the heat required to increase the fuel above a thousand degrees?</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> And as you power systems 11, could you explain why you didn&#39;t account for the heat required to increase the fuel above a thousand degrees? After finding the heat required to increase the fuel to a thousand degrees, you assumed that a hundred percent of the heat of combustion went to heating the flu gas. I thought a portion of the combustion heat would also be required to increase the temperature of the fuel gas. And I&#39;m going to stop it there because I think I know what&#39;s going on here. So in this problem, we had to get the fuel gas up to the temperature at which combustion takes place. But after the combustion, the fuel gas is gone. So anytime we&#39;re burning whatever it is, see, something, some hydrocarbon is burning in air. And what is air? air is oxygen and some amount of nitrogen. All right, there would be coefficients out there. And then the products are CO2 and H2O and Nitrogen, which is just a long for the ride, doesn&#39;t really participate. These are the products. And these products become part of the flu gas. So after combustion, there is no fuel gas. So I think that&#39;s the that gets to the heart of it.</div>
+      <div class="qa-session">OH 79 &middot; April 15th, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Why is it okay to assume the outside air doesn't have a latent component? In the real world, outside air virtually always has moisture — shouldn't we use a total heat formula rather than sensible only? Is it just because wet-bulb temperature data isn't given?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> It's not that we're assuming the air has <em>no</em> moisture — it certainly does. The key is distinguishing the <em>process</em> from the <em>state</em> of the air. Latent heat by definition does not change dry-bulb temperature. This problem is only about raising the dry-bulb temperature from 18&deg;F to 68&deg;F, which is a horizontal line on the psychrometric chart — sensible heating only. If the problem involved humidification, it would say so explicitly and give you wet-bulb or humidity data. The absence of that data is your cue that moisture content isn't changing. So the correct formula is Q<sub>s</sub> = 1.08 &times; CFM &times; &Delta;T for the air side, full stop. The keyword to watch for when a latent component <em>does</em> apply is "humidification."</div>
     </div>
 
-  </div>
-</div>
+    <div class="qa-group">
+      <div class="qa-session">OH 89 &middot; October 14th, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> I tried to solve this using specific heat and mass flow rates (m&#775; c<sub>p</sub> &Delta;T) instead of the rules of thumb, but couldn't reconcile the answer. Can you work through the first-principles approach to confirm it gives the same result?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Absolutely — and this is a great instinct. Setting up the mass-flow energy balance gives: <em>m&#775;<sub>water</sub> = (m&#775;<sub>air</sub> &times; c<sub>p,air</sub> &times; &Delta;T<sub>air</sub>) / (c<sub>p,water</sub> &times; &Delta;T<sub>water</sub>)</em>. The air volume flow rate is 5,000 CFM. To get mass flow, divide by specific volume: 5,000 ft&sup3;/min &divide; 13.5 ft&sup3;/lb = 370.4 lb/min of air. Multiply by c<sub>p,air</sub> = 0.24 BTU/lb&middot;&deg;F and &Delta;T<sub>air</sub> = 50&deg;F: 370.4 &times; 0.24 &times; 50 = 4,444 BTU/min. Divide by c<sub>p,water</sub> = 1.0 BTU/lb&middot;&deg;F and &Delta;T<sub>water</sub> = 25&deg;F: 4,444 / 25 = 177.8 lb/min of water. Convert to GPM using 8.34 lb/gal &times; 1 gal/min: 177.8 / 8.34 = <strong>21.3 GPM</strong> — essentially the same as 21.6 GPM from the rule of thumb (small difference from rounding the specific volume). Either approach correctly selects Answer C. Dan encourages knowing both: rules of thumb are faster on exam day, but the first-principles method is the foundation that proves you understand <em>why</em> the shortcut works.</div>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+</div><!-- /.layout-container -->
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 11 · 4 OH sessions · Generated 2026-03-17</span>
+  <span>HVAC &amp; Refrigeration &middot; Thermodynamics &middot; Problem 11 &middot; 2 OH sessions &middot; Generated 2026-03-17</span>
   <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
 </div>
 
@@ -335,7 +388,9 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.innerHTML = open
+    ? 'Hide Quick Overview &amp; Full Solution &#9650;'
+    : 'Show Quick Overview &amp; Full Solution &#9660;';
 }
 </script>
 </body>

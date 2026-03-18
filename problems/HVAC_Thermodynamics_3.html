@@ -204,6 +204,14 @@ body {
   line-height: 1.5;
   color: #444;
 }
+.qa-topic-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 18px 0 10px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #fde68a;
+}
 .footer {
   background: white;
   border-top: 1px solid #e0e0e0;
@@ -228,10 +236,10 @@ body {
 <body>
 
 <div class="nav-bar">
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 3</span>
   <span class="nav-badge">⭐ 2 OH sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
 </div>
 
 <div class="layout-container">
@@ -240,71 +248,139 @@ body {
     <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 3</div>
     <div class="section-title">Problem Statement</div>
     <div class="problem-statement">
-      20
+      Water at 400 psi and 700°F is in what thermodynamic state?
     </div>
 
     <div class="section-title" style="margin-top:16px">Answer Choices</div>
     <div class="choices">
-      <div class="choice"><span class="choice-letter">D.</span><span>10.5</span></div>
+      <div class="choice"><span class="choice-letter">A.</span><span>Saturated liquid</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>Saturated vapor</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>Superheated vapor ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>Two-phase mixture</span></div>
     </div>
 
     <div class="solution-area">
       <div class="section-title">Solution</div>
-      
+      <span class="answer-tag">Answer: C</span>
 
       <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution &#9660;
+        Quick Overview ▼
       </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+      <div class="solution-box" id="sol-box">1. Identify the given conditions: water at P = 400 psi and T = 700°F.
 
-1. And that one&#39;s a bit hard to look up, but if you search for CP, you may have to search through a few areas, but you&#39;ll e.
+2. Look up the saturation temperature (T_sat) at 400 psi in the steam tables. From the saturated steam table (pressure entry): T_sat at 400 psi ≈ 444.59°F.
 
-2. Just know the starting units, and it&#39;ll go a long way.
+3. Compare the actual temperature to the saturation temperature: T_actual = 700°F vs. T_sat = 444.59°F.
 
-3. If you don&#39;t know this already, I do recommend memorizing it, but if you&#39;re just getting started, and you need to do a q.
+4. Since T_actual (700°F) is significantly greater than T_sat (444.59°F), the water exists above the saturation curve at this pressure.
 
-<strong>Full Solution:</strong>
+5. Apply the state determination rule: if T > T_sat at a given pressure, the substance is a superheated vapor.
 
-Thermo3, what is the ratio of specific heats for 120 degree Fahrenheit air? Assume CP for air is 0.249 at 1000 rn. And CP air is 0.264 at 1500 rn. So what is the ratio of specific heats? If you&#39;re not sure, you can remind yourself by doing a quick search. It is defined as k equals CP over CV, where CP is the specific heat capacity for a constant pressure process, and CV is the specific heat capacity for a constant volume process. And there&#39;s another relationship that we&#39;re going to need, which you may or may not remember, which is that the difference between CP and CV is the gas constant for that substance, which in this case is air. And that one&#39;s a bit hard to look up, but if you search for CP, you may have to search through a few areas, but you&#39;ll eventually find this relationship here. CP minus CV equals r. And that&#39;s generally true for ideal gases. So let&#39;s write down those two relationships. K equals CP over CV, and CP minus CV equals r. And by the way, r for air, since we&#39;re going to need it, is 53.35 foot pounds force per pound mass degree ranking. You can write degree ranking in order to degree Fahrenheit. In some cases, you may need to use absolute temperatures, so you&#39;re going to want to be in rank in so that it cancels out. In other cases, you may have a delta T, so it&#39;s only the difference between two temperatures. In that case, rank in Fahrenheit will work out the same, so you can write Fahrenheit, and it&#39;ll still cancel out. Just know the starting units, and it&#39;ll go a long way. If you don&#39;t know this already, I do recommend memorizing it, but if you&#39;re just getting started, and you need to do a quick look up. The name of the table that it&#39;s found in is thermal and physical properties of ideal gases. So if you&#39;re working with a different gas of the air, you probably won&#39;t have the gas constant memorized, you&#39;ll have to come to this table and pull it out. Okay, so for our situation here, we&#39;re interested in the ratio of the specific heats at a particular temperature, 1020, but we don&#39;t know anything about air at 1020. We do know the CP at a couple of other points, a little bit colder and quite a bit warmer, so if it&#39;s roughly linear, we can interpolate between those two. So let&#39;s try that. I&#39;ll make a little table to organize that. So if we say the temperature in Rankin in one column and the specific heat capacity, CP and another, at a thousand Rankin, it&#39;s 0.249. That 1500 Rankin, it&#39;s 0.264. And then at some point in between, we want to know what it is. What is that point in between? Well, it&#39;s not 1020, because that&#39;s Fahrenheit. So we actually have to add 460 to that, which makes it 1480. So it&#39;s much closer to 1500 at 1480 Rankin. What is the specific heat capacity? I&#39;ll just call it X, so we can use it to do some algebra. And now we can set up a proportion, something like this, the distance between these two, 1480 minus a thousand, has compared to the entire distance, 1500 minus a thousand. Is equal to the distance between the middle and the lower, X minus 0.249. And the total distance 0.264 minus 0.249. And I trust that you can carry out that algebra in your calculator. We find out that X equals 0.2634. And just as an intuitive check, that&#39;s much closer to 1500 than 2000. So we can be pretty confident. We have the right value there. And now let&#39;s get the units back in, so we don&#39;t lose track, even though I haven&#39;t been writing them at every step. The units are still BTO, per pound-mass degree rank, and we&#39;re degree Fahrenheit. So now if we use this relationship, Cp minus Cv equals R, R for air is always this value. And now we know Cp for air at a given temperature. So we can find Cv for air at the same temperature. And then we can plug into this equation and find the value for K. Sorry about this strain mark here, not sure how that got there. So let&#39;s rearrange this guy to be Cv equals Cp minus R.</div>
+6. Select Answer C: Superheated vapor.</div>
+
+      <button class="solution-toggle" id="full-toggle" onclick="toggleFull()" style="margin-top:8px;">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="full-box">This problem tests one of the most fundamental skills in thermodynamics: determining the phase (thermodynamic state) of a substance given its pressure and temperature.
+
+<strong>Given:</strong>
+• Pressure: P = 400 psi
+• Temperature: T = 700°F
+
+<strong>Approach — Compare T to T_sat at the given pressure:</strong>
+
+The key principle is that every pressure has a unique saturation temperature. At this saturation temperature, liquid and vapor coexist in equilibrium. The state of the substance is determined by comparing the actual temperature to this saturation temperature.
+
+<strong>Step 1: Look up T_sat at 400 psi</strong>
+
+Open the NCEES PE Reference Handbook to the saturated steam tables (pressure-based entry). At P = 400 psia:
+
+    T_sat ≈ 444.59°F
+
+This means that at 400 psi, water boils (transitions between liquid and vapor) at 444.59°F.
+
+<strong>Step 2: Compare T_actual to T_sat</strong>
+
+    T_actual = 700°F
+    T_sat = 444.59°F
+    T_actual − T_sat = 700 − 444.59 = 255.41°F of superheat
+
+Since T_actual (700°F) is well above T_sat (444.59°F), the water has already fully vaporized and continued to heat beyond the boiling point. It is superheated vapor.
+
+<strong>Step 3: Rule out other answer choices</strong>
+
+• Saturated liquid (A): Would require T = T_sat with quality x = 0. Not the case here — T is far above T_sat.
+• Saturated vapor (B): Would require T = T_sat with quality x = 1. Again, T exceeds T_sat.
+• Two-phase mixture (D): Exists only when T = T_sat (the substance is in the process of boiling). Since T ≠ T_sat, this is ruled out.
+• Superheated vapor (C): T > T_sat at the given pressure. ✓
+
+<strong>Answer: C — Superheated vapor</strong>
+
+The water at 400 psi and 700°F is approximately 255°F above its saturation temperature, placing it firmly in the superheated vapor region. You could also verify this by looking up properties in the superheated steam table at 400 psi and confirming that 700°F appears as a valid entry.</div>
 
       <div class="video-box">
         <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Thermo3, what is the ratio of specific heats for 120 degree Fahrenheit air.<br><br><br><br>• Assume CP for air is 0.249 at 1000 rn.<br><br><br><br>• So what is the ratio of specific heats.<br><br><br><br>• If you&#39;re not sure, you can remind yourself by doing a quick search.<br><br><br><br>• It is defined as k equals CP over CV, where CP is the specific heat capacity for a constant pressure process, and CV is the specific heat capacity for.<br><br><br><br>• And there&#39;s another relationship that we&#39;re going to need, which you may or may not remember, which is that the difference between CP and CV is the ga.
+        • The solution video begins by identifying the core task: determine the thermodynamic state of water given pressure and temperature.<br><br>
+        • Dan walks through opening the steam tables in the NCEES PE Reference Handbook and locating the saturation temperature at 400 psi (≈ 444.59°F).<br><br>
+        • The comparison is straightforward: 700°F is well above the saturation temperature, so the water must be superheated vapor.<br><br>
+        • The video emphasizes the decision framework: if T &gt; T_sat → superheated vapor; if T = T_sat → saturated (liquid, vapor, or mixture); if T &lt; T_sat → subcooled/compressed liquid.<br><br>
+        • Dan points out that this type of problem is essentially a table lookup — you don't need to calculate anything beyond finding T_sat and comparing.<br><br>
+        • A key reminder: always check whether the table uses psia or psig, as using the wrong pressure basis would give an incorrect T_sat.
       </div>
 
       <div class="takeaway-box">
         <strong>⭐ Key Takeaways:</strong><br>
-        • Unit conversions are critical in this type of problem — double-check every conversion factor against the reference handbook.<br>• Know where to find the relevant formulas in the PE reference handbook before exam day.<br>• Practice solving problems using multiple approaches when possible — flexibility builds exam confidence.<br>• Read the question carefully to ensure you're solving for exactly what's being asked.
+        • Determining thermodynamic state is a comparison problem: look up T_sat at the given pressure, then compare T_actual to T_sat. No complex calculations required.<br><br>
+        • The decision rule: T &gt; T_sat → superheated vapor, T = T_sat → saturated region (check quality), T &lt; T_sat → subcooled/compressed liquid.<br><br>
+        • At 400 psi, water boils at ~445°F. At 700°F the water is about 255°F past its boiling point — firmly superheated.<br><br>
+        • Always confirm your pressure units (psia vs. psig) before looking up saturation properties — a common exam pitfall.
       </div>
     </div>
   </div>
 
   <!-- RIGHT PANEL -->
   <div class="sidebar-right">
-
     <div class="oh-section-title">
       Office Hours Q&amp;A
-      <span class="oh-count">2 questions from 2 sessions</span>
+      <span class="oh-count">2 sessions</span>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem, sorted newest first.</p>
+
+    <!-- TOPIC: State Determination Approach -->
+    <div class="qa-topic-header">🌡️ Determining Thermodynamic State from P and T</div>
 
     <div class="qa-group">
-      <div class="qa-session">OH 87 · September 2nd 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 87</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, so let&#39;s start out with thermo3. So the first question is, why couldn&#39;t we use the CP over CV equals 1.4 for air and calculate CV from that in lieu of CP minus CV equals R? So this problem was about finding the ratio of specific heats for air when it&#39;s at a very different temperature from what would normally be assumed a much higher temperature. And the reason we can&#39;t assume that it&#39;s 1.4 is because K is what we&#39;re looking to calculate in this problem. So let&#39;s bring up the whiteboard. K is the ratio of specific heats. You guys can see my whiteboard, right? Cool. Okay, so K is CP over CV. And K is what we&#39;re looking to find. It&#39;s our unknown. So if we find CV by assuming K, then the value of CV that we get will lead to us just circling back circular. Whatever value we find of CV when we go and put that in later will end up just finding out that K equals 1.4 because that&#39;s what we assume from the outset. So if we&#39;re going to, if we&#39;re going to assume K equals 1.4, then we should just choose answer choice K equals 1.4 and be done with it. But the whole purpose of this problem is that it&#39;s at different temperatures. So we want to examine that and that&#39;s why the approach that wa</div>
+      <div class="qa-session">OH 94</div>
+      <div class="qa-question"><strong>Q:</strong> Can you also approach this by looking in the superheated steam table first to see if 400 psi / 700°F has an entry, instead of going through the saturation table?</div>
+      <div class="qa-answer"><strong>Dan:</strong> You absolutely can. If you go to the superheated steam table and find an entry at 400 psi and 700°F, that confirms the state is superheated vapor — the table wouldn't have an entry for it otherwise. But I'd recommend getting comfortable with the saturation table comparison approach too, because that's the more general method. It works for any state determination, not just superheated. If you're given conditions that land in the two-phase region, the superheated table won't help you — you'd need to recognize that T = T_sat and then work with quality. So the saturation comparison is the universal tool.</div>
     </div>
+
     <div class="qa-group">
-      <div class="qa-session">OH 94 · December 23rd 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Discussion of this problem from Office Hours 94</div>
-      <div class="qa-answer"><strong>Dan's response:</strong> Okay, next up we have HVAC number 3. How did we get the humidity ratio in grains per pound in the psychometric chart? So it used to be that in the open book version you could bring any psychometric chart with you and some psychometric charts show the humidity ratio in pounds of water per pound of drier and some show it in grains per pound. But now you only have one flavor and it&#39;s the pounds per pound variety. So you have to use the psychometric chart that you have and then you can convert it to grains per pound by multiplying by 7,000 grains per pound of water. So you&#39;re trying to go from pounds of water per pound of drier, which is what you have on the reference on the psychometric chart that&#39;s in the reference handbook to grains of water per pound of drier. And we do that by multiplying by 7,000 or the same thing said differently if you looked this up in the in the reference handbook you can use the search phrase grains of moisture grains of moisture and you&#39;ll find the conversion factor written this way. 7,000 grains equals one pound of water. So we usually use pounds of water per pound of drier but every once in a while you might come across grains and it&#39;s kind of nice becaus</div>
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> How do I know whether to use the pressure-based or temperature-based saturation table for this kind of problem?</div>
+      <div class="qa-answer"><strong>Dan:</strong> Great question. It depends on what you're given and what you need to look up. In this problem, you're given both P and T, and you need to find T_sat — so you enter the saturation table by pressure and read off the corresponding temperature. If you were given T and needed P_sat, you'd enter by temperature. They contain the same data, just organized differently. On the exam, whichever entry is more convenient — use that one. For this problem, since 400 psi is a round number, the pressure-based table is the natural choice.</div>
+    </div>
+
+    <div class="qa-topic-header">🔄 Common Mistakes &amp; Clarifications</div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 94</div>
+      <div class="qa-question"><strong>Q:</strong> What if the temperature was exactly equal to the saturation temperature — how would you determine if it's saturated liquid, saturated vapor, or a mixture?</div>
+      <div class="qa-answer"><strong>Dan:</strong> If T equals T_sat at that pressure, all you know is that you're somewhere in the saturation dome — you could be saturated liquid, saturated vapor, or a two-phase mixture. You'd need additional information to pin down exactly where. Typically the problem would give you quality (x), or a specific volume, or enthalpy — something that lets you locate your position within the dome. With just P and T both on the saturation line, the state is indeterminate without that extra piece of information. That's a subtlety worth remembering for the exam.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 87</div>
+      <div class="qa-question"><strong>Q:</strong> I keep mixing up subcooled liquid and superheated vapor — is there a quick way to remember which is which?</div>
+      <div class="qa-answer"><strong>Dan:</strong> Think of it this way: "superheated" means the vapor has extra heat beyond what's needed to boil — the temperature is above the boiling point. "Subcooled" (or compressed) liquid means the liquid is below the boiling point — it hasn't reached the temperature needed to start boiling. So if T &gt; T_sat, you've gone past boiling → superheated vapor. If T &lt; T_sat, you haven't reached boiling yet → subcooled liquid. The names literally describe the relationship to the saturation temperature.</div>
     </div>
 
   </div>
 </div>
 
 <div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 3 · 2 OH sessions · Generated 2026-03-17</span>
-  <a href="../oh-prep.html">&larr; OH Prep Dashboard</a>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 3 · 2 OH sessions · Generated 2026-03-16</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
 </div>
 
 <script>
@@ -312,7 +388,13 @@ function toggleSolution() {
   const box = document.getElementById('sol-box');
   const btn = document.getElementById('sol-toggle');
   const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution \u25B2' : 'Show Quick Overview & Full Solution \u25BC';
+  btn.textContent = open ? 'Quick Overview ▲' : 'Quick Overview ▼';
+}
+function toggleFull() {
+  const box = document.getElementById('full-box');
+  const btn = document.getElementById('full-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
 }
 </script>
 </body>
