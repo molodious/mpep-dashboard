@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC &amp; Refrigeration · Fluids · Problem 23 | Pumped Hydro Energy Cost</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .nav-bar {
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+    .nav-bar a:hover { text-decoration: underline; }
+    .nav-badge {
+      background: #e6ffe6;
+      color: #15803d;
+      border: 1px solid #22c55e;
+      border-radius: 3px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .layout-container {
+      display: flex;
+      gap: 0;
+      margin: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      min-height: calc(100vh - 130px);
+    }
+    .sidebar-left {
+      flex: 0 0 50%;
+      padding: 24px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .sidebar-right {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 8px;
+    }
+    .problem-meta {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .problem-statement {
+      background: #f0f4ff;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .choice {
+      padding: 10px 12px;
+      background: white;
+      border-left: 3px solid #ddd;
+      border-radius: 3px;
+      font-size: 13px;
+      display: flex;
+      gap: 8px;
+    }
+    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+    .choice.correct .choice-letter { color: #16a34a; }
+    .answer-tag {
+      display: inline-block;
+      background: #e6ffe6;
+      color: #16a34a;
+      border: 1px solid #22c55e;
+      border-radius: 3px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+    .section-block { margin-bottom: 24px; }
+    .section-block:last-child { margin-bottom: 0; }
+    .step-list { list-style: decimal; padding-left: 20px; }
+    .step-list li { margin-bottom: 8px; font-size: 13px; }
+    .narrative { font-size: 13px; line-height: 1.7; }
+    .narrative p { margin-bottom: 12px; }
+    .bullet-list { list-style: disc; padding-left: 20px; }
+    .bullet-list li { margin-bottom: 6px; font-size: 13px; }
+    .takeaway-list { list-style: none; padding-left: 0; }
+    .takeaway-list li {
+      padding: 8px 12px;
+      background: #fffbe6;
+      border-left: 3px solid #f59e0b;
+      margin-bottom: 6px;
+      font-size: 13px;
+      border-radius: 3px;
+    }
+    .oh-block {
+      background: #f0f4ff;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .oh-label {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 800px) {
+      .layout-container { flex-direction: column; margin: 10px; }
+      .sidebar-left, .sidebar-right { max-height: none; flex: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav-bar">
+    <a href="../oh-prep.html">← Back to OH Prep</a>
+    <span style="font-size:13px; font-weight:600; color:#1a1a1a;">HVAC Fluids – Problem 23: Pumped Hydro Energy Cost</span>
+    <span class="nav-badge">⭐ 1 OH Session</span>
+  </div>
+
+  <div class="layout-container">
+
+    <!-- LEFT SIDEBAR: Problem + Choices + Quick Overview -->
+    <div class="sidebar-left">
+      <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 23</div>
+      <div class="section-title">Problem Statement</div>
+      <div class="problem-statement">
+        An energy storage facility uses pumped hydro to capitalize on the low cost of off-peak electricity of $0.02 per kWh. 400 gpm of 60°F water is pumped from a low reservoir to a high reservoir at 1000 ft higher elevation through an equivalent length of 3000 ft of 5-in schedule 40 steel pipe using a pump driven by an AC motor. The overall efficiency of the pump set is 75%. Assuming the off-peak operation lasts for 8 hrs per night, what is the cost of electricity for one night?
+      </div>
+
+      <div class="section-title">Answer Choices</div>
+      <div class="choices">
+        <div class="choice">
+          <span class="choice-letter">A</span>
+          <span>$2</span>
+        </div>
+        <div class="choice">
+          <span class="choice-letter">B</span>
+          <span>$13</span>
+        </div>
+        <div class="choice correct">
+          <span class="choice-letter">C</span>
+          <span>$17 ✓</span>
+        </div>
+        <div class="choice">
+          <span class="choice-letter">D</span>
+          <span>$52</span>
+        </div>
+      </div>
+      <span class="answer-tag">✓ Correct Answer: C — $17</span>
+
+      <!-- Quick Overview in left column -->
+      <div class="section-block">
+        <div class="section-title">Quick Overview</div>
+        <ol class="step-list">
+          <li>Identify the two head components the pump must overcome: elevation head (1000 ft, given directly) and friction head loss through 3000 ft of 5-in schedule 40 steel pipe.</li>
+          <li>Look up pipe properties for 5-inch schedule 40 steel pipe (ID ≈ 5.047 in) and convert 400 gpm to ft³/s to find the velocity in the pipe.</li>
+          <li>Calculate friction head loss using Darcy-Weisbach or pipe friction tables — if using tables, scale the per-100-ft value by the full pipe length ratio (3000/100 = 30).</li>
+          <li>Sum elevation and friction head to get total pump head H<sub>total</sub>.</li>
+          <li>Calculate input power to the pump set using flow rate, specific weight of water, total head, and the 75% overall efficiency.</li>
+          <li>Multiply power (kW) by 8 hours to get total energy (kWh), then multiply by $0.02/kWh to find the overnight electricity cost.</li>
+        </ol>
+      </div>
+
+    </div><!-- end sidebar-left -->
+
+    <!-- RIGHT SIDEBAR: Full Solution + Video Synthesis + Key Takeaways + OH Q&A -->
+    <div class="sidebar-right">
+
+      <!-- Section 2: Full Solution -->
+      <div class="section-block">
+        <div class="section-title">2 · Full Solution</div>
+        <div class="narrative">
+
+          <p><strong>Given:</strong> Q = 400 gpm, T = 60°F water, elevation Δz = 1000 ft, equivalent pipe length L = 3000 ft, pipe = 5-in schedule 40 steel, overall efficiency η = 0.75, electricity rate = $0.02/kWh, operation time = 8 hr.</p>
+
+          <p><strong>Step 1 — Convert flow rate to ft³/s.</strong><br>
+          Q = 400 gpm ÷ 448.83 gpm/(ft³/s) = <strong>0.891 ft³/s</strong></p>
+
+          <p><strong>Step 2 — Look up pipe dimensions for 5-in Schedule 40.</strong><br>
+          From pipe tables: ID = 5.047 in = 0.4206 ft<br>
+          Flow area: A = π/4 × (0.4206)² = <strong>0.1388 ft²</strong></p>
+
+          <p><strong>Step 3 — Calculate velocity in the pipe.</strong><br>
+          V = Q / A = 0.891 / 0.1388 = <strong>6.42 ft/s</strong><br>
+          Velocity head: V²/2g = (6.42)² / (2 × 32.2) = 41.22 / 64.4 = <strong>0.640 ft</strong></p>
+
+          <p><strong>Step 4 — Determine Reynolds number and friction factor.</strong><br>
+          For 60°F water: ν ≈ 1.217 × 10⁻⁵ ft²/s<br>
+          Re = V × D / ν = 6.42 × 0.4206 / (1.217 × 10⁻⁵) ≈ <strong>222,000</strong> (turbulent)<br>
+          For commercial steel pipe: ε = 0.00015 ft → ε/D = 0.000357<br>
+          From Moody chart: <strong>f ≈ 0.018</strong></p>
+
+          <p><strong>Step 5 — Calculate friction head loss (Darcy-Weisbach).</strong><br>
+          h<sub>f</sub> = f × (L/D) × V²/2g<br>
+          h<sub>f</sub> = 0.018 × (3000 / 0.4206) × 0.640<br>
+          h<sub>f</sub> = 0.018 × 7133 × 0.640<br>
+          h<sub>f</sub> ≈ <strong>82 ft</strong><br><br>
+          <em>Alternatively, using friction head loss tables for 5-in Sch 40 steel at 400 gpm: look up the value per 100 ft, then multiply by 3000/100 = 30 to scale to the full pipe length. Always apply this length ratio — the table value alone is not the answer.</em></p>
+
+          <p><strong>Step 6 — Total pump head.</strong><br>
+          H<sub>total</sub> = elevation head + friction head<br>
+          H<sub>total</sub> = 1000 ft + 82 ft = <strong>1082 ft</strong></p>
+
+          <p><strong>Step 7 — Calculate input power to the pump set.</strong><br>
+          For water at 60°F: γ ≈ 62.4 lb/ft³<br><br>
+          Power (ft·lb/s) = γ × Q × H<sub>total</sub> / η<br>
+          = 62.4 × 0.891 × 1082 / 0.75<br>
+          = 60,190 / 0.75<br>
+          = 80,253 ft·lb/s<br><br>
+          Convert to horsepower: 80,253 / 550 = <strong>145.9 hp</strong><br>
+          Convert to kilowatts: 145.9 × 0.7457 = <strong>108.8 kW</strong></p>
+
+          <p><strong>Step 8 — Calculate total energy consumed over 8 hours.</strong><br>
+          Energy = Power × Time = 108.8 kW × 8 hr = <strong>870 kWh</strong></p>
+
+          <p><strong>Step 9 — Calculate electricity cost.</strong><br>
+          Cost = Energy × Rate = 870 kWh × $0.02/kWh = <strong>$17.40</strong><br><br>
+          Rounding to the nearest answer choice: <strong>Answer C — $17</strong></p>
+
+          <p><em>Note: Even ignoring friction head (using only the 1000 ft elevation head), the cost comes out to approximately $16 — still solidly in the range of answer C. Elevation head dominates this problem, and the friction loss is a secondary contributor. This is a good sanity check: if you get close to $17 by a slightly different path, you're likely on the right track.</em></p>
+
+        </div>
+      </div>
+
+      <!-- Section 3: Video Synthesis -->
+      <div class="section-block">
+        <div class="section-title">3 · Video Synthesis</div>
+        <ul class="bullet-list">
+          <li>The pumped hydro problem combines elevation head with pipe friction losses — don't reduce it to a simple pressure-drop-only (P₁ − P₂)/γ approach, which ignores the gravity work the pump must do.</li>
+          <li>When reading friction head loss from pipe friction tables, the value is almost always given per 100 feet of pipe. Always multiply by (actual pipe length ÷ 100) to scale to the full equivalent length — for this problem, that multiplier is 3000/100 = 30.</li>
+          <li>"Overall efficiency" of the pump set means the combined pump-and-motor efficiency is already captured in a single number (0.75). Do not apply separate pump efficiency and motor efficiency corrections — that would be double-counting.</li>
+          <li>Converting between gpm, ft³/s, pipe area, and velocity requires careful unit tracking — confirm that your inside diameter is in feet (not inches) before computing the flow area.</li>
+          <li>Off-peak electricity cost problems are fundamentally pump power calculations with a simple economics wrapper at the end. Solve for power first, then convert to energy, then multiply by rate.</li>
+          <li>The answer of $17 is modest by design — industrial-scale pumped hydro at off-peak rates is inexpensive. If your answer is in the hundreds of dollars, check whether you forgot to apply efficiency or used the wrong pipe diameter.</li>
+        </ul>
+      </div>
+
+      <!-- Section 4: Key Takeaways -->
+      <div class="section-block">
+        <div class="section-title">4 · Key Takeaways</div>
+        <ul class="takeaway-list">
+          <li>Table values for friction head loss are given per unit length (typically per 100 ft) — always scale to your actual pipe run by multiplying by the length ratio. Skipping this step is one of the most common mistakes on pipe friction problems.</li>
+          <li>"Overall efficiency" means the combined pump-and-motor efficiency is already accounted for in one number. Apply it once to convert water power to input power — not twice.</li>
+          <li>Pumped hydro problems are really just pump power calculations with an energy cost step at the end. Once you have the input power in kilowatts, the rest is arithmetic: multiply by hours to get kWh, then multiply by the electricity rate.</li>
+          <li>In tall-lift scenarios like this one (1000 ft of elevation), elevation head dominates over friction losses. If your friction head is larger than your elevation head, re-examine your calculation — something is likely off.</li>
+        </ul>
+      </div>
+
+      <!-- Section 5: Office Hours Q&A -->
+      <div class="section-block">
+        <div class="section-title">5 · Office Hours Q&amp;A</div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 46 · October 19, 2022</div>
+          <p><strong>Q:</strong> I used the (P₁ − P₂)/γ approach to solve this. Why didn't I get the right answer?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> That approach misses the full picture — you need to account for elevation head AND friction losses together through the energy equation, not just a simple pressure difference. The pump has to overcome both gravity (lifting 1000 ft of water) and pipe friction. The (P₁ − P₂)/γ shortcut only works when both reservoirs are at the same elevation and friction is already captured in the pressure term. Here, you need the full extended Bernoulli equation with a pump head term that includes elevation and friction. <em>(OH 46)</em></p>
+        </div>
+
+        <div class="oh-block">
+          <div class="oh-label">OH 46 · October 19, 2022</div>
+          <p><strong>Q:</strong> I looked up 5.2 ft from the steel pipe friction table but still got the wrong answer. What went wrong?</p>
+          <p style="margin-top:6px;"><strong>A:</strong> The table gives friction head loss per 100 feet of pipe. You need to multiply by the ratio of your equivalent pipe length to 100 feet: 3000 ÷ 100 = 30. So the correct friction head contribution is 5.2 × 30 = 156 ft, not just 5.2 ft. Dan emphasizes: always think about what you're pulling from tables and apply the proper length scaling. Forgetting this 30× multiplier and using the raw table value is one of the most common mistakes he sees on pipe friction problems. <em>(OH 46)</em></p>
+        </div>
+
+      </div>
+
+    </div><!-- end sidebar-right -->
+  </div><!-- end layout-container -->
+
+</body>
+</html>
