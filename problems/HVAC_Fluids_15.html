@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 15 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+.overview-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+}
+.overview-list {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+.overview-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-detail { margin-bottom: 28px; }
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12.5px;
+  border-radius: 2px;
+  color: #1a3a6e;
+  white-space: pre;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 14px;
+  border-radius: 4px;
+  margin-top: 4px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 6px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-qa {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 14px 0;
+}
+.oh-qa:last-child { border-bottom: none; }
+.oh-question {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.oh-label {
+  background: #f0f4ff;
+  color: #0066cc;
+  border: 1px solid #b3d0f5;
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.oh-answer {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  background: #fafafa;
+  border-left: 3px solid #22c55e;
+  padding: 10px 12px;
+  border-radius: 3px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC › Fluids › Problem 15</span>
+  <span class="nav-badge">Fluids</span>
+  <span class="nav-badge">3 OH Sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Answer Choices + Quick Overview + Key Takeaways -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 15</div>
+
+    <div class="problem-statement">
+      20,000 gpm of water flows through a turbine in a hydroelectric power application. The inlet pressure is 50 psig and the exit pressure is 1 atm. The turbines have an overall efficiency of 80%. What is the electrical capacity of the hydroelectric plant?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct">
+        <span class="choice-letter">A</span>
+        <span>350 KW &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>435 KW</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>470 KW</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>540 KW</span>
+      </div>
+    </div>
+
+    <div class="answer-tag">Answer: A — 350 KW</div>
+
+    <!-- QUICK OVERVIEW -->
+    <div class="section-title" style="margin-top: 8px;">Quick Overview</div>
+    <div class="overview-box">
+      <strong style="font-size: 13px; color: #333;">High-Level Solution Steps</strong>
+      <ol class="overview-list">
+        <li>Recognize that exit pressure is 1 atm = <strong>0 psig</strong>, so ΔP = 50 psig − 0 psig = <strong>50 psi</strong>.</li>
+        <li>Convert the flow rate from gpm to ft³/s: <strong>20,000 gpm → 44.6 ft³/s</strong>.</li>
+        <li>Convert ΔP from psi to lb/ft² (psf): <strong>50 × 144 = 7,200 lb/ft²</strong>.</li>
+        <li>Calculate the available fluid power: <strong>W = Q × ΔP = 44.6 × 7,200 ≈ 321,000 ft·lb/s</strong>.</li>
+        <li>Convert fluid power to kW: <strong>321,000 ft·lb/s ÷ 737.56 ≈ 435 kW</strong> (available water power).</li>
+        <li>Apply 80% overall efficiency to find electrical output: <strong>435 × 0.80 ≈ 348 KW ≈ 350 KW (Answer A)</strong>.</li>
+      </ol>
+    </div>
+
+    <!-- KEY TAKEAWAYS -->
+    <div class="section-title" style="margin-top: 20px;">Key Takeaways</div>
+    <div class="takeaway-box">
+      <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Exam Strategy</strong>
+      <ul>
+        <li>When exit pressure is given as "1 atm" or "atmospheric," treat it as <strong>0 psig</strong>. The delta P is simply the gauge inlet pressure — no subtraction needed if you stay in gauge units throughout.</li>
+        <li>The 435 kW intermediate result is the <em>available fluid power</em> (Answer B). Applying the 80% efficiency to get the actual electrical output is the key final step — don't stop at the fluid power.</li>
+        <li>Unit conversions are the main pitfall here: gpm → ft³/s requires dividing by 7.48 and 60; psi → lb/ft² requires multiplying by 144; ft·lb/s → kW requires dividing by 737.56. Keep them organized.</li>
+        <li>For turbines, efficiency reduces output (output = fluid power × η). For pumps, efficiency reduces input — the direction of the efficiency penalty flips depending on the machine type.</li>
+      </ul>
+    </div>
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Full Solution + Video Synthesis + OH Q&A -->
+  <div class="sidebar-right">
+
+    <!-- FULL SOLUTION -->
+    <div class="section-title">Full Solution</div>
+
+    <div class="solution-detail">
+      <p>
+        This is a <strong>turbine power problem</strong>. Water flows through a hydraulic turbine, giving up pressure energy that gets converted to mechanical (and then electrical) power. The approach is: find the fluid power available from the pressure drop, then multiply by the overall efficiency to get the electrical output.
+      </p>
+
+      <h4>Step 1 — Identify the Pressure Difference</h4>
+      <p>
+        The inlet pressure is given as <strong>50 psig</strong> (gauge). The exit pressure is given as <strong>1 atm</strong>. This is the key unit trap in this problem.
+      </p>
+      <p>
+        By definition, gauge pressure is measured relative to atmospheric pressure. So:
+      </p>
+      <span class="math-line">1 atm (absolute) = 14.7 psia = 0 psig</span>
+      <span class="math-line">ΔP = P_inlet − P_exit = 50 psig − 0 psig = 50 psi</span>
+      <p>
+        You can verify this using absolute pressures: 64.7 psia − 14.7 psia = 50 psi. Either route gives the same delta P — as long as you're consistent (all gauge or all absolute), the result is identical.
+      </p>
+
+      <div class="solution-note">
+        <strong>💡 Gauge vs. Absolute reminder:</strong> 1 atm = 14.7 psi<em>a</em> (absolute) = 0 psi<em>g</em> (gauge). When a problem says "exit pressure is 1 atm," that means the fluid discharges to atmosphere — which is the zero reference for gauge pressure. Don't add 14.7 to your delta P calculation.
+      </div>
+
+      <h4 style="margin-top: 16px;">Step 2 — Convert Flow Rate to ft³/s</h4>
+      <p>
+        The flow rate is given in gallons per minute. We need consistent units, so convert to ft³/s:
+      </p>
+      <span class="math-line">Q = 20,000 gpm × (1 ft³ / 7.48 gal) × (1 min / 60 s)</span>
+      <span class="math-line">Q = 20,000 / (7.48 × 60)  =  20,000 / 448.8</span>
+      <span class="math-line">Q = 44.57 ft³/s</span>
+
+      <h4 style="margin-top: 16px;">Step 3 — Convert ΔP to lb/ft² (psf)</h4>
+      <p>
+        To use the power equation W = Q × ΔP in consistent US customary units, pressure must be in lb/ft² (psf), not psi:
+      </p>
+      <span class="math-line">ΔP = 50 psi × 144 in²/ft²  =  7,200 lb/ft²</span>
+
+      <h4 style="margin-top: 16px;">Step 4 — Calculate Available Fluid Power</h4>
+      <p>
+        The power delivered by the water to the turbine is flow rate times pressure drop:
+      </p>
+      <span class="math-line">W_fluid = Q × ΔP</span>
+      <span class="math-line">W_fluid = 44.57 ft³/s × 7,200 lb/ft²</span>
+      <span class="math-line">W_fluid = 320,900 ft·lb/s</span>
+
+      <h4 style="margin-top: 16px;">Step 5 — Convert Fluid Power to kW</h4>
+      <p>
+        Convert from ft·lb/s to kilowatts using the conversion factor 1 kW = 737.56 ft·lb/s:
+      </p>
+      <span class="math-line">W_fluid = 320,900 ft·lb/s ÷ 737.56 (ft·lb/s)/kW</span>
+      <span class="math-line">W_fluid ≈ 435 kW   ← this is the available water power (Answer B)</span>
+      <p>
+        Note: 435 kW is the fluid power input to the turbine — what the water could theoretically deliver if the turbine were 100% efficient. This matches Answer B, but the problem specifies an 80% overall efficiency, so we're not done yet.
+      </p>
+
+      <div class="solution-note">
+        <strong>🔍 Alternative path using horsepower:</strong> You can also convert via horsepower as an intermediate step.<br>
+        1 hp = 550 ft·lb/s → W_fluid = 320,900 / 550 = 583.5 hp<br>
+        Then to kW: 583.5 hp × 0.7457 kW/hp = 435 kW ✓ (same result)
+      </div>
+
+      <h4 style="margin-top: 16px;">Step 6 — Apply Overall Efficiency</h4>
+      <p>
+        The turbine has an <strong>overall efficiency of 80%</strong>. This accounts for all losses between the incoming water power and the electrical output — mechanical friction, generator losses, etc. For a turbine, efficiency reduces the output:
+      </p>
+      <span class="math-line">W_electrical = W_fluid × η</span>
+      <span class="math-line">W_electrical = 435 kW × 0.80</span>
+      <span class="math-line">W_electrical ≈ 348 kW  →  350 KW</span>
+      <p>
+        <strong>Answer: A — 350 KW.</strong>
+      </p>
+
+      <div class="solution-note">
+        <strong>🗺️ Answer map — where each choice comes from:</strong><br>
+        <strong>A (350 KW)</strong> — Correct: fluid power × 80% efficiency = 435 × 0.80 ≈ 348 KW ✓<br>
+        <strong>B (435 KW)</strong> — Fluid power only, forgot to apply efficiency<br>
+        <strong>C (470 KW)</strong> — Close to unmodified hp→kW intermediate; possible rounding variation<br>
+        <strong>D (540 KW)</strong> — Divided by efficiency instead of multiplying: 435 / 0.80 = 544 KW (wrong direction for a turbine)
+      </div>
+    </div>
+
+    <!-- VIDEO SYNTHESIS -->
+    <div class="section-title" style="margin-top: 8px;">Video Synthesis</div>
+    <div class="video-box">
+      <strong>📺 Key Teaching Insights</strong>
+      <ul style="padding-left: 18px; margin-top: 8px;">
+        <li><strong>"1 atm exit" means 0 psig:</strong> This is the central trap in this problem. The problem gives exit pressure as "1 atm" to test whether you know that 1 atm = 14.7 psia = 0 psig. Students who mistakenly subtract 14.7 from the inlet pressure get the wrong delta P. Stay in gauge units and it simplifies immediately to ΔP = 50 psi.</li>
+        <li><strong>The 435 kW result is the water power — not the answer:</strong> Answer B is placed to catch students who compute fluid power correctly but forget efficiency. The problem asks for <em>electrical</em> capacity, which requires the efficiency multiplier. Always re-read what the problem is asking before selecting.</li>
+        <li><strong>Unit conversions are the backbone of this solution:</strong> gpm → ft³/s → ft·lb/s → kW is a chain of three conversions. The factors (÷ 7.48, ÷ 60, × 144, ÷ 737.56) must all be memorized or derivable from first principles for the exam.</li>
+        <li><strong>Turbine efficiency multiplies output; pump efficiency divides input:</strong> For turbines, you get <em>less</em> out than what the fluid provides (output = fluid power × η). For pumps, you have to put <em>more</em> in than the fluid requires (input = fluid power / η). These are opposite directions — know which machine you're analyzing.</li>
+        <li><strong>Hydroelectric problems are essentially pressure-drop power problems:</strong> No elevation change or velocity change is given here — the entire energy exchange is through the pressure drop across the turbine. Bernoulli simplifies to W = Q × ΔP when head and velocity terms cancel.</li>
+        <li><strong>Cross-check with WHP formula:</strong> The water horsepower formula WHP = Q(gpm) × ΔP(psi) / 1714 gives a fast shortcut: 20,000 × 50 / 1714 = 583 hp → × 0.7457 = 435 kW (fluid power). Then × 0.80 = 348 kW. Same answer, fewer intermediate conversions.</li>
+      </ul>
+    </div>
+
+    <!-- OFFICE HOURS Q&A -->
+    <div class="oh-section-title" style="margin-top: 20px;">
+      Office Hours Q&amp;A
+      <span style="font-size: 12px; font-weight: 400; color: #888;">3 sessions — newest first</span>
+    </div>
+
+    <!-- OH 74 — newest first -->
+    <div class="oh-qa">
+      <div class="oh-question">
+        <strong>Q:</strong> What are all the different ways to express 1 atmosphere? I keep getting confused by the different conversion factors.
+        <span class="oh-label">OH 74</span>
+      </div>
+      <div class="oh-answer">
+        <strong>A:</strong> Great thing to nail down. 1 atm has many equivalent expressions depending on what units you're working in:
+        <ul style="padding-left: 18px; margin-top: 6px; margin-bottom: 6px;">
+          <li><strong>14.7 psi</strong> (absolute, in US customary)</li>
+          <li><strong>29.9 inches of mercury</strong> (Hg)</li>
+          <li><strong>33.9 feet of water</strong> (H₂O)</li>
+          <li><strong>101.325 kPa</strong> (SI)</li>
+        </ul>
+        The goal isn't to memorize every form — it's to have <em>intuition</em> around these numbers. If you know 1 atm ≈ 14.7 psi and 1 atm ≈ 34 ft of water, you can derive the others on the fly. For this problem, the key insight is simply that 1 atm = 0 psig — the reference point for gauge pressure.
+      </div>
+    </div>
+
+    <!-- OH 68 -->
+    <div class="oh-qa">
+      <div class="oh-question">
+        <strong>Q:</strong> In the answer video, you calculated the delta P as 50 psig minus 1 atm. We mentioned that the exit pressure is 0. Why is the exit pressure not 14.7 psi converted from 1 atm?
+        <span class="oh-label">OH 68</span>
+      </div>
+      <div class="oh-answer">
+        <strong>A:</strong> This is about the difference between <strong>gauge pressure</strong> and <strong>absolute pressure</strong>. 1 atm = 14.7 psia (absolute) = 0 psig (gauge). These are the same physical pressure — just measured from different reference points.
+        <br><br>
+        When the problem says the exit is at "1 atm," that means the fluid discharges directly to the atmosphere — which is exactly where gauge pressure is zero. So in gauge units: ΔP = 50 psig − 0 psig = 50 psi.
+        <br><br>
+        You can also work in absolute: 64.7 psia − 14.7 psia = 50 psi. Either way, the delta P is 50 psi. Once you subtract, it doesn't matter whether you used gauge or absolute — it's just a delta, and the offset cancels out.
+      </div>
+    </div>
+
+    <!-- OH 41 — oldest last -->
+    <div class="oh-qa">
+      <div class="oh-question">
+        <strong>Q:</strong> Can you elaborate on the relationship between total pressure, gauge pressure, and absolute pressure?
+        <span class="oh-label">OH 41</span>
+      </div>
+      <div class="oh-answer">
+        <strong>A:</strong> Think of it like measuring height in a room with a raised stage. <strong>Absolute pressure</strong> is measured from the true zero — the floor. <strong>Gauge pressure</strong> is measured from the stage (the atmosphere). The atmosphere is like the height of the stage above the floor.
+        <br><br>
+        In this problem: the inlet is 50 psig — that's 50 psi above atmospheric. The outlet discharges to atmosphere — that's 0 psig. Delta P = 50 − 0 = 50 psi.
+        <br><br>
+        A second engineer who prefers absolute pressures would say: inlet is 50 + 14.7 = 64.7 psia, outlet is 14.7 psia, and ΔP = 64.7 − 14.7 = 50 psi. Same result — as long as you're consistent within a calculation, both approaches work perfectly. The common mistake is mixing gauge and absolute in the same equation without adjusting.
+      </div>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 15</span>
+  <span>·</span>
+  <span>3 OH sessions (OH 41, OH 68, OH 74)</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+</body>
+</html>
