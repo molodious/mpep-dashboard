@@ -3,391 +3,463 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HVAC Thermodynamics — Problem 16</title>
+  <title>Thermodynamics · Problem 16 | HVAC OH Prep</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
+      color: #1a1a1a;
       min-height: 100vh;
     }
-    .nav-bar {
-      background: white;
+
+    /* ── Nav ── */
+    .nav {
+      background: #fff;
       border-bottom: 1px solid #e0e0e0;
-      padding: 12px 20px;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-back {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color .15s;
+    }
+    .nav-back:hover { color: #0070f3; }
+    .nav-divider { color: #ccc; font-size: 18px; }
+    .nav-badge {
+      background: #e8f0fe;
+      color: #1a56db;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 99px;
+      letter-spacing: .3px;
+    }
+    .nav-problem {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 76px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.04);
+      padding: 24px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    /* Problem statement */
+    .problem-text {
+      font-size: 16px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      font-weight: 400;
+    }
+
+    /* Choices */
+    .choices { display: flex; flex-direction: column; gap: 10px; }
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: default;
+      transition: border-color .15s, background .15s;
+    }
+    .choice.correct {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .choice-key {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #444;
+      flex-shrink: 0;
+    }
+    .choice.correct .choice-key {
+      background: #22c55e;
+      color: #fff;
+    }
+    .choice-text { color: #1a1a1a; font-weight: 400; }
+    .choice.correct .choice-text { font-weight: 600; color: #15803d; }
+
+    /* ── Main content ── */
+    .main { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Section headers */
+    .section-header {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: #555;
+      padding-left: 12px;
+      border-left: 3px solid #0070f3;
+      margin-bottom: 14px;
+    }
+    .section-header.green  { border-left-color: #22c55e; }
+    .section-header.purple { border-left-color: #8b5cf6; }
+    .section-header.amber  { border-left-color: #f59e0b; }
+    .section-header.rose   { border-left-color: #f43f5e; }
+
+    /* Overview */
+    .overview-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    /* Solution steps */
+    .solution-steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      border-left: 2px solid #e0e0e0;
+      padding-left: 16px;
+    }
+    .step-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    .step-body {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #333;
+    }
+    .eq {
+      display: block;
+      background: #f8f8f8;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 14px;
+      color: #1a1a1a;
+      margin: 8px 0;
+      white-space: pre-wrap;
+    }
+    .answer-box {
+      background: #f0fdf4;
+      border: 1.5px solid #22c55e;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #15803d;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    /* Video Synthesis */
+    .concept-block { display: flex; flex-direction: column; gap: 12px; }
+    .concept-item { font-size: 14.5px; line-height: 1.7; color: #333; }
+    .concept-item strong { color: #1a1a1a; }
+    .pitfall-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .pitfall-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .pitfall-list li::before {
+      content: "⚠";
+      color: #f59e0b;
+      font-size: 13px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Takeaways */
+    .takeaway-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .takeaway-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .takeaway-list li::before {
+      content: "✓";
+      color: #22c55e;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    /* Office Hours */
+    .oh-banner {
       display: flex;
       align-items: center;
       gap: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      flex-wrap: wrap;
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: 10px;
+      padding: 16px 18px;
     }
-    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
-    .nav-bar a:hover { text-decoration: underline; }
-    .nav-badge {
-      background: #f5f5f5;
-      color: #888;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .layout-container {
-      display: flex;
-      gap: 0;
-      margin: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      min-height: calc(100vh - 130px);
-    }
-    .sidebar-left {
-      flex: 0 0 50%;
-      padding: 24px;
-      background: #fafafa;
-      border-right: 1px solid #e0e0e0;
-      overflow-y: auto;
-      max-height: calc(100vh - 130px);
-    }
-    .sidebar-right {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-      max-height: calc(100vh - 130px);
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #1a1a1a;
-      border-bottom: 2px solid #0066cc;
-      padding-bottom: 8px;
-    }
-    .problem-meta {
-      font-size: 12px;
-      color: #888;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-    .problem-statement {
-      background: #f0f4ff;
-      padding: 14px;
-      border-radius: 6px;
-      margin-bottom: 16px;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-    .choice {
-      padding: 10px 12px;
-      background: white;
-      border-left: 3px solid #ddd;
-      border-radius: 3px;
-      font-size: 13px;
-      display: flex;
-      gap: 8px;
-    }
-    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
-    .choice.correct .choice-letter { color: #16a34a; }
-    .answer-tag {
-      display: inline-block;
-      background: #e6ffe6;
-      color: #15803d;
-      border: 1px solid #22c55e;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .solution-area { margin-top: 24px; }
-    .solution-toggle {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #555;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-    }
-    .solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-    .solution-box {
-      background: white;
-      border-left: 3px solid #0066cc;
-      border-radius: 3px;
-      padding: 16px;
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.75;
-      color: #444;
-      display: none;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .solution-box.open { display: block; }
-    .takeaway-box {
-      background: #fffbf0;
-      padding: 12px;
-      border-radius: 4px;
-      margin-top: 10px;
-      border-left: 3px solid #f59e0b;
-    }
-    .oh-section-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #1a1a1a;
-      border-bottom: 2px solid #f59e0b;
-      padding-bottom: 8px;
-    }
-    .oh-subtitle {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 14px;
-    }
-    .footer {
-      background: white;
-      border-top: 1px solid #e0e0e0;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 12px;
-      color: #888;
-      flex-wrap: wrap;
-    }
-    .footer a { color: #0066cc; text-decoration: none; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+    .oh-icon { font-size: 26px; }
+    .oh-text { font-size: 14.5px; line-height: 1.6; color: #78350f; }
+    .oh-text strong { color: #92400e; }
+
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .layout-container { flex-direction: column; margin: 10px; }
-      .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-      .sidebar-right { max-height: none; }
+      .page {
+        grid-template-columns: 1fr;
+        padding: 16px 16px 48px;
+      }
+      .sidebar { position: static; }
+      .nav { padding: 0 16px; }
     }
-    .no-oh-box {
-      background: #f9f9f9;
-      border: 1px dashed #ccc;
-      border-radius: 6px;
-      padding: 28px 20px;
-      text-align: center;
-      margin-top: 16px;
-    }
-    .no-oh-box .no-oh-icon { font-size: 32px; margin-bottom: 10px; }
-    .no-oh-box p { font-size: 13px; color: #777; line-height: 1.6; }
-    .no-oh-badge {
-      display: inline-block;
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffc107;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .mb-8 { margin-bottom: 8px; }
-    .mt-16 { margin-top: 16px; }
   </style>
 </head>
 <body>
-  <!-- Nav Bar -->
-  <div class="nav-bar">
-    <a href="../oh-prep.html">← OH Prep Dashboard</a>
-    <span style="color:#ccc;">|</span>
-    <span style="font-size:13px; font-weight:600; color:#333;">Thermodynamics</span>
-    <span style="color:#ccc;">|</span>
-    <span style="font-size:13px; color:#555;">Problem 16</span>
-    <span class="nav-badge">No OH</span>
-  </div>
 
-  <div class="layout-container">
-    <!-- LEFT PANEL: Problem + Solution -->
-    <div class="sidebar-left">
-      <div class="section-title">Problem 16 — Refrigerator Coefficient of Performance</div>
-      <div class="problem-meta">Thermodynamics &bull; COP &bull; Unit Conversion &bull; Refrigeration Cycles</div>
-      <div class="problem-statement">A refrigerator draws 800 W of power and absorbs 4000 Btu/hr from the internal volume. What is the coefficient of performance?</div>
+<!-- Nav -->
+<nav class="nav">
+  <a class="nav-back" href="../index.html">← OH Prep</a>
+  <span class="nav-divider">/</span>
+  <span class="nav-badge">HVAC · Thermodynamics</span>
+  <span class="nav-divider">/</span>
+  <span class="nav-problem">Problem 16</span>
+</nav>
+
+<div class="page">
+
+  <!-- ── LEFT SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- Problem Statement -->
+    <div class="card">
+      <div class="card-label">Problem 16</div>
+      <p class="problem-text">
+        A refrigerator draws <strong>800 W</strong> of power and absorbs
+        <strong>4000 Btu/hr</strong> from the internal volume. What is the
+        <strong>coefficient of performance</strong>?
+      </p>
+    </div>
+
+    <!-- Answer Choices -->
+    <div class="card">
+      <div class="card-label">Answer Choices</div>
       <div class="choices">
         <div class="choice">
-          <span class="choice-letter">A.</span>
-          <span>0.7</span>
+          <div class="choice-key">A</div>
+          <div class="choice-text">0.7</div>
         </div>
         <div class="choice correct">
-          <span class="choice-letter">B.</span>
-          <span>1.5 ✓</span>
+          <div class="choice-key">B</div>
+          <div class="choice-text">1.5 ✓</div>
         </div>
         <div class="choice">
-          <span class="choice-letter">C.</span>
-          <span>1.7</span>
+          <div class="choice-key">C</div>
+          <div class="choice-text">1.7</div>
         </div>
         <div class="choice">
-          <span class="choice-letter">D.</span>
-          <span>5.0</span>
+          <div class="choice-key">D</div>
+          <div class="choice-text">5.0</div>
         </div>
       </div>
-      <div style="margin-top:16px;">
-        <span class="answer-tag">✓ Answer: B — 1.5</span>
+    </div>
+
+  </aside>
+
+  <!-- ── RIGHT MAIN ── -->
+  <main class="main">
+
+    <!-- Section 1: Quick Overview -->
+    <div class="card">
+      <div class="section-header">Quick Overview</div>
+      <p class="overview-text">
+        This problem asks you to find the <strong>Coefficient of Performance (COP)</strong>
+        of a refrigerator given its power consumption and the rate at which it removes heat
+        from the refrigerated space. The COP for a refrigerator is the ratio of the heat
+        absorbed from the cold space to the net work input — it tells you how efficiently
+        the refrigerator moves heat per unit of work consumed.
+        The key challenge here is ensuring both quantities are in the <strong>same units</strong>
+        before dividing.
+      </p>
+    </div>
+
+    <!-- Section 2: Full Solution -->
+    <div class="card">
+      <div class="section-header green">Full Solution</div>
+      <div class="solution-steps">
+
+        <div class="step">
+          <div class="step-title">Step 1 — Identify Given Information</div>
+          <div class="step-body">
+            <span class="eq">W_in  = 800 W  (work input / power draw)
+Q_L   = 4000 Btu/hr  (heat absorbed from cold space)</span>
+            These two quantities are in different unit systems, so we must convert before calculating.
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Step 2 — Convert Work Input to Btu/hr</div>
+          <div class="step-body">
+            Use the conversion factor: <strong>1 W = 3.412 Btu/hr</strong>
+            <span class="eq">W_in = 800 W × 3.412 Btu/hr per W
+     = 2729.6 Btu/hr</span>
+            Now both Q_L and W_in are in <strong>Btu/hr</strong>.
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Step 3 — Apply the COP Formula for a Refrigerator</div>
+          <div class="step-body">
+            For a refrigerator, the COP is defined as the useful output (heat removed from cold space)
+            divided by the required work input:
+            <span class="eq">COP_refrig = Q_L / W_in</span>
+            where Q_L is heat absorbed from the cold (low-temperature) reservoir and W_in is the
+            net work input to the cycle.
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Step 4 — Calculate COP</div>
+          <div class="step-body">
+            Substituting the values (both in Btu/hr):
+            <span class="eq">COP = Q_L / W_in
+    = 4000 Btu/hr ÷ 2729.6 Btu/hr
+    = 1.466…
+    ≈ 1.5</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Step 5 — Select the Answer</div>
+          <div class="step-body">
+            COP ≈ 1.47, which rounds to <strong>1.5</strong>.
+            <div class="answer-box">✓ Answer: B) 1.5</div>
+          </div>
+        </div>
+
       </div>
+    </div>
 
-      <div class="solution-area">
-        <button class="solution-toggle" onclick="toggleSolution('quick')">
-          <span>▶ Quick Overview</span>
-          <span style="font-size:11px; color:#aaa;">Step-by-step</span>
-        </button>
-        <div class="solution-box" id="quick">1. Identify the formula: COP_refrigerator = Q_L / W_net
-   where Q_L = heat absorbed from the cold space, W_net = work input
+    <!-- Section 3: Video Synthesis -->
+    <div class="card">
+      <div class="section-header purple">Concept Deep-Dive</div>
+      <div class="concept-block">
 
-2. Identify given values:
-   W_net = 800 W
-   Q_L = 4000 Btu/hr
+        <div class="concept-item">
+          <strong>What COP Means Physically</strong><br>
+          The COP tells you how many units of cooling you get per unit of work you put in.
+          A COP of 1.5 means: for every 1 Btu of electrical work consumed, the refrigerator
+          pumps 1.5 Btu out of the cold space. Unlike thermal efficiency (which is always ≤ 1),
+          COP <em>can</em> exceed 1 because you're moving heat — not converting it.
+        </div>
 
-3. Convert units so both are in the same system.
-   Convert W_net to Btu/hr:
-   800 W × 3.412 Btu/hr per W = 2,729.6 Btu/hr
+        <div class="concept-item">
+          <strong>Refrigerator COP vs. Heat Pump COP</strong><br>
+          Both devices use the same vapor-compression cycle, but the useful output differs:
+          <ul style="margin: 6px 0 0 18px; line-height: 1.8; font-size: 14.5px; color: #333;">
+            <li><strong>Refrigerator:</strong> COP<sub>R</sub> = Q<sub>L</sub> / W<sub>in</sub> — valued for cooling</li>
+            <li><strong>Heat Pump:</strong> COP<sub>HP</sub> = Q<sub>H</sub> / W<sub>in</sub> — valued for heating</li>
+            <li>Relationship: COP<sub>HP</sub> = COP<sub>R</sub> + 1 (always)</li>
+          </ul>
+          Choosing the wrong formula is one of the most common exam mistakes on this topic.
+        </div>
 
-4. Calculate COP:
-   COP = Q_L / W_net = 4000 / 2729.6 ≈ 1.47
-
-5. Select the closest answer: 1.47 ≈ 1.5 → Answer B</div>
-
-        <button class="solution-toggle" onclick="toggleSolution('full')" style="margin-top:8px;">
-          <span>▶ Full Solution</span>
-          <span style="font-size:11px; color:#aaa;">Detailed explanation</span>
-        </button>
-        <div class="solution-box" id="full">━━━ BACKGROUND ━━━
-
-The Coefficient of Performance (COP) is a dimensionless efficiency metric for refrigerators and heat pumps. Unlike thermal efficiency (which is always less than 1), COP can be greater than 1 — a COP of 1.5 means the system moves 1.5 units of heat energy for every 1 unit of work input.
-
-For a refrigerator (or air conditioner):
-  COP_ref = Q_L / W_net
-
-Where:
-  Q_L  = rate of heat removal from the cold reservoir (the "useful effect")
-  W_net = net work input (power consumed)
-
-For a heat pump operating on the same cycle:
-  COP_HP = Q_H / W_net = COP_ref + 1
-
-━━━ STEP-BY-STEP SOLUTION ━━━
-
-Step 1 — Write the COP formula:
-  COP = Q_L / W_net
-
-Step 2 — List known values:
-  Q_L  = 4000 Btu/hr  (heat absorbed from refrigerator interior)
-  W_net = 800 W       (electrical power drawn)
-
-Step 3 — Unit conversion (critical step!):
-  Q_L and W_net must be in the same units before dividing.
-
-  Option A: Convert W_net from watts to Btu/hr
-    1 W = 3.412 Btu/hr
-    800 W × 3.412 = 2,729.6 Btu/hr
-
-  Option B: Convert Q_L from Btu/hr to watts
-    1 Btu/hr = 0.29307 W
-    4000 Btu/hr × 0.29307 = 1,172.3 W
-
-Step 4 — Calculate COP (using Option A):
-  COP = 4000 Btu/hr / 2729.6 Btu/hr = 1.466
-
-  Verify using Option B:
-  COP = 1172.3 W / 800 W = 1.465  ✓ (consistent)
-
-Step 5 — Select the answer:
-  COP ≈ 1.47 → closest choice is B (1.5)
-
-━━━ WRONG ANSWER ANALYSIS ━━━
-
-A. 0.7 — This would result if you accidentally divided W_net by Q_L (inverted the formula): 800/1172.3 ≈ 0.68. Watch the formula direction — COP = Q_L/W, not W/Q_L.
-
-C. 1.7 — Close but not correct. Likely results from a slightly off conversion factor or rounding error in intermediate steps.
-
-D. 5.0 — This might appear if no unit conversion is done and values are used directly: 4000/800 = 5.0. This is the most common trap — you MUST convert to consistent units before calculating.
-
-━━━ KEY FORMULA NOTES ━━━
-
-Unit conversion factors to memorize:
-  1 W = 3.412 Btu/hr
-  1 Btu/hr = 0.29307 W
-  1 ton of refrigeration = 12,000 Btu/hr = 3.517 kW
-
-COP relationships:
-  COP_ref  = Q_L / W_net
-  COP_HP   = Q_H / W_net = COP_ref + 1
-  COP_Carnot_ref = T_L / (T_H - T_L)  [temperatures in absolute scale, R or K]</div>
-
-        <div class="takeaway-box mt-16">
-          <div style="font-size:13px; font-weight:700; color:#b45309; margin-bottom:8px;">📌 Key Takeaways</div>
-          <ul style="font-size:13px; color:#555; padding-left:16px; line-height:1.8;">
-            <li><strong>COP formula for a refrigerator:</strong> COP = Q_L / W_net — heat removed divided by work input.</li>
-            <li><strong>Unit conversion is mandatory:</strong> Q_L and W_net must be in the same units. The most common wrong answer (5.0) comes from skipping this step.</li>
-            <li><strong>Key conversion:</strong> 1 W = 3.412 Btu/hr. Memorize this — it appears constantly in HVAC problems.</li>
-            <li><strong>COP &gt; 1 is normal and expected</strong> for refrigerators — it means you're moving more heat than the work you put in, which is thermodynamically valid (you're not creating energy, just pumping it).</li>
-            <li><strong>COP_HP = COP_ref + 1</strong> — if this were a heat pump, COP = 2.47. Know both relationships.</li>
+        <div class="concept-item">
+          <strong>Common Pitfalls</strong>
+          <ul class="pitfall-list">
+            <li>Forgetting to convert units — mixing W and Btu/hr gives a garbage answer (e.g., 4000/800 = 5.0, which is choice D, a classic trap).</li>
+            <li>Using Q<sub>H</sub> instead of Q<sub>L</sub> in the refrigerator COP formula.</li>
+            <li>Confusing COP with efficiency — efficiency is dimensionless and ≤ 1; COP has no such upper limit.</li>
+            <li>Using the Carnot COP formula when actual operating data is given — always use given values first.</li>
           </ul>
         </div>
+
       </div>
     </div>
 
-    <!-- RIGHT PANEL: No OH -->
-    <div class="sidebar-right">
-      <div class="oh-section-title">Office Hours Coverage</div>
-      <div class="oh-subtitle">Problems discussed and explained during live OH sessions</div>
-      <div class="no-oh-box">
-        <div class="no-oh-icon">🎙️</div>
-        <div style="margin-bottom:8px;">
-          <span class="no-oh-badge">No Office Hours Coverage</span>
+    <!-- Section 4: Key Takeaways -->
+    <div class="card">
+      <div class="section-header amber">Key Takeaways</div>
+      <ul class="takeaway-list">
+        <li><strong>Refrigerator COP = Q<sub>L</sub> / W<sub>in</sub></strong> — use the heat removed from the <em>cold</em> space, not the heat rejected to the hot side.</li>
+        <li><strong>Unit conversion is mandatory:</strong> 1 W = 3.412 Btu/hr. If you skip this step, you'll land on the distractor answer (5.0).</li>
+        <li><strong>COP can be &gt; 1</strong> for refrigerators and heat pumps — this is normal and expected; you're moving heat, not generating it from scratch.</li>
+        <li><strong>COP<sub>HP</sub> = COP<sub>R</sub> + 1</strong> — heat pump COP is always exactly 1 greater than refrigerator COP for the same cycle.</li>
+        <li><strong>Double-check your formula</strong> — the exam will offer distractor choices that match incorrect formula results; label your Q's clearly.</li>
+      </ul>
+    </div>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <div class="card">
+      <div class="section-header rose">Office Hours Q&amp;A</div>
+      <div class="oh-banner">
+        <div class="oh-icon">🎙️</div>
+        <div class="oh-text">
+          <strong>No Office Hours coverage yet</strong> — but Dan plans to cover this problem
+          in the next session. Check back after the next live OH for notes and highlights here.
         </div>
-        <p>This problem has not been discussed in any past office hours session.</p>
-        <p style="margin-top:8px; font-size:12px; color:#999;">
-          The written solution on the left covers everything you need to work through this problem on your own.
-          If you'd like this covered in a future session, bring it up during the next OH!
-        </p>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <span>HVAC OH Prep</span>
-    <span style="color:#ccc;">|</span>
-    <a href="../oh-prep.html">← Back to Dashboard</a>
-    <span style="color:#ccc;">|</span>
-    <span>Thermodynamics — Problem 16</span>
-    <span style="color:#ccc;">|</span>
-    <span>Generated 2026-03-18</span>
-  </div>
+  </main>
+</div>
 
-  <script>
-    function toggleSolution(id) {
-      const box = document.getElementById(id);
-      const isOpen = box.classList.contains('open');
-      document.querySelectorAll('.solution-box').forEach(b => b.classList.remove('open'));
-      document.querySelectorAll('.solution-toggle').forEach(btn => {
-        const span = btn.querySelector('span');
-        if (span) span.textContent = span.textContent.replace('▼', '▶');
-      });
-      if (!isOpen) {
-        box.classList.add('open');
-        const buttons = document.querySelectorAll('.solution-toggle');
-        buttons.forEach(btn => {
-          if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + id + "'")) {
-            const span = btn.querySelector('span');
-            if (span) span.textContent = span.textContent.replace('▶', '▼');
-          }
-        });
-      }
-    }
-  </script>
 </body>
 </html>
