@@ -409,6 +409,29 @@
             const statusIcons = { green: "✓", amber: "⏳", red: "—" };
             const statusLabels = { green: "Approved", amber: "Awaiting Review", red: "Not Started" };
             
+            // Calculate counts
+            let countGreen = 0, countAmber = 0, countRed = 0;
+            for (const problem of problems) {
+                const prob_status = status[problem.key] || "red";
+                if (prob_status === "green") countGreen++;
+                else if (prob_status === "amber") countAmber++;
+                else countRed++;
+            }
+            
+            // Update summary cards
+            document.getElementById("count-green").textContent = countGreen;
+            document.getElementById("count-amber").textContent = countAmber;
+            document.getElementById("count-red").textContent = countRed;
+            
+            // Update filter button labels
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                const filterType = btn.dataset.filter;
+                if (filterType === "green") btn.innerHTML = `✓ Approved (${countGreen})`;
+                else if (filterType === "amber") btn.innerHTML = `⏳ Awaiting Review (${countAmber})`;
+                else if (filterType === "red") btn.innerHTML = `— Not Started (${countRed})`;
+                else btn.innerHTML = `All Problems (660)`;
+            });
+            
             for (const problem of problems) {
                 const prob_status = status[problem.key] || "red";
                 
