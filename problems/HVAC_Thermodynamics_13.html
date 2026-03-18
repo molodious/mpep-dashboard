@@ -3,407 +3,638 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thermodynamics · Problem 13 | HVAC OH Prep</title>
+<title>HVAC Thermodynamics – Problem 13</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-.nav-bar {
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  flex-wrap: wrap;
-}
-.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
-.nav-bar a:hover { text-decoration: underline; }
-.nav-badge {
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 11px;
-  font-weight: 700;
-}
-.layout-container {
-  display: flex;
-  gap: 0;
-  margin: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
-  min-height: calc(100vh - 130px);
-}
-.sidebar-left {
-  flex: 0 0 50%;
-  padding: 24px;
-  background: #fafafa;
-  border-right: 1px solid #e0e0e0;
-  overflow-y: auto;
-  max-height: calc(100vh - 130px);
-}
-.sidebar-right {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-  max-height: calc(100vh - 130px);
-}
-.section-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #1a1a1a;
-  border-bottom: 2px solid #0066cc;
-  padding-bottom: 8px;
-}
-.problem-meta {
-  font-size: 12px;
-  color: #888;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
-  background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
-}
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
-.choice.correct .choice-letter { color: #16a34a; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
-.oh-section-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #1a1a1a;
-  border-bottom: 2px solid #f59e0b;
-  padding-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.oh-count {
-  font-size: 12px;
-  background: #fef3c7;
-  color: #92400e;
-  border-radius: 10px;
-  padding: 1px 8px;
-  font-weight: 600;
-}
-.oh-subtitle {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 14px;
-}
-.qa-group {
-  background: #fffbf0;
-  border-left: 3px solid #f59e0b;
-  padding: 12px 14px;
-  margin-bottom: 14px;
-  border-radius: 4px;
-}
-.qa-group:nth-child(even) {
-  background: #fefefe;
-  border-left-color: #d97706;
-}
-.qa-session {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #d97706;
-  margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #444;
-}
-.footer {
-  background: white;
-  border-top: 1px solid #e0e0e0;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 12px;
-  color: #888;
-  flex-wrap: wrap;
-}
-.footer a { color: #0066cc; text-decoration: none; }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
-@media (max-width: 768px) {
-  .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #e2e8f0; }
+  nav .sep { color: #475569; }
+  nav .crumb-current { color: #f1f5f9; font-weight: 600; }
+  nav .badge {
+    margin-left: 0.75rem;
+    background: #f59e0b;
+    color: #1e293b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+  }
+
+  /* LAYOUT */
+  .page-wrapper {
+    display: flex;
+    flex: 1;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .left-panel {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .right-panel {
+    width: 360px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* CARDS */
+  .card {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-header:hover { background: #f8fafc; }
+
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card-title .icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+  .icon-blue { background: #dbeafe; color: #1d4ed8; }
+  .icon-green { background: #dcfce7; color: #15803d; }
+  .icon-purple { background: #ede9fe; color: #6d28d9; }
+  .icon-amber { background: #fef3c7; color: #b45309; }
+
+  .toggle-btn {
+    font-size: 0.8rem;
+    color: #64748b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.35rem;
+    transition: background 0.15s;
+  }
+  .toggle-btn:hover { background: #f1f5f9; }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+  .card-body.collapsed { display: none; }
+
+  /* PROBLEM STATEMENT CARD */
+  .problem-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }
+  .problem-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .choice {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid #e2e8f0;
+    font-size: 0.875rem;
+    color: #334155;
+    background: #f8fafc;
+  }
+  .choice.correct {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    color: #15803d;
+    font-weight: 700;
+  }
+  .correct-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #15803d;
+    background: #dcfce7;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+  }
+
+  /* QUICK OVERVIEW */
+  .steps ol {
+    list-style: none;
+    counter-reset: steps;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .steps ol li {
+    counter-increment: steps;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.5;
+  }
+  .steps ol li::before {
+    content: counter(steps);
+    min-width: 1.6rem;
+    height: 1.6rem;
+    background: #1e293b;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+  .steps .math {
+    font-family: 'Courier New', monospace;
+    background: #f1f5f9;
+    border-radius: 0.3rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.85rem;
+    color: #0f172a;
+  }
+
+  /* FULL SOLUTION */
+  .solution-text {
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.75;
+  }
+  .solution-text p { margin-bottom: 0.85rem; }
+  .solution-text .eq {
+    display: block;
+    font-family: 'Courier New', monospace;
+    background: #f8fafc;
+    border-left: 3px solid #cbd5e1;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 0.4rem 0.4rem 0;
+    margin: 0.5rem 0 0.85rem;
+    font-size: 0.875rem;
+    color: #0f172a;
+  }
+
+  /* VIDEO SYNTHESIS */
+  .synthesis-card {
+    border-left: 4px solid #7c3aed;
+  }
+  .synthesis-card .card-body {
+    border-left: none;
+  }
+  .insight {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .insight:last-child { margin-bottom: 0; }
+  .insight-num {
+    min-width: 1.5rem;
+    height: 1.5rem;
+    background: #ede9fe;
+    color: #6d28d9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .insight-text {
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.6;
+  }
+  .insight-text strong { color: #4c1d95; }
+
+  /* KEY TAKEAWAYS */
+  .takeaways-card {
+    border-left: 4px solid #f59e0b;
+  }
+  .takeaways ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .takeaways ul li {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  .takeaways ul li::before {
+    content: '✓';
+    color: #d97706;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* OH Q&A RIGHT PANEL */
+  .oh-panel-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    padding: 0 0.25rem 0.5rem;
+  }
+
+  .oh-session {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  .oh-session-header {
+    background: #fffbeb;
+    border-bottom: 1px solid #fde68a;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .oh-session-num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #92400e;
+  }
+  .oh-session-date {
+    font-size: 0.72rem;
+    color: #a16207;
+  }
+
+  .oh-qa-list {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .qa-card {
+    border: 1px solid #fde68a;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    font-size: 0.83rem;
+  }
+  .qa-q {
+    background: #fef9ee;
+    padding: 0.5rem 0.75rem;
+    color: #78350f;
+    font-weight: 600;
+    line-height: 1.45;
+    border-bottom: 1px solid #fde68a;
+  }
+  .qa-q::before { content: 'Q: '; color: #d97706; }
+  .qa-a {
+    background: #fff;
+    padding: 0.5rem 0.75rem;
+    color: #334155;
+    line-height: 1.45;
+  }
+  .qa-a::before { content: 'A: '; color: #64748b; font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    padding: 1rem;
+    border-top: 1px solid #e2e8f0;
+    background: #fff;
+    margin-top: auto;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      flex-direction: column;
+      padding: 1rem;
+    }
+    .right-panel {
+      width: 100%;
+    }
+    .choices {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
 
-<div class="nav-bar">
-  <a href="../oh-prep.html">← OH Prep</a>
-  <span style="font-size:14px;font-weight:600;color:#333;">HVAC › Thermodynamics › Problem 13</span>
-  <span class="nav-badge">⭐ 3 OH Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">3 OH sessions · Answer: B</span>
-</div>
+<nav>
+  <a href="#">← OH Prep</a>
+  <span class="sep">›</span>
+  <a href="#">Thermodynamics</a>
+  <span class="sep">›</span>
+  <span class="crumb-current">Problem 13</span>
+  <span class="badge">4 OH Sessions</span>
+</nav>
 
-<div class="layout-container">
+<div class="page-wrapper">
+
   <!-- LEFT PANEL -->
-  <div class="sidebar-left">
-    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 13</div>
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">
-      Steam with a quality of 90% expands isentropically from 350 psia to 120 psia. What is the change in enthalpy?
-    </div>
+  <div class="left-panel">
 
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class="choice"><span class="choice-letter">A.</span><span>40 Btu/lb</span></div>
-      <div class="choice correct"><span class="choice-letter">B.</span><span>80 Btu/lb ✓</span></div>
-      <div class="choice"><span class="choice-letter">C.</span><span>90 Btu/lb</span></div>
-      <div class="choice"><span class="choice-letter">D.</span><span>120 Btu/lb</span></div>
-    </div>
-
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
-        Show Quick Overview &amp; Full Solution ▼
-      </button>
-      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
-
-1. Identify State 1 as fully defined: P₁ = 350 psia, χ₁ = 0.90. Look up hf, hfg, sf, sfg from steam tables at 350 psia.
-
-2. Calculate h₁ and s₁ using the two-phase mixture formulas: h = hf + χ·hfg and s = sf + χ·sfg.
-
-3. Apply the isentropic condition: s₂ = s₁. This fully defines State 2 (along with P₂ = 120 psia).
-
-4. Look up hf, hfg, sf, sfg from steam tables at 120 psia. Verify State 2 is still in the two-phase (saturated) region by checking sf &lt; s₂ &lt; sf + sfg.
-
-5. Calculate quality at State 2: χ₂ = (s₂ − sf) / sfg.
-
-6. Calculate h₂ = hf + χ₂·hfg, then find Δh = h₁ − h₂.
-
-<strong>Full Solution:</strong>
-
-<strong>Step 1 — Steam Table Values at State 1 (350 psia)</strong>
-
-  Given:  P₁ = 350 psia,  χ₁ = 0.90
-
-  From saturated steam tables at 350 psia:
-    hf   = 409.8  Btu/lb
-    hfg  = 794.62 Btu/lb
-    sf   = 0.6059 Btu/(lbm·°R)
-    sfg  = 0.8914 Btu/(lbm·°R)
-
-<strong>Step 2 — Calculate h₁ and s₁</strong>
-
-  h₁ = hf + χ₁·hfg
-     = 409.8 + (0.9)(794.62)
-     = 409.8 + 715.16
-     = 1,125 Btu/lb
-
-  s₁ = sf + χ₁·sfg
-     = 0.6059 + (0.9)(0.8914)
-     = 0.6059 + 0.8023
-     = 1.408 Btu/(lbm·°R)
-
-<strong>Step 3 — Apply Isentropic Condition</strong>
-
-  Since the expansion is isentropic (reversible and adiabatic):
-    s₂ = s₁ = 1.408 Btu/(lbm·°R)
-
-  This, combined with P₂ = 120 psia, fully defines State 2.
-
-<strong>Step 4 — Steam Table Values at State 2 (120 psia)</strong>
-
-  From saturated steam tables at 120 psia:
-    hf   = 312.55 Btu/lb
-    hfg  = 878.2  Btu/lb
-    sf   = 0.4919 Btu/(lbm·°R)
-    sfg  = 1.0965 Btu/(lbm·°R)
-    sg   = sf + sfg = 0.4919 + 1.0965 = 1.5884 Btu/(lbm·°R)
-
-  Check: Is s₂ still in the saturated region?
-    sf = 0.4919 &lt; s₂ = 1.408 &lt; sg = 1.5884 ✓
-    State 2 is confirmed to be in the two-phase (wet steam) region.
-
-<strong>Step 5 — Quality at State 2</strong>
-
-  χ₂ = (s₂ − sf) / sfg
-     = (1.408 − 0.4919) / 1.0965
-     = 0.9161 / 1.0965
-     = 0.835
-
-<strong>Step 6 — Calculate h₂ and Δh</strong>
-
-  h₂ = hf + χ₂·hfg
-     = 312.55 + (0.835)(878.2)
-     = 312.55 + 733.3
-     = 1,046 Btu/lb
-
-  Δh = h₁ − h₂
-     = 1,125 − 1,046
-     = 79 Btu/lb ≈ 80 Btu/lb → <strong>Answer B</strong>
-
-<strong>Why Not the Other Answers?</strong>
-
-• Answer A (40 Btu/lb): Approximately half the correct value — likely from using the wrong sfg or misreading quality.
-• Answer C (90 Btu/lb): Close, but results from rounding errors in intermediate steam table values.
-• Answer D (120 Btu/lb): Likely from skipping the quality recalculation at State 2 and assuming χ₂ = χ₁ = 0.9 throughout.</div>
-
-      <div class="video-box">
-        <strong>📹 Video Solution Synthesis:</strong><br><br>
-        • Dan's key insight: start with a "roadmap." State 1 is fully defined (pressure + quality known), so calculate everything you need there first — specifically h₁ and s₁ using the two-phase mixture formulas.<br><br>
-        • The isentropic condition is the bridge between states: s₂ = s₁. This single fact, combined with P₂, fully defines State 2 — without it, you'd have only one property at State 2 and couldn't proceed.<br><br>
-        • Quality changes between states. χ₁ = 0.90 but χ₂ = 0.835. A common mistake is using χ₁ at State 2. You must recalculate quality using entropy at State 2.<br><br>
-        • Always verify you're still in the two-phase region at State 2: compare s₂ to sf and sg at the new pressure. Here sg at 120 psia ≈ 1.59 &gt; 1.408, so we remain in the saturated region — the steam tables (not superheated tables) are correct to use.<br><br>
-        • The core skill tested is steam table fluency: finding the right row (by pressure), reading the right columns (hf, hfg, sf, sfg), and plugging into the correct quality-based mixture formulas.
-      </div>
-
-      <div class="takeaway-box">
-        <strong>⭐ Key Takeaways:</strong><br>
-        • <strong>Two-phase mixture formulas:</strong> h = hf + χ·hfg and s = sf + χ·sfg. These are your primary tools whenever steam quality is given or needed. Memorize them — they appear constantly in thermodynamics problems.<br><br>
-        • <strong>Isentropic = s is constant.</strong> For any isentropic process, s₂ = s₁. This is the bridge between states when pressure changes. Combine it with the known pressure at State 2 to fully define State 2.<br><br>
-        • <strong>Quality changes between states.</strong> Never carry χ₁ forward to State 2 without recalculating. After finding s₂, solve χ₂ = (s₂ − sf)/sfg at the new pressure before computing h₂.<br><br>
-        • <strong>Always verify phase at State 2.</strong> Check that sf &lt; s₂ &lt; sg at P₂. If s₂ &gt; sg, the steam is superheated and you'd need the superheated steam tables — a completely different lookup path.
+    <!-- Problem Statement -->
+    <div class="card">
+      <div class="card-body">
+        <div class="problem-label">HVAC &amp; Refrigeration · Thermodynamics · Problem 13</div>
+        <div class="problem-text">Steam with a quality of 90% expands isentropically from 350 psia to 120 psia. What is the change in enthalpy?</div>
+        <div class="choices">
+          <div class="choice">A. 40 Btu/lb</div>
+          <div class="choice correct">B. 80 Btu/lb ✓</div>
+          <div class="choice">C. 90 Btu/lb</div>
+          <div class="choice">D. 120 Btu/lb</div>
+        </div>
+        <span class="correct-badge">Correct Answer: B</span>
       </div>
     </div>
-  </div>
 
-  <!-- RIGHT PANEL -->
-  <div class="sidebar-right">
-    <div class="oh-section-title">
-      Office Hours Q&amp;A
-      <span class="oh-count">3 questions from 3 sessions</span>
+    <!-- Quick Overview -->
+    <div class="card">
+      <div class="card-header" onclick="toggleSection('quick')">
+        <div class="card-title">
+          <span class="icon icon-blue">⚡</span>
+          Quick Overview
+        </div>
+        <button class="toggle-btn" id="quick-btn">Hide ▲</button>
+      </div>
+      <div class="card-body steps" id="quick-body">
+        <ol>
+          <li>
+            Look up steam table values at <span class="math">P1 = 350 psia</span>: gather <span class="math">hf</span>, <span class="math">hfg</span>, <span class="math">sf</span>, and <span class="math">sfg</span>.
+          </li>
+          <li>
+            Calculate enthalpy at State 1: <span class="math">h1 = hf + χ·hfg = 409.8 + (0.9)(794.62) = 1125 Btu/lb</span>
+          </li>
+          <li>
+            Calculate entropy at State 1: <span class="math">s1 = sf + χ·sfg = 0.6059 + (0.9)(0.8914) = 1.408 Btu/(lbm·°F)</span>
+          </li>
+          <li>
+            Apply isentropic condition: <span class="math">s2 = s1 = 1.408 Btu/(lbm·°F)</span>
+          </li>
+          <li>
+            Look up steam table values at <span class="math">P2 = 120 psia</span>; find quality at State 2: <span class="math">χ2 = (1.408 − 0.4919) / 1.0965 = 0.835</span>
+          </li>
+          <li>
+            Calculate enthalpy at State 2: <span class="math">h2 = 312.55 + (0.835)(878.2) = 1046 Btu/lb</span>
+          </li>
+          <li>
+            Find change in enthalpy: <span class="math">Δh = h1 − h2 = 1125 − 1046 = 79 Btu/lb → Answer B</span>
+          </li>
+        </ol>
+      </div>
     </div>
-    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem or closely related thermodynamics concepts. Sorted newest first.</p>
 
-    <div class="qa-group">
-      <div class="qa-session">OH 115 · March 2, 2026 — Newest</div>
-      <div class="qa-question"><strong>Q:</strong> When does it make sense to use hfg from the steam tables vs. using mCpΔT for heat calculations involving steam?</div>
-      <div class="qa-answer"><strong>A:</strong> Use hfg (the latent heat of vaporization) whenever a phase change is involved — mCpΔT only works within a single phase (sensible heating or cooling) and completely misses the energy of phase transition. Across phase boundaries you must use enthalpy: hfg in the steam tables IS the latent heat of vaporization, and a single CpΔT calculation cannot span from subcooled water to steam because Cp is different in each phase. <em>(OH 115)</em></div>
+    <!-- Full Solution -->
+    <div class="card">
+      <div class="card-header" onclick="toggleSection('full')">
+        <div class="card-title">
+          <span class="icon icon-green">📄</span>
+          Full Solution
+        </div>
+        <button class="toggle-btn" id="full-btn">Show ▼</button>
+      </div>
+      <div class="card-body solution-text collapsed" id="full-body">
+        <p>Look up the Properties of Saturated Water and Steam in the Reference Handbook organized by pressure and find 350 psia. Call this State 1. From the table, h<sub>f</sub> = 409.8 Btu/lb and h<sub>fg</sub> = 794.62 Btu/lb.</p>
+        <p>Calculate the enthalpy at State 1:</p>
+        <span class="eq">h1 = hf + χ·hfg = 409.8 + (0.9)(794.62) = 1125 Btu/lb</span>
+        <p>Also gather entropy values from the same line in the table:<br>s<sub>f</sub> = 0.6059 Btu/(lbm·°F) and s<sub>fg</sub> = 0.8914 Btu/(lbm·°F)</p>
+        <p>Calculate the entropy at State 1:</p>
+        <span class="eq">s1 = sf + χ·sfg = 0.6059 + (0.9)(0.8914) = 1.408 Btu/(lbm·°F)</span>
+        <p>Since the expansion from State 1 to State 2 is isentropic:</p>
+        <span class="eq">s2 = s1 = 1.408 Btu/(lbm·°F)</span>
+        <p>Gather entropy values from the table for State 2 at P2 = 120 psia:<br>s<sub>f</sub> = 0.4919 Btu/(lbm·°F) and s<sub>fg</sub> = 1.0965 Btu/(lbm·°F)</p>
+        <p>Find the quality at State 2:</p>
+        <span class="eq">χ = (s2 − sf) / sfg = (1.408 − 0.4919) / 1.0965 = 0.835</span>
+        <p>Gather enthalpy values for State 2: h<sub>f</sub> = 312.55 Btu/lb and h<sub>fg</sub> = 878.2 Btu/lb</p>
+        <p>Calculate the enthalpy at State 2:</p>
+        <span class="eq">h2 = hf + χ·hfg = 312.55 + (0.835)(878.2) = 1046 Btu/lb</span>
+        <p>Finally, calculate the change in enthalpy:</p>
+        <span class="eq">Δh = h1 − h2 = 1125 − 1046 = 79 Btu/lb</span>
+        <p><strong>Answer: B</strong></p>
+      </div>
     </div>
 
-    <div class="qa-group">
-      <div class="qa-session">OH 82 · June 10, 2024</div>
-      <div class="qa-question"><strong>Q:</strong> Is it better to memorize one solution method for each problem type, or learn multiple approaches?</div>
-      <div class="qa-answer"><strong>A:</strong> Dan strongly recommends learning multiple solution approaches during study time so you can adapt when one method isn't working on exam day. Use the fastest shortcut on the actual exam — but only if you understand why it works. Practicing formula manipulation builds the flexibility to recover if you forget a shortcut under pressure. <em>(OH 82)</em></div>
+    <!-- Video Synthesis -->
+    <div class="card synthesis-card">
+      <div class="card-header" style="cursor:default;">
+        <div class="card-title">
+          <span class="icon icon-purple">▶</span>
+          Video Synthesis
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="insight">
+          <div class="insight-num">1</div>
+          <div class="insight-text">
+            <strong>Start with a roadmap, not a formula.</strong> Dan's first move is always to assess what's known at each state before touching any equations. Here, State 1 is fully defined (pressure + quality), but State 2 only has pressure — so the isentropic condition becomes the bridge that completes State 2. Knowing <em>why</em> you're solving for entropy prevents you from skipping steps under exam pressure.
+          </div>
+        </div>
+        <div class="insight">
+          <div class="insight-num">2</div>
+          <div class="insight-text">
+            <strong>Verify you're still in the saturated region.</strong> Before applying the quality formula at State 2, Dan explicitly confirms that s<sub>f</sub> + s<sub>fg</sub> ≈ 1.6 &gt; s2 = 1.408 — meaning you haven't crossed into superheated territory. This is a quick sanity check that costs 5 seconds and can save you from applying the wrong equations entirely.
+          </div>
+        </div>
+        <div class="insight">
+          <div class="insight-num">3</div>
+          <div class="insight-text">
+            <strong>Steam tables are a precision skill, not a lookup shortcut.</strong> Dan frames this problem as a masterclass in using the Reference Handbook tables correctly — grabbing the right four values (h<sub>f</sub>, h<sub>fg</sub>, s<sub>f</sub>, s<sub>fg</sub>) from the right rows, and applying the quality-weighted mixture formula at both states. The arithmetic is simple; the discipline of not pulling the wrong column is what separates passing from failing.
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="qa-group">
-      <div class="qa-session">OH 32 · March 7, 2022 — Oldest</div>
-      <div class="qa-question"><strong>Q:</strong> How do I convert units like ft·lbf/(lbm·°R) to Btu/lb when working through thermodynamics problems?</div>
-      <div class="qa-answer"><strong>A:</strong> Use the conversion factor 1 Btu = 778 ft·lbf, which is in the reference handbook's measurement relationships section. To convert ft·lbf/lbm to Btu/lb, divide by 778 — this comes up constantly in thermo problems involving the gas constant R and any work or energy calculation done in English units. <em>(OH 32)</em></div>
+    <!-- Key Takeaways -->
+    <div class="card takeaways-card">
+      <div class="card-header" style="cursor:default;">
+        <div class="card-title">
+          <span class="icon icon-amber">🎯</span>
+          Key Takeaways
+        </div>
+      </div>
+      <div class="card-body takeaways">
+        <ul>
+          <li>For any two-phase steam problem, two independent properties fully define the state — here, pressure + quality at State 1 and pressure + entropy at State 2 (via isentropic).</li>
+          <li>Isentropic means s2 = s1 — always write this explicitly so you don't lose track of what connects the two states.</li>
+          <li>Use the mixture formula for both enthalpy and entropy: property = x<sub>f</sub> + χ·x<sub>fg</sub>. Verify the quality you calculate is between 0 and 1.</li>
+          <li>Before using quality-weighted enthalpy at State 2, confirm s<sub>f</sub> &lt; s2 &lt; s<sub>g</sub> to ensure you're still in the saturated (two-phase) region.</li>
+          <li>The answer is Δh = h1 − h2 ≈ 79 Btu/lb, which rounds to 80 Btu/lb (Answer B). Watch for rounding — the steam tables give approximate values.</li>
+        </ul>
+      </div>
     </div>
 
-  </div>
-</div>
+  </div><!-- /left-panel -->
 
-<div class="footer">
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 13 · 3 OH sessions · Answer: B · Generated 2026-03-18</span>
-  <a href="../oh-prep.html">← OH Prep Dashboard</a>
-</div>
+  <!-- RIGHT PANEL: OH Q&A -->
+  <div class="right-panel">
+    <div class="oh-panel-title">Office Hours Q&amp;A</div>
+
+    <!-- OH 115 -->
+    <div class="oh-session">
+      <div class="oh-session-header">
+        <span class="oh-session-num">OH 115</span>
+        <span class="oh-session-date">March 2, 2026</span>
+      </div>
+      <div class="oh-qa-list">
+        <div class="qa-card">
+          <div class="qa-q">Why can't we use Δh = Cp·ΔT to find enthalpy change between superheated steam and subcooled water?</div>
+          <div class="qa-a">Cp·ΔT only works within a single phase (sensible heating). When crossing phase boundaries — like melting or boiling — you must use enthalpy values directly because latent heat doesn't change temperature.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">When does m·Δh become more useful than Cp·ΔT?</div>
+          <div class="qa-a">m·Δh is more powerful because it works across phase boundaries, while Cp·ΔT is limited to single-phase regions. The Cp value also differs for each phase (ice, water, steam), so using enthalpy directly avoids that complication.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OH 88 -->
+    <div class="oh-session">
+      <div class="oh-session-header">
+        <span class="oh-session-num">OH 88</span>
+        <span class="oh-session-date">September 17, 2024</span>
+      </div>
+      <div class="oh-qa-list">
+        <div class="qa-card">
+          <div class="qa-q">Why isn't atmospheric pressure included in the stagnation pressure calculation for the submarine problem?</div>
+          <div class="qa-a">Atmosphere pushes down equally on both sides of the system, so it cancels out. Stagnation pressure is based on gauge static pressure only — you only add static pressure (gauge) and velocity pressure.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">What's the best way to remember how stagnation pressure works?</div>
+          <div class="qa-a">Dan recommends understanding the pitot tube concept — stagnation pressure equals static pressure plus velocity pressure — rather than just memorizing the rule. The physical picture is more reliable under exam conditions.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OH 82 -->
+    <div class="oh-session">
+      <div class="oh-session-header">
+        <span class="oh-session-num">OH 82</span>
+        <span class="oh-session-date">June 10, 2024</span>
+      </div>
+      <div class="oh-qa-list">
+        <div class="qa-card">
+          <div class="qa-q">Is it okay to use a faster shortcut formula (water horsepower) instead of the longer manipulation approach?</div>
+          <div class="qa-a">Yes — Dan confirms the faster method works. However, he encourages practicing multiple approaches for flexibility, because the exam may present the problem in a way that makes the shortcut harder to apply.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">Why bother learning slower methods when a faster one gives the same answer?</div>
+          <div class="qa-a">Dan's baseball analogy: "Can you hit a fastball? Great. Can you hit a curveball, slider, changeup?" More solution paths means more confidence and optionality — deeper understanding comes from weaving parallel approaches.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OH 32 -->
+    <div class="oh-session">
+      <div class="oh-session-header">
+        <span class="oh-session-num">OH 32</span>
+        <span class="oh-session-date">March 7, 2022</span>
+      </div>
+      <div class="oh-qa-list">
+        <div class="qa-card">
+          <div class="qa-q">How do you convert units from ft·lbf/(lbm·°R) to Btu/lb in a compressor work problem?</div>
+          <div class="qa-a">After computing R·ΔT/(1−k), the °R units cancel and you're left with ft·lbf/lbm. Convert to Btu using 1 Btu = 778 ft·lbf, which is found in the Reference Handbook measurement relationships.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">Does ΔT in °R work the same as °F for unit conversions in these formulas?</div>
+          <div class="qa-a">Yes — for temperature differences (ΔT), Rankine and Fahrenheit are the same size, so the numerical value is identical. The distinction only matters for absolute temperature levels, not differences.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-panel -->
+
+</div><!-- /page-wrapper -->
+
+<footer>
+  Generated 2026-03-18 &nbsp;·&nbsp; HVAC &amp; Refrigeration PE Exam Prep &nbsp;·&nbsp; Problem ID: HVAC_Thermodynamics_13
+</footer>
 
 <script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const btn = document.getElementById('sol-toggle');
-  const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide Quick Overview & Full Solution ▲' : 'Show Quick Overview & Full Solution ▼';
-}
+  function toggleSection(id) {
+    var body = document.getElementById(id + '-body');
+    var btn  = document.getElementById(id + '-btn');
+    if (!body) return;
+    var isCollapsed = body.classList.toggle('collapsed');
+    btn.textContent = isCollapsed ? 'Show ▼' : 'Hide ▲';
+  }
+
+  function toggleSolution() {
+    toggleSection('full');
+  }
+
+  // Quick Overview starts expanded; Full Solution starts collapsed (already set via class in HTML).
 </script>
+
 </body>
 </html>
