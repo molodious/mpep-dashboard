@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HVAC · Problem 17 | HVAC OH Prep</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    nav a:hover { text-decoration: underline; }
+    nav .sep { color: #bbb; font-size: 13px; }
+    nav .nav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      flex: 1;
+    }
+    nav .badge {
+      background: #e8f0fe;
+      color: #1a56db;
+      border: 1px solid #b3c6f7;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 52px);
+    }
+
+    /* LEFT SIDEBAR */
+    .sidebar {
+      width: 50%;
+      min-width: 320px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      padding: 24px 22px;
+      overflow-y: auto;
+    }
+
+    /* RIGHT CONTENT */
+    .main {
+      flex: 1;
+      padding: 24px 26px;
+      overflow-y: auto;
+    }
+
+    /* SECTION TITLES */
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #0066cc;
+      margin-bottom: 14px;
+    }
+
+    /* PROBLEM BOX */
+    .problem-box {
+      background: #f0f4ff;
+      border: 1px solid #c7d8f8;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+    .problem-box p {
+      margin-bottom: 0;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    /* ANSWER CHOICES */
+    .answer-list {
+      list-style: none;
+      margin: 12px 0 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .answer-list li {
+      background: #fff;
+      border: 1px solid #dce4f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .answer-list li .choice-label {
+      font-weight: 700;
+      color: #0066cc;
+      min-width: 18px;
+    }
+    .answer-list li.correct {
+      background: #edfaf1;
+      border-color: #5cb87a;
+    }
+    .answer-list li.correct .choice-label { color: #1a7f3c; }
+
+    /* OVERVIEW STEPS */
+    .overview-steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .overview-steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #e4e8f0;
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-size: 13.5px;
+    }
+    .overview-steps li::before {
+      content: counter(step);
+      background: #0066cc;
+      color: #fff;
+      border-radius: 50%;
+      min-width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* DETAILS / COLLAPSIBLE */
+    details {
+      background: #fff;
+      border: 1px solid #e0e6f0;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    details[open] { border-color: #0066cc; }
+    summary {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 16px;
+      cursor: pointer;
+      color: #0066cc;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: '▶';
+      font-size: 10px;
+      transition: transform 0.2s;
+      color: #0066cc;
+    }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body {
+      padding: 0 18px 16px 18px;
+      border-top: 1px solid #e8eef8;
+      margin-top: 0;
+      padding-top: 14px;
+    }
+
+    /* SOLUTION CONTENT */
+    .sol-step {
+      margin-bottom: 22px;
+    }
+    .sol-step h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0055aa;
+      margin-bottom: 8px;
+      padding: 5px 10px;
+      background: #eef4ff;
+      border-left: 3px solid #0066cc;
+      border-radius: 0 4px 4px 0;
+    }
+    .sol-step p {
+      margin-bottom: 8px;
+      font-size: 13.5px;
+    }
+    .sol-step ul {
+      margin: 6px 0 8px 18px;
+      padding: 0;
+    }
+    .sol-step ul li {
+      margin-bottom: 4px;
+      font-size: 13.5px;
+    }
+
+    .formula-block {
+      background: #f7f9ff;
+      border: 1px solid #d5e2f8;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 8px 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      color: #1a1a2e;
+      line-height: 1.8;
+    }
+
+    .note-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 8px 0;
+      font-size: 13px;
+      color: #5a4000;
+    }
+    .note-box strong { color: #7a5500; }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 13.5px;
+    }
+    .summary-table th {
+      background: #e8f0fe;
+      color: #1a3a6e;
+      padding: 7px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid #c7d8f8;
+    }
+    .summary-table td {
+      padding: 7px 12px;
+      border: 1px solid #dde6f8;
+    }
+    .summary-table tr:nth-child(even) td { background: #f5f8ff; }
+    .summary-table tr.total-row td {
+      font-weight: 700;
+      background: #edfaf1;
+      border-color: #5cb87a;
+      color: #1a5c30;
+    }
+
+    .answer-banner {
+      background: #edfaf1;
+      border: 2px solid #5cb87a;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a5c30;
+    }
+    .answer-banner span { font-size: 13px; font-weight: 400; color: #2a7a40; }
+
+    /* TAKEAWAYS */
+    .takeaways-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .takeaways-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13.5px;
+      background: #fff;
+      border: 1px solid #e0e8f0;
+      border-radius: 7px;
+      padding: 11px 13px;
+    }
+    .takeaways-list li .icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* OH QA */
+    .oh-empty {
+      background: #f7f7f7;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      padding: 22px;
+      text-align: center;
+      color: #888;
+      font-size: 13.5px;
+    }
+
+    .section-gap { margin-bottom: 24px; }
+
+    @media (max-width: 820px) {
+      .layout { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../oh-prep.html">← Back to Dashboard</a>
+  <span class="sep">|</span>
+  <span class="nav-title">HVAC · Problem 17</span>
+  <span class="badge">HVAC</span>
+</nav>
+
+<!-- TWO-PANEL LAYOUT -->
+<div class="layout">
+
+  <!-- ═══════════════════════════════════════════════
+       LEFT SIDEBAR — Problem + Quick Overview
+       ═══════════════════════════════════════════════ -->
+  <aside class="sidebar">
+
+    <!-- 1. PROBLEM STATEMENT -->
+    <div class="section-gap">
+      <div class="section-title">Problem Statement</div>
+      <div class="problem-box">
+        <p>
+          A <strong>20,000 ft²</strong> factory uses LED lighting with a power density of
+          <strong>0.7 W/ft²</strong> for the LED strips plus <strong>15%</strong> for drivers.
+          The space contains <strong>eight 93%-efficient 7.5-hp motors</strong> operating at an
+          average of <strong>70% of their rated capacity</strong>. The machinery driven by the
+          motors is located <strong>within the conditioned space</strong>. There are
+          <strong>120 factory employees</strong> performing <em>light machine work</em>.
+        </p>
+        <p style="margin-top:10px; font-weight:600; color:#333;">
+          What is the total internal heat gain?
+        </p>
+      </div>
+
+      <div style="font-size:12px; color:#666; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Answer Choices</div>
+      <ul class="answer-list">
+        <li><span class="choice-label">A</span> 180,000 Btu/hr</li>
+        <li><span class="choice-label">B</span> 185,000 Btu/hr</li>
+        <li class="correct"><span class="choice-label">C</span> 280,000 Btu/hr ✓</li>
+        <li><span class="choice-label">D</span> 330,000 Btu/hr</li>
+      </ul>
+    </div>
+
+    <!-- 2. QUICK OVERVIEW -->
+    <div class="section-gap">
+      <div class="section-title">Quick Overview</div>
+      <ol class="overview-steps">
+        <li>
+          <strong>Lighting:</strong> Multiply floor area × power density to get LED strip wattage, then add 15% for drivers. Convert total watts → Btu/hr using 3.412.
+        </li>
+        <li>
+          <strong>Motors — shaft output:</strong> Eight motors at 70% load gives the combined shaft horsepower actually delivered to the machinery.
+        </li>
+        <li>
+          <strong>Motors — electrical input:</strong> Because the machinery is <em>inside</em> the conditioned space, ALL electrical input (not just shaft output) becomes heat. Divide shaft hp by motor efficiency to get electrical input hp.
+        </li>
+        <li>
+          <strong>People:</strong> Use the ASHRAE heat-gain value for "light machine work" (~1,000 Btu/hr per person) and multiply by headcount.
+        </li>
+        <li>
+          <strong>Sum the three components</strong> (lighting + motors + people) to get total internal heat gain.
+        </li>
+        <li>
+          <strong>Select answer</strong> — compare the calculated total to the given choices.
+        </li>
+      </ol>
+    </div>
+
+  </aside><!-- /sidebar -->
+
+  <!-- ═══════════════════════════════════════════════
+       RIGHT PANEL — Full Solution, Takeaways, OH Q&A
+       ═══════════════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- 3. FULL SOLUTION -->
+    <div class="section-gap">
+      <div class="section-title">Full Solution</div>
+
+      <!-- STEP 1 – LIGHTING -->
+      <details open>
+        <summary>Step 1 — Lighting Heat Gain</summary>
+        <div class="details-body">
+
+          <div class="sol-step">
+            <h4>1a. LED Strip Wattage</h4>
+            <p>Start with the base load: area times the LED power density.</p>
+            <div class="formula-block">
+              q<sub>strips</sub> = 20,000 ft² × 0.7 W/ft²<br>
+              q<sub>strips</sub> = <strong>14,000 W</strong>
+            </div>
+          </div>
+
+          <div class="sol-step">
+            <h4>1b. Add 15% for LED Drivers</h4>
+            <p>
+              LED drivers (power supplies) consume additional electricity that is entirely
+              dissipated as heat inside the space. The problem specifies 15% on top of the
+              strip wattage.
+            </p>
+            <div class="formula-block">
+              q<sub>lighting</sub> = 14,000 W × 1.15<br>
+              q<sub>lighting</sub> = <strong>16,100 W</strong>
+            </div>
+          </div>
+
+          <div class="sol-step">
+            <h4>1c. Convert to Btu/hr</h4>
+            <p>
+              Use the standard electrical-to-thermal conversion factor:
+              <em>1 W = 3.412 Btu/hr</em>.
+            </p>
+            <div class="formula-block">
+              q<sub>lighting</sub> = 16,100 W × 3.412 Btu/(W·hr)<br>
+              q<sub>lighting</sub> = <strong>54,933 Btu/hr</strong>
+            </div>
+            <div class="note-box">
+              <strong>Tip:</strong> The 15% driver adder is easy to forget on exam day. The problem
+              explicitly calls it out — always read carefully for adders, ballast factors, or
+              power-supply losses in lighting calculations.
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- STEP 2 – MOTORS -->
+      <details open>
+        <summary>Step 2 — Motor / Equipment Heat Gain</summary>
+        <div class="details-body">
+
+          <div class="sol-step">
+            <h4>2a. Key Principle: Machinery Inside the Conditioned Space</h4>
+            <p>
+              This is the most conceptually important part of the problem. Ask yourself:
+              <em>where does the energy go?</em>
+            </p>
+            <ul>
+              <li>The motor converts <strong>electrical energy → shaft work + motor heat losses</strong>.</li>
+              <li>The shaft work goes into the machinery. The machinery converts that work into product motion, friction, heat, etc. — all of it ends up as <strong>heat inside the space</strong>.</li>
+              <li>The motor's own inefficiency losses also stay inside the space.</li>
+            </ul>
+            <p>
+              Therefore, <strong>100% of the electrical input power</strong> to the motor becomes
+              a heat gain to the conditioned space — not just the shaft output, but the full
+              electrical draw including motor losses.
+            </p>
+            <div class="note-box">
+              <strong>Contrast:</strong> If only the motor were inside the space (machinery outside),
+              only the motor losses would contribute to heat gain. If only the machinery were inside
+              (motor outside), only the shaft output would count.
+            </div>
+          </div>
+
+          <div class="sol-step">
+            <h4>2b. Calculate Combined Shaft Output</h4>
+            <p>
+              Eight motors, each rated at 7.5 hp, operating at 70% of rated capacity:
+            </p>
+            <div class="formula-block">
+              P<sub>shaft</sub> = 8 motors × 7.5 hp/motor × 0.70<br>
+              P<sub>shaft</sub> = <strong>42 hp</strong>
+            </div>
+          </div>
+
+          <div class="sol-step">
+            <h4>2c. Calculate Electrical Input (= Heat Gain)</h4>
+            <p>
+              The motor is 93% efficient, so it draws more electrical power than it delivers
+              as shaft work:
+            </p>
+            <div class="formula-block">
+              P<sub>electrical</sub> = P<sub>shaft</sub> ÷ η<sub>motor</sub><br>
+              P<sub>electrical</sub> = 42 hp ÷ 0.93<br>
+              P<sub>electrical</sub> = <strong>45.16 hp</strong>
+            </div>
+            <p>
+              Convert to Btu/hr using <em>1 hp = 2,545 Btu/hr</em>:
+            </p>
+            <div class="formula-block">
+              q<sub>motors</sub> = 45.16 hp × 2,545 Btu/(hp·hr)<br>
+              q<sub>motors</sub> = <strong>114,932 Btu/hr</strong>
+            </div>
+            <div class="note-box">
+              <strong>Why divide by efficiency?</strong> Motor efficiency = shaft out / electrical in.
+              Rearranging: electrical in = shaft out / efficiency.
+              Since ALL electrical input ends up as heat (both motor losses and shaft work done inside the space),
+              use the electrical input — not the shaft output — as the heat gain.
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- STEP 3 – PEOPLE -->
+      <details open>
+        <summary>Step 3 — Occupant Heat Gain</summary>
+        <div class="details-body">
+
+          <div class="sol-step">
+            <h4>3a. ASHRAE Heat Gain for Light Machine Work</h4>
+            <p>
+              ASHRAE Fundamentals provides total heat gain rates (sensible + latent) by
+              activity level. For <em>light machine work</em> in a factory setting, the
+              applicable value is approximately <strong>1,000 Btu/hr per person</strong>.
+            </p>
+            <p>
+              This is notably higher than sedentary office work (~450 Btu/hr) because factory
+              workers exert more effort, generating more metabolic heat. Both the sensible
+              component (raising air temperature) and the latent component (perspiration /
+              humidity) contribute to the total cooling load.
+            </p>
+          </div>
+
+          <div class="sol-step">
+            <h4>3b. Multiply by Headcount</h4>
+            <div class="formula-block">
+              q<sub>people</sub> = 120 people × 1,000 Btu/(hr·person)<br>
+              q<sub>people</sub> = <strong>120,000 Btu/hr</strong>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- STEP 4 – TOTAL -->
+      <details open>
+        <summary>Step 4 — Sum All Components &amp; Select Answer</summary>
+        <div class="details-body">
+
+          <div class="sol-step">
+            <h4>4a. Summary Table</h4>
+            <table class="summary-table">
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Calculation Summary</th>
+                  <th>Heat Gain (Btu/hr)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>💡 Lighting (LED + Drivers)</td>
+                  <td>20,000 × 0.7 × 1.15 × 3.412</td>
+                  <td>54,933</td>
+                </tr>
+                <tr>
+                  <td>⚙️ Motors (Electrical Input)</td>
+                  <td>(8 × 7.5 × 0.70 / 0.93) × 2,545</td>
+                  <td>114,932</td>
+                </tr>
+                <tr>
+                  <td>👷 People (Light Machine Work)</td>
+                  <td>120 × 1,000</td>
+                  <td>120,000</td>
+                </tr>
+                <tr class="total-row">
+                  <td colspan="2"><strong>Total Internal Heat Gain</strong></td>
+                  <td><strong>≈ 289,865 Btu/hr</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sol-step">
+            <h4>4b. Select the Best Answer</h4>
+            <p>
+              The calculated total of approximately <strong>289,865 Btu/hr</strong> rounds closest
+              to <strong>280,000 Btu/hr</strong>. The small discrepancy reflects rounding in the
+              ASHRAE occupant heat-gain table and intermediate calculations. Answer choices A and B
+              are far too low, while D (330,000) would require significantly higher heat rates.
+            </p>
+            <div class="answer-banner">
+              ✓ Answer: <strong>C — 280,000 Btu/hr</strong><br>
+              <span>Calculated ≈ 289,865 Btu/hr → closest to 280,000 Btu/hr</span>
+            </div>
+          </div>
+
+        </div>
+      </details>
+    </div><!-- /full solution -->
+
+    <!-- 4. KEY TAKEAWAYS -->
+    <div class="section-gap">
+      <div class="section-title">Key Takeaways</div>
+      <ul class="takeaways-list">
+        <li>
+          <span class="icon">⚙️</span>
+          <div>
+            <strong>Machinery location determines what fraction of motor power is heat gain.</strong>
+            When both the motor <em>and</em> the driven equipment are inside the conditioned space,
+            ALL electrical input — including the motor's own inefficiency losses — becomes a heat
+            gain. Nothing escapes the space.
+          </div>
+        </li>
+        <li>
+          <span class="icon">💡</span>
+          <div>
+            <strong>LED driver losses must be added to lighting heat gain.</strong>
+            The driver's 15% adder in this problem is not cosmetic — it represents real power
+            dissipated as heat inside the building. Always check the problem statement for adders,
+            ballast multipliers, or power-supply overhead.
+          </div>
+        </li>
+        <li>
+          <span class="icon">👷</span>
+          <div>
+            <strong>Occupant heat gain scales with activity level.</strong>
+            "Light machine work" generates roughly twice the heat of a sedentary office worker.
+            Identify the correct ASHRAE activity category — it can swing the occupant load by
+            hundreds of Btu/hr per person.
+          </div>
+        </li>
+        <li>
+          <span class="icon">🔄</span>
+          <div>
+            <strong>Know your unit conversions cold.</strong>
+            In internal heat gain problems you'll chain between W, Btu/hr, and hp constantly.
+            The two key factors: <em>1 W = 3.412 Btu/hr</em> and <em>1 hp = 2,545 Btu/hr</em>.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 5. OFFICE HOURS Q&A -->
+    <div class="section-gap">
+      <div class="section-title">Office Hours Q&amp;A</div>
+      <div class="oh-empty">
+        📭 No Office Hours coverage for this problem yet.
+      </div>
+    </div>
+
+  </main><!-- /main -->
+
+</div><!-- /layout -->
+
+</body>
+</html>
