@@ -3,509 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thermodynamics · Problem 18 | HVAC OH Prep</title>
+<title>Thermodynamics Problem 18 — HVAC &amp; Refrigeration | PE Exam Prep</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-.nav-bar {
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  flex-wrap: wrap;
-}
-.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
-.nav-bar a:hover { text-decoration: underline; }
-.nav-badge {
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 11px;
-  font-weight: 700;
-}
-.layout-container {
-  display: flex;
-  gap: 0;
-  margin: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
-  min-height: calc(100vh - 130px);
-}
-.sidebar-left {
-  flex: 0 0 50%;
-  padding: 24px;
-  background: #fafafa;
-  border-right: 1px solid #e0e0e0;
-  overflow-y: auto;
-  max-height: calc(100vh - 130px);
-}
-.sidebar-right {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-  max-height: calc(100vh - 130px);
-}
-.section-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #1a1a1a;
-  border-bottom: 2px solid #0066cc;
-  padding-bottom: 8px;
-}
-.problem-meta {
-  font-size: 12px;
-  color: #888;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
-  background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
-}
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
-.choice.correct .choice-letter { color: #16a34a; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.solution-box.open { display: block; }
-.video-box {
-  background: #f0f4ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  border-left: 3px solid #7c3aed;
-}
-.takeaway-box {
-  background: #fffbf0;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 10px;
-  border-left: 3px solid #f59e0b;
-}
-.oh-section-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #1a1a1a;
-  border-bottom: 2px solid #f59e0b;
-  padding-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.oh-count {
-  font-size: 12px;
-  background: #fef3c7;
-  color: #92400e;
-  border-radius: 10px;
-  padding: 1px 8px;
-  font-weight: 600;
-}
-.oh-subtitle {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 14px;
-}
-.qa-group {
-  background: #fffbf0;
-  border-left: 3px solid #f59e0b;
-  padding: 12px 14px;
-  margin-bottom: 14px;
-  border-radius: 4px;
-}
-.qa-session {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #d97706;
-  margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-.qa-question {
-  font-weight: 500;
-  color: #333;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-.qa-answer {
-  margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #444;
-}
-.oh-notice {
-  background: #fef3c7;
-  border-left: 3px solid #f59e0b;
-  border-radius: 4px;
-  padding: 14px 16px;
-  font-size: 13px;
-  color: #92400e;
-  line-height: 1.6;
-}
-.formula-line {
-  display: block;
-  font-family: 'Courier New', Courier, monospace;
-  background: #f4f4f8;
-  padding: 4px 8px;
-  border-radius: 3px;
-  margin: 6px 0;
-  font-size: 12.5px;
-  color: #1a1a2e;
-}
-.footer {
-  background: white;
-  border-top: 1px solid #e0e0e0;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 12px;
-  color: #888;
-  flex-wrap: wrap;
-}
-.footer a { color: #0066cc; text-decoration: none; }
-.nav-arrows {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
-  font-size: 13px;
-}
-.nav-arrows a {
-  color: #0066cc;
-  text-decoration: none;
-  padding: 6px 12px;
-  border: 1px solid #dde;
-  border-radius: 4px;
-  background: white;
-}
-.nav-arrows a:hover { background: #f0f4ff; border-color: #0066cc; }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
-@media (max-width: 768px) {
-  .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f6f9; color: #23272f; line-height: 1.6; font-size: 15px;
+  }
+  /* Nav */
+  .navbar {
+    background: #1a2332; color: #fff; padding: 14px 28px; display: flex; align-items: center;
+    font-size: 14px; position: sticky; top: 0; z-index: 100;
+  }
+  .navbar a { color: #7eb8f7; text-decoration: none; font-weight: 500; }
+  .navbar a:hover { text-decoration: underline; }
+  /* Layout */
+  .container { display: flex; gap: 28px; max-width: 1360px; margin: 28px auto; padding: 0 20px; }
+  .left-panel { flex: 0 0 46%; min-width: 0; }
+  .right-panel { flex: 1; min-width: 0; }
+  /* Cards */
+  .card {
+    background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    padding: 26px 28px; margin-bottom: 22px;
+  }
+  /* Meta */
+  .meta { font-size: 13px; color: #6b7280; margin-bottom: 14px; letter-spacing: .3px; }
+  .meta span { font-weight: 600; color: #3b82f6; }
+  /* Problem box */
+  .problem-box {
+    background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 6px;
+    padding: 18px 20px; margin-bottom: 20px; font-size: 15px;
+  }
+  /* Choices */
+  .choices { list-style: none; margin-bottom: 20px; }
+  .choices li {
+    padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 6px;
+    margin-bottom: 8px; font-size: 15px; transition: background .15s;
+  }
+  .choices li:hover { background: #f9fafb; }
+  .choices li .label { font-weight: 700; margin-right: 8px; color: #374151; }
+  /* Answer reveal */
+  .answer-reveal {
+    background: #ecfdf5; border-left: 4px solid #10b981; border-radius: 6px;
+    padding: 16px 20px; font-size: 15px;
+  }
+  .answer-reveal strong { color: #059669; }
+  /* Section headers */
+  .section-title {
+    font-size: 17px; font-weight: 700; color: #1e293b;
+    border-bottom: 3px solid #3b82f6; padding-bottom: 6px; margin-bottom: 16px;
+  }
+  /* Steps */
+  .step { margin-bottom: 16px; }
+  .step-label {
+    font-weight: 700; color: #3b82f6; font-size: 13px; text-transform: uppercase;
+    letter-spacing: .4px; margin-bottom: 2px;
+  }
+  .equation {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;
+    padding: 10px 14px; font-family: "Courier New", Courier, monospace;
+    font-size: 14px; margin: 8px 0; overflow-x: auto;
+  }
+  /* Bullets */
+  ul.bullets { padding-left: 20px; margin-bottom: 4px; }
+  ul.bullets li { margin-bottom: 6px; }
+  /* Q&A blocks */
+  .qa-block {
+    border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px 20px;
+    margin-bottom: 16px; background: #fafbfc;
+  }
+  .qa-block .question { font-weight: 700; color: #1e40af; margin-bottom: 8px; }
+  .qa-block .answer { color: #374151; }
+  .qa-source { font-size: 12px; color: #9ca3af; margin-top: 8px; font-style: italic; }
+  /* Video section */
+  .video-narrative { color: #374151; line-height: 1.7; }
+  /* Collapsible */
+  details { margin-bottom: 22px; }
+  details summary {
+    cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: "▶"; font-size: 11px; color: #3b82f6; transition: transform .2s;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  details .card { margin-top: 10px; }
+  /* Responsive */
+  @media (max-width: 860px) {
+    .container { flex-direction: column; }
+    .left-panel { flex: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- NAV BAR -->
-<div class="nav-bar">
-  <a href="../index.html">← Dashboard</a>
-  <span style="color:#ccc">|</span>
-  <span style="font-size:13px; color:#555; font-weight:600;">HVAC &amp; Refrigeration — Thermodynamics</span>
-  <span style="color:#ccc">|</span>
-  <span style="font-size:13px; color:#333; font-weight:700;">Problem 18</span>
-  <span class="nav-badge">⭐ 3 OH sessions</span>
-  <span style="margin-left:auto; font-size:12px; color:#aaa;">R-123 Real Refrigeration Cycle · COP</span>
-</div>
+<nav class="navbar">
+  <a href="oh-prep.html">← Back to Dashboard</a>
+</nav>
 
-<!-- MAIN LAYOUT -->
-<div class="layout-container">
-
+<div class="container">
   <!-- LEFT PANEL -->
-  <div class="sidebar-left">
+  <div class="left-panel">
+    <div class="card">
+      <div class="meta"><span>HVAC &amp; Refrigeration</span> · Thermodynamics · Problem 18</div>
 
-    <!-- Problem Title & Statement -->
-    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 18</div>
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">
-      A refrigeration cycle using R-123 operates between <strong>25 psia</strong> and <strong>75 psia</strong>. Refrigerant enters the compressor with <strong>20°F of superheat</strong> and leaves the condenser as a <strong>saturated liquid</strong>. What is the coefficient of performance?
-    </div>
-
-    <!-- Answer Choices -->
-    <div class="section-title" style="margin-top:18px;">Answer Choices</div>
-    <div class="answer-tag">✓ Answer: B</div>
-    <div class="choices">
-      <div class="choice">
-        <span class="choice-letter">A.</span>
-        <span>5.8</span>
+      <div class="problem-box">
+        A refrigeration cycle using R-123 operates between 25&nbsp;psia and 75&nbsp;psia. Refrigerant enters the compressor with 20°F of superheat and leaves the condenser as a saturated liquid. What is the coefficient of performance?
       </div>
-      <div class="choice correct">
-        <span class="choice-letter">B.</span>
-        <span>6.7 ✓</span>
-      </div>
-    </div>
-    <p style="font-size:11px; color:#aaa; margin-top:8px; font-style:italic;">Note: Only 2 choices available due to original OCR limitations.</p>
 
-    <!-- Quick Overview -->
-    <div class="section-title" style="margin-top:24px;">Quick Overview</div>
-    <div class="takeaway-box" style="border-left-color:#0066cc; background:#f0f4ff;">
-      <ol style="padding-left:18px; font-size:13px; line-height:2;">
-        <li>Identify the four states of the refrigeration cycle on the P-h diagram for R-123.</li>
-        <li>Find <strong>State 3</strong>: saturated liquid at the high side (75 psia) — read h₃ directly from the sat. liquid table.</li>
-        <li>Find <strong>State 4</strong>: after the expansion valve — it's isenthalpic, so h₄ = h₃.</li>
-        <li>Find <strong>State 1</strong>: at the low side (25 psia), traveling 20°F past the saturation curve into superheated vapor — read h₁ and s₁ from superheated R-123 tables.</li>
-        <li>Find <strong>State 2</strong>: isentropic compression to 75 psia — match s₂ = s₁ at 75 psia and read h₂.</li>
-        <li>Calculate COP = (h₁ − h₄) / (h₂ − h₁) and confirm the answer is approximately 6.7.</li>
-      </ol>
-    </div>
-
-    <!-- Key Takeaways -->
-    <div class="section-title" style="margin-top:24px;">Key Takeaways</div>
-    <div class="takeaway-box">
-      <ul style="padding-left:16px; font-size:13px; line-height:2.1;">
-        <li>Real refrigeration cycles require <strong>enthalpies from property tables</strong>, not temperatures — Carnot COP formulas do not apply here.</li>
-        <li>The compressor work term (h₂ − h₁) is <strong>very small</strong> relative to the cooling effect, making the COP highly sensitive to small errors in reading h₂.</li>
-        <li>Being off by even 1 Btu/lb in h₂ can swing the final COP by ~10% — precision on the P-h diagram matters greatly on the exam.</li>
-        <li>The P-h (pressure-enthalpy) diagram is the fundamental visualization tool for real refrigeration cycles — practice navigating it fluently.</li>
+      <ul class="choices">
+        <li><span class="label">A.</span> 5.8</li>
+        <li><span class="label">B.</span> 6.7</li>
+        <li><span class="label">C.</span> 7.3</li>
+        <li><span class="label">D.</span> 10.5</li>
       </ul>
-    </div>
 
-    <!-- Nav Arrows -->
-    <div class="nav-arrows">
-      <a href="HVAC_Thermodynamics_17.html">← Problem 17</a>
-      <a href="HVAC_Thermodynamics_19.html">Problem 19 →</a>
+      <div class="answer-reveal">
+        <strong>✓ Correct Answer: B — 6.7</strong>
+      </div>
     </div>
-
-  </div><!-- end sidebar-left -->
+  </div>
 
   <!-- RIGHT PANEL -->
-  <div class="sidebar-right">
+  <div class="right-panel">
 
-    <!-- Full Solution -->
-    <div class="section-title">Full Solution</div>
-    <div style="font-size:13px; color:#555; margin-bottom:10px;">Step-by-step walk through the R-123 P-h diagram to find COP.</div>
-
-    <div class="solution-box open">
-<strong>SETUP — Understand the Cycle</strong>
-
-This is a standard vapor-compression refrigeration cycle using R-123 as the working fluid. Because it's a REAL (non-Carnot) cycle, we cannot use temperature-based COP formulas. Instead, we must locate each state point on the R-123 pressure-enthalpy (P-h) diagram or property tables.
-
-The four state points are:
-  • State 1 — Compressor inlet (low pressure, superheated vapor)
-  • State 2 — Compressor outlet (high pressure, superheated vapor)
-  • State 3 — Condenser outlet (high pressure, saturated liquid)
-  • State 4 — Expansion valve outlet (low pressure, two-phase mixture)
-
-Operating pressures: P_low = 25 psia, P_high = 75 psia
-
-─────────────────────────────────────────────
-<strong>STEP 1 — State 3: Condenser Outlet (Saturated Liquid at 75 psia)</strong>
-
-The problem states the refrigerant leaves the condenser as a saturated liquid. On the P-h diagram, this places State 3 exactly on the saturated liquid curve (left dome boundary) at 75 psia.
-
-From R-123 saturated properties at 75 psia:
-  • Saturation temperature ≈ 84°F (read from sat. table)
-  • h₃ ≈ 40 Btu/lb  (saturated liquid enthalpy at 75 psia)
-
-<span class="formula-line">h₃ ≈ 40 Btu/lb   (sat. liquid @ 75 psia)</span>
-
-─────────────────────────────────────────────
-<strong>STEP 2 — State 4: Expansion Valve Outlet (Isenthalpic Process)</strong>
-
-The expansion valve is an isenthalpic (constant enthalpy) throttling device — no work, no heat transfer. Therefore:
-
-<span class="formula-line">h₄ = h₃ ≈ 40 Btu/lb</span>
-
-On the P-h diagram, State 4 lies at the same horizontal position as State 3, but drops down to the 25 psia line — well inside the two-phase dome, indicating a mixture of liquid and vapor.
-
-─────────────────────────────────────────────
-<strong>STEP 3 — State 1: Compressor Inlet (Superheated Vapor at 25 psia)</strong>
-
-State 1 is at 25 psia, with 20°F of superheat above the saturation temperature at 25 psia.
-
-From R-123 sat. properties at 25 psia:
-  • Saturation temperature T_sat ≈ 36°F
-
-Therefore, the actual temperature at State 1:
-<span class="formula-line">T₁ = T_sat + 20°F = 36°F + 20°F = 56°F</span>
-
-State 1 is in the superheated vapor region. From R-123 superheated vapor tables at 25 psia and 56°F:
-<span class="formula-line">h₁ ≈ 107 Btu/lb</span>
-<span class="formula-line">s₁ ≈ 0.2210 Btu/(lb·°R)  (entropy at state 1)</span>
-
-On the P-h diagram: start at the saturation curve at 25 psia and move right (increasing enthalpy) by the amount corresponding to 20°F of superheat.
-
-─────────────────────────────────────────────
-<strong>STEP 4 — State 2: Compressor Outlet (Isentropic Compression to 75 psia)</strong>
-
-The ideal compressor is isentropic (constant entropy, adiabatic). Therefore:
-<span class="formula-line">s₂ = s₁ ≈ 0.2210 Btu/(lb·°R)</span>
-
-On the P-h diagram: from State 1, follow a constant-entropy line upward and to the right until it intersects the 75 psia line. This is State 2.
-
-From R-123 superheated vapor tables at 75 psia, interpolating at s = 0.2210 Btu/(lb·°R):
-<span class="formula-line">h₂ ≈ 117 Btu/lb  (solution video value — see OH 44 note)</span>
-
-⚠️  Note: This is the most sensitive state point. Students in OH 44 found h₂ = 118 Btu/lb and got COP ≈ 5.99. Dan acknowledged the ambiguity and emphasized precision.
-
-─────────────────────────────────────────────
-<strong>STEP 5 — Calculate COP (Refrigeration)</strong>
-
-For a refrigeration cycle, COP is the ratio of the desired output (cooling) to the required input (compressor work):
-
-<span class="formula-line">COP_refrig = Q_L / W = (h₁ − h₄) / (h₂ − h₁)</span>
-
-Substituting values:
-<span class="formula-line">Numerator  (cooling effect):   h₁ − h₄ = 107 − 40 = 67 Btu/lb</span>
-<span class="formula-line">Denominator (compressor work):  h₂ − h₁ = 117 − 107 = 10 Btu/lb</span>
-<span class="formula-line">COP = 67 / 10 = 6.7  ✓</span>
-
-─────────────────────────────────────────────
-<strong>ANSWER: B — COP ≈ 6.7</strong>
-
-Key observation: the compressor work (denominator) of only 10 Btu/lb is tiny compared to the cooling effect of 67 Btu/lb. A 1 Btu/lb error in h₂ changes the denominator by 10%, which directly changes the COP by ~10%. This is why Dan repeatedly emphasizes precision when reading h₂ from the P-h diagram.
-    </div>
-
-    <!-- Video Synthesis -->
-    <div class="section-title" style="margin-top:28px;">Video Synthesis</div>
-    <div class="video-box">
-      <ul style="padding-left:16px; line-height:2.1;">
-        <li>Real cycles use the P-h diagram — locate all four states graphically before calculating anything.</li>
-        <li>The superheat condition means State 1 is <em>to the right</em> of the saturation dome at the low-side pressure; follow constant entropy upward to find State 2.</li>
-        <li>The expansion valve is isenthalpic: h₄ = h₃ — this is always true regardless of refrigerant.</li>
-        <li>The compressor work term (h₂ − h₁) is unusually small for R-123, amplifying any table-reading error into a large COP swing.</li>
-        <li>Mass flow rate cancels in the COP formula — you only need specific enthalpies (Btu/lb), not flow rates.</li>
-        <li>Compare with Thermo Problem 7 (also R-123 with superheat): same diagram approach, same state-point logic applies.</li>
+    <!-- 1. Quick Overview -->
+    <div class="card">
+      <h2 class="section-title">Quick Overview</h2>
+      <ul class="bullets">
+        <li><strong>Real refrigeration cycle</strong> — use enthalpy-based COP formula, <em>not</em> the Carnot temperature formula.</li>
+        <li>Four state points around the cycle: superheated vapor → compressed vapor → saturated liquid → two-phase mixture.</li>
+        <li>State 1 requires adding 20°F of superheat beyond T<sub>sat</sub> at 25 psia to read h<sub>1</sub> from the P-h diagram.</li>
+        <li>State 2 (h<sub>2</sub>) is the <strong>hardest read</strong> — a purely graphical isentropic compression. Small errors in h<sub>2</sub> swing COP dramatically because the denominator is only ~8 Btu/lb.</li>
+        <li>COP<sub>R</sub> = (h<sub>1</sub> − h<sub>4</sub>) / (h<sub>2</sub> − h<sub>1</sub>) = 55.2 / 8.2 = <strong>6.7</strong>.</li>
       </ul>
     </div>
 
-    <!-- Office Hours Q&A -->
-    <div class="oh-section-title" style="margin-top:28px;">
-      Office Hours Q&amp;A
-      <span class="oh-count">3 sessions</span>
-    </div>
-    <div class="oh-subtitle">Sorted newest first · OH 70, OH 44, OH 35</div>
+    <!-- 2. Full Solution -->
+    <details open>
+      <summary><h2 class="section-title">Full Solution</h2></summary>
+      <div class="card">
 
-    <!-- OH 70 -->
-    <div class="qa-group">
-      <div class="qa-session">Office Hours 70 — November 2023 (Most Recent)</div>
-      <div class="qa-question">Q: This feels similar to Thermo Problem 7 — both use R-123 with superheat. How do I find State 1 and State 2 on the diagram?</div>
-      <div class="qa-answer">
-        <strong>A:</strong> Exactly right — same approach. For State 1, start at the saturation curve at 25 psia and travel right (into superheated vapor) by 20°F of superheat to land on State 1. For State 2, follow a constant-entropy line from State 1 upward to the 75 psia line. Dan's key warning: the denominator (h₂ − h₁) is very small, so even minor errors reading h₂ off the diagram can significantly shift the final COP. "Don't lose too much sleep over it — but recognize it's a small denominator." <em>(OH 70)</em>
+        <div class="step">
+          <div class="step-label">State 1 — Compressor Inlet</div>
+          <p>Low-pressure side: P<sub>1</sub> = 25 psia. From the R-123 saturation table, T<sub>sat</sub> = 110°F. With 20°F of superheat, T<sub>1</sub> = 130°F.</p>
+          <div class="equation">h₁ = 108.8 Btu/lb</div>
+        </div>
+
+        <div class="step">
+          <div class="step-label">State 2 — Compressor Outlet (Isentropic)</div>
+          <p>Follow constant-entropy lines from State 1 up to P<sub>2</sub> = 75 psia on the P-h diagram.</p>
+          <div class="equation">h₂ ≈ 117 Btu/lb</div>
+        </div>
+
+        <div class="step">
+          <div class="step-label">State 3 — Condenser Outlet</div>
+          <p>Saturated liquid at P<sub>3</sub> = 75 psia (quality χ = 0).</p>
+          <div class="equation">h₃ = 53.6 Btu/lb</div>
+        </div>
+
+        <div class="step">
+          <div class="step-label">State 4 — Evaporator Inlet</div>
+          <p>Isenthalpic expansion (throttling valve) to P<sub>4</sub> = 25 psia.</p>
+          <div class="equation">h₄ = h₃ = 53.6 Btu/lb</div>
+        </div>
+
+        <div class="step">
+          <div class="step-label">COP Calculation</div>
+          <div class="equation">
+COP_R = Q_L / W = (h₁ − h₄) / (h₂ − h₁)
+      = (108.8 − 53.6) / (117 − 108.8)
+      = 55.2 / 8.2
+      = <strong>6.73 ≈ 6.7  →  Answer B</strong>
+          </div>
+        </div>
+
       </div>
-    </div>
+    </details>
 
-    <!-- OH 44 -->
-    <div class="qa-group">
-      <div class="qa-session">Office Hours 44 — September 2022</div>
-      <div class="qa-question">Q: I read h₂ = 118 Btu/lb, but the solution video shows 117 Btu/lb. My COP comes out to ~5.99, not 6.7. Am I wrong?</div>
-      <div class="qa-answer">
-        <strong>A:</strong> Dan acknowledged the ambiguity directly: "I could be wrong — it might be 118 and you're right." The real lesson is sensitivity analysis: a 1 Btu/lb difference in h₂ changes the denominator (h₂ − h₁) by roughly 10%, which shifts the entire COP by ~10%. On the exam, use the line tool to be as precise as possible when reading the P-h diagram. This problem is specifically about developing the engineering judgment to recognize when a formula is highly sensitive to small input errors. <em>(OH 44)</em>
+    <!-- 3. Video Synthesis -->
+    <details>
+      <summary><h2 class="section-title">Video Synthesis</h2></summary>
+      <div class="card">
+        <p class="video-narrative">
+          Dan's solution video walks through solving this problem graphically on the R-123 pressure-enthalpy diagram from the PE reference handbook. He begins by locating State 1 at 25 psia — using the R-123 saturation table to confirm that T<sub>sat</sub> = 110°F, then traveling 20°F past the saturation curve into the superheated region to reach 130°F, where h<sub>1</sub> ≈ 108.8 Btu/lb. For State 2, he demonstrates tracing the constant-entropy line from State 1 upward to the 75 psia pressure line, landing at h<sub>2</sub> ≈ 117 Btu/lb — emphasizing that this is a purely graphical read and the most challenging step. State 3 is straightforward: saturated liquid at 75 psia gives h<sub>3</sub> = 53.6 Btu/lb directly from the table. The expansion valve is isenthalpic, so h<sub>4</sub> = h<sub>3</sub>. Finally, Dan plugs into the COP formula: 55.2 / 8.2 = 6.7. He highlights the sensitivity in the denominator — at only ~8 Btu/lb, being off by even 1–2 Btu/lb on h<sub>2</sub> can swing the COP by 10–25%. His advice: focus your precision efforts on the denominator, since the numerator (~55 Btu/lb) is much more forgiving of small reading errors.
+        </p>
       </div>
-    </div>
+    </details>
 
-    <!-- OH 35 -->
-    <div class="qa-group">
-      <div class="qa-session">Office Hours 35 — May 2022</div>
-      <div class="qa-question">Q: Why can't we just use temperatures to calculate COP, like we did in earlier problems?</div>
-      <div class="qa-answer">
-        <strong>A:</strong> Earlier problems used the <em>Carnot</em> (ideal, theoretical) COP formula: COP = T_L / (T_H − T_L), which is only valid for an idealized cycle. This problem is a REAL cycle — the actual enthalpy changes don't follow Carnot behavior. For a real refrigerator: COP = (h₁ − h₄) / (h₂ − h₁), where Q_L = h₁ − h₄ (evaporator cooling) and W = h₂ − h₁ (compressor work). Dan drew the full P-h diagram showing all four states and explained: mass flow rate cancels in numerator and denominator, so specific enthalpies alone are sufficient. Energy balance: Q_H = Q_L + W, where Q_H = h₂ − h₃. <em>(OH 35)</em>
+    <!-- 4. Key Takeaways -->
+    <details>
+      <summary><h2 class="section-title">Key Takeaways</h2></summary>
+      <div class="card">
+        <ul class="bullets">
+          <li><strong>Use enthalpy-based COP for real cycles.</strong> COP<sub>R</sub> = (h<sub>1</sub> − h<sub>4</sub>) / (h<sub>2</sub> − h<sub>1</sub>). The Carnot temperature formula only applies to ideal cycles.</li>
+          <li><strong>Small denominator = high sensitivity.</strong> When h<sub>2</sub> − h<sub>1</sub> is only ~8 Btu/lb, a 1 Btu/lb reading error changes COP by ~10%. Use the line tool and be precise.</li>
+          <li><strong>Superheat shifts State 1.</strong> Don't forget to add the superheat to T<sub>sat</sub> before reading h<sub>1</sub> — it's 130°F, not 110°F.</li>
+          <li><strong>Expansion is isenthalpic, compression is isentropic.</strong> h<sub>4</sub> = h<sub>3</sub> (throttling), and State 2 follows constant entropy from State 1.</li>
+        </ul>
       </div>
-    </div>
+    </details>
 
-    <!-- Footer nav in right panel -->
-    <div class="nav-arrows" style="margin-top:24px;">
-      <a href="HVAC_Thermodynamics_17.html">← Problem 17</a>
-      <a href="HVAC_Thermodynamics_19.html">Problem 19 →</a>
-    </div>
+    <!-- 5. Office Hours Q&A -->
+    <details>
+      <summary><h2 class="section-title">Office Hours Q&amp;A</h2></summary>
+      <div class="card" style="padding-bottom:10px;">
 
-  </div><!-- end sidebar-right -->
+        <div class="qa-block">
+          <div class="question">Q: Why can't we just use temperatures to calculate COP, like in previous Carnot problems?</div>
+          <div class="answer">Previous problems were ideal Carnot cycles where COP = T<sub>L</sub> / (T<sub>H</sub> − T<sub>L</sub>). For real refrigeration cycles, you must use enthalpies from the P-h diagram: COP<sub>refrigerator</sub> = (h<sub>1</sub> − h<sub>4</sub>) / (h<sub>2</sub> − h<sub>1</sub>). The Carnot formula only gives the theoretical maximum COP.</div>
+          <div class="qa-source">Source: Office Hours 35</div>
+        </div>
 
-</div><!-- end layout-container -->
+        <div class="qa-block">
+          <div class="question">Q: What's the fundamental definition of COP, and how does it differ between heat pumps and refrigerators?</div>
+          <div class="answer">COP is "desired output over required input." For a <strong>refrigerator</strong>, the desired output is Q<sub>L</sub> (cooling effect); for a <strong>heat pump</strong>, it's Q<sub>H</sub> (heating effect). The required input is always compressor work W. The formulas: COP<sub>R</sub> = Q<sub>L</sub>/W = (h<sub>1</sub> − h<sub>4</sub>) / (h<sub>2</sub> − h<sub>1</sub>); COP<sub>HP</sub> = Q<sub>H</sub>/W = (h<sub>2</sub> − h<sub>3</sub>) / (h<sub>2</sub> − h<sub>1</sub>).</div>
+          <div class="qa-source">Source: Office Hours 35</div>
+        </div>
 
-<!-- FOOTER -->
-<div class="footer">
-  <a href="../index.html">← Dashboard</a>
-  <span>|</span>
-  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 18</span>
-  <span>|</span>
-  <span>R-123 Real Refrigeration Cycle · COP = 6.7</span>
-  <span style="margin-left:auto;">
-    <a href="HVAC_Thermodynamics_17.html">← Prob 17</a>
-    &nbsp;&nbsp;
-    <a href="HVAC_Thermodynamics_19.html">Prob 19 →</a>
-  </span>
+        <div class="qa-block">
+          <div class="question">Q: I get h₂ = 118 instead of 117 from the R-123 chart, giving COP = 5.99 instead of 6.7. What should I do when being off by 1 Btu/lb changes the answer?</div>
+          <div class="answer">The denominator (h<sub>2</sub> − h<sub>1</sub>) is small (~8–10 Btu/lb), so being off by 1 changes it by ~10%, swinging the whole COP significantly. Use the line tool on the exam, be as precise as possible on h<sub>2</sub>, but don't let it rattle you. Focus precision on the denominator.</div>
+          <div class="qa-source">Source: Office Hours 44</div>
+        </div>
+
+        <div class="qa-block">
+          <div class="question">Q: Comparing with Thermo 7, why do we add 20°F of superheat, and why is finding h₂ so challenging?</div>
+          <div class="answer">Both problems apply superheat — travel past the saturation curve by 20°F to find State 1, then trace constant entropy to State 2 graphically. h<sub>2</sub> is challenging because it's a purely graphical read. The small denominator (h<sub>2</sub> − h<sub>1</sub> ≈ 8) means small reading errors cause large COP changes. This is the key judgment takeaway from this problem.</div>
+          <div class="qa-source">Source: Office Hours 70</div>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
 </div>
-
-<script>
-  // Toggle solution box open/close (already open by default)
-  document.querySelectorAll('.solution-toggle').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var box = this.nextElementSibling;
-      if (box) {
-        box.classList.toggle('open');
-        var arrow = this.querySelector('.toggle-arrow');
-        if (arrow) arrow.textContent = box.classList.contains('open') ? '▲' : '▼';
-      }
-    });
-  });
-</script>
 
 </body>
 </html>
