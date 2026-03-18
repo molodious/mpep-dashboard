@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 13 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+.overview-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+}
+.overview-list {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+.overview-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-detail { margin-bottom: 28px; }
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12.5px;
+  border-radius: 2px;
+  color: #1a3a6e;
+  white-space: pre;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 14px;
+  border-radius: 4px;
+  margin-top: 4px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 6px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-empty {
+  background: white;
+  border-left: 3px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #888;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC › Fluids › Problem 13</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Answer Choices + Quick Overview -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 13</div>
+
+    <div class="problem-statement">
+      Room temperature atmospheric air flows at 100 ft/s in a 400 ft long nominal 3 in schedule 40 threaded steel pipe containing (12) 90° long radius elbows and (2) gate valves. Air leaves the pipe at an elevation 200 ft lower than the pipe inlet. What is the pressure difference between the two ends of the pipe?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct">
+        <span class="choice-letter">A</span>
+        <span>3 psi &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>18 psi</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>96 psi</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>110 psi</span>
+      </div>
+    </div>
+
+    <div class="answer-tag">Answer: A — 3 psi</div>
+
+    <!-- QUICK OVERVIEW -->
+    <div class="section-title" style="margin-top: 8px;">Quick Overview</div>
+    <div class="overview-box">
+      <strong style="font-size: 13px; color: #333;">High-Level Solution Steps</strong>
+      <ol class="overview-list">
+        <li>Look up pipe inner diameter for 3-in Schedule 40 pipe (<strong>ID = 3.068 in = 0.2557 ft</strong>) and gather air properties at room temperature (γ ≈ 0.075 lb/ft³, ν ≈ 1.6 × 10⁻⁴ ft²/s).</li>
+        <li>Calculate the <strong>Reynolds number</strong> to confirm turbulent flow, then use the Colebrook equation (or Moody chart) with steel pipe roughness to find the <strong>Darcy friction factor f ≈ 0.020</strong>.</li>
+        <li>Find the <strong>equivalent lengths</strong> for all fittings (12 long-radius elbows + 2 gate valves) using L<sub>e</sub>/D ratios for threaded pipe, and add to the 400 ft pipe length to get <strong>L<sub>total</sub> ≈ 453 ft</strong>.</li>
+        <li>Apply the <strong>Darcy-Weisbach equation</strong> to compute total head loss in feet of air (~5,400 ft of air head).</li>
+        <li>Write the <strong>Bernoulli equation</strong> between inlet and outlet, accounting for the 200 ft elevation <em>drop</em> (which partially offsets friction loss).</li>
+        <li>Convert the net pressure difference from lb/ft² to <strong>psi</strong>. The friction loss dominates but air is very light — the answer is only about <strong>3 psi (Answer A)</strong>.</li>
+      </ol>
+    </div>
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Full Solution + Video Synthesis + Key Takeaways + OH Q&A -->
+  <div class="sidebar-right">
+
+    <!-- FULL SOLUTION -->
+    <div class="section-title">Full Solution</div>
+
+    <div class="solution-detail">
+      <p>
+        This is a <strong>pipe system pressure drop problem with a compressible-like gas</strong>. Air is treated as an incompressible fluid here (low Mach number, Δρ/ρ small), so we apply the same Darcy-Weisbach and Bernoulli approach used for liquids — but the answer will be much smaller than a water problem because air's specific weight is roughly 830 times lower than water.
+      </p>
+
+      <h4>Step 1 — Pipe Geometry and Air Properties</h4>
+      <p>
+        From standard pipe tables, a 3-in nominal Schedule 40 pipe has an inner diameter of 3.068 in. Air at room temperature (~70°F) and atmospheric pressure has the following properties:
+      </p>
+      <span class="math-line">ID = 3.068 in = 3.068 / 12 = 0.2557 ft</span>
+      <span class="math-line">A  = π/4 × (0.2557)² = 0.05134 ft²</span>
+      <span class="math-line">γ  = 0.075 lbf/ft³   (specific weight of air)</span>
+      <span class="math-line">ν  = 1.6 × 10⁻⁴ ft²/s  (kinematic viscosity of air at 70°F)</span>
+      <span class="math-line">ε  = 0.00015 ft       (roughness, commercial steel pipe)</span>
+
+      <h4 style="margin-top: 16px;">Step 2 — Reynolds Number and Friction Factor</h4>
+      <p>
+        Compute the Reynolds number to determine whether flow is turbulent and to enter the Moody chart:
+      </p>
+      <span class="math-line">Re = V × D / ν = (100 ft/s × 0.2557 ft) / (1.6 × 10⁻⁴ ft²/s)</span>
+      <span class="math-line">Re = 25.57 / 0.00016 ≈ 160,000</span>
+      <p>
+        Flow is fully turbulent. Now determine the relative roughness and solve the <strong>Colebrook-White equation</strong>:
+      </p>
+      <span class="math-line">ε/D = 0.00015 / 0.2557 = 0.000587</span>
+      <span class="math-line">1/√f = −2.0 log(ε/(3.7D) + 2.51/(Re√f))</span>
+      <span class="math-line">Iterating → f ≈ 0.0196  (use f = 0.020 for convenience)</span>
+      <p>
+        This corresponds to the Moody chart at Re ≈ 1.6 × 10⁵ and ε/D ≈ 0.0006, which puts us in the turbulent transition zone with f ≈ 0.020.
+      </p>
+
+      <h4 style="margin-top: 16px;">Step 3 — Equivalent Lengths for Fittings</h4>
+      <p>
+        Use the <strong>equivalent length method</strong>. For threaded (screwed) steel fittings at 3-in nominal diameter, reference tables give:
+      </p>
+      <span class="math-line">90° long radius elbow (threaded): L_e/D = 16</span>
+      <span class="math-line">Gate valve, fully open (threaded): L_e/D = 8</span>
+      <p>
+        Convert to feet of equivalent pipe for each fitting type:
+      </p>
+      <span class="math-line">  Fitting                      | L_e/D | Qty |  L_e each  | L_e total</span>
+      <span class="math-line">  90° LR elbow (threaded)      |  16   |  12 |  4.09 ft   |  49.1 ft</span>
+      <span class="math-line">  Gate valve, open (threaded)  |   8   |   2 |  2.05 ft   |   4.1 ft</span>
+      <span class="math-line">  ──────────────────────────────────────────────────────────────────</span>
+      <span class="math-line">  Pipe length                  |       |     |            | 400.0 ft</span>
+      <span class="math-line">  Total equivalent length      |       |     |            | 453.2 ft</span>
+      <p style="margin-top: 8px;">
+        Where L<sub>e</sub> per fitting = (L<sub>e</sub>/D) × D = 16 × 0.2557 ft = 4.09 ft for elbows, and 8 × 0.2557 = 2.05 ft for gate valves.
+      </p>
+
+      <h4 style="margin-top: 16px;">Step 4 — Total Head Loss (Darcy-Weisbach)</h4>
+      <p>
+        Apply the Darcy-Weisbach equation using the total equivalent length:
+      </p>
+      <span class="math-line">h_L = f × (L_total / D) × V² / (2g)</span>
+      <span class="math-line">h_L = 0.020 × (453.2 / 0.2557) × (100)² / (2 × 32.2)</span>
+      <span class="math-line">h_L = 0.020 × 1773 × 155.3</span>
+      <span class="math-line">h_L ≈ 5,510 ft of air head</span>
+      <p>
+        This large number (thousands of feet of head) is normal for air — air is so light that even modest pressure differences correspond to enormous head heights.
+      </p>
+
+      <div class="solution-note">
+        <strong>💡 Key insight — air vs. water head loss:</strong> The head loss formula gives feet of the <em>flowing fluid</em>. For air at 0.075 lb/ft³ (vs. water at 62.4 lb/ft³), you need about 830 times more feet of air head to produce the same pressure as water. That's why the head loss appears astronomical (5,500 ft), but the actual pressure is only a few psi.
+      </div>
+
+      <h4 style="margin-top: 16px;">Step 5 — Bernoulli Equation with Elevation</h4>
+      <p>
+        Apply steady-state Bernoulli from point 1 (inlet) to point 2 (outlet). The pipe diameter is constant, so V₁ = V₂ and velocity heads cancel:
+      </p>
+      <span class="math-line">P₁/γ + V₁²/2g + z₁ = P₂/γ + V₂²/2g + z₂ + h_L</span>
+      <span class="math-line">P₁/γ + z₁ = P₂/γ + z₂ + h_L   (since V₁ = V₂)</span>
+      <span class="math-line">(P₁ − P₂)/γ = (z₂ − z₁) + h_L</span>
+      <p>
+        The outlet is <strong>200 ft lower</strong> than the inlet, so z₂ − z₁ = −200 ft. This elevation drop <em>helps</em> push the air (gravity assists), partially offsetting the friction pressure loss:
+      </p>
+      <span class="math-line">(P₁ − P₂)/γ = (−200) + 5,510 = 5,310 ft of air</span>
+
+      <h4 style="margin-top: 16px;">Step 6 — Convert to Pressure in psi</h4>
+      <p>
+        Multiply by γ and convert from lb/ft² to psi:
+      </p>
+      <span class="math-line">P₁ − P₂ = γ × [(P₁ − P₂)/γ]  =  0.075 lb/ft³ × 5,310 ft</span>
+      <span class="math-line">P₁ − P₂ = 398.3 lb/ft²</span>
+      <span class="math-line">P₁ − P₂ = 398.3 / 144  ≈  2.77 psi  →  3 psi</span>
+      <p>
+        <strong>Answer: A — 3 psi.</strong>
+      </p>
+
+      <div class="solution-note">
+        <strong>🔍 Elevation effect check:</strong> The 200 ft elevation drop contributes only 0.075 × 200 / 144 = 0.10 psi. Since air is so light, even a 200 ft elevation change is barely worth 0.1 psi — it's a rounding-level correction here. For water, that same 200 ft drop would add 62.4 × 200 / 144 = 86.7 psi! This illustrates why elevation terms dominate for liquids but are nearly negligible for gases.
+      </div>
+    </div>
+
+    <!-- VIDEO SYNTHESIS -->
+    <div class="section-title" style="margin-top: 8px;">Video Synthesis</div>
+    <div class="video-box">
+      <strong>📺 Key Teaching Insights</strong>
+      <ul style="padding-left: 18px; margin-top: 8px;">
+        <li><strong>Same equations, very different numbers:</strong> Darcy-Weisbach and Bernoulli apply to air just like water — but air's tiny specific weight (0.075 vs. 62.4 lb/ft³) means head losses in feet are enormous while pressure losses in psi are tiny. Always sanity-check your units when working with gases.</li>
+        <li><strong>Elevation effects are negligible for gases:</strong> A 200 ft elevation drop adds only ~0.1 psi for air, versus ~87 psi for water. On exam problems with gas flow, don't let a large elevation change fool you — it barely moves the needle on pressure.</li>
+        <li><strong>High velocity = friction dominates:</strong> At 100 ft/s, the velocity head (V²/2g ≈ 155 ft) is enormous. The high velocity combined with a long pipe means friction loss overwhelmingly controls the answer — the fittings add only ~10% to the total equivalent length.</li>
+        <li><strong>Threaded fittings have higher L_e/D than flanged:</strong> For the same fitting type, threaded connections have higher resistance (larger L_e/D) than flanged connections because the threads disrupt flow at the joint. Know the correct table for your connection type.</li>
+        <li><strong>Answer-checking technique:</strong> After computing, verify the order of magnitude: air pressure drop in typical building/duct systems is measured in inches of water column (iwc) or a few psi. A result of 3 psi for 400 ft of pipe at 100 ft/s is physically reasonable for air.</li>
+        <li><strong>The wrong fluid assumption is fatal:</strong> Distractors B (18 psi), C (96 psi), and D (110 psi) look like plausible water-pipe answers. If you accidentally use water's specific weight or forget to convert, you'll pick a wrong answer. Always confirm the fluid before plugging in γ.</li>
+      </ul>
+    </div>
+
+    <!-- KEY TAKEAWAYS -->
+    <div class="section-title" style="margin-top: 20px;">Key Takeaways</div>
+    <div class="takeaway-box">
+      <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Exam Strategy</strong>
+      <ul>
+        <li>Gas pipe flow problems use the same Darcy-Weisbach and Bernoulli framework as liquid problems — the only difference is plugging in the correct (much smaller) specific weight and kinematic viscosity for the gas.</li>
+        <li>When head loss in feet seems unreasonably large for a gas, it's probably correct — air's low density means pressure in psi will still be small. Always finish the unit conversion before concluding your answer is wrong.</li>
+        <li>Elevation corrections matter enormously for liquid pipe systems but are almost always negligible for gas flow problems — a key way to catch unit errors or wrong fluid assumptions.</li>
+        <li>The distractors in this type of problem are often the "water equivalent" answers (18 psi, 96 psi, 110 psi). If your answer matches those, double-check that you used air density, not water density.</li>
+      </ul>
+    </div>
+
+    <!-- OFFICE HOURS Q&A -->
+    <div class="oh-section-title" style="margin-top: 20px;">
+      Office Hours Q&amp;A
+    </div>
+    <div class="oh-empty">
+      No Office Hours coverage for this problem yet.
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 13</span>
+  <span>·</span>
+  <span>No OH sessions</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+</body>
+</html>
