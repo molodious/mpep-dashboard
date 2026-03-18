@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 3 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-entry {
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.oh-entry-header {
+  font-size: 12px;
+  font-weight: 700;
+  color: #92400e;
+  background: #fef3c7;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.oh-entry p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+
+/* Right panel section styling */
+.right-section {
+  margin-bottom: 24px;
+}
+.right-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+  padding-bottom: 8px;
+}
+.right-section-title.blue { border-bottom: 2px solid #0066cc; }
+.right-section-title.purple { border-bottom: 2px solid #7c3aed; }
+.right-section-title.amber { border-bottom: 2px solid #f59e0b; }
+.right-section-title.orange { border-bottom: 2px solid #f59e0b; }
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← Back to Dashboard</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC &rsaquo; Psychrometrics &rsaquo; Problem 3</span>
+  <span class="nav-badge">3 OH Sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &mdash; Psychrometrics &mdash; Problem 3</div>
+
+    <div class="problem-statement">
+      A 12&nbsp;ft &times; 15&nbsp;ft room with a 9&nbsp;ft ceiling has a relative humidity of 25% and a dry bulb temperature of 70&deg;F. A humidifier is turned on and run continuously adding 0.04&nbsp;gal of water per hour to the room. Assuming the additional moisture content has no impact on the dry bulb temperature and the room is sealed, how long will it take to achieve 50% relative humidity?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>0.75 hrs</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>1 hr</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">C</span>
+        <span>1.5 hrs &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>2.75 hrs</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: C — 1.5 hrs</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">psychrometrics · humidification · fixed-volume room</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>
+            <strong>Find the volume of the room:</strong> 12 &times; 15 &times; 9 = 1,620&nbsp;ft&sup3;
+          </li>
+          <li>
+            <strong>Look up psychrometric properties at 70&deg;F DB for both states</strong> using the psychrometric chart or tables — read at 25%&nbsp;RH (State 1) and 50%&nbsp;RH (State 2).
+          </li>
+          <li>
+            <strong>Determine humidity ratios (&omega;) at both states:</strong> &omega;&#8321; &asymp; 0.0039&nbsp;lb<sub>w</sub>/lb<sub>da</sub> at 25%&nbsp;RH; &omega;&#8322; &asymp; 0.0078&nbsp;lb<sub>w</sub>/lb<sub>da</sub> at 50%&nbsp;RH.
+          </li>
+          <li>
+            <strong>Calculate the mass of dry air in the room</strong> using specific volume: m<sub>da</sub> = V / v &asymp; 1620 / 13.5 &asymp; 120&nbsp;lb<sub>da</sub>.
+          </li>
+          <li>
+            <strong>Find the total mass of water needed:</strong> m<sub>da</sub> &times; (&omega;&#8322; &minus; &omega;&#8321;) = 120 &times; (0.0078 &minus; 0.0039) &asymp; 0.468&nbsp;lb water.
+          </li>
+          <li>
+            <strong>Convert the humidifier rate to lb/hr and divide</strong> to get time: 0.04&nbsp;gal/hr &times; 8.34&nbsp;lb/gal = 0.334&nbsp;lb/hr; time = 0.468 / 0.334 &asymp; 1.4&nbsp;hrs &rarr; <strong>Answer: (C) 1.5 hrs</strong>.
+          </li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Key Insight:</strong> This is a <strong>fixed-volume humidification</strong> problem — not a coil process. The room is sealed, so the mass of dry air is constant. You are simply adding water vapor to the same air mass. Because the dry air mass doesn't change, you can use the specific volume from either State 1 or State 2 and get the same result.
+        </div>
+
+        <!-- Full Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            This problem involves humidifying a sealed, fixed-volume room. A humidifier adds water vapor at a constant rate, and we need to find how long it takes to raise the relative humidity from 25% to 50% while the dry bulb temperature stays constant at 70&deg;F.
+          </p>
+
+          <p><strong>Step 1 — Room Volume</strong></p>
+          <span class="math-line">V = 12 ft × 15 ft × 9 ft = 1,620 ft³</span>
+
+          <p><strong>Step 2 — Psychrometric Properties at 70°F DB</strong></p>
+          <p>
+            Using the psychrometric chart at 70&deg;F dry-bulb, read the humidity ratio at each relative humidity condition. The specific volume at State 1 (or State 2 — either works for a fixed-volume problem) is approximately:
+          </p>
+          <span class="math-line">State 1 (25% RH):  ω₁ ≈ 0.0039 lbw/lbda,  v ≈ 13.5 ft³/lbda</span>
+          <span class="math-line">State 2 (50% RH):  ω₂ ≈ 0.0078 lbw/lbda</span>
+
+          <p><strong>Step 3 — Mass of Dry Air in the Room</strong></p>
+          <p>
+            The specific volume tells us how many cubic feet of moist air are occupied per pound of dry air. Since the room is sealed and fixed-volume, this mass of dry air is constant throughout the process:
+          </p>
+          <span class="math-line">m_da = V / v = 1,620 ft³ / 13.5 ft³/lbda ≈ 120.0 lbda</span>
+
+          <p><strong>Step 4 — Mass of Water Vapor Needed</strong></p>
+          <p>
+            The humidity ratio is the mass of water vapor per pound of dry air. To raise &omega; from State 1 to State 2, the total additional water vapor required is:
+          </p>
+          <span class="math-line">Δω = ω₂ − ω₁ = 0.0078 − 0.0039 = 0.0039 lbw/lbda</span>
+          <span class="math-line">m_water = m_da × Δω = 120.0 × 0.0039 ≈ 0.468 lb water</span>
+
+          <p><strong>Step 5 — Humidifier Mass Flow Rate</strong></p>
+          <p>
+            The humidifier adds 0.04&nbsp;gal/hr of liquid water. Convert to lb/hr using the density of water (8.34&nbsp;lb/gal):
+          </p>
+          <span class="math-line">ṁ_humidifier = 0.04 gal/hr × 8.34 lb/gal = 0.334 lb/hr</span>
+
+          <p><strong>Step 6 — Time Required</strong></p>
+          <span class="math-line">t = m_water / ṁ_humidifier = 0.468 lb / 0.334 lb/hr ≈ 1.40 hrs</span>
+          <p>
+            Rounding to the nearest answer choice: <strong>1.5 hrs &rarr; Answer: (C)</strong>
+          </p>
+
+          <p style="margin-top: 8px; font-size: 12.5px; color: #777;">
+            <em>Note: The values &omega;&#8321; and &omega;&#8322; are read from the psychrometric chart and may vary slightly depending on the chart used. The calculation consistently yields an answer between 1 hr and 1.5 hrs, confirming choice (C). Using v from State 2 instead of State 1 gives essentially the same mass of dry air and the same time.</em>
+          </p>
+        </div>
+
+        <!-- Video Synthesis (inside solution box) -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="margin-top: 8px; padding-left: 18px;">
+            <li style="margin-bottom: 6px;"><strong>Fixed-volume humidification is NOT a coil process</strong> — the room is sealed and there is no airflow. This distinction changes how you approach the problem and which properties you use.</li>
+            <li style="margin-bottom: 6px;"><strong>Use the psychrometric chart at 70°F DB</strong> to read humidity ratios at 25% and 50% RH. The dry bulb temperature stays constant throughout, so both states lie on the same vertical line on the chart.</li>
+            <li style="margin-bottom: 6px;"><strong>The specific volume at State 1 gives the mass of dry air</strong> — and since the room is sealed, this mass stays constant. No air enters or leaves; only water vapor is added.</li>
+            <li style="margin-bottom: 6px;"><strong>Convert the humidifier's gallon rate to lb/hr</strong> using water's density: 1 gal = 8.34 lb. This is a mandatory unit conversion step — the psychrometric equations use lb, not gallons.</li>
+            <li style="margin-bottom: 6px;"><strong>The time calculation is straightforward:</strong> (total mass of water needed) &divide; (mass rate of water addition). Simple division once you have the right quantities in the right units.</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways (inside solution box) -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>Humidification of a sealed room means the mass of dry air is constant — only water vapor changes as the humidifier runs.</li>
+            <li>The psychrometric chart gives you everything you need: humidity ratios at both conditions and the specific volume for finding dry air mass.</li>
+            <li>Always convert units consistently — gallons to pounds using water's density (8.34&nbsp;lb/gal) before applying any psychrometric formula.</li>
+            <li>For fixed-volume problems with no airflow, you can use specific volume properties from either the initial or final state — the mass of dry air is the same either way.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Quick Overview + Video Synthesis + Key Takeaways + Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <!-- Section 1: Quick Overview -->
+    <div class="right-section">
+      <div class="right-section-title blue" style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 8px;">
+        🗂 Quick Overview
+      </div>
+      <div style="background: #f7f9ff; border: 1px solid #dbe4ff; border-radius: 6px; padding: 14px 16px;">
+        <ol style="padding-left: 20px; margin: 0; font-size: 13px; line-height: 1.8; color: #333;">
+          <li style="margin-bottom: 6px;">Find the <strong>volume of the room</strong>: 12 &times; 15 &times; 9 = 1,620&nbsp;ft&sup3;</li>
+          <li style="margin-bottom: 6px;"><strong>Look up psychrometric properties</strong> at 70&deg;F DB for both 25%&nbsp;RH (State&nbsp;1) and 50%&nbsp;RH (State&nbsp;2) using the chart</li>
+          <li style="margin-bottom: 6px;"><strong>Determine humidity ratios (&omega;)</strong> at both states: &omega;&#8321; &asymp; 0.0039&nbsp;lb<sub>w</sub>/lb<sub>da</sub> and &omega;&#8322; &asymp; 0.0078&nbsp;lb<sub>w</sub>/lb<sub>da</sub></li>
+          <li style="margin-bottom: 6px;"><strong>Calculate the mass of dry air</strong> in the room using specific volume: m<sub>da</sub> = V / v &asymp; 120&nbsp;lb<sub>da</sub></li>
+          <li style="margin-bottom: 6px;"><strong>Find the total mass of water needed:</strong> m<sub>da</sub> &times; (&omega;&#8322; &minus; &omega;&#8321;) &asymp; 0.468&nbsp;lb</li>
+          <li style="margin-bottom: 6px;"><strong>Convert humidifier rate to lb/hr</strong> and divide: 0.04&nbsp;gal/hr &times; 8.34 = 0.334&nbsp;lb/hr; time = 0.468 / 0.334 &asymp; 1.4&nbsp;hrs &rarr; <strong style="color:#15803d;">(C) 1.5 hrs</strong></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Section 2: Full Solution (right panel teaser) -->
+    <div class="right-section">
+      <div class="right-section-title blue" style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 8px;">
+        📐 Full Solution
+      </div>
+      <div style="background: #f7f9ff; border: 1px solid #dbe4ff; border-radius: 6px; padding: 14px 16px; font-size: 13px; line-height: 1.8; color: #333;">
+        <p style="margin-bottom: 8px;"><strong>Room Volume:</strong></p>
+        <span class="math-line">V = 12 × 15 × 9 = 1,620 ft³</span>
+
+        <p style="margin-top: 12px; margin-bottom: 8px;"><strong>Psychrometric Chart at 70°F DB:</strong></p>
+        <span class="math-line">State 1 (25% RH):  ω₁ ≈ 0.0039 lbw/lbda</span>
+        <span class="math-line">                    v  ≈ 13.5 ft³/lbda</span>
+        <span class="math-line">State 2 (50% RH):  ω₂ ≈ 0.0078 lbw/lbda</span>
+
+        <p style="margin-top: 12px; margin-bottom: 8px;"><strong>Mass of Dry Air:</strong></p>
+        <span class="math-line">m_da = V / v = 1,620 / 13.5 ≈ 120.0 lbda</span>
+
+        <p style="margin-top: 12px; margin-bottom: 8px;"><strong>Water Vapor Needed:</strong></p>
+        <span class="math-line">Δω = 0.0078 − 0.0039 = 0.0039 lbw/lbda</span>
+        <span class="math-line">m_water = 120.0 × 0.0039 = 0.468 lb</span>
+
+        <p style="margin-top: 12px; margin-bottom: 8px;"><strong>Humidifier Mass Flow Rate:</strong></p>
+        <span class="math-line">ṁ = 0.04 gal/hr × 8.34 lb/gal = 0.334 lb/hr</span>
+
+        <p style="margin-top: 12px; margin-bottom: 8px;"><strong>Time Required:</strong></p>
+        <span class="math-line">t = 0.468 lb / 0.334 lb/hr ≈ 1.40 hrs</span>
+
+        <p style="margin-top: 10px; font-size: 13px; color: #15803d; font-weight: 600;">
+          → Answer: (C) 1.5 hrs
+        </p>
+        <p style="font-size: 12px; color: #777; margin-top: 6px;">
+          <em>Values are read from the psychrometric chart and are approximate. The calculation consistently lands between 1 hr and 1.5 hrs, confirming choice C.</em>
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 3: Video Synthesis -->
+    <div class="right-section">
+      <div class="right-section-title purple" style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: #1a1a1a; border-bottom: 2px solid #7c3aed; padding-bottom: 8px;">
+        📺 Video Synthesis
+      </div>
+      <div class="video-box" style="margin-top: 0;">
+        <ul style="margin-top: 4px; padding-left: 18px;">
+          <li style="margin-bottom: 8px;"><strong>The humidifier adds moisture to a sealed, fixed-volume room</strong> — this is NOT a coil process. There is no airflow; you are simply adding water vapor to a fixed mass of dry air sitting in a box.</li>
+          <li style="margin-bottom: 8px;"><strong>Use the psychrometric chart at 70°F DB</strong> to read humidity ratios at 25% and 50% RH. Since the dry bulb stays constant, both state points lie on the same constant-temperature line.</li>
+          <li style="margin-bottom: 8px;"><strong>The specific volume at State 1 gives the mass of dry air</strong> — this mass stays constant throughout the process. No air enters or leaves the sealed room; only the amount of water vapor changes.</li>
+          <li style="margin-bottom: 8px;"><strong>Convert the humidifier's gallon rate to lb/hr</strong> using water density (8.34 lb/gal). Psychrometric equations work in mass units — always complete this unit conversion before proceeding.</li>
+          <li style="margin-bottom: 8px;"><strong>The time calculation is simply:</strong> (mass of water needed) &divide; (mass rate of water addition). Once units are consistent, it is straightforward division.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 4: Key Takeaways -->
+    <div class="right-section">
+      <div class="right-section-title amber" style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: #1a1a1a; border-bottom: 2px solid #f59e0b; padding-bottom: 8px;">
+        ⚡ Key Takeaways
+      </div>
+      <div class="takeaway-box" style="margin-top: 0;">
+        <ul>
+          <li style="margin-bottom: 8px;">Humidification of a sealed room means the mass of dry air is constant — only the water vapor content changes as the humidifier runs.</li>
+          <li style="margin-bottom: 8px;">The psychrometric chart gives you everything you need: humidity ratios at both conditions and specific volume to find the dry air mass.</li>
+          <li style="margin-bottom: 8px;">Always convert units consistently — gallons to pounds using water's density (8.34&nbsp;lb/gal) — before applying any psychrometric formula.</li>
+          <li style="margin-bottom: 8px;">For fixed-volume problems with no airflow, you can use psychrometric properties from either the initial or final state — the dry air mass is the same either way, unlike coil processes where you must use entering conditions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <div class="right-section">
+      <div class="oh-section-title">
+        🎓 Office Hours Q&amp;A
+        <span class="oh-count">3 sessions</span>
+      </div>
+      <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+      <!-- OH 44 -->
+      <div class="oh-entry">
+        <div class="oh-entry-header">OH 44 &mdash; September 19, 2022</div>
+        <p><strong>Q:</strong> Where does the 0.04&nbsp;gal/hr flow rate come from? Is that a standard value or something we look up?</p>
+        <p><strong>A:</strong> It is given directly in the problem statement — the student had simply overlooked it while reading. Always read the problem carefully before reaching for a reference. The humidifier output rate is a stated given, not a looked-up constant.</p>
+      </div>
+
+      <!-- OH 66 -->
+      <div class="oh-entry">
+        <div class="oh-entry-header">OH 66 &mdash; August 28, 2023</div>
+        <p><strong>Q:</strong> Can you solve this using a volume-based approach — finding the change in volume of water vapor needed and dividing by the volume flow rate from the humidifier — rather than working with mass?</p>
+        <p><strong>A:</strong> Yes, Dan confirmed this alternate approach works. It is essentially &Delta;Volume<sub>water vapor</sub> / Volume<sub>flow rate</sub> = time. Dan encouraged students to learn both methods — the standard mass-based approach and this alternate volume-based approach — for maximum flexibility on exam day. If you understand both, you can verify your answer or pivot if one method stalls.</p>
+      </div>
+
+      <!-- OH 74 -->
+      <div class="oh-entry">
+        <div class="oh-entry-header">OH 74 &mdash; February 5, 2024 &mdash; Most Recent</div>
+        <p><strong>Q:</strong> For this humidifier problem, should I use the specific volume at State 1 or State 2 when finding the mass of dry air?</p>
+        <p><strong>A:</strong> Either one works for a fixed-volume room. Dan explained that because the room is sealed with a fixed mass of dry air, specific volume at State 1 and State 2 are effectively equal — you get the same ~120&nbsp;lb<sub>da</sub> either way. He challenged the student to verify by solving both ways. Dan's key rule of thumb: <strong>for coil processes, always use entering (State 1) conditions</strong> for specific volume; for fixed-volume humidification, there is no entering flow, so either state gives the same dry air mass.</p>
+      </div>
+
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration &middot; Psychrometrics &middot; Problem 3</span>
+  <span>&middot;</span>
+  <span>3 OH sessions</span>
+  <span>&middot;</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to Dashboard</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
