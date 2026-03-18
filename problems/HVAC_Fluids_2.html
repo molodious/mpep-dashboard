@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 2 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+.oh-empty .oh-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.oh-empty strong {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <a href="HVAC_Fluids_1.html">← Problem 1</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 2</span>
+  <span class="nav-sep">›</span>
+  <a href="HVAC_Fluids_3.html">Problem 3 →</a>
+  <span class="nav-badge">0 OH sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 2</div>
+
+    <div class="problem-statement">
+      A pump delivers 200 gpm of water at 130 ft of total dynamic head, operating from 7am–7pm Monday through Friday. The pump is 80% efficient and the motor is 93% efficient. What is the annual cost of operation at $0.13 per kWh?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice correct">
+        <span class="choice-letter">A</span>
+        <span>$2,670 &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>$3,490</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>$3,750</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>$5,030</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: A — $2,670</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">pump power &amp; annual energy cost</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Calculate the <strong>Water Horsepower (WHP)</strong> — the theoretical hydraulic power needed to move the fluid — using the flow rate (gpm) and total dynamic head (ft).</li>
+          <li>Divide WHP by the <strong>pump efficiency</strong> (80%) to find the actual shaft power (Brake Horsepower, BHP) the motor must deliver to the pump.</li>
+          <li>Divide BHP by the <strong>motor efficiency</strong> (93%) to find the total <strong>electrical input power</strong> drawn from the power grid.</li>
+          <li>Convert the electrical power from horsepower to <strong>kilowatts</strong> (1 hp = 0.7457 kW).</li>
+          <li>Determine <strong>annual operating hours</strong>: 12 hrs/day × 5 days/week × 52 weeks/year = 3,120 hrs/year.</li>
+          <li>Multiply electrical power (kW) × annual hours × energy rate ($/kWh) to get the <strong>total annual cost</strong>.</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Key formula:</strong> WHP = (gpm × TDH) / 3,960 — this shortcut works because 1 WHP moves 3,960 gallons per minute through 1 ft of head (derived from the specific weight of water, 62.4 lb/ft³, and unit conversions). Always divide by pump efficiency first, then motor efficiency — they stack multiplicatively because losses occur at each stage.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            To find the annual operating cost of a pump system, we must trace power from the fluid itself back through the pump and motor to the electrical grid. Each component has an efficiency that increases the power we must draw at the previous stage.
+          </p>
+
+          <p><strong>Given:</strong></p>
+          <span class="math-line">Flow rate Q  = 200 gpm</span>
+          <span class="math-line">Total Dynamic Head (TDH) = 130 ft</span>
+          <span class="math-line">Pump efficiency  η_pump  = 80% = 0.80</span>
+          <span class="math-line">Motor efficiency η_motor = 93% = 0.93</span>
+          <span class="math-line">Energy rate = $0.13 per kWh</span>
+          <span class="math-line">Operating schedule: 7 am–7 pm, Mon–Fri  →  12 hrs/day × 5 days/week</span>
+
+          <p style="margin-top: 12px;"><strong>Step 1 — Water Horsepower (WHP):</strong></p>
+          <p>WHP is the theoretical hydraulic power imparted to the fluid. For water (specific weight ≈ 62.4 lb/ft³) the formula simplifies to:</p>
+          <span class="math-line">WHP = (Q × TDH) / 3,960</span>
+          <span class="math-line">WHP = (200 gpm × 130 ft) / 3,960</span>
+          <span class="math-line">WHP = 26,000 / 3,960</span>
+          <span class="math-line">WHP = 6.566 hp</span>
+
+          <p style="margin-top: 12px;"><strong>Step 2 — Brake Horsepower (BHP) at the pump shaft:</strong></p>
+          <p>The pump is only 80% efficient, meaning it requires more shaft power than the water actually receives:</p>
+          <span class="math-line">BHP = WHP / η_pump</span>
+          <span class="math-line">BHP = 6.566 hp / 0.80</span>
+          <span class="math-line">BHP = 8.207 hp</span>
+
+          <p style="margin-top: 12px;"><strong>Step 3 — Motor input power (electrical horsepower):</strong></p>
+          <p>The motor is 93% efficient, so the electrical power drawn from the grid must be higher still:</p>
+          <span class="math-line">Motor input = BHP / η_motor</span>
+          <span class="math-line">Motor input = 8.207 hp / 0.93</span>
+          <span class="math-line">Motor input = 8.825 hp</span>
+
+          <p style="margin-top: 12px;"><strong>Step 4 — Convert to kilowatts:</strong></p>
+          <span class="math-line">Power (kW) = 8.825 hp × 0.7457 kW/hp</span>
+          <span class="math-line">Power (kW) = 6.581 kW</span>
+
+          <p style="margin-top: 12px;"><strong>Step 5 — Annual operating hours:</strong></p>
+          <span class="math-line">Hours/year = 12 hrs/day × 5 days/week × 52 weeks/year</span>
+          <span class="math-line">Hours/year = 3,120 hrs/year</span>
+
+          <p style="margin-top: 12px;"><strong>Step 6 — Annual energy cost:</strong></p>
+          <span class="math-line">Annual Cost = Power (kW) × Annual Hours × Rate ($/kWh)</span>
+          <span class="math-line">Annual Cost = 6.581 kW × 3,120 hrs × $0.13/kWh</span>
+          <span class="math-line">Annual Cost = 6.581 × 405.60</span>
+          <span class="math-line">Annual Cost = $2,669 ≈ $2,670</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Answer: A — $2,670.</strong>
+          </p>
+
+          <p>
+            A useful sanity check: combining pump and motor efficiency gives an overall system efficiency of 0.80 × 0.93 = 0.744 (74.4%). This means the grid must supply 1/0.744 = 1.344× more power than the water actually receives. The relatively low combined efficiency is typical for older, fixed-speed pump systems — modern VFD-driven pumps with premium-efficiency motors can exceed 90% combined efficiency.
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="margin-top: 8px; padding-left: 20px; line-height: 1.8;">
+            <li>The <strong>3,960 constant</strong> in the WHP formula is specific to water — it's derived from water's specific weight (62.4 lb/ft³) and unit conversions (gal → ft³, min → hr). For other fluids, use the general formula: WHP = (Q × H × γ) / 33,000.</li>
+            <li><strong>Efficiency losses stack multiplicatively</strong>, not additively — the pump and motor efficiencies multiply together (0.80 × 0.93 = 0.744) to give overall system efficiency. You cannot simply add them.</li>
+            <li>When calculating <strong>annual operating hours</strong>, always account for the actual schedule: a 12-hour/day, 5-day/week pump runs 3,120 hrs/year, not 8,760 hrs/year (which would be continuous operation).</li>
+            <li>The <strong>hp-to-kW conversion</strong> (1 hp = 0.7457 kW) is a frequently tested unit conversion. Memorize it — it appears in pump, motor, and refrigeration problems alike.</li>
+            <li>Power flows <em>from grid → motor → pump shaft → fluid</em>. To find grid power, start at the fluid (WHP) and work backward through each efficiency: divide by pump efficiency, then divide by motor efficiency.</li>
+            <li>Annual cost problems combine power calculations with <strong>time and rate</strong>. Make sure your schedule calculation matches the problem description — weekday-only vs. 24/7 operation makes a dramatic difference in cost.</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>For pump energy problems, always establish the <strong>chain of efficiencies</strong>: fluid power → pump shaft power → electrical input. Each step divides by the next efficiency value.</li>
+            <li>The WHP shortcut formula (gpm × TDH ÷ 3,960) is <strong>only valid for water</strong>. For other liquids or when the problem gives specific gravity, use the full formula with specific weight.</li>
+            <li>Always read the operating schedule carefully — the pump in this problem runs 12 hrs/day on weekdays only, which gives 3,120 hrs/year, not the full 8,760 hrs of continuous operation.</li>
+            <li>On the exam, if your answer doesn't match a choice, check whether you divided by each efficiency separately or combined them first — either approach is valid, but careless multiplication of efficiencies is a common error trap.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+    <div class="oh-empty">
+      <span class="oh-empty-icon">🎓</span>
+      <strong>No Office Hours coverage for this problem yet.</strong>
+      This problem has not been discussed in any recorded Office Hours session. Check back after future sessions, or bring it to the next live OH!
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 2</span>
+  <span>·</span>
+  <span>0 OH sessions</span>
+  <span>·</span>
+  <span>Generated 2026-03-17</span>
+  <span style="margin-left: auto; display: flex; gap: 16px;">
+    <a href="HVAC_Fluids_1.html">← Problem 1</a>
+    <a href="../oh-prep.html">OH Prep Home</a>
+    <a href="HVAC_Fluids_3.html">Problem 3 →</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
