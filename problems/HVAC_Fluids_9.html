@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 9 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-reveal-btn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 22px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.answer-reveal-btn:hover { background: #0052a3; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 14px;
+}
+.answer-revealed { display: none; margin-top: 16px; }
+/* Right panel collapsible sections */
+details {
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+details[open] {
+  border-color: #0066cc;
+}
+summary {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 16px;
+  cursor: pointer;
+  background: #f7f9ff;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '▼';
+  font-size: 11px;
+  color: #0066cc;
+  transition: transform 0.2s;
+}
+details[open] summary::after {
+  transform: rotate(180deg);
+}
+summary:hover { background: #edf2ff; }
+.section-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  background: white;
+}
+.section-body ol {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ol li { margin-bottom: 6px; }
+.section-body ul {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ul li { margin-bottom: 6px; }
+.math-block {
+  background: #f8f9fa;
+  border-left: 3px solid #0066cc;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  border-radius: 3px;
+}
+.pipe-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.pipe-table th {
+  background: #f0f4ff;
+  padding: 7px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #d0d8ef;
+  color: #0066cc;
+}
+.pipe-table td {
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  color: #444;
+}
+.pipe-table tr:nth-child(even) td { background: #f9f9f9; }
+.video-box {
+  background: #f5f0ff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #7c3aed;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #555;
+  margin-top: 6px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 32px 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+}
+.oh-qa {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.oh-qa:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.oh-question {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.oh-label {
+  display: inline-block;
+  background: #e6f0ff;
+  color: #0066cc;
+  border: 1px solid #b3d1ff;
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.oh-answer {
+  color: #555;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav Bar -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← All Problems</a>
+  <span class="nav-sep">|</span>
+  <span class="nav-title">Fluids · Problem 9</span>
+  <span class="nav-badge">Fluids</span>
+</div>
+
+<!-- Main Layout -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem Statement + Answer Choices -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · FLUIDS · PROBLEM 9</div>
+    <div class="section-title">Problem Statement</div>
+
+    <div class="problem-statement">
+      <strong>Problem 9 — Pressure Drop Through a Chilled Water Coil at Reduced Flow</strong><br><br>
+      The pressure drop through a chilled water coil at the <strong>design flow rate of 25 gpm</strong>
+      is <strong>8 psi</strong>. During normal operation, the actual flow rate is
+      <strong>4 gpm</strong>. What is the <strong>pressure drop in normal operation</strong>?
+    </div>
+
+    <div class="section-title" style="margin-top: 16px;">Answer Choices</div>
+    <div class="choices" id="choices-list">
+      <div class="choice" id="choice-a">
+        <span class="choice-letter">A.</span>
+        <span>0.2 psi</span>
+      </div>
+      <div class="choice" id="choice-b">
+        <span class="choice-letter">B.</span>
+        <span>1.3 psi</span>
+      </div>
+      <div class="choice" id="choice-c">
+        <span class="choice-letter">C.</span>
+        <span>4.1 psi</span>
+      </div>
+      <div class="choice" id="choice-d">
+        <span class="choice-letter">D.</span>
+        <span>3600 rpm</span>
+      </div>
+    </div>
+
+    <div>
+      <button class="answer-reveal-btn" onclick="revealAnswer()" id="revealBtn">
+        Reveal Answer
+      </button>
+      <div class="answer-revealed" id="answerReveal">
+        <span class="answer-tag">✓ Answer: A — 0.2 psi</span>
+        <p style="font-size:13px; color:#555; margin-top:8px;">
+          Using the <em>pressure drop square law</em>, pressure drop scales with
+          the square of flow rate ratio. At 4 gpm vs. the design 25 gpm,
+          the ratio is (4/25)² = 0.0256, giving ΔP₂ = 8 × 0.0256 ≈
+          <strong>0.2 psi</strong>. See the Full Solution panel for the complete
+          worked solution.
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Reference Box -->
+    <div style="margin-top: 24px;">
+      <div class="section-title" style="border-color: #888; font-size:13px;">
+        Key Relationship — Pressure Drop Square Law
+      </div>
+      <table class="pipe-table">
+        <thead>
+          <tr>
+            <th>Quantity</th>
+            <th>Design</th>
+            <th>Actual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Flow rate (Q)</td>
+            <td>25 gpm</td>
+            <td>4 gpm</td>
+          </tr>
+          <tr>
+            <td>Pressure drop (ΔP)</td>
+            <td>8 psi</td>
+            <td>?</td>
+          </tr>
+          <tr>
+            <td><strong>Flow ratio</strong></td>
+            <td colspan="2"><strong>Q₂/Q₁ = 4/25 = 0.16</strong></td>
+          </tr>
+          <tr>
+            <td><strong>ΔP ratio</strong></td>
+            <td colspan="2"><strong>(Q₂/Q₁)² = 0.0256</strong></td>
+          </tr>
+          <tr>
+            <td><strong>ΔP₂</strong></td>
+            <td colspan="2"><strong>8 × 0.0256 ≈ 0.2 psi</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px; color:#aaa; margin-top:4px;">
+        Pressure drop through piping and coils is proportional to the square of
+        flow rate (turbulent flow regime). Halving the flow cuts ΔP to one-quarter.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: 5 Collapsible Solution Sections -->
+  <div class="sidebar-right">
+
+    <!-- Section 1: Quick Overview -->
+    <details open>
+      <summary>1 · Quick Overview</summary>
+      <div class="section-body">
+        <p style="margin-bottom:8px;">
+          High-level steps to find the pressure drop at a reduced flow rate:
+        </p>
+        <ol>
+          <li>
+            <strong>Identify the governing relationship.</strong> Pressure drop
+            through piping and coils in turbulent flow follows the <em>square law</em>:
+            ΔP is proportional to Q². This comes directly from the Darcy-Weisbach
+            equation combined with the Moody friction factor.
+          </li>
+          <li>
+            <strong>Set up the ratio.</strong> Write ΔP₂/ΔP₁ = (Q₂/Q₁)². You
+            know ΔP₁ = 8 psi, Q₁ = 25 gpm, and Q₂ = 4 gpm.
+          </li>
+          <li>
+            <strong>Calculate the flow ratio squared.</strong>
+            (Q₂/Q₁) = 4/25 = 0.16, so (Q₂/Q₁)² = 0.0256.
+          </li>
+          <li>
+            <strong>Solve for ΔP₂.</strong> Multiply: ΔP₂ = 8 × 0.0256 = 0.2048 psi.
+          </li>
+          <li>
+            <strong>Select the closest answer: A (0.2 psi).</strong>
+          </li>
+        </ol>
+        <p style="margin-top:10px; padding:10px 12px; background:#f0f4ff; border-radius:4px; font-size:12px; color:#555;">
+          💡 <strong>Key insight:</strong> The flow rate dropped from 25 gpm to
+          4 gpm — a reduction to only 16% of design. Because ΔP scales with Q²,
+          the pressure drop falls to only (0.16)² = 2.56% of design. This steep
+          reduction is why chilled water systems operate at much lower pressure
+          drops during part-load conditions.
+        </p>
+      </div>
+    </details>
+
+    <!-- Section 2: Full Solution -->
+    <details>
+      <summary>2 · Full Solution</summary>
+      <div class="section-body">
+        <p>
+          Pressure drop through a piping system or coil in turbulent flow follows
+          the <strong>square law</strong>: ΔP ∝ Q². This relationship is derived
+          from the Darcy-Weisbach equation (ΔP = f × L/D × ρV²/2), where velocity
+          V is proportional to flow rate Q. Since ΔP ∝ V² and V ∝ Q, we get
+          ΔP ∝ Q².
+        </p>
+
+        <p style="margin-top:12px;"><strong>Step 1 — Write the Square Law Ratio</strong></p>
+        <p>
+          For a fixed piping or coil geometry, the ratio of pressure drops at
+          two different flow rates is:
+        </p>
+        <div class="math-block">ΔP₂ / ΔP₁ = (Q₂ / Q₁)²
+
+Where:
+  ΔP₁ = design pressure drop = 8 psi
+  Q₁  = design flow rate     = 25 gpm
+  Q₂  = actual flow rate     = 4 gpm
+  ΔP₂ = actual pressure drop = ? (what we want)</div>
+
+        <p style="margin-top:12px;"><strong>Step 2 — Calculate the Flow Rate Ratio</strong></p>
+        <div class="math-block">Q₂ / Q₁ = 4 gpm / 25 gpm = 0.16
+
+(Q₂ / Q₁)² = (0.16)² = 0.0256</div>
+
+        <p style="margin-top:12px;"><strong>Step 3 — Solve for ΔP₂</strong></p>
+        <div class="math-block">ΔP₂ = ΔP₁ × (Q₂ / Q₁)²
+ΔP₂ = 8 psi × 0.0256
+ΔP₂ = 0.2048 psi
+ΔP₂ ≈ 0.2 psi  →  Answer A</div>
+
+        <p style="margin-top:12px;"><strong>Result</strong></p>
+        <p>
+          The pressure drop during normal operation (at 4 gpm) is approximately
+          <strong>0.2 psi → Answer A</strong>.
+        </p>
+
+        <p style="margin-top:16px;"><strong>Why the Other Choices Are Wrong</strong></p>
+        <ul style="margin-top:6px;">
+          <li>
+            <strong>B (1.3 psi):</strong> This would result from applying a linear
+            (rather than squared) relationship — e.g., ΔP₂ = 8 × (4/25) = 1.28 psi.
+            This is the most common mistake: forgetting that ΔP scales with Q²,
+            not Q.
+          </li>
+          <li>
+            <strong>C (4.1 psi):</strong> This might come from inverting the ratio
+            (using Q₁/Q₂ instead of Q₂/Q₁), or applying an incorrect exponent.
+            For example, ΔP₂ = 8 × (25/4)² would give 312.5 psi — but
+            if someone used √(25/4) ≈ 2.5 and divided, they could land near
+            a wrong neighborhood. In any case, it's a calculation error.
+          </li>
+          <li>
+            <strong>D (3600 rpm):</strong> This is the answer to a different
+            problem (nominal speed of a 4-pole synchronous motor, f = 60 Hz,
+            n = 120f/p = 120×60/4 = 3600 rpm). It has nothing to do with
+            pressure drop in a chilled water coil.
+          </li>
+        </ul>
+
+        <p style="margin-top:14px; padding:10px 12px; background:#f0f4ff; border-radius:4px; font-size:12px; color:#555;">
+          💡 <strong>Exam Tip:</strong> Whenever flow rate changes in a fixed
+          piping system or coil, always apply the square law for pressure drop.
+          If the problem involves pumps specifically (head vs. flow), the pump
+          affinity laws apply — but for resistance (ΔP in the system), it is
+          always ΔP ∝ Q². These two concepts pair together on the PE exam.
+        </p>
+      </div>
+    </details>
+
+    <!-- Section 3: Video Synthesis -->
+    <details>
+      <summary>3 · Video Synthesis</summary>
+      <div class="section-body">
+        <div class="video-box">
+          <strong style="font-size:13px;">📹 Key Concepts — Pressure Drop Square Law &amp; Coil Behavior</strong>
+          <ul style="margin-top:10px; padding-left:18px; line-height:1.9;">
+            <li>
+              <strong>The pressure drop square law is fundamental to HVAC hydronic
+              system analysis.</strong> For any fixed resistance (pipe, coil,
+              valve, fitting), ΔP ∝ Q². This means a 50% reduction in flow
+              cuts the pressure drop to 25% of its original value — not 50%.
+            </li>
+            <li>
+              <strong>This law derives from the Darcy-Weisbach equation.</strong>
+              ΔP = f(L/D)(ρV²/2). Since velocity V = Q/A, we have ΔP ∝ V² ∝ Q².
+              The friction factor f is approximately constant in fully turbulent
+              flow (high Reynolds number), which is typical for chilled water
+              systems at design conditions.
+            </li>
+            <li>
+              <strong>The square law connects directly to pump affinity laws.</strong>
+              The affinity laws tell us pump head scales with N² (speed squared)
+              or Q² (flow squared). The system curve ΔP ∝ Q² is the system-side
+              counterpart. The operating point is where the pump curve intersects
+              the system curve.
+            </li>
+            <li>
+              <strong>Chilled water coils are sized at design conditions (25 gpm
+              here), but operate at part load most of the time.</strong> At 4 gpm
+              (16% of design), the coil sees only 2.56% of the design ΔP. This
+              dramatic reduction is why variable flow systems save significant
+              pumping energy during part-load operation.
+            </li>
+            <li>
+              <strong>Don't confuse the system square law with a linear
+              relationship.</strong> A common error is assuming ΔP scales linearly
+              with Q (like ohm's law for resistors in series). That would give
+              1.28 psi (answer B) — close enough to look plausible but
+              physically incorrect for turbulent flow.
+            </li>
+            <li>
+              <strong>The square law applies to the entire system resistance.</strong>
+              For a chilled water coil, the coil's internal water-side pressure
+              drop follows the same law as pipe friction losses. Both scale with
+              Q² in turbulent flow.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 4: Key Takeaways -->
+    <details>
+      <summary>4 · Key Takeaways</summary>
+      <div class="section-body">
+        <div class="takeaway-box">
+          <strong style="font-size:13px; color:#92400e;">⭐ Key Takeaways</strong>
+          <ul>
+            <li>
+              <strong>Pressure drop scales with the square of flow rate in
+              turbulent flow.</strong> When flow drops significantly below design,
+              the pressure drop drops even more dramatically. This is the square
+              law, and it applies to pipes, coils, fittings, and most HVAC
+              hydronic components.
+            </li>
+            <li>
+              <strong>The most common exam mistake is applying a linear
+              relationship instead of the square law.</strong> If you multiply
+              the pressure drop by the flow ratio (rather than the flow ratio
+              squared), you get a plausible-looking wrong answer. Always square
+              the ratio when dealing with system resistance.
+            </li>
+            <li>
+              <strong>Part-load operation results in dramatically lower pressure
+              drops.</strong> A system running at 16% of design flow sees only
+              about 2.6% of design pressure drop. This is critical for
+              understanding why variable flow systems save energy.
+            </li>
+            <li>
+              <strong>Know how to tell system resistance problems apart from
+              pump problems.</strong> Pump affinity laws govern how pump
+              performance changes with speed or flow. The square law governs
+              how system resistance changes with flow. On the exam, read
+              carefully — the same formula structure appears in both, but
+              they answer different questions.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <details>
+      <summary>5 · Office Hours Q&amp;A</summary>
+      <div class="section-body">
+        <div class="oh-empty">
+          No Office Hours coverage for this problem yet.
+        </div>
+      </div>
+    </details>
+
+  </div><!-- end sidebar-right -->
+</div><!-- end layout-container -->
+
+<!-- Footer -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 9</span>
+  <span>·</span>
+  <span>Answer: A — 0.2 psi</span>
+  <span>·</span>
+  <span>OH Coverage: None</span>
+  <span>·</span>
+  <span>Generated: 2026-03-18</span>
+  <span>·</span>
+  <a href="HVAC_Fluids_8.html">← Problem 8</a>
+  <span>·</span>
+  <a href="HVAC_Fluids_10.html">Problem 10 →</a>
+  <span>·</span>
+  <a href="../oh-prep.html">← All Problems</a>
+</div>
+
+<script>
+  function revealAnswer() {
+    const reveal = document.getElementById('answerReveal');
+    const btn = document.getElementById('revealBtn');
+    const choiceA = document.getElementById('choice-a');
+
+    reveal.style.display = 'block';
+    btn.style.display = 'none';
+    choiceA.classList.add('correct');
+    choiceA.querySelector('.choice-letter').style.color = '#16a34a';
+  }
+</script>
+
+</body>
+</html>
