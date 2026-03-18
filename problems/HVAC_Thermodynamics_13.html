@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 13 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+  white-space: normal;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+}
+.oh-empty .oh-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.oh-empty strong {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.oh-empty .oh-no-badge {
+  display: inline-block;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep</a>
+  <span style="color:#bbb;font-size:13px;">›</span>
+  <span style="font-size:13px;color:#555;">Thermodynamics</span>
+  <span style="color:#bbb;font-size:13px;">›</span>
+  <span style="font-size:13px;font-weight:600;color:#1a1a1a;">Problem 13</span>
+  <span class="nav-badge">No OH</span>
+</div>
+
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+    <div class="section-title">Problem 13 — Isentropic Steam Expansion</div>
+
+    <div class="problem-meta">Thermodynamics · Isentropic Process · Steam Tables</div>
+    <div class="problem-statement">
+      Steam with a quality of 90% expands isentropically from 350 psia to 120 psia. What is the change in enthalpy?
+    </div>
+
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>40 Btu/lb</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B.</span>
+        <span>80 Btu/lb ✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C.</span>
+        <span>90 Btu/lb</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D.</span>
+        <span>120 Btu/lb</span>
+      </div>
+    </div>
+
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B — 80 Btu/lb</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('quick')">
+        <span>▶ Quick Overview</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="quick">1. Recognize that "isentropic" means constant entropy: s₁ = s₂. Entropy is the bridge linking State 1 to State 2.
+
+2. Look up State 1 properties at 350 psia in the saturated steam tables (by pressure):
+   h_f = 409.8, h_fg = 794.62, s_f = 0.6059, s_fg = 0.8914
+
+3. Calculate h₁ and s₁ using quality x₁ = 0.90:
+   h₁ = 409.8 + 0.9 × 794.62 = 1125 Btu/lbm
+   s₁ = 0.6059 + 0.9 × 0.8914 = 1.408 Btu/(lbm·°R)
+
+4. Set s₂ = s₁ = 1.408. Look up State 2 properties at 120 psia:
+   h_f = 312.55, h_fg = 878.2, s_f = 0.4919, s_fg = 1.0965, s_g = s_f + s_fg = 1.588
+
+5. Verify steam is still two-phase: s₂ = 1.408 < s_g = 1.588 ✓
+
+6. Solve for exit quality x₂:
+   x₂ = (s₂ − s_f) / s_fg = (1.408 − 0.4919) / 1.0965 = 0.835
+
+7. Calculate h₂:
+   h₂ = 312.55 + 0.835 × 878.2 = 1046 Btu/lbm
+
+8. Compute change in enthalpy:
+   Δh = h₁ − h₂ = 1125 − 1046 = 79 Btu/lbm ≈ 80 Btu/lb → Answer B</div>
+
+      <button class="solution-toggle" style="margin-top:8px;" onclick="toggleSolution('full')">
+        <span>▶ Full Solution</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="full"><strong>Step 1 — Identify the Process and Key Relationship</strong>
+
+An isentropic process is one with no heat transfer and no irreversibilities — entropy is conserved:
+
+   s₁ = s₂
+
+This is the critical equation. Entropy at State 1 becomes the known quantity used to fully define State 2.
+
+<strong>Step 2 — Define State 1 (350 psia, x₁ = 0.90)</strong>
+
+Look up saturated steam table properties at 350 psia:
+
+   h_f  = 409.8  Btu/lbm
+   h_fg = 794.62 Btu/lbm
+   s_f  = 0.6059 Btu/(lbm·°R)
+   s_fg = 0.8914 Btu/(lbm·°R)
+
+Compute State 1 enthalpy and entropy using quality x₁ = 0.90:
+
+   h₁ = h_f + x₁ · h_fg
+   h₁ = 409.8 + (0.90)(794.62)
+   h₁ = 409.8 + 715.2
+   h₁ = 1125 Btu/lbm
+
+   s₁ = s_f + x₁ · s_fg
+   s₁ = 0.6059 + (0.90)(0.8914)
+   s₁ = 0.6059 + 0.8023
+   s₁ = 1.408 Btu/(lbm·°R)
+
+<strong>Step 3 — Set s₂ = s₁ and Look Up State 2 Properties (120 psia)</strong>
+
+Since the process is isentropic: s₂ = 1.408 Btu/(lbm·°R)
+
+Look up saturated steam table properties at 120 psia:
+
+   h_f  = 312.55 Btu/lbm
+   h_fg = 878.2  Btu/lbm
+   s_f  = 0.4919 Btu/(lbm·°R)
+   s_fg = 1.0965 Btu/(lbm·°R)
+   s_g  = s_f + s_fg = 0.4919 + 1.0965 = 1.5884 Btu/(lbm·°R)
+
+<strong>Step 4 — Verify the Steam Remains Two-Phase</strong>
+
+Check: s_f < s₂ < s_g ?
+   0.4919 < 1.408 < 1.5884 ✓
+
+Yes — the steam is still in the two-phase (wet steam) region at State 2. We can use the quality equations.
+
+<strong>Step 5 — Find Exit Quality x₂</strong>
+
+   x₂ = (s₂ − s_f) / s_fg
+   x₂ = (1.408 − 0.4919) / 1.0965
+   x₂ = 0.9161 / 1.0965
+   x₂ = 0.835
+
+The steam expanded from 90% quality to 83.5% quality — it got slightly wetter as it expanded to lower pressure, which is physically reasonable.
+
+<strong>Step 6 — Calculate State 2 Enthalpy</strong>
+
+   h₂ = h_f + x₂ · h_fg
+   h₂ = 312.55 + (0.835)(878.2)
+   h₂ = 312.55 + 733.3
+   h₂ = 1046 Btu/lbm
+
+<strong>Step 7 — Compute the Change in Enthalpy</strong>
+
+   Δh = h₁ − h₂ = 1125 − 1046 = 79 Btu/lbm ≈ <strong>80 Btu/lb → Answer B ✓</strong>
+
+The steam lost 79 Btu/lbm of enthalpy as it expanded — this energy went to doing work on the surroundings.
+
+<strong>Why Not the Other Answers?</strong>
+
+• Answer A (40 Btu/lb): Approximately half the correct value. This could result from forgetting to multiply h_fg by quality (i.e., computing h₂ incorrectly), or from using only the s_f difference without dividing by s_fg.
+
+• Answer C (90 Btu/lb): Close to the right answer but overstates the drop. Might arise from using slightly different steam table values (e.g., rounding s₁ up) or miscalculating x₂ as slightly lower.
+
+• Answer D (120 Btu/lb): Could come from confusing h_fg at one of the pressures with Δh, or from computing a state property difference incorrectly (e.g., taking h_f₁ − h_f₂ = 409.8 − 312.55 ≈ 97 and rounding up).
+
+The correct approach always goes through entropy to find exit quality, then uses that quality to compute exit enthalpy.</div>
+
+      <!-- Video Synthesis -->
+      <div style="margin-top:20px;">
+        <button class="solution-toggle" onclick="toggleSolution('video')">
+          <span>▶ Video Synthesis</span>
+          <span style="font-size:11px;color:#aaa;">click to expand</span>
+        </button>
+        <div class="solution-box" id="video" style="border-left-color:#7c3aed; white-space:normal;">
+          <div class="video-box" style="margin-top:0; border:none; padding:0; background:transparent;">
+            <strong style="color:#7c3aed;">📹 What Dan Covers in the Video</strong><br><br>
+            <strong>The core concept:</strong> Dan opens by nailing down what "isentropic" means for the problem-solving strategy. It's not just a descriptor — it's the equation: s₁ = s₂. Entropy is the bridge between State 1 (fully defined) and State 2 (pressure known, everything else unknown).<br><br>
+            <strong>Steam tables organized by pressure:</strong> Dan is explicit about using the saturated steam tables sorted by pressure (not temperature), since both states are given as pressures. He walks through each table lookup methodically — reading h_f, h_fg, s_f, and s_fg at each pressure before doing any arithmetic.<br><br>
+            <strong>The two-phase check:</strong> Before computing exit quality, Dan verifies that s₂ lies between s_f and s_g at 120 psia. This is an important habit — if s₂ were greater than s_g, the steam would be superheated and you'd need superheated steam tables instead. Checking first prevents a systematic error.<br><br>
+            <strong>State-by-state discipline:</strong> Dan emphasizes defining both states fully before computing differences. He writes out all six table values (h_f, h_fg, s_f, s_fg at both pressures) before solving for x₂ or h₂. This structured approach reduces errors and is directly exam-reproducible.<br><br>
+            <strong>The calculation flow:</strong>
+            <ul style="padding-left:18px; margin-top:6px; line-height:2;">
+              <li>State 1: h₁ = 409.8 + 0.9 × 794.62 = 1125 Btu/lbm</li>
+              <li>State 1: s₁ = 0.6059 + 0.9 × 0.8914 = 1.408 Btu/(lbm·°R)</li>
+              <li>State 2 quality: x₂ = (1.408 − 0.4919) / 1.0965 = 0.835</li>
+              <li>State 2: h₂ = 312.55 + 0.835 × 878.2 = 1046 Btu/lbm</li>
+              <li>Δh = 1125 − 1046 = 79 ≈ 80 Btu/lb → Answer B</li>
+            </ul>
+            <br>
+            <strong>Key teaching moment:</strong> Dan points out that the exit quality (83.5%) is slightly lower than the inlet quality (90%). When wet steam expands to lower pressure isentropically, quality decreases — some vapor condenses. This is the physically expected result and serves as a built-in sanity check.
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Takeaways -->
+      <div style="margin-top:20px;">
+        <div class="section-title" style="border-color:#f59e0b;">Key Takeaways</div>
+        <div class="takeaway-box">
+          <ul style="padding-left:16px;font-size:13px;line-height:2;color:#555;">
+            <li><strong>Isentropic = constant entropy.</strong> The equation s₁ = s₂ is not background info — it's the central tool that lets you find exit quality at the new pressure.</li>
+            <li><strong>Always check the two-phase region.</strong> Before using quality equations at State 2, verify s_f &lt; s₂ &lt; s_g at the exit pressure. If s₂ &gt; s_g, the steam is superheated and you need different tables.</li>
+            <li><strong>Entropy first, enthalpy second.</strong> Never try to compute Δh directly. Find s₁ → set s₂ = s₁ → solve for x₂ → compute h₂ → then find Δh.</li>
+            <li><strong>Use steam tables organized by pressure</strong> when the given conditions are pressures (as here). Table lookup order: 350 psia → read s_f, s_fg; 120 psia → read h_f, h_fg, s_f, s_fg.</li>
+            <li><strong>Quality drops during isentropic expansion of wet steam</strong> — a sanity check. Going from 90% quality to 83.5% is physically expected and confirms you haven't made a sign error.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <p class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</p>
+
+    <div class="oh-empty">
+      <span class="oh-empty-icon">🎙️</span>
+      <span class="oh-no-badge">No Office Hours Coverage</span>
+      <strong>No Office Hours coverage for this problem yet.</strong>
+      This problem hasn't been discussed in a recorded Office Hours session. Bring it up in the next live OH — Dan plans to cover it in an upcoming session!
+    </div>
+
+  </div><!-- /sidebar-right -->
+
+</div><!-- /layout-container -->
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 13</span>
+  <span>·</span>
+  <span>0 OH sessions</span>
+  <span>·</span>
+  <span>Answer: B</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left:auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  // Close all boxes first
+  document.querySelectorAll('.solution-box').forEach(b => b.classList.remove('open'));
+  // Reset all toggle button arrows
+  document.querySelectorAll('.solution-toggle').forEach(btn => {
+    const span = btn.querySelector('span');
+    if (span) span.textContent = span.textContent.replace('▼', '▶');
+  });
+  if (!isOpen) {
+    box.classList.add('open');
+    // Update the clicked button's arrow
+    document.querySelectorAll('.solution-toggle').forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + id + "'")) {
+        const span = btn.querySelector('span');
+        if (span) span.textContent = span.textContent.replace('▶', '▼');
+      }
+    });
+  }
+}
+</script>
+
+</body>
+</html>
