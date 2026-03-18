@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 7 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-reveal-btn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 22px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.answer-reveal-btn:hover { background: #0052a3; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 14px;
+}
+.answer-revealed { display: none; margin-top: 16px; }
+/* Right panel collapsible sections */
+details {
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+details[open] {
+  border-color: #0066cc;
+}
+summary {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 16px;
+  cursor: pointer;
+  background: #f7f9ff;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '▼';
+  font-size: 11px;
+  color: #0066cc;
+  transition: transform 0.2s;
+}
+details[open] summary::after {
+  transform: rotate(180deg);
+}
+summary:hover { background: #edf2ff; }
+.section-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  background: white;
+}
+.section-body ol {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ol li { margin-bottom: 6px; }
+.section-body ul {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ul li { margin-bottom: 6px; }
+.math-block {
+  background: #f8f9fa;
+  border-left: 3px solid #0066cc;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  border-radius: 3px;
+}
+.pipe-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.pipe-table th {
+  background: #f0f4ff;
+  padding: 7px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #d0d8ef;
+  color: #0066cc;
+}
+.pipe-table td {
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  color: #444;
+}
+.pipe-table tr:nth-child(even) td { background: #f9f9f9; }
+.video-box {
+  background: #f5f0ff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #7c3aed;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #555;
+  margin-top: 6px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 32px 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav Bar -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← All Problems</a>
+  <span class="nav-sep">|</span>
+  <span class="nav-title">Fluids · Problem 7</span>
+  <span class="nav-badge">Fluids</span>
+</div>
+
+<!-- Main Layout -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem Statement + Answer Choices -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 7</div>
+    <div class="section-title">Problem Statement</div>
+
+    <div class="problem-statement">
+      <strong>Problem 7 — Tee Connection Outlet Velocity</strong><br><br>
+      A tee connection receives <strong>4 gpm</strong> of water from a
+      <strong>¾ inch schedule 40 steel pipe</strong> and <strong>3 ft/s</strong>
+      of water from a <strong>1¼ inch schedule 40 steel pipe</strong>. Water
+      exits into a <strong>1½ inch schedule 40 steel pipe</strong>.<br><br>
+      <strong>What is the velocity in the outlet pipe?</strong>
+      Ignore friction loss.
+    </div>
+
+    <div class="section-title" style="margin-top: 16px;">Answer Choices</div>
+    <div class="choices" id="choices-list">
+      <div class="choice" id="choice-a">
+        <span class="choice-letter">A.</span>
+        <span>2.4 ft/s</span>
+      </div>
+      <div class="choice" id="choice-b">
+        <span class="choice-letter">B.</span>
+        <span>2.8 ft/s</span>
+      </div>
+      <div class="choice" id="choice-c">
+        <span class="choice-letter">C.</span>
+        <span>3.3 ft/s</span>
+      </div>
+      <div class="choice" id="choice-d">
+        <span class="choice-letter">D.</span>
+        <span>4.8 ft/s</span>
+      </div>
+    </div>
+
+    <div>
+      <button class="answer-reveal-btn" onclick="revealAnswer()" id="revealBtn">
+        Reveal Answer
+      </button>
+      <div class="answer-revealed" id="answerReveal">
+        <span class="answer-tag">✓ Answer: B — 2.8 ft/s</span>
+        <p style="font-size:13px; color:#555; margin-top:8px;">
+          Applying the continuity equation at the tee junction, the combined
+          volumetric flow rate through the 1½" outlet pipe results in a velocity
+          of approximately <strong>2.8 ft/s</strong>. See the Full Solution
+          panel on the right for the complete worked solution.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pipe Reference Box -->
+    <div style="margin-top: 24px;">
+      <div class="section-title" style="border-color: #888; font-size:13px;">
+        Schedule 40 Pipe Reference (Standard Values)
+      </div>
+      <table class="pipe-table">
+        <thead>
+          <tr>
+            <th>Nominal Size</th>
+            <th>Inside Dia. (in)</th>
+            <th>Flow Area (ft²)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>¾ inch</td>
+            <td>0.824"</td>
+            <td>0.003703 ft²</td>
+          </tr>
+          <tr>
+            <td>1¼ inch</td>
+            <td>1.380"</td>
+            <td>0.010387 ft²</td>
+          </tr>
+          <tr>
+            <td><strong>1½ inch</strong> (outlet)</td>
+            <td><strong>1.610"</strong></td>
+            <td><strong>0.014138 ft²</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px; color:#aaa; margin-top:4px;">
+        Source: ASME B36.10M, Schedule 40 carbon steel pipe dimensions.
+        Always use inside diameter — not nominal — for flow calculations.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: 5 Collapsible Solution Sections -->
+  <div class="sidebar-right">
+
+    <!-- Section 1: Quick Overview -->
+    <details open>
+      <summary>1 · Quick Overview</summary>
+      <div class="section-body">
+        <p style="margin-bottom:8px;">
+          High-level steps to solve this tee-connection velocity problem:
+        </p>
+        <ol>
+          <li>
+            <strong>Identify the junction type.</strong> A tee connection that
+            combines two inlets into one outlet is a <em>combining-flow
+            junction</em>. Conservation of mass (continuity) governs:
+            Q<sub>out</sub> = Q<sub>in1</sub> + Q<sub>in2</sub>.
+          </li>
+          <li>
+            <strong>Convert inlet 1 from gpm to ft³/s.</strong> The ¾" pipe
+            delivers 4 gpm. Use the conversion 1 gpm = 1/448.83 ft³/s to
+            get Q₁ in consistent units.
+          </li>
+          <li>
+            <strong>Convert inlet 2 from velocity to ft³/s.</strong> The
+            1¼" pipe carries water at 3 ft/s. Multiply velocity by the
+            pipe's cross-sectional area: Q₂ = V₂ × A₂.
+          </li>
+          <li>
+            <strong>Sum the inlet flow rates.</strong> Q<sub>total</sub> =
+            Q₁ + Q₂, using consistent units throughout (ft³/s).
+          </li>
+          <li>
+            <strong>Look up the 1½" schedule 40 inside diameter.</strong>
+            From standard pipe tables, ID = 1.610 inches. Compute the
+            outlet area A<sub>out</sub> = π/4 × (ID/12)².
+          </li>
+          <li>
+            <strong>Divide to get velocity.</strong> V<sub>out</sub> =
+            Q<sub>total</sub> / A<sub>out</sub>. Compare to the answer
+            choices — the result rounds to <strong>2.8 ft/s</strong>.
+          </li>
+        </ol>
+      </div>
+    </details>
+
+    <!-- Section 2: Full Solution -->
+    <details>
+      <summary>2 · Full Solution</summary>
+      <div class="section-body">
+        <p>
+          This problem applies the <strong>continuity equation</strong> at a
+          tee junction where two flow streams combine. Because friction loss is
+          ignored and the fluid is water (incompressible), we use volumetric
+          continuity: the total volume flow rate entering equals the volume flow
+          rate leaving.
+        </p>
+        <p style="margin-top:10px;"><strong>Governing Equation</strong></p>
+        <div class="math-block">Continuity at combining tee:
+  Q_out = Q_in1 + Q_in2
+
+Velocity in outlet pipe:
+  V_out = Q_out / A_out</div>
+
+        <p style="margin-top:12px;"><strong>Step 1 — Identify the Schedule 40 Pipe Inside Diameters</strong></p>
+        <p>
+          Flow calculations always use the <em>inside</em> diameter — the nominal
+          size is just a designation. From ASME B36.10M / standard pipe tables:
+        </p>
+        <div class="math-block">¾"  Schedule 40:   ID = 0.824 in  →  0.0687 ft
+1¼" Schedule 40:   ID = 1.380 in  →  0.1150 ft
+1½" Schedule 40:   ID = 1.610 in  →  0.1342 ft  (outlet)</div>
+
+        <p style="margin-top:12px;"><strong>Step 2 — Calculate the Cross-Sectional Areas</strong></p>
+        <div class="math-block">A = π/4 × D²
+
+A_¾  = π/4 × (0.0687 ft)²  =  0.003703 ft²
+A_1¼ = π/4 × (0.1150 ft)²  =  0.010387 ft²
+A_1½ = π/4 × (0.1342 ft)²  =  0.014138 ft²  ← outlet</div>
+
+        <p style="margin-top:12px;"><strong>Step 3 — Convert Inlet 1 from gpm to ft³/s</strong></p>
+        <p>
+          The ¾" pipe carries <strong>4 gpm</strong>. The conversion factor is:
+          1 gal = 0.13368 ft³, 1 min = 60 s, so 1 gpm = 0.13368/60 ft³/s.
+        </p>
+        <div class="math-block">Conversion:  1 gpm = 1/448.83 ft³/s = 0.002228 ft³/s
+
+Q₁ = 4 gpm × 0.002228 ft³/s per gpm
+Q₁ = 0.008912 ft³/s</div>
+
+        <p style="margin-top:12px;"><strong>Step 4 — Convert Inlet 2 from Velocity to ft³/s</strong></p>
+        <p>
+          The 1¼" pipe carries water at <strong>3 ft/s</strong> (velocity).
+          Use Q = V × A:
+        </p>
+        <div class="math-block">Q₂ = V₂ × A_1¼
+Q₂ = 3 ft/s × 0.010387 ft²
+Q₂ = 0.031161 ft³/s</div>
+
+        <p style="margin-top:12px;"><strong>Step 5 — Apply Continuity: Sum the Inlet Flows</strong></p>
+        <div class="math-block">Q_out = Q₁ + Q₂
+Q_out = 0.008912 + 0.031161
+Q_out = 0.040073 ft³/s</div>
+
+        <p style="margin-top:12px;"><strong>Step 6 — Calculate Outlet Velocity</strong></p>
+        <p>
+          Divide the total volumetric flow rate by the outlet pipe's
+          cross-sectional area:
+        </p>
+        <div class="math-block">V_out = Q_out / A_1½
+V_out = 0.040073 ft³/s ÷ 0.014138 ft²
+V_out = 2.834 ft/s
+
+Rounded to one decimal place: V_out ≈ 2.8 ft/s</div>
+
+        <p style="margin-top:12px;"><strong>Result</strong></p>
+        <p>
+          The outlet velocity is <strong>2.8 ft/s → Answer B</strong>.
+        </p>
+
+        <p style="margin-top:16px;"><strong>Why the Other Choices Are Wrong</strong></p>
+        <ul style="margin-top:6px;">
+          <li>
+            <strong>A (2.4 ft/s):</strong> This would result if only one of the
+            two inlet flows were included in the sum — e.g., using only
+            the gpm inlet and forgetting to add Q₂ from the velocity inlet.
+          </li>
+          <li>
+            <strong>C (3.3 ft/s):</strong> A result near this value can arise
+            if the wrong inside diameter is used for the outlet pipe — for
+            example, using the 1¼" area instead of the 1½" area, which gives
+            a falsely small denominator and inflated velocity.
+          </li>
+          <li>
+            <strong>D (4.8 ft/s):</strong> This would result from a unit
+            conversion error — for example, using the 3 ft/s value directly
+            as a flow rate (ft³/s) rather than multiplying by the pipe area
+            first. That triples the inlet flow and over-estimates V_out
+            significantly.
+          </li>
+        </ul>
+
+        <p style="margin-top:14px; padding:10px 12px; background:#f0f4ff; border-radius:4px; font-size:12px; color:#555;">
+          💡 <strong>Exam Tip:</strong> On PE exam tee problems, always confirm
+          that all flow rates are in the <em>same units</em> before summing. A
+          common mistake is adding gpm to ft³/s without converting first.
+        </p>
+      </div>
+    </details>
+
+    <!-- Section 3: Video Synthesis -->
+    <details>
+      <summary>3 · Video Synthesis</summary>
+      <div class="section-body">
+        <div class="video-box">
+          <strong style="font-size:13px;">📹 Key Insights — Tee Connections &amp; Continuity</strong>
+          <ul style="margin-top:10px; padding-left:18px; line-height:1.9;">
+            <li>
+              <strong>Tee junctions are simply continuity points.</strong> Whether
+              you have a combining tee (two inlets, one outlet) or a splitting tee
+              (one inlet, two outlets), the continuity equation always holds: the
+              sum of flows in equals the sum of flows out. Friction loss is a
+              separate calculation and doesn't change the flow balance.
+            </li>
+            <li>
+              <strong>Mixed unit problems are intentional exam traps.</strong>
+              Providing one flow rate in gpm and another as a velocity (ft/s) forces
+              you to recognize that you must convert everything to a single
+              volumetric unit before applying continuity. Always check units at
+              every step.
+            </li>
+            <li>
+              <strong>Schedule 40 pipe ID lookup is a required skill.</strong>
+              The nominal pipe size is NOT the inside diameter — for 1½" sch 40,
+              the ID is 1.610", not 1.500". Using the nominal size will give a
+              slightly wrong area and therefore a slightly wrong velocity. The
+              exam expects you to use the actual inside diameter from standard
+              tables.
+            </li>
+            <li>
+              <strong>The gpm–ft³/s conversion appears constantly.</strong>
+              Memorize: 1 gpm = 0.002228 ft³/s (or equivalently, 1 ft³/s =
+              448.83 gpm). This conversion bridges the common mixed-unit scenario
+              on HVAC/Fluids problems where volumetric flow and velocity are
+              given together.
+            </li>
+            <li>
+              <strong>Flow area scales as the square of diameter.</strong>
+              Shifting from a 1¼" pipe to a 1½" pipe increases the area by
+              roughly 36% — so even though the outlet pipe is only ¼" larger in
+              nominal size, it carries significantly more cross-sectional area.
+              Building intuition about area ratios helps sanity-check velocity
+              calculations.
+            </li>
+            <li>
+              <strong>Ignoring friction loss simplifies the problem to pure
+              geometry.</strong> When the problem says "ignore friction loss,"
+              it's telling you that only continuity (mass conservation) is
+              needed — no Darcy-Weisbach, no minor loss coefficients. This is
+              a signal to focus solely on Q = V × A.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 4: Key Takeaways -->
+    <details>
+      <summary>4 · Key Takeaways</summary>
+      <div class="section-body">
+        <div class="takeaway-box">
+          <strong style="font-size:13px; color:#92400e;">⭐ Key Takeaways</strong>
+          <ul>
+            <li>
+              <strong>Tee connections conserve mass: total flow in equals total
+              flow out.</strong> This is the continuity equation applied to a
+              junction. It holds true regardless of the pipe sizes, velocities,
+              or whether friction is present — mass (and for an incompressible
+              fluid like water, volume) is always conserved.
+            </li>
+            <li>
+              <strong>Always use the inside diameter — not the nominal size —
+              for schedule 40 pipe calculations.</strong> Nominal pipe sizes are
+              designations, not actual dimensions. For accurate flow areas and
+              velocities, look up the true inside diameter from standard pipe
+              tables (e.g., ¾" sch 40 ID = 0.824", 1½" sch 40 ID = 1.610").
+            </li>
+            <li>
+              <strong>Converting between gpm and ft³/s is a common exam unit
+              conversion.</strong> Many HVAC and fluids problems give flow rates
+              in gallons per minute, but velocity and area calculations require
+              ft³/s. Keeping 1 gpm = 0.002228 ft³/s on your reference sheet
+              saves time and prevents unit errors.
+            </li>
+            <li>
+              <strong>Velocity can increase or decrease when flows combine,
+              depending on the outlet pipe size.</strong> In this problem,
+              combining two inlets into a slightly larger outlet pipe resulted
+              in a moderate outlet velocity. If the outlet pipe were smaller,
+              the velocity would be higher; if larger, it would be lower.
+              The outlet pipe size is the key variable controlling exit velocity.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <details>
+      <summary>5 · Office Hours Q&amp;A</summary>
+      <div class="section-body">
+        <div class="oh-empty">
+          <div style="font-size:28px; margin-bottom:10px;">🎙️</div>
+          <div style="font-weight:600; color:#888; margin-bottom:6px;">
+            No Office Hours coverage for this problem yet.
+          </div>
+          <div style="color:#bbb; font-size:12px;">
+            Check back after the next OH session, or ask about this problem
+            directly during office hours.
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <p style="font-size:13px; font-weight:600; color:#1a1a1a; border-bottom:2px solid #0066cc; padding-bottom:6px; margin-bottom:10px;">
+            Related Concepts
+          </p>
+          <div style="font-size:13px; color:#555; line-height:1.8;">
+            <strong>Topics this problem touches:</strong>
+            <ul style="padding-left:18px; margin-top:6px; line-height:1.9;">
+              <li>Continuity equation for incompressible flow</li>
+              <li>Combining-flow tee junctions</li>
+              <li>Volumetric flow rate: Q = V × A</li>
+              <li>Unit conversion: gpm ↔ ft³/s</li>
+              <li>Schedule 40 steel pipe inside diameter lookup (ASME B36.10M)</li>
+              <li>Cross-sectional area from inside diameter: A = π/4 × D²</li>
+            </ul>
+            <div style="margin-top:14px; background:#f0f4ff; padding:10px 12px; border-radius:4px; font-size:12px; color:#555;">
+              💡 <strong>Exam tip:</strong> Tee connection problems on the PE exam
+              almost always test either (a) continuity — finding an unknown flow
+              or velocity — or (b) pressure/head balance at the junction. If the
+              problem says "ignore friction loss," it's a continuity-only problem.
+              If it asks about pressure differences, you'll need the energy
+              equation (Bernoulli) as well.
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+  </div><!-- end sidebar-right -->
+</div><!-- end layout-container -->
+
+<!-- Footer -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 7</span>
+  <span>·</span>
+  <span>Answer: B — 2.8 ft/s</span>
+  <span>·</span>
+  <span>Generated: 2026-03-18</span>
+  <span>·</span>
+  <a href="../oh-prep.html">← All Problems</a>
+</div>
+
+<script>
+  function revealAnswer() {
+    const reveal = document.getElementById('answerReveal');
+    const btn = document.getElementById('revealBtn');
+    const choiceB = document.getElementById('choice-b');
+
+    reveal.style.display = 'block';
+    btn.style.display = 'none';
+    choiceB.classList.add('correct');
+    choiceB.querySelector('.choice-letter').style.color = '#16a34a';
+  }
+</script>
+
+</body>
+</html>
