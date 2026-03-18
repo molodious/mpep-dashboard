@@ -3,472 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OH Prep Dashboard — Problem Library</title>
+    <title>PE Exam Prep — Problem Build Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin: 0;
             padding: 20px;
         }
-        
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        
         h1 {
-            color: #333;
-            margin-bottom: 30px;
-            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #fff;
         }
-        
-        .summary {
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .status-bar {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
-        
-        .summary-card {
+        .status-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
             padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
         }
-        
-        .summary-card.green {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-        }
-        
-        .summary-card.amber {
-            background: linear-gradient(135deg, #FFC107, #FFB300);
-            color: #333;
-        }
-        
-        .summary-card.red {
-            background: linear-gradient(135deg, #F44336, #E53935);
-        }
-        
-        .summary-number {
-            font-size: 36px;
-            margin-bottom: 5px;
-        }
-        
-        .summary-label {
-            font-size: 14px;
+        .status-card h3 {
+            margin: 0 0 10px 0;
+            color: #cbd5e1;
+            font-size: 0.9em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
         }
-        
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+        .status-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #0ea5e9;
         }
-        
-        .filter-btn {
-            padding: 10px 20px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .status-card .subtext {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-top: 10px;
         }
-        
-        .filter-btn.active {
-            color: white;
-            border: none;
+        .program-section {
+            margin-bottom: 50px;
         }
-        
-        .filter-btn.active.green {
-            background: #4CAF50;
+        .program-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+            color: #f1f5f9;
         }
-        
-        .filter-btn.active.amber {
-            background: #FFC107;
-            color: #333;
-        }
-        
-        .filter-btn.active.red {
-            background: #F44336;
-        }
-        
-        .problems-grid {
+        .chapters {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
         }
-        
-        .problem-card {
-            border: 2px solid #ddd;
+        .chapter {
+            background: #1e293b;
+            border: 1px solid #334155;
             border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .problem-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-        
-        .problem-card.green {
-            background: #f1f8f6;
-            border-left: 5px solid #4CAF50;
-        }
-        
-        .problem-card.amber {
-            background: #fffbf0;
-            border-left: 5px solid #FFC107;
-        }
-        
-        .problem-card.red {
-            background: #fef5f5;
-            border-left: 5px solid #F44336;
-        }
-        
-        .problem-info {
-            flex: 1;
-        }
-        
-        .problem-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .problem-chapter {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .status-badge {
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-        
-        .status-badge.green {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .status-badge.amber {
-            background: #FFC107;
-            color: #333;
-        }
-        
-        .status-badge.red {
-            background: #F44336;
-            color: white;
-        }
-        
-        .status-icon {
-            font-size: 14px;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .legend {
-            margin-top: 40px;
             padding: 20px;
-            background: #f5f5f5;
-            border-radius: 8px;
         }
-        
-        .legend h3 {
-            margin-bottom: 15px;
-            color: #333;
+        .chapter h4 {
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            color: #e2e8f0;
         }
-        
-        .legend-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .legend-box {
-            width: 20px;
-            height: 20px;
+        .progress-bar {
+            background: #0f172a;
             border-radius: 4px;
-            flex-shrink: 0;
+            height: 24px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid #334155;
         }
-        
-        .legend-box.green {
-            background: #4CAF50;
+        .progress-fill {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: bold;
+            transition: width 0.3s ease;
         }
-        
-        .legend-box.amber {
-            background: #FFC107;
+        .problem-list {
+            font-size: 0.85em;
+            color: #cbd5e1;
+            line-height: 1.6;
         }
-        
-        .legend-box.red {
-            background: #F44336;
+        .problem-item {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
         }
-        
-        .last-updated {
-            text-align: center;
-            color: #999;
-            font-size: 12px;
-            margin-top: 20px;
+        .problem-item.approved {
+            background: #10b981;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .problem-item.pending {
+            background: #f59e0b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .problem-item.skipped {
+            background: #6b7280;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .reset-notice {
+            background: #1e40af;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            color: #dbeafe;
+        }
+        .reset-notice strong {
+            color: #fff;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📊 OH Prep Dashboard — Problem Library</h1>
-        
-        <div class="summary">
-            <div class="summary-card green">
-                <div class="summary-number" id="count-green">5</div>
-                <div class="summary-label">Approved</div>
+        <h1>🚀 PE Exam Prep — Build Dashboard</h1>
+        <p class="subtitle">Real-time problem generation and approval status</p>
+
+        <div class="reset-notice">
+            <strong>Reset: 2026-03-18 at 11:48 AM EST</strong><br>
+            New template live: Direct textbook solutions, expandable sections, tighter key takeaways, doubled timeout to 300s.<br>
+            Resuming from <strong>HVAC-Thermodynamics-15</strong> and continuing sequentially.
+        </div>
+
+        <div class="status-bar">
+            <div class="status-card">
+                <h3>Total Completed</h3>
+                <div class="value">47</div>
+                <div class="subtext">across all programs</div>
             </div>
-            <div class="summary-card amber">
-                <div class="summary-number" id="count-amber">7</div>
-                <div class="summary-label">Awaiting Review</div>
+            <div class="status-card">
+                <h3>In Progress</h3>
+                <div class="value">0</div>
+                <div class="subtext">awaiting next cycle</div>
             </div>
-            <div class="summary-card red">
-                <div class="summary-number" id="count-red">648</div>
-                <div class="summary-label">Not Started</div>
+            <div class="status-card">
+                <h3>Remaining</h3>
+                <div class="value">613</div>
+                <div class="subtext">of 660 total</div>
+            </div>
+            <div class="status-card">
+                <h3>Next Problem</h3>
+                <div class="value">15</div>
+                <div class="subtext">HVAC-Thermodynamics-15</div>
             </div>
         </div>
-        
-        <div class="controls">
-            <button class="filter-btn active green" data-filter="all">All Problems (660)</button>
-            <button class="filter-btn green" data-filter="green">✓ Approved (5)</button>
-            <button class="filter-btn amber" data-filter="amber">⏳ Awaiting Review (7)</button>
-            <button class="filter-btn red" data-filter="red">— Not Started (648)</button>
-        </div>
-        
-        <div class="problems-grid" id="problems-grid">
-            <!-- Populated by JavaScript -->
-        </div>
-        
-        <div class="legend">
-            <h3>Status Legend</h3>
-            <div class="legend-items">
-                <div class="legend-item">
-                    <div class="legend-box green"></div>
-                    <div><strong>Green (Approved):</strong> Reviewed and approved by Dan — click to view</div>
+
+        <div class="program-section">
+            <h2 class="program-title">HVAC &amp; Refrigeration PE</h2>
+            <div class="chapters">
+                <div class="chapter">
+                    <h4>Thermodynamics</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 26%;">26% (13/50)</div>
+                    </div>
+                    <div class="problem-list">
+                        <span class="problem-item approved">1–12</span>
+                        <span class="problem-item skipped">13</span>
+                        <span class="problem-item approved">14</span>
+                        <span class="problem-item pending">15+</span>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-box amber"></div>
-                    <div><strong>Amber (Awaiting Review):</strong> Built by agent, pending Dan's review — <strong>click to verify quality</strong></div>
+                <div class="chapter">
+                    <h4>Fluids</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 74%;">74% (23/31)</div>
+                    </div>
+                    <div class="problem-list">
+                        <span class="problem-item approved">1–13, 15–28</span>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-box red"></div>
-                    <div><strong>Red (Not Started):</strong> Not yet built</div>
+                <div class="chapter">
+                    <h4>Psychrometrics</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 11%;">11% (4/35)</div>
+                    </div>
+                    <div class="problem-list">
+                        <span class="problem-item approved">1–4</span>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="last-updated">
-            Last updated: <span id="timestamp">2026-03-17 15:30 EDT</span>
+
+        <div class="program-section">
+            <h2 class="program-title">Thermal &amp; Fluids Systems PE</h2>
+            <p style="color: #94a3b8;">Not yet started. Will begin after HVAC completion.</p>
+        </div>
+
+        <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #334155; color: #64748b; font-size: 0.85em;">
+            <p>Last updated: 2026-03-18 11:49 AM EST</p>
+            <p>Cron schedule: Every 5 minutes with exponential backoff on timeout. Timeout: 300s per problem. Template: Direct textbook solutions, expandable full solution section.</p>
         </div>
     </div>
-    
-    <script>
-        // Chapter ordering for HVAC and TFS
-        const HVAC_CHAPTER_ORDER = [
-            "Thermodynamics",
-            "Fluids",
-            "Psychrometrics",
-            "Heat Transfer",
-            "HVAC",
-            "Systems and Components",
-            "Supporting Topics",
-            "Practice Exam #1",
-            "Practice Exam #2"
-        ];
-        
-        const TFS_CHAPTER_ORDER = [
-            "Thermodynamics",
-            "Heat Transfer",
-            "Hydraulic & Fluid Applications",
-            "Energy & Power System Applications",
-            "Supporting Topics",
-            "Practice Exam #1",
-            "Practice Exam #2"
-        ];
-        
-        // Build problem list in correct order
-        function buildProblemList() {
-            const problems = [];
-            
-            // HVAC in chapter order
-            const HVAC_CHAPTERS = {
-                "Thermodynamics": 23,
-                "Fluids": 28,
-                "Psychrometrics": 17,
-                "Heat Transfer": 22,
-                "HVAC": 25,
-                "Systems and Components": 29,
-                "Supporting Topics": 27,
-                "Practice Exam #1": 80,
-                "Practice Exam #2": 80,
-            };
-            
-            for (const chapter of HVAC_CHAPTER_ORDER) {
-                const count = HVAC_CHAPTERS[chapter] || 0;
-                const safeChapter = chapter.replace(/ /g, "-").replace(/#/g, "").replace(/&/g, "and");
-                for (let i = 1; i <= count; i++) {
-                    problems.push({
-                        program: "HVAC",
-                        chapter: chapter,
-                        safe_chapter: safeChapter,
-                        number: i,
-                        key: `HVAC_${safeChapter}_${i}`,
-                        filename: `HVAC_${safeChapter}_${i}.html`,
-                        display_name: `HVAC-${chapter.replace("#", "")}-${i}`
-                    });
-                }
-            }
-            
-            // TFS in chapter order
-            const TFS_CHAPTERS = {
-                "Thermodynamics": 30,
-                "Heat Transfer": 26,
-                "Hydraulic & Fluid Applications": 59,
-                "Energy & Power System Applications": 23,
-                "Supporting Topics": 31,
-                "Practice Exam #1": 80,
-                "Practice Exam #2": 80,
-            };
-            
-            for (const chapter of TFS_CHAPTER_ORDER) {
-                const count = TFS_CHAPTERS[chapter] || 0;
-                const safeChapter = chapter.replace(/ /g, "-").replace(/#/g, "").replace(/&/g, "and");
-                for (let i = 1; i <= count; i++) {
-                    problems.push({
-                        program: "TFS",
-                        chapter: chapter,
-                        safe_chapter: safeChapter,
-                        number: i,
-                        key: `TFS_${safeChapter}_${i}`,
-                        filename: `TFS_${safeChapter}_${i}.html`,
-                        display_name: `TFS-${chapter.replace("#", "")}-${i}`
-                    });
-                }
-            }
-            
-            return problems;
-        }
-        
-        // Load status from problem-status.json
-        async function loadStatus() {
-            try {
-                const response = await fetch('/problem-status.json');
-                return await response.json();
-            } catch (e) {
-                console.log("Could not load status JSON, using fallback");
-                return {};
-            }
-        }
-        
-        // Render problems
-        async function renderProblems(filter = "all") {
-            const status = await loadStatus();
-            const problems = buildProblemList();
-            const grid = document.getElementById("problems-grid");
-            grid.innerHTML = "";
-            
-            const statusIcons = { green: "✓", amber: "⏳", red: "—" };
-            const statusLabels = { green: "Approved", amber: "Awaiting Review", red: "Not Started" };
-            
-            // Calculate counts
-            let countGreen = 0, countAmber = 0, countRed = 0;
-            for (const problem of problems) {
-                const prob_status = status[problem.key] || "red";
-                if (prob_status === "green") countGreen++;
-                else if (prob_status === "amber") countAmber++;
-                else countRed++;
-            }
-            
-            // Update summary cards
-            document.getElementById("count-green").textContent = countGreen;
-            document.getElementById("count-amber").textContent = countAmber;
-            document.getElementById("count-red").textContent = countRed;
-            
-            // Update filter button labels
-            document.querySelectorAll(".filter-btn").forEach(btn => {
-                const filterType = btn.dataset.filter;
-                if (filterType === "green") btn.innerHTML = `✓ Approved (${countGreen})`;
-                else if (filterType === "amber") btn.innerHTML = `⏳ Awaiting Review (${countAmber})`;
-                else if (filterType === "red") btn.innerHTML = `— Not Started (${countRed})`;
-                else btn.innerHTML = `All Problems (660)`;
-            });
-            
-            for (const problem of problems) {
-                const prob_status = status[problem.key] || "red";
-                
-                if (filter !== "all" && prob_status !== filter) continue;
-                
-                // Create clickable card
-                const card = document.createElement("a");
-                card.href = `/problems/${problem.filename}`;
-                card.target = "_blank";
-                card.className = `problem-card ${prob_status}`;
-                card.innerHTML = `
-                    <div class="problem-info">
-                        <div class="problem-name">${problem.display_name}</div>
-                        <div class="problem-chapter">${problem.chapter}</div>
-                    </div>
-                    <div class="status-badge ${prob_status}">
-                        <span class="status-icon">${statusIcons[prob_status]}</span>
-                        ${statusLabels[prob_status]}
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            }
-        }
-        
-        // Filter buttons
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                e.target.classList.add("active");
-                const filter = e.target.dataset.filter === "all" ? "all" : e.target.dataset.filter;
-                renderProblems(filter);
-            });
-        });
-        
-        // Initial render
-        renderProblems();
-    </script>
 </body>
 </html>
