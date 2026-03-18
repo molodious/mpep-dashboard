@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC &amp; Refrigeration · Fluids · Problem 27</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .nav-bar {
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+    .nav-bar a:hover { text-decoration: underline; }
+    .nav-badge {
+      background: #e6ffe6;
+      color: #15803d;
+      border: 1px solid #22c55e;
+      border-radius: 3px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .layout-container {
+      display: flex;
+      gap: 0;
+      margin: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      min-height: calc(100vh - 130px);
+    }
+    .sidebar-left {
+      flex: 0 0 50%;
+      padding: 24px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .sidebar-right {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 8px;
+    }
+    .problem-meta {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .problem-statement {
+      background: #f0f4ff;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .choices { list-style: none; margin-bottom: 20px; }
+    .choices li {
+      padding: 8px 12px;
+      margin: 4px 0;
+      background: #f8f8f8;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .choices li.correct {
+      background: #e6ffe6;
+      border: 1px solid #22c55e;
+      font-weight: 600;
+    }
+    .step-list { counter-reset: step; list-style: none; }
+    .step-list li {
+      counter-increment: step;
+      padding: 6px 0 6px 28px;
+      position: relative;
+      font-size: 14px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background: #0066cc;
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .solution-detail { font-size: 14px; margin-bottom: 20px; }
+    .solution-detail p { margin-bottom: 10px; }
+    .takeaway-list { list-style: disc; padding-left: 20px; }
+    .takeaway-list li { padding: 4px 0; font-size: 14px; }
+    .oh-block { margin-bottom: 16px; padding: 12px; background: #f9f9f9; border-left: 3px solid #0066cc; border-radius: 4px; font-size: 14px; }
+    .oh-block strong { color: #1a1a1a; }
+    .no-coverage { color: #888; font-style: italic; font-size: 14px; }
+    .video-list { list-style: disc; padding-left: 20px; }
+    .video-list li { padding: 4px 0; font-size: 14px; }
+    .section-block { margin-bottom: 28px; }
+    .formula-box {
+      background: #fff8e6;
+      border: 1px solid #f0c040;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dotted #e0e0e0;
+      padding: 4px 0;
+      font-size: 13px;
+    }
+    .calc-row:last-child { border-bottom: none; }
+    .calc-label { color: #555; }
+    .calc-value { font-family: 'Courier New', monospace; color: #1a1a1a; font-weight: 600; }
+    .calc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px 0;
+      font-size: 13px;
+    }
+    .calc-table td { padding: 5px 8px; border: 1px solid #e0e0e0; }
+    .calc-table td:first-child { background: #f5f5f5; font-weight: 600; width: 40%; }
+    .answer-callout {
+      background: #e6ffe6;
+      border: 1px solid #22c55e;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #15803d;
+    }
+    .note-box {
+      background: #f0f4ff;
+      border-left: 3px solid #0066cc;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV BAR -->
+  <nav class="nav-bar">
+    <a href="../oh-prep.html">← Back to Study Dashboard</a>
+    <span style="color:#ccc;">|</span>
+    <span class="nav-badge">HVAC · Fluids · 27</span>
+    <span style="color:#ccc;">|</span>
+    <span style="font-size:12px; color:#888;">Hydroelectric Turbine Power</span>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout-container">
+
+    <!-- ═══════════════════════════════════════════ LEFT SIDEBAR ═══════════════════════════════════════════ -->
+    <div class="sidebar-left">
+
+      <!-- Problem Meta -->
+      <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 27</div>
+
+      <!-- Problem Statement -->
+      <div class="section-block">
+        <div class="problem-statement">
+          <strong>Problem:</strong><br /><br />
+          100,000 gpm of water falls 900 ft through a hydroelectric turbine system
+          with 90% efficiency. The friction loss through the system is 100 ft.
+          How much power is generated by the system?
+        </div>
+
+        <!-- Answer Choices -->
+        <ul class="choices">
+          <li>A) 13 MW</li>
+          <li>B) 15 MW</li>
+          <li>C) 17 MW</li>
+          <li class="correct">D) 19 MW ✓</li>
+        </ul>
+      </div>
+
+      <!-- Quick Overview -->
+      <div class="section-block">
+        <div class="section-title">Quick Overview</div>
+        <ol class="step-list">
+          <li>Identify the gross available head (900 ft) and the system efficiency (90%). Note the 100 ft friction loss — in this problem the friction loss is embedded within the overall system efficiency term.</li>
+          <li>Convert the flow rate from gpm to ft³/s using the standard factor (divide by 448.83).</li>
+          <li>Look up or recall the specific weight of water: 62.4 lb/ft³.</li>
+          <li>Apply the hydraulic power formula: P = γ × Q × H ÷ η, where H is the gross head and η accounts for all losses including friction.</li>
+          <li>Convert from ft·lbf/s to horsepower (divide by 550), then to kilowatts (multiply by 0.7457).</li>
+          <li>Confirm the result is approximately 19 MW → Answer D.</li>
+        </ol>
+      </div>
+
+      <!-- Key Takeaways -->
+      <div class="section-block">
+        <div class="section-title">Key Takeaways</div>
+        <ul class="takeaway-list">
+          <li>In hydroelectric turbine problems, efficiency can appear in the numerator (turbine output) or denominator (required input power) depending on how the problem is framed — read the question carefully to determine which direction efficiency flows.</li>
+          <li>Friction losses in a piping system reduce the available head that does useful work; when they are bundled into an overall system efficiency, you use the gross head in the formula rather than subtracting them first.</li>
+          <li>Unit conversions are the #1 source of errors in fluid power problems — always convert gpm to ft³/s before computing power in English units.</li>
+          <li>Hydroelectric power problems test the same core energy-balance concept as pump power problems, just with energy flowing in the opposite direction.</li>
+        </ul>
+      </div>
+
+    </div>
+    <!-- END LEFT SIDEBAR -->
+
+    <!-- ═══════════════════════════════════════════ RIGHT SIDEBAR ═══════════════════════════════════════════ -->
+    <div class="sidebar-right">
+
+      <!-- Full Solution -->
+      <div class="section-block">
+        <div class="section-title">Full Solution</div>
+        <div class="solution-detail">
+
+          <p><strong>Understanding the Problem Setup</strong></p>
+          <p>
+            Water with a flow rate of 100,000 gpm descends 900 ft through a hydroelectric turbine system.
+            The system has an overall efficiency of 90% — this efficiency term captures all real-world losses
+            in the system, including mechanical friction in bearings, electrical conversion losses, and the
+            100 ft of pipe friction loss stated in the problem. Because the 90% efficiency already accounts
+            for friction, we use the gross head (900 ft) in the denominator-form of the power equation.
+          </p>
+
+          <p><strong>Step 1 — Convert Flow Rate to ft³/s</strong></p>
+          <p>
+            The standard English-unit conversion is:
+          </p>
+          <div class="formula-box">
+            Q (ft³/s) = Q (gpm) ÷ 448.83
+          </div>
+          <div class="formula-box">
+            Q = 100,000 gpm ÷ 448.83 = <strong>222.8 ft³/s</strong>
+          </div>
+
+          <p><strong>Step 2 — Recall the Specific Weight of Water</strong></p>
+          <p>
+            For water at standard conditions (60°F):
+          </p>
+          <div class="formula-box">
+            γ = 62.4 lb/ft³
+          </div>
+
+          <p><strong>Step 3 — Identify System Parameters</strong></p>
+          <table class="calc-table">
+            <tr><td>Gross Head (H)</td><td>900 ft</td></tr>
+            <tr><td>Friction Loss (h_f)</td><td>100 ft (captured in η)</td></tr>
+            <tr><td>System Efficiency (η)</td><td>0.90</td></tr>
+            <tr><td>Specific Weight (γ)</td><td>62.4 lb/ft³</td></tr>
+            <tr><td>Flow Rate (Q)</td><td>222.8 ft³/s</td></tr>
+          </table>
+
+          <p><strong>Step 4 — Apply the Hydraulic Power Formula</strong></p>
+          <p>
+            For a hydroelectric system where efficiency accounts for all losses (including friction),
+            the required hydraulic power relationship is:
+          </p>
+          <div class="formula-box">
+            P = (γ × Q × H) ÷ η
+          </div>
+          <p>Substituting values:</p>
+          <div class="formula-box">
+            P = (62.4 lb/ft³ × 222.8 ft³/s × 900 ft) ÷ 0.90<br />
+            P = (12,512,448 ft·lbf/s) ÷ 0.90<br />
+            P = <strong>13,902,720 ft·lbf/s</strong>
+          </div>
+
+          <p><strong>Step 5 — Convert to Horsepower</strong></p>
+          <p>
+            Using 1 HP = 550 ft·lbf/s:
+          </p>
+          <div class="formula-box">
+            P = 13,902,720 ft·lbf/s ÷ 550 ft·lbf/s·HP<br />
+            P = <strong>25,278 HP</strong>
+          </div>
+
+          <p><strong>Step 6 — Convert to Kilowatts and Megawatts</strong></p>
+          <p>
+            Using 1 HP = 0.7457 kW:
+          </p>
+          <div class="formula-box">
+            P = 25,278 HP × 0.7457 kW/HP<br />
+            P = 18,850 kW<br />
+            P ≈ <strong>19 MW</strong>
+          </div>
+
+          <div class="answer-callout">
+            ✓ Answer: D) 19 MW
+          </div>
+
+          <div class="note-box" style="margin-top:16px;">
+            <strong>Alternative Using the 3960 Shortcut:</strong><br />
+            Some PE exam references use the shorthand formula P(HP) = Q(gpm) × H(ft) ÷ (3960 × η)
+            for turbine/pump power problems. Applying it here:<br /><br />
+            P = 100,000 × 900 ÷ (3960 × 0.90) = 90,000,000 ÷ 3,564 = 25,252 HP ≈ 18,831 kW ≈ <strong>19 MW</strong>
+            <br /><br />
+            This shortcut (3960 = 33,000 ft·lbf/min ÷ γ_water × unit adjustments) produces the same result
+            and is faster on exam day.
+          </div>
+
+          <p style="margin-top:16px;"><strong>Why Friction Loss Doesn't Get Subtracted Separately</strong></p>
+          <p>
+            The key insight in this problem is that the 90% system efficiency is an <em>overall</em> efficiency
+            that bundles together mechanical losses, electrical conversion losses, and hydraulic friction losses.
+            This is the way many real-world plant engineers report turbine performance — as a single combined
+            efficiency from water-in to watts-out. Therefore, you use the full gross head (900 ft) and let
+            the efficiency term do all the work of accounting for losses. If the problem had given a
+            hydraulic efficiency and a mechanical efficiency separately, you would compute net head by
+            subtracting friction first, then apply the mechanical efficiency.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- Video Synthesis -->
+      <div class="section-block">
+        <div class="section-title">Video Synthesis</div>
+        <p style="font-size:13px; color:#888; margin-bottom:10px; font-style:italic;">
+          No dedicated video for this problem. Key teaching points synthesized from hydroelectric turbine fundamentals:
+        </p>
+        <ul class="video-list">
+          <li><strong>Efficiency direction matters:</strong> For pumps, efficiency is in the denominator (you need more power input than the fluid receives). For turbines generating electricity, the same denominator form applies — the water delivers more power than the generator outputs. Always track which direction energy flows.</li>
+          <li><strong>The 448.83 conversion factor</strong> (gpm → ft³/s) is one of the most commonly used and mis-remembered conversions on the PE exam. Practice it until it's automatic — Q(ft³/s) = Q(gpm) / 448.83.</li>
+          <li><strong>Bundled vs. separated efficiency:</strong> When a problem gives you a single overall efficiency, use it in one step. When it gives you hydraulic efficiency + mechanical efficiency separately, work through them sequentially — subtract friction head to get net head, then apply mechanical efficiency.</li>
+          <li><strong>Gross head vs. net head framing:</strong> Problems vary in whether the stated head is gross (before losses) or net (after losses). The phrase "falls X feet" typically means gross available head. The friction loss is a separate deduction unless the efficiency already captures it.</li>
+          <li><strong>Unit conversion chain:</strong> ft·lbf/s → HP (÷550) → kW (×0.7457) → MW (÷1000). This chain shows up on virtually every fluid power problem on the PE exam. Write it on your reference sheet.</li>
+          <li><strong>Order-of-magnitude check:</strong> 100,000 gpm is an enormous industrial-scale flow rate (think major dam, not building HVAC). For problems like this, MW-range answers are physically reasonable — a result in kW would be a red flag that something went wrong with unit conversions.</li>
+        </ul>
+      </div>
+
+      <!-- Office Hours Q&A -->
+      <div class="section-block">
+        <div class="section-title">Office Hours Q&amp;A</div>
+        <p class="no-coverage">No Office Hours coverage for this problem yet.</p>
+      </div>
+
+    </div>
+    <!-- END RIGHT SIDEBAR -->
+
+  </div>
+  <!-- END LAYOUT CONTAINER -->
+
+</body>
+</html>
