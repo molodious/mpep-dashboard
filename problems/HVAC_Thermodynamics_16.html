@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 16 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">&larr; OH Prep</a>
+  <span style="color:#bbb;font-size:13px;">&rsaquo;</span>
+  <span style="font-size:13px;color:#555;">Thermodynamics</span>
+  <span style="color:#bbb;font-size:13px;">&rsaquo;</span>
+  <span style="font-size:13px;font-weight:600;color:#1a1a1a;">Problem 16</span>
+  <span class="nav-badge">No OH sessions</span>
+</div>
+
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+    <div class="section-title">Problem 16 &mdash; Refrigerator COP (Unit Conversion)</div>
+
+    <div class="problem-meta">Thermodynamics &middot; Refrigeration Cycle &middot; Coefficient of Performance</div>
+    <div class="problem-statement">
+      A refrigerator draws 800&nbsp;W of power and absorbs 4,000&nbsp;Btu/hr from the internal volume. What is the coefficient of performance?
+    </div>
+
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>0.7</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B.</span>
+        <span>1.5 &#10003;</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C.</span>
+        <span>1.7</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D.</span>
+        <span>5.0</span>
+      </div>
+    </div>
+
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B &mdash; 1.5</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('quick')">
+        <span>&#9658; Quick Overview</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="quick">1. Identify the COP formula for a refrigerator:
+   <span class="formula-line">COP_ref = Q_L / W_net</span>
+   where Q_L is heat absorbed from the refrigerated space and W_net is net work input.
+
+2. Note that Q_L and W_net must be in the same units. The problem gives W in watts and Q_L in Btu/hr, so convert W to Btu/hr:
+   <span class="formula-line">800 W &times; 3.412 Btu/hr per W = 2,729.6 Btu/hr</span>
+
+3. Apply the COP formula:
+   <span class="formula-line">COP = 4,000 Btu/hr &divide; 2,729.6 Btu/hr &asymp; 1.47</span>
+
+4. Round to the nearest answer choice: 1.47 &asymp; <strong>1.5 (Answer B)</strong>.</div>
+
+      <button class="solution-toggle" style="margin-top:8px;" onclick="toggleSolution('full')">
+        <span>&#9658; Full Solution</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="full">&mdash; &mdash; &mdash; Step 1: Identify the governing formula &mdash; &mdash; &mdash;
+
+The coefficient of performance (COP) of a refrigerator (or any vapor-compression cooling device) is defined as the ratio of the desired output to the required input. For a refrigerator, the desired output is the heat removed from the low-temperature space (Q_L), and the required input is the net work supplied to the compressor (W_net):
+
+   <span class="formula-line">COP_ref = Q_L / W_net</span>
+
+This definition comes directly from the NCEES PE Reference Handbook (Thermodynamics section) and reflects the first-law energy balance on the refrigeration cycle. COP is dimensionless, but only when Q_L and W_net are expressed in the same units.
+
+&mdash; &mdash; &mdash; Step 2: Recognize the unit mismatch &mdash; &mdash; &mdash;
+
+The problem provides:
+   &bull; W_net = 800 W (SI unit of power)
+   &bull; Q_L = 4,000 Btu/hr (English unit of power, commonly used in HVAC)
+
+These cannot be divided directly. We must convert to a common unit. The standard conversion factor is:
+   <span class="formula-line">1 W = 3.41214 Btu/hr</span>
+
+This conversion appears in the NCEES PE Reference Handbook unit conversion tables. Memorize it &mdash; it appears constantly in HVAC problems.
+
+&mdash; &mdash; &mdash; Step 3: Convert W_net to Btu/hr &mdash; &mdash; &mdash;
+
+   <span class="formula-line">W_net = 800 W &times; 3.412 Btu/hr per W = 2,729.6 Btu/hr</span>
+
+Alternatively, you could convert Q_L to watts:
+   <span class="formula-line">Q_L = 4,000 Btu/hr &divide; 3.412 Btu/hr per W = 1,172.3 W</span>
+
+Either approach gives the same dimensionless COP.
+
+&mdash; &mdash; &mdash; Step 4: Calculate the COP &mdash; &mdash; &mdash;
+
+Using Btu/hr throughout:
+   <span class="formula-line">COP = Q_L / W_net = 4,000 / 2,729.6 &asymp; 1.466</span>
+
+Using watts throughout:
+   <span class="formula-line">COP = Q_L / W_net = 1,172.3 / 800 &asymp; 1.465</span>
+
+Both routes confirm COP &asymp; 1.47. The answer choices are 0.7, 1.5, 1.7, and 5.0. The value 1.47 is closest to <strong>1.5 (Answer B)</strong>.
+
+&mdash; &mdash; &mdash; Why the wrong answers are wrong &mdash; &mdash; &mdash;
+
+A (0.7): This results from inverting the formula &mdash; computing W_net / Q_L instead of Q_L / W_net, using mixed units. Specifically: 800 / (4,000 / 3.412) &asymp; 0.68, rounded to 0.7. A classic sign that the ratio was flipped.
+
+C (1.7): A plausible distractor. Could result from using a slightly incorrect conversion factor (e.g., 3.6 instead of 3.412), yielding 4,000 / (800 &times; 3.6) &asymp; 1.39, or from rounding intermediate steps differently. Always use the handbook value of 3.412.
+
+D (5.0): This is a completely incorrect result. It might arise from dividing 4,000 by 800 directly without any unit conversion (4,000 / 800 = 5.0). This is the most tempting trap &mdash; it requires no work, gives a clean number, and is wrong precisely because the units were never reconciled. Never divide quantities in different units.
+
+&mdash; &mdash; &mdash; First Law check &mdash; &mdash; &mdash;
+
+As a sanity check, consider the energy balance on the entire refrigeration system:
+   <span class="formula-line">Q_H = Q_L + W_net</span>
+   <span class="formula-line">Q_H = 4,000 + 2,729.6 = 6,729.6 Btu/hr</span>
+
+The heat rejected to the environment (condenser) is greater than the heat absorbed &mdash; as expected, since the compressor work adds energy to the system. This confirms our setup is physically correct.</div>
+
+      <!-- Concept Synthesis -->
+      <div style="margin-top:20px;">
+        <div class="section-title" style="border-color:#7c3aed;">Concept Synthesis</div>
+        <div class="video-box">
+          <strong style="color:#7c3aed;">&#127891; Key Concepts for This Problem</strong><br><br>
+          <strong>COP Defined: Desired Output Over Required Input</strong><br>
+          The coefficient of performance is the thermodynamic efficiency metric for refrigerators and heat pumps. For a refrigerator, the desired output is the heat removed from the cold space (Q_L), and the required input is the compressor work (W_net). COP = Q_L / W_net. A COP greater than 1.0 is entirely possible and normal &mdash; it just means you&rsquo;re moving more heat than the work you put in, thanks to the refrigeration cycle. This is fundamentally different from a heat engine, where efficiency is always less than 1.<br><br>
+          <strong>The Critical Unit Conversion: Watts to Btu/hr</strong><br>
+          The PE exam frequently mixes SI and English units within a single problem, especially in HVAC. The conversion 1&nbsp;W = 3.412&nbsp;Btu/hr is one of the most important in this discipline. It appears in COP problems, cooling load calculations, and equipment sizing. Failing to apply it gives a dimensionally inconsistent ratio that is off by a factor of 3.412. In this problem, ignoring units gives 5.0; correct conversion gives 1.47 &asymp; 1.5.<br><br>
+          <strong>Refrigeration COP vs. Heat Pump COP</strong><br>
+          Both devices run on the same vapor-compression cycle, but they are evaluated differently. A refrigerator&rsquo;s job is to remove heat from a cold space: COP_ref = Q_L / W_net. A heat pump&rsquo;s job is to deliver heat to a warm space: COP_HP = Q_H / W_net. Since Q_H = Q_L + W_net, it follows that COP_HP = COP_ref + 1 for the same operating conditions. Reading the question carefully to identify which device is described is essential before choosing a formula.<br><br>
+          <strong>Energy Balance on the Refrigeration Cycle</strong><br>
+          A useful check: Q_H = Q_L + W_net. In this problem, Q_H = 4,000 + 2,730 = 6,730 Btu/hr. The condenser rejects more heat than the evaporator absorbs, and the difference is exactly the compressor work. This first-law balance always holds and is a quick way to verify your unit conversions and formula setup are consistent.
+        </div>
+      </div>
+
+      <!-- Key Takeaways -->
+      <div style="margin-top:20px;">
+        <div class="section-title" style="border-color:#f59e0b;">Key Takeaways</div>
+        <div class="takeaway-box">
+          <ul style="padding-left:16px;font-size:13px;line-height:2;color:#555;">
+            <li>The refrigerator COP formula requires <strong>Q_L and W_net in the same units</strong> &mdash; never divide watts by Btu/hr directly. Use the handbook conversion (1&nbsp;W = 3.412&nbsp;Btu/hr) to reconcile units before computing.</li>
+            <li>A COP greater than 1 is physically valid for refrigerators and heat pumps &mdash; you are <strong>moving heat, not creating it</strong>, so the ratio of heat transferred to work input can exceed 1.</li>
+            <li>The trap answer (5.0) comes from dividing the numbers without unit conversion. When a problem mixes SI and English units, <strong>always convert before calculating</strong>.</li>
+            <li>Remember that <strong>COP_HP = COP_ref + 1</strong> for the same cycle &mdash; knowing whether the problem asks about a refrigerator or heat pump determines which formula to apply.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">Office Hours Q&amp;A <span class="oh-count">No sessions</span></div>
+    <p class="oh-subtitle">No Office Hours coverage for this problem yet.</p>
+  </div><!-- /sidebar-right -->
+
+</div><!-- /layout-container -->
+
+<div class="footer">
+  <span>HVAC OH Prep</span>
+  <span>&middot;</span>
+  <a href="../oh-prep.html">&larr; Back to Problem List</a>
+  <span>&middot;</span>
+  <span>Thermodynamics &middot; Problem 16</span>
+  <span style="margin-left:auto;">Generated 2026-03-17</span>
+</div>
+
+<script>
+function toggleSolution(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  // Close all boxes first
+  document.querySelectorAll('.solution-box').forEach(b => b.classList.remove('open'));
+  // Update all toggle button arrows
+  document.querySelectorAll('.solution-toggle').forEach(btn => {
+    const span = btn.querySelector('span');
+    if (span) span.textContent = span.textContent.replace('▼', '▶');
+  });
+  if (!isOpen) {
+    box.classList.add('open');
+    // Update the clicked button's arrow
+    const buttons = document.querySelectorAll('.solution-toggle');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + id + "'")) {
+        const span = btn.querySelector('span');
+        if (span) span.textContent = span.textContent.replace('▶', '▼');
+      }
+    });
+  }
+}
+</script>
+
+</body>
+</html>
