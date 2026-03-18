@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 24 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← Back to OH Prep</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">Fluids · Problem 24</span>
+  <span class="nav-badge">1 OH Session</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">1 OH session · Answer: C</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 24</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A pump transfers 100 gpm of water from an open reservoir at atmospheric pressure. The static suction lift is 5 ft, the static discharge head is 30 ft, and the working pressure at the outlet is 10 psig. The pump efficiency is 85% and the motor efficiency is 80%. Assuming losses are insignificant, what size motor is required?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>1½ hp</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>2 hp</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>3 hp ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>5 hp</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify all head components: static suction lift, static discharge head, and pressure head from the working outlet pressure.
+
+2. Convert working pressure (10 psig) to feet of head using the conversion factor: 1 psi = 2.31 ft of water.
+
+3. Sum all components to find Total Dynamic Head (TDH): static lift + discharge head + pressure head.
+
+4. Calculate Water Horsepower (WHP) using the standard pump formula: WHP = (Q × TDH) / 3960, where Q is in gpm and TDH is in feet.
+
+5. Account for pump efficiency (85%) and motor efficiency (80%) to find the required motor horsepower — divide by each efficiency in sequence.
+
+6. Compare the calculated motor HP to the list of standard motor sizes and select the next size up.
+
+<strong>Full Solution:</strong>
+
+This problem uses the extended Bernoulli equation for a pump system. When a pump is involved, the total dynamic head (TDH) represents all the energy the pump must supply, expressed in feet of fluid.
+
+<strong>Step 1 — Identify head components:</strong>
+  • Static suction lift:      5.0 ft
+  • Static discharge head:   30.0 ft
+  • Pressure head from outlet working pressure:
+      10 psi × 2.31 ft/psi = 23.1 ft
+
+<strong>Step 2 — Calculate Total Dynamic Head (TDH):</strong>
+  TDH = suction lift + discharge head + pressure head
+  TDH = 5.0 + 30.0 + 23.1
+  TDH = 58.1 ft
+
+<strong>Step 3 — Calculate Water Horsepower (WHP):</strong>
+  WHP = (Q × TDH) / 3960
+  WHP = (100 gpm × 58.1 ft) / 3960
+  WHP = 5,810 / 3960
+  WHP ≈ 1.47 hp
+
+  (The constant 3960 comes from unit conversions: 1 hp = 33,000 ft·lbf/min, and water weighs 8.34 lbm/gal.)
+
+<strong>Step 4 — Account for pump efficiency:</strong>
+  Brake Horsepower (BHP) = WHP / η_pump
+  BHP = 1.47 / 0.85
+  BHP ≈ 1.73 hp
+
+  BHP is the power that must be delivered to the pump shaft. Because the pump is only 85% efficient, the shaft needs more power than the water actually receives.
+
+<strong>Step 5 — Account for motor efficiency:</strong>
+  Motor HP = BHP / η_motor
+  Motor HP = 1.73 / 0.80
+  Motor HP ≈ 2.16 hp
+
+  The motor is only 80% efficient at converting electrical energy to shaft power, so the motor must be rated even higher than the BHP.
+
+<strong>Step 6 — Select standard motor size:</strong>
+  Standard motor sizes: ½, ¾, 1, 1½, 2, 3, 5, 7½, 10 hp...
+  Required: 2.16 hp → next standard size up = 3 hp
+
+  Answer: C — 3 hp motor</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • The Bernoulli equation applied to a pump system adds a pump head term (h_A) — that extra term is the entire focus of these pump problems.<br><br>
+        • Total dynamic head must account for static suction lift, static discharge head, AND the pressure head equivalent of any gauge pressure at the outlet. Don't forget the pressure conversion (1 psi = 2.31 ft).<br><br>
+        • The WHP formula — Q(gpm) × H(ft) / 3960 — gives water horsepower directly in familiar units. This is the starting point before applying efficiency losses.<br><br>
+        • Pump efficiency and motor efficiency compound: you divide by pump efficiency first to get BHP, then divide by motor efficiency to get the motor rating. Both inefficiencies stack, so the motor must be larger than you might initially expect.<br><br>
+        • Standard motor sizes follow a fixed sequence (½, ¾, 1, 1½, 2, 3, 5, 7½, 10 hp). Always round UP to the next standard size — you can never undersize a motor.<br><br>
+        • Avoid the shortcut of just using ΔP = P2 − P1 for pump problems. That approach ignores elevation and velocity terms and leads to an incorrect answer.
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Pump problems require the extended Bernoulli equation — simple pressure differences miss the pump energy term and will give you the wrong answer.<br><br>
+        • Always convert pressure to feet of head (or vice versa) before combining terms — mixing psi and feet without conversion is a common error.<br><br>
+        • Motor size must account for both pump AND motor inefficiency before selecting the next standard size up — the two efficiencies multiply together and the required motor HP is always larger than the water HP.<br><br>
+        • Getting comfortable with the WHP → BHP → Motor HP chain and the standard motor size list is essential for exam speed on pump problems.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 1 session</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46 · October 19, 2022</div>
+      <div class="qa-question"><strong>Q:</strong> I solved this two ways and got 1.7 one way but 1.37 the other way — which approach is correct?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Both the energy/head method and the direct approach can work, but going straight for ΔP (P2 − P1) doesn't capture the full picture when a pump is involved. The extended Bernoulli equation with the pump head (h_A) term is the reliable method. The value of ~1.7 hp lines up with the correct solution path — the 1.37 result is suspicious because that shortcut route misses key energy contributions. Stick with the full head-based approach: it gives you the right answer and generalizes to all pump problems.</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 46 · October 19, 2022</div>
+      <div class="qa-question"><strong>Q:</strong> Can I just use pressure differences (P2 − P1)/γ to solve pump problems?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> No — that shortcut misses key energy terms. When there's a pump, you need the full Bernoulli equation with the additional h_A term. The entire point of these pump problems is to find that pump head. Your instincts from non-pump problems (just comparing two sides of a pipe, or applying Bernoulli without a source) are still valid — but the moment there's a pump in the system, you must include that extra energy term. Going straight for ΔP/γ underestimates the total head and will lead you to the wrong motor size.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 24 · 1 OH session · Generated 2026-03-18</span>
+  <a href="../oh-prep.html">← Back to OH Prep</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution ▲' : 'Show Quick Overview & Full Solution ▼';
+}
+</script>
+</body>
+</html>
