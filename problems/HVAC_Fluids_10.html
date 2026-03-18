@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 10 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-reveal-btn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 22px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.answer-reveal-btn:hover { background: #0052a3; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 14px;
+}
+.answer-revealed { display: none; margin-top: 16px; }
+/* Right panel collapsible sections */
+details {
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+details[open] {
+  border-color: #0066cc;
+}
+summary {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 16px;
+  cursor: pointer;
+  background: #f7f9ff;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '▼';
+  font-size: 11px;
+  color: #0066cc;
+  transition: transform 0.2s;
+}
+details[open] summary::after {
+  transform: rotate(180deg);
+}
+summary:hover { background: #edf2ff; }
+.section-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  background: white;
+}
+.section-body ol {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ol li { margin-bottom: 6px; }
+.section-body ul {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+.section-body ul li { margin-bottom: 6px; }
+.math-block {
+  background: #f8f9fa;
+  border-left: 3px solid #0066cc;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  border-radius: 3px;
+}
+.pipe-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.pipe-table th {
+  background: #f0f4ff;
+  padding: 7px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #d0d8ef;
+  color: #0066cc;
+}
+.pipe-table td {
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  color: #444;
+}
+.pipe-table tr:nth-child(even) td { background: #f9f9f9; }
+.video-box {
+  background: #f5f0ff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #7c3aed;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #555;
+  margin-top: 6px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 32px 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+}
+.oh-qa {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.oh-qa:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.oh-question {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.oh-label {
+  display: inline-block;
+  background: #e6f0ff;
+  color: #0066cc;
+  border: 1px solid #b3d1ff;
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.oh-answer {
+  color: #555;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav Bar -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← All Problems</a>
+  <span class="nav-sep">|</span>
+  <span class="nav-title">Fluids · Problem 10</span>
+  <span class="nav-badge">Fluids</span>
+  <span class="nav-badge" style="background:#fff3e6; color:#c2410c; border-color:#fb923c;">3 OH Sessions</span>
+</div>
+
+<!-- Main Layout -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem Statement + Answer Choices -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · FLUIDS · PROBLEM 10</div>
+    <div class="section-title">Problem Statement</div>
+
+    <div class="problem-statement">
+      <strong>Problem 10 — Minimum Supply Pressure for a Hotel Cold Water System</strong><br><br>
+      A hotel with <strong>400 units</strong> requires a maximum cold water supply of
+      <strong>5 gpm per unit</strong> with a <strong>diversity factor of 60%</strong>.
+      The supply line is <strong>5,000 ft long</strong> and made of
+      <strong>8-inch standard weight steel</strong> with a roughness coefficient of
+      <strong>C = 130</strong>. The minimum required pressure for all fixtures in the
+      hotel is <strong>80 psig</strong>. The start of the supply line is
+      <strong>100 ft above</strong> the delivery end at the hotel.
+      <br><br>
+      <strong>What is the minimum pressure required at the start of the line?</strong>
+    </div>
+
+    <div class="section-title" style="margin-top: 16px;">Answer Choices</div>
+    <div class="choices" id="choices-list">
+      <div class="choice" id="choice-a">
+        <span class="choice-letter">A.</span>
+        <span>93 psig</span>
+      </div>
+      <div class="choice" id="choice-b">
+        <span class="choice-letter">B.</span>
+        <span>108 psig</span>
+      </div>
+      <div class="choice" id="choice-c">
+        <span class="choice-letter">C.</span>
+        <span>128 psig</span>
+      </div>
+      <div class="choice" id="choice-d">
+        <span class="choice-letter">D.</span>
+        <span>180 psig</span>
+      </div>
+    </div>
+
+    <div>
+      <button class="answer-reveal-btn" onclick="revealAnswer()" id="revealBtn">
+        Reveal Answer
+      </button>
+      <div class="answer-revealed" id="answerReveal">
+        <span class="answer-tag">✓ Answer: A — 93 psig</span>
+        <p style="font-size:13px; color:#555; margin-top:8px;">
+          Apply the energy equation from start to delivery. The 100 ft elevation
+          advantage reduces the required upstream pressure, while friction losses
+          over 5,000 ft add to it. Net result: approximately
+          <strong>93 psig</strong>. See the Full Solution panel for the complete
+          worked solution.
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Reference Box -->
+    <div style="margin-top: 24px;">
+      <div class="section-title" style="border-color: #888; font-size:13px;">
+        System Parameters Summary
+      </div>
+      <table class="pipe-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hotel units</td>
+            <td>400 units</td>
+          </tr>
+          <tr>
+            <td>Max flow per unit</td>
+            <td>5 gpm/unit</td>
+          </tr>
+          <tr>
+            <td>Diversity factor</td>
+            <td>60% = 0.60</td>
+          </tr>
+          <tr>
+            <td><strong>Design flow rate</strong></td>
+            <td><strong>400 × 5 × 0.60 = 1,200 gpm</strong></td>
+          </tr>
+          <tr>
+            <td>Pipe length</td>
+            <td>5,000 ft</td>
+          </tr>
+          <tr>
+            <td>Pipe size</td>
+            <td>8-inch standard weight steel</td>
+          </tr>
+          <tr>
+            <td>Roughness coeff. C</td>
+            <td>130 (Hazen-Williams)</td>
+          </tr>
+          <tr>
+            <td>Required delivery pressure</td>
+            <td>80 psig</td>
+          </tr>
+          <tr>
+            <td>Elevation of start above end</td>
+            <td>+100 ft (pressure advantage)</td>
+          </tr>
+          <tr>
+            <td><strong>Answer</strong></td>
+            <td><strong>≈ 93 psig → Choice A</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px; color:#aaa; margin-top:4px;">
+        Because the supply is 100 ft higher than the delivery point, gravity assists
+        flow and reduces the required upstream pressure. Friction losses over 5,000 ft
+        partially offset this elevation gain.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: 5 Collapsible Solution Sections -->
+  <div class="sidebar-right">
+
+    <!-- Section 1: Quick Overview -->
+    <details open>
+      <summary>1 · Quick Overview</summary>
+      <div class="section-body">
+        <p style="margin-bottom:8px;">
+          High-level steps to find the minimum required pressure at the start of the supply line:
+        </p>
+        <ol>
+          <li>
+            <strong>Calculate total design flow rate.</strong> Apply the diversity factor:
+            400 units × 5 gpm/unit × 0.60 = <strong>1,200 gpm</strong>. This is the
+            flow the pipe must carry at peak demand.
+          </li>
+          <li>
+            <strong>Find friction head loss using Hazen-Williams.</strong> The C = 130
+            roughness coefficient is a direct signal to use the Hazen-Williams equation.
+            Look up or calculate the friction loss per 100 ft for 1,200 gpm in 8-inch
+            steel pipe, then scale to 5,000 ft.
+          </li>
+          <li>
+            <strong>Calculate total friction pressure loss.</strong> Multiply the
+            friction loss rate (ft/100 ft) by the pipe length (5,000 ft) and convert
+            from feet of head to psi using the factor: 1 psi = 2.31 ft of water.
+          </li>
+          <li>
+            <strong>Account for the elevation difference.</strong> The supply start is
+            100 ft above the delivery end. This elevation difference provides a
+            <em>pressure gain</em> — fluid flowing downhill gains pressure. Convert
+            100 ft to psi: 100 ft ÷ 2.31 ft/psi ≈ 43.3 psi pressure gain.
+          </li>
+          <li>
+            <strong>Apply the energy equation.</strong>
+            P_start = P_end + friction losses − elevation gain.
+            The required delivery pressure is 80 psig.
+          </li>
+          <li>
+            <strong>Solve and select Answer A — 93 psig.</strong>
+            P_start ≈ 80 + friction loss (psi) − 43.3 psi ≈ 93 psig.
+          </li>
+        </ol>
+        <p style="margin-top:10px; padding:10px 12px; background:#f0f4ff; border-radius:4px; font-size:12px; color:#555;">
+          💡 <strong>Key insight:</strong> The 100 ft elevation advantage significantly
+          reduces the required upstream pressure. Without it, you would need to add
+          43.3 psi to the answer. Always sketch the system first to get the elevation
+          sign right — being uphill helps you, being downhill hurts you.
+        </p>
+      </div>
+    </details>
+
+    <!-- Section 2: Full Solution -->
+    <details>
+      <summary>2 · Full Solution</summary>
+      <div class="section-body">
+        <p>
+          This is a pipe flow problem using the <strong>energy equation (Bernoulli with losses)</strong>
+          applied between the start and end of a long supply line. The C = 130 roughness
+          coefficient is given, which is the Hazen-Williams C value — a direct hint to
+          use the Hazen-Williams friction loss equation.
+        </p>
+
+        <p style="margin-top:12px;"><strong>Step 1 — Calculate Design Flow Rate</strong></p>
+        <p>
+          Apply the diversity factor to find the actual peak simultaneous demand:
+        </p>
+        <div class="math-block">Q = (Number of units) × (max flow per unit) × (diversity factor)
+Q = 400 units × 5 gpm/unit × 0.60
+Q = 1,200 gpm</div>
+
+        <p style="margin-top:12px;"><strong>Step 2 — Hazen-Williams Friction Loss</strong></p>
+        <p>
+          The Hazen-Williams equation gives the friction head loss per unit length of pipe.
+          The standard form for US customary units:
+        </p>
+        <div class="math-block">h_f / L = 10.44 × Q^1.852 / (C^1.852 × d^4.8655)
+
+Where:
+  h_f  = friction head loss (ft)
+  L    = pipe length (ft)
+  Q    = flow rate (gpm)
+  C    = Hazen-Williams roughness coefficient = 130
+  d    = pipe inside diameter (inches)
+
+For 8-inch standard weight steel pipe:
+  Inside diameter ≈ 7.981 inches (use 8 in for exam purposes)
+
+Plugging in Q = 1,200 gpm, C = 130, d = 8 in:
+
+  Q^1.852    = 1200^1.852 ≈ 589,000  (approx)
+  C^1.852    = 130^1.852  ≈ 9,430    (approx)
+  d^4.8655   = 8^4.8655   ≈ 25,100   (approx)
+
+h_f / L = 10.44 × 589,000 / (9,430 × 25,100)
+h_f / L = 6,149,160 / 236,673,000
+h_f / L ≈ 0.026 ft/ft  →  2.6 ft per 100 ft of pipe</div>
+
+        <p style="margin-top:12px;"><strong>Step 3 — Total Friction Head Loss Over 5,000 ft</strong></p>
+        <div class="math-block">h_f = (h_f / L) × L
+h_f = 0.026 ft/ft × 5,000 ft
+h_f ≈ 130 ft of water head</div>
+
+        <p style="margin-top:12px;"><strong>Step 4 — Convert Friction Loss to PSI</strong></p>
+        <p>
+          Use the standard water conversion: <strong>2.31 ft of water = 1 psi</strong>
+        </p>
+        <div class="math-block">ΔP_friction = h_f / 2.31
+ΔP_friction = 130 ft / 2.31 ft/psi
+ΔP_friction ≈ 56.3 psi</div>
+
+        <p style="margin-top:12px;"><strong>Step 5 — Convert Elevation Difference to PSI</strong></p>
+        <p>
+          The supply start is 100 ft <em>above</em> the delivery end. Flowing downhill
+          means the fluid gains pressure — this is a <strong>pressure gain</strong>,
+          not a loss. The elevation head converts to:
+        </p>
+        <div class="math-block">ΔP_elevation = Δz / 2.31
+ΔP_elevation = 100 ft / 2.31 ft/psi
+ΔP_elevation ≈ 43.3 psi  (pressure GAIN — start is higher)</div>
+
+        <p style="margin-top:12px;"><strong>Step 6 — Apply the Energy Equation</strong></p>
+        <p>
+          The energy equation from start (1) to delivery end (2), in pressure units:
+        </p>
+        <div class="math-block">P₁ + ρgz₁ = P₂ + ρgz₂ + ΔP_friction
+
+Rearranging for P₁ (pressure required at the start):
+
+P₁ = P₂ + ΔP_friction − (elevation gain)
+P₁ = P₂ + ΔP_friction − ΔP_elevation
+
+P₁ = 80 psig + 56.3 psi − 43.3 psi
+P₁ = 80 + 13.0
+P₁ ≈ 93 psig   →   Answer A</div>
+
+        <p style="margin-top:12px;"><strong>Result</strong></p>
+        <p>
+          The minimum pressure required at the start of the supply line is approximately
+          <strong>93 psig → Answer A</strong>.
+        </p>
+        <p style="margin-top:10px;">
+          Note: The exact Hazen-Williams calculation involves interpolation and rounding
+          consistent with PE exam practice. Using steel pipe friction tables for 8-inch
+          pipe at 1,200 gpm will give a consistent result within engineering tolerance.
+          All three methods — Hazen-Williams, Darcy-Weisbach, and steel pipe friction
+          tables — should agree within 5–15%.
+        </p>
+
+        <p style="margin-top:16px;"><strong>Why the Other Choices Are Wrong</strong></p>
+        <ul style="margin-top:6px;">
+          <li>
+            <strong>B (108 psig):</strong> This likely results from incorrectly ignoring
+            the elevation advantage, or applying the elevation gain as a loss instead of
+            a gain. Adding ~15 psi to the correct answer could come from a sign error on
+            the elevation term.
+          </li>
+          <li>
+            <strong>C (128 psig):</strong> This suggests neglecting the elevation
+            difference entirely and treating the problem as a horizontal pipe, adding
+            friction loss directly to the required delivery pressure without subtracting
+            the elevation gain.
+          </li>
+          <li>
+            <strong>D (180 psig):</strong> This is likely from using the undiversified
+            flow rate (400 × 5 = 2,000 gpm) without applying the 60% diversity factor,
+            significantly overstating friction losses. Always apply diversity when given.
+          </li>
+        </ul>
+
+        <p style="margin-top:14px; padding:10px 12px; background:#f0f4ff; border-radius:4px; font-size:12px; color:#555;">
+          💡 <strong>Exam Tip:</strong> When C is given in the problem statement, that
+          is the Hazen-Williams C coefficient — use it. The "roughness coefficient" label
+          and C notation are a dead giveaway. Note that steel pipe friction tables also
+          use a roughness parameter but call it something different — they are not the
+          same C. When in doubt, use the Hazen-Williams equation with the given C value.
+        </p>
+      </div>
+    </details>
+
+    <!-- Section 3: Video Synthesis -->
+    <details>
+      <summary>3 · Video Synthesis</summary>
+      <div class="section-body">
+        <div class="video-box">
+          <strong style="font-size:13px;">📹 Key Concepts — Dan's Solution Approach</strong>
+          <ul style="margin-top:10px; padding-left:18px; line-height:1.9;">
+            <li>
+              <strong>Diversity factor dramatically reduces the design flow.</strong>
+              Without diversity, you'd design for 400 × 5 = 2,000 gpm. The 60% diversity
+              factor cuts this to 1,200 gpm — a 40% reduction. This matters enormously
+              because friction loss scales with Q to the 1.85 power in Hazen-Williams.
+              Diversity factors prevent massive oversizing of building water systems.
+            </li>
+            <li>
+              <strong>The C = 130 roughness coefficient is a direct hint to use
+              Hazen-Williams.</strong> On the PE exam, if they hand you a C value,
+              use the Hazen-Williams equation. That's the only common friction loss
+              method that uses C. Without a given C value, default to the Darcy equation
+              or steel pipe friction tables.
+            </li>
+            <li>
+              <strong>Elevation difference provides a pressure advantage when the
+              supply is higher than the delivery point.</strong> Flowing downhill is
+              thermodynamically favorable — gravity does work on the fluid, adding
+              pressure. Here, 100 ft of elevation converts to about 43 psi of free
+              pressure gain. Always sketch the system to get the sign right.
+            </li>
+            <li>
+              <strong>Always convert head (feet) to pressure (psi) using
+              2.31 ft/psi for water.</strong> This conversion factor comes from
+              the specific weight of water (62.4 lb/ft³) and unit analysis.
+              Memorize it: 1 psi = 2.31 ft of water, or equivalently
+              1 ft of water = 0.433 psi.
+            </li>
+            <li>
+              <strong>Watch units carefully — gpm, feet, and psi all need to be
+              consistent.</strong> The Hazen-Williams equation produces head loss
+              in feet. The energy equation is often written in psi. You need to
+              convert at some point; do it explicitly and don't lose track of
+              which quantities are in which units.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 4: Key Takeaways -->
+    <details>
+      <summary>4 · Key Takeaways</summary>
+      <div class="section-body">
+        <div class="takeaway-box">
+          <strong style="font-size:13px; color:#92400e;">⭐ Key Takeaways</strong>
+          <ul>
+            <li>
+              <strong>When a roughness coefficient C is given in the problem,
+              it's a signal to use the Hazen-Williams equation.</strong>
+              This is the only standard friction loss method that uses C as an
+              input. On the PE exam, this is a deliberate clue — don't ignore it.
+            </li>
+            <li>
+              <strong>Diversity factors are critical in building water supply
+              sizing — they prevent oversizing.</strong> Real buildings never
+              have all fixtures running simultaneously at full flow. Diversity
+              factors account for this reality and reduce design flow to a
+              realistic simultaneous demand.
+            </li>
+            <li>
+              <strong>Elevation differences can work for or against you; always
+              sketch the system to get the sign right.</strong> If the supply
+              is higher than the delivery, elevation helps you (pressure gain).
+              If the delivery is higher, elevation hurts you (pressure loss).
+              A quick sketch eliminates sign errors.
+            </li>
+            <li>
+              <strong>The steel pipe friction tables, Darcy equation, and
+              Hazen-Williams should all give answers within engineering
+              tolerance.</strong> If your results from different methods diverge
+              by more than 15%, revisit your inputs. Small absolute discrepancies
+              that look large as a percentage are often acceptable — you're
+              doubling a small number, not making a fundamental error.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 5: Office Hours Q&A -->
+    <details>
+      <summary>5 · Office Hours Q&amp;A</summary>
+      <div class="section-body">
+
+        <!-- OH 55 — newest first -->
+        <div class="oh-qa">
+          <div class="oh-question">
+            <strong>Q:</strong> Why does pressure divided by gamma equal pressure?
+            I keep getting stuck on the units in every Bernoulli problem.
+            <span class="oh-label">OH 55</span>
+          </div>
+          <div class="oh-answer">
+            <strong>A:</strong> In US customary units, specific weight (gamma) and
+            density have the same <em>magnitude</em> but different units — density
+            is lb<sub>m</sub>/ft³, specific weight is lb<sub>f</sub>/ft³.
+            The g/g<sub>c</sub> cancellation makes them numerically equal, which is
+            why you can treat them interchangeably in magnitude even though they're
+            dimensionally different quantities. There are two forms of Bernoulli's
+            equation: one with all pressure units (psi or lb/ft²), and one with all
+            length units (feet of head). The head form — dividing everything by gamma —
+            is used 80–90% of the time in HVAC and pipe flow problems. The key
+            conversion to memorize: <strong>2.31 feet of water = 1 PSI</strong>.
+            Use this to convert between head and pressure at the end of problems.
+            Once you're comfortable with this conversion, Bernoulli problems become
+            much more manageable.
+          </div>
+        </div>
+
+        <!-- OH 53 -->
+        <div class="oh-qa">
+          <div class="oh-question">
+            <strong>Q:</strong> Are we able to use the Hazen-Williams equation
+            for this problem? I produced different results.
+            <span class="oh-label">OH 53</span>
+          </div>
+          <div class="oh-answer">
+            <strong>A:</strong> Yes, Hazen-Williams is valid for this problem —
+            and in fact it's the preferred method here because a C value is given
+            in the problem statement. PE exam questions tend to favor the Darcy
+            equation or steel pipe friction tables in general, but the dead giveaway
+            to use Hazen-Williams is when they hand you a C value. Without a C value,
+            you can't make a reliable assumption. The Darcy equation, steel pipe
+            friction tables, and Hazen-Williams should all align within 5–15%
+            engineering tolerance for the same problem. One important note: the
+            surface roughness factor C used in some steel pipe tables is
+            <strong>NOT</strong> the same as the Hazen-Williams C coefficient —
+            they unfortunately share the same variable letter. Don't confuse the two.
+            The Hazen-Williams C is a flow coefficient (higher = smoother, more
+            capacity), while the pipe table roughness factor is a different physical
+            quantity.
+          </div>
+        </div>
+
+        <!-- OH 15 — oldest last -->
+        <div class="oh-qa">
+          <div class="oh-question">
+            <strong>Q:</strong> I calculated head loss from the Darcy equation
+            to compare with the roughness coefficient method and got remarkably
+            different results (more than double). Should they have been closer?
+            Is the Darcy equation the assumed method unless explicitly given the
+            roughness coefficient?
+            <span class="oh-label">OH 15</span>
+          </div>
+          <div class="oh-answer">
+            <strong>A:</strong> They should reconcile within engineering tolerance.
+            The discrepancy seems large as a percentage but may be small in absolute
+            terms — you're doubling a small number, and a small absolute difference
+            can look huge as a percentage. Use the steel pipe friction tables if you
+            have water flowing in steel pipe — it's faster and easier than either
+            method. The Darcy equation is always valid as a fundamental approach and
+            doesn't require a given C value. They should agree within reasonable
+            engineering error, and you won't get a problem wrong on the exam by
+            choosing either method — as long as you apply it correctly. If you're
+            seeing a factor-of-two discrepancy, double-check your diameter (inside vs.
+            outside), your units for Q, and your friction factor lookup from the
+            Moody chart.
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+  </div><!-- end sidebar-right -->
+</div><!-- end layout-container -->
+
+<!-- Footer -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 10</span>
+  <span>·</span>
+  <span>Answer: A — 93 psig</span>
+  <span>·</span>
+  <span>OH Coverage: OH 15, OH 53, OH 55</span>
+  <span>·</span>
+  <span>Generated: 2026-03-18</span>
+  <span>·</span>
+  <a href="HVAC_Fluids_9.html">← Problem 9</a>
+  <span>·</span>
+  <a href="HVAC_Fluids_11.html">Problem 11 →</a>
+  <span>·</span>
+  <a href="../oh-prep.html">← All Problems</a>
+</div>
+
+<script>
+  function revealAnswer() {
+    const reveal = document.getElementById('answerReveal');
+    const btn = document.getElementById('revealBtn');
+    const choiceA = document.getElementById('choice-a');
+
+    reveal.style.display = 'block';
+    btn.style.display = 'none';
+    choiceA.classList.add('correct');
+    choiceA.querySelector('.choice-letter').style.color = '#16a34a';
+  }
+</script>
+
+</body>
+</html>
