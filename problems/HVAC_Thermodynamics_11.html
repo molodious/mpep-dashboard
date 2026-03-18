@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 11 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 11</span>
+  <span class="nav-badge">⭐ 2 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">2 OH sessions · Answer: C</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 11</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      An outside air handling unit delivers 5,000 cfm of outside air. On a winter day, the outside air is 18°F and is heated to 68°F using a hot water coil. Hot water is supplied at 165°F and returned at 140°F. What is the required flow rate of hot water?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>0.4 gpm</span></div>
+      <div class="choice"><span class="choice-letter">B.</span><span>3 gpm</span></div>
+      <div class="choice correct"><span class="choice-letter">C.</span><span>22 gpm ✓</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>173 gpm</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Identify this as a sensible heating problem — air is heated with no humidification, so use sensible heat formulas only.
+
+2. Set up the energy balance: the heat released by the hot water equals the heat absorbed by the air (Q_water = Q_air).
+
+3. Apply rule-of-thumb formulas: Q_water = 500 · GPM · ΔT_water and Q_air = 1.08 · CFM · ΔT_air.
+
+4. Plug in values: CFM = 5,000, ΔT_air = 68 − 18 = 50°F, ΔT_water = 165 − 140 = 25°F.
+
+5. Solve for GPM by setting the two expressions equal: GPM = (1.08 × 5,000 × 50) / (500 × 25).
+
+6. Select the closest answer choice: GPM ≈ 21.6 → Answer C (22 gpm).
+
+<strong>Full Solution:</strong>
+
+<strong>Method 1 — Rule-of-Thumb Approach (fastest on exam day):</strong>
+
+This is a sensible heating problem. The air is heated from 18°F to 68°F — dry bulb temperature rises with no mention of humidification, so latent heat is not involved. The hot water coil transfers heat from the water loop to the airstream.
+
+Energy balance: Q_water = Q_air
+
+Apply the standard rule-of-thumb equations for standard-density conditions:
+  Q_air   = 1.08 × CFM × ΔT_air
+  Q_water = 500  × GPM × ΔT_water
+
+Given:
+  CFM       = 5,000 cfm
+  ΔT_air    = 68°F − 18°F = 50°F
+  ΔT_water  = 165°F − 140°F = 25°F
+
+Set Q_water = Q_air and solve for GPM:
+  500 × GPM × 25 = 1.08 × 5,000 × 50
+  12,500 × GPM   = 270,000
+  GPM            = 270,000 / 12,500
+  GPM            = 21.6 gpm  →  Answer C (22 gpm)
+
+<strong>Method 2 — Mass-Flow (First Principles) Approach:</strong>
+
+For those who want to work from specific heat and mass flows rather than memorized constants, the same result can be reached this way.
+
+Energy balance in terms of mass flows:
+  ṁ_water × cp_water × ΔT_water = (V̇_air / v_air) × cp_air × ΔT_air
+
+Where:
+  V̇_air   = 5,000 cfm (volumetric flow of air)
+  v_air    = 13.5 ft³/lbm  (specific volume of air at ~68°F, standard conditions)
+  cp_air   = 0.24 BTU/lbm·°F
+  ΔT_air   = 50°F
+  cp_water = 1.0 BTU/lbm·°F
+  ΔT_water = 25°F
+
+Solve for mass flow of water:
+  ṁ_water = (5,000 / 13.5) × 0.24 × 50 / (1.0 × 25)
+  ṁ_water = 370.4 × 0.24 × 50 / 25
+  ṁ_water = 370.4 × 0.48
+  ṁ_water = 180.4 lbm/min
+
+Convert to volumetric flow using water density (8.34 lbm/gal):
+  GPM = 180.4 / 8.34 ≈ 21.6 gpm  →  Answer C (22 gpm)
+
+Both methods agree. The rule-of-thumb approach is faster, but the mass-flow approach builds deeper understanding and confirms the result — a powerful combination for exam confidence.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Dan solves the problem using the rule-of-thumb energy balance: Q_water = 500·GPM·ΔT_water and Q_air = 1.08·CFM·ΔT_air, setting them equal to solve for GPM.<br><br>
+        • The sensible-only nature of the problem is emphasized — heating without humidification means latent heat plays no role, confirmed by the rising dry bulb temperature.<br><br>
+        • Dan also demonstrates the mass-flow approach from first principles (specific heat and densities), showing it yields the same answer and reinforcing why the rule-of-thumb constants work.<br><br>
+        • The psychrometric interpretation is discussed: sensible heating traces a horizontal line on the psychrometric chart — dry bulb temperature changes, humidity ratio does not.<br><br>
+        • Dan addresses the importance of working problems two ways during study to build self-trust: "As you solve these problems potentially two ways… you're going to develop that trust."<br><br>
+        • Final answer: GPM ≈ 21.6, which rounds to Answer C (22 gpm).
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Rule-of-thumb equations for sensible heat are powerful shortcuts for standard-density conditions — they're fast, reliable, and exam-ready.<br><br>
+        • Knowing two methods (rule-of-thumb AND mass-flow from first principles) builds confidence and flexibility — if your mind second-guesses one approach, the other provides verification.<br><br>
+        • Sensible heating means no moisture change — the absence of the word "humidification" in the problem is your signal to use sensible heat formulas only.<br><br>
+        • Always set up an energy balance first: what the water gives up, the air absorbs. This framing works regardless of which formula you apply.<br><br>
+        • Self-trust on the exam is built during study. Solving problems multiple ways earns confidence that memorizing shortcuts alone cannot.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 questions from 2 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 89 · October 14, 2024 — Newest</div>
+      <div class="qa-question"><strong>Q:</strong> I see that you work this problem with rule-of-thumb equations, but I tried to solve it with specific heat and mass flows and couldn't figure it out. Do you have a solution worked this way just in case? Having taken the test, I know that my mind won't trust what I think I know.</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Dan walks through both methods in full. The rule-of-thumb approach sets Q_water = 500·GPM·ΔT_water equal to Q_air = 1.08·CFM·ΔT_air and solves directly for GPM. For the mass-flow approach, he uses ṁ_water = (V̇_air / v_air) × cp_air × ΔT_air / (cp_water × ΔT_water), plugging in v_air = 13.5 ft³/lbm, cp_air = 0.24 BTU/lb·°F, cp_water = 1.0 BTU/lb·°F to get 180.4 lbm/min, then divides by 8.34 lbm/gal to arrive at 21.6 GPM ≈ 22 GPM. Both methods confirm Answer C. On the confidence question: "Developing self-trust is a process. It's something that's earned. As you do the work, as you solve these problems potentially two ways… you're going to develop that trust."</div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 79 · April 15, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> Why is it okay to assume that the outside air in the problem doesn't have a latent component? It seems like a 50-50 chance using the sensible heat formula versus the total heat formula. In the real world, wouldn't outside air virtually always have latent heat?</div>
+      <div class="qa-answer"><strong>Dan's response:</strong> Yes — outside air does carry moisture and therefore has a latent component. But the <em>process</em> described in the problem is sensible heating only. On the psychrometric chart, this is a horizontal line: dry bulb temperature increases while the humidity ratio stays constant. The key signal is the absence of the word "humidification" — if the problem involved adding moisture, latent heat would come into play. Since it's just heating, use Q = 1.08 × CFM × ΔT. Dan's core insight: "Latent heat by definition does not impact dry bulb temperature. This problem was about increasing dry bulb temperature. So that's sensible heating."</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 11 · 2 OH sessions · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution ▲' : 'Show Quick Overview & Full Solution ▼';
+}
+</script>
+</body>
+</html>
