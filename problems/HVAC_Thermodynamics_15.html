@@ -284,27 +284,14 @@ body {
         Show Full Solution ▼
       </button>
       <div class="solution-box" id="sol-box">Quick Overview:
-
-1. Recognize this as a Carnot heat pump problem — you need the coefficient of performance (COP) for the heating cycle.
-2. Look up the R-22 saturation temperature at the low-side pressure of 31 psia in refrigerant tables — this is the evaporator (cold reservoir) temperature.
-3. Look up the R-22 saturation temperature at the high-side pressure of 211 psia — this is the condenser (hot reservoir) temperature.
-4. Convert both temperatures from Fahrenheit to the absolute Rankine scale by adding 460.
-5. Apply the Carnot heat pump COP formula using the absolute temperatures of the hot and cold reservoirs.
-6. Compare the calculated result to the answer choices and select the closest value — answer C (5.1).
+1. Identify that this is a Carnot heat pump operating with refrigerant R-22, and that the given information is evaporator and condenser pressures.
+2. Look up the R-22 refrigerant tables or pressure-enthalpy chart in the reference handbook to find the saturation temperatures at each pressure.
+3. Convert both temperatures from Fahrenheit to absolute (Rankine) by adding 460.
+4. Apply the Carnot heat pump COP formula using the absolute high and low temperatures.
+5. Divide the high-side absolute temperature by the difference between the high and low temperatures to get the COP.
 
 Full Solution:
-
-This problem requires finding the Carnot COP for a heat pump operating between the saturation temperatures corresponding to the two given pressures of R-22.
-
-Step 1 — Find evaporator temperature: From R-22 saturation tables, at 31 psia the saturation temperature is approximately −5°F. Converting to absolute: T_L = −5 + 460 = 455°R.
-
-Step 2 — Find condenser temperature: From R-22 saturation tables, at 211 psia the saturation temperature is approximately 120°F. Converting to absolute: T_H = 120 + 460 = 580°R.
-
-Step 3 — Apply Carnot heat pump COP: The Carnot COP for a heat pump equals the hot-reservoir absolute temperature divided by the temperature difference between the two reservoirs. Using T_H = 580°R and T_L = 455°R gives a temperature difference of 125°R. Dividing 580 by 125 yields approximately 4.64.
-
-Step 4 — Reconcile with answer: The approximate table values used here give 4.64, but more precise R-22 saturation data places the evaporator temperature slightly lower and the condenser temperature slightly higher, narrowing the temperature difference and pushing the COP closer to 5.1. Answer C is the correct choice.
-
-Note: Always use absolute temperatures (Rankine or Kelvin) in any Carnot efficiency or COP calculation — using Fahrenheit directly will give a completely wrong answer.</div>
+Lookup the Pressure Versus Enthalpy Curves for Refrigerant 22 and read from the chart the temperatures for the evaporator and condenser based on the pressures given. These correspond to the low and high temperature reservoirs, respectively, for the heat pump: T_L = T_evaporator@P=31psia ≈ −10°F + 460 = 450°R, T_H = T_condenser@P=211psia ≈ 100°F + 460 = 560°R. Look up the Carnot Cycle in the reference handbook and find the coefficient of performance formula: COP_HP,carnot = T_H / (T_H − T_L) = 560°R / (560°R − 450°R) = 5.1. Answer C.</div>
     </div>
   </div>
 
@@ -312,22 +299,20 @@ Note: Always use absolute temperatures (Rankine or Kelvin) in any Carnot efficie
   <div class="sidebar-right">
     <!-- Video Synthesis Section -->
     <div class="section-title">Video Synthesis</div>
-    <div class="video-box">• Watch out for the COP formula mix-up: the heat pump COP and refrigeration COP use different numerators — COP_HP uses T_H while COP_R uses T_L. The two are related by COP_HP = COP_R + 1, so they are never equal.
-
-• Forgetting to convert temperatures to absolute scale (Rankine) is one of the most common errors on this type of problem — using °F directly produces a nonsensical result.
-
-• Do not confuse which pressure is the evaporator and which is the condenser. The lower pressure corresponds to the lower saturation temperature (evaporator/cold side); the higher pressure is the condenser (hot side).
-
-• Psia vs. psig is a unit trap: refrigerant table pressures are typically listed in psia. If a problem gives psig, add 14.7 before looking up the saturation temperature.
-
-• For a Carnot (ideal) cycle, COP depends only on the reservoir temperatures — no enthalpy lookups or cycle efficiency corrections are needed. Resist the urge to over-complicate.</div>
+    <div class="video-box">• A common trap is trying to apply the COP formula directly using pressures instead of temperatures — you must first convert pressures to saturation temperatures using the R-22 refrigerant data.
+• Students sometimes search "R22" in the reference handbook and miss the section; searching "refrigerant 22" (spelled out) navigates directly to the correct tables and curves.
+• The pressure-enthalpy chart can be hard to read precisely at pressures that fall between labeled grid lines (like 31 psia between 20 and 40); the saturation tables often give a cleaner read.
+• A critical unit trap: temperatures must be in absolute Rankine (°F + 460) before plugging into the Carnot COP formula — using °F directly will give a wrong answer.
+• The denominator of the COP formula is the temperature difference T_H − T_L; watch out for sign errors when T_L is negative in Fahrenheit (100 − (−10) = 110, not 90).
+• Both the pressure-enthalpy curve and the saturation tables are valid lookup methods — use whichever gives a cleaner reading for the given pressure values.</div>
 
     <!-- Key Takeaways Section -->
     <div class="section-title" style="margin-top:20px">Key Takeaways</div>
-    <div class="takeaway-box">• Carnot COP represents the theoretical maximum performance achievable by any heat pump operating between two temperature reservoirs.<br><br>
-• Heat pump COP is always greater than 1 and always exceeds the refrigeration COP for the same cycle by exactly 1.<br><br>
-• Refrigerant saturation temperature is a direct function of pressure — knowing the operating pressure lets you find the temperature from standard tables.<br><br>
-• Absolute temperature (Rankine or Kelvin) must be used in all thermodynamic cycle efficiency and COP calculations.</div>
+    <div class="takeaway-box">• For a Carnot heat pump, you need saturation temperatures at each pressure — not the pressures themselves — to calculate COP.
+• Refrigerant saturation temperatures can be found from either the pressure-enthalpy diagram or the saturation tables in the reference handbook.
+• All temperatures in Carnot cycle calculations must be expressed in absolute units (Rankine in the US customary system).
+• The Carnot heat pump COP is always greater than 1, since it equals T_H divided by the temperature difference, not the difference alone.
+• Careful reading of refrigerant charts at intermediate pressures is a practical skill — the saturation tables provide a more precise alternative when chart interpolation is uncertain.</div>
 
     <!-- Office Hours Q&A Section -->
     <div style="margin-top:20px;">
@@ -338,27 +323,27 @@ Note: Always use absolute temperatures (Rankine or Kelvin) in any Carnot efficie
       <div class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</div>
       
       <div class="qa-group">
-        <div class="qa-session">OH 106 · July 7, 2025</div>
-        <div class="qa-question">Q: When can you assume the enthalpy of a compressed (subcooled) liquid is equal to hf at the same temperature?</div>
-        <div class="qa-answer">A: You can only set h equal to hf at the saturated liquid boundary on the vapor dome — for any subcooled liquid, you must use the correction Δh = Cp·ΔT to account for the temperature difference from the saturation point.</div>
+        <div class="qa-session">Session 106 — July 7th, 2025</div>
+        <div class="qa-question">Q: Are there scenarios where it's appropriate to assume that the enthalpy of a compressed liquid equals HF?</div>
+        <div class="qa-answer">A: The H ≈ HF assumption really only holds true when the liquid is right at the saturation boundary (quality = 0); as the liquid becomes further subcooled below its boiling point, the assumption increasingly breaks down and the more accurate approach is to use ΔH = Cp·ΔT.</div>
       </div>
 
       <div class="qa-group">
-        <div class="qa-session">OH 106 · July 7, 2025</div>
-        <div class="qa-question">Q: How do you actually calculate the enthalpy of a subcooled liquid when you're below the boiling point?</div>
-        <div class="qa-answer">A: Subtract the degrees below the boiling point from hf using Δh = Cp·ΔT — for water, Cp = 1 BTU/(lb·°F), so the correction is numerically equal to the temperature difference in °F.</div>
+        <div class="qa-session">Session 106 — July 7th, 2025</div>
+        <div class="qa-question">Q: What makes water a convenient fluid when working with compressed liquid enthalpy?</div>
+        <div class="qa-answer">A: Water has a specific heat capacity of 1 BTU/lb·°F, so the reduction in enthalpy below the saturation point numerically equals the number of degrees the liquid is below its boiling point.</div>
       </div>
 
       <div class="qa-group">
-        <div class="qa-session">OH 88 · September 17, 2024</div>
-        <div class="qa-question">Q: Why isn't atmospheric pressure included when calculating stagnation pressure — shouldn't the total pressure account for the surrounding atmosphere?</div>
-        <div class="qa-answer">A: Atmospheric pressure acts equally on both sides of the measurement device (like a pitot tube), so it cancels out — stagnation pressure is expressed as static pressure plus velocity pressure (v²γ/2g) using gauge pressures throughout.</div>
+        <div class="qa-session">Session 88 — September 17th, 2024</div>
+        <div class="qa-question">Q: Is there any reason why atmospheric pressure is not included in the calculation for stagnation pressure?</div>
+        <div class="qa-answer">A: Atmospheric pressure acts equally on both sides of the system, so it cancels out; stagnation pressure is therefore based only on gauge static pressure plus velocity pressure, not absolute pressure.</div>
       </div>
 
       <div class="qa-group">
-        <div class="qa-session">OH 88 · September 17, 2024</div>
-        <div class="qa-question">Q: Is there an intuitive way to understand why gauge pressure is used in the stagnation pressure equation rather than absolute pressure?</div>
-        <div class="qa-answer">A: Think of an open pitot tube submerged in a fluid — the atmosphere pushes equally on the open end and on the fluid surface, so its effect cancels and only the differential (gauge) pressure due to velocity remains.</div>
+        <div class="qa-session">Session 88 — September 17th, 2024</div>
+        <div class="qa-question">Q: What is stagnation pressure conceptually equivalent to?</div>
+        <div class="qa-answer">A: Stagnation pressure is the same as Pitot pressure — it is the sum of the static pressure and the velocity (dynamic) pressure, representing the total pressure at a point where the flow is brought to rest.</div>
       </div>
 
     </div>
