@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem 20 — Heat Pump COP · Heating Mode | HVAC &amp; Refrigeration Thermodynamics</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; min-height: 100vh; }
+    .nav-bar { background: white; border-bottom: 1px solid #e0e0e0; padding: 12px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-wrap: wrap; }
+    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+    .nav-bar a:hover { text-decoration: underline; }
+    .nav-badge { background: #e6ffe6; color: #15803d; border: 1px solid #22c55e; border-radius: 3px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .layout-container { display: flex; gap: 0; margin: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; min-height: calc(100vh - 130px); }
+    .sidebar-left { flex: 0 0 50%; padding: 24px; background: #fafafa; border-right: 1px solid #e0e0e0; overflow-y: auto; max-height: calc(100vh - 130px); }
+    .sidebar-right { flex: 1; padding: 24px; overflow-y: auto; max-height: calc(100vh - 130px); }
+    .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 8px; }
+    .problem-meta { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .problem-statement { background: #f0f4ff; padding: 14px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .choice { padding: 10px 12px; background: white; border-left: 3px solid #ddd; border-radius: 3px; font-size: 13px; display: flex; gap: 8px; }
+    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+    .choice.correct .choice-letter { color: #16a34a; }
+    .answer-tag { display: inline-block; background: #e6ffe6; color: #15803d; border: 1px solid #22c55e; border-radius: 3px; padding: 2px 8px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+    .solution-area { margin-top: 24px; }
+    .solution-toggle { width: 100%; text-align: left; background: none; border: 1px solid #ddd; border-radius: 4px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: #555; cursor: pointer; display: flex; justify-content: space-between; }
+    .solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+    .solution-box { background: white; border-left: 3px solid #0066cc; border-radius: 3px; padding: 16px; margin-top: 10px; font-size: 13px; line-height: 1.75; color: #444; display: none; white-space: pre-wrap; word-break: break-word; }
+    .solution-box.open { display: block; }
+    .video-box { background: #f0f4ff; padding: 12px; border-radius: 4px; margin-top: 10px; font-size: 13px; line-height: 1.7; border-left: 3px solid #7c3aed; }
+    .takeaway-box { background: #fffbf0; padding: 12px; border-radius: 4px; margin-top: 10px; border-left: 3px solid #f59e0b; }
+    .oh-section-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #1a1a1a; border-bottom: 2px solid #f59e0b; padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .oh-count { font-size: 12px; background: #fef3c7; color: #92400e; border-radius: 10px; padding: 1px 8px; font-weight: 600; }
+    .oh-notice { background: #fef3c7; border-left: 3px solid #f59e0b; border-radius: 4px; padding: 14px 16px; font-size: 13px; color: #92400e; line-height: 1.6; }
+    .formula-line { display: block; font-family: 'Courier New', Courier, monospace; background: #f4f4f8; padding: 4px 8px; border-radius: 3px; margin: 6px 0; font-size: 12.5px; color: #1a1a2e; }
+    .footer { background: white; border-top: 1px solid #e0e0e0; padding: 10px 20px; display: flex; align-items: center; gap: 16px; font-size: 12px; color: #888; flex-wrap: wrap; }
+    .footer a { color: #0066cc; text-decoration: none; }
+    .nav-arrows { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 13px; }
+    .nav-arrows a { color: #0066cc; text-decoration: none; padding: 6px 12px; border: 1px solid #dde; border-radius: 4px; background: white; }
+    .nav-arrows a:hover { background: #f0f4ff; border-color: #0066cc; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+    @media (max-width: 768px) { .layout-container { flex-direction: column; margin: 10px; } .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; } .sidebar-right { max-height: none; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep</a>
+  <span style="color:#bbb;">|</span>
+  <span style="font-size:13px; color:#555; font-weight:600;">HVAC &amp; Refrigeration — Thermodynamics</span>
+  <span style="color:#bbb;">|</span>
+  <span style="font-size:13px; color:#333; font-weight:700;">Problem 20</span>
+  <span style="color:#bbb;">|</span>
+  <span style="font-size:12px; color:#888;">Heat Pump COP · Heating Mode</span>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- ===== LEFT PANEL ===== -->
+  <div class="sidebar-left">
+
+    <!-- Problem Meta & Statement -->
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 20</div>
+    <div class="problem-statement">
+      A heat pump with a 3 kW compressor has a heating capacity of 50,000 Btu/hr and a cooling capacity of 40,000 Btu/hr. What is the COP when the unit is operated in <strong>heating mode</strong>?
+    </div>
+
+    <!-- Answer Choices -->
+    <div class="section-title">Answer Choices</div>
+    <span class="answer-tag">✓ Answer: C</span>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>1.0</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B.</span>
+        <span>3.9</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">C.</span>
+        <span>4.9</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D.</span>
+        <span>5.0</span>
+      </div>
+    </div>
+
+    <!-- Quick Overview -->
+    <div style="margin-top:24px;">
+      <div class="section-title">Quick Overview</div>
+      <div class="takeaway-box" style="border-left-color: #0066cc; background: #f0f4ff;">
+        <ol style="padding-left: 18px; font-size: 13px; line-height: 1.9; color: #333;">
+          <li>In heating mode, a heat pump delivers heat <em>to</em> the space — so the relevant output is the heating capacity, Q<sub>H</sub> = 50,000 Btu/hr.</li>
+          <li>The compressor work input is given in kW. Convert it to Btu/hr using 1 kW = 3,412.14 Btu/hr: W = 3 × 3,412.14 = 10,236.4 Btu/hr.</li>
+          <li>Apply the COP formula for heating: COP<sub>H</sub> = Q<sub>H</sub> / W<sub>in</sub>.</li>
+          <li>Divide: 50,000 ÷ 10,236.4 ≈ 4.88, which rounds to 4.9 → Choice C.</li>
+          <li>Verify with the energy balance: Q<sub>H</sub> = Q<sub>L</sub> + W → 40,000 + 10,236 = 50,236 ≈ 50,000 ✓</li>
+          <li>Watch the trap: Choice B (3.9) is the cooling COP — don't mix up Q<sub>H</sub> and Q<sub>L</sub>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Key Takeaways -->
+    <div style="margin-top:24px;">
+      <div class="section-title">Key Takeaways</div>
+      <div class="takeaway-box">
+        <ul style="padding-left: 18px; font-size: 13px; line-height: 1.9; color: #555;">
+          <li>A heat pump can deliver more heat energy than the electrical energy it consumes — that's why COP<sub>H</sub> is greater than 1.0.</li>
+          <li>Heating COP always uses the heat <em>delivered</em> as the output, not the heat absorbed from outside — these are easy to confuse under exam pressure.</li>
+          <li>The cooling COP (3.9) and heating COP (4.9) differ by exactly 1 — this is a fundamental thermodynamic identity: COP<sub>H</sub> = COP<sub>C</sub> + 1.</li>
+          <li>Always convert compressor work to the same unit system as the capacity before dividing — a unit mismatch is the most common source of error here.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Nav Arrows -->
+    <div class="nav-arrows">
+      <a href="HVAC_Thermodynamics_19.html">← Problem 19</a>
+      <a href="HVAC_Thermodynamics_21.html">Problem 21 →</a>
+    </div>
+
+  </div><!-- /sidebar-left -->
+
+  <!-- ===== RIGHT PANEL ===== -->
+  <div class="sidebar-right">
+
+    <!-- Full Solution -->
+    <div class="section-title">Full Solution</div>
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:10px;">
+      This problem tests the definition of Coefficient of Performance (COP) for a heat pump operating in <strong>heating mode</strong>. The key is to correctly identify which heat transfer quantity — Q<sub>H</sub> or Q<sub>L</sub> — belongs in the numerator, and to handle the unit conversion for the compressor work.
+    </p>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:6px;"><strong>Step 1 — Identify the given values:</strong></p>
+    <ul style="font-size:13px; color:#555; line-height:1.85; padding-left:18px; margin-bottom:10px;">
+      <li>Compressor power: W<sub>in</sub> = 3 kW</li>
+      <li>Heating capacity: Q<sub>H</sub> = 50,000 Btu/hr</li>
+      <li>Cooling capacity: Q<sub>L</sub> = 40,000 Btu/hr</li>
+    </ul>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:6px;"><strong>Step 2 — Convert compressor work to Btu/hr:</strong></p>
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:4px;">
+      The capacities are in Btu/hr, so convert W<sub>in</sub> to match:
+    </p>
+    <span class="formula-line">W_in = 3 kW × 3,412.14 Btu/hr per kW = 10,236.4 Btu/hr</span>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:6px; margin-top:10px;"><strong>Step 3 — Apply the COP formula for heating mode:</strong></p>
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:4px;">
+      In heating mode, the heat pump delivers Q<sub>H</sub> to the conditioned space. The COP is the ratio of useful heat output to work input:
+    </p>
+    <span class="formula-line">COP_H = Q_H / W_in</span>
+    <span class="formula-line">COP_H = 50,000 / 10,236.4</span>
+    <span class="formula-line">COP_H ≈ 4.88  →  rounds to 4.9  ✓  (Choice C)</span>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:6px; margin-top:14px;"><strong>Step 4 — Verify with the energy balance:</strong></p>
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:4px;">
+      For a heat pump: Q<sub>H</sub> = Q<sub>L</sub> + W<sub>in</sub>. Check:
+    </p>
+    <span class="formula-line">Q_L + W_in = 40,000 + 10,236 = 50,236 Btu/hr ≈ 50,000 ✓</span>
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-top:6px; margin-bottom:10px;">
+      The slight difference (236 Btu/hr) is due to rounding in the kW conversion factor. The energy balance confirms we have the right numbers.
+    </p>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:6px;"><strong>Why the distractors are wrong:</strong></p>
+    <ul style="font-size:13px; color:#555; line-height:1.85; padding-left:18px; margin-bottom:10px;">
+      <li><strong>Choice A (1.0):</strong> COP = 1 would mean all input work becomes heat — that ignores the heat absorbed from outdoors. No real heat pump works this way.</li>
+      <li><strong>Choice B (3.9):</strong> This is COP<sub>cooling</sub> = Q<sub>L</sub>/W = 40,000/10,236 ≈ 3.91. A classic trap — it uses the wrong capacity for the given operating mode.</li>
+      <li><strong>Choice D (5.0):</strong> Results from rounding W<sub>in</sub> too aggressively — e.g., using 3 kW × 3,000 Btu/hr = 9,000 Btu/hr → 50,000/10,000 = 5.0. The correct conversion factor is 3,412.14, not 3,000.</li>
+    </ul>
+
+    <p style="font-size:13px; color:#555; line-height:1.75; margin-bottom:4px; margin-top:4px;">
+      Note also the elegant identity: <strong>COP<sub>H</sub> = COP<sub>C</sub> + 1</strong>. Here: 3.9 + 1 = 4.9 ✓ — a quick sanity check you can use on the exam.
+    </p>
+
+    <!-- Video Synthesis -->
+    <div style="margin-top:28px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box">
+        <ul style="padding-left:18px; margin:0;">
+          <li>Heat pump COP in heating mode = Q<sub>H</sub> / W<sub>in</sub>; always use the heat <em>delivered</em>, not absorbed.</li>
+          <li>Unit conversion is essential: 1 kW = 3,412.14 Btu/hr — memorize this for the exam.</li>
+          <li>The energy balance Q<sub>H</sub> = Q<sub>L</sub> + W is your best verification tool and catches unit errors instantly.</li>
+          <li>COP<sub>H</sub> = COP<sub>C</sub> + 1 is a derived identity — use it as a quick cross-check when both capacities are given.</li>
+          <li>Choice B (3.9) is the cooling COP — the exam will offer it as a distractor whenever heating mode is specified.</li>
+          <li>Heat pumps are thermodynamically "efficient" precisely because COP &gt; 1; they move heat rather than generate it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Office Hours Q&A -->
+    <div style="margin-top:28px;">
+      <div class="oh-section-title">
+        Office Hours Q&amp;A
+      </div>
+      <div class="oh-notice">
+        No Office Hours coverage for this problem yet. Check back after future OH sessions.
+      </div>
+    </div>
+
+    <!-- Nav Arrows -->
+    <div class="nav-arrows">
+      <a href="HVAC_Thermodynamics_19.html">← Problem 19</a>
+      <a href="HVAC_Thermodynamics_21.html">Problem 21 →</a>
+    </div>
+
+  </div><!-- /sidebar-right -->
+
+</div><!-- /layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Mechanical PE Exam Prep</span>
+  <span style="color:#ddd;">|</span>
+  <a href="../oh-prep.html">← Back to OH Prep</a>
+  <span style="color:#ddd;">|</span>
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 20</span>
+</div>
+
+<script>
+  document.querySelectorAll('.solution-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var box = this.parentElement.querySelector('.solution-box');
+      var arrow = this.querySelector('.toggle-arrow');
+      if (box) {
+        box.classList.toggle('open');
+        if (arrow) arrow.textContent = box.classList.contains('open') ? '▲' : '▼';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
