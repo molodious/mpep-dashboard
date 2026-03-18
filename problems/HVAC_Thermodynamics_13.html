@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC &amp; Refrigeration · Problem 13 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.oh-placeholder {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #666;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC &amp; Refrigeration · Thermodynamics · Problem 13</span>
+  <span class="nav-badge">⭐ 4 OH sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">4 sessions · Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <!-- LEFT SIDEBAR: PROBLEM + SOLUTION -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 13</div>
+    
+    <!-- Problem Statement Section -->
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">Steam with a quality of 90% expands isentropically from 350 psia to 120 psia. What is the change in enthalpy?</div>
+
+    <!-- Answer Choices Section -->
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>40 Btu/lb</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B.</span>
+        <span>80 Btu/lb</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C.</span>
+        <span>90 Btu/lb</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">D.</span>
+        <span>120 Btu/lb ✓</span>
+      </div>
+    </div>
+
+    <!-- Solution Section -->
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box">Quick Overview:
+1. Identify the initial state: wet steam at 350 psia with quality x = 0.90.
+2. Look up steam table values at 350 psia to find the initial enthalpy (h1) and entropy (s1).
+3. Since the process is isentropic, the entropy at the final state equals s1 — set s2 = s1.
+4. At 120 psia, use s2 to solve for the new quality x2 from the saturated mixture entropy relation.
+5. With x2 known, look up steam table values at 120 psia and compute the final enthalpy h2.
+6. Subtract: the change in enthalpy is h2 − h1, which gives approximately 120 Btu/lb.
+
+Full Solution:
+This problem involves isentropic expansion of wet steam through two pressure states. The key tool is the steam tables, applied twice — once at the initial condition and once at the final condition.
+
+At the initial state, the steam is a saturated mixture at 350 psia with a quality of x = 0.90. Using steam table values at 350 psia, we find the saturated liquid enthalpy (h_f), the enthalpy of vaporization (h_fg), the saturated liquid entropy (s_f), and the entropy of vaporization (s_fg). The initial enthalpy is calculated as h1 = h_f + x·h_fg, and the initial entropy as s1 = s_f + x·s_fg.
+
+Since the expansion is isentropic (no change in entropy), the entropy at the final state equals s1. At 120 psia, we use the steam tables to look up s_f and s_fg, then solve for the new quality: x2 = (s1 − s_f) / s_fg. With x2 determined, we compute the final enthalpy: h2 = h_f + x2·h_fg, using the 120 psia steam table values.
+
+The change in enthalpy is then Δh = h2 − h1. Working through the steam table values for these two pressures and applying the isentropic condition, the result is approximately 120 Btu/lb.
+
+The correct answer is D: 120 Btu/lb.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR: VIDEO SYNTHESIS + TAKEAWAYS + OH Q&A -->
+  <div class="sidebar-right">
+    <!-- Video Synthesis Section -->
+    <div class="section-title">Video Synthesis</div>
+    <div class="video-box">• A common mistake is trying to use Cp·ΔT to find enthalpy change across a phase boundary — this only works within a single phase (sensible heating), not when latent heat is involved.
+• Wet steam problems always require steam tables; there is no shortcut formula that replaces looking up h_f, h_fg, s_f, and s_fg at the given pressure.
+• Students often forget that "quality" must be recalculated at the final pressure — the quality changes even though entropy stays constant in an isentropic process.
+• Confusing absolute entropy with entropy of vaporization (s_fg) is a frequent error; be clear about which steam table column you are reading.
+• Unit conversion traps appear when mixing Btu/lb with ft·lbf/lbm — always verify units before substituting steam table values into enthalpy calculations.
+• The isentropic condition means entropy is conserved, not enthalpy — enthalpy will change, and that change is exactly what the problem asks you to find.</div>
+
+    <!-- Key Takeaways Section -->
+    <div class="section-title" style="margin-top:20px">Key Takeaways</div>
+    <div class="takeaway-box">• Steam tables are the required reference for any wet-steam property lookup — no single-phase approximation can substitute across a phase boundary.
+• In an isentropic process, entropy is held constant between states, but enthalpy changes and must be computed at each pressure separately.
+• Quality is a state variable that changes with pressure even when entropy is conserved, so it must be recalculated at the final condition.
+• The enthalpy of a saturated mixture depends on both the saturation properties and the quality at that specific pressure.
+• Sensible heat methods only apply within a single phase; once a phase boundary is crossed, latent heat and steam tables take over.</div>
+
+    <!-- Office Hours Q&A Section -->
+    <div style="margin-top:20px;">
+      <div class="oh-section-title">
+        Office Hours Coverage
+        <span class="oh-count">4 sessions</span>
+      </div>
+      <div class="oh-subtitle">Student questions asked in live office hours sessions about this problem.</div>
+      
+      <div class="qa-group">
+        <div class="qa-session">Session 115 — March 2nd, 2026</div>
+        <div class="qa-question">Q: Can I use ΔH = Cp·ΔT to find the enthalpy difference between superheated steam and subcooled water?</div>
+        <div class="qa-answer">A: No — Cp·ΔT only works within a single phase (sensible heating) and cannot cross a phase boundary. You must use steam tables and account for latent heat when the process spans phase changes.</div>
+        <div class="qa-question" style="margin-top:10px;">Q: Why is m·Δh considered more powerful than m·Cp·ΔT for enthalpy calculations?</div>
+        <div class="qa-answer">A: Because m·Δh can span phase boundaries — it handles both sensible and latent heat — while m·Cp·ΔT is limited to a single phase and breaks down whenever a substance changes phase.</div>
+        <div class="qa-question" style="margin-top:10px;">Q: Does h_fg (latent heat of vaporization) stay constant, or does it depend on conditions?</div>
+        <div class="qa-answer">A: h_fg varies with pressure, which is why you always need to look it up in the steam tables at the specific pressure of interest rather than using a single fixed value.</div>
+      </div>
+
+      <div class="qa-group">
+        <div class="qa-session">Session 88 — September 17th, 2024</div>
+        <div class="qa-question">Q: Why isn't atmospheric pressure included in the stagnation pressure calculation for a submarine problem?</div>
+        <div class="qa-answer">A: Because atmosphere pushes equally on both sides of the measurement (like a pitot tube), so it cancels out — stagnation pressure is calculated using gauge static pressure, not absolute pressure.</div>
+        <div class="qa-question" style="margin-top:10px;">Q: What is the relationship between stagnation pressure, static pressure, and velocity pressure?</div>
+        <div class="qa-answer">A: Stagnation pressure equals static pressure plus velocity pressure; using a pitot tube analogy, the two atmospheric contributions cancel, leaving gauge static pressure as the operative term.</div>
+      </div>
+
+      <div class="qa-group">
+        <div class="qa-session">Session 82 — June 10th, 2024</div>
+        <div class="qa-question">Q: Is it acceptable to use the water horsepower formula as a shortcut for solving Thermo Problem 1?</div>
+        <div class="qa-answer">A: Yes, the shortcut is correct and faster, but Dan encourages students to also practice the longer approach so they can adapt when a problem is structured differently — like being able to hit different pitches in baseball.</div>
+        <div class="qa-question" style="margin-top:10px;">Q: Why bother learning the longer solution method if a faster formula exists?</div>
+        <div class="qa-answer">A: Knowing multiple solution approaches builds flexibility and deeper understanding, so you aren't stuck if the exam presents the problem in an unfamiliar form.</div>
+      </div>
+
+      <div class="qa-group">
+        <div class="qa-session">Session 32 — March 7th, 2022</div>
+        <div class="qa-question">Q: How do you convert ft·lbf/(lbm·°R) to Btu/lb when working with compressor problems using the specific gas constant?</div>
+        <div class="qa-answer">A: Use the conversion 1 Btu = 778 ft·lbf from the reference handbook — divide ft·lbf by 778 to get Btu, and the units cancel cleanly to give you Btu/lb.</div>
+        <div class="qa-question" style="margin-top:10px;">Q: Where can students find the 1 Btu = 778 ft·lbf conversion during the exam?</div>
+        <div class="qa-answer">A: It is listed directly in the NCEES reference handbook, so you don't need to memorize it — just know where to look it up and how to apply it to cancel units.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <a href="../oh-prep.html">Back to Dashboard</a>
+  <span>Problem 13 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>
