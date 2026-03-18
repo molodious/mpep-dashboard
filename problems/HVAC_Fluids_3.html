@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 3 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fafafa;
+  border: 1px solid #eeeeee;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.qa-group-header {
+  font-size: 12px;
+  font-weight: 700;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qa-group-header .oh-label {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-size: 11px;
+}
+.qa-pair { margin-bottom: 12px; }
+.qa-pair:last-child { margin-bottom: 0; }
+.qa-q {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 6px;
+}
+.qa-q::before { content: "Q:"; color: #0066cc; font-weight: 700; min-width: 20px; }
+.qa-a {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.7;
+  padding-left: 26px;
+}
+.qa-a::before { content: "A: "; font-weight: 600; color: #15803d; }
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+  <span class="nav-sep">›</span>
+  <a href="HVAC_Fluids_2.html">← Problem 2</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 3</span>
+  <span class="nav-badge">⭐ 8 OH sessions</span>
+  <span class="nav-sep">·</span>
+  <span style="font-size: 13px; color: #15803d; font-weight: 600;">Answer: D — 1.4 ft</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 3</div>
+
+    <div class="problem-statement">
+      900 gpm of water flows through an 8-inch pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>0.1 ft</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>0.2 ft</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>1.2 ft</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">D</span>
+        <span>1.4 ft &nbsp;✓</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: D — 1.4 ft</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">Darcy-Weisbach + Moody chart</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Convert 900 GPM to <strong>velocity</strong> using the pipe cross-sectional area (8" nominal schedule 40 steel, ID ≈ 7.981").</li>
+          <li>Use the <strong>Moody chart</strong> with Re = 400,000 and ε/D = 0.0004 to read friction factor <strong>f ≈ 0.0175</strong> (precise value 0.0172).</li>
+          <li>Apply the <strong>Darcy-Weisbach equation</strong>: h<sub>L</sub> = f × (L/D) × (V²/2g) for L = 100 ft.</li>
+          <li>Result: h<sub>L</sub> ≈ 1.36 ft → rounds to <strong>1.4 ft → Answer D</strong>.</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Key formula:</strong> Darcy-Weisbach: h<sub>L</sub> = f × (L/D) × (V²/2g). The Moody chart gives friction factor as a function of two inputs: Reynolds number (x-axis, log scale) and relative roughness ε/D (curves on right). Read the friction factor from the left vertical axis (also log scale). Watch out — the horizontal axis is logarithmic, so 4×10<sup>5</sup> sits between the 10<sup>5</sup> and 10<sup>6</sup> gridlines, much closer to 10<sup>6</sup>.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            This is a classic pipe friction problem using the Darcy-Weisbach equation. We are given the Reynolds number and relative roughness directly, so the main task is reading the Moody chart accurately and then computing the head loss.
+          </p>
+
+          <p><strong>Given:</strong></p>
+          <span class="math-line">Flow rate Q = 900 gpm</span>
+          <span class="math-line">Pipe nominal diameter = 8 in (schedule 40 steel, ID = 7.981 in)</span>
+          <span class="math-line">Relative roughness ε/D = 0.0004</span>
+          <span class="math-line">Reynolds number Re = 400,000 = 4×10⁵</span>
+          <span class="math-line">Pipe length L = 100 ft</span>
+
+          <p style="margin-top: 12px;"><strong>Step 1 — Convert flow rate to velocity:</strong></p>
+          <p>Convert GPM to ft³/s using the conversion 1 ft³ = 7.48 gal and 1 min = 60 s:</p>
+          <span class="math-line">Q = 900 / (7.48 × 60) = 900 / 448.8 = 2.005 ft³/s</span>
+
+          <p style="margin-top: 12px;">Calculate the pipe cross-sectional area using the inside diameter 7.981 in = 7.981/12 = 0.6651 ft:</p>
+          <span class="math-line">A = π/4 × D² = π/4 × (0.6651)² = 0.3474 ft²</span>
+
+          <p style="margin-top: 12px;">Solve for velocity:</p>
+          <span class="math-line">V = Q / A = 2.005 / 0.3474 = 5.77 ft/s</span>
+
+          <p style="margin-top: 12px;"><strong>Step 2 — Read the Moody chart for friction factor:</strong></p>
+          <p>Locate Re = 4×10⁵ on the horizontal (logarithmic) axis — this lies between 10⁵ and 10⁶, closer to 10⁶. Find the ε/D = 0.0004 curve on the chart (labeled on the right axis). Follow that curve to where it crosses Re = 4×10⁵, then read horizontally LEFT to the left vertical axis to get the friction factor:</p>
+          <span class="math-line">f ≈ 0.0175 (Moody chart reading; precise Colebrook value: 0.0172)</span>
+
+          <p style="margin-top: 12px;"><strong>Step 3 — Apply Darcy-Weisbach equation:</strong></p>
+          <p>Use L/D = 100 ft / 0.6651 ft = 150.36 (dimensionless) and g = 32.2 ft/s²:</p>
+          <span class="math-line">h_L = f × (L/D) × (V² / 2g)</span>
+          <span class="math-line">h_L = 0.0175 × 150.36 × (5.77² / (2 × 32.2))</span>
+          <span class="math-line">h_L = 0.0175 × 150.36 × (33.29 / 64.4)</span>
+          <span class="math-line">h_L = 0.0175 × 150.36 × 0.5170</span>
+          <span class="math-line">h_L = 0.0175 × 77.74</span>
+          <span class="math-line">h_L = 1.360 ft</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Answer: D — 1.4 ft.</strong> The computed value of ~1.36 ft rounds to 1.4 ft. Note that using the exact friction factor of 0.0172 gives h<sub>L</sub> = 1.34 ft — still closer to 1.4 than to 1.2, confirming Answer D.
+          </p>
+
+          <p>
+            Also note: using the literal 8" diameter instead of the nominal 7.981" ID gives approximately 1.34 ft — both values round to 1.4 ft, so the pipe table lookup does not change the answer for this pipe size.
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="margin-top: 8px; padding-left: 20px; line-height: 1.8;">
+            <li>The <strong>Moody chart horizontal axis is logarithmic</strong>. Re = 4×10⁵ sits between the 10⁵ and 10⁶ gridlines — but NOT halfway. On a log scale, 4×10⁵ is about 60% of the way from 10⁵ to 10⁶ (log₁₀(4) ≈ 0.60). Misreading this by a decade is the most common error on this problem.</li>
+            <li><strong>Follow the curves, not horizontal lines</strong>. The friction factor curves on a Moody chart are NOT horizontal in the turbulent zone — they slope downward as Re increases. You must follow the ε/D = 0.0004 curve to the correct Re, then read left. Going straight horizontally from the right axis gives the wrong value.</li>
+            <li>The <strong>relative roughness ε/D = 0.0004</strong> is given directly in the problem. This means we don't need the pipe material to find friction factor — the roughness is already normalized by the diameter. Steel pipe is still needed to look up the actual inside diameter.</li>
+            <li><strong>Nominal vs. actual diameter:</strong> For 8" schedule 40 steel, ID ≈ 7.981" vs. 8.000" nominal. For larger pipes (6"+), this difference is small enough that it won't change which answer choice you pick — verified by Dan in multiple office hours sessions.</li>
+            <li>The <strong>Darcy-Weisbach equation</strong> requires consistent units: diameter in feet (not inches), velocity in ft/s, g = 32.2 ft/s². Convert all values before substituting.</li>
+            <li>The two most common wrong answers are <strong>C (1.2 ft)</strong> — from using f = 0.016 due to a Moody chart misread — and forgetting to divide the diameter by 12 when computing L/D.</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>When reading the Moody chart, <strong>always follow the relative roughness curve</strong> — do not draw a horizontal line from the right axis. The curves are not horizontal in the turbulent regime.</li>
+            <li>The horizontal axis is <strong>logarithmic</strong>: 4×10⁵ is between 10⁵ and 10⁶, closer to 10⁶. Placing it at 4×10⁴ is a full-decade error that completely changes the answer.</li>
+            <li>For 8" and larger nominal pipe sizes, the difference between nominal and schedule 40 ID is negligible — both give the same answer choice.</li>
+            <li>When ε/D is given directly, you don't need the pipe material to read the Moody chart. Steel pipe lookup is only needed to find the actual inside diameter for velocity calculations.</li>
+            <li>Friction factor from Moody chart (~0.0175) vs. precise Colebrook formula (0.0172) — slight differences are expected and acceptable. Target the closest answer choice.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">8 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem. Sorted newest first.</div>
+
+    <!-- OH 113 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 113</span>
+        February 2nd, 2026
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">Student got friction factor 0.016 and chose answer C (1.2 ft). What went wrong?</div>
+        <div class="qa-a">Dan explained the key error: when using the Moody chart right vertical axis (relative roughness), you must <strong>follow the CURVES</strong> — not go horizontally across. The relative roughness curves slope downward as Re increases in the turbulent zone. If you follow the ε/D = 0.0004 curve to Re = 4×10⁵ and then read left, you get approximately 0.0175. Going straight horizontally from the right axis to the left gives about 0.016, which is wrong. Dan also reinforced that the horizontal axis is <strong>logarithmic</strong> — 1.5×10⁵ is NOT halfway between 1×10⁵ and 2×10⁵. On a log scale it's actually closer to the 2, since equal distances represent equal multiplicative steps, not additive ones.</div>
+      </div>
+    </div>
+
+    <!-- OH 103B -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 103B</span>
+        May 26th, 2025
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">How do you actually use the relative roughness line to find friction factor on the Moody chart?</div>
+        <div class="qa-a">Dan clarified that friction factor is a function of <strong>two inputs</strong>: Reynolds number and relative roughness (ε/D). The process is: (1) find Re = 4×10⁵ on the horizontal logarithmic axis, (2) identify the ε/D = 0.0004 curve (one of the lines plotted across the chart, labeled on the right axis), (3) follow that curve to where it intersects your Reynolds number, and (4) read horizontally left to the left vertical axis to get the friction factor — which is also a logarithmic axis. The critical point is that you find the CURVE for your relative roughness and follow it — not a straight horizontal line.</div>
+      </div>
+    </div>
+
+    <!-- OH 103A -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 103A</span>
+        May 26th, 2025
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">Should we assume steel pipe when the material isn't given in the problem?</div>
+        <div class="qa-a">Dan said the pipe material <strong>should</strong> be given — if it's missing, that's his oversight, not the student's. Steel is a reasonable default assumption (and the most common material for water systems), but strictly speaking you shouldn't need to assume. He emphasized that different materials give dramatically different results: PVC pipe is much smoother than steel, giving a lower friction factor and significantly less head loss. For this particular problem, the relative roughness is given directly (ε/D = 0.0004), so the material doesn't affect the friction factor lookup — it only matters for the inside diameter, where the difference for 8" nominal pipe is negligible.</div>
+      </div>
+    </div>
+
+    <!-- OH 86 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 86</span>
+        August 5th, 2024
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">I'm getting friction factor 0.016 and a head loss of 1.23 ft — why doesn't it match Dan's 0.0175 and ~1.36 ft?</div>
+        <div class="qa-a">Dan cross-checked using an online Moody chart calculator, which confirmed the precise friction factor is <strong>0.0172</strong> (not 0.016). The 0.016 reading comes from a chart misread — likely going horizontally from the right axis rather than following the ε/D curve to its intersection with Re. Dan acknowledged the answer choices (1.2 vs 1.4 ft) are somewhat close, but with f = 0.0172 the answer is unambiguously ~1.34–1.36 ft, which rounds to 1.4. He noted that minor variation in reading the chart (0.0172 vs 0.0175) is expected and normal — the key is being in the right ballpark.</div>
+      </div>
+    </div>
+
+    <!-- OH 66 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 66</span>
+        August 28th, 2023
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">The friction factor should be 0.0225 for Re = 400,000 and ε/D = 0.004 — why does Dan say 0.0175?</div>
+        <div class="qa-a">Dan explained the student had made a <strong>decade-scale error on the logarithmic axis</strong>. They placed Re = 4×10⁵ at the location of 4×10⁴, reading one full decade to the left of the correct position. The key fact: Re = 400,000 must sit BETWEEN 10⁵ (100,000) and 10⁶ (1,000,000) on the chart. The value 4×10⁴ = 40,000 sits between 10⁴ and 10⁵. At 40,000, the friction factor is indeed higher (~0.022–0.025 range), which is what the student found — but 40,000 ≠ 400,000. Dan also noted the relative roughness in this problem is ε/D = 0.0004, not 0.004 — a second potential misread. These two errors compounded to give a completely different answer.</div>
+      </div>
+    </div>
+
+    <!-- OH 65 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 65</span>
+        August 14th, 2023
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">Why do we assume steel pipe for this problem?</div>
+        <div class="qa-a">Dan explained three reasons: (1) <strong>Steel pipe is by far the most common material</strong> for water systems in buildings, so it's the natural default assumption for HVAC fluids problems. (2) The steel pipe friction/flow tables (like Cameron Hydraulic Data) are used here primarily to <strong>look up the inside diameter</strong> — since the problem gives ε/D directly, we don't rely on the pipe material for the friction factor itself. (3) For larger pipe sizes like 6" and 8", the difference between nominal diameter and schedule 40 actual inside diameter is very small, so the assumption has minimal impact on the answer. He also clarified that schedule 40 = standard weight for pipes in this size range.</div>
+      </div>
+    </div>
+
+    <!-- OH 39 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 39</span>
+        June 27th, 2022
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">How did Dan know to use the standard steel pipe table to get the inside diameter?</div>
+        <div class="qa-a">Dan acknowledged the problem is <strong>somewhat ambiguous</strong> on this point — if you use a literal 8" diameter, you're not wrong. He worked it both ways: using nominal ID = 7.981" (from steel pipe table) gives h<sub>L</sub> ≈ 1.36 ft; using exactly 8.000" gives h<sub>L</sub> ≈ 1.34 ft. Both round to <strong>1.4 ft = Answer D</strong>. For the PE exam, this is a non-issue for larger pipes — the 0.019" difference in diameter simply doesn't affect which answer choice you select. The ambiguity matters much more for small-diameter pipes where nominal vs. actual ID is a larger relative difference.</div>
+      </div>
+    </div>
+
+    <!-- OH 21 -->
+    <div class="qa-group">
+      <div class="qa-group-header">
+        <span class="oh-label">OH 21</span>
+        September 10th, 2021
+      </div>
+      <div class="qa-pair">
+        <div class="qa-q">What tipped Dan off to look up the steel pipe table for the inside diameter?</div>
+        <div class="qa-a">Dan said steel pipe is the <strong>default assumption for fluids problems</strong> — it's so standard in the industry that it's rarely specified explicitly, similar to how structural problems default to A36 steel. When a problem says "8-inch pipe" with no other material context, assume schedule 40 steel. For 8", 10", and 12" nominal sizes, the difference between nominal and actual inside diameter is small enough (less than 0.5%) that it <strong>will not change the answer choice</strong> on a multiple-choice exam. Dan's advice: use the steel pipe table to get the ID, but don't stress over it for larger pipe sizes — the literal nominal diameter gives the same answer choice.</div>
+      </div>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 3</span>
+  <span>·</span>
+  <span>8 OH sessions</span>
+  <span>·</span>
+  <span>Answer: D — 1.4 ft</span>
+  <span>·</span>
+  <span>Generated 2026-03-17</span>
+  <span style="margin-left: auto; display: flex; gap: 16px;">
+    <a href="HVAC_Fluids_2.html">← Problem 2</a>
+    <a href="../oh-prep.html">OH Prep Dashboard</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
