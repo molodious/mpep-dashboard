@@ -1,403 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HVAC Thermodynamics — Problem 15</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-    .nav-bar {
-      background: white;
-      border-bottom: 1px solid #e0e0e0;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      flex-wrap: wrap;
-    }
-    .nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
-    .nav-bar a:hover { text-decoration: underline; }
-    .nav-badge {
-      background: #f5f5f5;
-      color: #888;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .layout-container {
-      display: flex;
-      gap: 0;
-      margin: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      min-height: calc(100vh - 130px);
-    }
-    .sidebar-left {
-      flex: 0 0 50%;
-      padding: 24px;
-      background: #fafafa;
-      border-right: 1px solid #e0e0e0;
-      overflow-y: auto;
-      max-height: calc(100vh - 130px);
-    }
-    .sidebar-right {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-      max-height: calc(100vh - 130px);
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #1a1a1a;
-      border-bottom: 2px solid #0066cc;
-      padding-bottom: 8px;
-    }
-    .problem-meta {
-      font-size: 12px;
-      color: #888;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-    .problem-statement {
-      background: #f0f4ff;
-      padding: 14px;
-      border-radius: 6px;
-      margin-bottom: 16px;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-    .choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-    .choice {
-      padding: 10px 12px;
-      background: white;
-      border-left: 3px solid #ddd;
-      border-radius: 3px;
-      font-size: 13px;
-      display: flex;
-      gap: 8px;
-    }
-    .choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-    .choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
-    .choice.correct .choice-letter { color: #16a34a; }
-    .answer-tag {
-      display: inline-block;
-      background: #e6ffe6;
-      color: #15803d;
-      border: 1px solid #22c55e;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .solution-area { margin-top: 24px; }
-    .solution-toggle {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #555;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-    }
-    .solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-    .solution-box {
-      background: white;
-      border-left: 3px solid #0066cc;
-      border-radius: 3px;
-      padding: 16px;
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.75;
-      color: #444;
-      display: none;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .solution-box.open { display: block; }
-    .takeaway-box {
-      background: #fffbf0;
-      padding: 12px;
-      border-radius: 4px;
-      margin-top: 10px;
-      border-left: 3px solid #f59e0b;
-    }
-    .oh-section-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #1a1a1a;
-      border-bottom: 2px solid #f59e0b;
-      padding-bottom: 8px;
-    }
-    .oh-subtitle {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 14px;
-    }
-    .footer {
-      background: white;
-      border-top: 1px solid #e0e0e0;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 12px;
-      color: #888;
-      flex-wrap: wrap;
-    }
-    .footer a { color: #0066cc; text-decoration: none; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
-    @media (max-width: 768px) {
-      .layout-container { flex-direction: column; margin: 10px; }
-      .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-      .sidebar-right { max-height: none; }
-    }
-    .no-oh-box {
-      background: #f9f9f9;
-      border: 1px dashed #ccc;
-      border-radius: 6px;
-      padding: 28px 20px;
-      text-align: center;
-      margin-top: 16px;
-    }
-    .no-oh-box .no-oh-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-    .no-oh-box p {
-      font-size: 13px;
-      color: #777;
-      line-height: 1.6;
-    }
-    .no-oh-badge {
-      display: inline-block;
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffc107;
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .mb-8 { margin-bottom: 8px; }
-    .mt-16 { margin-top: 16px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 15 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.oh-placeholder {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  padding: 24px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.oh-placeholder .oh-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
 </head>
 <body>
 
-  <!-- Nav Bar -->
-  <div class="nav-bar">
-    <a href="../oh-prep.html">← OH Prep Dashboard</a>
-    <span style="color:#ccc;">|</span>
-    <span style="font-size:13px; font-weight:600; color:#333;">Thermodynamics</span>
-    <span style="color:#ccc;">|</span>
-    <span style="font-size:13px; color:#555;">Problem 15</span>
-    <span class="nav-badge">No OH</span>
-  </div>
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep</a>
+  <span style="color:#bbb;font-size:13px;">›</span>
+  <span style="font-size:13px;color:#555;">Thermodynamics</span>
+  <span style="color:#bbb;font-size:13px;">›</span>
+  <span style="font-size:13px;font-weight:600;color:#1a1a1a;">Problem 15</span>
+  <span class="nav-badge">No OH Coverage Yet</span>
+</div>
 
-  <!-- Main Layout -->
-  <div class="layout-container">
+<div class="layout-container">
 
-    <!-- LEFT PANEL -->
-    <div class="sidebar-left">
-      <div class="section-title">Problem 15 — Carnot Heat Pump COP from Refrigerant Pressures</div>
-      <div class="problem-meta">Thermodynamics &bull; Carnot Cycle &bull; Heat Pump &bull; R-22 Refrigerant</div>
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+    <div class="section-title">Problem 15 — Carnot Heat Pump with R-22</div>
 
-      <div class="problem-statement">
-        In a Carnot heat pump, R-22 evaporates at 31 psia and condenses at 211 psia. What is the coefficient of performance?
+    <div class="problem-meta">Thermodynamics · Carnot Cycle · COP · Refrigerant Properties</div>
+    <div class="problem-statement">
+      In a Carnot heat pump, R-22 evaporates at 31 psia and condenses at 211 psia. What is the coefficient of performance?
+    </div>
+
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A.</span>
+        <span>0.9</span>
       </div>
-
-      <div class="choices">
-        <div class="choice">
-          <span class="choice-letter">A.</span>
-          <span>0.9</span>
-        </div>
-        <div class="choice">
-          <span class="choice-letter">B.</span>
-          <span>4.3</span>
-        </div>
-        <div class="choice correct">
-          <span class="choice-letter">C.</span>
-          <span>5.1 ✓</span>
-        </div>
-        <div class="choice">
-          <span class="choice-letter">D.</span>
-          <span>6.8</span>
-        </div>
+      <div class="choice">
+        <span class="choice-letter">B.</span>
+        <span>4.3</span>
       </div>
-
-      <div style="margin-top:16px;">
-        <span class="answer-tag">✓ Answer: C — 5.1</span>
+      <div class="choice correct">
+        <span class="choice-letter">C.</span>
+        <span>5.1 ✓</span>
       </div>
+      <div class="choice">
+        <span class="choice-letter">D.</span>
+        <span>6.8</span>
+      </div>
+    </div>
 
-      <!-- Solution Area -->
-      <div class="solution-area">
+    <div class="solution-area">
+      <span class="answer-tag">Answer: C — 5.1</span>
 
-        <!-- Quick Overview -->
-        <button class="solution-toggle" onclick="toggleSolution('quick')">
-          <span>▶ Quick Overview</span>
-          <span style="font-size:11px; color:#aaa;">Step-by-step</span>
-        </button>
-        <div class="solution-box" id="quick">1. <strong>Identify saturation temperatures from R-22 tables.</strong>
-   • At 31 psia (evaporator):  T_sat ≈ −11°F
-   • At 211 psia (condenser):  T_sat ≈ 100°F
+      <button class="solution-toggle" onclick="toggleSolution('quick')">
+        <span>▶ Quick Overview</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="quick">1. Identify the formula: COP (heat pump) = T_H / (T_H − T_L)
+   This requires ABSOLUTE temperatures (Rankine for imperial units).
 
-2. <strong>Convert to absolute temperature (Rankine).</strong>
-   • T_L = −11 + 459.67 ≈ 448.7 R
-   • T_H = 100 + 459.67 ≈ 559.7 R
+2. Look up R-22 saturation temperatures from refrigerant tables:
+   • At 31 psia  →  T_sat ≈ 5°F  (evaporator = cold side, T_L)
+   • At 211 psia →  T_sat ≈ 116°F  (condenser = hot side, T_H)
 
-3. <strong>Apply the Carnot heat pump COP formula.</strong>
-   COP_HP = T_H / (T_H − T_L)
-   COP_HP = 559.7 / (559.7 − 448.7)
-   COP_HP = 559.7 / 111
-   COP_HP ≈ 5.04
+3. Convert to Rankine (add 460):
+   T_L = 5 + 460 = 465 °R
+   T_H = 116 + 460 = 576 °R
 
-4. <strong>Select the closest answer.</strong>
-   5.04 ≈ 5.1  →  Answer C ✓
+4. Compute COP:
+   COP = 576 / (576 − 465) = 576 / 111 ≈ 5.19
 
-5. <strong>Sanity check.</strong>
-   COP_HP > 1 always for a heat pump — confirmed. ✓</div>
+5. Answer: C — 5.1</div>
 
-        <!-- Full Solution -->
-        <button class="solution-toggle" onclick="toggleSolution('full')" style="margin-top:8px;">
-          <span>▶ Full Solution</span>
-          <span style="font-size:11px; color:#aaa;">Detailed explanation</span>
-        </button>
-        <div class="solution-box" id="full"><strong>Background</strong>
-A Carnot heat pump is the ideal, reversible heat pump operating between two fixed temperature reservoirs. Its COP depends <em>only</em> on those reservoir temperatures — not on the working fluid properties beyond what the saturation temperatures tell us.
+      <button class="solution-toggle" style="margin-top:8px;" onclick="toggleSolution('full')">
+        <span>▶ Full Solution</span>
+        <span style="font-size:11px;color:#aaa;">click to expand</span>
+      </button>
+      <div class="solution-box" id="full">This problem is identical in structure to the basic Carnot heat pump COP problem — but instead of giving you temperatures directly, it gives you pressures and expects you to look up the corresponding saturation temperatures from R-22 refrigerant tables.
 
-<strong>Step 1 — Look up R-22 Saturation Temperatures</strong>
-Given pressures directly correspond to saturation (two-phase) conditions, so the refrigerant temperature equals the saturation temperature at each pressure.
+STEP 1 — Identify the operating temperatures from the R-22 tables
+In a vapor-compression (or Carnot) cycle:
+  • The refrigerant evaporates at the low-pressure side → T_L
+  • The refrigerant condenses at the high-pressure side → T_H
 
-From standard R-22 saturation tables (pressure-based):
-  • 31 psia → T_sat ≈ −11°F
-    (Interpolating between −20°F @ 24.86 psia and 0°F @ 38.73 psia:
-     fraction = (31 − 24.86)/(38.73 − 24.86) = 6.14/13.87 = 0.443
-     T = −20 + 0.443 × 20 = −11.1°F)
-  • 211 psia → T_sat ≈ 100°F
-    (R-22 saturation at 100°F ≈ 210.6 psia — essentially exact)
+From standard R-22 saturation property tables:
+  • P = 31 psia  →  T_sat ≈ 5°F        (low side, evaporator)
+  • P = 211 psia →  T_sat ≈ 116°F      (high side, condenser)
 
-<strong>Step 2 — Convert to Rankine</strong>
-Absolute temperature is required for Carnot calculations.
-  T_L = −11.1 + 459.67 = 448.6 R  (evaporator / low side)
-  T_H = 100.0 + 459.67 = 559.7 R  (condenser / high side)
+STEP 2 — Convert to absolute temperature (Rankine)
+COP formulas involve temperature ratios, which are only valid on an absolute scale.
+  T_L = 5°F  + 460 = 465 °R
+  T_H = 116°F + 460 = 576 °R
 
-<strong>Step 3 — Carnot Heat Pump COP Formula</strong>
-For a Carnot heat pump (which delivers heat to the high-temperature reservoir):
-
+STEP 3 — Apply the Carnot heat pump COP formula
   COP_HP = T_H / (T_H − T_L)
+         = 576 / (576 − 465)
+         = 576 / 111
+         ≈ 5.19
 
-  COP_HP = 559.7 / (559.7 − 448.6)
-          = 559.7 / 111.1
-          = 5.04
+Closest answer: C — 5.1  ✓
 
-<strong>Step 4 — Match to Answer Choices</strong>
-5.04 rounds to 5.1  →  Answer C ✓
+— — — Why the wrong answers are wrong — — —
 
-<strong>Wrong Answer Analysis</strong>
-• A (0.9): Impossible for any heat pump — COP_HP must be > 1 by definition.
-  This might result from inverting the formula or using temperature differences incorrectly.
-• B (4.3): Would result from using incorrect saturation temperatures
-  (e.g., using −20°F and 100°F, giving 560/(560−440) = 4.67 — still not 4.3).
-• D (6.8): Would require a much smaller temperature difference between reservoirs;
-  possibly from confusing psia with kPa or using wrong table values.
+A (0.9): This is less than 1, which is impossible for a heat pump COP (COP_HP ≥ 1 always, since a heat pump delivers both the work input AND the heat absorbed from the cold source). Likely results from inverting the formula or using temperature differences only.
 
-<strong>Key Formula Distinction</strong>
-  COP_HP  = T_H / (T_H − T_L)   ← heat pump (delivers heat)
-  COP_ref = T_L / (T_H − T_L)   ← refrigerator (removes heat)
-  Note: COP_HP = COP_ref + 1
+B (4.3): This is the result you get if you use approximate or incorrect R-22 table values — for example, reading T_L ≈ −10°F and T_H ≈ 120°F and converting to Rankine: 580/(580−450) = 580/130 ≈ 4.46. The table lookup is the key step here; a careful reading yields ~5°F and ~116°F, not −10°F and 120°F.
 
-Don't confuse these on the exam! The problem says "heat pump" → use T_H in the numerator.</div>
+D (6.8): This could result from applying the Carnot refrigerator COP formula (T_L / (T_H − T_L)) instead of the heat pump formula, or from using pressure ratios rather than temperature ratios. COP_refrigerator = T_L/(T_H−T_L) = 465/111 ≈ 4.2 — still not 6.8 — suggesting a wrong table value or formula confusion.
 
-        <!-- Key Takeaways -->
-        <div class="takeaway-box mt-16">
-          <div style="font-size:13px; font-weight:700; color:#b45309; margin-bottom:8px;">📌 Key Takeaways</div>
-          <ul style="font-size:13px; color:#555; padding-left:16px; line-height:1.8;">
-            <li>R-22 saturation pressures: look up T_sat from refrigerant tables — pressures define the operating temperatures.</li>
-            <li>Always convert °F to Rankine (add 459.67) before applying any Carnot formula.</li>
-            <li>Carnot heat pump: COP<sub>HP</sub> = T<sub>H</sub> / (T<sub>H</sub> − T<sub>L</sub>) — high-side temp in the numerator.</li>
-            <li>COP<sub>HP</sub> is always greater than 1; if your answer is below 1, you've used the wrong formula or wrong temperature scale.</li>
+— — — Key concept: Heat pump vs. refrigerator COP — — —
+Both operate on the same Carnot cycle. The only difference is what you're counting:
+  • Refrigerator: you care about the heat REMOVED from the cold space → COP_R = T_L / (T_H − T_L)
+  • Heat pump: you care about the heat DELIVERED to the hot space → COP_HP = T_H / (T_H − T_L)
+
+Notice: COP_HP = COP_R + 1. Always. So if you compute the refrigerator COP first, just add 1 to get the heat pump COP. This is a useful cross-check on the exam.</div>
+
+      <!-- Office Hours Synthesis -->
+      <div style="margin-top:20px;">
+        <div class="section-title" style="border-color:#7c3aed;">Office Hours Synthesis</div>
+        <div class="video-box">
+          <strong style="color:#7c3aed;">🎓 Related Thermodynamics Concepts from the Course</strong><br><br>
+          This problem has not been covered in office hours yet — but it connects directly to several themes Dan has emphasized throughout the course.<br><br>
+          <strong>On absolute temperatures:</strong> Dan has repeatedly stressed that any Carnot formula involving a temperature ratio (not just a difference) requires absolute temperatures. Problem 14 covered this exact trap: using Fahrenheit gives the wrong COP because the numerator is a raw temperature, not a difference. The same logic applies here — always convert to Rankine before plugging into COP = T_H/(T_H−T_L).<br><br>
+          <strong>On refrigerant table lookups:</strong> This problem adds one layer — you must look up the saturation temperature from a pressure. Dan covers refrigerant property tables in the refrigeration section, and this is a standard PE exam move: give pressures, expect you to find temperatures. On the exam you'll have the ASHRAE reference tables or the NCEES-provided R-22 data — take the time to read them carefully.<br><br>
+          <strong>On heat pump vs. refrigerator COP:</strong> Remember COP_HP = COP_R + 1. If you find yourself getting an answer around 4.1–4.2, you may have applied the refrigerator formula. A heat pump COP is always ≥ 1, and typically much higher than 1 for reasonable temperature lifts.
+        </div>
+      </div>
+
+      <!-- Key Takeaways -->
+      <div style="margin-top:20px;">
+        <div class="section-title" style="border-color:#f59e0b;">Key Takeaways</div>
+        <div class="takeaway-box">
+          <ul style="padding-left:16px;font-size:13px;line-height:2;color:#555;">
+            <li>When pressures are given instead of temperatures, the first step is always a <strong>refrigerant table lookup</strong> — find the saturation temperature at each pressure before doing any math.</li>
+            <li>Use <strong>absolute temperature (Rankine)</strong> in all Carnot COP formulas. The Rankine conversion is simple: add 460 to °F. Never plug in raw Fahrenheit values.</li>
+            <li>For a heat pump: <strong>COP_HP = T_H / (T_H − T_L)</strong>. For a refrigerator at the same conditions: COP_R = T_L / (T_H − T_L). The relationship COP_HP = COP_R + 1 is always true — use it as a cross-check.</li>
+            <li>R-22 (Freon 22) is a common refrigerant in PE exam problems. Key landmarks: at ~5°F, saturation pressure ≈ 31 psia; at ~116°F, saturation pressure ≈ 211 psia. Know how to read the tables, not just these values.</li>
           </ul>
         </div>
+      </div>
 
+    </div>
+  </div><!-- /sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Coverage
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <div class="oh-subtitle">No office hours sessions have covered this specific problem yet.</div>
+
+    <div class="oh-placeholder">
+      <span class="oh-icon">🕐</span>
+      <strong style="display:block;margin-bottom:6px;color:#6b7280;">No Office Hours coverage yet</strong>
+      Dan plans to cover this in an upcoming session. Check back after the next OH recording is processed.<br><br>
+      <span style="font-size:12px;">In the meantime, the solution panel on the left walks through the full solution including wrong-answer analysis.</span>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="oh-section-title" style="border-color:#e5e7eb;">
+        Related Problems with OH Coverage
+      </div>
+      <div style="font-size:13px;color:#6b7280;line-height:1.7;margin-top:8px;">
+        <strong>Problem 14</strong> — Carnot heat pump with temperatures given directly (not pressures). Covered in OH 106 (July 7, 2025). Dan discusses why absolute temperatures are required and walks through how using Fahrenheit vs. Rankine gives two different wrong answers.<br><br>
+        That session is directly relevant to this problem — the only new skill here is reading the R-22 saturation table to convert pressures to temperatures first.
       </div>
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="sidebar-right">
-      <div class="oh-section-title">Office Hours Coverage</div>
-      <div class="oh-subtitle">Problems discussed and explained during live OH sessions</div>
+  </div><!-- /sidebar-right -->
 
-      <div class="no-oh-box">
-        <div class="no-oh-icon">🎙️</div>
-        <div style="margin-bottom:8px;">
-          <span class="no-oh-badge">No Office Hours Coverage</span>
-        </div>
-        <p>This problem has not been discussed in any past office hours session.</p>
-        <p style="margin-top:8px; font-size:12px; color:#999;">
-          The written solution on the left covers everything you need to work through this problem on your own.
-          If you'd like this covered in a future session, bring it up during the next OH!
-        </p>
-      </div>
-    </div>
+</div><!-- /layout-container -->
 
-  </div>
+<div class="footer">
+  <span>HVAC OH Prep</span>
+  <span>·</span>
+  <a href="../oh-prep.html">← Back to Problem List</a>
+  <span>·</span>
+  <span>Thermodynamics · Problem 15</span>
+  <span style="margin-left:auto;">Generated 2026-03-18</span>
+</div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <span>HVAC OH Prep</span>
-    <span style="color:#ccc;">|</span>
-    <a href="../oh-prep.html">← Back to Dashboard</a>
-    <span style="color:#ccc;">|</span>
-    <span>Thermodynamics — Problem 15</span>
-    <span style="color:#ccc;">|</span>
-    <span>Generated 2026-03-18</span>
-  </div>
-
-  <script>
-    function toggleSolution(id) {
-      const box = document.getElementById(id);
-      const isOpen = box.classList.contains('open');
-      document.querySelectorAll('.solution-box').forEach(b => b.classList.remove('open'));
-      document.querySelectorAll('.solution-toggle').forEach(btn => {
+<script>
+function toggleSolution(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  // Close all boxes first
+  document.querySelectorAll('.solution-box').forEach(b => b.classList.remove('open'));
+  // Update all toggle button arrows
+  document.querySelectorAll('.solution-toggle').forEach(btn => {
+    const span = btn.querySelector('span');
+    if (span) span.textContent = span.textContent.replace('▼', '▶');
+  });
+  if (!isOpen) {
+    box.classList.add('open');
+    // Update the clicked button's arrow
+    const buttons = document.querySelectorAll('.solution-toggle');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + id + "'")) {
         const span = btn.querySelector('span');
-        if (span) span.textContent = span.textContent.replace('▼', '▶');
-      });
-      if (!isOpen) {
-        box.classList.add('open');
-        const buttons = document.querySelectorAll('.solution-toggle');
-        buttons.forEach(btn => {
-          if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + id + "'")) {
-            const span = btn.querySelector('span');
-            if (span) span.textContent = span.textContent.replace('▶', '▼');
-          }
-        });
+        if (span) span.textContent = span.textContent.replace('▶', '▼');
       }
-    }
-  </script>
+    });
+  }
+}
+</script>
 
 </body>
 </html>
