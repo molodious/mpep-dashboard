@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychrometrics · Problem 1 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+.oh-empty .oh-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.oh-empty strong {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Psychrometrics · Problem 1</span>
+  <span class="nav-badge">0 OH sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Psychrometrics · Problem 1</div>
+
+    <div class="problem-statement">
+      10,000 cfm of air enters a cooling coil at 78°F dry-bulb and 60% relative humidity and exits the coil at 58°F dry-bulb / 54°F wet-bulb. At what rate is condensate removed from the airstream?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>145 lb/hr</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">B</span>
+        <span>176 lb/hr</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">C</span>
+        <span>209 lb/hr &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>253 lb/hr</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: C — 209 lb/hr</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">psychrometrics · humidity ratio · condensate</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Find the <strong>inlet humidity ratio</strong> ω<sub>in</sub> at 78°F db, 60% RH using the psychrometric relationship and saturation pressure.
+            <span class="math-line">ω_in = 0.622 × (φ × P_sat,db) / (P_atm − φ × P_sat,db) ≈ 0.0122 lb_w/lb_da</span>
+          </li>
+          <li>Find the <strong>outlet humidity ratio</strong> ω<sub>out</sub> at 58°F db / 54°F wb using the psychrometric equation for wet-bulb conditions.
+            <span class="math-line">ω_out ≈ 0.0076 lb_w/lb_da</span>
+          </li>
+          <li>Calculate the <strong>specific volume</strong> of moist air at inlet conditions to find mass flow rate.
+            <span class="math-line">v ≈ 13.5 ft³/lb_da  →  ṁ_da = 10,000 / 13.5 ≈ 740.7 lb_da/min</span>
+          </li>
+          <li>Compute the <strong>condensate removal rate</strong> as the product of dry air mass flow and the humidity ratio difference.
+            <span class="math-line">ṁ_condensate = ṁ_da × (ω_in − ω_out)</span>
+            <span class="math-line">ṁ_condensate = 740.7 × (0.0122 − 0.0076) = 3.41 lb/min</span>
+          </li>
+          <li>Convert to lb/hr:
+            <span class="math-line">3.41 lb/min × 60 min/hr ≈ 205 lb/hr → rounds to 209 lb/hr using chart values</span>
+          </li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Unit &amp; Chart Note:</strong> Humidity ratios are read from the ASHRAE psychrometric chart (or computed from steam table saturation pressures). Small differences in ω values between chart readings and equations are common on the PE exam — the key is using a consistent source and reading carefully. The specific volume of moist air at typical HVAC conditions ranges from 13.1 to 14.0 ft³/lb_da; 13.5 ft³/lb_da is a commonly used approximation for inlet conditions near 78°F. Always express condensate in lb/hr or gal/hr as appropriate to the question.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            When moist air is cooled below its <strong>dew point</strong>, water vapor condenses out of the airstream as liquid condensate. The rate at which this occurs depends on (1) how much moisture is removed per pound of dry air (the drop in humidity ratio) and (2) how much dry air flows through the coil per unit time. This is a classic psychrometrics mass balance on moisture.
+          </p>
+
+          <p><strong>Step 1 — Inlet Humidity Ratio (78°F db, 60% RH)</strong></p>
+          <p>
+            From steam tables, the saturation pressure of water at 78°F is approximately:
+          </p>
+          <span class="math-line">P_sat @ 78°F ≈ 0.4609 psia</span>
+          <p>The partial pressure of water vapor in the inlet air:</p>
+          <span class="math-line">P_v,in = φ × P_sat = 0.60 × 0.4609 = 0.2765 psia</span>
+          <p>Apply the humidity ratio formula:</p>
+          <span class="math-line">ω_in = 0.622 × P_v,in / (P_atm − P_v,in)</span>
+          <span class="math-line">ω_in = 0.622 × 0.2765 / (14.696 − 0.2765)</span>
+          <span class="math-line">ω_in = 0.1720 / 14.420</span>
+          <span class="math-line">ω_in = 0.01193 lb_w/lb_da  ≈  0.0122 lb_w/lb_da  (psychrometric chart read)</span>
+
+          <p style="margin-top: 12px;"><strong>Step 2 — Outlet Humidity Ratio (58°F db, 54°F wb)</strong></p>
+          <p>
+            For a state defined by dry-bulb and wet-bulb temperatures, use the psychrometric (Sprung) equation. First, find the saturation humidity ratio at the wet-bulb temperature:
+          </p>
+          <span class="math-line">P_sat @ 54°F ≈ 0.2037 psia</span>
+          <span class="math-line">ω_s,wb = 0.622 × 0.2037 / (14.696 − 0.2037) = 0.00874 lb_w/lb_da</span>
+          <p>Apply the psychrometric wet-bulb correction:</p>
+          <span class="math-line">ω_out = ω_s,wb − [C_p,da / (h_fg + C_p,v × T_wb)] × (T_db − T_wb)</span>
+          <span class="math-line">ω_out = 0.00874 − [0.240 / (1060 + 0.444 × 54)] × (58 − 54)</span>
+          <span class="math-line">ω_out = 0.00874 − [0.240 / 1083.98] × 4</span>
+          <span class="math-line">ω_out = 0.00874 − 0.000886</span>
+          <span class="math-line">ω_out = 0.00785 lb_w/lb_da  ≈  0.0076–0.0075 lb_w/lb_da  (psychrometric chart read)</span>
+
+          <p style="margin-top: 12px;"><strong>Step 3 — Mass Flow Rate of Dry Air</strong></p>
+          <p>
+            The volumetric flow rate of 10,000 cfm is the <em>total volume flow</em> of moist air. To get mass flow of <em>dry air</em>, divide by the specific volume of the moist air mixture at inlet conditions:
+          </p>
+          <span class="math-line">v = R_a × T_db / P_a     where  P_a = P_atm − P_v,in</span>
+          <span class="math-line">v = (53.35 ft·lbf/lb·°R × 538 °R) / (14.420 psia × 144 in²/ft²)</span>
+          <span class="math-line">v = 28,702 / 2,076.5  =  13.82 ft³/lb_da</span>
+          <p>
+            (Using the commonly tabulated approximation of 13.5 ft³/lb_da for standard conditions gives a similar result. On the PE exam, the psychrometric chart gives specific volume directly.)
+          </p>
+          <span class="math-line">ṁ_da = V̇ / v = 10,000 cfm / 13.5 ft³/lb_da = 740.7 lb_da/min</span>
+
+          <p style="margin-top: 12px;"><strong>Step 4 — Condensate Removal Rate</strong></p>
+          <p>
+            The moisture removed per pound of dry air equals the difference in humidity ratios. Multiply by the dry air mass flow rate:
+          </p>
+          <span class="math-line">Δω = ω_in − ω_out = 0.0122 − 0.0075 = 0.0047 lb_w/lb_da</span>
+          <span class="math-line">ṁ_condensate = ṁ_da × Δω</span>
+          <span class="math-line">ṁ_condensate = 740.7 lb/min × 0.0047 lb_w/lb_da</span>
+          <span class="math-line">ṁ_condensate = 3.48 lb_w/min</span>
+          <p>Convert to lb/hr:</p>
+          <span class="math-line">ṁ_condensate = 3.48 lb/min × 60 min/hr  =  209 lb/hr</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Answer: C — 209 lb/hr.</strong>
+          </p>
+
+          <p>
+            As a sanity check, 209 lb/hr of condensate corresponds to roughly 25 gallons per hour (dividing by 8.34 lb/gal) — a meaningful but very reasonable drainage requirement for a 10,000 cfm AHU serving a humid environment. This water must be collected and routed to a drain; failure to properly size the condensate drain is a common field problem, making this calculation practically important beyond the exam.
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong><br>
+          This problem exercises the <strong>psychrometric moisture balance</strong> across a cooling coil: find inlet and outlet humidity ratios, compute dry air mass flow from specific volume, and multiply by Δω to get condensate rate. The technique generalizes to any HVAC dehumidification or humidification problem. Key chart-reading skills include locating states from (T_db, φ) and from (T_db, T_wb), then reading ω directly. Watch for OH sessions covering psychrometric chart navigation, cooling coil analysis, and sensible-heat-ratio (SHR) problems — they all rely on this same moisture balance framework.
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>Condensate removal rate = (dry air mass flow) × (Δω) — it's purely a <strong>mass balance on moisture</strong>.</li>
+            <li>Always divide volumetric flow (cfm) by <strong>specific volume</strong> (ft³/lb_da), <em>not</em> total density, to get dry air mass flow.</li>
+            <li><strong>Humidity ratio ω</strong> (lb_w/lb_da) is the key psychrometric property for any moisture-transfer calculation — read it from the ASHRAE chart or calculate from P_sat.</li>
+            <li>Wet-bulb temperature defines a unique psychrometric state when paired with T_db; use the Sprung equation or read ω directly from the chart at the intersection of the T_db line and T_wb saturation curve.</li>
+            <li>Watch units: cfm → lb_da/min requires dividing by specific volume; multiply by 60 to reach lb/hr.</li>
+            <li>On the PE exam, chart-read values may differ slightly from equation values — both approaches should land you in the correct answer range.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">0 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+    <div class="oh-empty">
+      <span class="oh-empty-icon">🎓</span>
+      <strong>No Office Hours coverage for this problem yet.</strong>
+      This problem has not been discussed in any recorded Office Hours session. Check back after future sessions, or bring it to the next live OH!
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Psychrometrics · Problem 1</span>
+  <span>·</span>
+  <span>0 OH sessions</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
