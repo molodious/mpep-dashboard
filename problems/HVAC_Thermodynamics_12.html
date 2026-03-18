@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermodynamics · Problem 12 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-group:nth-child(even) {
+  background: #fefefe;
+  border-left-color: #d97706;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep</a>
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC › Thermodynamics › Problem 12</span>
+  <span class="nav-badge">⭐ 7 OH Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">7 OH sessions · Answer: B</span>
+</div>
+
+<div class="layout-container">
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC &amp; Refrigeration · Thermodynamics · Problem 12</div>
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">
+      A 1200 ft³ room is filled with atmospheric air at 95°F. The room air is cooled to 70°F under constant pressure. How much work is done on the air in the room?
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class="choice"><span class="choice-letter">A.</span><span>2 Btu</span></div>
+      <div class="choice correct"><span class="choice-letter">B.</span><span>150 Btu ✓</span></div>
+      <div class="choice"><span class="choice-letter">C.</span><span>520 Btu</span></div>
+      <div class="choice"><span class="choice-letter">D.</span><span>1330 Btu</span></div>
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">
+        Show Quick Overview &amp; Full Solution ▼
+      </button>
+      <div class="solution-box" id="sol-box"><strong>Quick Overview:</strong>
+
+1. Recognize this as a constant-pressure process. Work is W = P·ΔV (not zero, even though the room volume is fixed — air leaves the room as it cools, changing specific volume).
+
+2. Find the mass of air in the room using the ideal gas law at State 1 (95°F): PV = mRT → m = PV/(RT₁).
+
+3. Calculate specific volumes at State 1 and State 2 using the ideal gas law: v = RT/P.
+
+4. Compute work per unit mass: w = P·Δv = P·(v₂ − v₁), then multiply by total mass. Equivalently, W = m·R·ΔT.
+
+5. Convert from ft·lbf to Btu by dividing by 778.16.
+
+6. The result is the work done BY the air (negative = compression); flip the sign for work done ON the air → Answer B (≈ 150 Btu).
+
+<strong>Full Solution:</strong>
+
+<strong>Step 1 — Establish Given Information and Constants</strong>
+
+  Room volume:         V_room = 1,200 ft³
+  State 1 temperature: T₁ = 95°F + 460 = 555°R
+  State 2 temperature: T₂ = 70°F + 460 = 530°R
+  Pressure (atm):      P  = 14.696 psia × 144 in²/ft² = 2,116.2 lbf/ft²
+  Gas constant (air):  R  = 1,545 / 28.97 = 53.34 ft·lbf/(lbm·°R)
+
+<strong>Step 2 — Find Mass of Air at State 1</strong>
+
+Using the ideal gas law: PV = mRT
+
+  m = PV / (R·T₁)
+  m = (2,116.2 × 1,200) / (53.34 × 555)
+  m = 2,539,440 / 29,603.7
+  m ≈ 85.78 lbm
+
+(Alternatively, interpolate air density from Table 1.2.1 at 95°F → ρ ≈ 0.0716 lbm/ft³, giving m ≈ 0.0716 × 1,200 ≈ 85.9 lbm — both are valid paths.)
+
+<strong>Step 3 — Compute Specific Volumes at Each State</strong>
+
+Using v = RT/P:
+
+  v₁ = (53.34 × 555) / 2,116.2 = 29,603.7 / 2,116.2 = 13.99 ft³/lbm
+  v₂ = (53.34 × 530) / 2,116.2 = 28,270.2 / 2,116.2 = 13.36 ft³/lbm
+
+  Δv = v₂ − v₁ = 13.36 − 13.99 = −0.63 ft³/lbm
+  (Negative because specific volume decreases as the air cools)
+
+<strong>Step 4 — Calculate Work</strong>
+
+For a constant-pressure process: W = m × P × Δv
+
+  W = 85.78 × 2,116.2 × (−0.63)
+  W = 85.78 × (−1,333.2)
+  W = −114,363 ft·lbf
+
+Equivalently, using W = m·R·ΔT:
+  W = 85.78 × 53.34 × (530 − 555)
+  W = 85.78 × 53.34 × (−25)
+  W = −114,370 ft·lbf   ← same result ✓
+
+<strong>Step 5 — Convert to Btu</strong>
+
+  W = −114,363 / 778.16
+  W ≈ −147 Btu (work done BY the air)
+
+Work done ON the air = +147 Btu ≈ 150 Btu → <strong>Answer B</strong>
+
+<strong>Why Not the Other Answers?</strong>
+
+• Answer C (520 Btu): This is what you get if you mistakenly use W = mCpΔT. That formula gives HEAT TRANSFER (Q), not work. The Cp term includes both the internal energy change (Cv) and the boundary work (R). Using Cp overstates work by the Cv component.
+
+• Answer D (1330 Btu): Comes from using mCvΔT — incorrect formula for this process.
+
+• Answer A (2 Btu): Far too small; likely a unit-conversion error.
+
+The correct formula for boundary work at constant pressure is W = P·ΔV = m·R·ΔT.</div>
+
+      <div class="video-box">
+        <strong>📹 Video Solution Synthesis:</strong><br><br>
+        • Dan identifies this as a constant-pressure boundary work problem — the key equation is W = P·ΔV, not Q = mCpΔT, even though the room volume appears fixed.<br><br>
+        • The system subtlety: the room is effectively open (air can leave through gaps as it cools and contracts). Specific volume changes even though total room volume does not — that distinction drives the entire solution approach.<br><br>
+        • Mass is found using the ideal gas law at State 1 (95°F): m = PV/(RT₁) ≈ 85.8 lbm. Using Table 1.2.1 density (interpolated at 95°F) is equally valid and produces the same mass.<br><br>
+        • Work is calculated as W = m·R·ΔT = m·P·Δv, then divided by 778.16 to convert ft·lbf → Btu. The sign convention matters: work done ON the air is positive.<br><br>
+        • Common wrong path: using mCpΔT confuses heat transfer with work. The first law (Q − W = ΔU) shows that heat and work are distinct — Cp includes both Cv (internal energy) and R (work) components.<br><br>
+        • Final answer: approximately 147 Btu of work is done ON the air → Answer B (150 Btu).
+      </div>
+
+      <div class="takeaway-box">
+        <strong>⭐ Key Takeaways:</strong><br>
+        • Constant pressure does NOT mean zero work — boundary work happens when volume (or specific volume) changes, even if the room walls don't move.<br><br>
+        • Heat transfer and work are not the same thing. Cp is for heat; R is for boundary work. Using the wrong formula is the most common mistake on this problem.<br><br>
+        • When finding mass of an ideal gas, always use the temperature of the state where you know all three properties (P, V, T). For a closed system, mass is constant — use State 1.<br><br>
+        • Standard air density (0.075 lbm/ft³) is calibrated to ~70°F. At 95°F, density is lower. Using standard density at a different temperature introduces a small error — acceptable here, but potentially dangerous in problems with tighter answer choices.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">7 questions from 7 sessions</span>
+    </div>
+    <p class="oh-subtitle">Student questions asked in live office hours sessions about this problem. Sorted newest first.</p>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 115 · March 2, 2026 — Newest</div>
+      <div class="qa-question"><strong>Q:</strong> The volume is constant on both scenarios, shouldn't the work be zero? And why did we use the temperature of State 1 (95°F) to find mass instead of State 2 or delta T?</div>
+      <div class="qa-answer"><strong>A:</strong> The room volume is fixed, but the air's <em>specific volume</em> changes as it cools — that's where the work comes from. W = P·Δv (per unit mass). The system is not truly closed: air can enter or leave the room as density changes. For mass, use State 1 because you have all three known properties (P, V, T) at that state. Mass at State 2 would be the same for a truly closed system, but State 1 conditions are the clean starting point. <em>(OH 115)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 111 · January 5, 2026</div>
+      <div class="qa-question"><strong>Q:</strong> Why can't I use mCpΔT = work? I used density and volume at State 1 for mass and got answer C.</div>
+      <div class="qa-answer"><strong>A:</strong> mCpΔT gives <em>heat transfer</em>, not work. Cp = Cv + R, so it includes both the internal energy change (Cv portion) and the boundary work (R portion). Work is only the P·ΔV part — equivalently, m·R·ΔT. Using Cp overstates work by the internal energy component, which is why you land on answer C instead of B. <em>(OH 111)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 94 · December 23, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> (Session note — this OH covered reading friction factor charts for duct problems, not directly related to Thermo 12 methodology.)</div>
+      <div class="qa-answer"><strong>A:</strong> Included for completeness. The thermodynamics work-calculation approach was not the focus of this session. <em>(OH 94)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 77 · March 18, 2024</div>
+      <div class="qa-question"><strong>Q:</strong> I used density from Table 1.2.1 (interpolated for 95°F, got 0.0716 lbm/ft³) instead of the ideal gas law. Is this approach wrong?</div>
+      <div class="qa-answer"><strong>A:</strong> Completely valid — ρ = P/(RT) from the ideal gas law gives the same density as the table. Both methods produce mass ≈ 85.86 lbm. The table and the ideal gas equation are consistent. On the second part (why W ≠ Q): the first law says Q − W = ΔU. Work and heat are different quantities; some of the heat goes into changing internal energy, not into boundary work. Work = P·ΔV per reference handbook section 4.3.1.1. <em>(OH 77)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 53 · February 27, 2023</div>
+      <div class="qa-question"><strong>Q:</strong> Mass was calculated at 95°F, but mass is a function of temperature. Why only at State 1?</div>
+      <div class="qa-answer"><strong>A:</strong> This is a closed system (sealed room) — mass doesn't change during the cooling process. We calculate at State 1 because we have complete information there: P, V, and T are all known. The mass at State 2 is the same mass. Closed vs. open system is the key concept: no mass crosses the boundary, so one calculation at any fully defined state is sufficient. <em>(OH 53)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 18 · July 16, 2021</div>
+      <div class="qa-question"><strong>Q:</strong> Instead of PV = mRT, can I just use Volume × density of air = mass? I did that and got 90 lb instead of 85.8 lb.</div>
+      <div class="qa-answer"><strong>A:</strong> The issue is using <em>standard</em> density (0.075 lbm/ft³, calibrated to ~70°F) when the air is at 95°F. At 95°F, air is less dense (~0.0709 lbm/ft³), so standard density overstates mass by about 5%. In this problem the answer choices are spread far apart, so 90 lb still points to the right answer — but Dan warns this shortcut can mislead you when choices are closer together. Always verify whether standard density is appropriate for the given temperature. <em>(OH 18)</em></div>
+    </div>
+
+    <div class="qa-group">
+      <div class="qa-session">OH 15 · May 28, 2021 — Oldest</div>
+      <div class="qa-question"><strong>Q:</strong> Where does W = PΔV come from? I thought this was a constant-volume process with W = VΔP.</div>
+      <div class="qa-answer"><strong>A:</strong> W = PΔV is in reference handbook section 4.3.1.1 — it applies to a <em>constant-pressure</em> process. W = VΔP applies to a constant-volume process. These are different. The room walls are fixed (total volume constant), but the process described is constant-pressure cooling, so PΔV is the right form. Dan's guidance: understand <em>why</em> the formula applies, not just where to find it. Don't plug-and-chug — know which thermodynamic process you're in before selecting a work equation. <em>(OH 15)</em></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Thermodynamics · Problem 12 · 7 OH sessions · Answer: B · Generated 2026-03-17</span>
+  <a href="../oh-prep.html">← OH Prep Dashboard</a>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const btn = document.getElementById('sol-toggle');
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? 'Hide Quick Overview & Full Solution ▲' : 'Show Quick Overview & Full Solution ▼';
+}
+</script>
+</body>
+</html>
