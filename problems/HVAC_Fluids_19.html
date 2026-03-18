@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 19 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-entry {
+  background: #fffdf5;
+  border: 1px solid #f3e8c0;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.oh-entry-header {
+  font-size: 12px;
+  font-weight: 700;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 10px;
+}
+.oh-qa { margin-bottom: 10px; }
+.oh-q {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+.oh-a {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #444;
+  padding-left: 12px;
+  border-left: 2px solid #f59e0b;
+}
+.oh-source {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 6px;
+  font-style: italic;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← Back to Dashboard</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 19</span>
+  <span class="nav-badge">2 OH Sessions</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 19 &nbsp;|&nbsp; Global #42</div>
+
+    <div class="problem-statement">
+      A make up pump that cycles on and off intermittently as required has a service factor of 1.25 and provides a water horsepower of 15 hp. The pump efficiency is 84%. The pump is driven by an electric motor with an efficiency of 93%. What is the smallest motor that could be used?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>10 hp</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B</span>
+        <span>15 hp &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>20 hp</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>25 hp</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B — 15 hp</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">service factor &amp; motor selection</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Note the <strong>service factor of 1.25</strong> — this applies to motor selection, not to the pump efficiency calculation.</li>
+          <li>Calculate brake horsepower from water horsepower:
+            <span class="math-line">BHP = WHP / η_pump = 15 / 0.84 = 17.86 hp</span>
+          </li>
+          <li>The motor must provide at least <strong>17.86 hp</strong> of brake horsepower to drive the pump.</li>
+          <li>Check each answer choice: multiply the motor's nameplate rating × service factor (1.25) and compare to required BHP:
+            <span class="math-line">10 hp × 1.25 = 12.5 hp  &lt;  17.86 hp  → FAILS</span>
+            <span class="math-line">15 hp × 1.25 = 18.75 hp  &gt;  17.86 hp  → PASSES ✓</span>
+          </li>
+          <li><strong>15 hp × 1.25 = 18.75 hp &gt; 17.86 hp</strong> → 15 hp is the smallest motor that works.</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Key insight:</strong> The service factor makes motor selection <em>more liberal</em> — you can run the motor beyond its nameplate rating because the pump cycles intermittently. Multiply the motor's rating UP (rating × SF), then compare to required BHP. Do not divide the required BHP by the SF (that would be overly conservative, opposite of the intent).
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            Understanding this problem requires knowing the <strong>power chain</strong> from the electrical supply all the way to the fluid:
+          </p>
+          <span class="math-line">Electrical Power → [Motor, η_motor = 93%] → Brake Horsepower (BHP) → [Pump, η_pump = 84%] → Water Horsepower (WHP)</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Step 1: Find the required Brake Horsepower.</strong>
+          </p>
+          <p>
+            Water horsepower (WHP) is the actual power delivered to the fluid. Brake horsepower (BHP) is the shaft power input to the pump. The pump efficiency accounts for internal losses:
+          </p>
+          <span class="math-line">WHP = BHP × η_pump</span>
+          <span class="math-line">BHP = WHP / η_pump = 15 hp / 0.84 = 17.857 hp ≈ 17.86 hp</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Step 2: Why we don't need motor efficiency here.</strong>
+          </p>
+          <p>
+            Motor efficiency (93%) would only matter if we needed to find the <em>electrical power input</em> to the motor. Since the question asks for motor <em>size</em> (nameplate horsepower rating), we work in the mechanical domain. The motor's nameplate hp already represents the shaft output power it delivers — that's what gets compared to the required BHP. Motor efficiency is a <strong>red herring</strong> in this problem.
+          </p>
+
+          <p style="margin-top: 12px;">
+            <strong>Step 3: Apply the service factor to find the motor's effective capacity.</strong>
+          </p>
+          <p>
+            A service factor (SF) is a multiplier assigned to motors that indicates how much beyond the nameplate rating the motor can operate continuously under favorable conditions — or, as in this case, <em>intermittently</em> as the pump cycles on and off. Because the motor isn't running 100% of the time, it doesn't overheat, allowing it to briefly exceed its nameplate rating.
+          </p>
+          <p>
+            To check whether a candidate motor is large enough, compute its <em>effective capacity</em>:
+          </p>
+          <span class="math-line">Effective capacity = Motor nameplate rating × Service factor</span>
+          <span class="math-line">Required: Effective capacity ≥ BHP required</span>
+
+          <p style="margin-top: 12px;">
+            <strong>Step 4: Check each answer choice from smallest to largest.</strong>
+          </p>
+          <span class="math-line">10 hp motor:  10 × 1.25 = 12.50 hp  &lt;  17.86 hp  → Too small, FAILS</span>
+          <span class="math-line">15 hp motor:  15 × 1.25 = 18.75 hp  &gt;  17.86 hp  → Sufficient, PASSES ✓</span>
+
+          <p style="margin-top: 12px;">
+            The 15 hp motor is the smallest standard motor size that, when accounting for the service factor, can deliver enough shaft power to meet the 17.86 hp BHP requirement. The 10 hp motor falls well short. No need to check 20 hp or 25 hp — once 15 hp passes, we have our answer.
+          </p>
+
+          <p>
+            <strong>Answer: B — 15 hp.</strong>
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="padding-left: 18px; margin-top: 8px;">
+            <li style="margin-bottom: 6px;">Service factor is applied to the <strong>motor rating</strong>, not to the calculated BHP — multiply the rating up.</li>
+            <li style="margin-bottom: 6px;">BHP = WHP / η_pump = 15 / 0.84 ≈ <strong>17.86 hp</strong> (this is the shaft power the motor must deliver).</li>
+            <li style="margin-bottom: 6px;">Motor efficiency (93%) is <strong>not needed</strong> for motor selection — it would only matter if calculating electrical power input from the grid.</li>
+            <li style="margin-bottom: 6px;">With SF = 1.25, a 15 hp motor can deliver <strong>18.75 hp effective capacity</strong>, which exceeds the 17.86 hp requirement.</li>
+            <li style="margin-bottom: 6px;">The 10 hp option fails: 10 × 1.25 = 12.5 hp &lt; 17.86 hp — clearly insufficient.</li>
+            <li style="margin-bottom: 6px;">Always multiply the <strong>RATING by the service factor</strong> (don't divide the BHP requirement — that would make the problem harder to solve and is conceptually wrong).</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>A <strong>service factor</strong> means the equipment can handle more than its nameplate rating during intermittent operation — it gives you a bigger effective capacity, not a penalty.</li>
+            <li>Apply the service factor to the <strong>motor rating</strong> (multiply up); don't apply it to the required horsepower — that would be more conservative, which is the opposite of the intent.</li>
+            <li><strong>Motor efficiency is a red herring</strong> in motor selection problems — it only matters when calculating how much electrical power the motor draws from the supply.</li>
+            <li>When checking answer choices for minimum motor size, start from the smallest and work up — the first one that passes is your answer.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">2 sessions</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+    <!-- OH 46 -->
+    <div class="oh-entry">
+      <div class="oh-entry-header">OH 46 — October 19, 2022</div>
+
+      <div class="oh-qa">
+        <div class="oh-q">Q: The problem wording makes it sound like the pump itself has the service factor. How do we know it applies to the motor?</div>
+        <div class="oh-a">
+          Dan agrees the wording is tricky — "pump set" would be clearer than just "pump." The service factor applies to <strong>motor selection</strong>: you multiply the motor's nameplate rating by 1.25 to see if it can deliver enough BHP. Think of it as the motor being able to run harder than its nameplate rating because it's not running continuously — intermittent duty means the motor doesn't accumulate enough heat to overheat. So: find the required BHP (15 / 0.84 = 17.9 hp), then check which standard motor size, when multiplied by 1.25, exceeds that BHP. A 15 hp motor × 1.25 = 18.75 hp &gt; 17.9 hp, so 15 hp works.
+          <div class="oh-source">(OH 46, October 2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OH 34 -->
+    <div class="oh-entry">
+      <div class="oh-entry-header">OH 34 — April 18, 2022</div>
+
+      <div class="oh-qa">
+        <div class="oh-q">Q: In the solution video, you check the service factor against the water horsepower, not the brake horsepower. Shouldn't motor HP be selected based on BHP?</div>
+        <div class="oh-a">
+          The service factor makes us <strong>MORE liberal</strong>, not more conservative. Yes, motor selection should be based on BHP — and that's exactly what happens here. The required BHP is 17.9 hp. We then multiply the motor <em>rating</em> by 1.25 to get its effective output capacity, and check if that capacity exceeds the required BHP. A 15 hp motor × 1.25 = 18.75 hp — that covers 17.9 hp, so 15 hp works. A 10 hp motor × 1.25 = 12.5 hp — that falls short. Don't confuse the service factor with a safety factor that would make you pick a <em>bigger</em> motor; it's the opposite — it lets you pick a <em>smaller</em> motor for intermittent-duty applications.
+          <div class="oh-source">(OH 34, April 2022)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 19</span>
+  <span>·</span>
+  <span>2 OH sessions</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to Dashboard</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
