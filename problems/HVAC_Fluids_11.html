@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 11 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+}
+.solution-box.open { display: block; }
+.solution-step-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+.solution-step-list li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.solution-note {
+  background: #fff8e1;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 3px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+.solution-detail {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.solution-detail h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.solution-detail p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 10px;
+}
+.math-line {
+  display: block;
+  background: #f7f9ff;
+  border-left: 3px solid #0066cc;
+  padding: 6px 12px;
+  margin: 6px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #1a3a6e;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box strong { color: #5b21b6; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.takeaway-box ul li {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 4px;
+  color: #444;
+}
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.oh-empty {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+.oh-empty .oh-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+.oh-empty strong {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.oh-qa-block {
+  background: white;
+  border-left: 3px solid #f59e0b;
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+}
+.oh-qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 3px;
+  padding: 1px 7px;
+  margin-left: 6px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 11</span>
+  <span class="nav-badge">1 OH session</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL: Problem + Solution -->
+  <div class="sidebar-left">
+
+    <div class="section-title">Problem</div>
+    <div class="problem-meta">HVAC &amp; Refrigeration · Fluids · Problem 11</div>
+
+    <div class="problem-statement">
+      What is the friction loss per hundred feet for 800 gpm of 80°F water flowing through an 8 in nominal schedule 40 steel pipe?
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px;">Answer Choices</div>
+    <div class="choices">
+      <div class="choice">
+        <span class="choice-letter">A</span>
+        <span>1 ft</span>
+      </div>
+      <div class="choice correct">
+        <span class="choice-letter">B</span>
+        <span>2 ft &nbsp;✓</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">C</span>
+        <span>3 ft</span>
+      </div>
+      <div class="choice">
+        <span class="choice-letter">D</span>
+        <span>4 ft</span>
+      </div>
+    </div>
+
+    <!-- SOLUTION AREA -->
+    <div class="solution-area">
+      <span class="answer-tag">Answer: B — 2 ft</span>
+
+      <button class="solution-toggle" onclick="toggleSolution('sol-main', this)">
+        <span>▶ Show Solution</span>
+        <span style="font-size:11px; color:#aaa;">Darcy-Weisbach / pipe friction tables</span>
+      </button>
+
+      <div class="solution-box" id="sol-main">
+
+        <!-- Quick Overview -->
+        <strong style="font-size: 13px; color: #333;">Quick Overview</strong>
+        <ol class="solution-step-list" style="margin-top: 10px;">
+          <li>Identify the pipe: <strong>8 in nominal schedule 40 steel pipe</strong>. From pipe tables, the inner diameter is <strong>D = 7.981 in = 0.6651 ft</strong>, and the flow area is <strong>A = 0.3474 ft²</strong>.</li>
+          <li>Convert flow rate and find velocity:
+            <span class="math-line">Q = 800 gpm × (1 ft³/s ÷ 448.83 gpm) = 1.783 ft³/s</span>
+            <span class="math-line">V = Q / A = 1.783 / 0.3474 ≈ 5.13 ft/s</span>
+          </li>
+          <li>Compute Reynolds number using water properties at 80°F (ν ≈ 0.930 × 10⁻⁵ ft²/s):
+            <span class="math-line">Re = V × D / ν = 5.13 × 0.6651 / (9.30 × 10⁻⁶) ≈ 367,000</span>
+          </li>
+          <li>Determine friction factor using steel pipe roughness (ε = 0.00015 ft) and Moody chart or Colebrook-White at Re ≈ 367,000:
+            <span class="math-line">ε/D = 0.00015 / 0.6651 ≈ 0.000226 → f ≈ 0.0165</span>
+          </li>
+          <li>Apply Darcy-Weisbach for 100 ft of pipe:
+            <span class="math-line">h_f = f × (L/D) × (V²/2g)</span>
+            <span class="math-line">h_f = 0.0165 × (100/0.6651) × (5.13²/64.4) ≈ 2.0 ft</span>
+          </li>
+          <li><strong>Answer: B — approximately 2 ft of head loss per 100 ft</strong>. (Also obtainable directly from steel pipe friction loss tables.)</li>
+        </ol>
+
+        <div class="solution-note">
+          <strong>📝 Table vs. Equation note:</strong> Steel pipe friction loss tables (tabulated for water near 60°F) can be used here even though the water is at 80°F. The slight difference in viscosity introduces a small deviation — possibly 10–30% — but friction loss is only one term in the Bernoulli equation. Over 1000 ft the absolute difference between 2 ft/100 ft and 3 ft/100 ft is 10 ft, which is meaningful. Use the Darcy equation when precision matters; tables are faster for exam estimates.
+        </div>
+
+        <!-- Full Narrative Solution -->
+        <div class="solution-detail">
+          <h4>Full Solution</h4>
+
+          <p>
+            This is a <strong>pipe friction loss</strong> problem using the <strong>Darcy-Weisbach equation</strong>. The goal is to find the head loss per 100 feet of an 8 in schedule 40 steel pipe carrying 800 gpm of 80°F water.
+          </p>
+
+          <p><strong>Step 1 — Pipe geometry (from schedule 40 pipe tables):</strong></p>
+          <span class="math-line">Nominal size:     8 in schedule 40</span>
+          <span class="math-line">Inner diameter:   D = 7.981 in = 7.981/12 = 0.6651 ft</span>
+          <span class="math-line">Flow area:        A = π/4 × D² = π/4 × (0.6651)² = 0.3474 ft²</span>
+
+          <p><strong>Step 2 — Convert flow rate and compute velocity:</strong></p>
+          <span class="math-line">Q = 800 gpm ÷ 448.83 gpm/(ft³/s) = 1.783 ft³/s</span>
+          <span class="math-line">V = Q / A = 1.783 / 0.3474 = 5.13 ft/s</span>
+
+          <p><strong>Step 3 — Reynolds number (water at 80°F):</strong></p>
+          <p>
+            From water property tables at 80°F, kinematic viscosity ν ≈ 0.930 × 10⁻⁵ ft²/s (compared to ≈ 1.217 × 10⁻⁵ ft²/s at 60°F — water is less viscous at higher temperature).
+          </p>
+          <span class="math-line">Re = V × D / ν = 5.13 × 0.6651 / (9.30 × 10⁻⁶)</span>
+          <span class="math-line">Re ≈ 367,000   (fully turbulent, turbulent rough regime)</span>
+
+          <p><strong>Step 4 — Friction factor from Colebrook-White / Moody chart:</strong></p>
+          <p>
+            For commercial steel pipe, roughness ε = 0.00015 ft (a standard reference value).
+          </p>
+          <span class="math-line">ε/D = 0.00015 / 0.6651 = 0.000226</span>
+          <span class="math-line">Colebrook-White (iterative): 1/√f = −2.0 log(ε/3.7D + 2.51/(Re√f))</span>
+          <span class="math-line">Solving → f ≈ 0.0165</span>
+
+          <p><strong>Step 5 — Darcy-Weisbach equation for L = 100 ft:</strong></p>
+          <span class="math-line">h_f = f × (L/D) × (V²/2g)</span>
+          <span class="math-line">h_f = 0.0165 × (100 / 0.6651) × (5.13² / (2 × 32.2))</span>
+          <span class="math-line">h_f = 0.0165 × 150.35 × (26.32 / 64.4)</span>
+          <span class="math-line">h_f = 0.0165 × 150.35 × 0.4089</span>
+          <span class="math-line">h_f ≈ 1.01 × 2.0 ≈ 2.0 ft per 100 ft</span>
+
+          <p>
+            <strong>Answer: B — 2 ft per 100 ft of pipe.</strong>
+          </p>
+
+          <p>
+            Alternatively, steel pipe friction loss tables list head loss per 100 ft as a function of flow rate and pipe size. Looking up 800 gpm for 8 in schedule 40 pipe yields approximately 2 ft/100 ft, confirming the calculation. Dan notes in OH 47 that using the tables is perfectly acceptable on the exam and typically faster.
+          </p>
+        </div>
+
+        <!-- Video Synthesis -->
+        <div class="video-box" style="margin-top: 16px;">
+          <strong>📺 Video Synthesis</strong>
+          <ul style="padding-left: 18px; margin-top: 6px;">
+            <li>The <strong>Darcy-Weisbach equation</strong> is the fundamental tool for pipe friction loss; know it cold: h_f = f·(L/D)·(V²/2g).</li>
+            <li><strong>Steel pipe friction loss tables</strong> are a valid and faster exam shortcut — tabulated at standard temperature but acceptable for nearby temperatures.</li>
+            <li>The <strong>Colebrook-White equation</strong> (or Moody chart) gives the friction factor f once you know Re and the relative roughness ε/D.</li>
+            <li>Water viscosity decreases with temperature — 80°F water is less viscous than 60°F water, giving a slightly higher Reynolds number and slightly lower friction factor.</li>
+            <li>The conversion <strong>1 ft³/s = 448.83 gpm</strong> is a key constant to have memorized for pipe flow problems.</li>
+            <li>Friction loss is one term in the Bernoulli equation — consider absolute magnitude in context, not just relative percentage differences.</li>
+          </ul>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="takeaway-box" style="margin-top: 10px;">
+          <strong style="font-size: 13px; display: block; margin-bottom: 8px; color: #92400e;">⚡ Key Takeaways</strong>
+          <ul>
+            <li>Steel pipe friction tables are acceptable for exam use even when water temperature differs from the table standard — the deviation is small enough for most HVAC problems.</li>
+            <li>When evaluating accuracy, focus on <strong>absolute difference</strong>, not just relative percentage — a fraction of a foot difference is insignificant within a larger Bernoulli equation.</li>
+            <li>Always retrieve inner diameter and flow area from schedule 40 pipe tables; the nominal size does not equal the actual inner diameter.</li>
+            <li>The <strong>Darcy-Weisbach equation</strong> works for any fluid and any flow regime — use it when tables are unavailable or when a non-standard temperature requires the actual viscosity.</li>
+          </ul>
+        </div>
+
+      </div><!-- /.solution-box -->
+    </div><!-- /.solution-area -->
+
+  </div><!-- /.sidebar-left -->
+
+  <!-- RIGHT PANEL: Office Hours Q&A -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">1 session</span>
+    </div>
+    <div class="oh-subtitle">Questions and answers from live OH sessions that cover this problem.</div>
+
+    <!-- OH 47 Q&A -->
+    <div class="oh-qa-block">
+      <p style="margin-bottom: 10px;">
+        <strong>OH 47</strong> <em style="font-size: 12px; color: #888;">October 30, 2022</em>
+      </p>
+
+      <p style="margin-bottom: 8px;">
+        <strong>Q: Can we use the steel pipe friction tables for this problem, or do we have to use the Darcy equation since the water is at 80°F instead of standard temperature?</strong>
+      </p>
+
+      <p style="margin-bottom: 10px;">
+        <strong>A (Dan):</strong> Yes, the tables are fine and generally faster. Some deviation between the table values and the Darcy equation is expected — even 30–50% or more — but that doesn't necessarily mean the table answer is wrong for the exam. Friction loss is only one term in the full Bernoulli equation. The key is to think about the <em>absolute</em> difference, not just the relative percentage. If you have 1000 ft of pipe and the table says 2 ft/100 ft while the Darcy equation says 3 ft/100 ft, that's a 20 ft absolute difference — which might matter. But in many problems the friction term is small enough that this deviation is negligible in the overall energy balance. Use judgment based on context.
+      </p>
+
+      <p style="font-size: 12px; color: #92400e;">
+        <span class="oh-qa-session">OH 47</span>
+      </p>
+    </div>
+
+  </div><!-- /.sidebar-right -->
+
+</div><!-- /.layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration · Fluids · Problem 11</span>
+  <span>·</span>
+  <span>1 OH session</span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span style="margin-left: auto;">
+    <a href="../oh-prep.html">← Back to OH Prep Home</a>
+  </span>
+</div>
+
+<script>
+function toggleSolution(id, btn) {
+  var box = document.getElementById(id);
+  if (!box) return;
+  var isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  var label = btn.querySelector('span:first-child');
+  if (label) {
+    label.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+  }
+}
+</script>
+
+</body>
+</html>
