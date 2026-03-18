@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluids · Problem 26 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-bar a { color: #0066cc; text-decoration: none; font-size: 13px; }
+.nav-bar a:hover { text-decoration: underline; }
+.nav-sep { color: #ccc; font-size: 13px; }
+.nav-title { font-size: 13px; font-weight: 600; color: #333; }
+.nav-badge {
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.nav-answer {
+  margin-left: auto;
+  font-size: 12px;
+  color: #666;
+}
+.nav-answer strong { color: #16a34a; }
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 50%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.choice.correct { background: #e6ffe6; border-left-color: #22c55e; }
+.choice.correct .choice-letter { color: #16a34a; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-hint {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.solution-box.open { display: block; }
+.solution-note {
+  background: #f0f8ff;
+  border-left: 3px solid #0066cc;
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #444;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+.math-line {
+  font-family: 'Courier New', Courier, monospace;
+  background: #f5f5f5;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 12px;
+  display: inline;
+}
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { padding-left: 18px; margin-top: 6px; }
+.video-box li { margin-bottom: 6px; }
+.takeaway-box {
+  background: #fffbf0;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 3px solid #f59e0b;
+}
+.takeaway-box ul { padding-left: 18px; margin-top: 4px; }
+.takeaway-box li { margin-bottom: 6px; font-size: 13px; line-height: 1.6; }
+.overview-list {
+  padding-left: 0;
+  list-style: none;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.overview-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.step-num {
+  flex: 0 0 22px;
+  height: 22px;
+  background: #0066cc;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.section-block { margin-bottom: 24px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #999;
+  letter-spacing: 0.4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.formula-inline {
+  font-family: 'Courier New', Courier, monospace;
+  background: #f0f0f0;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 12px;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+.footer a { color: #0066cc; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <a href="../oh-prep.html">← OH Prep Home</a>
+  <span class="nav-sep">›</span>
+  <span class="nav-title">HVAC · Fluids · Problem 26</span>
+  <span class="nav-badge">6 OH sessions</span>
+  <span class="nav-answer">Answer: <strong>D · 95 hp</strong></span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout-container">
+
+  <!-- LEFT PANEL -->
+  <div class="sidebar-left">
+
+    <!-- Problem Statement -->
+    <div class="section-block">
+      <div class="section-title">Problem 26</div>
+      <div class="problem-meta">HVAC &amp; Refrigeration · Fluids</div>
+      <div class="problem-statement">
+        Three 90% efficient secondary chilled water pumps operate in a parallel redundant N+1 configuration supplying a total of 1500 gpm against 200 ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900 rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted flow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?
+        <div class="choices">
+          <div class="choice">
+            <span class="choice-letter">A</span>
+            <span>28 hp</span>
+          </div>
+          <div class="choice">
+            <span class="choice-letter">B</span>
+            <span>42 hp</span>
+          </div>
+          <div class="choice">
+            <span class="choice-letter">C</span>
+            <span>63 hp</span>
+          </div>
+          <div class="choice correct">
+            <span class="choice-letter">D</span>
+            <span>95 hp ✓</span>
+          </div>
+        </div>
+      </div>
+      <span class="answer-tag">✓ Answer: D — 95 hp</span>
+    </div>
+
+    <!-- Quick Overview -->
+    <div class="section-block">
+      <div class="section-title">Quick Overview</div>
+      <ol class="overview-list">
+        <li>
+          <span class="step-num">1</span>
+          <span>In normal operation, 3 pumps share 1500 gpm equally — each handles <strong>500 gpm</strong> at 200 ft TDH.</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span>Calculate the <strong>baseline BHP</strong> per pump using <span class="formula-inline">BHP = Q×H / (3960×η)</span> → 500×200 / (3960×0.9) ≈ <strong>28 hp</strong>.</span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span>When one pump fails, the system still demands 1500 gpm. Two pumps split the load — each now handles <strong>750 gpm</strong>.</span>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <span>The speed ratio is <strong>750 / 500 = 1.5</strong> — each pump must spin 50% faster to deliver 50% more flow.</span>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <span>By the pump affinity laws, <strong>power scales with the cube of speed</strong>: BHP<sub>new</sub> = 28 × (1.5)<sup>3</sup> = 28 × 3.375 ≈ <strong>95 hp</strong>.</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Solution Area -->
+    <div class="section-block solution-area">
+      <div class="section-title">Full Solution</div>
+      <span class="answer-tag">Answer: D — 95 hp</span>
+      <button class="solution-toggle" onclick="toggleSolution('full')">
+        Show Solution <span id="full-arrow">▼</span>
+      </button>
+      <div class="solution-hint">Hint: pump affinity laws, parallel pumps</div>
+
+      <div class="solution-note">
+        <strong>Key concept:</strong> For geometrically similar pumps operating on variable-speed drives, the affinity laws state: flow ∝ speed, head ∝ speed², and power ∝ speed³. When flow per pump increases by a factor of 1.5, power increases by 1.5³ = 3.375 — not by 1.5. This cubic relationship is the core of this problem.
+      </div>
+
+      <div class="solution-box" id="full-solution">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — Normal Operation: Find Baseline BHP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Three pumps operate in parallel delivering a combined 1500 gpm. In parallel pumping, flow adds while each pump sees the same system head. So each pump handles an equal share:
+
+  Q₁ = 1500 gpm ÷ 3 = 500 gpm per pump
+
+Each pump operates against the full 200 ft TDH (in parallel, all pumps see the same pressure rise across them).
+
+Calculate brake horsepower for each pump using the standard BHP equation:
+
+  BHP = (Q × H) / (3960 × η)
+  BHP = (500 × 200) / (3960 × 0.90)
+  BHP = 100,000 / 3,564
+  BHP ≈ 28.1 hp ≈ 28 hp
+
+This is Answer A — the BHP in normal three-pump operation. Note this number: we'll use it as our starting point.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — Pump Failure: Determine New Flow Per Pump
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The problem states "consistent uninterrupted flow to the cooling loads." This means the system must still deliver 1500 gpm — the thermal load doesn't care that a pump failed. The load side requires:
+
+  Q_total = 1500 gpm (unchanged)
+
+With only two pumps running, each pump must now carry:
+
+  Q₂ = 1500 gpm ÷ 2 = 750 gpm per pump
+
+This is the critical insight that rules out Answer B. If you were to use Q = 750 gpm and H = 200 ft directly in the BHP formula, you'd get:
+
+  BHP = (750 × 200) / (3960 × 0.90) = 150,000 / 3,564 ≈ 42 hp
+
+That's Answer B — and it's wrong. Why? Because the formula BHP = Q×H/(3960×η) is only valid at the pump's design operating point with the rated efficiency. When the pump speeds up to deliver more flow, efficiency changes — it's on a curve, not a flat line. The correct approach is to use the affinity laws.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — Apply Pump Affinity Laws
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The pumps have variable speed drives that increase speed when a pump fails. The affinity laws for a geometrically similar pump operating at different speeds:
+
+  Q ∝ N      (flow is proportional to speed)
+  H ∝ N²     (head is proportional to speed squared)
+  P ∝ N³     (power is proportional to speed cubed)
+
+Since flow is proportional to speed, the speed ratio equals the flow ratio:
+
+  N₂/N₁ = Q₂/Q₁ = 750/500 = 1.5
+
+Each pump must spin 50% faster. Now apply the power affinity law:
+
+  BHP₂/BHP₁ = (N₂/N₁)³ = (Q₂/Q₁)³
+
+  BHP₂ = BHP₁ × (Q₂/Q₁)³
+  BHP₂ = 28 hp × (1.5)³
+  BHP₂ = 28 hp × 3.375
+  BHP₂ = 94.5 hp ≈ 95 hp
+
+Answer: D — 95 hp per pump.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SENSE CHECK: Why Not 42 hp or 63 hp?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• 42 hp is only 50% more than 28 hp — that would be a linear scaling (×1.5). Power doesn't scale linearly with flow; it scales with the cube.
+• 63 hp would be a square scaling (×1.5² = 2.25). That's how head scales, not power.
+• 95 hp is the cube scaling (×1.5³ = 3.375). This is the affinity law for power.
+
+Quick rule: if flow increases by a factor of X, power increases by X³. A 50% flow increase means a 237% power increase — not 50%, not 125%.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHY THE DIRECT BHP FORMULA FAILS HERE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The formula BHP = Q×H/(3960×η) is built on the assumption that efficiency η is known and constant at the operating point. When the pump speeds up from 500 gpm to 750 gpm, it is no longer at its design point — efficiency has changed. The pump's efficiency curve peaks somewhere near its best efficiency point (BEP) and falls off at higher flow rates. Using η = 0.90 at the new, higher-speed operating point is incorrect.
+
+The affinity laws sidestep this problem entirely. Since we already know the BHP at the original operating point (28 hp), we only need the speed ratio to scale to the new condition — no efficiency lookup required.
+      </div>
+    </div>
+
+    <!-- Video Synthesis -->
+    <div class="section-block">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box">
+        <ul>
+          <li><strong>The N+1 setup is the scenario, not the solution method.</strong> N+1 redundancy means one spare pump exists — so when one of three fails, two remain operational. The math starts from there: two pumps must deliver 1500 gpm.</li>
+          <li><strong>Parallel pumps split flow, not head.</strong> Each pump sees the full 200 ft TDH. In series pumping, head adds; in parallel pumping, flow adds. Don't confuse the two.</li>
+          <li><strong>Answer A (28 hp) is the normal-operation answer.</strong> It's a trap — the problem asks what happens during a failure. Always re-read the question stem before selecting.</li>
+          <li><strong>Answer B (42 hp) is the most seductive wrong answer.</strong> It comes from plugging Q = 750 gpm and H = 200 ft directly into the BHP formula. This looks right but ignores the cubic power relationship.</li>
+          <li><strong>The affinity law for power is the key equation:</strong> <span class="formula-inline">BHP₂ = BHP₁ × (Q₂/Q₁)³</span>. Memorize this form — it's faster than computing from scratch.</li>
+          <li><strong>N+1 redundancy is energy-intensive when activated.</strong> The dramatic jump from 28 hp to 95 hp per pump illustrates why VFDs and N+1 systems are typically designed to run at reduced speed in normal operation — it saves enormous energy.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Key Takeaways -->
+    <div class="section-block">
+      <div class="section-title">Key Takeaways</div>
+      <div class="takeaway-box">
+        <ul>
+          <li>🔑 <strong>Power scales with the cube of speed (or flow).</strong> A 50% increase in pump speed doesn't mean 50% more power — it means more than three times more power. This cubic relationship is the central lesson of this problem.</li>
+          <li>⚡ <strong>Parallel redundancy is efficient at part-load.</strong> Running three pumps slowly uses far less energy than running two at full speed. The energy savings from N+1 operation are real and dramatic.</li>
+          <li>🚫 <strong>The direct BHP formula only works at the design point.</strong> When a pump speeds up significantly, efficiency shifts along its curve. Use the affinity laws to scale from a known operating condition instead.</li>
+          <li>💧 <strong>The cooling load determines the flow requirement — not the pump count.</strong> When a pump fails, the system demand is unchanged. The remaining pumps must compensate fully; there is no "partial credit" from the load side.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /sidebar-left -->
+
+  <!-- RIGHT PANEL -->
+  <div class="sidebar-right">
+
+    <div class="oh-section-title">
+      Office Hours Q&amp;A
+      <span class="oh-count">6 sessions</span>
+    </div>
+    <p class="oh-subtitle">Recurring themes: why the BHP formula gives the wrong answer, why Q₂ must be 750 gpm, and how the cubic affinity law applies when head appears to stay constant. Newest sessions first.</p>
+
+    <!-- OH 96 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 96 · January 22, 2025 — Newest</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">I used the pump affinity laws to check the head relationship with the speed change. How does this work out if the system head isn't supposed to change?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">The system head doesn't change — 1500 gpm at 200 ft is the requirement regardless of how many pumps are running. What changes is each pump's individual operating point. When one pump fails, each remaining pump goes from 500 gpm to 750 gpm. By affinity laws, flow scales linearly with speed and power scales with speed cubed. So a 50% increase in flow means a 237% increase in power — not 50%. This is also why the direct BHP formula fails: it assumes efficiency is flat, but pumps are less efficient when running faster and harder. The energy penalty for activating N+1 redundancy is enormous — which is exactly why running three pumps at lower speed saves so much energy in normal operation.</div>
+    </div>
+
+    <!-- OH 87 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 87 · September 2, 2024</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">I don't understand why Q₂ becomes 750 gpm. Why isn't each pump still at 500 gpm after one fails?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">The 1500 gpm is non-negotiable — it's what the cooling loads require. Think about the load side: <span class="formula-inline">Q = 500 × GPM × ΔT</span>. The thermal load and ΔT don't change just because a pump tripped. With one pump gone, the remaining two must still deliver 1500 gpm total, so each carries 750 gpm. The problem statement says "consistent uninterrupted flow" — that's the key phrase. You can't accept less flow from the load side. Each pump doesn't stay at 500 gpm; it has to speed up to compensate for the missing pump.</div>
+    </div>
+
+    <!-- OH 74 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 74 · February 5, 2024</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">Why don't you have to double the BHP since there are two pumps running? Shouldn't the answer be about 190 hp total?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">The problem asks "what brake horsepower is required to drive <em>each</em> of the two running pumps" — it's asking per pump, not total. The answer is 95 hp per pump. If you calculated 190 hp as the total for both pumps, your reasoning is correct — you just need to read the question stem carefully. Dan acknowledged the wording could have been more explicit and noted the question should have said "each pump" more clearly. The per-pump answer is 95 hp → Answer D.</div>
+    </div>
+
+    <!-- OH 73 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 73 · January 22, 2024 — Most Detailed</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">Why can't we use <span class="formula-inline">BHP = Q×H/(3960×η)</span> directly for the failure state? I get Q = 750 gpm, H = 200 ft, η = 0.90 — that gives 42 hp. Why is that wrong?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">This is the most important insight in the problem. The direct BHP formula is only valid at the pump's design operating point where η is known to be 0.90. When the pump speeds up to deliver 750 gpm instead of 500 gpm, it's no longer at its design point — it's on a different part of the efficiency curve, running less efficiently. Using η = 0.90 at the new operating condition is incorrect.
+      <br><br>
+      The correct approach uses the affinity laws from the known 28 hp baseline:
+      <br>
+      • Flow scales linearly with speed: ×1.5
+      • Head scales with speed²: ×1.5² = ×2.25 (per-pump head contribution, not system head)
+      • Power scales with speed³: ×1.5³ = ×3.375
+      <br><br>
+      So: <span class="formula-inline">BHP₂ = 28 × 1.5³ = 28 × 3.375 = 94.5 ≈ 95 hp</span>. The 42 hp answer assumes only a 50% power increase, which is linear scaling — fundamentally wrong for power. Quick sense check: 42 hp is only 50% more than 28 hp. That can't be right when power follows a cubic law.</div>
+    </div>
+
+    <!-- OH 41 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 41 · August 8, 2022</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">Why use pump affinity laws at all? If we use the affinity law for pressure, it seems like the head per pump should increase by 2.25× — but shouldn't the head stay at 200 ft since total flow is constant?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">The total system head stays at 200 ft — the system curve doesn't change. But the affinity laws describe what happens to an individual pump's performance as its speed changes. When one pump drops out, each remaining pump is doing more work on a per-pump basis. The head affinity law (H ∝ N²) describes each pump's curve shifting, not the system requirement changing.
+      <br><br>
+      Here's why the math is still consistent: in the BHP formula, <span class="formula-inline">BHP ∝ Q × H</span>. By affinity laws, Q scales as N¹ and H scales as N², so Q×H scales as N³. The 3960 and efficiency are just conversion factors — they don't change the cubic relationship. Whether you use the speed ratio or the flow ratio to scale power, you get the same answer: a 1.5× speed increase → 3.375× power increase.</div>
+    </div>
+
+    <!-- OH 16 -->
+    <div class="qa-group">
+      <div class="qa-session">OH 16 · June 18, 2021 — Oldest</div>
+      <div class="qa-label">Q</div>
+      <div class="qa-question">Why can't we use <span class="formula-inline">WHP = Q×ΔH/3960</span> directly when we already know Q and H for the failure state?</div>
+      <div class="qa-label">A</div>
+      <div class="qa-answer">Same fundamental issue as using the full BHP formula directly: plugging in the failure-state Q and H assumes you know the pump's efficiency at that condition. But you don't — efficiency changes with operating point. The affinity laws let you sidestep this entirely by scaling from the known baseline condition (28 hp at 500 gpm) rather than trying to evaluate a new operating point from scratch. The cubic scaling is reliable precisely because it captures the physics of how centrifugal machines behave across speed changes, without needing to know efficiency at every point on the curve.</div>
+    </div>
+
+  </div><!-- /sidebar-right -->
+
+</div><!-- /layout-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>HVAC &amp; Refrigeration PE Exam Prep</span>
+  <span>·</span>
+  <span>Fluids Problem 26 — Parallel Pumps, N+1 Redundancy</span>
+  <span>·</span>
+  <span>Covered in <strong>6 OH sessions</strong></span>
+  <span>·</span>
+  <span>Generated 2026-03-18</span>
+  <span>·</span>
+  <a href="../oh-prep.html">← Back to OH Prep Home</a>
+</div>
+
+<script>
+function toggleSolution(id) {
+  const box = document.getElementById(id + '-solution');
+  const arrow = document.getElementById(id + '-arrow');
+  if (box.classList.contains('open')) {
+    box.classList.remove('open');
+    arrow.textContent = '▼';
+  } else {
+    box.classList.add('open');
+    arrow.textContent = '▲';
+  }
+}
+</script>
+
+</body>
+</html>
