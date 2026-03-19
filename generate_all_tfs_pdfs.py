@@ -108,7 +108,6 @@ body {{
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }}
 .sidebar-left {{
   flex: 0 0 50%;
@@ -116,7 +115,6 @@ body {{
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
 }}
@@ -124,7 +122,6 @@ body {{
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }}
 .section-title {{
   font-size: 15px;
@@ -241,8 +238,7 @@ body {{
 }}
 @media (max-width: 900px) {{
   .layout-container {{ flex-direction: column; margin: 10px; }}
-  .sidebar-left {{ flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }}
-  .sidebar-right {{ max-height: none; }}
+  .sidebar-left {{ flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }}
   .pdf-viewer {{ min-height: 800px; }}
 }}
 </style>
