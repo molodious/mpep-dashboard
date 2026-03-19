@@ -201,7 +201,7 @@ body {
 
     <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><p style='color:#999;'>No video summary available.</p></div>
+      <div class="video-box"><ul><li>- Problem: A fan supplies air through 12x18 inch rectangular sheet metal duct with 1 inch fiber glass insulation.</li><li>- Approach: So first of all, we know that for the 1000 Hertz octobane, the sound power level is 90 decibels.</li><li>- Key values: 18 in, 1 in</li><li>- Reference: reference handbook, look up</li><li>- ✅ Answer: A</li></ul></div>
     </div>
   </div>
 
@@ -211,12 +211,53 @@ body {
       <span class="oh-count">9</span>
     </div>
     <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
-    
-    <div class='qa-group'>
-                <div class='qa-session'>OH 44: TFS: Practice Exam 1 - 50</div>
-                <div class='qa-question'><strong>Q:</strong> On the TFS practice exam problem, shouldn't the operating point be where the 7.5 hp dashed line intersects 300 gpm (giving 72 feet of head), rather than where the 8 inch impeller curve intersects 300 gpm?</div>
-                <div class='qa-answer'><strong>A:</strong> It's a trap—you must select the largest pump that consumes up to but not exceeding the available horsepower. At 7.5 hp, that's the 8 inch impeller; choosing a larger impeller would demand more power than available and be operationally flawed. So you follow the 8 inch curve to get ~60 feet, then apply efficiency.</div>
-            </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 44</div>
+      <div class="qa-question"><strong>Q:</strong> On the TFS practice exam problem, shouldn't the operating point be where the 7.5 hp dashed line intersects 300 gpm (giving 72 feet of head), rather than where the 8 inch impeller curve intersects 300 gpm?</div>
+      <div class="qa-answer"><strong>A:</strong> It's a trap—you must select the largest pump that consumes up to but not exceeding the available horsepower. At 7.5 hp, that's the 8 inch impeller; choosing a larger impeller would demand more power than available and be operationally flawed. So you follow the 8 inch curve to get ~60 feet, then apply efficiency.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> Why cannot we use the PHFG (enthalpy of vaporization) for 500°F steam entering a heat exchanger at 1 ATM, when the heat loss is due to state conversion from steam to saturated water?</div>
+      <div class="qa-answer"><strong>A:</strong> The steam at 500°F and 1 ATM is superheated, not saturated—since the saturation temperature at 1 ATM is only 212°F. The steam must first cool at constant pressure to become saturated vapor, then condense; the sensible cooling portion gives up significant heat beyond just the phase change, so using only HFG (which represents only the condensation) misses a substantial portion of the total heat transfer.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 52</div>
+      <div class="qa-question"><strong>Q:</strong> Can you clarify what power factor is and how it's used in transformer problems?</div>
+      <div class="qa-answer"><strong>A:</strong> Power factor is the ratio of real power (KW) to apparent power (KVA), defined as KW/KVA, which comes from the cosine of the phase angle in the power triangle. When power factor equals 1 (unity), all the power is real power with no reactive component; in this problem, that's what allowed us to directly convert the 100 KVA rating at 60% capacity into kilowatts to calculate heat generation.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 61</div>
+      <div class="qa-question"><strong>Q:</strong> If GPM wasn't given on the water side, could you still use Q_water = m_dot × ΔH equal to the steam side instead of the 500 GPM × ΔT rule of thumb?</div>
+      <div class="qa-answer"><strong>A:</strong> Yes, you have options depending on what information is given. You can use m_dot × ΔH for the water side if you have mass flow rate instead of volumetric flow rate, or m × cp × ΔT for sensible heating at constant pressure. These approaches are interchangeable since mass flow rate equals density times volume flow rate, so you should be able to convert between them.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 74</div>
+      <div class="qa-question"><strong>Q:</strong> Why isn't the 30 psi G pressure on the discharge side converted to psi A by adding 14.7 psi, like the solution doesn't do this?</div>
+      <div class="qa-answer"><strong>A:</strong> Both pressures are already in gauge pressure (G), so you don't convert between them—the 'G' notation means they're already referenced to atmospheric pressure. You only convert to absolute (A) if you actually need absolute pressure for the calculation, but for finding the pressure difference (delta P) between two points, gauge pressures can be subtracted directly.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 75</div>
+      <div class="qa-question"><strong>Q:</strong> I used the reference handbook formula on page 287 to find the temperature at interface x in a composite wall problem, got the same R_total as the solution, but calculated T_x as 66°F instead of the correct answer—am I applying the equation correctly?</div>
+      <div class="qa-answer"><strong>A:</strong> You're not using it correctly, and more importantly, you need to check your intuition: with 70°F inside and 0°F outside, 66°F at an interface beyond the insulation layer doesn't make physical sense—there should be a huge temperature drop across the insulation, so that point should be much closer to 0°F. The equation uses a proportion based on resistance ratios, so you can't just plug in numbers blindly; you likely made an error defining what R_x represents in your setup.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 81</div>
+      <div class="qa-question"><strong>Q:</strong> For TFS Practice Exam #1 Q24, I solved a compressor problem assuming it was isentropic using the constant-Cp formula and delta-H methods, and both gave matching answers—but the problem didn't state it was isentropic, so was my approach wrong?</div>
+      <div class="qa-answer"><strong>A:</strong> You're right to catch that—there are three ways to solve compressor problems: isentropic formula, delta-H/Cp-delta-T, and air tables. Since the problem didn't specify isentropic, you needed the air table method, which is trickier but important to practice. If isentropic is explicitly stated, the easier methods apply, but knowing the air table approach is essential for the exam.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 98</div>
+      <div class="qa-question"><strong>Q:</strong> In problem 1-79, why is the assumption that subcooled liquid density equals saturated liquid density valid, and would we be expected to make this assumption on the PE exam?</div>
+      <div class="qa-answer"><strong>A:</strong> Water is treated as incompressible in most PE problems, which justifies this assumption—it's defensible within 5% engineering tolerance. However, you correctly identified that water is slightly compressible; your research showing a 4.3% density change over 180°F is solid, but the real issue here is that the answer choices were too close together, not that the assumption was wrong.</div>
+    </div>
+    <div class="qa-group">
+      <div class="qa-session">OH 108</div>
+      <div class="qa-question"><strong>Q:</strong> I used the ideal gas law to find density at given conditions, then took the ratio to standard density and multiplied the CFM by that ratio—is that valid? And how do I know to multiply versus divide when I can't intuitively tell which direction the volume flow rate should go?</div>
+      <div class="qa-answer"><strong>A:</strong> Your approach is absolutely correct—density depends on pressure and temperature via the ideal gas law, so taking the density ratio and applying it to CFM is the right way. The key to knowing whether to multiply or divide is that pressure's effect on density far outweighs temperature's effect unless temperatures are extreme; here the pressure dominates, making the air denser at elevation, so standard CFM must be larger than the measured low-pressure CFM.</div>
+    </div>
+
+  </div>
 
 </div>
 
