@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 23 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 23</span>
+  <span class="nav-badge">4 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Thermodynamics · Problem 23</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">500lbm of superheated steam at 900◦F and 500psia enters a turbine hr and expands to atmospheric pressure. The turbine is 70% e(f)cient and powers a 90% e(f)cient generator. What is the output power? 228 Fluids 8.1 Blood has a dynamic viscosity of 3.3cP and a density of 66.2lbm . ft3 What is the kinematic viscosity of blood? 1.0×10−6ft2 s 2.3×10−6ft2 s 3.4×10−5ft2 s 1.1×10−3ft2 s 8.2 A pump delivers 200gpm of water at 130ft of total dynamic head, operating from 7am-7pm Monday through Friday. The pump is 80% e(f)cient and the motor is 93% e(f)cient. What is the annual cost of operation at $0.13 per kWh? 8.3 900gpm of water (fl)ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe? 8.4 30gpm of 120◦F water (fl)ows through a nominal 11/ 2 in schedule 40 steel pipe. What is the Reynolds number? 238.5 A pump designed to operate at 100gpm and 50ft of head is determined to be oversized. The pump’s impeller diameter is decreased by 20%. What is the resulting pressure developed by the pump after this change? 8.6 A residential gutter with a rectangular cross section transports 2gpm during peak rainfall. The channel is 6in wide and is pitched such that the height of the (fl)owing water is 2in. Assuming 60◦F rainwater, what is the friction factor for the gutter? 8.7 A tee connection receives 4gpm of water from a 3/ 4 inch schedule 40 steel pipe and 3ft of water from a 11/ 4 in schedule 40 steel pipe. Water s exits into a 11/ 2 in schedule 40 steel pipe. What is the velocity in the outlet pipe? Ignore friction loss. s s s s 248.8 What is the kinematic viscosity of 140◦F air at 50psia? 1×10−5ft2 s 5×10−5ft2 s 6×10−5ft2 s 3×10−3ft2 s 8.9 50gpm of cold water at 60◦F enters a 100ft tall building via 3in sched- ule 40 steel supply piping. Street pressure prior to the service en- trance to the building is 85psig. The equivalent length of piping on the longest run to the top (fl)oor is 500ft. What pressure is available to (f)xtures on the top (fl)oor? 8.10 A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coe(f)cient of C = 130. The minimum required pressure for all (f)xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 258.11 What is the friction loss per hundred feet for 800gpm of 80◦F water (fl)owing through an 8in nominal schedule 40 steel pipe? 8.12 200gpm of 90◦F water (fl)ows through 500ft of 4in nominal schedule 40 steel pipe, with a discharge that is 30ft higher than the entrance. The pipe contains the following (fl)anged welded pipe (f)ttings: (4) 90(′6) elbows, (2) 90(′6) long radius elbows, (2) gate valves, and (1) globe valve. What is the pressure di(')erence between the two ends of the pipe? 8.13 Room temperature atmospheric air (fl)ows at 100ft in a 400ft long s nominal 3in schedule 40 threaded steel pipe containing (12) 90(′6) long radius elbows and (2) gate valves. Air leaves the pipe at an elevation 200ft lower than the pipe inlet. What is the pressure di(')erence between the two ends of the pipe? 268.14 10,000gal of fuel oil with a speci(f)c gravity of 0.86 is delivered to an hr emergency generator by a 90% e(f)cient pump. The pressure gauge near the pump inlet reads −2.0inHg. The pressure gauge on the discharge side of the pump reads 30psig and is located 10ft above the pump. What is the input power to the pump? 8.15 20,000gpm of water (fl)ows through a turbine in a hydroelectric power application. The inlet pressure is 50psig and the exit pressure is 1atm. The turbines have an overall e(f)ciency of 80%. What is the electrical capacity of the hydroelectric plant? 8.16 A 1600rpm centrifugal pump with an 8in impeller requires</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 350KW</div>
+      <div class='choice'><span class='choice-letter'>B</span> 435KW</div>
+      <div class='choice'><span class='choice-letter'>C</span> 470KW</div>
+      <div class='choice'><span class='choice-letter'>D</span> 540KW</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>hr and expands to atmospheric pressure.</p><p>The turbine is 70% eccient and powers a 90% eccient generator.</p><p>What is the output power?</p><p>A. 29KW B. 33KW C. 36KW D. 52KW The energy delivered by the turbine generator is a function of the enthalpy given up by the steam during expansion in the turbine, the turbine ecciency, and the generator ecciency.</p><p>To start, bring up the steam table in the reference handbook by searching for Properties of Superheated Steam and Properties of Saturated Water (Pressure) and determine the enthalpy entering and leaving the turbine.</p><p>Call the entering condition State 1 and the leaving condition State 2.</p><p>State 1, The superheated steam is fully defned since the temperature and pressure are known.</p><p>In addition to the enthalpy, note the entropy for State 1.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T =900◦F 1 P =500psia 1 Btu h =1466.9 1 lb Btu s =1.699 1 lb◦F State 2,</p><p>Start by assuming isentropic (ideal) expansion in the turbine.</p><p>Use the entropy to determine the quality, and use the quality to determine the enthalpy for State 2 ideal.</p><p>In the subsequent step we will distinguish State 2 actual.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P =14.7psia 2 Btu s =s =1.699 2 1 lb◦F Btu Btu s =0.3122 ; s =1.4443 f lb◦F fg lb◦F s −s 1.699Btu −0.3122Btu χ = 2 f = lb◦F lb◦F =0.96 2 s 1.4443Btu fg lb◦F Btu Btu h =180.2 ; h =970.1 f lb fg lb 184   Btu Btu Btu h =h +χ h =180.2 +(0.96) 970.1 =1111.7 2 f 2 fg lb lb lb Unlike with a compressor or a pump, a turbine ecciency is the ratio of the actual energy that comes out divided by the energy that goes in.</p><p>Since the goal is to produce output power, a less eccientturbinewillputoutlessthanitcouldifitwere100%eccient.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Therefore, wecanwritethe turbine ecciency and calculate the actual change in enthalpy for the expansion process. ∆h h −h η = actual = 1 2 t ∆h h −h ideal 1 2 ∆h Btu 0.7= actual →∆h =248.7  1466.9Btu −1111.7Btu actual lb lb lb Finally,usetheknownmassfowrateandthechangeinenthalpytodetermine</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Thermal 23, 500 pounds per hour of superheated steam at 900 degrees and 500 psi a enters a turbine and expands to atmospheric pressure.</li><li>Given: 500 pounds per hour of superheated steam at 900 degrees and 500 psi a enters a turbine and expands to atmospheric pre...</li><li>Approach: The turbine is 70% efficient and powers a 90% efficient generator was the output power.</li><li>Calc: So you have this steam entering at 900 degrees Fahrenheit and 500 psi.</li><li>Calc: So the way to analyze a turbine is to say q dot equals m dot delta h delta h being h1 minus h2.</li><li>Result: So B2's per hour will cancel and we will end up with units of KW and the magnitude works out to 32.8 KW which is closest to answer choice B.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">4</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 15: Thermo 23</div>
+                <div class='qa-question'><strong>Q:</strong> Why do we multiply the turbine work by the 90% generator efficiency instead of dividing by it? Shouldn't a 90% efficient generator require more input power to produce the same output?</div>
+                <div class='qa-answer'><strong>A:</strong> You multiply because you're tracking energy losses sequentially: the turbine produces 70% of its ideal work as shaft work, and then the generator converts 90% of that shaft work into electrical power. We're not working backwards from a power requirement—we're calculating forward from the turbine output to the final electrical power, so each efficiency step is a multiplication.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 56: HVAC: Thermo #23</div>
+                <div class='qa-question'><strong>Q:</strong> If the entropy value falls outside the superheated tables at 14.7 PSIA, is that sufficient to assume a saturated mixture, or are there other considerations for when to use saturated mixture tables?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, if the entropy doesn't meet the superheated region threshold, it's safely a saturated mixture (unlikely to be subcooled in turbine applications). Once you confirm it's saturated, use the entropy boundaries (SF and SG) to calculate quality: Q = (S2 - SF) / SFG, then determine other properties from that quality value.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 63: HVAC: Thermo #23</div>
+                <div class='qa-question'><strong>Q:</strong> Are the isentropic efficiency formulas for compressors and turbines using enthalpy available in the Reference Handbook, or does it only show temperature-based versions?</div>
+                <div class='qa-answer'><strong>A:</strong> The Handbook doesn't include the enthalpy version, but you should know it anyway—it's actually more fundamentally correct than the temperature version. For an ideal gas with constant specific heats, you can convert between enthalpy and temperature formulations since ΔH = CP·ΔT, so efficiency can be expressed as the ratio of actual enthalpy change to isentropic enthalpy change.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 95: HVAC: Thermo Module #23</div>
+                <div class='qa-question'><strong>Q:</strong> Why did you calculate H2 prime (actual leaving enthalpy) using the isentropic assumption instead of just finding ideal enthalpies and applying the 0.7 turbine efficiency and 0.9 generator efficiency as multipliers?</div>
+                <div class='qa-answer'><strong>A:</strong> You have to use the isentropic assumption to find H2 ideal from the steam tables first—that's a required step. Once you know H1, H2 ideal, and the turbine efficiency, you can then solve for H2 prime (actual). This is the only rigorous way to handle turbine problems; if you're already comfortable with the method, you can combine steps to move faster, but the underlying approach is necessary.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 23 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

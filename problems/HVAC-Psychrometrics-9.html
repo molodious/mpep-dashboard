@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 9 | Psychrometrics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 9</span>
+  <span class="nav-badge">3 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Psychrometrics · Problem 9</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">How much condensate is produced by a 10,000cfm air handling unit supplying 60◦F dry bulb, 58◦F wet bulb air? The return air condi- tions are 76◦F and 60% relative humidity.</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0.002gpm</div>
+      <div class='choice'><span class='choice-letter'>B</span> 0.11gpm</div>
+      <div class='choice'><span class='choice-letter'>C</span> 0.16gpm</div>
+      <div class='choice'><span class='choice-letter'>D</span> 1.3gpm</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>supplying 60◦F dry bulb, 58◦F wet bulb air?</p><p>The return air condi- tions are 76◦F and 60% relative humidity.</p><p>A. 0.002gpm B. 0.11gpm C. 0.16gpm D. 1.3gpm The rate at which condensate is produced is the mass fow rate of water, which depends on the mass fow rate of air and the diaerence in the humidity ratio between the supply and return air streams.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The governing formula can be found in the Reference Handbook by searching Moist-Air Cooling and Dehumidifcation: m˙ =m˙ (ω −ω ) w a 1 2 Letstate1refertothereturnconditionwhichisexpectedtohavegreatermoisturecontent,and state 2 shall refer to the supply condition after moisture removal by the coil.</p><p>This ensures ∆ω >0.</p><p>Otherwise the process would be humidifcation rather than dehumidifcation.</p><p>Both states are fully defned.</p><p>Use the psychrometric chart to look up the humidity ratios for each state.</p><p>Also look up the specifc volume for the return condition, state 1, entering the coil.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T =76◦F 1,db φ =60% 1 lb ω =.0116 w 1 lb da 230 ft3 v =13.8 1 lb T =60◦F 2,db T =58◦F 2,wb lb ω =.0098 w 2 lb da Themassfowrateofaircanbeexpressedasthevolumefowratedividedbythespecifcvolume: Q 10,000ft3 m˙ = = min a v 13.8ft3 lbda Substitute this expression into the frst formula for the mass fow rate of air entering the coil, along with the humidity ratios, and solve for the mass fow rate of water removed.</p><p>Convert units to gpm by using the density of water and the measurement relationship between gallons and cubic feet.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Alternatively, search Commonly Used Equivalents to convert directly from lb to gal in one step using 8.34lbm for water. gal  10,000ft3  lb lb  lb m˙ =m˙ (ω −ω )= min 0.0116 w −0.0098 w =1.3 w w a 1 2 13.8ft3 lb da lb da min lbda lb  1ft3  7.48gal  m˙ =1.3 =0.16gpm w min 62.4lb 1ft3 Answer C</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Psychometrics Problem 9.</li><li>Given: 000 CFM air handling unit? Supplying 60 degree dry bulb 58 degree wet bulb air; 000 CFM air stream in GPN; 000 CFM wh...</li><li>Approach: How much condensate is produced by 10,000 CFM air handling unit?</li><li>Calc: The return air conditions are 76 degrees and 60% relative humidity.</li><li>Calc: This problem wants us to quantify how much condensate what is the flow rate of condensate that's being removed from that 10,000...</li><li>Result: So picking up with this formula mass flow rate of water is equal to 10,000 CFM which is cubic feet per minute divided by 13.8 feet cubed per pound.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">3</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 36: HVAC: Psych-9</div>
+                <div class='qa-question'><strong>Q:</strong> Why do we use the specific volume of state 1 instead of state 2 when calculating mass flow rate across a coil?</div>
+                <div class='qa-answer'><strong>A:</strong> Use the entering coil condition (state 1) specific volume to calculate the mass flow rate of air entering the coil, since mass flow rate equals volume flow rate divided by specific volume. While averaging the two states or using state 2 might occasionally vary the answer slightly in extreme cases like very cold outside air, using state 1 specific volume is correct 90-95% of the time and won't drastically change your answer in practice.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 74: HVAC: Psychometrics Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> Should I use air density at room temperature (entering coil) or supply condition for this dehumidifying coil problem, and why did I get 0.161 as an answer when using the standard specific volume of 13.34?</div>
+                <div class='qa-answer'><strong>A:</strong> Use the entering condition (V1) for density—it only creates about 3% difference in the answer either way, so don't lose sleep over it. Your main issue is that you didn't take the delta of humidity ratios (W1 - W2); you used just one humidity ratio value instead of the difference, which is why you got a trap answer.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 104: HVAC: Psychrometrics Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> Why does this problem require the high temperature psychrometric chart, and is it acceptable to use average density between entering and leaving conditions when calculating GPM?</div>
+                <div class='qa-answer'><strong>A:</strong> You don't need the high temperature chart unless the problem involves high temperature conditions—use the regular chart. For density/specific volume, use the entering condition; 95% of the time it doesn't matter which you choose, but only worry about averaging if you have a very dramatic process (like going from cold/dry to hot/humid), which rarely happens in typical HVAC applications.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 9 · Psychrometrics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

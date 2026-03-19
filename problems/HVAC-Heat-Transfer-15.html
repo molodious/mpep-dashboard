@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 15 | Heat-Transfer OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat-Transfer · Problem 15</span>
+  <span class="nav-badge">10 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Heat-Transfer · Problem 15</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">How much heat does a 3in horizontal hot water pipe lose to the ambient space per unit length by natural convection if the sur- rounding room has an average temperature of 70◦F, the surface temperature of the pipe is 100◦F, and the coe(f)cient of thermal expansion for air is 1.79×10−3per◦F. hr·ft hr·ft hr·ft hr·ft 42</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 19 Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 29 Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 45 Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 72 Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>ambient space per unit length by natural convection if the sur- rounding room has an average temperature of 70◦F, the surface temperature of the pipe is 100◦F, and the coeccient of thermal expansion for air is 1.79×10−3per◦F.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 19 Btu hr·ft B. 29 Btu hr·ft C. 45 Btu hr·ft D. 72 Btu hr·ft Forconvectionproblemsingeneral, areasonablestartingpointisalwaysNewton’sLawofCooling: Q˙ =hA∆T where h is the convection heat transfer coeccient. 255 In this case we are not fnding the rate of heat transfer in Btu but rather the heat transfer per hr unit length in Btu .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Since the surface area of the pipe can be expressed as A = πDL, where D is hr·ft the diameter, and L is the length, divide by L on both sides to write an expression for Q˙ : L Q˙ =πDh∆T L ForNatural(Free)ConvectioninvolvingaLongHorizontalCylinderinLargeBodyofStationary Fluid, the convection heat transfer coeccient is:   k h¯ =C Ran D D where C and n are constants, k is the thermal conductivity, D is the diameter, and Ra is the D Rayleigh Number, which can be calculated using: gβ(T −T )D3 Ra = s ∞ Pr D ν2 where g is acceleration due to gravity, β is the coeccient of thermal expansion for air, T is the s average surface temperature, T is the bulk (ambient) temperature, D is the diameter, ν is the ∞ kinematicviscosity,andPr isthePrandtlnumber.</p><p>UsethetablesPropertiesofAiratAtmospheric Pressure and Properties of Air at Low Pressure to obtain Pr and ν, then calculate Ra .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>D      3 32.2ft 1.79×10−3 (100◦F −70◦F) (3in) 1ft (0.71) Ra = s2 ◦F 12in ≈592,000 D  2 18×10−5ft2 s Usethe tableunder LongHorizontal CylinderinLarge Bodyof StationaryFluid tolookup the values for constants C and n.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>C =0.48 n=0.25 Use the Properties of Air at Low Pressure table to obtain the thermal conductivity for air at the approximate flm temperature.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Calculate h¯ :   0.0155 Btu h¯ =(0.48) hr·ft·◦F</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: How much heat does a 3-inch horizontal hot water pipe lose to the ambient space per unit length by natural convection?</li><li>Given: 32.2 feet per second squared; 3 inches; 12 inches</li><li>Approach: A good place to start with any convection problem is Newton's law of cooling and you can actually use that as a search term in ...</li><li>Key formula: formula is to find the Rayleigh number</li><li>Calc: We're not being asked to find the heat transfer in B2 per hour.</li><li>Calc: So we're looking for B2 per hour per foot and that's the answer choice units.</li><li>Result: The best answer choice is A.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">10</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 39: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 15 (natural convection from a hot pipe), should I use the air temperature or the film temperature to look up properties for the Rayleigh number?</div>
+                <div class='qa-answer'><strong>A:</strong> Use the film temperature — the average of the surface and ambient temperatures — as the consistent rule for fluid property lookups in convection problems. I know it may appear inconsistent across problems, but film temperature is the physically correct approach.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 46: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 15 you used the surface temperature (100°F) for air property lookups, but in problem 16 you used the film temperature — I thought film temperature was standard for convection?</div>
+                <div class='qa-answer'><strong>A:</strong> The film temperature approach in problem 16 is the correct one — I made an error in problem 15 by using the surface temperature instead of the film temperature (which should be 85°F). It doesn't change the answer because the properties are close over that range, but you should use film temperature consistently.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 53: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 15, at what temperature should the Prandtl number and kinematic viscosity be looked up — 100°F (pipe surface) or 70°F (ambient)?</div>
+                <div class='qa-answer'><strong>A:</strong> It should be the film temperature — the average of surface (100°F) and ambient (70°F) — which gives 85°F. I used 100°F in my solution, which is technically incorrect but doesn't shift the answer choice because the property values don't change much over that range.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 54: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 15 with a 100°F pipe in a 70°F room, should I use the film temperature (85°F) or the surface temperature for air property lookups?</div>
+                <div class='qa-answer'><strong>A:</strong> Use the film temperature — always, for natural convection problems. The 100°F I used in the solution is an oversight; for any similar problem, use the average of the surface and ambient temperatures.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 67: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> Three questions on Heat Transfer 15: (1) Can I use h = 1.2 as a typical convection coefficient value? (2) Why use kinematic viscosity at 100°F rather than 70°F? (3) When can I ignore the pipe outside diameter?</div>
+                <div class='qa-answer'><strong>A:</strong> The typical h = 1.2 value is a rough estimate only — you wouldn't use it when asked to calculate h from first principles as in this problem. The temperature for property lookup should be the film temperature (85°F), not 100°F — that was an error in my solution — and the pipe's outside diameter is needed for the heat transfer area calculation unless the problem explicitly says to ignore it.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 72: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 15, you used lambda (λ) for thermal conductivity rather than K — should I memorize that thermal conductivity can appear under different variable names in the handbook?</div>
+                <div class='qa-answer'><strong>A:</strong> Nothing to memorize ahead of time — but having worked through this problem, you won't forget it. Engineering references aren't always consistent with variable naming, so let the units guide you whenever the symbol isn't familiar.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 80: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> I'm confused about which temperature to use for property lookups — in Heat Transfer 15 you used 100°F, but in problem 16 you used the film temperature. Is the difference because one involves air and the other water?</div>
+                <div class='qa-answer'><strong>A:</strong> The fluid type doesn't change the rule — both problems should use the film temperature, and I made an error in problem 15 by using the surface temperature. Check the office hours archive for previous discussions on this exact question; the consistent answer is always film temperature for convection property lookups.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 82: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 15, how can both the 'Properties of Air at Atmospheric Pressure' table and the 'Properties of Air at Low Pressure' table be used for the same problem — is this common?</div>
+                <div class='qa-answer'><strong>A:</strong> What's confusing here is that 'low pressure' in the handbook refers to pressures that most engineers would still consider very high — it's a quirk of the handbook's labeling, not a warning that the air is in a vacuum. For this problem at atmospheric conditions, both tables give essentially the same property values, so either works fine.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 95: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 15, why wasn't the film temperature used for the fluid property lookups?</div>
+                <div class='qa-answer'><strong>A:</strong> I should have used the film temperature (85°F) — this has come up in office hours multiple times. The temperatures 70°F and 100°F are close enough that the property values don't shift the answer choice, which is why the error wasn't immediately obvious.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 96: HVAC: Heat Transfer-15</div>
+                <div class='qa-question'><strong>Q:</strong> The solution uses 100°F (pipe surface) for property lookups rather than 70°F (ambient) — can you explain why?</div>
+                <div class='qa-answer'><strong>A:</strong> That's actually incorrect in my solution — the film temperature of 85°F is the right value to use. It doesn't change the answer because the properties at 70°F, 85°F, and 100°F are all close, but technically the film temperature is always what you should use for convection.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 15 · Heat-Transfer</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

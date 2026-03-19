@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 4 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 4</span>
+  <span class="nav-badge">14 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · HVAC · Problem 4</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">During winter operation a 2000cfm outside air handling unit uses steam to humidify an o(f)ce. The design outside conditions are 10◦F, 50% RH. The inside conditions are maintained at 74◦F, 50% RH. How much water is required to humidify for a 24 hour period during design conditions? Neglect internal latent load.</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 10gal</div>
+      <div class='choice'><span class='choice-letter'>B</span> 110gal</div>
+      <div class='choice'><span class='choice-letter'>C</span> 210gal</div>
+      <div class='choice'><span class='choice-letter'>D</span> 240gal</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>steam to humidify an occe.</p><p>The design outside conditions are 10◦F, 50% RH.</p><p>The inside conditions are maintained at 74◦F, 50% RH.</p><p>How much water is required to humidify for a 24 hour period during design conditions?</p><p>Neglect internal latent load.</p><p>A. 10gal B. 110gal C. 210gal D. 240gal Boththeinsideandoutsideconditionsarefullydefned;however,thehumidityratioatthelowtem- perature (outside) condition cannot be looked up in the Reference Handbook.</p><p>For study purposes only, use the MERM low temperature psychrometric chart, an online psychrometric calculator, or  take the value as agiven.</p><p>Alternatively, take the humidity ratio outsideas zero becauseair at 10 F can hold very little moisture.</p><p>Lettheenteringairconditionbestate1andtheroomconditionbestate2.</p><p>Usethepsychromet- ric chart where possible.</p><p>Also obtain the specifc volume for state 1, or estimate by extrapolating.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T =10◦F 1 φ =50% 1 lb lb ω =.00065 w ≈0 w 1 lb lb da da ft3 v =11.85 1 lb T =74◦F 2 φ =50% 2 lb ω =.00893 w 2 lb da Find the mass fow rate of water vapor being added to the air by using the formula below.</p><p>This formula is used frequently and should be memorized.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>It is derived from the defnition of the humidity ratio and may not be presented explicitly in the Reference Handbook. m˙ =m˙ (ω −ω ) w a 2 1 where the mass fow rate, m˙ , can be expressed as volume fow rate divided by specifc volume: a 276 V˙ m˙ = v Substitute and solve: V˙ m˙ = (ω −ω ) w v 2 1   2000ft3   m˙ = min .00893 lb w −.00065 lb w =1.4 lb w  11.85ft3  lb da lb da min lb Multiply by time and divide by density to fnd the volume of water added in 24 hours.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note if the humidity ratio of state 1 is taken as zero, the result will be overstated by 7%, still leading to the correct answer choice. lb  min   1ft3  7.48gal  1.4 60 (24hr) =242gal min hr 62.4lb ft3 Answer D</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: During winter operation, a 2000 CFN outside air handling unit uses steam to humidify and office.</li><li>Given: 5 pounds of water per pound of dry air; 0.00893 pounds of water per pound of dry air; 2000 CFM, we can turn that into...</li><li>Approach: The design outside conditions are 10 degrees and 50% relative humidity.</li><li>Key formula: formula is set up the way it is</li><li>Calc: How much water is required to humidify for 24-hour period during design conditions, neglect internal, late and low.</li><li>Calc: So if it's very cold outside, even if it's 50% relative humidity, the capacity of air to hold water when it's very cold is much...</li><li>Result: So that's 242 gallons, which is closest to answer choice D.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">14</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 15: HVAC 4</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-4, if the temperature is too low for the psychrometric chart, can I look up humidity ratio and enthalpy from the moist air table?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes — when the temperature is below the psychrometric chart range, use the thermodynamic properties of moist air table that appears directly below the psychrometric charts in the reference handbook. That table is specifically designed for these low-temperature situations.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 20: HVAC 4</div>
+                <div class='qa-question'><strong>Q:</strong> In HVAC-4, the psychrometric chart doesn't go down to 10°F — do I need to extrapolate, and is that expected on the exam?</div>
+                <div class='qa-answer'><strong>A:</strong> You're right that the standard chart doesn't go that low, but there's a low-temperature thermodynamic table right below the psychrometric chart for exactly this situation. Use that table rather than extrapolating — it covers the temperatures you'll need.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 31: HVAC 4</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-4, I need to find the cooling water flow rate in a condenser for an R-134a refrigeration cycle with a sensible heat ratio of 0.7 — can you walk through it?</div>
+                <div class='qa-answer'><strong>A:</strong> This is a refrigeration cycle with a water-cooled condenser, so the condenser water carries away the total heat rejection from the cycle. The cooling water flow rate is found from the condenser heat rejection divided by the specific heat of water times the allowed temperature rise (500 × GPM × ΔT rearranged for GPM).</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 40: HVAC: Systems and Components-4</div>
+                <div class='qa-question'><strong>Q:</strong> How do I find the humidity ratio for air at 10°F in HVAC-4 when the psychrometric chart only goes down to about 32°F?</div>
+                <div class='qa-answer'><strong>A:</strong> Use the 'Thermodynamic Properties of Moisture' table that appears directly below the psychrometric chart pages in the reference handbook — search 'psychrometric chart' and scroll down to find it. That table gives saturation humidity ratios at low temperatures; for 50% RH, multiply the saturation value by 0.5.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 47: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> In HVAC-4, I set Q_sensible = 1.08 × CFM × ΔT equal to Q = 500 × GPM × ΔT to find GPM, then converted to gallons per day and got 103 gallons — what does that actually represent, and when would this approach apply?</div>
+                <div class='qa-answer'><strong>A:</strong> What you found is the condenser water flow rate, not the humidification water — so you answered a valid question, just not the one asked. The 500 × GPM × ΔT approach is correct for sensible heat exchange in water-side systems; this problem was asking for humidification water added to the air stream.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 49: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> How do you determine which specific volume of air to use for humidification problems?</div>
+                <div class='qa-answer'><strong>A:</strong> The guidance is the same as for any air coil problem — use the specific volume that corresponds to the volume flow rate you have. For this humidification problem, you know the inlet CFM, so use the specific volume at the entering (cold outdoor) air conditions.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 53: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-4, why do we use the specific volume at the cold outdoor entering conditions (10°F) rather than the indoor conditions?</div>
+                <div class='qa-answer'><strong>A:</strong> Always use the entering air conditions when you have a known volume flow rate across an air coil — that's where you know the volumetric flow and can convert it to mass flow rate. I've never encountered a valid exception to this rule.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 64: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> Where did you get the humidity ratio for air at 10°F and 50% RH — the psychrometric chart doesn't cover temperatures that low?</div>
+                <div class='qa-answer'><strong>A:</strong> Scroll past the psychrometric chart pages in the reference handbook to find the 'Thermodynamic Properties of Moisture' table, which gives saturation humidity ratios at low temperatures. For 50% RH, multiply the saturation value from the table by 0.5.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 68: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> How do you find the humidity ratio at temperatures below 30°F when the psychrometric chart doesn't go that low?</div>
+                <div class='qa-answer'><strong>A:</strong> Scroll down past the psychrometric charts to find the 'Thermodynamic Properties of Moist Air' table, which gives saturation humidity ratios for very low temperatures. For any relative humidity other than 100%, multiply the table's saturation value by your RH fraction.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 71: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> I used the humidifier equation with 0.74 lb/ft³ density and estimated outdoor humidity ratio at 50% saturation for 10°F, getting 209 lb/hr instead of the expected 240 — why the discrepancy?</div>
+                <div class='qa-answer'><strong>A:</strong> The humidity ratio estimation at 50% of saturation using a rough estimate may be slightly off, and 0.74 lb/ft³ may not match the correct specific volume at those conditions. Use the 'Thermodynamic Properties of Moist Air' table for an accurate saturation humidity ratio, then adjust for the 50% RH to get closer to the expected answer.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 73: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-4, why do we use specific volume at the outdoor conditions rather than the indoor conditions?</div>
+                <div class='qa-answer'><strong>A:</strong> Always use the entering air conditions when you have a volume flow rate at a coil — that's the consistent rule for all air-side analysis. I've applied this rule on every problem I've worked and never found a case where it led me astray.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 89: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> How did you get V1 and W1 for the entering conditions in HVAC-4 — I can't find those conditions on the psychrometric chart?</div>
+                <div class='qa-answer'><strong>A:</strong> Those conditions (10°F outdoor air) are below the standard psychrometric chart range, so use the 'Thermodynamic Properties of Moist Air' table directly below the third psychrometric chart in the handbook. That table gives saturation humidity ratio; multiply by the relative humidity to get W1, and use the ideal gas relationship for specific volume.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 105: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-4, can you explain how to get humidity ratio W and specific volume V at state 1 (10°F, 50% RH)?</div>
+                <div class='qa-answer'><strong>A:</strong> The current reference handbook doesn't have a low-temperature psychrometric chart, but there is a 'Thermodynamic Properties of Moist Air' table directly below the standard psychrometric charts. Find the saturation humidity ratio at 10°F from that table, multiply by 0.5 for W1, then use the appropriate gas relationship for specific volume.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 109: HVAC: HVAC-4</div>
+                <div class='qa-question'><strong>Q:</strong> How do I find the humidity ratio and specific volume of air at 10°F and 50% RH for HVAC-4?</div>
+                <div class='qa-answer'><strong>A:</strong> The current reference handbook doesn't include a low-temperature psychrometric chart, but there's a 'Thermodynamic Properties of Moist Air' table immediately below the standard charts. Use that table for the saturation humidity ratio at 10°F, then scale by your relative humidity to get the actual value.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 4 · HVAC</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

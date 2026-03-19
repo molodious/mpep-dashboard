@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 9 | Systems-and-Components OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Systems-and-Components · Problem 9</span>
+  <span class="nav-badge">2 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Systems-and-Components · Problem 9</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">An outside air handler mixes 2000cfm of 90◦F db / 80◦F wb fresh air with recirculated return air at 76◦F / 50% relative humidity. The unit supplies 10,000cfm of 58◦F air to the space. What is the enthalpy of the mixed air entering the cooling coil? lb lb lb lb 63</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 31Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 32Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 33Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 34Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>air with recirculated return air at 76◦F / 50% relative humidity.</p><p>The unit supplies 10,000cfm of 58◦F air to the space.</p><p>What is the enthalpy of the mixed air entering the cooling coil?</p><p>A. 31Btu lb B. 32Btu lb C. 33Btu lb D. 34Btu lb It may be helpful to draw and label a typical outside air handling arrangement.</p><p>The supply air temperature downstream of the cooling coil is extra information.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Sincethevolumefowrateofoutsideairis2000cfmandatotalof10,000cfmisbeingsupplied, the volume fow rate of recirculated air is given by: Q =10,000cfm−2000cfm=8,000cfm. recirculation To fnd the enthalpy of mixed air (prior to the coil), perform a mixing calculation using the outside air stream and return (recirculated) air stream, both of which are fully defned.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Use the Psychrometric Chart to obtain the enthalpy values for both states: T =90◦F OA,db T =80◦F OA,wb Btu h =43.57 OA lb T =76◦F RA φ =50% RA Btu h =28.74 RA lb (2000cfm)  43.57Btu +(8000cfm)  28.74Btu Btu h = lb lb =31.7 MA 2000cfm+8000cfm lb Answer B 319</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><p style='color:#999;'>No video summary available.</p></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">2</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 59: HVAC: Systems & Components Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> Alright, HVC systems and components 9, is there any pitfall with using a simple linear interpolation to solve a problem like this?</div>
+                <div class='qa-answer'><strong>A:</strong> Yeah, this is for enthalpy which to your point is linear on the psychometric chart, so that is a great point. And I think the answer to your question is yes, what's happening here just for context for everyone is this is a mixing calculation being done with an air handler, so we have two streams there being mixed. Looks like it's outside air and I want to say some recirculated air being mixed together and then we're calculating the enthalpy of the mixed air.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 89: HVAC: Systems And Components #9</div>
+                <div class='qa-question'><strong>Q:</strong> In the solution video you use ratios of the return air and the outside air to find the enthalpy of the mixed air.</div>
+                <div class='qa-answer'><strong>A:</strong> Good psychometric question and you see how the topics build on each other because now you're insisting components and there's this really deep. Psychometrics concept that's coming out. So the answer is the enthalpy is a linear variable on the psychometric chart.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 9 · Systems-and-Components</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

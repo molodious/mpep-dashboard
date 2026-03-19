@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 21 | Heat-Transfer OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat-Transfer · Problem 21</span>
+  <span class="nav-badge">3 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Heat-Transfer · Problem 21</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">An uninsulated 14in round duct painted with nonmetallic white paint has an average surface temperature of 150◦F. The duct passes through a 20ft room which has an air temperature of 75◦F and walls which have a surface temperature of 66◦F. Considering both convection and radiation, what is the total combined heat transfer? Refer to the table below for properties of air. hr hr hr hr 45</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 2000Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 5000Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 7000Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 12,000Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>paint has an average surface temperature of 150◦F.</p><p>The duct passes through a 20ft room which has an air temperature of 75◦F and walls which have a surface temperature of 66◦F.</p><p>Considering both convection and radiation, what is the total combined heat transfer?</p><p>Refer to the table below for properties of air.</p><p>A. 2000Btu hr B. 5000Btu hr C. 7000Btu hr D. 12,000Btu hr The combined heat transfer is the sum of the convection and radiation.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>To fnd the convection for a Long Horizontal Cylinder in Large Body of Stationary Fluid, the convection heat transfer coeccient is:   k h¯ =C Ran D D where C and n are constants, k is the thermal conductivity, D is the diameter, and Ra is the D Rayleigh Number, which can be calculated using: gβ(T −T )D3 Ra = s ∞ Pr D ν2 where g is acceleration due to gravity, β is the coeccient of thermal expansion for air, T is s the average surface temperature, T is the bulk (ambient) temperature, D is the diameter, ν is ∞ the kinematic viscosity, and Pr is the Prandtl number.</p><p>Use the table given to select the values for properties of atmospheric air at the flm temperature and calculate Ra.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T +T 150◦F +75◦F T = s ∞ = =112.5◦F film 2 2 266  32.2ft  1.75×10−3 1  (150◦F −75◦F) 14ft 3 (.72) Ra = s2 ◦F 12 =1.34×108 D  2 .19×10−3ft2 s Based on the range of Ra, constants C and n may be specifed: 107 <Ra<1012 C =.125 n=.333 Calculate the convection heat transfer coeccient: h=(.125)  .0157 hr· B f t t u ·◦F   1.34×108.333 =.855 Btu 14ft hr·ft2·◦F 12 Determine the heat transfer by convection: Q˙ =hA∆T c      Btu 14 Btu Q˙ = .855 π ft (20ft) (150◦F −75◦F)=4700 c hr·ft2·◦F 12 hr To fnd the heat transfer by radiation i.e.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Net Energy Exchange by Radiation Between Two Bodies, use equation: Q˙ =εσA  T4−T4 r 1 2 whereεistheemissivity,σistheStefan-Boltzmann</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: An uninsulated 14 inch round duct painted with non-metallic white paint has an average surface temperature of 150 degrees.</li><li>Given: 14 inch round duct painted with non-metallic white paint has an average surface temperature of 150 degrees; 14 inches...</li><li>Approach: We don't have to concern ourselves too much with what's going on inside the duct because we know the surface temperature.</li><li>Key formula: formula for radiation, which we've also used once earlier in this process</li><li>Calc: So we got around duct 14 inches, and if we were to draw the side section, it's going through a 20-foot room.</li><li>Calc: And this is a round duct, so I'll draw it like this 20 feet long.</li><li>Result: Closest answer choice is D.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">3</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 75: HVAC: Heat Transfer-21</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 21, should 'the duct goes to a room that's 20 feet' be interpreted as the duct length being 20 feet?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes — that was my intent, and you read it correctly. Also make sure you're setting up the temperature differences correctly for both the radiation and convection portions of the problem.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 82: HVAC: Heat Transfer-21</div>
+                <div class='qa-question'><strong>Q:</strong> Heat Transfer 19 uses the Reynolds/Nusselt approach while problem 21 uses the Rayleigh number — is it because problem 19 is forced convection (dedicated system implies fans) and problem 21 is natural convection (no velocity given)?</div>
+                <div class='qa-answer'><strong>A:</strong> Exactly right — the presence or absence of a specified flow velocity is the tell. Flow velocity given → forced convection → Reynolds number; no velocity given (stationary fluid) → natural convection → Rayleigh number. Good diagnostic reasoning.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 87: HVAC: Heat Transfer-21</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 21 (duct with convection and radiation to the room), wouldn't there also be radiation from the duct to the surrounding air?</div>
+                <div class='qa-answer'><strong>A:</strong> Technically yes, but in practice radiation between a solid and a gas is negligible — convection dominates heat transfer between solid surfaces and fluids. Radiation is a solid-to-solid (or solid-to-enclosure) mechanism for our purposes; don't account for solid-to-gas radiation in these problems.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 21 · Heat-Transfer</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

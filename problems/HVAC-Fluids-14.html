@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 14 | Fluids OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 14</span>
+  <span class="nav-badge">14 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Fluids · Problem 14</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">10,000gal of fuel oil with a speci(f)c gravity of 0.86 is delivered to an hr emergency generator by a 90% e(f)cient pump. The pressure gauge near the pump inlet reads −2.0inHg. The pressure gauge on the discharge side of the pump reads 30psig and is located 10ft above the pump. What is the input power to the pump?</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 1.6hp</div>
+      <div class='choice'><span class='choice-letter'>B</span> 3.2hp</div>
+      <div class='choice'><span class='choice-letter'>C</span> 3.4hp</div>
+      <div class='choice'><span class='choice-letter'>D</span> 3.8hp</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>hr an emergency generator by a 90% eccient pump.</p><p>The pressure gauge near the pump inlet reads −2.0inHg.</p><p>The pressure gauge on the discharge side of the pump reads 30psig and is located 10ft above the pump.</p><p>What is the input power to the pump?</p><p>A. 1.6hp B. 3.2hp C. 3.4hp D. 3.8hp Input power to the pump, bhp i.e. brake hp depends on the hydraulic horsepower of the pump, whp, which can be determined from the volume fow rate, Q, and pressure diaerence, ∆P.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The pump ecciency should also be accounted for: whp bhp= η Q ∆P [gpm] [psi] whp= 1714 Convert the volume fow rate units to gpm:    gal 1hr Q= 10,000 =166.66gpm hr 60min Express the pressure diaerential across the pump as ∆P = P −P .</p><p>Note that P is a local 2 1 1 measurement on the suction side of the pump and only requires unit conversion to psi.</p><p>Lookup measurement relationships to get any necessary conversion factors.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The rule of thumb conversion factor for water 2.31ft may also be used. psi     13.6inH O 1ft 1psi P =−2inHg 2 =−.98psi 1 1inHg 12in 2.31ftH O 2 P has a static pressure measurement via gauge and is at a higher elevation, so a ∆z term must 2 be included to account for the additional pressure associated with the increase in height.</p><p>Note we have neglected velocity on both the suction and discharge side of the pump under the premise that thepipesizeisconstantandthatanydiaerencesinvelocityarenotlikelytobesignifcant.</p><p>Because the fuid being pumped is fuel, we must account for the specifc gravity i.e. sg, when fnding the pressure associated with the column of fuid.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Find P : 2    .86ftH O 1psi P =(30psi)+(10ftfuel) 2 =33.7psi 2 1ftfuel 2.31ftH O 2 Compute ∆P: ∆P =P −P =(33.7psi)−(−.98psi)=34.7psi 2 1 202 Findwhp.</p><p>Notetheformulaisalreadyarrangedtoproducehorsepowerunitsprovidedtheinput units are as shown.</p><p>Therefore, it is n</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: 10,000 gallons per hour of fuel oil with a specific gravity of 0.86 is delivered to an emergency generator by 90% efficient pump.</li><li>Given: 2 inches of mercury; 30 psi g and is located 10 feet above the pump; 10 feet</li><li>Approach: The pressure gauge near the pump inlet reads minus 2 inches of mercury.</li><li>Calc: So we'll call that gauge 1.</li><li>Calc: So we know P1 and then on the discharge side it goes out and goes up some 10 feet.</li><li>Result: So we do have a flow rate we have the 10,000 gallons per hour so Q if we want GPN is going to be 10,000 gallons per hour times one hour over 60 min...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">14</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 16: 2. FLUIDS-14</div>
+                <div class='qa-question'><strong>Q:</strong> Can you solve problem 14 using feet of water throughout, and why do I get the wrong answer (3.5 HP) when I apply specific gravity only at the end?</div>
+                <div class='qa-answer'><strong>A:</strong> You have to commit to one unit system throughout—either convert everything to PSI or work in feet of that specific fluid, but don't mix approaches mid-calculation. Applying specific gravity at the end is only valid if none of the individual Bernoulli terms already account for it. Inconsistency is what causes the double-counting problem here.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 23: Fluids 14</div>
+                <div class='qa-question'><strong>Q:</strong> Every time I apply specific gravity at the end I get the wrong answer—can you solve problem 14 using feet instead of PSI?</div>
+                <div class='qa-answer'><strong>A:</strong> When static pressure is given in PSI and elevation is in feet of a non-water fluid, you must choose one consistent unit system before adding Bernoulli terms. If you work in PSI, convert the oil column using the fluid's actual specific weight (SG × 62.4); the 2.31 rule of thumb is only valid for water. Either path gives the right answer as long as you're consistent throughout.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 32: HVAC_FLUIDS-14-1</div>
+                <div class='qa-question'><strong>Q:</strong> Is it okay to use Q·ΔP/1714 for this non-water fluid problem, even though 1714 is derived from water's specific weight?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes—Q·ΔP/1714 works for any fluid as long as Q is in GPM and ΔP is in PSI, since PSI is PSI regardless of fluid type. The formula Q·ΔH/3960 is water-only; the general form for non-water fluids using head is Q·ΔH·SG/3960. Know which version requires specific gravity and which doesn't.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 32: HVAC_FLUIDS-14-2</div>
+                <div class='qa-question'><strong>Q:</strong> P2 is given in PSIG and I'm adding 14.7 for PSIA conversions—can you find my mistake?</div>
+                <div class='qa-answer'><strong>A:</strong> Find the minimum conversions needed and stay consistent—if working in PSI, don't add atmospheric pressure since it cancels in the delta P subtraction. For the elevation term with a non-water fluid, multiply by SG/2.31 to convert feet of that fluid to PSI, not just 1/2.31. Avoid mixing unit systems mid-calculation.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 46: HVAC: Fluids-14</div>
+                <div class='qa-question'><strong>Q:</strong> P2 is 30 PSIG in the solution and 14.7 wasn't added to convert it—why wasn't atmospheric pressure added?</div>
+                <div class='qa-answer'><strong>A:</strong> Adding 14.7 gives absolute pressure, but since you're finding the difference P2−P1, atmosphere cancels out when both pressures are in gauge units. A reading of −2 inches mercury signals gauge pressure, since negative absolute pressures are physically impossible. Stay consistent in your pressure reference and you don't need to convert to absolute at all.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 50: HVAC: Fluids-14</div>
+                <div class='qa-question'><strong>Q:</strong> Why can you use Q·ΔP/1714 without adjusting for specific gravity, and would the same logic apply to break horsepower?</div>
+                <div class='qa-answer'><strong>A:</strong> Q·ΔP/1714 works for any fluid because delta P is already in PSI—specific gravity is inherently embedded in the pressure value. The Q·ΔH/3960 formula is water-only; for non-water fluids using head in feet, use Q·ΔH·SG/3960. For break horsepower, just divide water horsepower by efficiency—no extra SG is needed once delta P is already in PSI.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 68: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> Fluids 14 used P2−P1 directly while Fluids 21 used separate discharge/suction head terms—why the different approaches?</div>
+                <div class='qa-answer'><strong>A:</strong> Both are equivalent—expanding discharge and suction heads into their Bernoulli components (P/γ + V²/2g + Z) and subtracting gives you the same formula. Choose the approach that fits the given information and verify that different methods reconcile. Specific gravity enters through the γ term when the fluid isn't water.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 71: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> The WHP equation in the handbook says 'only for water,' but the solution uses it for fuel oil without correction—why is this allowed?</div>
+                <div class='qa-answer'><strong>A:</strong> Q·ΔP/1714 works for any fluid because you've already distilled the pressure into PSI, which has nothing to do with water specifically. The 'water only' label belongs to Q·ΔH/3960, where the 3960 constant has water's specific weight baked in. With practice, the distinction becomes instinct.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 75: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> I get 4.6 HP (wrong) when Z2−Z1 is +10 feet, but the correct answer uses −10 feet—can you explain the sign convention?</div>
+                <div class='qa-answer'><strong>A:</strong> The work shows Z1−Z2 on one line (correct and negative), then it's flipped to Z2−Z1 on the next—that changes the signs and is algebraically invalid. For a pump where state 2 is higher than state 1, Z1−Z2 is negative (e.g., −10 ft), and that negative sign matters for the final answer. Commit to one arrangement and carry it through consistently.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 79: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> Could you use W = Q·γ·H/η instead of Q·ΔP/1714 for this fuel oil pump problem?</div>
+                <div class='qa-answer'><strong>A:</strong> W = Q·γ·H is valid in principle, but using it with GPM and feet requires additional unit conversions that aren't automatic—this is why Q·ΔP/1714 is preferred, since it works directly in GPM and PSI for any fluid. Both approaches give the same result; pick the one you can execute reliably under exam conditions.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 87: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> On Fluids 14, where does the 0.86 conversion factor (feet of water to one foot of head) come from based on specific gravity?</div>
+                <div class='qa-answer'><strong>A:</strong> The 0.86 factor comes directly from the specific gravity definition: SG = γ_oil/γ_water, so γ_oil = 0.86 × γ_water. A 10-foot column of oil exerts the same pressure as an 8.6-foot column of water—the denser the fluid, the more pressure per foot of height. It's not a memorized conversion; it's the direct application of the specific gravity definition.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 101: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> The reference handbook BHP formula includes SG in the numerator, but when using delta P in PSI, why wouldn't you include SG?</div>
+                <div class='qa-answer'><strong>A:</strong> Q·ΔH·SG/3960 is the general form for any fluid using head in feet—SG is included because a non-water column exerts different pressure than a water column. Once you convert to PSI and use Q·ΔP/1714, SG is already embedded and should never be added again—that would double-count it. Either include SG in the feet-of-head formula or convert to PSI first; never do both.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 106: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> I converted all terms to feet of water and got 92 feet for ΔH, leading to 4.28 HP—where does it go wrong compared to the correct ~3.32 HP?</div>
+                <div class='qa-answer'><strong>A:</strong> The equation is missing the specific gravity—since the fluid is fuel oil (SG = 0.86), multiplying by 0.86 reduces the answer by ~14% and brings it in line. The preferred approach is to stay in feet of the actual fluid throughout and apply SG once at the end in the water horsepower formula, rather than converting each term to 'feet of water' individually. If you prefer PSI, convert all terms and use Q·ΔP/1714—never mix feet-of-water and feet-of-fluid.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 111: HVAC: Fluids Module #14</div>
+                <div class='qa-question'><strong>Q:</strong> Why is it necessary to add the elevation change to the pump equation—wouldn't the pressure gauge at P2 already account for the elevation loss?</div>
+                <div class='qa-answer'><strong>A:</strong> The gauge at P2 only measures static pressure at that location; the pump still has to do work to raise the fluid against gravity, which the gauge doesn't capture. In Bernoulli, energy added by the pump must account for static pressure difference plus elevation change plus losses—a pump moving fluid higher does more work than one on a flat system, even with identical gauge readings. Think of it as total energy: the pump supplies the difference in static, kinetic, and potential energy combined.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 14 · Fluids</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

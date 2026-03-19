@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 13 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 13</span>
+  <span class="nav-badge">2 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · HVAC · Problem 13</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">1100cfm of air (fl)ows in a 14in round duct. The duct reduces to 12in after a branch takeo(') of 200cfm. Neglecting losses, what is the change in static pressure after the branch takeo(')?</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0.03inwgdecrease</div>
+      <div class='choice'><span class='choice-letter'>B</span> 0.02inwgdecrease</div>
+      <div class='choice'><span class='choice-letter'>C</span> 0.02inwgincrease</div>
+      <div class='choice'><span class='choice-letter'>D</span> 0.03inwgincrease</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>12in after a branch takeoa of 200cfm.</p><p>Neglecting losses, what is the change in static pressure after the branch takeoa?</p><p>A. 0.03inwgdecrease B. 0.02inwgdecrease C. 0.02inwgincrease D. 0.03inwgincrease</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Using the Reference Handbook chapter on Duct Design, use the equation for total pressure: p =p +p t s v where p is total pressure, p is static pressure, and p is velocity pressure.</p><p>For a small branch t s v takeoa, the total pressure before and after the branch will remain unchanged.</p><p>However, due to the reduction in area, some static pressure will be converted to velocity pressure (by design).</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Set the total pressure before and after the branch takeoa equal, and refer to them as a sections 1 and 2, respectively: p =p t,1 t,2 p +p =p +p s,1 v,1 s,2 v,2 ∆p =p −p =p −p s s,2 s,1 v,1 v,2 Thisisanexpressionforthechangeinstaticpressurewhichdependsuponthechangeinvelocity pressure.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The velocity pressure may be expressed in two ways:  V 2  V 2 p =ρ = v 1097 4005 where V is the velocity in ft .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Calculate the velocity before and after the branch takeoa: min Q Q=VA→V = A   1100ft3 V = Q 1 = min =1029 ft 1 A 1 π 14ft 2 min 4 12   900ft3 V = Q 2 = min =1146 ft 2 A 2 π (1ft)2 min 4 Substitute and solve for the change in static pressure: 287  V 2  V 2 ∆p =p −p = 1 − 2 s v,1 v,2 4005 4005  1029 2  1146 2 ∆p = − =−.016inwg s 4005 4005 The negative value implies the static pressure is decreasing.</p><p>As a sense check, an increase in velocity pressure would arise from a decrease in static pressure.</p><p>Answer B 288</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: HVAC 13, 1100 CFM of air flows in a 14 inch round duct.</li><li>Given: 1100 CFM of air flows in a 14 inch round duct; 200 CFM; 1100 CFM and it's a 14 inch round duct</li><li>Approach: The duct reduces the 12 ventures after a branch takeoff of 200 CFM.</li><li>Calc: We have a duct with 1100 CFM and it's a 14 inch round duct.</li><li>Calc: So here's our 1100 CFM and we'll call this state one.</li><li>Result: So this is closest to minus 0.02 so 0.02 inches of water decrease.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">2</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 97: HVAC: HVAC-13</div>
+                <div class='qa-question'><strong>Q:</strong> In HVAC-13 (duct branch takeoff), why can you assume that the total pressures are equal at the branch junction?</div>
+                <div class='qa-answer'><strong>A:</strong> This is a direct application of conservation of energy — at a duct branch junction, the total pressure is the same regardless of which path you take, because energy must balance at the split. Think of it like Bernoulli: the total pressure can't just appear or disappear at the junction.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 98: HVAC: HVAC-13</div>
+                <div class='qa-question'><strong>Q:</strong> In HVAC-13, are velocity pressure and static pressure inversely related — the velocity pressure increases at the branch, so does static pressure decrease?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, inversely related: total pressure = static pressure + velocity pressure, so if velocity pressure increases, static pressure must decrease to keep total pressure constant. That's exactly what's happening at the branch takeoff — flow accelerates into the branch, trading static pressure for velocity pressure.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 13 · HVAC</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

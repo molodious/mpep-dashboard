@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 21 | Fluids OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 21</span>
+  <span class="nav-badge">6 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Fluids · Problem 21</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">A viscous liquid with a speci(f)c gravity of 1.1 is pumped with a volume (fl)ow rate of 100gpm. The suction pressure measured at the inlet of the pump is 5psi of vacuum. The discharge pressure mea- sured 3ft above the pump outlet is 10psig. The diameter of the piping reduces from 4in on the suction side to 2in on the discharge side. The pump has a mechanical e(f)ciency of 80%. What is the input power to the pump?</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 3/4hp</div>
+      <div class='choice'><span class='choice-letter'>B</span> 1hp</div>
+      <div class='choice'><span class='choice-letter'>C</span> 11/4hp</div>
+      <div class='choice'><span class='choice-letter'>D</span> 11/2hp</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>volume fow rate of 100gpm.</p><p>The suction pressure measured at the inlet of the pump is 5psi of vacuum.</p><p>The discharge pressure measured 3ft above the pump outlet is 10psig.</p><p>The diameter of the piping reduces from 4in on the suction side to 2in on the discharge side.</p><p>The pump has a mechanical ecciency of 80%.</p><p>What is the input power to the pump?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 3/4hp B. 1hp C. 11/4hp D. 11/2hp AusefulandcommonformoftheBernoulliEquationcanbeappliedforpumpingapplicationssuch as this.</p><p>A term is added to the original Bernoulli Equation, h , to refect the head pressure added A by the pump.</p><p>Isolate h and collect like terms.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A P v2 P v2 1 + 1 +z = 2 + 2 +z +h +h γ 2g 1 γ 2g 2 f A P −P v2−v2 h = 2 1 + 2 1 +z −z +h A γ 2g 2 1 f First consider the diaerence in static pressure.</p><p>The suction pressure measured at the pump inlet is 5psi of vacuum.</p><p>A vacuum pressure is implied to be gauge pressure as it is not possible to pull a vacuum more than atmospheric pressure.</p><p>The discharge pressure is 10psig.</p><p>Ignore the 3ft elevation for the time being; this will be accounted for when analyzing the ∆z term.</p><p>Note the specifc weight of the viscous liquid is 1.1 times the specifc weight of water.</p><p>See specifc gravity, sg, in the reference handbook.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert square inches to square feet to ultimately obtain units of ft (of viscous liquid).   (10psi−(−5psi)) 144in2 P 2 −P 1 = 1ft2 =31.47ft   γ 62.4lbf (1.1) ft3 Althoughthevelocitytermisoftenignored,inthiscasethedischargepipingdiameterisreduced with respect to the suction side piping; therefore the velocity will increase for a given volume fow rate.</p><p>To be safe, include the velocity term in the solution.</p><p>Use the steel pipe friction tables to obtain the actual diameter and velocity where possible.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>D =4in(nominal) 1 Q =100gpm 1 ft v =2.52 1 s 208 Since the table in the reference handbook stops at 50gpm for a nominal 2in diameter pipe, the velocitymustbecalculatedusingQ=vA.</p><p>Aruleoft</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: A viscous liquid with a specific gravity of 1.1 is pumped with a volume flow rate of 100gpn.</li><li>Given: 5 psi vacuum; 3 feet above the pump outlet is 10 psi g; 4 inches on the suction side to 2 inches on the discharge side</li><li>Approach: Let's start with a picture to keep everything organized.</li><li>Calc: The diameter of the piping reduces from 4 inches on the suction side to 2 inches on the discharge side.</li><li>Calc: The pump has a mechanical efficiency of 80%.</li><li>Result: We have two situations one where the diameter is 2-inch nominal this is on the discharge side and if we go to the actual table the diameter is 2.07...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">6</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 16: 3. FLUIDS-21</div>
+                <div class='qa-question'><strong>Q:</strong> When dealing with non-water fluids in the water horsepower formula, should I calculate delta H as if the fluid is water to avoid double-counting specific gravity at the end?</div>
+                <div class='qa-answer'><strong>A:</strong> The key decision is to commit to one approach at the start: either do everything in PSI using Q·ΔP/1714 (no SG needed), or work entirely in feet of the actual fluid and include SG once in the Q·ΔH·SG/3960 formula. If static pressure is given in PSI and elevation in feet, you need to convert to a common unit before mixing terms. Double-counting happens when SG sneaks into both the head calculation and the WHP formula—pick one place for it.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 32: HVAC_FLUIDS-21</div>
+                <div class='qa-question'><strong>Q:</strong> Is double-counting of specific gravity actually occurring in problem 21, or does it cancel out as your colleague suggested?</div>
+                <div class='qa-answer'><strong>A:</strong> It does correct itself for the exact reason described: including SG in the modified Bernoulli equation puts head in feet of the viscous liquid, and including it in the WHP formula corrects for the water-based 3960 constant. Both uses are valid and serve different purposes, so they don't double-count—they're each doing independent work. The approach works as long as you're consistent about what each SG term is correcting.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 77: HVAC: Fluids #21</div>
+                <div class='qa-question'><strong>Q:</strong> When removing specific gravity from the delta P term, I get a delta H of 34.6 feet of water and a BHP greater than 1.4 HP—why does the video say the term gets smaller?</div>
+                <div class='qa-answer'><strong>A:</strong> Everything you said is exactly right—removing SG from the pressure term makes it larger, not smaller, because water is less dense than a fluid with SG = 1.1. There's a clarification posted below the solution video correcting this error. The correct answer is D, not the C circled in the video.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 83: HVAC: Fluids Module #21</div>
+                <div class='qa-question'><strong>Q:</strong> The problem doesn't state the pipe material—can we assume schedule 40 steel, and could using the nominal diameter instead of actual diameter affect the answer?</div>
+                <div class='qa-answer'><strong>A:</strong> You're right to question the assumption—the problem should have specified the material, and that's a flaw in the problem statement. For larger pipes (say, 8 inches or more), nominal and actual diameters are very close and the difference is negligible; for smaller pipes, the percentage difference gets squared when converting diameter to area, so it can matter significantly. Hopefully the exam will be clearer about pipe material, but be more careful with small pipes.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 96: HVAC: Fluids Module #21</div>
+                <div class='qa-question'><strong>Q:</strong> Why don't you apply the specific gravity correction to the 3-foot elevation term as you did in Fluids 14, and why is SG factored into the pressure differential but not the height?</div>
+                <div class='qa-answer'><strong>A:</strong> This is a correction to the original solution—there was an error where SG was included in the pressure term but not in the velocity or elevation terms, which is inconsistent. The right approach is either include SG in all Bernoulli terms (pressure, velocity, elevation) and not in the final WHP formula, or exclude it from Bernoulli entirely and include it once in the WHP formula. Mixing approaches—counting SG in some terms but not others—is a very common mistake.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 111: HVAC: Fluids Module #21</div>
+                <div class='qa-question'><strong>Q:</strong> Why isn't it necessary to apply specific gravity to the static pressure difference given in PSI, and does this mean the original video solution was correct after all?</div>
+                <div class='qa-answer'><strong>A:</strong> The pressure in PSI already stands on its own; when converting it to feet of fluid, divide by (SG × 2.31)—not just 2.31—to get feet of the actual viscous fluid rather than feet of water. Working through it carefully, the correct head added by the pump is ~35.8 feet of the viscous fluid, yielding ~1.24 HP, which is answer choice C—so the original solution was right and a later correction was incorrectly applied. Going forward, chart your course early and be consistent, whether you work in PSI or in feet of fluid.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 21 · Fluids</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

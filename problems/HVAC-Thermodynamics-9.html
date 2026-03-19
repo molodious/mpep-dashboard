@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 9 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 9</span>
+  <span class="nav-badge">7 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Thermodynamics · Problem 9</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">Atmospheric air at 77◦F undergoes isentropic compression to 100psia and 470◦F. How much work is done to the system during the process? lb lb lb lb</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0.5Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 70Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 90Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 50,000Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>and 470◦F.</p><p>How much work is done to the system during the pro- cess?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 0.5Btu lb B. 70Btu lb C. 90Btu lb D. 50,000Btu lb ForanIsentropicProcess, thereare(atleast)twoformulasthatmaybeusedtofndtheworkdone from one state to another, which can be shown to be equivalent: P v −P v w = 2 2 1 1 1−k R(T −T ) w = 2 1 1−k</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Using the ideal gas law and solving for specifc volume: RT PV =mRT →Pv =RT →v = P Substitute for specifc volume in the frst formula and cancel pressure:     w = P 2 R P T 2 2 −P 1 R P T 1 1 = R(T 2 −T 1 ) 1−k 1−k For convenience, use the second equation which is a function of temperature only: 170   w = R(T 2 −T 1 ) = 53.35 l f b t m ·l · b R f [470◦F −77◦F] = −52,416f l t b · m lbf =−67 Btu 1−k 1−1.4 778ft·lbf lb m Btu NormallyitwouldberequiredtochangeFarenheittoRankine;however,sinceitisatemperature diaerence, the delta is unchanged.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note the unit conversion from ft·lb to Btu. f Finally, note the negative sign of the answer which aligns with the question’s implication that work is being done to the system.</p><p>A positive value would be expected if work were being done by the system.</p><p>Answer B</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: atmospheric air at 77 degrees, undergoes ice and tropical compression to 100 PSIA and 470 degrees Fahrenheit.</li><li>Given: 100 PSIA and 470 degrees Fahrenheit; 14.7 PSI and the temperature is 77 degrees Fahrenheit; 100 PSI and and the tempe...</li><li>Approach: As a couple of formulas we could use here for finding the work that's done during this process and I searched ideal gas and hit...</li><li>Calc: We have state one, where we know the pressure is atmospheric, so 14.7 PSI and the temperature is 77 degrees Fahrenheit.</li><li>Calc: Then we have state two after the ice and tropical compression, we have P2 which is 100 PSI and and the temperature is now 470 a...</li><li>Result: Unfortunately the word is phrase that way it says what's the work done to the system so we can just ignore the fact that it's negative and pick the...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">7</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 115: HVAC: Thermo #9</div>
+                <div class='qa-question'><strong>Q:</strong> Is it safe to assume K equals 1.4 for air even when pressure and temperature change from standard conditions?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, you can safely use K = 1.4 for air across a wide range of conditions. It only breaks down at very high temperatures where it gradually shifts to values like 1.39 or 1.38—it's a gentle change, not a cliff. For most PE exam problems, unless specifically asked to calculate K from Cp/Cv, just use 1.4 and it will work great.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 32: HVAC_THERMO-9</div>
+                <div class='qa-question'><strong>Q:</strong> How do you convert foot pound force per pound mass rankine to BTU per pound in the specific gas constant formula (R × ΔT) / (1 - k)?</div>
+                <div class='qa-answer'><strong>A:</strong> Start with the specific gas constant R in units of ft·lbf/(lbm·°R) from the reference handbook, multiply by ΔT in rankine, divide by the unitless ratio (1 - k), then apply the conversion factor 1 BTU = 778 ft·lbf to get your final answer in BTU/lbm.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 53: HVAC: Thermo #9</div>
+                <div class='qa-question'><strong>Q:</strong> Why is the K value (ratio of specific heats) assumed to be constant at 1.4 for atmospheric conditions in the isentropic compression problem, when K should theoretically change with temperature?</div>
+                <div class='qa-answer'><strong>A:</strong> K does vary with temperature for air, but the degree of variation is the key question—this is about knowing when assumptions are acceptable versus when precision is necessary. The PE exam rewards this kind of interrogation of assumptions, and 1.4 is a reasonable constant approximation for typical atmospheric conditions in this problem.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 78: HVAC: Thermo Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> In the isentropic process problem, how did you determine it was an open system with no PE or KE change?</div>
+                <div class='qa-answer'><strong>A:</strong> That problem is actually a closed system—there's no mass flow rate mentioned, so nothing crosses the system boundary. For closed systems, changes in PE and KE are both zero, which simplifies the analysis. Check the written and video solutions again to confirm we're working with the same problem.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 89: HVAC: Thermo Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> I used the WUQL CV Delta T formula as a shortcut and got within 0.29 of your answer—is this an acceptable alternate method or did I just get lucky?</div>
+                <div class='qa-answer'><strong>A:</strong> Your approach works because you're assuming constant volume specific heat capacity, which is a valid assumption; you came very close to the answer, so the method is sound. However, know both approaches well so you're not caught off guard on the exam—having multiple solution paths makes you more flexible and prepared.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 92: HVAC: Thermo Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> Are the HVAC heat gain rules of thumb in the NC handbook something we need to memorize?</div>
+                <div class='qa-answer'><strong>A:</strong> They're in the reference handbook, and you'll naturally memorize them through repeated use—not by forced memorization. Search 'heat gain calculations' in the handbook to find them: use the rule of thumb equations (1.1×q×ΔT for sensible, 0.68×q×ΔW for latent, and 500×Q×ΔT for water systems) which are much faster than deriving from q=ṁcₚΔT.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 106: HVAC: Thermo Module #9</div>
+                <div class='qa-question'><strong>Q:</strong> Why do we use the closed system work equation instead of open system for isentropic compression?</div>
+                <div class='qa-answer'><strong>A:</strong> The key is the problem wording: 'air undergoes compression' suggests a fixed mass (like a piston-cylinder), while 'a compressor compresses air' indicates a flow device requiring open system analysis. If there's no specific mention of a flow device, assume closed system with only work crossing the boundary; if a flow device is explicitly referenced, use open system.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 9 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

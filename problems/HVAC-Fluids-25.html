@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 25 | Fluids OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 25</span>
+  <span class="nav-badge">8 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Fluids · Problem 25</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">A 40gpm cold water booster pump is located 15ft below the top of a storage tank held at atmospheric pressure from which water is supplied. The suction piping is made up of 50ft equivalent length of 2in schedule 40 steel. The stored water is never warmer than 60◦F. What is the net positive suction head available? 30</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0ft</div>
+      <div class='choice'><span class='choice-letter'>B</span> 16ft</div>
+      <div class='choice'><span class='choice-letter'>C</span> 28ft</div>
+      <div class='choice'><span class='choice-letter'>D</span> 46ft</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>a storage tank held at atmospheric pressure from which water is supplied.</p><p>The suction piping is made up of 50ft equivalent length of 2in schedule 40 steel.</p><p>The stored water is never warmer than 60◦F.</p><p>What is the net positive suction head available?</p><p>A. 0ft B. 16ft C. 28ft D. 46ft</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Start by looking up net positive suction head available in the Reference Handbook and stating the formula: NPSH =h +h −h −h A p z vpa f where h is the atmospheric pressure at the source reservoir surface, h is the height of the p z fuid column on the suction inlet, h is the vapor pressure at the temperature of the fuid, and vpa h is the friction loss from the fuid source to the pump inlet.</p><p>Note this formula is best suited for f design purposes.</p><p>After a system is installed and ftted with gauges and sensors, it may be suitable to use the existing conditions formula instead.</p><p>In this case, there is no known pressure gauge on thesuctionside, thereforethebestformulaistheoneselected.</p><p>Forconsistency, alltermsshouldbe converted to units of ft.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert h to units of ft using the rule of thumb conversion factor for water 2.31ft. p psi   ft h =14.7psi 2.31 =33.96ft p psi Sincethepumpislocatedbelowthetopofthestoragetank,h hasapositivevalue.</p><p>Thecolumn z of fuid exerts pressure on the pump inlet.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note that if the pump were placed above the source, this term would be subtracted. h =15ft z Look up the saturation pressure of water at 60◦F by searching properties of saturated water and using the steam table organized by temperature.</p><p>The vapor pressure reduces the NPSH , A thus is it subtracted in the formula.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert units from psi to ft:   ft h =.26psi 2.31 =.6ft vpa@T=60◦F psi For the losses, write the Darcy Equation, fnd the kinematic viscosity by looking up Properties ofWater,fndthediameterandvelocityintheSteelPipeFrictionTables,anddeterminethefriction factorfromtheMoodyDiagram.</p><p>Theequivalentlengthofpipingfromthesourcetothepum</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: A 40GPM cold water booster pump is located 15 feet below the top of a storage tank held at atmospheric pressure from which water is supplied.</li><li>Given: 40GPM cold water booster pump is located 15 feet below the top of a storage tank held at atmospheric pressure from wh...</li><li>Approach: The suction piping is made up of 50 feet equivalent length of 2 inch schedule 40 steel.</li><li>Key formula: formula for that which we'll use in this problem</li><li>Calc: We have a tank of water and in that tank we have 60 degree water.</li><li>Calc: So, when it says it's never warmer than 60 degrees, we can just assume it's 60 degrees and that's the worst case scenario.</li><li>Result: So the best one is D.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">8</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 21: OH21-2-FLUIDS-25</div>
+                <div class='qa-question'><strong>Q:</strong> Is it okay to use the 'design version' of the NPSHA formula from the reference handbook for this problem, which differs slightly from the one in the solution?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes—the design version leads to the same answer for this problem, so it's a valid approach. Both versions are ultimately the same thing expressed slightly differently. For exam purposes, the written solution (not the video) is the most current and accurate reference.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 25: HVAC Fluids 25</div>
+                <div class='qa-question'><strong>Q:</strong> I've only found part of the NPSHA equation used in the solution inside the reference handbook—is the solution equation correct?</div>
+                <div class='qa-answer'><strong>A:</strong> Please refer to the written solution rather than the solution video for this one—the written solution was updated to align with the reference handbook and is accurate. The video may reference an older formula from a different source, and I wouldn't re-record the whole video just for that change. The written solution has exactly the right setup.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 42: HVAC: Fluids-25</div>
+                <div class='qa-question'><strong>Q:</strong> The equation used in the solution looks different from the one in the reference manual—is the solution correct, and does it account for HF?</div>
+                <div class='qa-answer'><strong>A:</strong> The video used an older version of the NPSHA formula; the written solution has been updated to match the reference handbook and is what you should follow. Both versions reconcile to the same answer for this particular problem. If in doubt, always use the version of the formula in the reference handbook since that's what will be available on the exam.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 63: HVAC: Fluids Module #25</div>
+                <div class='qa-question'><strong>Q:</strong> The solution video includes a V²/2g term in the NPSHA formula that the reference handbook doesn't show—what is its importance, and when do you use the existing conditions equation versus the standard NPSHA equation?</div>
+                <div class='qa-answer'><strong>A:</strong> There are two NPSHA equations in the reference handbook: the design (theoretical) version and the existing conditions version. The design version is used when you haven't built the system yet and you're computing what the suction head should be; the existing conditions version is used when the system already exists and you're checking whether cavitation will occur. For this problem, the existing conditions formula is the right one.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 71: HVAC: Fluids Module #25</div>
+                <div class='qa-question'><strong>Q:</strong> When solving an NPSHA question, should I automatically think about conditions occurring before (upstream of) the pump?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes—NPSHA is Net Positive Suction Head Available, meaning it's entirely about the suction side (upstream) of the pump. You need a certain column of fluid sitting on the pump's suction inlet at all times to prevent cavitation. Physical elevation, inlet pressure, and vapor pressure all factor into what's 'available' before the pump.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 76: HVAC: Fluids Module #25</div>
+                <div class='qa-question'><strong>Q:</strong> How did you get the NPSHA formula in the video when the reference handbook doesn't have all the same terms?</div>
+                <div class='qa-answer'><strong>A:</strong> The video formula came from an older reference, which is an error—the reference handbook version is what you should use on the exam. Going term by term, both formulas reconcile to the same physical meaning, just expressed slightly differently. Use the reference handbook formula as your guide and verify each term represents a physical quantity you understand.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 104: HVAC: Fluids Module #25</div>
+                <div class='qa-question'><strong>Q:</strong> Why do we use the NPSHA (existing conditions) equation instead of the standard NPSHA design equation for this problem?</div>
+                <div class='qa-answer'><strong>A:</strong> The existing conditions equation is used when the system is already built and you're checking whether cavitation will occur under actual operating conditions. The design version is used when you're designing a new system and specifying the required suction head. This problem presents a built system and asks whether conditions are safe—so the existing conditions formula applies.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 111: HVAC: Fluids Module #25</div>
+                <div class='qa-question'><strong>Q:</strong> Can you clarify the use cases between the standard NPSHA equation and the existing conditions equation in the reference manual?</div>
+                <div class='qa-answer'><strong>A:</strong> The design (theoretical) NPSHA equation is used when you're designing a system from scratch and need to establish what the suction head must be to avoid cavitation. The existing conditions equation is used when the system is already in place and you're verifying whether the available suction head is sufficient given the actual operating conditions. As a shortcut: if the problem says 'existing system' or gives you real operating data, reach for the existing conditions version.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 25 · Fluids</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

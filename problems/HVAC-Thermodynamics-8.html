@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 8 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 8</span>
+  <span class="nav-badge">8 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Thermodynamics · Problem 8</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">A chiller plant producing a low chilled water supply temperature of 40◦F uses a glycol/water mixture of 30% glycol by volume. At 40◦F, glycol has a speci(f)c heat capacity of 0.56 Btu and a speci(f)c gravity lbm ◦F of 1.15. What is the speci(f)c heat capacity of the mixture? lbm◦F lbm◦F lbm◦F lbm◦F</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0.86 Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 0.87 Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 0.88 Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 0.89 Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: A</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>of 40◦F uses a glycol/water mixture of 30% glycol by volume.</p><p>At 40◦F, glycol has a specifc heat capacity of 0.56 Btu and a specifc lbm ◦F gravity of 1.15.</p><p>What is the specifc heat capacity of the mixture?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 0.86 Btu lbm◦F B. 0.87 Btu lbm◦F C. 0.88 Btu lbm◦F D. 0.89 Btu lbm◦F The glycol/water mixture is defned as being 30% glycol by volume, but the specifc heat capacity of the mixture will be a function of the relative mass of glycol and water, not the volume.</p><p>Assume an arbitrary volume of 100ft3 of the mixture, comprised of 30ft3 of glycol and 70ft3 of water.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Find the mass of water:   m =ρ V = 62.4 lb m  70ft3 =4368lb water water water ft3 m Find the mass of glycol, by frst determining the density of glycol using the specifc gravity. 169   ρ lb lb SG= →ρ =ρ SG = 62.4 m (1.15)=71.76 m ρ glycol water glycol ft3 ft3 water   m =ρ V = 71.76 lb m  30ft3 =2153lb glycol glycol glycol ft3 m Perform a mixing calculation for the specifc heat capacity as a function of the relative mass of glycol and water: c m +c m c = p,glycol glycol p,water water p,mixture m +m glycol water     .56 Btu (2153lb )+ 1 Btu (4368lb ) c = lbm·◦F m lbm·◦F m =.855 Btu p,mixture 2153lb +4368lb lb ·◦F m m m Answer A</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Thermo 8, a chiller plant producing a low chilled water supply temperature 40 degrees uses a glycol water mixture of 30% glycol by volume.</li><li>Given: 0.56 BTU per pound degree Fahrenheit and a specific gravity of 1; 62.4 pounds per cubic foot times 1; 71.76 pounds pe...</li><li>Approach: At 40 degrees, glycol has a specific heat capacity of 0.56 BTU per pound degree Fahrenheit and a specific gravity of 1.15.</li><li>Calc: It's 30% glycol by volume.</li><li>Calc: And we could sort of break that up 7030.</li><li>Result: Which is closest to answer choice A in the answer grouping is very close.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">8</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 15: Thermo 8</div>
+                <div class='qa-question'><strong>Q:</strong> In the water-glycol specific heat problem, how do you know to use a mass-weighted average rather than a volume-weighted one, since it's not in the practice manual? Are there other mass vs. volume weighted properties worth memorizing?</div>
+                <div class='qa-answer'><strong>A:</strong> Don't memorize this — understand it: density is mass over volume, and since mass stays constant while volume can vary slightly with temperature, specific heat capacity should logically be tied to mass, not volume. If Cp were volume-based, the performance of the mixture would unpredictably shift as conditions change, which wouldn't make physical sense. I intentionally made the answer choices close together to force this distinction, and you'll keep bumping into traps like this throughout the program — better here than on exam day.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 18: OH18-1-THERMO-8</div>
+                <div class='qa-question'><strong>Q:</strong> Do we have to use mass because the density of the two fluids is different? I originally solved it using just the specific heat and volume fractions.</div>
+                <div class='qa-answer'><strong>A:</strong> Yes — multiply density by volume to get the mass of each substance, then do the mixing calculation using those masses rather than volumes. Glycol has higher density but lower Cp, so it drags down the blended specific heat capacity by more than its volume fraction alone would suggest. That's exactly why you always want to use the minimum amount of glycol necessary — just enough to prevent freezing, nothing more.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 115: HVAC: Thermo #8</div>
+                <div class='qa-question'><strong>Q:</strong> You used density at standard conditions for water to find glycol's density via specific gravity — using that same logic, why can't we just use Cp of water = 1 at standard conditions and average the Cp values directly to find the mixture Cp?</div>
+                <div class='qa-answer'><strong>A:</strong> The Cp values themselves (0.56 and 1.0) are fine — the problem is the mixing weights of 0.7 and 0.3, which are volume fractions, not mass fractions. Since density equals mass over volume, we have to convert those volumes to masses using the respective densities before we can mix. Once you have the masses, the formulation is the same weighted-average idea, just with mass-based fractions instead of volume fractions.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 35: HVAC: Thermo-8</div>
+                <div class='qa-question'><strong>Q:</strong> There's a chart in the PE manual with glycol percentages that lets me get the answer faster — does the step-by-step solution have underlying theory that's important to learn, or is the shortcut acceptable on the exam?</div>
+                <div class='qa-answer'><strong>A:</strong> Great job finding that shortcut — use it, it's valid — but yes, the underlying concept absolutely matters: specific heat capacity of a mixture must be weighted by mass, not volume, and the answer choices are intentionally close together to catch anyone who uses volume mixing. The full analytical approach is honestly only a ~3-minute problem, so don't be so eager for shortcuts that you skip internalizing something this straightforward. Everything in this program is carefully curated — if something seems tricky, it's because I've seen that exact trap show up on the real exam.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 60: HVAC: Thermo #8</div>
+                <div class='qa-question'><strong>Q:</strong> Why aren't the reference handbook tables (pages 246–247) for glycol density and specific heat used in the solution — why calculate density and be given Cp rather than pulling both directly from the tables?</div>
+                <div class='qa-answer'><strong>A:</strong> You absolutely can use those tables — the reason the solution doesn't is simply that they weren't in earlier versions of the reference handbook, so the problem was built around the analytical approach. There's also a practical nuance: there are separate tables for ethylene glycol and propylene glycol, and if the problem doesn't specify which type, you can't confidently select the right table. Know both methods — use the table when you have enough information to pick the right one, and fall back to the analytical approach otherwise.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 85: HVAC: Thermo #8</div>
+                <div class='qa-question'><strong>Q:</strong> For this 30%-glycol-by-volume mixture problem, can we use the specific heat of aqueous solutions of propylene glycol table from the reference handbook?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes — that table was added to the reference handbook after this problem was originally written, and for 30, 40, or 50% by volume mixtures the values should reconcile with the analytical solution. You should know both methods: if the percentage isn't in the table you can interpolate (or even extrapolate a bit), but the mass-weighted analytical approach always works regardless. Good to have both tools in your toolkit.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 92: HVAC: Thermo Module #8</div>
+                <div class='qa-question'><strong>Q:</strong> Where can we find the Cp mixture equation in the reference handbook?</div>
+                <div class='qa-answer'><strong>A:</strong> There's no specific formula for this in the handbook — it's a concept: specific heat capacity of a mixture is always mass-weighted, not volume-weighted, and that holds true whether you have two constituents or five. The formula is just the sum of (mass × Cp) for each component divided by the total mass. More broadly, try to let go of plug-and-chug thinking and instead extract the general idea from each problem — that mindset will serve you well long past the PE exam.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 101: HVAC: Thermo Module #8</div>
+                <div class='qa-question'><strong>Q:</strong> Can we use the 'specific heat of aqueous solutions of ethylene glycol' table in the handbook to find the answer? It gives a slightly different value than the solution but still leads to the right answer choice in fewer steps.</div>
+                <div class='qa-answer'><strong>A:</strong> Absolutely — that table didn't exist when this problem was written, which is why the solution doesn't use it, but you're completely welcome to use it. The slight deviation between the table value and the written solution is a small, tolerable error that still lands you on the correct answer choice. Use whatever valid approach gets you there efficiently.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 8 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

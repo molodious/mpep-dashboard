@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 3 | Fluids OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 3</span>
+  <span class="nav-badge">8 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Fluids · Problem 3</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">900gpm of water (fl)ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe?</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 0.1ft</div>
+      <div class='choice'><span class='choice-letter'>B</span> 0.2ft</div>
+      <div class='choice'><span class='choice-letter'>C</span> 1.2ft</div>
+      <div class='choice'><span class='choice-letter'>D</span> 1.4ft</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>of 0.0004 and a Reynolds number of 400,000.</p><p>What is the pressure loss per hundred feet of pipe?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 0.1ft B. 0.2ft C. 1.2ft D. 1.4ft Pressure loss can be calculated using the Darcy equation: fLv2 h = f 2Dg where f is the friction factor, L is the length of pipe, v is the velocity, D is the inside diameter, and g is acceleration due to gravity.</p><p>Start by looking up the diameter for a nominal 8 inch pipe in the reference handbook using the steel pipe friction tables.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>For convenience, convert from inches to feet: 7.981in D = =.6651ft 12in ft The velocity may also be looked up from the same table for a given GPM and pipe size.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>If the fow or size are non-standard, it may be necessary to calculate the velocity using v = Q, but that A is not required in this case. ft v =5.77 s Use the Moody Diagram to look up the friction factor which is a function of the Reynolds number, Re, and the relative roughness, ε.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Both the Reynolds number and relative roughness D were given.  ε  f =f Re, ≈.0175 D Substitute into the Darcy Equation and solve for the friction loss:  2 fLv2 (.0175)(100ft) 5.77f s t h = = =1.36ft f 2Dg 2(.6651ft)  32.2ft  s2 Answer D 188</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Fluids 3, 900GPM of water flows through an 8-inch pipe with a relative roughness of 0.004 and a Reynolds number of 400,000.</li><li>Given: 900GPM of water flows through an 8-inch pipe with a relative roughness of 0; 100 feet of pipe? So when it comes to pr...</li><li>Approach: So when it comes to pressure loss, there is a very commonly used equation, which you've probably heard of, and that's the Darcy...</li><li>Calc: So let's start by writing that down, and eventually you won't need to look this up because you'll be using it many, many times,...</li><li>Calc: We know we have an 8-inch pipe, but that's a nominal value.</li><li>Result: And the closest choice is deep.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">8</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 21: OH21-1-FLUIDS-3</div>
+                <div class='qa-question'><strong>Q:</strong> How did you know to use the steel pipe table to find values when the problem didn't explicitly state it was steel pipe?</div>
+                <div class='qa-answer'><strong>A:</strong> Steel pipe is so common in fluids problems that it's assumed by default—if the problem doesn't specifically say otherwise, assume steel pipe. For larger pipes (8+ inches diameter), the difference between exact table values and approximations is often negligible, so you can use judgment about when to prioritize speed versus precision.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 39: HVAC: Fluids-3</div>
+                <div class='qa-question'><strong>Q:</strong> How did you know to use standard steel pipe with a nominal 8-inch diameter when the problem didn't specify the material or whether 8 inches was nominal or actual?</div>
+                <div class='qa-answer'><strong>A:</strong> The problem was ambiguous, but for larger pipes (6 inches and up), the difference between nominal and actual diameter is negligible—in this case it only ranged from 1.34 to 1.36 feet. The safest assumption is nominal pipe size unless stated otherwise, and you can always solve both ways if uncertain to verify the answers are close enough.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 65: HVAC: Fluids Module #3</div>
+                <div class='qa-question'><strong>Q:</strong> Why do we assume the pipe is steel if the problem doesn't explicitly state that?</div>
+                <div class='qa-answer'><strong>A:</strong> Steel pipes with water flow are a very common assumption when information is insufficient, but more importantly, we only use steel pipe friction tables to find the inside diameter—the material assumption isn't critical because we determine the friction factor using the Moody diagram and relative roughness. You're probably overthinking it; without some assumptions about pipe schedule or material, you couldn't move forward at all.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 66: HVAC: Fluids Module #3</div>
+                <div class='qa-question'><strong>Q:</strong> Is the friction factor in the Fluids 3 problem incorrect? The solution uses 0.0175 at Re = 4 million, but shouldn't it be 0.0225 at Re = 400,000 with relative roughness 0.004?</div>
+                <div class='qa-answer'><strong>A:</strong> The solution is correct—the confusion is about reading the logarithmic horizontal axis on the Moody diagram. Re = 400,000 falls between 10^5 and 10^6 (not at 4×10^5), and using that location with the relative roughness curve gives the correct friction factor of 0.0175. Be careful with logarithmic scales; they're nonlinear and easy to misread.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 86: HVAC: Fluids Module #3</div>
+                <div class='qa-question'><strong>Q:</strong> I got a friction factor of 0.016 from the Moody diagram compared to your 0.0175, which gave me a pressure loss of 1.23 feet instead of 1.36 feet—should the answer be 1.2?</div>
+                <div class='qa-answer'><strong>A:</strong> Small differences reading the Moody chart graphically are normal; I verified with a calculator that the precise value is 0.0172, so you're close. Aim for 0.017–0.018 on the exam, and don't worry too much—the answer choices might just be tight together, but if you want to tighten up your reading technique, that's the target to shoot for.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 103: HVAC: Fluids Module #3-A</div>
+                <div class='qa-question'><strong>Q:</strong> If the pipe material isn't specified in a problem, is it safe to assume the pipe is steel?</div>
+                <div class='qa-answer'><strong>A:</strong> The material should always be given—if it's not, that's a problem with the question. You shouldn't have to guess because different materials like PVC and steel behave very differently and will give dramatically different results. Only assume steel as a last resort if you're forced to, but ideally you'd never be in that position.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 103: HVAC: Fluids Module #3-B</div>
+                <div class='qa-question'><strong>Q:</strong> Do you use the relative roughness line to read the friction factor where it intersects with the Reynolds number on the Moody chart?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes. The friction factor depends on two inputs: Reynolds number and relative roughness (epsilon over diameter). You find the Reynolds number on the logarithmic horizontal axis, locate your relative roughness curve (interpolating between curves if needed), follow it up and left, then read the friction factor off the logarithmic vertical axis—just watch out that both axes are logarithmic, not linear.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 113: HVAC: Fluids Module #3 & 4</div>
+                <div class='qa-question'><strong>Q:</strong> How do you read the Moody diagram correctly, specifically regarding whether to follow relative roughness curves or horizontal lines, and how to locate Reynolds numbers like 1.5E5 on the logarithmic horizontal axis?</div>
+                <div class='qa-answer'><strong>A:</strong> The critical rule: follow the relative roughness curves upward, don't go horizontally across—those horizontal lines are only for reading friction factor from the left axis. For Reynolds numbers on the logarithmic scale, 1.5E5 falls between 1E5 and 2E5 (not near 2E6), and because it's logarithmic, you need to think carefully about whether it's closer to one end or the other.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 3 · Fluids</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

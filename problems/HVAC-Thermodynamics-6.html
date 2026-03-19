@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 6 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 6</span>
+  <span class="nav-badge">4 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Thermodynamics · Problem 6</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">Saturated liquid water at 50psia is cooled to 80◦F at constant pres- sure. What is the change in enthalpy during cooling? lbm lbm lbm lbm</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 50Btu</div>
+      <div class='choice'><span class='choice-letter'>B</span> 200Btu</div>
+      <div class='choice'><span class='choice-letter'>C</span> 660Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 920Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: B</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>sure.</p><p>What is the change in enthalpy during cooling?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 50Btu lbm B. 200Btu lbm C. 660Btu lbm D. 920Btu lbm Use the Properties of Saturated Water and Steam table to fnd the temperature of saturated liquid water at 50psia: T =281◦F 1</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Equate the change in enthalpy to the quantity of heat removed: Q q = =∆h=c ∆T m p Substitute and solve using the the specifc heat capacity of liquid water, c =1 Btu .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note the p lb◦F m specifc heat capacity of water is a function of temperature which remains nearly constant below about 400◦F, and above which it begins to increase and should no longer be taken as 1 Btu . lb◦F m   Btu Btu ∆h=c ∆T = 1 (281◦F −80◦F)=201 p lb◦ F lb m m Answer B 168</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Thermo 6 saturated liquid water at 50 psi a is cooled to 80 degrees Fahrenheit at constant pressure.</li><li>Given: 50 psi a is cooled to 80 degrees Fahrenheit at constant pressure; 50 PSIA and we know that it's a saturated liquid, w...</li><li>Approach: What is the change in enthalpy during cooling?</li><li>Calc: So let's draw that on the saturation curve vapor dome just to remind ourselves where this is where at some point here has a sta...</li><li>Calc: And we're cooling from 1 to 2.</li><li>Result: So we get 201 BTO per pound mass, which is close enough to answer choice B.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">4</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 115: HVAC: Thermo #6</div>
+                <div class='qa-question'><strong>Q:</strong> If the problem had a saturated water mixture (quality between 0 and 1) instead of saturated liquid, could we still use pressure alone to find temperature from the steam tables?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, absolutely. Inside the vapor dome, any given pressure corresponds to exactly one temperature—this is the defining feature of saturated steam tables. Whether quality is zero, one, or anywhere in between, that pressure-temperature relationship holds because all those states lie on the same isobar (constant pressure line). That's why the tables are organized by both pressure and temperature for your convenience.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 39: HVAC: Thermo-6</div>
+                <div class='qa-question'><strong>Q:</strong> Can you find the K value using table extrapolation instead of the analytical method for a problem involving CP and CV at 1,020°F?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, that's a neat approach! The key mistake is converting 1,020°F to absolute temperature by adding 460 to get 1,480 Rankine, then using the table (even extrapolating to 1,500R gives K ≈ 1.35, which matches the analytical answer). Know both methods, but always verify you're using the correct temperature units—Fahrenheit vs. Rankine—for your table lookup.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 51: HVAC: Thermo-6</div>
+                <div class='qa-question'><strong>Q:</strong> Can you just look up the enthalpy on the steam table and subtract to get the change in enthalpy for water cooled from saturated liquid at 50 PSIA to 80°F at constant pressure?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, you'll be very close doing it that way, and I'm fine with it as a practical approach, but I want to use this to show you why ΔH = Cp·ΔT isn't always valid. State 2 at 80°F and 50 PSIA is actually in the subcooled region, not on the saturation curve, so you can't look it up directly in the steam table—you'd need to account for the pressure difference, which shows where the approximation breaks down.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 71: HVAC: Thermo Module #6</div>
+                <div class='qa-question'><strong>Q:</strong> For the water compression problem in thermo #6, I used the table values for saturated liquid (HF at 50 psi and 80°F) and got 202 by taking the difference—is this method correct, or is the solution's answer of 201 from a different approach?</div>
+                <div class='qa-answer'><strong>A:</strong> Both methods work here. The solution likely used the compressed water table assumption (enthalpy unchanged from saturated state), which introduces minor error, while your CP·ΔT approach is slightly more precise. Know both methods—the difference is tight enough that you'll get away with either one, and this flexibility will help you on the exam.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 6 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 17 | Psychrometrics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 17</span>
+  <span class="nav-badge">1 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Psychrometrics · Problem 17</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">The combustion products from an industrial process are passed through a heat exchanger for energy recovery at 30psia. The hu- midity ratio is 800grainsH2O. What is the dew point of the exhaust lb da stream? 3710 Heat Transfer 10.1 10lbs of pork shoulder are cooled from 68◦F to 10◦F for storage in a freezer. How much energy is removed? 10.2 During winter operation, a cooling plant reduces energy use by using a parallel (fl)ow plate and frame heat exchanger instead of its chillers. The system consists of two loops, (1) an open condenser water loop which is fed by cooling towers outside, and (2) a closed chilled water loop which is distributed throughout the facility. If the condenser water enters the heat exchanger at 40◦F and leaves at 46◦F and the chilled water enters at 60◦F and leaves at 48◦F, what is the log mean temperature di(')erence? 10.3 10gpm of water is heated from 60◦F to 125◦F in a feedwater heater by steam. The steam side of the feedwater heater operates at 5psig. Steam enters at 350◦F and leaves as a saturated mixture with 95% quality. What is the required mass (fl)ow rate of steam? min min min min 3810.4 A skylight is comprised of two layers of ‰ inch thick laminated glass (°) (′) with a 1in air gap R = 0.5hr·ft2·◦F in between. The inside and out- Btu side (f)lm coe(f)cients are 1.5 Btu and 2.0 Btu , respectively. The hr·ft2·◦F hr·ft2·◦F outside design temperature is 10◦F and the inside conditions are 70◦F with 60% relative humidity. What is the maximum allow- able thermal conductivity of the glass to prevent condensate from forming on the inside of the skylight? hr·ft·◦F hr·ft·◦F hr·ft·◦F hr·ft·◦F 10.5 An uninsulated 8in chilled water pipe carries 55◦F chilled water through a factory maintained at 80◦F. The length of the run is 75ft. The pipe is painted with nonmetallic paint. What is the net heat transfer by radiation? hr hr hr hr 10.6 A 75KVA transformer with 99% e(f)ciency is located in an electrical room at 70◦F. The transformer’s enclosure is a (fl)oor standing box with dimensions of 3ft height, 2ft width, 3ft depth. The exposed surfaces have an average temperature of 85◦F. The load is resistive and uses 60% of the transformer’s capacity. What is the overall heat transfer coe(f)cient? hr·ft2·◦F hr·ft2·◦F hr·ft2·◦F hr·ft2·◦F 3910.7 48(′6)F chilled water (fl)ows in a 200ft long 8in steel pipe with 2in of insulation through a room maintained at 73◦F. The insulation has a thermal conductivity of 1.8 Btu·in . The overall coe(f)cient of heat hr·ft2·◦F transfer for the outside of the insulation to the surrounding room including convection and radiation is 2 Btu . What is the surface hr·ft2·◦F temperature of the outside of the insulation?</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 55.8◦F</div>
+      <div class='choice'><span class='choice-letter'>B</span> 5</div>
+      <div class='choice'><span class='choice-letter'>C</span> 2.8 Btu</div>
+      <div class='choice'><span class='choice-letter'>D</span> 4.7 Btu</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: D</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>through a heat exchanger for energy recovery at 30psia.</p><p>The hu- midity ratio is 800grainsH2O.</p><p>What is the dew point of the exhaust lb da stream?</p><p>A. 130◦F B. 140◦F C. 150◦F D. 160◦F Calculatethehumidityratioofthecombustionproducts.</p><p>Assumetheproductsaresimilartomoist airi.e. themixtureiscomprisedofdryairandwatervapor.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Thereare7,000grainsofmoistureper pound of water.   800grains 1lb lb ω = w =.1143 w lb 7000grains lb da da 238 If the conditions were for standard atmospheric pressure, it would be permissible to use the psychrometric chart and simply follow a horizontal line to the left and read the corresponding dew point temperature for the specifed humidity ratio.</p><p>However, the exhaust stream is at an elevated pressureof30psiaforwhichnopsychrometricchartisavailable.</p><p>Therefore,analternativeapproach istofndthepartialpressureofwatervaporcorrespondingtothehumidityratio,andusethesteam table to fnd the saturation temperature of water at that pressure.</p><p>This is another way of defning the dew point.</p><p>Use the defnition of the humidity ratio based on absolute pressure, p, and partial pressure of water vapor, p .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Rearrange algebraically for p and solve: w w 0.622p ω = w →ω(p−p )=0.622p →ωp−ωp =0.622p (p−p ) w w w w w ωp ωp=0.622p +ωp →ωp=p (ω+0.622)→p = w w w w (ω+0.622) (.1143)(30) p = =4.7psia w (.1143+0.622) GointothesteamtablebysearchingPropertiesofSaturatedWater(bypressure)andinterpolate between the saturation temperatures corresponding to P =4psi and P =5psi.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Pressure Temperature 4psi 152.9◦F 4.7psi T dp 5psi 162.1◦F 4.7psi−4psi T −152.9◦F = dp 5psi−4psi 162.1◦F −152.9◦F T ≈159.3◦F dp Answer D 239</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Psychometrics Problem 17 The combustion products from an industrial process are passed through a heat exchanger for energy recovery at 30 psi It th...</li><li>Given: 30 psi It the humidity ratio is 800 grains of water per pound of drier What is the dew point of the exhaust stream so...</li><li>Approach: We can convert that to pounds of water There's 7,000 grains of water per pound so that's fairly easy unit conversion To get the...</li><li>Calc: We'll say Omega times p minus p sub w equals 0.62 to times p sub w And then we'll distribute the humidity ratio.</li><li>Calc: I'll divide by this entire term here And we get omega p over Omega plus 0.62.</li><li>Result: So let's do that Properties of saturated water by pressure and our pressure is 4.66 will call it 4.7 So it's between 4 and 5 and these are the corr...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">1</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 80: HVAC: Psychrometrics #17</div>
+                <div class='qa-question'><strong>Q:</strong> I realized the psychrometric chart is invalid at pressures above 14.7 PSIA—how do we know to use the steam tables to find dew point temperature in this problem?</div>
+                <div class='qa-answer'><strong>A:</strong> Exactly right: the psychrometric chart assumes standard atmospheric pressure (14.7 PSIA), so at elevated pressures it can't be used directly. The steam tables give saturation temperature as a function of partial pressure of water vapor, which is exactly the definition of dew point—the temperature at which the water vapor in the air becomes saturated. Once you recognize that the humidity ratio gives you the partial pressure of water vapor, you can look up the corresponding saturation temperature in the steam tables.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 17 · Psychrometrics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>

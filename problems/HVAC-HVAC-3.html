@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 3 | HVAC OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 3</span>
+  <span class="nav-badge">7 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · HVAC · Problem 3</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">A 1000cfm fan coil unit installed for dehumidi(f)cation maintains an apparatus dew point of 40◦F and has a coil bypass factor of 10%. The entering air is 80◦F dry bulb and 50% relative humidity. What quantity of total cooling is provided? 47</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> 3.2tons</div>
+      <div class='choice'><span class='choice-letter'>B</span> 3.6tons</div>
+      <div class='choice'><span class='choice-letter'>C</span> 5.4tons</div>
+      <div class='choice'><span class='choice-letter'>D</span> 6.0tons</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>apparatus dew point of 40◦F and has a coil bypass factor of 10%.</p><p>The entering air is 80◦F dry bulb and 50% relative humidity.</p><p>What quantity of total cooling is provided?</p><p>A. 3.2tons B. 3.6tons C. 5.4tons D. 6.0tons The bypass factor is the portion of the air fow that gets by the coil without being cooled.</p><p>The bypass factor is the complement of the coil ecciency.</p><p>When the bypass factor is 0, the coil is 100% eccient.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>In this case, BF =1−η =.1 coil η =.9 coil Thecoilecciencycanbeexpressedasaratioofthereductionindrybulbtemperatureactually achievedascomparedwithwhatcouldpossiblybeachievedbythesupplyairtemperatureconverg- ing with the apparatus dew point i.e. the physical temperature of the coil.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Let T represent the 1 enteringaircondition,T representthesupplyaircondition,andADP representthecoilcondition. 2 Write an expression for the coil ecciency: T −T η = 1 2 =.9 coil T −T 1 ADP Substitutingknownenteringconditionsandcoilconditions,solveforthesupplyairtemperature leaving the coil: 80−T 2 =.9→T =44◦F 80−40 2 If the problem were asking for the quantity of sensible cooling provided, we would now have enough information since only the dry bulb temperatures would be needed.</p><p>However, in order to fnd the total cooling provided, the supply air condition must be fully defned.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Use the psychrometric chart to look up the enthalpy and humidity ratio for the entering air: T =80◦F 1 φ =50% 1 Btu h =31.2 1 lb gr ω =76.4 1 lb 274 Look up the humidity ratio at the ADP: T =40◦F ADP φ =100% ADP gr ω =36.3 ADP lb Since the humidity ratio changes linearly on the psychrometric chart for straight process line (as does dry bulb temperature), write an expression for the coil ecciency as a ratio of the actual change in humidity ratio achieved as compared to the maximum possible change if the process line terminated at the ADP (the fnal state would be on the saturation curve).</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Solve for the humidity ratio at the supply condition: ω −ω η</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: a 1000 CFM fan coil unit installed for dehumidification maintains an apparatus dew point of 40 degrees and has a coil bypass factor of 10%.</li><li>Given: 1000 CFM fan coil unit installed for dehumidification maintains an apparatus dew point of 40 degrees and has a coil b...</li><li>Approach: The coil has an apparatus dew point of 40 degrees but that doesn't mean that the error is actually leaving the coil of 40 degre...</li><li>Key formula: formula for the coil efficiency is 1 minus the coil efficiency equals the bypass factor so if you know one you know t...</li><li>Calc: We've got a 1000 CFM coming through this thing and we know the conditions leaving the coil.</li><li>Calc: The coil has an apparatus dew point of 40 degrees but that doesn't mean that the error is actually leaving the coil of 40 degre...</li><li>Result: So let's start with a little cartoon of the psychometric chart I'm not going to show this on the actual chart because I don't want to deprive you o...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">7</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 19: HVAC 3</div>
+                <div class='qa-question'><strong>Q:</strong> In HVAC-3, what's the purpose of finding the humidity ratio, and is it coincidental that drawing a line between the entering air condition and the ADP lets me find the enthalpy at the intersection?</div>
+                <div class='qa-answer'><strong>A:</strong> Not coincidental at all — you're using the psychrometric chart to define the process line from entering conditions to the ADP, and any state on that line is physically valid. The humidity ratio helps you locate your state on that process line precisely.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 20: HVAC 3</div>
+                <div class='qa-question'><strong>Q:</strong> I solved HVAC-3 a different way — I applied the 90% efficiency at the end rather than multiplying delta-H earlier. Is this okay?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, this is fine — you're just multiplying by 0.9 regardless of when you do it in the process. Whether you apply the 90% earlier or later, you get the same answer.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 29: HVAC 3</div>
+                <div class='qa-question'><strong>Q:</strong> How do you derive the latent heat of vaporization of water (970 BTU/lb) from the reference handbook — is this the latent heat of fusion?</div>
+                <div class='qa-answer'><strong>A:</strong> The 970 BTU/lb is the latent heat of vaporization (h_fg from the steam tables), not the latent heat of fusion — those are two completely different things. Latent heat of vaporization converts liquid water to steam; latent heat of fusion melts ice — don't mix them up.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 31: HVAC 3</div>
+                <div class='qa-question'><strong>Q:</strong> For Psychrometrics-3, do I need to interpolate for specific volume when the state is at 25% relative humidity?</div>
+                <div class='qa-answer'><strong>A:</strong> No interpolation needed — with both temperature and relative humidity known, the state is fully defined. Read the specific volume directly from the psychrometric chart at that defined state.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 47: HVAC: HVAC-3</div>
+                <div class='qa-question'><strong>Q:</strong> Where in the reference handbook does the bypass factor formula (BF = 1 − n_coil) come from?</div>
+                <div class='qa-answer'><strong>A:</strong> That relationship is conceptual rather than a specific handbook equation — and my goal is for you to internalize it, not memorize it. Think about what physically happens at a coil: some air bypasses completely at entering conditions, and the rest exits at the ADP; that picture gives you the formula.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 95: HVAC: HVAC-3</div>
+                <div class='qa-question'><strong>Q:</strong> For HVAC-3, is there a reason not to use the bypass fraction of CFM and solve using the ADP as the leaving state — I was within 2000 BTU/hr with this approach?</div>
+                <div class='qa-answer'><strong>A:</strong> This was an air handling unit with cooling and dehumidification, so the psychrometric picture matters here. The bypass factor approach is valid in principle, but you need to verify the assumptions hold before relying on it for a different problem.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 105: HVAC: HVAC-3</div>
+                <div class='qa-question'><strong>Q:</strong> I drew the process line from state 1 to the ADP, placed the supply temperature of 44°F on that line, and found an enthalpy of 17 BTU/lb — is that a valid approach?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes, absolutely — that's a valid approach. Going forward, if you've reviewed the solution and feel confident, try to argue the case for your own method rather than seeking validation — that habit will serve you well on exam day.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 3 · HVAC</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>
