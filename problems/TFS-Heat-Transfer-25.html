@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFS · Problem 25 | Heat-Transfer OH Prep</title>
+<title>TFS · Heat Transfer · Problem 25 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,46 +170,38 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
 <body>
 
 <div class="nav-bar">
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat-Transfer · Problem 25</span>
-  <span class="nav-badge">0 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 25</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
   
   <div class="sidebar-left">
-    <div class="problem-meta">TFS · Heat-Transfer · Problem 25</div>
+    <div class="problem-meta">TFS · Heat Transfer · Problem 25</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A steam heating coil is supplied with 2 lb of 5psig saturated steam min which leaves the coil with a quality of 0.25. The coil is used to heat 5000cfm of air. What is the maximum increase in air temperature that can be expected?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 5◦F</div>
-      <div class='choice'><span class='choice-letter'>B</span> 16◦F</div>
-      <div class='choice'><span class='choice-letter'>C</span> 17◦F</div>
-      <div class='choice'><span class='choice-letter'>D</span> 21◦F</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../tfs_solutions/Heat Transfer/Heat transfer-25.pdf"
+        title="Problem 25"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: Heat transfer-25.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: D</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>steel pipe.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The pipe is ftted with an orifce meter with a contrac- tion coeccient of C = 0.6 and a K-value of 0.5.</p><p>The static pressure c upstream of the orifce meter is 15psig.</p><p>What is the pressure down- stream?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 11psig B. 12psig C. 13psig D. 14psig Look up the formula for an Orifce Meter where a K value is given.  2g (P −P ) Q=KA c 1 2 2 ρ The orifce area, A , dependson thecontraction coeccient, C , which is given, and theinternal 2 c areaofthepipepriortothecontraction,whichcanbefoundfromtheSchedule40SteelPipetable.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A =C A 2 c o   50in2 A =(0.6) =0.208ft2 2 144in2 ft2</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Solve for the change in pressure, P −P , in units of lbf(psf).</p><p>Carefully show all units and 1 2 ft2 align where necessary.</p><p>Convert to psi at the end.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Q 2 ρ  P −P = 1 2 KA 2g 2 c P 1 −P 2 =    600 m g ( a i 0 n l .5  )  (0 7 . . 1 2 4 f 8 0 t g 8 3 a f l  t2  ) 1 6 m 0 i s n  2  2   3 6 2 2 . . 2 4 l l f b b m t m 3 ·f  t   =160 f lb t f 2 lbf·s2 255  lb  1ft2  lb P −P = 160 f =1.1 f 1 2 ft2 144in2 in2</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Solve for the downstream pressure, P . 2 P =P −1.1psi=15psig−1.1psi=13.9psig 2 1 Answer D</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><ul><li>Topic: Heat Transfer — A steam heating coil is supplied with two pounds per minute of 5 PSIG saturated steam, which leaves the coil with a quality of .25.</li><li>Method: The coil is used to heat 5,000 CFM of air.</li><li>Key values: 2 pounds per minute, , pounds would cancel, 5 PSIG</li><li>Reference: table so you can search properties of saturated water and steam</li><li>✅ Answer: B</li></ul></div>
+      <div class="video-box"><ul><li>Video synthesis will be populated here once available.</li></ul></div>
     </div>
   </div>
 
@@ -268,17 +219,9 @@ body {
 
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
-  <span>Problem 25 · Heat-Transfer</span>
+  <span>Problem 25 · Heat Transfer</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

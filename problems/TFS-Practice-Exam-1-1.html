@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFS · Problem 1 | Practice-Exam-1 OH Prep</title>
+<title>TFS · Practice Exam 1 · Problem 1 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,119 +170,58 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
 <body>
 
 <div class="nav-bar">
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice-Exam-1 · Problem 1</span>
-  <span class="nav-badge">9 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 1</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
   
   <div class="sidebar-left">
-    <div class="problem-meta">TFS · Practice-Exam-1 · Problem 1</div>
+    <div class="problem-meta">TFS · Practice Exam 1 · Problem 1</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A fan supplies air through a 12in by 18in rectangular sheet metal duct with 1in (f)berglass insulation. The duct run is 15ft long. Local octave band measurements of the sound power level for the fan are 125Hz, 95dB; 250Hz, 94dB; 500Hz, 92dB; 1000Hz, 90dB; 2000Hz, 85dB; 4000Hz, 69dB. What is the expected sound power level for the 1000Hz octave band at the end of the duct run?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 35dB</div>
-      <div class='choice'><span class='choice-letter'>B</span> 52dB</div>
-      <div class='choice'><span class='choice-letter'>C</span> 69dB</div>
-      <div class='choice'><span class='choice-letter'>D</span> 86dB</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../tfs_solutions/Practice Exam #1/Practice Exam #1-01.pdf"
+        title="Problem 1"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: Practice Exam #1-01.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>duct with 1in fberglass insulation.</p><p>The duct run is 15ft long.</p><p>Local octave band measurements of the sound power level for the fan are 125Hz, 95dB; 250Hz, 94dB; 500Hz, 92dB; 1000Hz, 90dB; 2000Hz, 85dB; 4000Hz, 69dB.</p><p>What is the expected sound power level for the 1000Hz octave band at the end of the duct run?</p><p>A. 35dB B. 52dB C. 69dB D. 86dB Refer to the table Insertion Loss for Rectangular Sheet Metal Ducts with 1 in.</p><p>Fiberglass Lining.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Look up dimensions 12in by 18in and note the insertion loss for the 1000Hz octave band is 3.7dB. ft Multiply the loss per foot times the length of the duct to obtain the total dB reduction.   dB 3.7 (15ft)=55.5dB ft Subtract the dB reduction from the measured sound power level for the 1000Hz octave band to obtain the fnal sound power level with the indulated duct inserted. 90dB−55.5dB =34.5dB Answer A</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><p style='color:#999;'>No video summary available.</p></div>
+      <div class="video-box"><ul><li>Video synthesis will be populated here once available.</li></ul></div>
     </div>
   </div>
 
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours
-      <span class="oh-count">9</span>
+      <span class="oh-count">0</span>
     </div>
     <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
     
-    <div class='qa-group'>
-                <div class='qa-session'>OH 44: TFS: Practice Exam 1 - 50</div>
-                <div class='qa-question'><strong>Q:</strong> On the TFS practice exam problem, shouldn't the operating point be where the 7.5 hp dashed line intersects 300 gpm (giving 72 feet of head), rather than where the 8 inch impeller curve intersects 300 gpm?</div>
-                <div class='qa-answer'><strong>A:</strong> It's a trap—you must select the largest pump that consumes up to but not exceeding the available horsepower. At 7.5 hp, that's the 8 inch impeller; choosing a larger impeller would demand more power than available and be operationally flawed. So you follow the 8 inch curve to get ~60 feet, then apply efficiency.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 52: TFS: Practice Exam #1-23</div>
-                <div class='qa-question'><strong>Q:</strong> Why cannot we use the PHFG (enthalpy of vaporization) for 500°F steam entering a heat exchanger at 1 ATM, when the heat loss is due to state conversion from steam to saturated water?</div>
-                <div class='qa-answer'><strong>A:</strong> The steam at 500°F and 1 ATM is superheated, not saturated—since the saturation temperature at 1 ATM is only 212°F. The steam must first cool at constant pressure to become saturated vapor, then condense; the sensible cooling portion gives up significant heat beyond just the phase change, so using only HFG (which represents only the condensation) misses a substantial portion of the total heat transfer.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 52: TFS: Practice Exam #1-38</div>
-                <div class='qa-question'><strong>Q:</strong> Can you clarify what power factor is and how it's used in transformer problems?</div>
-                <div class='qa-answer'><strong>A:</strong> Power factor is the ratio of real power (KW) to apparent power (KVA), defined as KW/KVA, which comes from the cosine of the phase angle in the power triangle. When power factor equals 1 (unity), all the power is real power with no reactive component; in this problem, that's what allowed us to directly convert the 100 KVA rating at 60% capacity into kilowatts to calculate heat generation.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 61: TFS: Practice Exam 1 #23</div>
-                <div class='qa-question'><strong>Q:</strong> If GPM wasn't given on the water side, could you still use Q_water = m_dot × ΔH equal to the steam side instead of the 500 GPM × ΔT rule of thumb?</div>
-                <div class='qa-answer'><strong>A:</strong> Yes, you have options depending on what information is given. You can use m_dot × ΔH for the water side if you have mass flow rate instead of volumetric flow rate, or m × cp × ΔT for sensible heating at constant pressure. These approaches are interchangeable since mass flow rate equals density times volume flow rate, so you should be able to convert between them.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 74: TFS: Full Practice Exam 1 #66</div>
-                <div class='qa-question'><strong>Q:</strong> Why isn't the 30 psi G pressure on the discharge side converted to psi A by adding 14.7 psi, like the solution doesn't do this?</div>
-                <div class='qa-answer'><strong>A:</strong> Both pressures are already in gauge pressure (G), so you don't convert between them—the 'G' notation means they're already referenced to atmospheric pressure. You only convert to absolute (A) if you actually need absolute pressure for the calculation, but for finding the pressure difference (delta P) between two points, gauge pressures can be subtracted directly.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 75: TFS: Full Practice Exam 1  #42</div>
-                <div class='qa-question'><strong>Q:</strong> I used the reference handbook formula on page 287 to find the temperature at interface x in a composite wall problem, got the same R_total as the solution, but calculated T_x as 66°F instead of the correct answer—am I applying the equation correctly?</div>
-                <div class='qa-answer'><strong>A:</strong> You're not using it correctly, and more importantly, you need to check your intuition: with 70°F inside and 0°F outside, 66°F at an interface beyond the insulation layer doesn't make physical sense—there should be a huge temperature drop across the insulation, so that point should be much closer to 0°F. The equation uses a proportion based on resistance ratios, so you can't just plug in numbers blindly; you likely made an error defining what R_x represents in your setup.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 81: TFS: Practice Exam #1-24</div>
-                <div class='qa-question'><strong>Q:</strong> For TFS Practice Exam #1 Q24, I solved a compressor problem assuming it was isentropic using the constant-Cp formula and delta-H methods, and both gave matching answers—but the problem didn't state it was isentropic, so was my approach wrong?</div>
-                <div class='qa-answer'><strong>A:</strong> You're right to catch that—there are three ways to solve compressor problems: isentropic formula, delta-H/Cp-delta-T, and air tables. Since the problem didn't specify isentropic, you needed the air table method, which is trickier but important to practice. If isentropic is explicitly stated, the easier methods apply, but knowing the air table approach is essential for the exam.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 98: TFS: Practice Exam #1-79</div>
-                <div class='qa-question'><strong>Q:</strong> In problem 1-79, why is the assumption that subcooled liquid density equals saturated liquid density valid, and would we be expected to make this assumption on the PE exam?</div>
-                <div class='qa-answer'><strong>A:</strong> Water is treated as incompressible in most PE problems, which justifies this assumption—it's defensible within 5% engineering tolerance. However, you correctly identified that water is slightly compressible; your research showing a 4.3% density change over 180°F is solid, but the real issue here is that the answer choices were too close together, not that the assumption was wrong.</div>
-            </div>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 108: TFS: Practice Exam #1-8</div>
-                <div class='qa-question'><strong>Q:</strong> I used the ideal gas law to find density at given conditions, then took the ratio to standard density and multiplied the CFM by that ratio—is that valid? And how do I know to multiply versus divide when I can't intuitively tell which direction the volume flow rate should go?</div>
-                <div class='qa-answer'><strong>A:</strong> Your approach is absolutely correct—density depends on pressure and temperature via the ideal gas law, so taking the density ratio and applying it to CFM is the right way. The key to knowing whether to multiply or divide is that pressure's effect on density far outweighs temperature's effect unless temperatures are extreme; here the pressure dominates, making the air denser at elevation, so standard CFM must be larger than the measured low-pressure CFM.</div>
-            </div>
-            
+    <p style='color:#999;'>No office hours coverage for this problem.</p>
   </div>
 
 </div>
 
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
-  <span>Problem 1 · Practice-Exam-1</span>
+  <span>Problem 1 · Practice Exam 1</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

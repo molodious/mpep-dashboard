@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFS · Problem 6 | Practice-Exam-1 OH Prep</title>
+<title>TFS · Practice Exam 1 · Problem 6 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,46 +170,38 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
 <body>
 
 <div class="nav-bar">
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice-Exam-1 · Problem 6</span>
-  <span class="nav-badge">0 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Practice Exam 1 · Problem 6</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
   
   <div class="sidebar-left">
-    <div class="problem-meta">TFS · Practice-Exam-1 · Problem 6</div>
+    <div class="problem-meta">TFS · Practice Exam 1 · Problem 6</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A pump delivers 200 GPM of water at 130 feet of total dynamic head, operating from 7am-7pm Monday through Friday. The pump is 80% e(f)cient and the motor is 93% e(f)cient. What is the annual cost of operation at $0.13 per kWh?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> $2670</div>
-      <div class='choice'><span class='choice-letter'>B</span> $3490</div>
-      <div class='choice'><span class='choice-letter'>C</span> $3750</div>
-      <div class='choice'><span class='choice-letter'>D</span> $5030</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../tfs_solutions/Practice Exam #1/Practice Exam #1-06.pdf"
+        title="Problem 6"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: Practice Exam #1-06.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>head, operating from 7am-7pm Monday through Friday.</p><p>The pump is 80% eccient and the motor is 93% eccient.</p><p>What is the annual cost of operation at $0.13 per kWh?</p><p>A. $2670 B. $3490 C. $3750 D. $5030 The cost is a function of electrical power and time, and electrical power is a function of hydraulic horsepower (aka water horsepower i.e. whp) and ecciency.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Start by calculating the water horse- power based on volume fow rate and feet of head provided by the pump: Q∆h (200)(130) whp= = =6.566hp 3960 3960 366 Note the volume and head units must be in GPM and ft, respectively, to use this rule of thumb equation.</p><p>Therefore units need not be shown, provided they are confrmed to be correct prior to use.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Recall that brake horsepower, bhp, depends on water horsepower, whp, and the ecciency of the pump, η .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Similarly, the electrical power, W˙ ,depends on brake horsepower, bhp, and motor p ecciency, η . m whp bhp= η p bhp W˙ = η m Put these together, substitute, solve, and convert to KW:   whp 6.566hp .746KW W˙ = = =6.58KW η η (.8)(.93) 1hp p m To fnd the annual cost, multiply by time and the unit rate of electricity:      12hrs 5days 52wks $0.13 Cost=(6.58KW) =$2669peryear day wk yr KWH Answer A</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><p style='color:#999;'>No video summary available.</p></div>
+      <div class="video-box"><ul><li>Video synthesis will be populated here once available.</li></ul></div>
     </div>
   </div>
 
@@ -268,17 +219,9 @@ body {
 
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
-  <span>Problem 6 · Practice-Exam-1</span>
+  <span>Problem 6 · Practice Exam 1</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFS · Problem 10 | Heat-Transfer OH Prep</title>
+<title>TFS · Heat Transfer · Problem 10 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,79 +170,58 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
 <body>
 
 <div class="nav-bar">
-  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat-Transfer · Problem 10</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+  <span style="font-size:14px;font-weight:600;color:#333;">TFS · Heat Transfer · Problem 10</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
   
   <div class="sidebar-left">
-    <div class="problem-meta">TFS · Heat-Transfer · Problem 10</div>
+    <div class="problem-meta">TFS · Heat Transfer · Problem 10</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">80gpm of 70◦F water (fl)owing in a 200ft long 3in diameter standard weight steel pipe is cooled by 10◦F over the entire the length. The (fl)ow is turbulent and fully developed. The thermal conductivity of water is 0.34 Btu . The Nusselt number for this application is given hr·ft◦F by: hD Nu = = 0.023Re0.8Pr0.3 k D What is the rate of convective heat loss from the (fl)uid? hr hr hr hr</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 240Btu</div>
-      <div class='choice'><span class='choice-letter'>B</span> 38,000Btu</div>
-      <div class='choice'><span class='choice-letter'>C</span> 765,000Btu</div>
-      <div class='choice'><span class='choice-letter'>D</span> 1,150,000Btu</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../tfs_solutions/Heat Transfer/Heat transfer-10.pdf"
+        title="Problem 10"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: Heat transfer-10.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>volume fow rate of 100gpm.</p><p>The suction pressure measured at the inlet of the pump is 5psi of vacuum.</p><p>The discharge pressure measured 3 feet above the pump outlet is 10psig.</p><p>The diameter of the piping reduces from 4 inches on the suction side to 2 inches on the discharge side.</p><p>The pump has a mechanical ecciency of 80%.</p><p>What is the input power to the pump?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 3/4hp B. 1hp C. 11/4hp D. 11/2hp AusefulandcommonformoftheBernoulliEquationcanbeappliedforpumpingapplicationssuch as this.</p><p>A term is added to the original Bernoulli Equation, h , to refect the head pressure added A by the pump.</p><p>Isolate h and collect like terms.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A P v2 P v2 1 + 1 +z +h = 2 + 2 +z +h γ 2g 1 A γ 2g 2 f P −P v2−v2 h = 2 1 + 2 1 +z −z +h A γ 2g 2 1 f Firstconsiderthediaerenceinstaticpressure.</p><p>Thesuctionpressuremeasuredatthepumpinlet is 5psi of vacuum.</p><p>A vacuum pressure is implied to be gauge pressure as it is not possible to pull a vacuummorethanatmosphericpressure.</p><p>Thedischargepressureis10psig.</p><p>Ignorethe3ftelevation forthetimebeing; thiswillbeaccountedforwhenanalyzingthe∆z term.</p><p>Notethespecifcweight of the viscous liquid is 1.1 times the specifc weight of water.</p><p>See Specifc Gravity in the reference handbook.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert square inches to square feet to ultimately obtain units of ft (of viscous liquid).   (10psi−(−5psi)) 144in2 P 2 −P 1 = 1ft2 =31.47ft   γ 62.4lbf (1.1) ft3 Althoughthevelocitytermisoftenignored,inthiscasethedischargepipingdiameterisreduced with respect to the suction side piping; therefore the velocity will increase for a given volume fow 232 rate.</p><p>To be safe, include the velocity term in the solution.</p><p>Use the Steel Pipe Friction Tables to obtain the actual diameter and velocity where possible.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>D =4in(nominal) 1 Q =100gpm 1 ft v =2.52 1 s Since the table in the reference handbook stops at 50gpm for a nominal 2in diameter pipe, the velocitymustbecalculatedusingQ=vA.</p><p>Aruleofthumbthatmaybeusedforconverting</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><ul><li>Topic: Heat exchanger / heat transfer — 80GPM of 70 degree water, flowing in a 200-foot-long 3-inch diameter standard weight steel pipe is cooled by 10 degrees over the entire length.</li><li>Method: The flow is turbulent and fully developed.</li><li>Formula reference: formula for the parental number is given in the reference handbook.</li><li>Key values: 476.2 BTU per hour, 765,000 BTU per hour, 2, pound mass</li><li>Reference: table to look up to kinematic viscosity</li><li>✅ Answer: C</li></ul></div>
+      <div class="video-box"><ul><li>Video synthesis will be populated here once available.</li></ul></div>
     </div>
   </div>
 
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours
-      <span class="oh-count">1</span>
+      <span class="oh-count">0</span>
     </div>
     <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
     
-    <div class='qa-group'>
-                <div class='qa-session'>OH 85: TFS: Heat Transfer Module #10</div>
-                <div class='qa-question'><strong>Q:</strong> Should fluid properties like viscosity be determined at film temperature rather than bulk water temperature for this cooling pipe problem?</div>
-                <div class='qa-answer'><strong>A:</strong> Generally yes, but not critical here since the temperature delta is only 10°F (70-80°F bulk temps, 75°F average)—properties at 70, 75, or 80°F won't differ meaningfully. On the exam, just pick the nearest available table value; only worry about precise film temperature when ΔT is large enough to actually matter.</div>
-            </div>
-            
+    <p style='color:#999;'>No office hours coverage for this problem.</p>
   </div>
 
 </div>
 
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
-  <span>Problem 10 · Heat-Transfer</span>
+  <span>Problem 10 · Heat Transfer</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

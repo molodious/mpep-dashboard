@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFS · Problem 17 | Thermodynamics OH Prep</title>
+<title>TFS · Thermodynamics · Problem 17 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">TFS · Thermodynamics · Problem 17</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,44 +188,31 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">TFS · Thermodynamics · Problem 17</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A 60% e(f)cient steam generating turbine system generates 5MW using 1100psia steam at 850◦F. The exhaust pressure is 200psia. What mass (fl)ow rate of steam is required for the cycle? hr hr hr hr</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 150,000lb</div>
-      <div class='choice'><span class='choice-letter'>B</span> 250,000lb</div>
-      <div class='choice'><span class='choice-letter'>C</span> 420,000lb</div>
-      <div class='choice'><span class='choice-letter'>D</span> 660,000lb</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../tfs_solutions/Thermodynamics/Thermodynamics-17.pdf"
+        title="Problem 17"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: Thermodynamics-17.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>using 1100psia steam at 850◦F.</p><p>The exhaust pressure is 200psia.</p><p>What mass fow rate of steam is required for the cycle?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 150,000lb hr B. 250,000lb hr C. 420,000lb hr D. 660,000lb hr The work done by a Turbine is most generally given by W˙ = m˙∆h.</p><p>The ∆h must be the actual T changeinenthalpyobtainedbyapplyingtheecciencytotheideal changeinenthalpywhichwould occur if the expansion was isentropic.</p><p>Let the inlet conditions be considered State 1 and the exit conditions be considered State 2.</p><p>Start by fnding the enthalpy and entropy for State 1 using the Properties of Superheated Steam table.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P =1100psia 1 T =850◦F 1 Btu h ≈1415 1 lb Btu s ≈1.578 1 lb·◦F Tofndtheidealchangeinenthalpy, temporarilyassumeisentropicexpansion.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Therefore, when fndingh ,itisvalidtolets =s .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Usingthesteamtableagain,noticethesteamisstillsuperheated 2 2 1 at P =200psia.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Interpolate to fnd h . 2 2 h Btu s  Btu  lb lb·◦F 1223.2 1.574 h 1.578 2 1235.2 1.588 h −1223.2 1.578−1.574 2 = 1235.2−1223.2 1.588−1.574 Btu h =1226.6 2 lb The ideal change in enthalpy (if the expansion was isentropic) would be: Btu Btu Btu ∆h =h −h =1415 −1226.6 =188.4 ideal 1 2 lb lb lb However, the actual change in enthalpy is less than the ideal, as an outcome of the ecciency. 165 ∆h η = actual ∆h ideal   Btu Btu ∆h =η∆h =(0.60) 188.4 =113 actual ideal lb lb</p><p>Solve for the mass fow rate, converting units as necessary.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>W˙ =m˙∆h T W˙  5×106W  3.412 Btu  lb m˙ = T = hr·W =151,000 ∆h 113Btu hr actual lb Answer A</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
-      <div class="video-box"><ul><li>Problem: A 60% efficient steam generating turbine system generates five megawatts using a 1100 PSIA steam at 850 degrees.</li><li>Key step: The exhaust pressure is 200 PSIA.</li><li>Watch out: We know that's not the case we're going to apply this 60% efficiency down the line but we want to find the enthalpy as though that entropy was equal.</li><li>Result: But you'll notice that in this case it's actually still super heated steam and you can tell that by checking the entropy 1.578 and looking at this pre...</li><li>✅ Answer: A</li></ul></div>
+      <div class="video-box"><ul><li>Video synthesis will be populated here once available.</li></ul></div>
     </div>
   </div>
 
   <div class="sidebar-right">
     <div class="oh-section-title">
       Office Hours
-      <span class="oh-count">1</span>
+      <span class="oh-count">0</span>
     </div>
     <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
     
-    <div class='qa-group'>
-                <div class='qa-session'>OH 113: TFS: Thermodynamics #17</div>
-                <div class='qa-question'><strong>Q:</strong> Why is my answer off when I assumed isentropic conditions (S1=S2) to find the temperature at that point, then used that as the isentropic exit temperature in the turbine efficiency equation?</div>
-                <div class='qa-answer'><strong>A:</strong> You're double-counting the isentropic assumption—when you use the turbine efficiency equation, it already accounts for the isentropic process internally, so assuming S1=S2 as a separate step creates an inconsistency. You should use the actual entropy change between inlet and outlet states, not force an isentropic intermediate state.</div>
-            </div>
-            
+    <p style='color:#999;'>No office hours coverage for this problem.</p>
   </div>
 
 </div>
@@ -274,16 +220,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 17 · Thermodynamics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>
