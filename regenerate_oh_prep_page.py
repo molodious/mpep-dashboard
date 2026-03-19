@@ -20,20 +20,20 @@ def generate_oh_prep_html():
     # Define chapter order for each program
     hvac_order = [
         'HVAC-Thermodynamics',
-        'HVAC-Heat-Transfer',
         'HVAC-Fluids',
+        'HVAC-Psychrometrics',
+        'HVAC-Heat-Transfer',
         'HVAC-HVAC',
         'HVAC-Systems-and-Components',
         'HVAC-Supporting-Topics',
-        'HVAC-Psychrometrics',
         'HVAC-Practice-Exam-1',
         'HVAC-Practice-Exam-2',
     ]
     
     tfs_order = [
         'TFS-Thermodynamics',
-        'TFS-Heat-Transfer',
         'TFS-Hydraulic-and-Fluid-Applications',
+        'TFS-Heat-Transfer',
         'TFS-Energy-and-Power-System-Applications',
         'TFS-Supporting-Topics',
         'TFS-Practice-Exam-1',
