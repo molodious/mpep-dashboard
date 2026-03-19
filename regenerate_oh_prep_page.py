@@ -17,6 +17,32 @@ def generate_oh_prep_html():
     with open(INDEX_FILE, 'r') as f:
         index = json.load(f)
     
+    # Define chapter order for each program
+    hvac_order = [
+        'HVAC-Thermodynamics',
+        'HVAC-Heat-Transfer',
+        'HVAC-Fluids',
+        'HVAC-HVAC',
+        'HVAC-Systems-and-Components',
+        'HVAC-Supporting-Topics',
+        'HVAC-Psychrometrics',
+        'HVAC-Practice-Exam-1',
+        'HVAC-Practice-Exam-2',
+    ]
+    
+    tfs_order = [
+        'TFS-Thermodynamics',
+        'TFS-Heat-Transfer',
+        'TFS-Hydraulic-and-Fluid-Applications',
+        'TFS-Energy-and-Power-System-Applications',
+        'TFS-Supporting-Topics',
+        'TFS-Practice-Exam-1',
+        'TFS-Practice-Exam-2',
+    ]
+    
+    # Create category lookup
+    categories_by_name = {cat['name']: cat for cat in index['categories']}
+    
     # Build HTML
     html = '''<!DOCTYPE html>
 <html lang="en">
@@ -153,12 +179,11 @@ def generate_oh_prep_html():
             <div class="program-title">HVAC & Refrigeration</div>
 '''
     
-    # Organize by program
-    hvac_cats = [cat for cat in index['categories'] if 'HVAC' in cat['name']]
-    tfs_cats = [cat for cat in index['categories'] if 'TFS' in cat['name']]
-    
-    # HVAC problems
-    for cat in hvac_cats:
+    # HVAC problems (in order)
+    for cat_name in hvac_order:
+        if cat_name not in categories_by_name:
+            continue
+        cat = categories_by_name[cat_name]
         cat_name = cat['name'].replace('HVAC-', '')
         html += f'''            <div class="chapter-group">
                 <div class="chapter-name">{cat_name}</div>
@@ -184,8 +209,11 @@ def generate_oh_prep_html():
             <div class="program-title tfs">Thermal & Fluids Systems</div>
 '''
     
-    # TFS problems
-    for cat in tfs_cats:
+    # TFS problems (in order)
+    for cat_name in tfs_order:
+        if cat_name not in categories_by_name:
+            continue
+        cat = categories_by_name[cat_name]
         cat_name = cat['name'].replace('TFS-', '')
         html += f'''            <div class="chapter-group">
                 <div class="chapter-name">{cat_name}</div>
