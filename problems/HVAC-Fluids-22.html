@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 22 | Fluids OH Prep</title>
+<title>HVAC · Fluids · Problem 22 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 22</span>
-  <span class="nav-badge">9 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Fluids · Problem 22</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">80gpm of 60◦F water is pumped from 100ft below the surface of a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe. The piping run contains (4) 90 degree elbows and a globe valve. The storage tank is at atmospheric pressure. What is the required hydraulic horsepower for this application? 29</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 3hp</div>
-      <div class='choice'><span class='choice-letter'>B</span> 6hp</div>
-      <div class='choice'><span class='choice-letter'>C</span> 7hp</div>
-      <div class='choice'><span class='choice-letter'>D</span> 10hp</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Fluids-22.pdf"
+        title="Problem 22"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Fluids-22.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>a lake to a storage tank 100ft above ground through 400ft of 3in nominal schedule 40 welded steel pipe.</p><p>The piping run contains (4) 90 degree elbows and a globe valve.</p><p>The storage tank is at atmospheric pressure.</p><p>What is the required hydraulic horsepower for this application?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 3hp B. 6hp C. 7hp D. 10hp Write the form of the Bernoulli Equation suited for pumping applications: P −P v2−v2 h = 2 1 + 2 1 +z −z +h A γ 2g 2 1 f For the static pressure term, observe the lake and the open storage tank are both exposed to atmospheric pressure, so the only diaerence in static pressure is the hydrostatic pressure associ- ated with the height of the water column comprising the lake.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Since the lake is 100ft deep and the medium is liquid water, it is permissible to skip the calculation using specifc weight and go immediately to length units, as below: P 2 =1atm γ P 2 =100ftH O+1atm γ 2 P −P 2 1 =(1atm)−(100ftH O+1atm)=100ftH O γ 2 2 The velocity of water in the lake and the storage tank is negligible: v =v =0 1 2 Find the diaerence in height between the bottom of the lake and the tank: ∆z =z −z =(100ft)−(−100ft)=200ft 2 1 Friction losses include both major losses as handled by the Darcy Equation and minor losses to address the fttings: fLv2 v2  fL  v2 h =h +h = +K = +K f f,major f,minor 2gD 2g D 2g FindtheReynoldsNumberandrelativeroughnessinordertodeterminethefrictionfactorusing the Moody Diagram.</p><p>Look up thekinematic viscosity usingthe Propertiesof Watertable.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Getthe diameter from the steel pipe friction tables. 210 Q=80gpm   1ft D =3.068in =.2557ft 12in ft v =3.47 s   3.47ft (.2557ft) Re= vD = s ≈73,000 ν 1.217×10−5ft2 s  .0002ft = ≈.0008 D .2557ft  f =f(Re, )≈.0225 D The length of pipe to be used for the major losses is 400ft.</p><p>This excludes fttings losses, which can be looked up using the phrase Welded Pipe Fittings.</p><p>K factors summarized below: Welded Pipe Fittin</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above ground, through 400 feet of 3-inch...</li><li>Given: 80GPM of 60 degree water is pumped from 100 feet below the surface of a lake to a storage tank, a 100 feet above grou...</li><li>Approach: Let's draw ourselves a little lake here and it says it's being pumped from the bottom so we can create some state 1 that's righ...</li><li>Calc: Let's draw ourselves a little lake here and it says it's being pumped from the bottom so we can create some state 1 that's righ...</li><li>Calc: And let's say that the top of that tank is state 2 and we know a couple things about the heights.</li><li>Result: So let's find the actual diameter from the steel pipe friction tables for a 3 inch pipe the diameter is actually 3.068 inches which if you divide t...</li></ul></div>
     </div>
@@ -306,7 +257,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> Can you explain how the hydrostatic pressure at state 1 at the bottom of the lake helps push water from the bottom to the top?</div>
                 <div class='qa-answer'><strong>A:</strong> Think of it like a seesaw: the 100-foot column of water sitting on the pump inlet is pushing down and helping the pump, while the pump has to overcome 200 feet of elevation on the other side. The net effect is that the pump only has to supply the additional 100 feet of head—the lake depth helps cancel part of the elevation requirement. Interestingly, it doesn't matter where you locate the pump in the system; the required delta P works out the same regardless.</div>
             </div>
-            
   </div>
 
 </div>
@@ -314,16 +264,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 22 · Fluids</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

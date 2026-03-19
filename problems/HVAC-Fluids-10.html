@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 10 | Fluids OH Prep</title>
+<title>HVAC · Fluids · Problem 10 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 10</span>
-  <span class="nav-badge">3 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Fluids · Problem 10</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A hotel with 400 units requires a maximum cold water supply of 5gpm per unit with a diversity factor of 60%. The supply line is 5000ft long and made of 8in standard weight steel with a rough- ness coe(f)cient of C = 130. The minimum required pressure for all (f)xtures in the hotel is 80psig. The start of the supply line is 100ft above the delivery end at the hotel. What is the minimum pressure required at the start of the line? 25</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 93psig</div>
-      <div class='choice'><span class='choice-letter'>B</span> 108psig</div>
-      <div class='choice'><span class='choice-letter'>C</span> 128psig</div>
-      <div class='choice'><span class='choice-letter'>D</span> 180psig</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Fluids-10.pdf"
+        title="Problem 10"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Fluids-10.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>5gpm per unit with a diversity factor of 60%.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The supply line is 5000ft long and made of 8in standard weight steel with a roughness coeccient of C = 130.</p><p>The minimum required pressure for all fxtures in the hotel is 80psig.</p><p>The start of the supply line is 100ft above the delivery end at the hotel.</p><p>What is the minimum pressure required at the start of the line?</p><p>A. 93psig B. 108psig C. 128psig D. 180psig</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Start by writing the Bernoulli Equation: P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f Neglect velocity and isolate the unknown P . 1 P P 1 = 2 +(z −z )+h γ γ 2 1 f The design volume fow rate, Q, depends on the required volume per unit, the number of units, and the diversity:  gpm Q=(400units) 5 (.6)=1200gpm unit</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Using the steel pipe friction tables look up the friction loss for 1200gpm through a nominal 8 inch pipe: h loss=4.2ftper100ft d ThetablesassumearoughnessfactorofC =100,butthisproblemhasgivenaroughnessfactor of C = 130, which implies there is less friction loss.</p><p>A table of surface roughness factors is given immediately before the steel pipe friction tables and provides correction factors for various values of the surface roughness, C.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Select the correction factor for C =130 and fnd the actual losses.   4.2ft h = (5000ft)(.62)=130.2ft f 100ft Use the rule of thumb conversion factor for water 2.31ft for convenience converting between psi pressure units and feet of head.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note that ∆z =z −z has a negative value since z >z due to 2 1 1 2 the start of the supply line being higher than the delivery point.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Solve for P . 1 P P 1 = 2 +(z −z )+h γ γ 2 1 f 196   P ft 1 =(80psi) 2.31 −100ft+130.2ft=215ft γ psi 215ft P = =93psig 1 2.31ft psi Since the required fxture pressure and answer choices are given in psig, it is not necessary to account for atmospheric pressure at any point in the problem.</p><p>Answer A</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Fluids 10, a hotel with 400 units requires a maximum cold water supply of 5GPM per unit with a diversity factor of 60%.</li><li>Given: 5GPM per unit with a diversity factor of 60%; 000 feet long and made of 8 inch standard weight steel with a roughness...</li><li>Approach: The supply line is 5,000 feet long and made of 8 inch standard weight steel with a roughness coefficient of C equals 130.</li><li>Calc: The start of the supply line is 100 feet above the delivery end at the hotel.</li><li>Calc: And it says the start of the supply line is 100 feet above the delivery end at the hotel.</li><li>Result: So the best answer choice is A.</li></ul></div>
     </div>
@@ -276,7 +227,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> In Bernoulli equation problems, why does pressure divided by gamma equal pressure? I keep getting confused about the units.</div>
                 <div class='qa-answer'><strong>A:</strong> Strictly speaking, it doesn't—you need to distinguish between SI and US customary units. In US customary units, pressure = ρgh/gc (not just ρgh), and gamma is defined as ρg/gc, where g and gc have the same magnitude but different units, so they cancel numerically while their unit differences allow the algebra to work out correctly.</div>
             </div>
-            
   </div>
 
 </div>
@@ -284,16 +234,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 10 · Fluids</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 26 | Fluids OH Prep</title>
+<title>HVAC · Fluids · Problem 26 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 26</span>
-  <span class="nav-badge">6 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Fluids · Problem 26</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">Three 90% e(f)cient secondary chilled water pumps operate in a parallel redundant N+1 con(f)guration supplying a total of 1500gpm against 200ft of total dynamic head. In normal operation with all three pumps running, the pumps have a speed of 900rpm. When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted (fl)ow to the cooling loads. During a pump failure, what brake horsepower is required to drive each of the two running pumps?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 28hp</div>
-      <div class='choice'><span class='choice-letter'>B</span> 42hp</div>
-      <div class='choice'><span class='choice-letter'>C</span> 63hp</div>
-      <div class='choice'><span class='choice-letter'>D</span> 95hp</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Fluids-26.pdf"
+        title="Problem 26"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Fluids-26.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: D</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>parallel redundant N+1 confguration supplying a total of 1500gpm against 200ft of total dynamic head.</p><p>In normal operation with all three pumps running, the pumps have a speed of 900rpm.</p><p>When one pump fails, the remaining pumps increase speed to provide consistent uninterrupted fow to the cooling loads.</p><p>During a pump failure, what brake horsepower is required to drive each of the two running pumps?</p><p>A. 28hp B. 42hp C. 63hp D. 95hp Make a table to organize the information comparing the normal mode of operation to the failure mode described.</p><p>The values in the table are per individual pump.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Normal Failure Q =500gpm Q =750gpm 1 2 h =200ft h =200ft A,1 A,2 n =900rpm n ? 1 2 bhp ? bhp ? 1 2 Look up the pump acnity laws.</p><p>Recall the relationship between volume fow rate and speed is linear.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Therefore, a 50% increase in speed must be required to produce a 50% increase in the fow rate. n Q 2 = 2 n Q 1 1     Q 750gpm n =n 2 =(900rpm) =1350rpm 2 1 Q 500gpm 1 Brake horsepower changes with the cube of the speed.</p><p>However, before applying another pump acnity law, frst calculate the brake horsepower by fnding the water horsepower, whp, which is determined by the fow rate and head added by the pump, then include the ecciency to account for the pumping losses.</p><p>Assume the pump ecciency is constant over a range of speeds.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Q h [gpm] A[ft] whp= 3960 whp Q h [gpm] A[ft] bhp= = η 3960·η p p (500)(200) bhp = =28.06hp 1 (3960)(.9) 217 Having defned the brake horsepower for the normal operating state, apply the acnity law relating power and speed to determine the bhp for the failure mode: bhp  n 3 2 = 2 bhp n 1 1  n 3  1350rpm 3 bhp =bhp 2 =(28.06hp) =94.7hp 2 1 n 900rpm 1 Note the dramatic increase in power associated with a moderate increase in speed.</p><p>This is one reason why energy savings can be readily achieved by running red</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Fluids 26, 390% efficient, secondary chilled water pumps operate in a parallel redundant N plus 1 configuration supplying a total of 1500 gpm again...</li><li>Given: 1500 gpm against 200 feet of total dynamic head; 900 rpm; 1500 gpm with a total dynamic head which I'll call HA of 20...</li><li>Approach: Okay, so let's draw this system under the normal operation and under the failure mode and then describe what the difference is ...</li><li>Calc: And that system provides a volume flow rate of 1500 gpm with a total dynamic head which I'll call HA of 200 feet.</li><li>Calc: Well, the cooling loads demand their 1500 gpm, right?</li><li>Result: The best answer choice is D and that's an argument for having multiple pumps in parallel, not only for redundancy in this failure mode, but also fo...</li></ul></div>
     </div>
@@ -291,7 +242,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> I used the pump affinity laws to check the head relationship with speed change, but head isn't supposed to change in a parallel operation—can you explain how the affinity laws still give the right answer?</div>
                 <div class='qa-answer'><strong>A:</strong> You're right that head doesn't change—the system requirement stays fixed regardless of how many pumps are running. The affinity laws aren't being used to relate speed; they're being used to relate the change in operating point between the 3-pump and 2-pump states. Since flow per pump increases when one fails, each pump moves to a new operating point on its curve, and the power (which scales with Q³) increases accordingly.</div>
             </div>
-            
   </div>
 
 </div>
@@ -299,16 +249,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 26 · Fluids</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

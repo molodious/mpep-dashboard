@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 21 | Thermodynamics OH Prep</title>
+<title>HVAC · Thermodynamics · Problem 21 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 21</span>
-  <span class="nav-badge">5 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Thermodynamics · Problem 21</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">An R-410 refrigeration cycle operates between 25.5psia and 135psia with 20◦F of superheat and 20◦F of subcooling. The compressor e(f)ciency is 88%. What is the coe(f)cient of performance? 21</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 4.3</div>
-      <div class='choice'><span class='choice-letter'>B</span> 4.8</div>
-      <div class='choice'><span class='choice-letter'>C</span> 5.1</div>
-      <div class='choice'><span class='choice-letter'>D</span> 5.3</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Thermodynamics-21.pdf"
+        title="Problem 21"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Thermodynamics-21.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>with 20◦F of superheat and 20◦F of subcooling.</p><p>The compressor ecciency is 88%.</p><p>What is the coeccient of performance?</p><p>A. 4.3 B. 4.8 C. 5.1 D. 5.3 In the reference handbook lookup Pressure Versus Enthalpy Curves for Refrigerant 410A and work around the cycle accounting for superheating, subcooling, and compressor ecciency.</p><p>Find the enthalpy for each state.</p><p>State 1, Follow a horizontal line at the low pressure condition (evaporator) to the right until the boundary with the superheated region, and then continue horizontally to the right at constant pressure accounting for an additional 20◦F of superheat.</p><p>The refrigerant temperature at 25.5psia is −40◦F .</p><p>There is additional superheating of 20◦F.</p><p>To fnd the temperature at State 1 accounting for the superheating, add 20◦F to −40◦F, which gives a temperature of −20◦F at State 1.</p><p>The enthalpy should be looked up for this value.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P =25.5psia 1 20◦F of superheat T =−20◦F 1 Btu h =118 1 lb State2(ideal), Underidealconditions, wewouldassumethecompressionisisentropic, therefore s = s and we can follow a line of constant entropy.</p><p>We will make this assumption initially; 2 1 however we must later account for the actual ecciency of the compressor.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P =135psia 2 s =s 2 1 Btu h =138 2 lb 181 State 3, Regardless of the exact location of State 2, we know the pressure on the high side of the cycle and we know there is 20◦F of subcooling.</p><p>Therefore we can locate State 3 and determine the enthalpy.</p><p>Move horizontally to the left along the condenser process line (high pressure), and continue past the saturation curve into the subcooled liquid region.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P =135psia 3 20◦F subcooling Btu h =20 3 lb To address the compressor ecciency, it is useful to consider the ideal compressor work frst,   W =m˙ (h −h ).</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>This quantity will be less than the actual compressor work, W =m˙ h −h . 2 1 2 1 The ecciency is the ratio of ideal to actual, and we can use it to specify the actual</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Thermal 21 and R410 refrigeration cycle operates between 25 and 1.5 psi and 135 psi with 20 degrees of superheat and 20 degrees of sub cooling.</li><li>Given: 1.5 psi and 135 psi with 20 degrees of superheat and 20 degrees of sub cooling; 135 psi i</li><li>Approach: We're finding the COP for refrigeration cycle, but we have superheat and sub cooling, and we now have to deal with the compress...</li><li>Calc: We have our pressure enthalpy curve, and since we have sub cooling, we're starting with state 3 being outside the saturation cu...</li><li>Calc: Then as we go to the right, we go past the saturated vapor line out into the superheat region for state 1 before entering the c...</li><li>Result: Best answer choice is A.</li></ul></div>
     </div>
@@ -286,7 +237,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> Is there a general rule for when to account for motor efficiency in HVAC calculations?</div>
                 <div class='qa-answer'><strong>A:</strong> Motors are rated by their output (BHP), so input is always larger than output due to losses. The key HVAC rule is: if only the motor is in the conditioned space, cool for motor losses only; if both motor and driven equipment are in the space, conservatively assume all motor output becomes heat that needs removal.</div>
             </div>
-            
   </div>
 
 </div>
@@ -294,16 +244,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 21 · Thermodynamics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

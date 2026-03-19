@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 6 | Psychrometrics OH Prep</title>
+<title>HVAC · Psychrometrics · Problem 6 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 6</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Psychrometrics · Problem 6</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">Air enters an evaporative cooler at 85◦F and 30% relative humidity and exits at 75◦F. What is the saturation e(f)ciency? 33</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 37%</div>
-      <div class='choice'><span class='choice-letter'>B</span> 47%</div>
-      <div class='choice'><span class='choice-letter'>C</span> 53%</div>
-      <div class='choice'><span class='choice-letter'>D</span> 63%</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Psychrometrics-06.pdf"
+        title="Problem 6"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Psychrometrics-06.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>and exits at 75◦F.</p><p>What is the saturation ecciency?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 37% B. 47% C. 53% D. 63% The saturation ecciency of an evaporative cooler is defned by the formula: (T −T ) ε=100 1 2 (T −T) 1 s where T is the entering air dry bulb temperature, T is the leaving air dry bulb temperature, 1 2 and T is the wet bulb temperature of the entering air.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The entering wet bulb temperature is s the minimum possible leaving air temperature achievable, such that for a 100% eccient process, T =T . 2 s Since both the entering and leaving dry bulb temperatures are known, the only additional informationtobedeterminedistheenteringwetbulb, whichcanbepulledfromthepsychrometric chart since the entering state is fully defned: T =85◦F 1,db φ =30% 1 T =63.6◦F 1,wb Calculate the saturation ecciency: (T −T ) (85◦F −75◦F) ε=100 1 2 =100 =47% (T −T) (85◦F −63.6◦F) 1 s Answer B 227</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Psychometrics problem 6.</li><li>Approach: And if it goes all the way to the wept bulb temperature, which is to say that it becomes saturated, then that point is the poin...</li><li>Key formula: equation for the efficiency</li><li>Calc: If you're starting at some state 1, the air is being cooled along a line of constant wept bulb.</li><li>Calc: So it's moving in this general direction and it'll get to some state 2.</li><li>Result: Which is closest to answer choice B.</li></ul></div>
     </div>
@@ -266,7 +217,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> Are there specific problems in Psych 6 that use the cooling tower approach, and what's the difference between an evaporative cooler and a cooling tower?</div>
                 <div class='qa-answer'><strong>A:</strong> The key distinction is that evaporative air coolers cool air (efficiency based on air temperature change relative to wet-bulb), while cooling towers cool water (effectiveness based on water temperature change relative to outdoor wet-bulb). Understanding which device you're analyzing determines whether you're calculating air-side or water-side efficiency.</div>
             </div>
-            
   </div>
 
 </div>
@@ -274,16 +224,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 6 · Psychrometrics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

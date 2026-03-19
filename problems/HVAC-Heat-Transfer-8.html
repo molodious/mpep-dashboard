@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 8 | Heat-Transfer OH Prep</title>
+<title>HVAC · Heat-Transfer · Problem 8 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat-Transfer · Problem 8</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Heat-Transfer · Problem 8</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">60gpm of hot water is produced by a steam heat exchanger. 5psig saturated steam is provided, and the condensate leaves as a satu- rated liquid. The (fl)ow rate of steam is 2000lbm. If cold water enters hr at 55◦F, what is the temperature of leaving hot water? Neglect losses.</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 113◦F</div>
-      <div class='choice'><span class='choice-letter'>B</span> 116◦F</div>
-      <div class='choice'><span class='choice-letter'>C</span> 119◦F</div>
-      <div class='choice'><span class='choice-letter'>D</span> 122◦F</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Heat-Transfer-08.pdf"
+        title="Problem 8"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Heat-Transfer-08.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>saturated steam is provided, and the condensate leaves as a satu- rated liquid.</p><p>The fow rate of steam is 2000lbm.</p><p>If cold water enters hr at 55◦F, what is the temperature of leaving hot water?</p><p>Neglect losses.</p><p>A. 113◦F B. 116◦F C. 119◦F D. 122◦F Alloftheheatgivenupbythesteamisaddedtothewater,sincelossesaretobeneglected.</p><p>Setthe heatlossforthesteamequaltotheheatgainforthewater.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Writeanexpressionforthesteambased on change in enthalpy and an expression for the water using the sensible heating rule of thumb for water: Q˙ =Q˙ steam water m˙ ∆h=500gpm∆T steam Use the table Properties of Saturated Water (by pressure) to look up the enthalpy of saturated steam and saturated liquid at 5psig: Btu h =196 f lb Btu h =1156 g lb 249 Substitute the given mass fow rate, GPM, and supply water temperature and solve for the leaving hot water temperature:    lb Btu Btu 2000 1156 −196 =500(60)(T −55◦F) hr lb lb hws T =119◦F hws Answer C</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Heat transfer 8, 60GPM of hot water is produced by a steam heat exchanger.</li><li>Given: 60GPM of hot water is produced by a steam heat exchanger; 5 PSIG saturated steam is provided and the condensate leave...</li><li>Approach: 5 PSIG saturated steam is provided and the condensate leaves as a saturated liquid.</li><li>Key formula: equation is going to be an m dot delta h and we have m dot and we should be able to get the delta h as out of the ste...</li><li>Calc: If cold water enters at 55 degrees, what is the temperature of the leaving hot water in the collect losses?</li><li>Calc: And it is 55 degrees when it enters and there are 60GPM flowing and then leaving.</li><li>Result: The left side of this equation works out to 1.9 million p2 per hour and the right side is 30,000 times t minus 55 ignore the sirens and if you divi...</li></ul></div>
     </div>
@@ -266,7 +217,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> Should the steam side of this heat exchanger be treated as a closed loop that stays at 5 PSIG, or does it open to atmosphere at the condensate tank?</div>
                 <div class='qa-answer'><strong>A:</strong> Yes—treat it as a closed loop at 5 PSIG throughout the coil; there's no pressure-reducing mechanism within the coil itself. The steam enters at 5 PSIG saturated, undergoes phase change (condensation), and gives up its latent heat to the water side while remaining at that pressure. Any pressure reduction would occur further downstream in the condensate return system, not within this heat exchanger.</div>
             </div>
-            
   </div>
 
 </div>
@@ -274,16 +224,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 8 · Heat-Transfer</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

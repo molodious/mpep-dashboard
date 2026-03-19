@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 7 | HVAC OH Prep</title>
+<title>HVAC · HVAC · Problem 7 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 7</span>
-  <span class="nav-badge">2 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · HVAC · Problem 7</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">An elevator control room houses four 10hp motors with 92% e(f)- ciency, 30ft of linear LED lighting drawing 5W/ ft, and one computer workstation consuming 300W. The room is supplied with 74◦F air using a transfer fan. During peak elevator usage, what is the max- imum (fl)ow rate needed to maintain 80◦F in the room?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 360cfm</div>
-      <div class='choice'><span class='choice-letter'>B</span> 1500cfm</div>
-      <div class='choice'><span class='choice-letter'>C</span> 15,000cfm</div>
-      <div class='choice'><span class='choice-letter'>D</span> 16,000cfm</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-HVAC-07.pdf"
+        title="Problem 7"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-HVAC-07.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>ciency, 30ft of linear LED lighting drawing 5W/ ft, and one computer workstation consuming 300W.</p><p>The room is supplied with 74◦F air using a transfer fan.</p><p>During peak elevator usage, what is the max- imum fow rate needed to maintain 80◦F in the room?</p><p>A. 360cfm B. 1500cfm C. 15,000cfm D. 16,000cfm Calculate the heat gain from the elevator motors by using the electrical motor ecciency.</p><p>Most of the electrical power is converted to mechanical power to drive the elevators; only the losses are converted to waste heat.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert units to Btu. hr  W  3.412Btu  Btu Q˙ =(4)(10hp) 745.7 hr (.08)=8142 motors hp W hr Calculate the heat gain from the LED lighting:  5W  3.412Btu  Btu Q˙ =(30ft) hr =512 lights ft W hr Convert the heat gain from the computer to Btu: hr   3.412Btu Btu Q˙ =(300W) hr =1024 comp W hr Determine the total heat load from all sources.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Q˙ =Q˙ +Q˙ +Q˙ total motors lights comp Btu Btu Btu Btu Q˙ =8142 +512 +1024 =9678 (sensible) total hr hr hr hr Since the heat load is entirely sensible heat gain, use the sensible heating rule of thumb to determine the required fow rate: Q˙ Q˙ =1.08cfm∆T →cfm= s s 1.08∆T 9678 cfm= =1494cfm 1.08(80−74) Answer B 280</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: An elevator control room houses 4 10-horsepower motors with 92% efficiency, 30 feet of linear LED lighting, drawing 5 watts per foot, and 1 compute...</li><li>Given: 30 feet of linear LED lighting, drawing 5 watts per foot, and 1 computer workstation, drawing 300 watts; 1.08 CFM Del...</li><li>Approach: The room is supplied with 74 degree air using a transfer fan.</li><li>Calc: They're just supplying return air using a transfer fan, so it's 74 degrees.</li><li>Calc: And since this room would otherwise get hotter than 80 degrees, it's cold enough to do the job.</li><li>Result: And that works out to 1,494 CFM, which is closest to answer choice B.</li></ul></div>
     </div>
@@ -271,7 +222,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> For HVAC-7, why can't I use equation 9.1.4 with efficiency in the denominator — and since the motor and machine are in the conditioned space similar to problem 17, why isn't 100% of the load used?</div>
                 <div class='qa-answer'><strong>A:</strong> This is a concept that trips up almost everyone — the key is where both the motor and its driven load are located relative to the conditioned space. If both are inside, all electrical input becomes heat in the room; if only the driven equipment is inside, you account for that shaft work plus any loss from the motor separately.</div>
             </div>
-            
   </div>
 
 </div>
@@ -279,16 +229,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 7 · HVAC</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

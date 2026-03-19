@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 14 | Psychrometrics OH Prep</title>
+<title>HVAC · Psychrometrics · Problem 14 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 14</span>
-  <span class="nav-badge">2 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Psychrometrics · Problem 14</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">An auditorium has a sensible heat load of 300,000Btu and a moisture hr load of 100lb. Air is supplied at 62◦F and 50% relative humidity. hr The space is not to exceed a temperature of 74◦F or a relative humidity of 60%. What are the return air conditions?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 71◦F, 60% RH</div>
-      <div class='choice'><span class='choice-letter'>B</span> 72◦F, 43% RH</div>
-      <div class='choice'><span class='choice-letter'>C</span> 74◦F, 38% RH</div>
-      <div class='choice'><span class='choice-letter'>D</span> 74◦F, 60% RH</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Psychrometrics-14.pdf"
+        title="Problem 14"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Psychrometrics-14.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>hr load of 100lb.</p><p>Air is supplied at 62◦F and 50% relative humidity. hr The space is not to exceed a temperature of 74◦F or a relative humidity of 60%.</p><p>What are the return air conditions?</p><p>A. 71◦F, 60% RH B. 72◦F, 43% RH C. 74◦F, 38% RH D. 74◦F, 60% RH InitiallyitisnotclearwhethertheCFMwillbedrivenbythesensiblecoolingdemandorthelatent coolingdemand.</p><p>Oneapproachistoguess, solve, andthenchecktomakesuretheotherparameter is satisfed.</p><p>In this case, assume the sensible heat load drives the required CFM, then check to make sure the room relative humidity does not exceed 60%.</p><p>Start with the sensible cooling rule of thumb.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Refer to Heat Gain Calculations in the Reference Handbook: q q =1.08cfm∆T →cfm= s s 1.08∆T 300,000 cfm= =23,148cfm 1.08(74−62) Look up latent heat gain and use the approximate heat content of water vapor to convert the latent heat load into Btu : hr    lb Btu Btu q = 100 1076 =107,600 L hr lb hr Apply the latent heat gain rule of thumb and solve for the humidity ratio of the return air.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Use the psychrometric chart to look up the humidity ratio for the supply condition: T =62◦F s,db φ =50% s lb ω =0.0059 w s lb da q =4840cfm∆ω =4840cfm(ω −ω ) L r s q 107,600 lb ω = L +ω = +0.0059=0.0068 w r 4840cfm s 4840(23,148) lb da T =74◦F r,db 236</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Using the return humidity ratio and the return dry bulb temperature, use the psychrometric chart again to determine the return relative humidity: φ =38%<60% r Since the return relative humidity is less than the allowable maximum of 60%, the initial as- sumption that the sensible load would drive the CFM was correct.</p><p>Answer C</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Psychometric's problem 14.</li><li>Given: 14. In Auditorium has a sensible heat load of 300,000 BTUs per hour and a moisture load of 100 pounds per hour; 000 B...</li><li>Approach: So this is an interesting problem because we don't know whether the sensible heat in the space, the 300,000 BTUs per hour, or t...</li><li>Calc: The space is not to exceed a temperature of 74 degrees or a relative humidity of 60%.</li><li>Calc: It may be that we're bumping into the 74 degree limit in order to meet the sensible load.</li><li>Result: Six eight six to the bow right here try to get that parallel and then 74 is about here so what is the relative humidity at that point it's just shy...</li></ul></div>
     </div>
@@ -271,7 +222,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> I found max CFM from the sensible load with a max delta T of 12°F, then used the total heat formula 4.5·CFM·ΔH to find H2—is this a valid approach even though it differs from the solution?</div>
                 <div class='qa-answer'><strong>A:</strong> Finding maximum CFM from the sensible load constraint is the right first step and valid. Using 4.5·CFM·ΔH to find H2 is also valid in principle, but you need to be careful that you're using the correct leaving conditions and that the enthalpy approach is consistent with how the latent load was established. If the sensible heat ratio approach in the solution gives a different answer, compare the intermediate values to find where the two paths diverge.</div>
             </div>
-            
   </div>
 
 </div>
@@ -279,16 +229,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 14 · Psychrometrics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

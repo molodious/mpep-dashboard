@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 1 | HVAC OH Prep</title>
+<title>HVAC · HVAC · Problem 1 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 1</span>
-  <span class="nav-badge">5 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · HVAC · Problem 1</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">5000cfm of 76◦F air with 60% RH is returned to an air handling unit with a total capacity of 15tons and a design sensible heat ratio of 0.7. The cooling coil is supplied with 43◦F chilled water which leaves the coil at 54◦F. The supply air conditions are 58◦F dry bulb and 56◦F wet bulb. What percentage of the sensible cooling capacity is available as spare?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 23%</div>
-      <div class='choice'><span class='choice-letter'>B</span> 46%</div>
-      <div class='choice'><span class='choice-letter'>C</span> 54%</div>
-      <div class='choice'><span class='choice-letter'>D</span> 77%</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-HVAC-01.pdf"
+        title="Problem 1"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-HVAC-01.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>unit with a total capacity of 15tons and a design sensible heat ratio of 0.7.</p><p>The cooling coil is supplied with 43◦F chilled water which leaves the coil at 54◦F.</p><p>The supply air conditions are 58◦F dry bulb and 56◦F wet bulb.</p><p>What percentage of the sensible cooling capacity is available as spare?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 23% B. 46% C. 54% D. 77% Convert the total cooling capacity to Btu: hr   12000Btu Btu 15tons hr =180,000 ton hr Apply the sensible heat ratio i.e SHR to determine the sensible cooling capacity:   Btu Btu (.7) 180,000 =126,000 hr hr To fnd the percentage of spare sensible capacity, fnd the sensible cooling load and subtract from the sensible capacity.</p><p>Use the sensible cooling rule of thumb to calculate the actual load.</p><p>Note: onlydrybulbtemperaturesshouldbeused.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Unitsdonotneedtobenotedaslongasvolume fow rate is in cfm and temperatures are in ◦F, the fnal result will be in Btu. hr Q˙ =1.08cfm∆T s Btu Q˙ =1.08(5000)(76−58)=97,200 s hr Calculate spare capacity: Btu Btu Btu 126,000 −97,200 =28,800 hr hr hr Change to a percentage: 28,800Btu hr =22.9% 126,000Btu hr Answer A 272</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Hi, welcome to HVAC Extra Practice for the PE exam.</li><li>Given: 000 CFM of 76 degree air with 60% relative humidity is returned to an air handling unit with a total capacity of 15 t...</li><li>Approach: This is Damelae and we've got a great set of 25 practice problems here, so let's dive right in.</li><li>Calc: The cooling coil is supplied with 43 degree chilled water, which leaves the coil at 54 degrees.</li><li>Calc: The supply air conditions are 58 degrees dry bulb and 56 degrees wet bulb.</li><li>Result: So that's pretty close to 23%, which is answer choice A.</li></ul></div>
     </div>
@@ -286,7 +237,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> In your solution for HVAC-1, you wrote 28,000 BTU/hr for the spare sensible capacity but shouldn't it be 28 BTU/hr, making the answer 16% not 23%?</div>
                 <div class='qa-answer'><strong>A:</strong> You're right that I wrote 28,000 when the intermediate value should be 28 — I've added a clarification to the problem. However, the final spare percentage of 22.9% ≈ 23% is still correct; the error was only in how I expressed that intermediate step, not in the arithmetic.</div>
             </div>
-            
   </div>
 
 </div>
@@ -294,16 +244,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 1 · HVAC</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

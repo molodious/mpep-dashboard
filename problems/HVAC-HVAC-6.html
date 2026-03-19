@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 6 | HVAC OH Prep</title>
+<title>HVAC · HVAC · Problem 6 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 6</span>
-  <span class="nav-badge">5 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · HVAC · Problem 6</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A 5000ft2 laboratory has 200 occupants in the summer. In addition to the required fresh air, additional outside air at 90◦F db, 75◦F wb in(f)ltrates into the building at 1 air change per hour. The building volume is 75,000ft3 and the inside design conditions are 72◦F and 50% RH. What is the total cooling delivered by the ventilation system? 48</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 7tons</div>
-      <div class='choice'><span class='choice-letter'>B</span> 8tons</div>
-      <div class='choice'><span class='choice-letter'>C</span> 19tons</div>
-      <div class='choice'><span class='choice-letter'>D</span> 21tons</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-HVAC-06.pdf"
+        title="Problem 6"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-HVAC-06.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: C</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>to the required fresh air, additional outside air at 90◦F db, 75◦F wb infltrates into the building at 1 air change per hour.</p><p>The building volume is 75,000ft3 and the inside design conditions are 72◦F and 50% RH.</p><p>What is the total cooling delivered by the ventilation system?</p><p>A. 7tons B. 8tons C. 19tons D. 21tons The cooling capacity of the ventilation system must be sized for both the minimum fresh air provision and the infltration.</p><p>Look up ventilation rates in the Reference Handbook and fnd a table with diaerent occupancy categories.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note the minimum ventilation requirements for a laboratory per person and per square foot are: cfm R =10 p person 278 cfm R =.18 a ft2 Apply the Ventilation Rate Procedure (VRP).</p><p>This is simply a matter of accounting for the number of occupants in the building and the amount of area, and using the values previously obtained.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>The required volume of outside air for ventilation is:     V˙ =(200people) 10 cfm +  5000ft2 .18 cfm =2900cfm oa person ft2 Determine the volume fow rate due to infltration.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Use the building volume, air changes per hour (ACH), and convert the time to obtain cfm:  airchange  ft3  1hr  V˙ = 1 75000 =1250cfm infiltration hr airchange 60min The total volume fow rate of outside air that needs to be cooled is the sum of the ventilation and infltration: V˙ =V˙ +V˙ =2900cfm+1250cfm=4150cfm total oa infiltration Both the outside and inside conditions are fully defned.</p><p>Let the outside be state 2 and the inside be state 1.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Find the enthalpy for both states: T =90◦F db,1 T =75◦F wb,1 Btu h =38.4 1 lb T =72◦F db,2 φ =50% 2 Btu h =26.4 2 lb Use the total cooling rule of thumb to calculate the total cooling delivered by the ventilation system.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Convert to refrigeration tons: Q˙ =4.5cfm∆h t   Btu 1ton Q˙ =4.5(4150)(38.4−26.4)=224,100 =18.7tons t hr 12000Btu hr An</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: a 5,000 square foot laboratory has 200 occupants in the summer.</li><li>Given: 4.5 CFM Delta H; 1250 CFM just coming from infiltration; 10 CFM per person and then for the area there's 5,000 square...</li><li>Approach: We have to find those two volumes separately and then add them together and then to find the total cooling.</li><li>Calc: Since we know the temperatures and relative humidity is we should be able to find the difference in enthalpy and we can use our...</li><li>Calc: This laboratory has a volume of 75,000 cubic feet and there's 200 people in there.</li><li>Result: Close this answer choice is C.</li></ul></div>
     </div>
@@ -286,7 +237,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> In HVAC-6, why is infiltrated air (entering through doors, windows, and leakage) counted as part of the 'total cooling delivered by the ventilation system' when infiltration isn't part of a dedicated ventilation system?</div>
                 <div class='qa-answer'><strong>A:</strong> You're absolutely right about the definition of infiltrated air — it's uncontrolled and enters separately from the mechanical ventilation system. But the cooling load that infiltrated air imposes is still real and must be handled by the cooling coil, so it gets included in the total ventilation-related cooling burden for equipment sizing.</div>
             </div>
-            
   </div>
 
 </div>
@@ -294,16 +244,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 6 · HVAC</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

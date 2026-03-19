@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 11 | Heat-Transfer OH Prep</title>
+<title>HVAC · Heat-Transfer · Problem 11 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat-Transfer · Problem 11</span>
-  <span class="nav-badge">0 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Heat-Transfer · Problem 11</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">100lbs of Haddock initially at 45◦F is to be frozen to 20◦F within 3hrs. What is the minimum required refrigeration capacity?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 0.2tons</div>
-      <div class='choice'><span class='choice-letter'>B</span> 0.4tons</div>
-      <div class='choice'><span class='choice-letter'>C</span> 1ton</div>
-      <div class='choice'><span class='choice-letter'>D</span> 2tons</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Heat-Transfer-11.pdf"
+        title="Problem 11"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Heat-Transfer-11.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>3hrs.</p><p>What is the minimum required refrigeration capacity?</p><p>A. 0.2tons B. 0.4tons C. 1ton D. 2tons Calculate the total heat to be removed from the Haddock by fnding the sum of sensible cooling above the freezing point, latent cooling, and sensible cooling below the freezing point.</p><p>Note the freezing point of the fsh, like many foods, is not exactly the same as the freezing point of water.</p><p>In this case it is 28◦F.</p><p>Use the table Properties of Foods to look up the specifc heat capacity and freezing point.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Q =Q +Q +Q total sensible,aboveFP latent@FP sensible,belowFP Q =mc ∆T sensible,aboveFP p,above   Btu Q =(100lb) .9 (45◦F −28◦F)=1530Btu sensible,aboveFP lb◦F   Btu Q =mh =(100lb) 115 =11,500Btu latent@FP fg lb Q =mc ∆T sensible,belowFP p,below   Btu Q =(100lb) .51 (28◦F −20◦F)=408Btu sensible,belowFP lb◦F 252 Q =1530Btu+11,500Btu+408Btu=13,438Btu total Divide by time and convert to tons to determine the required refrigeration capacity i.e. rate of heat removal in tons:   Q 13,438Btu Btu 1ton Q˙ = = =4480 =.37tons t 3hr hr 12,000Btu hr Answer B</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Heat transfer 11, a hundred pounds of haddock initially at 45 degrees is to be frozen to 20 degrees within three hours.</li><li>Given: 100 pounds times 0; 100 pounds times the 115 B2 per pound; 0.37 tons which is about 4 tenths of a ton answer choice B...</li><li>Approach: This is similar to a problem we saw earlier as well about freezing some pork with a added step where we have to not only find o...</li><li>Calc: It's actually got the same freezing point as pork, 28 degrees so I get some meats and fish or probably fairly similar.</li><li>Calc: We've got the freezing point which is 28 degrees and the specific heat capacity above the freezing point is 0.9 B2 per pound de...</li><li>Result: We'll be 13,438 B2 divided by three hours and that will give an answer in B2's per hour and one refrigeration ton is 12,000 B2's per hour so you ca...</li></ul></div>
     </div>
@@ -269,16 +220,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 11 · Heat-Transfer</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

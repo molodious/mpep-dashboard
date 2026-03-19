@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 8 | Psychrometrics OH Prep</title>
+<title>HVAC · Psychrometrics · Problem 8 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Psychrometrics · Problem 8</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Psychrometrics · Problem 8</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">At 5000ft above sea level a 1ton fan coil unit discharges 54◦F dry bulb, 52◦F wet bulb supply air, maintaining the space at 74◦F and 50% relative humidity. What is the required CFM for the fan?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 400cfm</div>
-      <div class='choice'><span class='choice-letter'>B</span> 500cfm</div>
-      <div class='choice'><span class='choice-letter'>C</span> 520cfm</div>
-      <div class='choice'><span class='choice-letter'>D</span> 650cfm</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Psychrometrics-08.pdf"
+        title="Problem 8"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Psychrometrics-08.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>bulb, 52◦F wet bulb supply air, maintaining the space at 74◦F and 50% relative humidity.</p><p>What is the required CFM for the fan?</p><p>A. 400cfm B. 500cfm C. 520cfm D. 650cfm If this question were being asked for a fan coil installed at sea level, it would be appropriate to use thetypicalrulesofthumb.</p><p>However, sincetheunitis5000ftabovesealevel, itisnecessarytolook up heat gain calculations using standard air values in the Reference Handbook where a diaerent constant is used.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>In this case, rather than the total heat gain formula at sea level, Q =4.5cfm∆h t , the constant in the formula will be modifed as shown: Q =3.74cfm∆h t Thecapacityisgiven,andtheenthalpyofboththesupplyandreturnconditionsmaybelooked up using the psychrometric chart for 5000 feet, as both states are fully defned.</p><p>Note that using the sea level psychrometric chart would lead to incorrect values.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T =54◦F s,db T =52◦F s,wb Btu h =23.2 s lb T =74◦F r,db 229 φ =50% r Btu h =29.6 r lb Rearrange the total heat gain formula, substitute, and solve for the cfm.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Use the measurement relationship: 1ton=12,000Btu .</p><p>Provided the heat gain is in Btu and the enthalpy is in Btu, the hr hr lb cfm units will work out automatically using this rule of thumb, hence units need not be shown.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Q Q =3.74cfm∆h→cfm= t t 3.74∆h Q Q 12,000 cfm= t = t = =501cfm 3.74∆h 3.74(h −h ) 3.74(29.6−23.2) r s Answer B</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Psychometrics problem 8.</li><li>Given: 000 feet above sea level, a one-ton fan coil unit, discharge is 54 degrees dry bulb 52 degrees wet bulb supplier, mai...</li><li>Approach: And then we have our FCU overhead supplying air into the room and returning air from the room.</li><li>Key formula: equation for total heat transfer, where we want to include both the sensible and the latent, would be 4</li><li>Calc: And this is happening at high elevation, so we're going to have to adjust our approach to accommodate for the fact that we're 5...</li><li>Calc: The room is 74 degrees and 50% humidity and the supplies 54 degrees dry bulb and 52 degrees wet bulb.</li><li>Result: So there's a sensible heat ratio that's not 1.</li></ul></div>
     </div>
@@ -266,7 +217,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> When reading the psychrometric chart for air at 54°F DB and 52°F WB, I get an enthalpy of 23.4, which leads to ~520 CFM, but using 23.3 gives ~510 CFM—will the actual PE exam really have answer choices this close when small chart reading errors cause different solutions?</div>
                 <div class='qa-answer'><strong>A:</strong> You're right that these answers are too close, but since you fully understand the concepts and are within a couple percent, you should mark it correct and move on—there may be a handful of problems like this on the exam, so just do your best and don't lose sleep over it. Remember, practice problems aren't scored; what matters is that you understand the fundamentals.</div>
             </div>
-            
   </div>
 
 </div>
@@ -274,16 +224,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 8 · Psychrometrics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

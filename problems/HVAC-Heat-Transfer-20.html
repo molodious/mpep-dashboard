@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 20 | Heat-Transfer OH Prep</title>
+<title>HVAC · Heat-Transfer · Problem 20 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Heat-Transfer · Problem 20</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Heat-Transfer · Problem 20</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A clean, new domestic hot water heater uses 25psia saturated steam to heat 50gpm of water from 60◦F to 130◦F. After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·◦F. Btu The total heat exchange surface area is 20ft2. What will the hot water supply (outlet) temperature be for the same 50gpm volume (fl)ow rate entering at 60◦F under fouled conditions? 44</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 100◦F</div>
-      <div class='choice'><span class='choice-letter'>B</span> 110◦F</div>
-      <div class='choice'><span class='choice-letter'>C</span> 120◦F</div>
-      <div class='choice'><span class='choice-letter'>D</span> 125◦F</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Heat-Transfer-20.pdf"
+        title="Problem 20"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Heat-Transfer-20.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>steam to heat 50gpm of water from 60◦F to 130◦F.</p><p>After a year of operation, the overall fouling factor is found to be 0.001hr·ft2·◦F.</p><p>Btu The total heat exchange surface area is 20ft2.</p><p>What will the hot water supply (outlet) temperature be for the same 50gpm volume fow rate entering at 60◦F under fouled conditions?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 100◦F B. 110◦F C. 120◦F D. 125◦F The formula needed to analyze the change in performance due to fouling can be derived from the generalized formula presented in the Reference Handbook under Overall Heat-Transfer Coeccient for Concentric Tube and Shell-and-Tube Heat Exchangers by applying a few simplifying assump- tions.   1 = 1 + R fi + ln D D o i + R fo + 1 UA h A A 2πkL A h A i i i o o o Assume the internal and external area of the heat exchanger are approximately the same i.e.</p><p>A≈A ≈A ≈2πrL.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Therefore all terms can be multiplied by area as such: i o   1 = 1 +R + r·ln D D o i +R + 1 U h fi k fo h i o Now collapse the internal and external fouling factors, R and R , respectively, into a single fi fo parameter inclusive of losses on both sides i.e.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>R = R +R .</p><p>Also assume that k, the thermal f fi fo conductivityoftheheatexchangerisrelativelylargesuchthatthemiddletermbecomesnegligible.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Then: 1 1 1 = +R + U h f h fouled i o Theformulaabovewouldbeapplicablewhentheheatexchangerisfouledi.e. thefoulingfactor is nonzero: R >0 f Whentheheatexchangerisclean,thefoulingfactorhasavalueofzeroandneednotbeincluded: R =0 f 1 1 1 = + U h h clean i o By substitution: 1 1 = +R U U f fouled clean 263 1 1 R = − f U U fouled clean This formula is readily available in the Mechanical Engineering Reference Manual; however, it is not given in the NCEES Reference Handbook.</p><p>It may be advisable to memorize it in order to skip the derivation above (or at least be aware of the opportunity to simplify when necessary).</p><p>Use the steam table Properties of Saturated Water (by Pressure) to look up the temperature of the steam used for heating.</p><p>No</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: A clean new domestic hot water heater uses 25 PSI saturated steam to heat 50GPM water from 60 to 130 degrees.</li><li>Given: 25 PSI saturated steam to heat 50GPM water from 60 to 130 degrees; 50GPM volume flow rate still entering at 60 degree...</li><li>Approach: After a year of operation, the overall filing factor is found to be 0.001 hour foot square degree F per BTU.</li><li>Key formula: formula is in the murm but this is the formula that we're going to derive fouling factor</li><li>Calc: What will the hot water supply outlet temperature be for the same 50GPM volume flow rate still entering at 60 degrees F but und...</li><li>Result: Now realistically on a test problem situation you're not going to be expected to iterate through a problem multiple times but you have to be able t...</li></ul></div>
     </div>
@@ -266,7 +217,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> In Heat Transfer 20 (fouled heat exchanger), what prompts you to iterate after initially calculating 103°F as the outlet temperature — wouldn't the fouling factor already account for the changed conditions?</div>
                 <div class='qa-answer'><strong>A:</strong> The iteration is necessary because the LMTD correction factor F depends on the exit temperatures, which you don't know until after you calculate them — creating a circular dependency. You make an initial guess for the outlet temperature, calculate the heat transfer with F, then check whether the result is consistent with your assumed exit temperature, iterating until they converge.</div>
             </div>
-            
   </div>
 
 </div>
@@ -274,16 +224,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 20 · Heat-Transfer</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

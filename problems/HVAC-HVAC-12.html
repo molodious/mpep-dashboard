@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 12 | HVAC OH Prep</title>
+<title>HVAC · HVAC · Problem 12 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · HVAC · Problem 12</span>
-  <span class="nav-badge">1 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · HVAC · Problem 12</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">A 600ft long round duct with a diameter of 12in delivers 1000cfm. There are (12) 90-degree elbows with a bend radius of double the duct diameter, contributing an equivalent length of 10 times the duct diameter for each (f)tting. What is the friction loss? 51</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 0.8inwg</div>
-      <div class='choice'><span class='choice-letter'>B</span> 1.4inwg</div>
-      <div class='choice'><span class='choice-letter'>C</span> 2.0inwg</div>
-      <div class='choice'><span class='choice-letter'>D</span> 2.8inwg</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-HVAC-12.pdf"
+        title="Problem 12"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-HVAC-12.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>There are (12) 90-degree elbows with a bend radius of double the duct diameter, contributing an equivalent length of 10 times the duct diameter for each ftting.</p><p>What is the friction loss?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 0.8inwg B. 1.4inwg C. 2.0inwg D. 2.8inwg Use the friction loss chart provided to determine the ∆P based on the volume fow rate and duct diameter given: Q=1000cfm 285 D =12in ∆P ≈0.19inwg/100ft The duct length is given.</p><p>However, the elbows must also be accounted for.</p><p>Each elbow con- tributes 10 times the duct diameter to the equivalent length.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Calculate the equivalent length for the fttings: L =(12)(10)(1ft)=120ft fittings Calculate the total equivalent length inclusive of duct length and fttings: L =600ft+120ft=720ft eq Determine the pressure loss: ∆P =(0.19inwg/100ft)(720ft)=1.37inwg Answer B 286</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: a 600-foot-long round duct with a diameter of 12 inches delivers a 1000 CFM.</li><li>Given: 12 inches delivers a 1000 CFM; 1000 CFM coming through and it has 12 inch diameter and it has a length of 600 feet; 1...</li><li>Approach: So for this problem we have to use the friction loss chart.</li><li>Calc: So based on that we can come over here, go to 1000 CFM or on this line.</li><li>Calc: Okay 12 inches is the diameter, so that is coming on these diagonals.</li><li>Result: And that is 2.02 inches of water closest to answer choice C.</li></ul></div>
     </div>
@@ -266,7 +217,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> For Psychrometrics-12 (air washer problem), is the lever rule good enough to eyeball the ending state, and would it work for most similar problems?</div>
                 <div class='qa-answer'><strong>A:</strong> For this specific problem the process was 100% effective toward the wet-bulb temperature, so the endpoint is well-defined and not ambiguous. The lever rule works for locating intermediate states on a process line, but I want you to actually draw this on the real psychrometric chart and tell me how it goes — then follow up with any questions.</div>
             </div>
-            
   </div>
 
 </div>
@@ -274,16 +224,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 12 · HVAC</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

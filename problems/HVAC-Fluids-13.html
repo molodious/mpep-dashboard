@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 13 | Fluids OH Prep</title>
+<title>HVAC · Fluids · Problem 13 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 13</span>
-  <span class="nav-badge">0 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Fluids · Problem 13</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">Room temperature atmospheric air (fl)ows at 100ft in a 400ft long s nominal 3in schedule 40 threaded steel pipe containing (12) 90(′6) long radius elbows and (2) gate valves. Air leaves the pipe at an elevation 200ft lower than the pipe inlet. What is the pressure di(')erence between the two ends of the pipe? 26</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 3psi</div>
-      <div class='choice'><span class='choice-letter'>B</span> 18psi</div>
-      <div class='choice'><span class='choice-letter'>C</span> 96psi</div>
-      <div class='choice'><span class='choice-letter'>D</span> 110psi</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Fluids-13.pdf"
+        title="Problem 13"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Fluids-13.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>s nominal 3in schedule 40 threaded steel pipe containing (12) 90 long radius elbows and (2) gate valves.</p><p>Air leaves the pipe at an elevation 200ft lower than the pipe inlet.</p><p>What is the pressure diaerence between the two ends of the pipe?</p><p>A. 3psi B. 18psi C. 96psi D. 110psi</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Start by writing the Bernoulli Equation: P v2 P v2 1 + 1 +z = 2 + 2 +z +h γ 2g 1 γ 2g 2 f Neglectvelocityandsolveforthepressurediaerence∆P =P −P .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note∆z =z −z =−200ft 1 2 2 1 which is a negative value since the entrance is higher than the exit.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>P −P 1 2 =(z −z )+h γ 2 1 f Thefrictionlossesincludebothmajorandminorlosses.</p><p>Thisrequiresanadditionaltermbeyond thetypicalapplicationoftheDarcyEquation, ascanbefoundbylookingupFittingsLossesinthe reference handbook.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>You may factor out the common terms: fLv2 v2  fL  v2 h =h +h = +K = +K f f,major f,minor 2gD 2g D 2g For the minor losses, look up the K-factors for Threaded Pipe Fittings and take the sum ac- counting for the quantities: Threaded Pipe Fittings K-Factor Total  (12) 90 long radius elbow .31 3.72 (2) gate valve .14 .28 Taking the overall sum, K =4 total Forthemajorlosses,usingtheSteelPipeFrictionTablestofndtheactualdiameterofanominal 3inch pipe.</p><p>Use the Properties of Air table to fnd the kinematic viscosity at room temperature.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note the velocity is given.   1ft D =3.068in =.264ft 12in   100ft (.264ft) Re= vD = s =160,000≈1.6×105 ν 16.5×10−5ft2 s 200 Find the relative roughness:  .0002ft = ≈.0008 D .264ft Find the friction factor using the Moody Diagram:    f =f Re, ≈.021 D</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Solve for the friction losses, including major and minor:   2   fL  v2  (.021)(400ft)  100f s t h = +K = +4  =5559ft f D 2g (.264ft)  2  32.2ft  s2 This may seem high but recall the fuid is air.</p><p>Calculate the pressure diaerence in feet of</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Room temperature atmospheric air flows at 100 feet per second in a 400 foot long nominal 3-inch schedule 40 threaded steel pipe containing 12 90-de...</li><li>Given: 100 feet per second in a 400 foot long nominal 3-inch schedule 40 threaded steel pipe containing 12 90-degree long ra...</li><li>Approach: So this one's a bit interesting because the fluid is not water.</li><li>Key formula: formula for this which you can look up in the reference handbook or the murm and I'll show you a little shortcut at t...</li><li>Calc: We're going from 1 to 2 and at 2 the elevation is 200 feet lower.</li><li>Calc: So here's 1 and here's 2 and let's just suppose that that's the horizontal line and this distance in between the two is a coupl...</li><li>Result: result of that is p1 minus p2 and that's what we're after what's the pressure difference between the two ends of the pipe p1 minus p2 equals 53 59 ...</li></ul></div>
     </div>
@@ -269,16 +220,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 13 · Fluids</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

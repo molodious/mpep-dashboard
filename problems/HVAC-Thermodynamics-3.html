@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 3 | Thermodynamics OH Prep</title>
+<title>HVAC · Thermodynamics · Problem 3 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -24,9 +24,9 @@ body {
   flex-wrap: wrap;
 }
 .nav-badge {
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
   border-radius: 3px;
   padding: 2px 8px;
   font-size: 11px;
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,89 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: #444;
-  display: none;
-  max-height: 500px;
-  overflow-y: auto;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-}
-.solution-box p {
-  margin-bottom: 12px;
-  white-space: normal;
-  word-wrap: break-word;
-}
-.solution-box ul {
-  margin-left: 20px;
-  margin-bottom: 12px;
-  white-space: normal;
-}
-.solution-box li {
-  margin-bottom: 8px;
-  white-space: normal;
-}
-.solution-box.open { display: block; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -224,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -233,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 3</span>
-  <span class="nav-badge">2 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: A</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -242,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Thermodynamics · Problem 3</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">20</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> N/A</div>
-      <div class='choice'><span class='choice-letter'>B</span> N/A</div>
-      <div class='choice'><span class='choice-letter'>C</span> N/A</div>
-      <div class='choice'><span class='choice-letter'>D</span> 10.5</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Thermodynamics-03.pdf"
+        title="Problem 3"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Thermodynamics-03.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: A</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p style='white-space: pre-wrap; word-break: break-word;'>p,air 0.249 Btu at 1000◦R and c = 0.264 Btu at 1500◦R. lbm ◦R p,air lbm ◦R A. 1.35 B. 1.38 C. 1.40 D. 1.43 The Ratio of Specifc Heats is defned as: c k = p c v Another important relationship between the specifc heats for a gas is that their diaerence is the specifc gas constant, as such: 165 c −c =R p v The Specifc Gas Constant for air is: ft·lb R =53.35 f air lb ◦F m Add 460 to the Temperature in degrees Farenheit to get the temperature in absolute terms i.e. Rankine: 1020◦F +460=1480◦R Since the temperature is between two known states, interpolate:   Temperature [R◦] c Btu p lbm·R◦ 1000 0.49 1480 x 1500 0.264 1480−1000 x−0.249 Btu = →x=0.2634 1500−1000 0.264−0.249 lb ·R◦ m Rearrange and substitute to solve for c @1480R. Find the conversion factor required to align v the units in Measurement Relationships, 778ft·lbf. Btu Btu 53.35ft·lbf Btu c −c =R→c =c −R=0.2634 − lbm◦F =0.195 p v v p lb m ·R◦ 778ft·lbf lb m ·R◦ Btu Finally, solve for k: c 2634 Btu k = p = lbm·R◦ =1.35 c 0.195 Btu v lbm·R◦ Note the value for k at standard conditions is typically 1.4; however, extreme temperature conditions were being investigated here. Alternate Solution: Use the table Properties of Air at Low Pressure to look up the k value directly. Interpolate for 1480R. 1500R−1480R 1.351−k = 1500R−1000R 1.351−1.381 k =1.352 Answer A 166</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: what is the ratio of specific heats for 120 degree Fahrenheit air?</li><li>Approach: And that one's a bit hard to look up, but if you search for CP, you may have to search through a few areas, but you'll eventual...</li><li>Calc: And by the way, r for air, since we're going to need it, is 53.35 foot pounds force per pound mass degree ranking.</li><li>Calc: Okay, so for our situation here, we're interested in the ratio of the specific heats at a particular temperature, 1020, but we ...</li><li>Result: So then Cv equals 0.195 BTO per pound-mass rank and and now K, the ratio of specific heat, which is what we want, we come back to this original rel...</li></ul></div>
     </div>
@@ -284,7 +222,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> How do you convert humidity ratio from pounds per pound to grains per pound on the psychrometric chart?</div>
                 <div class='qa-answer'><strong>A:</strong> Multiply the pounds of water per pound of dry air (from the reference handbook psychrometric chart) by 7,000 grains per pound to get grains per pound. Grains is useful because it gives you an integer instead of a small decimal, and you can reverse it by dividing by 7,000 if needed.</div>
             </div>
-            
   </div>
 
 </div>
@@ -292,16 +229,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 3 · Thermodynamics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

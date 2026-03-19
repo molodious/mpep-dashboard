@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 3 | Fluids OH Prep</title>
+<title>HVAC · Fluids · Problem 3 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Fluids · Problem 3</span>
-  <span class="nav-badge">8 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: D</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Fluids · Problem 3</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">900gpm of water (fl)ows through an 8in pipe with a relative roughness of 0.0004 and a Reynolds number of 400,000. What is the pressure loss per hundred feet of pipe?</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 0.1ft</div>
-      <div class='choice'><span class='choice-letter'>B</span> 0.2ft</div>
-      <div class='choice'><span class='choice-letter'>C</span> 1.2ft</div>
-      <div class='choice'><span class='choice-letter'>D</span> 1.4ft</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Fluids-03.pdf"
+        title="Problem 3"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Fluids-03.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: D</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>of 0.0004 and a Reynolds number of 400,000.</p><p>What is the pressure loss per hundred feet of pipe?</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>A. 0.1ft B. 0.2ft C. 1.2ft D. 1.4ft Pressure loss can be calculated using the Darcy equation: fLv2 h = f 2Dg where f is the friction factor, L is the length of pipe, v is the velocity, D is the inside diameter, and g is acceleration due to gravity.</p><p>Start by looking up the diameter for a nominal 8 inch pipe in the reference handbook using the steel pipe friction tables.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>For convenience, convert from inches to feet: 7.981in D = =.6651ft 12in ft The velocity may also be looked up from the same table for a given GPM and pipe size.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>If the fow or size are non-standard, it may be necessary to calculate the velocity using v = Q, but that A is not required in this case. ft v =5.77 s Use the Moody Diagram to look up the friction factor which is a function of the Reynolds number, Re, and the relative roughness, ε.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Both the Reynolds number and relative roughness D were given.  ε  f =f Re, ≈.0175 D Substitute into the Darcy Equation and solve for the friction loss:  2 fLv2 (.0175)(100ft) 5.77f s t h = = =1.36ft f 2Dg 2(.6651ft)  32.2ft  s2 Answer D 188</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Fluids 3, 900GPM of water flows through an 8-inch pipe with a relative roughness of 0.004 and a Reynolds number of 400,000.</li><li>Given: 900GPM of water flows through an 8-inch pipe with a relative roughness of 0; 100 feet of pipe? So when it comes to pr...</li><li>Approach: So when it comes to pressure loss, there is a very commonly used equation, which you've probably heard of, and that's the Darcy...</li><li>Calc: So let's start by writing that down, and eventually you won't need to look this up because you'll be using it many, many times,...</li><li>Calc: We know we have an 8-inch pipe, but that's a nominal value.</li><li>Result: And the closest choice is deep.</li></ul></div>
     </div>
@@ -301,7 +252,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> How do you read the Moody diagram correctly, specifically regarding whether to follow relative roughness curves or horizontal lines, and how to locate Reynolds numbers like 1.5E5 on the logarithmic horizontal axis?</div>
                 <div class='qa-answer'><strong>A:</strong> The critical rule: follow the relative roughness curves upward, don't go horizontally across—those horizontal lines are only for reading friction factor from the left axis. For Reynolds numbers on the logarithmic scale, 1.5E5 falls between 1E5 and 2E5 (not near 2E6), and because it's logarithmic, you need to think carefully about whether it's closer to one end or the other.</div>
             </div>
-            
   </div>
 
 </div>
@@ -309,16 +259,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 3 · Fluids</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>

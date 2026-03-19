@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVAC · Problem 13 | Thermodynamics OH Prep</title>
+<title>HVAC · Thermodynamics · Problem 13 | OH Prep</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -40,21 +40,20 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  min-height: calc(100vh - 130px);
 }
 .sidebar-left {
-  flex: 0 0 65%;
+  flex: 0 0 50%;
   padding: 24px;
   background: #fafafa;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar-right {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
 }
 .section-title {
   font-size: 15px;
@@ -70,76 +69,36 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-.problem-statement {
-  background: #f0f4ff;
-  padding: 14px;
+.pdf-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-.choice {
-  padding: 10px 12px;
+  overflow: hidden;
   background: white;
-  border-left: 3px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
-  display: flex;
-  gap: 8px;
 }
-.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
-.answer-tag {
-  display: inline-block;
-  background: #e6ffe6;
-  color: #15803d;
-  border: 1px solid #22c55e;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
+.pdf-viewer {
+  flex: 1;
+  min-height: 1000px;
+  border: none;
 }
-.solution-area { margin-top: 24px; }
-.solution-toggle {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+.pdf-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
-.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
-.solution-box {
-  background: white;
-  border-left: 3px solid #0066cc;
-  border-radius: 3px;
-  padding: 16px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #444;
-  display: none;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.solution-box.open { display: block; }
-.solution-box p { margin-bottom: 12px; }
-.solution-box li { margin-bottom: 8px; margin-left: 20px; }
-.solution-box ul { margin-bottom: 12px; }
 .video-box {
   background: #f0f4ff;
   padding: 12px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.7;
   border-left: 3px solid #7c3aed;
@@ -211,8 +170,8 @@ body {
 }
 @media (max-width: 900px) {
   .layout-container { flex-direction: column; margin: 10px; }
-  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
-  .sidebar-right { max-height: none; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .pdf-viewer { min-height: 800px; }
 }
 </style>
 </head>
@@ -220,8 +179,8 @@ body {
 
 <div class="nav-bar">
   <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 13</span>
-  <span class="nav-badge">4 Sessions</span>
-  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: B</span>
+  <span class="nav-badge">PDF</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Solution in PDF ↓</span>
 </div>
 
 <div class="layout-container">
@@ -229,26 +188,18 @@ body {
   <div class="sidebar-left">
     <div class="problem-meta">HVAC · Thermodynamics · Problem 13</div>
     
-    <div class="section-title">Problem Statement</div>
-    <div class="problem-statement">Steam with a quality of 90% expands isentropically from 350psia to 120psia. What is the change in enthalpy? lb lb lb lb</div>
-
-    <div class="section-title" style="margin-top:16px">Answer Choices</div>
-    <div class="choices">
-      <div class='choice'><span class='choice-letter'>A</span> 40Btu</div>
-      <div class='choice'><span class='choice-letter'>B</span> 80Btu</div>
-      <div class='choice'><span class='choice-letter'>C</span> 90Btu</div>
-      <div class='choice'><span class='choice-letter'>D</span> 120Btu</div>
-      
+    <div class="section-title">Problem & Solution</div>
+    <div class="pdf-container">
+      <iframe 
+        class="pdf-viewer"
+        src="../hvac_solutions/HVAC-Thermodynamics-13.pdf"
+        title="Problem 13"
+        allowfullscreen
+      ></iframe>
+      <div class="pdf-footer">PDF: HVAC-Thermodynamics-13.pdf</div>
     </div>
 
-    <div class="solution-area">
-      <div class="section-title">Solution</div>
-      <span class="answer-tag">Answer: B</span>
-      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
-      <div class="solution-box" id="sol-box"><p>to 120psia.</p><p>What is the change in enthalpy?</p><p>A. 40Btu lb B. 80Btu lb C. 90Btu lb D. 120Btu lb Look up the Properties of Saturated Water and Steam in the Reference Handbook organized by pressure and fnd 350psia.</p><p>Call this State 1.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>From the table, h =409.8Btu and h =794.62Btu. f lb fg lb Calculate the enthalpy at State 1:   Btu Btu Btu h =h +χh =409.8 +(0.9) 794.62 =1125 1 f fg lb lb lb Also gather entropy values from the same line in the table, s = 0.6059 Btu and s = f lbm·◦F fg 0.8914 Btu .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Calculate the entropy at State 1: lbm·◦F   Btu Btu Btu s =s +χs =0.6059 +(0.9) 0.8914 =1.408 1 f fg lb ·◦F lb ·◦F lb ·◦F m m m Since the expansion from State 1 to State 2 is isentropic: Btu s =s =1.408 2 1 lb ·◦F m Gather entropy values from the table for State 2, which has a pressure of P = 120psia. s = 2 f 0.4919 Btu and s =1.0965 Btu .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Find the quality at State 2 (after the isentropic expansion): lbm·◦F fg lbm·◦F     1.408 Btu − 0.4919 Btu χ= s 2 −s f = lbm·◦F lbm·◦F =0.835   s fg 1.0965 Btu lbm·◦F Gather enthalpy values from the table for State 2. h = 312.55Btu and h = 878.2Btu. f lb fg lb Calculate the enthalpy at State 2:   Btu Btu Btu h =h +χh =312.55 +(0.835) 878.2 =1046 2 f fg lb lb lb Finally, calculate the change in enthalpy from State 1 to State 2: Btu Btu Btu ∆h=h −h =1125 −1046 =79 1 2 lb lb lb Answer B 174</p></div>
-    </div>
-
-    <div style="margin-top:24px;">
+    <div style="margin-top:16px;">
       <div class="section-title">Video Synthesis</div>
       <div class="video-box"><ul><li>Problem: Steam with a quality of 90% expands icing tropically from 350 psi a to 120 psi a.</li><li>Given: 350 psi a to 120 psi a; 350 psi a; 120 psi a, but we don't know anything else</li><li>Approach: This is a really good problem for learning how to use the steam tables, making sure you're able to find the right values and br...</li><li>Calc: We'll call it state 1 and the pressure at state 1 is 350 psi a.</li><li>Calc: At state 2, we also know the pressure.</li><li>Result: And the best answer choice is B.</li></ul></div>
     </div>
@@ -281,7 +232,6 @@ body {
                 <div class='qa-question'><strong>Q:</strong> All the pressures in problem thermo 13 don't have values in the steam tables within handbook version 1.9—what's the alternative?</div>
                 <div class='qa-answer'><strong>A:</strong> The values are definitely in the steam tables; you just need to use the pressure-organized version and interpolate. For this problem with 350 psi initial and 120 psi final pressure, find H1 and S1 by interpolation, apply the isentropic condition (S2=S1), determine quality at state 2, then calculate H2 and ΔH.</div>
             </div>
-            
   </div>
 
 </div>
@@ -289,16 +239,8 @@ body {
 <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 13 · Thermodynamics</span>
+  <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
 </div>
-
-<script>
-function toggleSolution() {
-  const box = document.getElementById('sol-box');
-  const toggle = document.getElementById('sol-toggle');
-  box.classList.toggle('open');
-  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
-}
-</script>
 
 </body>
 </html>
