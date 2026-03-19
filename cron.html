@@ -225,6 +225,10 @@
     </div>
     <button id="refreshBtn" style="background: var(--blue); color: var(--bg); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">🔄 Rebuild Now</button>
     <script>
+      // Webhook server address — update this if needed
+      const WEBHOOK_URL = 'http://172.25.183.142:5556/rebuild';
+      const REBUILD_TOKEN = 'rebuild-secret-12345';
+      
       document.getElementById('refreshBtn').addEventListener('click', async () => {
         const btn = document.getElementById('refreshBtn');
         const originalText = btn.textContent;
@@ -233,9 +237,10 @@
         btn.style.opacity = '0.6';
 
         try {
-          const response = await fetch('http://localhost:5555/rebuild', {
+          const response = await fetch(WEBHOOK_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: REBUILD_TOKEN })
           });
           
           const data = await response.json();
@@ -244,10 +249,10 @@
             btn.textContent = '✅ Updated!';
             btn.style.background = 'var(--green)';
             
-            // Reload page after 1 second
+            // Reload page after 2 seconds (give GitHub Pages time to update)
             setTimeout(() => {
               location.reload(true);
-            }, 1000);
+            }, 2000);
           } else {
             btn.textContent = '❌ Error';
             btn.style.background = 'var(--red)';
@@ -261,7 +266,7 @@
             }, 3000);
           }
         } catch (error) {
-          console.error('Server connection failed:', error);
+          console.error('Webhook connection failed:', error);
           btn.textContent = '❌ No Server';
           btn.style.background = 'var(--red)';
           
