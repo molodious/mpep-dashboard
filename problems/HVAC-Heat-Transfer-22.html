@@ -198,52 +198,55 @@ body {
     </div>
   </div>
 
-  <div class="sidebar-right">
-    <div class="oh-section-title">
+  <div class="sidebar-right"><div class="oh-section-title">
       Office Hours
       <span class="oh-count">8</span>
     </div>
     <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
     
-    <div class='qa-groups'>
-            <div class='qa-group'>
-                <div class='qa-session'>OH 19: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+    <div class='qa-group'>
+                <div class='qa-session'>OH 19: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 22, you used the exterior film temperature when finding the Reynolds number — but shouldn't the interior air film temperature be used since we're solving for the inside film coefficient?</div>
+                <div class='qa-answer'><strong>A:</strong> The assumption is that the sheet metal duct wall is thin and highly conductive, so the inside and outside surface temperatures are essentially equal. Given that simplification, the exterior film temperature is a reasonable approximation for interior property lookups.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 33: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 33: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 22, why were interior air properties looked up at the exterior film temperature rather than using a separate interior film temperature?</div>
+                <div class='qa-answer'><strong>A:</strong> This is a hard problem — one of two very hard ones in heat transfer — and I took a shortcut by using the exterior film temperature for both convection regimes. The more rigorous approach would iterate to a separate interior film temperature, but for exam purposes the approximation is acceptable.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 41: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 41: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 22, I calculated the external convection and radiation heat gain, then applied Q = 1.08 × CFM × ΔT to find the temperature rise — why doesn't this approach work?</div>
+                <div class='qa-answer'><strong>A:</strong> I'll be honest — this is probably the hardest problem in the program and I've overcooked it; it should really be three separate problems. Your approach may actually be in the right ballpark, but the issue is that internal forced convection and external heat load need to be set up as a coupled resistance network, not a sequential calculation.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 44: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 44: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> For Heat Transfer 22, it's not clear which equation to use for finding h, and why are two different areas used — one for velocity and another for heat transfer rate?</div>
+                <div class='qa-answer'><strong>A:</strong> Thank you for the specific framing — this is the hardest problem in the bundle and it is genuinely overcooked. The h equation depends on whether you're dealing with internal or external convection, and the two areas are: the duct cross-section (for calculating velocity) and the duct outer surface area (for calculating heat transfer rate).</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 50: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 50: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> Can Heat Transfer 22 be solved using the same approach as problem 19 — combining convection coefficients into a single U value and using Q = 1.08 × CFM × ΔT?</div>
+                <div class='qa-answer'><strong>A:</strong> The setups are fundamentally different: in problem 22, the internal forced convection is being driven by external heat gain through the duct wall, creating a coupled problem that doesn't reduce as cleanly as problem 19. In theory you might combine resistances, but the interaction between heat sources makes it more complex.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 54: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 54: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 22, using the exterior film temperature for interior air property lookups seems like a stretch — is there a better way?</div>
+                <div class='qa-answer'><strong>A:</strong> It is a stretch and not ideal — I took that shortcut because this problem is already extremely complex. If I were cleaning it up, I'd either provide the film temperature explicitly or split the problem into parts.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 63: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
+                <div class='qa-session'>OH 63: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> Problems 19 and 22 both find the exit temperature of air in a heated duct — in 19 you used Q_total = Q_sensible, but in 22 you used Q_internal = Q_external. How do I know which to use?</div>
+                <div class='qa-answer'><strong>A:</strong> The two problems have different physical setups: problem 19 has a duct inside a conditioned space where total heat transfer from the surroundings is known, while problem 22 has a duct exposed externally where you need the energy balance across the duct wall. Be flexible — identify the physical setup first, then pick the approach that matches.</div>
             </div>
             <div class='qa-group'>
-                <div class='qa-session'>OH 71: Heat Transfer · Problem 22</div>
-                <div class='qa-answer'><em>Full transcript available in office hours archive. Click to expand for details.</em></div>
-            </div>
-    </div>
+                <div class='qa-session'>OH 71: HVAC: Heat Transfer-22</div>
+                <div class='qa-question'><strong>Q:</strong> In Heat Transfer 22, how do you know it's turbulent flow right away without calculating the Reynolds number first — should we always assume turbulent flow in HVAC ducts?</div>
+                <div class='qa-answer'><strong>A:</strong> Yes — for HVAC duct airflow applications, you can almost always assume turbulent flow. The Reynolds numbers for typical HVAC air velocities are well above the turbulent threshold, so going straight to the turbulent Nusselt correlation is a valid time-saving assumption.</div>
+            </div></div>
   </div>
 
-</div>
-
-<div class="footer">
+  <div class="footer">
   <span>MPEP OH Prep Dashboard</span>
   <span>Problem 22 · Heat-Transfer</span>
   <span style="margin-left: auto; color: #aaa;">PDF-Embedded Format</span>
