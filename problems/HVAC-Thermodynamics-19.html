@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVAC · Problem 19 | Thermodynamics OH Prep</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.nav-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.nav-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.layout-container {
+  display: flex;
+  gap: 0;
+  margin: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 130px);
+}
+.sidebar-left {
+  flex: 0 0 65%;
+  padding: 24px;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.sidebar-right {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+.problem-meta {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.problem-statement {
+  background: #f0f4ff;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.choices { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.choice {
+  padding: 10px 12px;
+  background: white;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+}
+.choice-letter { font-weight: 700; color: #555; min-width: 16px; }
+.answer-tag {
+  display: inline-block;
+  background: #e6ffe6;
+  color: #15803d;
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.solution-area { margin-top: 24px; }
+.solution-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.solution-toggle:hover { border-color: #0066cc; color: #0066cc; }
+.solution-box {
+  background: white;
+  border-left: 3px solid #0066cc;
+  border-radius: 3px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #444;
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.solution-box.open { display: block; }
+.solution-box p { margin-bottom: 12px; }
+.solution-box li { margin-bottom: 8px; margin-left: 20px; }
+.solution-box ul { margin-bottom: 12px; }
+.video-box {
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 3px solid #7c3aed;
+}
+.video-box ul { margin-left: 20px; }
+.video-box li { margin-bottom: 6px; }
+.oh-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f59e0b;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oh-count {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+.oh-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+.qa-group {
+  background: #fffbf0;
+  border-left: 3px solid #f59e0b;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+.qa-session {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d97706;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.qa-question {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.qa-answer {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #444;
+}
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .layout-container { flex-direction: column; margin: 10px; }
+  .sidebar-left { flex: 1; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: none; }
+  .sidebar-right { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <span style="font-size:14px;font-weight:600;color:#333;">HVAC · Thermodynamics · Problem 19</span>
+  <span class="nav-badge">3 Sessions</span>
+  <span style="margin-left:auto;font-size:12px;color:#888;">Answer: C</span>
+</div>
+
+<div class="layout-container">
+  
+  <div class="sidebar-left">
+    <div class="problem-meta">HVAC · Thermodynamics · Problem 19</div>
+    
+    <div class="section-title">Problem Statement</div>
+    <div class="problem-statement">A refrigeration cycle using R-1234yf operates between 0◦F and 120◦F. Refrigerant leaves the evaporator with 20◦F of superheat. There is no subcooling. What is the volume (fl)ow rate of refrigerant leaving the evaporator per ton of refrigeration? 0.1ft3 min 4.4ft3 min 8.3ft3 min 9.2ft3 min</div>
+
+    <div class="section-title" style="margin-top:16px">Answer Choices</div>
+    <div class="choices">
+      <div class='choice'><span class='choice-letter'>A</span> N/A</div>
+      <div class='choice'><span class='choice-letter'>B</span> N/A</div>
+      <div class='choice'><span class='choice-letter'>C</span> N/A</div>
+      <div class='choice'><span class='choice-letter'>D</span> N/A</div>
+      
+    </div>
+
+    <div class="solution-area">
+      <div class="section-title">Solution</div>
+      <span class="answer-tag">Answer: C</span>
+      <button class="solution-toggle" id="sol-toggle" onclick="toggleSolution()">Show Full Solution ▼</button>
+      <div class="solution-box" id="sol-box"><p>120◦F.</p><p>Refrigerant leaves the evaporator with 20◦F of superheat.</p><p>There is no subcooling.</p><p>What is the volume fow rate of refrigerant leaving the evaporator per ton of refrigeration?</p><p>A. 0.1ft3 min B. 4.4ft3 min C. 8.3ft3 min D. 9.2ft3 min InthereferencehandbooklookupPressureVersusEnthalpyCurvesforRefrigerant1234yfandfnd the enthalpy at states 1 and 3 of the refrigeration cycle.</p><p>State 1, the evaporator is known to operate at 0◦F, however the superheat must also be ac- counted for.</p><p>Move to the right of the saturation curve into the superheated region to 20◦F and read the enthalpy and the density.</p><p>Note that lines of constant density are to the right and slanted slightly up in this region of the chart.</p><p>Take the inverse of density to determine the specifc volume for state 1.</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>T =20◦F 1 Btu h =90 1 lb 1 1 ft3 v = = =1.67 ρ .6 lb lb ft3 Since we are interested in the evaporator, we can skip State 2 and jump to State 3, where the condenser temperature is known and the refrigerant is known to exit the condenser as a saturated liquid (no subcooling).</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Read the enthalpy: T =120◦F 3 χ =0 3 Btu h =50 3 lb To fnd the volume fow rate of refrigerant at State 1 per ton of cooling, write the expression Q V˙ ˙ R L ,whereV˙ R canbeexpressedasaproductofm˙,massfowrate,andv,specifvolume.</p><p>Q˙ L canbe expressed as a product of m˙, mass fow rate, and the diaerence in enthalpy across the evaporator, h −h .</p><p style='font-family: "Courier New", monospace; background: #f9f9f9; padding: 10px; border-radius: 3px; margin: 10px 0; line-height: 1.6;'>Note the mass fow rate cancels out of the expression. 1 4 V˙ (m˙)(v ) (v ) 1.67ft3 ft3 R = 1 = 1 = lb =.042 Q˙ L (m˙)(h 1 −h 4 ) (h 1 −h 4 ) 90B l t b u −50B l t b u Btu 179 Theevaporatorcapacitymustbeconvertedtotons,whichintroducestimeunitsthatareneeded in order to specify a volume fow rate. ft3  12,000Btu 1hr  ft3 .042 hr 60min =8.4 Btu 1ton min·ton Answer C</p></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="section-title">Video Synthesis</div>
+      <div class="video-box"><ul><li>Problem: Thermo 19, or refrigeration cycle using R1234YF, operates between zero and 120 degrees.</li><li>Given: 0.6 pounds per cubic foot so that equals 1</li><li>Approach: Refridgerant leaves the evaporator with 20 degrees of super heat.</li><li>Calc: Usually we talk about v2's per hour but we can convert that to tons right they're both energy pre unit time.</li><li>Calc: So that could potentially be our numerator and then the denominator is the refrigeration effect which is m dot times h1 minus h...</li><li>Result: No subcooling and that is enough information for us to find h3 there's a couple of ways we could do that we could do it using the chart just the wa...</li></ul></div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <div class="oh-section-title">
+      Office Hours
+      <span class="oh-count">3</span>
+    </div>
+    <div class="oh-subtitle">Student questions asked in live office hours about this problem</div>
+    
+    <div class='qa-group'>
+                <div class='qa-session'>OH 115: HVAC: Thermo #19</div>
+                <div class='qa-question'><strong>Q:</strong> Where in the NCEES handbook can you find the equation QL = m·Δh for refrigeration cycles?</div>
+                <div class='qa-answer'><strong>A:</strong> It's not written exactly that way in the handbook, but you derive it from understanding the refrigeration cycle diagram—specifically the p-h diagram showing states 1-4. The heat absorbed in the evaporator is Q = m(h₁ - h₄), which you learn by studying the cycle diagram and energy balances, not memorization.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 59: HVAC: Thermo Module #19</div>
+                <div class='qa-question'><strong>Q:</strong> All right, next up, thermo 19. Friduration cycle.</div>
+                <div class='qa-answer'><strong>A:</strong> Okay, I'm gonna hand this one to you, Tundee. I don't wanna formulate your question for you. This is about our Friduration cycle.</div>
+            </div>
+            <div class='qa-group'>
+                <div class='qa-session'>OH 92: HVAC: Thermo Module #19</div>
+                <div class='qa-question'><strong>Q:</strong> How do we derive the equation for volume flow rate of refrigerant in a refrigeration cycle?</div>
+                <div class='qa-answer'><strong>A:</strong> There's no single equation in the reference handbook—you derive it from first principles. Volume flow rate equals mass flow rate times specific volume at that state (V̇ = ṁ × v₁), and you divide by the cooling capacity (Q) in Btu/hr to express it per ton of refrigeration. The key insight is that mass flow rate is constant around the cycle, but volume flow rate changes because density varies at different states.</div>
+            </div>
+            
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>MPEP OH Prep Dashboard</span>
+  <span>Problem 19 · Thermodynamics</span>
+</div>
+
+<script>
+function toggleSolution() {
+  const box = document.getElementById('sol-box');
+  const toggle = document.getElementById('sol-toggle');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'Hide Full Solution ▲' : 'Show Full Solution ▼';
+}
+</script>
+
+</body>
+</html>
