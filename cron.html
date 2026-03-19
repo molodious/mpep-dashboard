@@ -220,74 +220,24 @@
       <h1>⏰ Cron Jobs</h1>
       <div class="meta">
         Auto-updated every 5 minutes<br>
-        Last generated: <strong>Mar 19, 2026 12:30 PM EDT</strong>
+        Last generated: <strong>Mar 19, 2026 12:55 PM EDT</strong>
       </div>
     </div>
-    <button id="refreshBtn" style="background: var(--blue); color: var(--bg); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">🔄 Rebuild Now</button>
+    <button id="refreshBtn" style="background: var(--blue); color: var(--bg); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">🔄 Refresh</button>
     <script>
-      // Webhook server address (public tunnel)
-      const WEBHOOK_URL = 'https://rare-hairs-kiss.loca.lt/rebuild';
-      const REBUILD_TOKEN = 'rebuild-secret-12345';
-      
-      document.getElementById('refreshBtn').addEventListener('click', async () => {
-        const btn = document.getElementById('refreshBtn');
-        const originalText = btn.textContent;
-        btn.textContent = '⏳ Building...';
-        btn.disabled = true;
-        btn.style.opacity = '0.6';
-
-        try {
-          const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: REBUILD_TOKEN })
-          });
-          
-          const data = await response.json();
-          
-          if (data.success) {
-            btn.textContent = '✅ Updated!';
-            btn.style.background = 'var(--green)';
-            
-            // Reload page after 2 seconds (give GitHub Pages time to update)
-            setTimeout(() => {
-              location.reload(true);
-            }, 2000);
-          } else {
-            btn.textContent = '❌ Error';
-            btn.style.background = 'var(--red)';
-            console.error('Rebuild failed:', data.message);
-            
-            setTimeout(() => {
-              btn.textContent = originalText;
-              btn.style.background = 'var(--blue)';
-              btn.disabled = false;
-              btn.style.opacity = '1';
-            }, 3000);
-          }
-        } catch (error) {
-          console.error('Webhook connection failed:', error);
-          btn.textContent = '❌ No Server';
-          btn.style.background = 'var(--red)';
-          
-          setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = 'var(--blue)';
-            btn.disabled = false;
-            btn.style.opacity = '1';
-          }, 3000);
-        }
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        location.reload(true);
       });
     </script>
   </div>
 
   <div class="stats">
     <div class="stat stat-total">
-      <div class="stat-value">11</div>
+      <div class="stat-value">12</div>
       <div class="stat-label">Total Jobs</div>
     </div>
     <div class="stat stat-ok">
-      <div class="stat-value">10</div>
+      <div class="stat-value">11</div>
       <div class="stat-label">Healthy</div>
     </div>
     <div class="stat stat-error">
@@ -300,7 +250,7 @@
     </div>
   </div>
 
-  <h2>Active Jobs <span class="section-badge badge-enabled">11 enabled</span></h2>
+  <h2>Active Jobs <span class="section-badge badge-enabled">12 enabled</span></h2>
   <table>
     <thead>
       <tr>
@@ -321,12 +271,12 @@
   </td>
   <td class="schedule-cell">Every 30min<br>5 AM ET–9 PM ET</td>
   <td class="time-cell">
-    <span class="relative">just now</span>
+    <span class="relative">25m ago</span>
     <br><span class="absolute">Mar 19, 2026 12:30 PM EDT</span>
     <br><span class="duration">⏱ 10.9s</span>
   </td>
   <td class="time-cell">
-    <span class="relative">in 29m</span>
+    <span class="relative">in 4m</span>
     <br><span class="absolute">Mar 19, 2026 01:00 PM EDT</span>
   </td>
   <td class="status-cell status-ok">
@@ -348,8 +298,30 @@
     <br><span class="duration">⏱ 31.7s</span>
   </td>
   <td class="time-cell">
-    <span class="relative">in 13h 29m</span>
+    <span class="relative">in 13h 4m</span>
     <br><span class="absolute">Mar 20, 2026 02:00 AM EDT</span>
+  </td>
+  <td class="status-cell status-ok">
+    🟢 OK
+    
+  </td>
+  <td class="error-cell"><span class="no-error">—</span></td>
+</tr>
+<tr class="row-ok">
+  <td class="name-cell">
+    <strong>Cron Dashboard Auto-Update</strong>
+    <br><span class="job-id">41d44685</span>
+    <br><span class="desc">Regenerate cron.html and push to GitHub Pages every 5 minutes</span>
+  </td>
+  <td class="schedule-cell">Daily<br>3:00 AM ET</td>
+  <td class="time-cell">
+    <span class="relative">1d ago</span>
+    <br><span class="absolute">Mar 17, 2026 02:39 PM EDT</span>
+    <br><span class="duration">⏱ 18.9s</span>
+  </td>
+  <td class="time-cell">
+    <span class="relative">in 14h 4m</span>
+    <br><span class="absolute">Mar 20, 2026 03:00 AM EDT</span>
   </td>
   <td class="status-cell status-ok">
     🟢 OK
@@ -370,7 +342,7 @@
     <br><span class="duration">⏱ 18.9s</span>
   </td>
   <td class="time-cell">
-    <span class="relative">in 18h 29m</span>
+    <span class="relative">in 18h 4m</span>
     <br><span class="absolute">Mar 20, 2026 07:00 AM EDT</span>
   </td>
   <td class="status-cell status-ok">
