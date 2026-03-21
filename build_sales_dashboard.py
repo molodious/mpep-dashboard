@@ -236,6 +236,59 @@ def build_dashboard():
     <title>Sales Dashboard - Mechanical PE Exam Prep</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Auth overlay styles */
+        #auth-overlay {
+            position: fixed; inset: 0;
+            background: #0d1117;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .auth-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+        .auth-logo { font-size: 36px; margin-bottom: 12px; }
+        .auth-title { font-size: 20px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+        .auth-sub { font-size: 13px; color: #8b949e; margin-bottom: 28px; }
+        .auth-box input {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-size: 15px;
+            letter-spacing: 0.08em;
+            outline: none;
+            margin-bottom: 12px;
+            transition: border-color 0.15s;
+        }
+        .auth-box input:focus { border-color: #58a6ff; }
+        .auth-box button {
+            width: 100%;
+            background: #58a6ff;
+            color: #0d1117;
+            border: none;
+            border-radius: 8px;
+            padding: 11px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+        .auth-box button:hover { opacity: 0.88; }
+        .auth-box button:disabled { opacity: 0.55; cursor: default; }
+        #pwd-error { display: none; color: #f85149; font-size: 12px; margin-bottom: 10px; }
+        #main-content { display: none; }
+    </style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -370,6 +423,22 @@ def build_dashboard():
     </style>
 </head>
 <body>
+    <!-- Auth overlay -->
+    <div id="auth-overlay">
+        <div class="auth-box">
+            <div class="auth-logo">♠️</div>
+            <div class="auth-title">Sales Dashboard</div>
+            <div class="auth-sub">Enter password to view</div>
+            <form id="auth-form">
+                <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+                <div id="pwd-error"></div>
+                <button type="submit" id="pwd-btn">Unlock</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div id="main-content">
     <div class="container">
         <header>
             <h1>💰 Sales Dashboard</h1>
@@ -460,7 +529,9 @@ def build_dashboard():
             Auto-refreshes every 30 minutes
         </div>
     </div>
+    </div>
 
+    <script src="auth.js"></script>
     <script>
         // Color mapping for products
         const productColors = {
