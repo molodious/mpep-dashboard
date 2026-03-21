@@ -72,6 +72,13 @@ MANUAL_DATA_JAN_FEB = [
     ("2026-01-03", "HVAC", 1999),
 ]
 
+# Manual data for March 2026 (FE subscriptions missing from Thinkific API)
+MANUAL_DATA_MARCH = [
+    ("2026-03-13", "FE", 149),   # FE Mechanical Exam Prep Course 1mo (missing from API)
+    ("2026-03-12", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
+    ("2026-03-05", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
+]
+
 def fetch_stripe_data(cutoff_date=None):
     """Fetch Stripe checkout sessions."""
     response = requests.get(
@@ -107,7 +114,7 @@ def fetch_stripe_data(cutoff_date=None):
     return orders
 
 def fetch_thinkific_data(cutoff_date=None):
-    """Fetch Thinkific orders."""
+    """Fetch Thinkific orders, including subscription renewals."""
     headers = {
         "X-Auth-API-Key": THINKIFIC_KEY,
         "X-Auth-Subdomain": THINKIFIC_SUBDOMAIN,
@@ -133,12 +140,16 @@ def fetch_thinkific_data(cutoff_date=None):
             else:
                 product = "Other"
             
+            # Include both regular orders and subscription renewals
+            is_subscription = o.get("subscription", False)
+            
             orders.append({
                 "date": ts.strftime("%Y-%m-%d"),
                 "timestamp": ts,
                 "customer": o.get("user_name", "Unknown"),
                 "product": product,
                 "amount": o.get("amount_cents", 0) / 100,
+                "subscription": is_subscription,
             })
     
     return orders
@@ -147,7 +158,8 @@ def build_dashboard():
     """Build the sales dashboard HTML with live data."""
     today = datetime.now()
     
-    # Manual data for Jan/Feb
+    # Manual data for Jan/Feb + March (missing API entries)
+    all_manual_data = MANUAL_DATA_JAN_FEB + MANUAL_DATA_MARCH
     manual_orders = [
         {
             "date": date,
@@ -156,7 +168,7 @@ def build_dashboard():
             "product": product,
             "amount": amount,
         }
-        for date, product, amount in MANUAL_DATA_JAN_FEB
+        for date, product, amount in all_manual_data
     ]
     
     # API data for March onwards
