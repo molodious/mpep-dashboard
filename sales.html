@@ -56,9 +56,6 @@
             color: #444;
             font-weight: 600;
         }
-        .table-card {
-            grid-column: 1 / -1;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -78,16 +75,6 @@
         }
         tr:hover {
             background: #f9f9f9;
-        }
-        .running-total {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .total-row {
-            background: #f0f4ff;
-            font-weight: 600;
-            border-top: 2px solid #3498db;
-            border-bottom: 2px solid #3498db;
         }
         .metric-label {
             font-size: 12px;
@@ -129,7 +116,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Mar 21)</div>
-                <div><strong>Updated:</strong> <span id="lastUpdated">Mar 21, 2026 at 11:03 AM</span></div>
+                <div><strong>Updated:</strong> Mar 21, 2026 at 11:06 AM</div>
             </div>
         </header>
 
@@ -180,71 +167,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2026-03-01</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-03</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-05</td>
-                            <td>TFS</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-06</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,899.05</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-10</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-12</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,899.05</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-13</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-14</td>
-                            <td>FE Mechanical Exam Prep Course</td>
-                            <td style="text-align: right;">$249.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-15</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-15</td>
-                            <td>HVAC</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-16</td>
-                            <td>TFS</td>
-                            <td style="text-align: right;">$1,999.00</td>
-                        </tr>
-                        <tr>
-                            <td>2026-03-17</td>
-                            <td>FE Mechanical Exam Prep Course - 6 Months Access</td>
-                            <td style="text-align: right;">$1,051.45</td>
-                        </tr>
+                        <tr><td>2026-03-01</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-03</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-05</td><td>TFS</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-06</td><td>HVAC</td><td style="text-align: right;">$1,899.05</td></tr>
+                        <tr><td>2026-03-10</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-12</td><td>HVAC</td><td style="text-align: right;">$1,899.05</td></tr>
+                        <tr><td>2026-03-13</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-14</td><td>FE Mechanical Exam Prep Course</td><td style="text-align: right;">$249.00</td></tr>
+                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-16</td><td>TFS</td><td style="text-align: right;">$1,999.00</td></tr>
+                        <tr><td>2026-03-17</td><td>FE Mechanical Exam Prep Course - 6 Months Access</td><td style="text-align: right;">$1,051.45</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Stacked Bar Chart (12 months) -->
+            <!-- Stacked Bar Chart -->
             <div class="card full-width">
                 <h2>Revenue by Product - 2026 YTD</h2>
                 <div class="chart-container" style="height: 350px;">
@@ -259,76 +198,75 @@
     </div>
 
     <script>
-        // Chart.js initialization
         const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE'];
         
-        // Pie Chart Data
+        // Pie Chart
         const pieData = {"HVAC": 15792.1, "TFS": 3998.0, "FE Mechanical Exam Prep Course": 249.0, "FE Mechanical Exam Prep Course - 6 Months Access": 1051.45};
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
         
         const ctxPie = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctxPie, {{
+        new Chart(ctxPie, {
             type: 'doughnut',
-            data: {{
+            data: {
                 labels: pieLabels,
-                datasets: [{{
+                datasets: [{
                     data: pieValues,
                     backgroundColor: colors.slice(0, pieLabels.length),
                     borderColor: '#fff',
                     borderWidth: 2
-                }}]
-            }},
-            options: {{
+                }]
+            },
+            options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {{
-                    legend: {{
+                plugins: {
+                    legend: {
                         position: 'bottom',
-                        labels: {{ font: {{ size: 12 }} }}
-                    }}
-                }}
-            }}
-        }});
+                        labels: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
 
-        // Bar Chart Data
+        // Bar Chart
         const barMonths = ["2026-01", "2026-02", "2026-03"];
         const barProducts = ["Critical Systems Engineering", "Daily Insights Premium for the Mechanical PE Exam", "FE Mechanical Exam Prep Course", "FE Mechanical Exam Prep Course - 3 Months Access", "FE Mechanical Exam Prep Course - 6 Months Access", "HVAC", "HVAC and Refrigeration Practice Problems for the Mechanical PE Exam Book", "Mechanical PE Fundamentals", "TFS", "Thermal and Fluids Systems Practice Problems for the Mechanical PE Exam Book"];
         const barDatasets = {"Critical Systems Engineering": [399.0, 0, 0], "Daily Insights Premium for the Mechanical PE Exam": [0, 99.0, 0], "FE Mechanical Exam Prep Course": [498.0, 0, 249.0], "FE Mechanical Exam Prep Course - 3 Months Access": [599.0, 1245.92, 0], "FE Mechanical Exam Prep Course - 6 Months Access": [0, 0, 1051.45], "HVAC": [0, 1999.0, 15792.1], "HVAC and Refrigeration Practice Problems for the Mechanical PE Exam Book": [1988.21, 0, 0], "Mechanical PE Fundamentals": [399.0, 0, 0], "TFS": [0, 1999.0, 3998.0], "Thermal and Fluids Systems Practice Problems for the Mechanical PE Exam Book": [0, 702.14, 0]};
         
-        const datasets = barProducts.map((product, idx) => ({{
+        const datasets = barProducts.map((product, idx) => ({
             label: product,
             data: barDatasets[product],
             backgroundColor: colors[idx % colors.length],
             borderRadius: 4,
             borderSkipped: false
-        }}));
+        }));
         
         const ctxBar = document.getElementById('barChart').getContext('2d');
-        new Chart(ctxBar, {{
+        new Chart(ctxBar, {
             type: 'bar',
-            data: {{
-                labels: barMonths.map(m => {{
+            data: {
+                labels: barMonths.map(m => {
                     const [year, month] = m.split('-');
-                    return new Date(year, parseInt(month) - 1).toLocaleDateString('en-US', {{ month: 'short', year: '2-digit' }});
-                }}),
+                    return new Date(year, parseInt(month) - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                }),
                 datasets: datasets
-            }},
-            options: {{
+            },
+            options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {{
-                    legend: {{
+                plugins: {
+                    legend: {
                         position: 'bottom',
-                        labels: {{ font: {{ size: 12 }} }}
-                    }}
-                }},
-                scales: {{
-                    x: {{ stacked: true }},
-                    y: {{ stacked: true }}
-                }}
-            }}
-        }});
+                        labels: { font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true }
+                }
+            }
+        });
     </script>
 </body>
 </html>
