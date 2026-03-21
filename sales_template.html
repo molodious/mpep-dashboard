@@ -442,7 +442,20 @@
                     },
                     scales: {
                         x: { stacked: true },
-                        y: { stacked: true }
+                        y: {
+                            stacked: true,
+                            max: (function() {
+                                // Find highest monthly total and round up to nearest 5000
+                                const totals = months.map(m => {
+                                    return datasets.reduce((sum, ds) => {
+                                        const idx = months.indexOf(m);
+                                        return sum + (ds.data[idx] || 0);
+                                    }, 0);
+                                });
+                                const maxVal = Math.max(...totals);
+                                return Math.ceil(maxVal / 5000) * 5000;
+                            })()
+                        }
                     }
                 }
             });
