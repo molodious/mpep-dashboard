@@ -239,6 +239,12 @@ def build_dashboard():
         for product in bar_products:
             bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
     
+    # Calculate Y-axis max: highest monthly total rounded up to nearest 5000
+    import math
+    monthly_totals_py = [sum(monthly_data[m].values()) for m in sorted_months]
+    max_monthly = max(monthly_totals_py) if monthly_totals_py else 0
+    y_axis_max = math.ceil(max_monthly / 5000) * 5000
+
     # Build HTML
     html_top = """<!DOCTYPE html>
 <html lang="en">
@@ -622,7 +628,7 @@ def build_dashboard():
                     x: { stacked: true },
                     y: { 
                         stacked: true,
-                        max: marchMax * 1.2
+                        max: """ + str(y_axis_max) + """
                     }
                 }
             },
