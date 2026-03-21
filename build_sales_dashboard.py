@@ -79,6 +79,18 @@ MANUAL_DATA_MARCH = [
     ("2026-03-05", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
 ]
 
+def stripe_clean_amount(amount_cents):
+    """Round Stripe amount to nearest standard price point (strips sales tax).
+    Known price points: 1999, 1899, 999, 649, 599, 399, 249, 149, 99
+    Any amount within $200 of a price point snaps to it; otherwise keeps raw value.
+    """
+    price_points = [1999, 1899, 999, 649, 599, 399, 249, 149, 99]
+    amount = amount_cents / 100
+    for price in price_points:
+        if abs(amount - price) <= 200:
+            return price
+    return round(amount)
+
 def fetch_stripe_data(cutoff_date=None):
     """Fetch Stripe checkout sessions."""
     response = requests.get(
@@ -108,7 +120,7 @@ def fetch_stripe_data(cutoff_date=None):
                 "timestamp": ts,
                 "customer": customer_details.get("name", "Unknown"),
                 "product": product,
-                "amount": s.get("amount_total", 0) / 100,
+                "amount": stripe_clean_amount(s.get("amount_total", 0)),
             })
     
     return orders
@@ -140,7 +152,14 @@ def fetch_thinkific_data(cutoff_date=None):
             else:
                 product = "Other"
             
-            # Include both regular orders and subscription renewals
+            # Use item-level product price (excludes sales tax collected for govt)
+            # order-level amount_cents includes tax; items[].amount_dollars is the product price
+            items = o.get("items", [])
+            if items:
+                product_price = sum(float(item.get("amount_dollars", 0)) for item in items)
+            else:
+                product_price = o.get("amount_cents", 0) / 100  # fallback
+
             is_subscription = o.get("subscription", False)
             
             orders.append({
@@ -148,7 +167,7 @@ def fetch_thinkific_data(cutoff_date=None):
                 "timestamp": ts,
                 "customer": o.get("user_name", "Unknown"),
                 "product": product,
-                "amount": o.get("amount_cents", 0) / 100,
+                "amount": product_price,
                 "subscription": is_subscription,
             })
     
