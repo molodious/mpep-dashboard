@@ -339,9 +339,33 @@ def build_dashboard():
             color: #999;
             margin-top: 15px;
         }
-        .totals-table td:nth-child(2),
-        .totals-table td:nth-child(3) {
-            text-align: right;
+        .totals-table {
+            margin: 15px 0 0 0;
+        }
+        .totals-table td {
+            text-align: center;
+        }
+        .totals-table th {
+            text-align: center;
+        }
+        /* Row coloring by product */
+        tr[data-product="HVAC"] {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        tr[data-product="TFS"] {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        tr[data-product="FE"] {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        tr[data-product="HVAC"]:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+        tr[data-product="TFS"]:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+        tr[data-product="FE"]:hover {
+            background-color: rgba(231, 76, 60, 0.2);
         }
     </style>
 </head>
@@ -403,21 +427,21 @@ def build_dashboard():
 
             <!-- Transactions Table (March) -->
             <div class="card">
-                <h2>Recent Orders (March)</h2>
+                <h2>Orders this Month</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Product</th>
-                            <th style="text-align: right;">Revenue</th>
+                            <th style="text-align: center;">Revenue</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="marchOrdersBody">
 """
     
-    # Add March orders to table
+    # Add March orders to table (will use JavaScript for row coloring)
     for o in march_orders:
-        html_top += f"                        <tr><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: right;\">${round(o['amount']):,}</td></tr>\n"
+        html_top += f"                        <tr data-product=\"{o['product']}\"><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: center;\">${round(o['amount']):,}</td></tr>\n"
     
     html_middle = """                    </tbody>
                 </table>
@@ -506,6 +530,64 @@ def build_dashboard():
             borderSkipped: false
         }));
         
+        // Calculate monthly totals and March projection
+        const monthlyTotals = [];
+        barMonths.forEach((month, idx) => {
+            const total = barProducts.reduce((sum, product) => sum + barDatasets[product][idx], 0);
+            monthlyTotals.push(total);
+        });
+        
+        const marchIdx = barMonths.length - 1;
+        const marchCurrent = monthlyTotals[marchIdx];
+        const marchProjected = """ + json.dumps(round(projected_march)) + """;
+        const marchMax = Math.max(marchCurrent, marchProjected);
+        
+        // Plugin to draw labels
+        const totalLabelsPlugin = {
+            id: 'totalLabels',
+            afterDatasetsDraw(chart) {
+                const ctx = chart.ctx;
+                const xScale = chart.scales.x;
+                const yScale = chart.scales.y;
+                
+                ctx.textAlign = 'center';
+                
+                // Draw monthly totals above bars
+                monthlyTotals.forEach((total, idx) => {
+                    const xPos = xScale.getPixelForValue(idx);
+                    const yPos = yScale.getPixelForValue(total);
+                    
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillStyle = '#333';
+                    ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
+                });
+                
+                // Draw March projection label
+                if (marchProjected > marchCurrent) {
+                    const xPos = xScale.getPixelForValue(marchIdx);
+                    const projYPos = yScale.getPixelForValue(marchProjected);
+                    
+                    ctx.font = 'italic 11px Arial';
+                    ctx.fillStyle = '#999';
+                    ctx.fillText('$' + marchProjected.toLocaleString() + ' (proj)', xPos, projYPos - 15);
+                    
+                    // Draw dotted box for projection
+                    ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 1.5;
+                    ctx.fillStyle = 'rgba(200, 200, 200, 0.05)';
+                    
+                    const barWidth = xScale.width / barMonths.length * 0.7;
+                    const currentY = yScale.getPixelForValue(marchCurrent);
+                    const projHeight = currentY - projYPos;
+                    
+                    ctx.fillRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.strokeRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.setLineDash([]);
+                }
+            }
+        };
+        
         const ctxBar = document.getElementById('barChart').getContext('2d');
         new Chart(ctxBar, {
             type: 'bar',
@@ -527,9 +609,13 @@ def build_dashboard():
                 },
                 scales: {
                     x: { stacked: true },
-                    y: { stacked: true }
+                    y: { 
+                        stacked: true,
+                        max: marchMax * 1.2
+                    }
                 }
-            }
+            },
+            plugins: [totalLabelsPlugin]
         });
     </script>
 </body>
