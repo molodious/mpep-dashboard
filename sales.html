@@ -116,7 +116,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Mar 21)</div>
-                <div><strong>Updated:</strong> Mar 21, 2026 at 11:06 AM</div>
+                <div><strong>Updated:</strong> Mar 21, 2026 at 11:10 AM</div>
             </div>
         </header>
 
@@ -126,11 +126,11 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
-                    <div class="metric-value" style="color: white;">$21,090.55</div>
+                    <div class="metric-value" style="color: white;">$21,091</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (2026 YTD)</div>
-                    <div class="metric-value" style="color: white;">$387.74</div>
+                    <div class="metric-value" style="color: white;">$388</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -138,11 +138,11 @@
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$24,967.90</div>
+                    <div class="metric-value" style="color: #fff;">$24,968</div>
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on 2026 YTD average daily revenue ($387.74/day over 80 days)
+                Based on 2026 YTD average daily revenue ($388/day over 80 days)
             </div>
         </div>
 
@@ -167,18 +167,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>2026-03-01</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-03</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-05</td><td>TFS</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-06</td><td>HVAC</td><td style="text-align: right;">$1,899.05</td></tr>
-                        <tr><td>2026-03-10</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-12</td><td>HVAC</td><td style="text-align: right;">$1,899.05</td></tr>
-                        <tr><td>2026-03-13</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-14</td><td>FE Mechanical Exam Prep Course</td><td style="text-align: right;">$249.00</td></tr>
-                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-16</td><td>TFS</td><td style="text-align: right;">$1,999.00</td></tr>
-                        <tr><td>2026-03-17</td><td>FE Mechanical Exam Prep Course - 6 Months Access</td><td style="text-align: right;">$1,051.45</td></tr>
+                        <tr><td>2026-03-01</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-03</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-05</td><td>TFS</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-06</td><td>HVAC</td><td style="text-align: right;">$1,899</td></tr>
+                        <tr><td>2026-03-10</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-12</td><td>HVAC</td><td style="text-align: right;">$1,899</td></tr>
+                        <tr><td>2026-03-13</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-14</td><td>FE</td><td style="text-align: right;">$249</td></tr>
+                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-15</td><td>HVAC</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-16</td><td>TFS</td><td style="text-align: right;">$1,999</td></tr>
+                        <tr><td>2026-03-17</td><td>FE</td><td style="text-align: right;">$1,051</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -198,12 +198,22 @@
     </div>
 
     <script>
-        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE'];
+        // Color mapping for products
+        const productColors = {
+            'HVAC': '#FFD700',    // Yellow
+            'TFS': '#3498DB',      // Blue
+            'FE': '#E74C3C'        // Red
+        };
+        
+        function getProductColor(product) {
+            return productColors[product] || '#95A5A6';
+        }
         
         // Pie Chart
-        const pieData = {"HVAC": 15792.1, "TFS": 3998.0, "FE Mechanical Exam Prep Course": 249.0, "FE Mechanical Exam Prep Course - 6 Months Access": 1051.45};
+        const pieData = {"HVAC": 15792, "TFS": 3998, "FE": 1300};
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
+        const pieColors = pieLabels.map(label => getProductColor(label));
         
         const ctxPie = document.getElementById('pieChart').getContext('2d');
         new Chart(ctxPie, {
@@ -212,7 +222,7 @@
                 labels: pieLabels,
                 datasets: [{
                     data: pieValues,
-                    backgroundColor: colors.slice(0, pieLabels.length),
+                    backgroundColor: pieColors,
                     borderColor: '#fff',
                     borderWidth: 2
                 }]
@@ -231,13 +241,13 @@
 
         // Bar Chart
         const barMonths = ["2026-01", "2026-02", "2026-03"];
-        const barProducts = ["Critical Systems Engineering", "Daily Insights Premium for the Mechanical PE Exam", "FE Mechanical Exam Prep Course", "FE Mechanical Exam Prep Course - 3 Months Access", "FE Mechanical Exam Prep Course - 6 Months Access", "HVAC", "HVAC and Refrigeration Practice Problems for the Mechanical PE Exam Book", "Mechanical PE Fundamentals", "TFS", "Thermal and Fluids Systems Practice Problems for the Mechanical PE Exam Book"];
-        const barDatasets = {"Critical Systems Engineering": [399.0, 0, 0], "Daily Insights Premium for the Mechanical PE Exam": [0, 99.0, 0], "FE Mechanical Exam Prep Course": [498.0, 0, 249.0], "FE Mechanical Exam Prep Course - 3 Months Access": [599.0, 1245.92, 0], "FE Mechanical Exam Prep Course - 6 Months Access": [0, 0, 1051.45], "HVAC": [0, 1999.0, 15792.1], "HVAC and Refrigeration Practice Problems for the Mechanical PE Exam Book": [1988.21, 0, 0], "Mechanical PE Fundamentals": [399.0, 0, 0], "TFS": [0, 1999.0, 3998.0], "Thermal and Fluids Systems Practice Problems for the Mechanical PE Exam Book": [0, 702.14, 0]};
+        const barProducts = ["Critical Systems Engineering", "Daily Insights Premium for the Mechanical PE Exam", "FE", "HVAC", "Mechanical PE Fundamentals", "TFS"];
+        const barDatasets = {"Critical Systems Engineering": [399, 0, 0], "Daily Insights Premium for the Mechanical PE Exam": [0, 99, 0], "FE": [1097, 1246, 1300], "HVAC": [1988, 1999, 15792], "Mechanical PE Fundamentals": [399, 0, 0], "TFS": [0, 2701, 3998]};
         
         const datasets = barProducts.map((product, idx) => ({
             label: product,
             data: barDatasets[product],
-            backgroundColor: colors[idx % colors.length],
+            backgroundColor: getProductColor(product),
             borderRadius: 4,
             borderSkipped: false
         }));

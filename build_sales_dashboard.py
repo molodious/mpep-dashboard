@@ -115,18 +115,41 @@ def build_dashboard():
     sorted_months = sorted(monthly_data.keys())
     
     print(f"\nStatistics (2026 YTD):")
-    print(f"  YTD revenue: ${total_revenue_ytd:,.2f}")
+    print(f"  YTD revenue: ${round(total_revenue_ytd):,}")
     print(f"  Days elapsed: {days_in_period}")
-    print(f"  Daily average: ${avg_daily:,.2f}")
-    print(f"  March revenue so far: ${march_revenue:,.2f}")
+    print(f"  Daily average: ${round(avg_daily):,}")
+    print(f"  March revenue so far: ${round(march_revenue):,}")
     print(f"  Days remaining in March: {days_remaining}")
-    print(f"  Projected March total: ${projected_march:,.2f}")
+    print(f"  Projected March total: ${round(projected_march):,}")
+    
+    # Normalize product names (combine all FE variants)
+    def normalize_product(name):
+        if "FE" in name.upper() or "Mechanical" in name and "Exam Prep" in name and "HVAC" not in name and "Thermal" not in name:
+            return "FE"
+        elif "HVAC" in name.upper():
+            return "HVAC"
+        elif "Thermal" in name or "Fluids" in name or "TFS" in name:
+            return "TFS"
+        return name
+    
+    # Re-normalize all orders
+    for o in all_orders + march_orders:
+        o["product"] = normalize_product(o["product"])
+    
+    # Recalculate monthly data with normalized names
+    monthly_data = defaultdict(lambda: defaultdict(float))
+    for o in all_orders:
+        month_key = o["timestamp"].strftime("%Y-%m")
+        monthly_data[month_key][o["product"]] += o["amount"]
     
     # Prepare chart data
     # Pie chart - March revenue by product
     pie_data = {}
     for o in march_orders:
         pie_data[o["product"]] = pie_data.get(o["product"], 0) + o["amount"]
+    
+    # Round to whole dollars
+    pie_data = {k: round(v) for k, v in pie_data.items()}
     
     # Bar chart - monthly by product
     bar_months = []
@@ -142,7 +165,8 @@ def build_dashboard():
     for month in sorted_months:
         bar_months.append(month)
         for product in bar_products:
-            bar_datasets[product].append(monthly_data[month].get(product, 0))
+            # Round to whole dollars
+            bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
     
     # Build HTML - use string concatenation to avoid f-string issues
     html_top = """<!DOCTYPE html>
@@ -273,11 +297,11 @@ def build_dashboard():
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
-                    <div class="metric-value" style="color: white;">$""" + f"{march_revenue:,.2f}" + """</div>
+                    <div class="metric-value" style="color: white;">$""" + f"{round(march_revenue):,}" + """</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (2026 YTD)</div>
-                    <div class="metric-value" style="color: white;">$""" + f"{avg_daily:,.2f}" + """</div>
+                    <div class="metric-value" style="color: white;">$""" + f"{round(avg_daily):,}" + """</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -285,11 +309,11 @@ def build_dashboard():
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$""" + f"{projected_march:,.2f}" + """</div>
+                    <div class="metric-value" style="color: #fff;">$""" + f"{round(projected_march):,}" + """</div>
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on 2026 YTD average daily revenue ($""" + f"{avg_daily:,.2f}" + """/day over """ + str(days_in_period) + """ days)
+                Based on 2026 YTD average daily revenue ($""" + f"{round(avg_daily):,}" + """/day over """ + str(days_in_period) + """ days)
             </div>
         </div>
 
@@ -316,9 +340,9 @@ def build_dashboard():
                     <tbody>
 """
     
-    # Add March orders to table
+    # Add March orders to table (round to whole dollars)
     for o in march_orders:
-        html_top += f"                        <tr><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: right;\">${o['amount']:,.2f}</td></tr>\n"
+        html_top += f"                        <tr><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: right;\">${round(o['amount']):,}</td></tr>\n"
     
     html_middle = """                    </tbody>
                 </table>
@@ -339,12 +363,22 @@ def build_dashboard():
     </div>
 
     <script>
-        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE'];
+        // Color mapping for products
+        const productColors = {
+            'HVAC': '#FFD700',    // Yellow
+            'TFS': '#3498DB',      // Blue
+            'FE': '#E74C3C'        // Red
+        };
+        
+        function getProductColor(product) {
+            return productColors[product] || '#95A5A6';
+        }
         
         // Pie Chart
         const pieData = """ + json.dumps(pie_data) + """;
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
+        const pieColors = pieLabels.map(label => getProductColor(label));
         
         const ctxPie = document.getElementById('pieChart').getContext('2d');
         new Chart(ctxPie, {
@@ -353,7 +387,7 @@ def build_dashboard():
                 labels: pieLabels,
                 datasets: [{
                     data: pieValues,
-                    backgroundColor: colors.slice(0, pieLabels.length),
+                    backgroundColor: pieColors,
                     borderColor: '#fff',
                     borderWidth: 2
                 }]
@@ -378,7 +412,7 @@ def build_dashboard():
         const datasets = barProducts.map((product, idx) => ({
             label: product,
             data: barDatasets[product],
-            backgroundColor: colors[idx % colors.length],
+            backgroundColor: getProductColor(product),
             borderRadius: 4,
             borderSkipped: false
         }));
