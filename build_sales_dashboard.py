@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Build sales dashboard with real Stripe + Thinkific data.
-Pulls 2026 YTD data + March, generates HTML dashboard.
+Uses manual data for Jan/Feb 2026, API data for March 2026+.
 """
 
 import json
@@ -19,6 +19,59 @@ if not STRIPE_KEY or not THINKIFIC_KEY:
     print("ERROR: Missing API keys. Set STRIPE_READONLY_KEY and THINKIFIC_API_KEY env vars.")
     exit(1)
 
+# Manual data for Jan/Feb 2026
+MANUAL_DATA_JAN_FEB = [
+    ("2026-02-26", "FE", 599),
+    ("2026-02-22", "FE", 249),
+    ("2026-02-21", "HVAC", 1999),
+    ("2026-02-20", "TFS", 1999),
+    ("2026-02-20", "TFS", 649),
+    ("2026-02-20", "Other", 99),  # Daily Insights Premium
+    ("2026-02-17", "TFS", 1899),
+    ("2026-02-17", "TFS", 1999),
+    ("2026-02-15", "FE", 599),
+    ("2026-02-13", "FE", 149),
+    ("2026-02-11", "FE", 249),
+    ("2026-02-06", "FE", 249),
+    ("2026-02-06", "HVAC", 1899),
+    ("2026-02-05", "TFS", 1999),
+    ("2026-02-03", "HVAC", 1999),
+    ("2026-02-02", "HVAC", 1999),
+    ("2026-02-02", "TFS", 1999),
+    ("2026-02-02", "HVAC", 1999),
+    ("2026-02-01", "TFS", 1999),
+    ("2026-02-01", "HVAC", 1999),
+    ("2026-01-30", "HVAC", 1999),
+    ("2026-01-26", "HVAC", 1999),
+    ("2026-01-25", "HVAC", 1999),
+    ("2026-01-24", "HVAC", 1999),
+    ("2026-01-22", "FE", 249),
+    ("2026-01-21", "HVAC", 1899),
+    ("2026-01-21", "HVAC", 1899),
+    ("2026-01-20", "HVAC", 649),
+    ("2026-01-17", "HVAC", 1999),
+    ("2026-01-16", "HVAC", 1999),
+    ("2026-01-15", "HVAC", 1999),
+    ("2026-01-14", "HVAC", 1999),
+    ("2026-01-14", "HVAC", 1999),
+    ("2026-01-14", "HVAC", 1999),
+    ("2026-01-14", "Other", 399),  # Mechanical PE Fundamentals
+    ("2026-01-13", "FE", 149),
+    ("2026-01-11", "FE", 249),
+    ("2026-01-08", "Other", 399),  # Critical Systems Engineering
+    ("2026-01-07", "HVAC", 649),
+    ("2026-01-06", "HVAC", 649),
+    ("2026-01-05", "HVAC", 1999),
+    ("2026-01-05", "FE", 249),
+    ("2026-01-05", "TFS", 1899),
+    ("2026-01-05", "TFS", 1999),
+    ("2026-01-05", "HVAC", 1999),
+    ("2026-01-04", "FE", 599),
+    ("2026-01-04", "HVAC", 1999),
+    ("2026-01-04", "HVAC", 1999),
+    ("2026-01-03", "HVAC", 1999),
+]
+
 def fetch_stripe_data(cutoff_date=None):
     """Fetch Stripe checkout sessions."""
     response = requests.get(
@@ -29,20 +82,26 @@ def fetch_stripe_data(cutoff_date=None):
     sessions = response.json().get("data", [])
     
     if cutoff_date is None:
-        cutoff_date = datetime(2026, 1, 1)
+        cutoff_date = datetime(2026, 3, 1)  # Only March onwards from API
     
     orders = []
     for s in sessions:
         ts = datetime.fromtimestamp(s["created"])
         if ts >= cutoff_date and s.get("payment_status") == "paid":
             customer_details = s.get("customer_details") or {}
+            product = s.get("metadata", {}).get("bundleId", "").replace("bundle_", "").upper() or "Unknown"
+            # Normalize
+            if "HVAC" in product:
+                product = "HVAC"
+            elif "TFS" in product:
+                product = "TFS"
+            
             orders.append({
                 "date": ts.strftime("%Y-%m-%d"),
                 "timestamp": ts,
                 "customer": customer_details.get("name", "Unknown"),
-                "product": s.get("metadata", {}).get("bundleId", "").replace("bundle_", "").upper() or "Unknown",
+                "product": product,
                 "amount": s.get("amount_total", 0) / 100,
-                "source": "Stripe"
             })
     
     return orders
@@ -57,19 +116,29 @@ def fetch_thinkific_data(cutoff_date=None):
     orders_data = response.json().get("items", [])
     
     if cutoff_date is None:
-        cutoff_date = datetime(2026, 1, 1)
+        cutoff_date = datetime(2026, 3, 1)  # Only March onwards from API
     
     orders = []
     for o in orders_data:
         ts = datetime.fromisoformat(o["created_at"].replace("Z", "+00:00")).replace(tzinfo=None)
         if ts >= cutoff_date and o.get("amount_cents", 0) > 0:
+            product_name = o.get("product_name", "Unknown")
+            # Normalize product name
+            if "FE" in product_name.upper():
+                product = "FE"
+            elif "HVAC" in product_name.upper():
+                product = "HVAC"
+            elif "Thermal" in product_name or "Fluids" in product_name or "TFS" in product_name:
+                product = "TFS"
+            else:
+                product = "Other"
+            
             orders.append({
                 "date": ts.strftime("%Y-%m-%d"),
                 "timestamp": ts,
                 "customer": o.get("user_name", "Unknown"),
-                "product": o.get("product_name", "Unknown"),
+                "product": product,
                 "amount": o.get("amount_cents", 0) / 100,
-                "source": "Thinkific"
             })
     
     return orders
@@ -77,22 +146,33 @@ def fetch_thinkific_data(cutoff_date=None):
 def build_dashboard():
     """Build the sales dashboard HTML with live data."""
     today = datetime.now()
-    year_start = datetime(2026, 1, 1)
     
-    print("Fetching Stripe data (Jan 2026+)...")
-    stripe_orders = fetch_stripe_data(year_start)
-    print(f"  {len(stripe_orders)} orders")
+    # Manual data for Jan/Feb
+    manual_orders = [
+        {
+            "date": date,
+            "timestamp": datetime.strptime(date, "%Y-%m-%d"),
+            "customer": "Manual",
+            "product": product,
+            "amount": amount,
+        }
+        for date, product, amount in MANUAL_DATA_JAN_FEB
+    ]
     
-    print("Fetching Thinkific data (Jan 2026+)...")
-    thinkific_orders = fetch_thinkific_data(year_start)
-    print(f"  {len(thinkific_orders)} orders")
+    # API data for March onwards
+    print("Fetching API data (March 2026+)...")
+    stripe_orders = fetch_stripe_data(datetime(2026, 3, 1))
+    thinkific_orders = fetch_thinkific_data(datetime(2026, 3, 1))
+    print(f"  Stripe: {len(stripe_orders)} orders")
+    print(f"  Thinkific: {len(thinkific_orders)} orders")
     
-    all_orders = stripe_orders + thinkific_orders
+    # Combine all
+    all_orders = manual_orders + stripe_orders + thinkific_orders
     all_orders.sort(key=lambda x: x["timestamp"])
     
     # Calculate statistics (YTD 2026)
     total_revenue_ytd = sum(o["amount"] for o in all_orders)
-    days_in_period = (today - year_start).days + 1
+    days_in_period = (today - datetime(2026, 1, 1)).days + 1
     avg_daily = total_revenue_ytd / days_in_period
     
     # March 2026 data
@@ -111,7 +191,6 @@ def build_dashboard():
         month_key = o["timestamp"].strftime("%Y-%m")
         monthly_data[month_key][o["product"]] += o["amount"]
     
-    # Sort monthly data chronologically
     sorted_months = sorted(monthly_data.keys())
     
     print(f"\nStatistics (2026 YTD):")
@@ -122,36 +201,17 @@ def build_dashboard():
     print(f"  Days remaining in March: {days_remaining}")
     print(f"  Projected March total: ${round(projected_march):,}")
     
-    # Normalize product names (combine all FE variants)
-    def normalize_product(name):
-        if "FE" in name.upper() or "Mechanical" in name and "Exam Prep" in name and "HVAC" not in name and "Thermal" not in name:
-            return "FE"
-        elif "HVAC" in name.upper():
-            return "HVAC"
-        elif "Thermal" in name or "Fluids" in name or "TFS" in name:
-            return "TFS"
-        return name
-    
-    # Re-normalize all orders
-    for o in all_orders + march_orders:
-        o["product"] = normalize_product(o["product"])
-    
-    # Recalculate monthly data with normalized names
-    monthly_data = defaultdict(lambda: defaultdict(float))
-    for o in all_orders:
-        month_key = o["timestamp"].strftime("%Y-%m")
-        monthly_data[month_key][o["product"]] += o["amount"]
-    
-    # Prepare chart data
-    # Pie chart - March revenue by product
+    # Pie chart data (March only)
     pie_data = {}
     for o in march_orders:
         pie_data[o["product"]] = pie_data.get(o["product"], 0) + o["amount"]
-    
-    # Round to whole dollars
     pie_data = {k: round(v) for k, v in pie_data.items()}
     
-    # Bar chart - monthly by product
+    # Pie chart with percentages
+    pie_total = sum(pie_data.values())
+    pie_pct = {k: round(100 * v / pie_total) if pie_total > 0 else 0 for k, v in pie_data.items()}
+    
+    # Bar chart data
     bar_months = []
     bar_products = set()
     for o in all_orders:
@@ -165,10 +225,9 @@ def build_dashboard():
     for month in sorted_months:
         bar_months.append(month)
         for product in bar_products:
-            # Round to whole dollars
             bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
     
-    # Build HTML - use string concatenation to avoid f-string issues
+    # Build HTML
     html_top = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -230,18 +289,19 @@ def build_dashboard():
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
+            margin-top: 15px;
         }
         th {
             background: #f8f9fa;
-            padding: 10px;
+            padding: 8px;
             text-align: left;
             font-weight: 600;
             color: #555;
             border-bottom: 2px solid #e0e0e0;
         }
         td {
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #f0f0f0;
         }
         tr:hover {
@@ -278,6 +338,10 @@ def build_dashboard():
             font-size: 12px;
             color: #999;
             margin-top: 15px;
+        }
+        .totals-table td:nth-child(2),
+        .totals-table td:nth-child(3) {
+            text-align: right;
         }
     </style>
 </head>
@@ -318,12 +382,23 @@ def build_dashboard():
         </div>
 
         <div class="dashboard-grid">
-            <!-- Pie Chart -->
+            <!-- Pie Chart + Table -->
             <div class="card">
-                <h2>Revenue by Product (March)</h2>
+                <h2>March Revenue by Product</h2>
                 <div class="chart-container">
                     <canvas id="pieChart"></canvas>
                 </div>
+                <table class="totals-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Revenue</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pieTableBody">
+                    </tbody>
+                </table>
             </div>
 
             <!-- Transactions Table (March) -->
@@ -340,7 +415,7 @@ def build_dashboard():
                     <tbody>
 """
     
-    # Add March orders to table (round to whole dollars)
+    # Add March orders to table
     for o in march_orders:
         html_top += f"                        <tr><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: right;\">${round(o['amount']):,}</td></tr>\n"
     
@@ -367,7 +442,8 @@ def build_dashboard():
         const productColors = {
             'HVAC': '#FFD700',    // Yellow
             'TFS': '#3498DB',      // Blue
-            'FE': '#E74C3C'        // Red
+            'FE': '#E74C3C',       // Red
+            'Other': '#95A5A6'     // Gray
         };
         
         function getProductColor(product) {
@@ -376,15 +452,28 @@ def build_dashboard():
         
         // Pie Chart
         const pieData = """ + json.dumps(pie_data) + """;
+        const piePct = """ + json.dumps(pie_pct) + """;
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
         const pieColors = pieLabels.map(label => getProductColor(label));
+        
+        // Populate totals table
+        const pieTableBody = document.getElementById('pieTableBody');
+        pieLabels.forEach(label => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${label}</td>
+                <td>$${pieData[label].toLocaleString()}</td>
+                <td>${piePct[label]}%</td>
+            `;
+            pieTableBody.appendChild(row);
+        });
         
         const ctxPie = document.getElementById('pieChart').getContext('2d');
         new Chart(ctxPie, {
             type: 'doughnut',
             data: {
-                labels: pieLabels,
+                labels: pieLabels.map(label => `${label} (${piePct[label]}%)`),
                 datasets: [{
                     data: pieValues,
                     backgroundColor: pieColors,
