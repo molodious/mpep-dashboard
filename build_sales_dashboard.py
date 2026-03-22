@@ -112,6 +112,12 @@ def stripe_clean_amount(amount_cents):
         return min(candidates)[1]
     return round(amount)
 
+# Manual product label corrections (session_id → correct product)
+# Use when Stripe metadata has wrong bundleId
+STRIPE_LABEL_CORRECTIONS = {
+    "cs_live_b1pxlS6mUa0zwyCMvqhVJerjUM3MwG78nQzG2ihiiBAAGmVCnYQiVO886B": "TFS",  # 2026-03-06 $1899 — metadata said HVAC, was TFS
+}
+
 def fetch_stripe_data(cutoff_date=None):
     """Fetch Stripe checkout sessions."""
     response = requests.get(
@@ -136,13 +142,18 @@ def fetch_stripe_data(cutoff_date=None):
             elif "TFS" in product:
                 product = "TFS"
             
+            session_id = s.get("id")
+            # Apply manual corrections for wrong metadata
+            if session_id in STRIPE_LABEL_CORRECTIONS:
+                product = STRIPE_LABEL_CORRECTIONS[session_id]
+
             orders.append({
                 "date": ts.strftime("%Y-%m-%d"),
                 "timestamp": ts,
                 "customer": customer_details.get("name", "Unknown"),
                 "product": product,
                 "amount": stripe_clean_amount(s.get("amount_total", 0)),
-                "session_id": s.get("id"),  # used for webhook dedup
+                "session_id": session_id,  # used for webhook dedup
             })
     
     return orders
