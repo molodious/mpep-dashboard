@@ -103,13 +103,13 @@ MONTHLY_HISTORY = [
 def stripe_clean_amount(amount_cents):
     """Round Stripe amount to nearest standard price point (strips sales tax).
     Known price points: 1999, 1899, 999, 649, 599, 399, 249, 149, 99
-    Any amount within $200 of a price point snaps to it; otherwise keeps raw value.
+    Snaps to the CLOSEST price point within $200; otherwise keeps raw value.
     """
     price_points = [1999, 1899, 999, 649, 599, 399, 249, 149, 99]
     amount = amount_cents / 100
-    for price in price_points:
-        if abs(amount - price) <= 200:
-            return price
+    candidates = [(abs(amount - p), p) for p in price_points if abs(amount - p) <= 200]
+    if candidates:
+        return min(candidates)[1]
     return round(amount)
 
 def fetch_stripe_data(cutoff_date=None):
