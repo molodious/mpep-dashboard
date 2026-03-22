@@ -11,6 +11,7 @@ DASHBOARD_DIR = Path(__file__).parent
 FILES_TO_PROTECT = [
     'cron.html',
     'oh-prep.html',
+    'sales.html',
 ]
 
 AUTH_OVERLAY_HTML = '''<!-- ── Auth overlay ── -->
