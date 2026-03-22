@@ -77,6 +77,7 @@ MANUAL_DATA_MARCH = [
     ("2026-03-13", "FE", 149),   # FE Mechanical Exam Prep Course 1mo (missing from API)
     ("2026-03-12", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
     ("2026-03-05", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
+    ("2026-03-22", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
 ]
 
 # Accurate historical monthly data (Dan's verified numbers)
@@ -207,6 +208,9 @@ def fetch_webhook_log(cutoff_date=None):
     try:
         response = requests.get(WEBHOOK_LOG_URL, timeout=10)
         entries = response.json()
+        if not isinstance(entries, list):
+            print(f"  Warning: Webhook log returned unexpected format: {entries}")
+            return [], set()
     except Exception as e:
         print(f"  Warning: Could not fetch webhook log: {e}")
         return [], set()
