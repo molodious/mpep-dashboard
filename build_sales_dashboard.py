@@ -79,6 +79,26 @@ MANUAL_DATA_MARCH = [
     ("2026-03-05", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
 ]
 
+# Accurate historical monthly data (Dan's verified numbers)
+# Used for trailing 12-month stats and daily average calculation
+MONTHLY_HISTORY = [
+    ("2025-01", 15, 14036),
+    ("2025-02", 18, 19732),
+    ("2025-03", 19, 25332),
+    ("2025-04", 23, 30027),
+    ("2025-05", 23, 27829),
+    ("2025-06", 13, 15787),
+    ("2025-07", 24, 36026),
+    ("2025-08", 23, 25230),
+    ("2025-09", 13, 18588),
+    ("2025-10", 15, 20786),
+    ("2025-11", 17, 21583),
+    ("2025-12", 11, 15189),
+    ("2026-01", 29, 41921),
+    ("2026-02", 20, 26630),
+    ("2026-03", 15, 21685),  # complete manual data
+]
+
 def stripe_clean_amount(amount_cents):
     """Round Stripe amount to nearest standard price point (strips sales tax).
     Known price points: 1999, 1899, 999, 649, 599, 399, 249, 149, 99
@@ -121,6 +141,7 @@ def fetch_stripe_data(cutoff_date=None):
                 "customer": customer_details.get("name", "Unknown"),
                 "product": product,
                 "amount": stripe_clean_amount(s.get("amount_total", 0)),
+                "session_id": s.get("id"),  # used for webhook dedup
             })
     
     return orders
@@ -264,16 +285,28 @@ def build_dashboard():
     all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
     
-    # Calculate statistics (YTD 2026)
-    total_revenue_ytd = sum(o["amount"] for o in all_orders)
-    days_in_period = (today - datetime(2026, 1, 1)).days + 1
-    avg_daily = total_revenue_ytd / days_in_period
-    
-    # March 2026 data
+    # --- Trailing 12-month stats from accurate historical data ---
+    # Use last 12 months from MONTHLY_HISTORY
+    trailing_12 = MONTHLY_HISTORY[-12:]
+    trailing_revenue = sum(r for _, _, r in trailing_12)
+    trailing_orders = sum(o for _, o, _ in trailing_12)
+    avg_daily = trailing_revenue / 365
+    avg_orders_per_month = trailing_orders / 12
+
+    # Current month orders and revenue (March 2026)
+    current_month_data = MONTHLY_HISTORY[-1]
+    current_month_orders = current_month_data[1]
+    current_month_revenue = current_month_data[2]
+
+    # YTD 2026 from MONTHLY_HISTORY
+    ytd_2026 = [(m, o, r) for m, o, r in MONTHLY_HISTORY if m.startswith("2026")]
+    total_revenue_ytd = sum(r for _, _, r in ytd_2026)
+
+    # March 2026 data from orders (for transaction table and pie chart)
     march_orders = [o for o in all_orders if o["timestamp"].month == 3 and o["timestamp"].year == 2026]
     march_orders.sort(key=lambda x: x["timestamp"])
-    march_revenue = sum(o["amount"] for o in march_orders)
-    
+    march_revenue = current_month_revenue  # use accurate manual total
+
     # Days remaining in March
     march_end = datetime(2026, 3, 31)
     days_remaining = max(0, (march_end - today).days + 1)
@@ -289,7 +322,7 @@ def build_dashboard():
     
     print(f"\nStatistics (2026 YTD):")
     print(f"  YTD revenue: ${round(total_revenue_ytd):,}")
-    print(f"  Days elapsed: {days_in_period}")
+    print(f"  Days elapsed (2026 YTD): {(today - datetime(2026, 1, 1)).days + 1}")
     print(f"  Daily average: ${round(avg_daily):,}")
     print(f"  March revenue so far: ${round(march_revenue):,}")
     print(f"  Days remaining in March: {days_remaining}")
@@ -305,25 +338,26 @@ def build_dashboard():
     pie_total = sum(pie_data.values())
     pie_pct = {k: round(100 * v / pie_total) if pie_total > 0 else 0 for k, v in pie_data.items()}
     
-    # Bar chart data
+    # Bar chart data — 2026 only (product stacking available for all 2026 months)
     bar_months = []
     bar_products = set()
     for o in all_orders:
         bar_products.add(o["product"])
-    
+
     bar_products = sorted(list(bar_products))
     bar_datasets = {}
     for product in bar_products:
         bar_datasets[product] = []
-    
-    for month in sorted_months:
+
+    months_2026 = [m for m in sorted_months if m.startswith("2026")]
+    for month in months_2026:
         bar_months.append(month)
         for product in bar_products:
             bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
-    
+
     # Calculate Y-axis max: highest monthly total rounded up to nearest 5000
     import math
-    monthly_totals_py = [sum(monthly_data[m].values()) for m in sorted_months]
+    monthly_totals_py = [sum(monthly_data[m].values()) for m in months_2026]
     max_monthly = max(monthly_totals_py) if monthly_totals_py else 0
     y_axis_max = math.ceil(max_monthly / 5000) * 5000
 
@@ -482,14 +516,18 @@ def build_dashboard():
         <!-- Projection Box -->
         <div class="card full-width" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
             <h2 style="color: white; margin-bottom: 15px;">📊 March 2026 Projection</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
                     <div class="metric-value" style="color: white;">$""" + f"{round(march_revenue):,}" + """</div>
                 </div>
                 <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (2026 YTD)</div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
                     <div class="metric-value" style="color: white;">$""" + f"{round(avg_daily):,}" + """</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
+                    <div class="metric-value" style="color: white;">""" + f"{current_month_orders} <span style='font-size:0.5em; font-weight:400;'>vs {round(avg_orders_per_month, 1)} avg</span>" + """</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -501,7 +539,7 @@ def build_dashboard():
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on 2026 YTD average daily revenue ($""" + f"{round(avg_daily):,}" + """/day over """ + str(days_in_period) + """ days)
+                Based on trailing 12-month daily average ($""" + f"{round(avg_daily):,}" + """/day · $""" + f"{round(trailing_revenue):,}" + """ over 365 days)
             </div>
         </div>
 
