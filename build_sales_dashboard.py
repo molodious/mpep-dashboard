@@ -173,11 +173,56 @@ def fetch_thinkific_data(cutoff_date=None):
     
     return orders
 
+WEBHOOK_LOG_URL = "https://btc.mechanicalpeexamprep.com/orders-log?secret=mpep_wh_2026"
+
+def fetch_webhook_log(cutoff_date=None):
+    """Fetch orders from the webhook log on the droplet.
+    Only adds entries not already covered by the API (avoids double-counting).
+    Returns orders with their API order_ids for deduplication.
+    """
+    if cutoff_date is None:
+        cutoff_date = datetime(2026, 3, 1)
+
+    try:
+        response = requests.get(WEBHOOK_LOG_URL, timeout=10)
+        entries = response.json()
+    except Exception as e:
+        print(f"  Warning: Could not fetch webhook log: {e}")
+        return [], set()
+
+    orders = []
+    seen_order_ids = set()
+
+    for e in entries:
+        if not e.get("date"):
+            continue
+        ts = datetime.strptime(e["date"], "%Y-%m-%d")
+        if ts < cutoff_date:
+            continue
+        if e.get("amount", 0) <= 0:
+            continue  # skip refunds and $0 entries for now
+
+        order_id = e.get("order_id")
+        seen_order_ids.add(order_id)
+
+        orders.append({
+            "date": e["date"],
+            "timestamp": ts,
+            "customer": e.get("customer", "Unknown"),
+            "product": e.get("product", "Other"),
+            "amount": e.get("amount", 0),
+            "order_id": order_id,
+            "source": e.get("source", "webhook"),
+        })
+
+    return orders, seen_order_ids
+
+
 def build_dashboard():
     """Build the sales dashboard HTML with live data."""
     today = datetime.now()
     
-    # Manual data for Jan/Feb + March (missing API entries)
+    # Manual data for Jan/Feb + March (missing API entries — legacy, webhook replaces going forward)
     all_manual_data = MANUAL_DATA_JAN_FEB + MANUAL_DATA_MARCH
     manual_orders = [
         {
@@ -186,6 +231,7 @@ def build_dashboard():
             "customer": "Manual",
             "product": product,
             "amount": amount,
+            "order_id": None,
         }
         for date, product, amount in all_manual_data
     ]
@@ -196,9 +242,26 @@ def build_dashboard():
     thinkific_orders = fetch_thinkific_data(datetime(2026, 3, 1))
     print(f"  Stripe: {len(stripe_orders)} orders")
     print(f"  Thinkific: {len(thinkific_orders)} orders")
-    
+
+    # Webhook log — adds subscription renewals and anything the API missed
+    print("Fetching webhook log...")
+    webhook_orders_raw, webhook_order_ids = fetch_webhook_log(datetime(2026, 3, 1))
+
+    # Collect order IDs already known from API to avoid double-counting
+    api_order_ids = set()
+    for o in thinkific_orders:
+        if o.get("order_id"):
+            api_order_ids.add(o["order_id"])
+    for o in stripe_orders:
+        if o.get("session_id"):
+            api_order_ids.add(o["session_id"])
+
+    # Only keep webhook entries not already in API data
+    webhook_orders = [o for o in webhook_orders_raw if o.get("order_id") not in api_order_ids]
+    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} new (not in API)")
+
     # Combine all
-    all_orders = manual_orders + stripe_orders + thinkific_orders
+    all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
     
     # Calculate statistics (YTD 2026)
