@@ -289,27 +289,23 @@ def build_dashboard():
     all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
     
-    # --- Trailing 12-month stats from accurate historical data ---
-    # Use last 12 months from MONTHLY_HISTORY
-    trailing_12 = MONTHLY_HISTORY[-12:]
-    trailing_revenue = sum(r for _, _, r in trailing_12)
-    trailing_orders = sum(o for _, o, _ in trailing_12)
+    # March 2026 data calculated live from all_orders (includes API + manual entries)
+    march_orders = [o for o in all_orders if o["timestamp"].month == 3 and o["timestamp"].year == 2026]
+    march_orders.sort(key=lambda x: x["timestamp"])
+    march_revenue = sum(o["amount"] for o in march_orders)
+    current_month_orders = len(march_orders)
+    current_month_revenue = march_revenue
+
+    # --- Trailing 12-month stats: 11 complete months from history + March live ---
+    trailing_12 = MONTHLY_HISTORY[-12:-1]  # 11 completed months (2025-04 through 2026-02)
+    trailing_revenue = sum(r for _, _, r in trailing_12) + march_revenue
+    trailing_orders = sum(o for _, o, _ in trailing_12) + len(march_orders)
     avg_daily = trailing_revenue / 365
     avg_orders_per_month = trailing_orders / 12
 
-    # Current month orders and revenue (March 2026)
-    current_month_data = MONTHLY_HISTORY[-1]
-    current_month_orders = current_month_data[1]
-    current_month_revenue = current_month_data[2]
-
-    # YTD 2026 from MONTHLY_HISTORY
-    ytd_2026 = [(m, o, r) for m, o, r in MONTHLY_HISTORY if m.startswith("2026")]
-    total_revenue_ytd = sum(r for _, _, r in ytd_2026)
-
-    # March 2026 data from orders (for transaction table and pie chart)
-    march_orders = [o for o in all_orders if o["timestamp"].month == 3 and o["timestamp"].year == 2026]
-    march_orders.sort(key=lambda x: x["timestamp"])
-    march_revenue = current_month_revenue  # use accurate manual total
+    # YTD 2026: Jan + Feb from MONTHLY_HISTORY (complete months) + March live
+    ytd_completed = [(m, o, r) for m, o, r in MONTHLY_HISTORY if m.startswith("2026") and m < "2026-03"]
+    total_revenue_ytd = sum(r for _, _, r in ytd_completed) + march_revenue
 
     # Days remaining in March
     march_end = datetime(2026, 3, 31)

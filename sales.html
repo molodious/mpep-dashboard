@@ -137,63 +137,15 @@
         tr[data-product="FE"]:hover {
             background-color: rgba(231, 76, 60, 0.2);
         }
-    #auth-overlay {
-      position: fixed; inset: 0;
-      background: #0d1117;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .auth-box {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 14px;
-      padding: 40px 36px;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-    }
-    .auth-logo { font-size: 36px; margin-bottom: 12px; }
-    .auth-title { font-size: 20px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
-    .auth-sub   { font-size: 13px; color: #8b949e; margin-bottom: 28px; }
-    .auth-box input {
-      width: 100%; background: #0d1117; border: 1px solid #30363d;
-      border-radius: 8px; padding: 12px 14px; color: #e6edf3;
-      font-size: 15px; margin-bottom: 12px; box-sizing: border-box;
-    }
-    .auth-box button {
-      width: 100%; background: #238636; border: none; border-radius: 8px;
-      padding: 12px; color: #fff; font-size: 15px; font-weight: 600;
-      cursor: pointer;
-    }
-    #pwd-error { color: #f85149; font-size: 13px; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
-
-<!-- ── Auth overlay ── -->
-<div id="auth-overlay">
-  <div class="auth-box">
-    <div class="auth-logo">♠️</div>
-    <div class="auth-title">MPEP Dashboard</div>
-    <div class="auth-sub">Internal use only — enter your password to continue</div>
-    <form id="auth-form">
-      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
-      <div id="pwd-error"></div>
-      <button type="submit" id="pwd-btn">Unlock</button>
-    </form>
-  </div>
-</div>
-
-<!-- ── Main content ── -->
-<div id="main-content">
     <div class="container">
         <header>
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Mar 21)</div>
-                <div><strong>Updated:</strong> Mar 22, 2026 at 04:48 PM</div>
+                <div><strong>Updated:</strong> Mar 22, 2026 at 04:52 PM</div>
             </div>
         </header>
 
@@ -203,15 +155,15 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
-                    <div class="metric-value" style="color: white;">$21,685</div>
+                    <div class="metric-value" style="color: white;">$22,134</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
-                    <div class="metric-value" style="color: white;">$825</div>
+                    <div class="metric-value" style="color: white;">$827</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
-                    <div class="metric-value" style="color: white;">15 <span style='font-size:0.5em; font-weight:400;'>vs 18.8 avg</span></div>
+                    <div class="metric-value" style="color: white;">16 <span style='font-size:0.5em; font-weight:400;'>vs 18.9 avg</span></div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -219,11 +171,11 @@
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$29,114</div>
+                    <div class="metric-value" style="color: #fff;">$29,574</div>
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on trailing 12-month daily average ($825/day · $301,281 over 365 days)
+                Based on trailing 12-month daily average ($827/day · $301,730 over 365 days)
             </div>
         </div>
 
@@ -370,7 +322,7 @@
         
         const marchIdx = barMonths.length - 1;
         const marchCurrent = monthlyTotals[marchIdx];
-        const marchProjected = 29114;
+        const marchProjected = 29574;
         const marchMax = Math.max(marchCurrent, marchProjected);
         
         // Plugin to draw labels
@@ -449,7 +401,5 @@
             plugins: [totalLabelsPlugin]
         });
     </script>
-</div><!-- /#main-content -->
-<script src="auth.js"></script>
 </body>
 </html>
