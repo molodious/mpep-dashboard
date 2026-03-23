@@ -94,7 +94,6 @@ AUTH_STYLES = '''
       margin-bottom: 8px;
     }
 
-    #main-content { display: none; }
 
 '''
 

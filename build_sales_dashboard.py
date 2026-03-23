@@ -103,6 +103,7 @@ MONTHLY_HISTORY = [
 def stripe_clean_amount(amount_cents):
     """Round Stripe amount to nearest standard price point (strips sales tax).
     Known price points: 1999, 1899, 999, 649, 599, 399, 249, 149, 99
+    Note: 1899 = 5% promo code applied at purchase (not installment). Revenue = 1899.
     Snaps to the CLOSEST price point within $200; otherwise keeps raw value.
     """
     price_points = [1999, 1899, 999, 649, 599, 399, 249, 149, 99]
@@ -115,7 +116,7 @@ def stripe_clean_amount(amount_cents):
 # Manual product label corrections (session_id → correct product)
 # Use when Stripe metadata has wrong bundleId
 STRIPE_LABEL_CORRECTIONS = {
-    "cs_live_b1pxlS6mUa0zwyCMvqhVJerjUM3MwG78nQzG2ihiiBAAGmVCnYQiVO886B": "TFS",  # 2026-03-06 $1899 — metadata said HVAC, was TFS
+    "cs_live_b1pxlS6mUa0zwyCMvqhVJerjUM3MwG78nQzG2ihiiBAAGmVCnYQiVO886B": "TFS",  # 2026-03-06 $1899 — TFS with 5% promo code
 }
 
 def fetch_stripe_data(cutoff_date=None):
@@ -206,7 +207,7 @@ def fetch_thinkific_data(cutoff_date=None):
     
     return orders
 
-WEBHOOK_LOG_URL = "https://btc.mechanicalpeexamprep.com/orders-log?secret=mpep_wh_2026"
+WEBHOOK_LOG_URL = "http://btc.mechanicalpeexamprep.com:3002/orders-log?secret=exJJYXW2UebdDgJWicFr"
 
 def fetch_webhook_log(cutoff_date=None):
     """Fetch orders from the webhook log on the droplet.
@@ -381,6 +382,46 @@ def build_dashboard():
     <title>Sales Dashboard - Mechanical PE Exam Prep</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --surface2: #f0f2f5;
+            --border: #dde1e7;
+            --text: #333333;
+            --muted: #777777;
+            --blue: #2563eb;
+            --red: #dc2626;
+        }
+
+        /* ── Auth overlay ── */
+        #auth-overlay {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.6);
+          display: flex; align-items: center; justify-content: center;
+          z-index: 9999;
+        }
+        .auth-box {
+          background: var(--surface); border: 1px solid var(--border);
+          border-radius: 8px; padding: 32px; width: 100%; max-width: 280px; text-align: center;
+        }
+        .auth-logo { font-size: 36px; margin-bottom: 12px; }
+        .auth-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+        .auth-box input {
+          width: 100%; padding: 8px 12px; background: var(--surface2);
+          border: 1px solid var(--border); border-radius: 4px;
+          color: var(--text); font-size: 13px; margin-bottom: 8px;
+        }
+        .auth-box input:focus { border-color: var(--blue); outline: none; }
+        .auth-box button {
+          width: 100%; padding: 8px 12px; background: var(--blue);
+          color: #fff; border: none; border-radius: 4px;
+          font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+        .auth-box button:hover  { opacity: 0.88; }
+        .auth-box button:disabled { opacity: 0.55; cursor: default; }
+        #pwd-error { display: none; color: var(--red); font-size: 11px; margin-bottom: 8px; }
+
         * {
             margin: 0;
             padding: 0;
@@ -515,6 +556,22 @@ def build_dashboard():
     </style>
 </head>
 <body>
+
+<!-- ── Auth overlay ── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only — enter your password to continue</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<div id="main-content">
     <div class="container">
         <header>
             <h1>💰 Sales Dashboard</h1>
@@ -610,6 +667,7 @@ def build_dashboard():
         </div>
     </div>
     <script>
+        function onAuthenticated() {
         // Color mapping for products
         const productColors = {
             'HVAC': '#FFD700',    // Yellow
@@ -765,7 +823,10 @@ def build_dashboard():
             },
             plugins: [totalLabelsPlugin]
         });
+    }
     </script>
+</div><!-- end main-content -->
+<script src="auth.js"></script>
 </body>
 </html>"""
     
