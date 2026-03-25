@@ -145,7 +145,7 @@ def build_students():
 
 
 def inject_into_html(students):
-    template_path = os.path.join(SCRIPT_DIR, "exams.html")
+    template_path = os.path.join(SCRIPT_DIR, "exams-template.html")
     with open(template_path, "r") as f:
         html = f.read()
 
@@ -154,7 +154,7 @@ def inject_into_html(students):
 
     # Replace placeholders
     html = html.replace("PLACEHOLDER_EXAM_JSON", data_json)
-    html = re.sub(r"PLACEHOLDER_GENERATED_TIME", generated_time, html)
+    html = html.replace("PLACEHOLDER_GENERATED_TIME", generated_time)
 
     out_path = os.path.join(SCRIPT_DIR, "exams.html")
     with open(out_path, "w") as f:
