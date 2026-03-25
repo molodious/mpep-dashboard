@@ -89,51 +89,92 @@ def kit_name(email):
 
 def build_students():
     students = {}
+    skipped = []
 
     # Welcome form
     try:
         items = fetch_typeform(WELCOME_FORM_ID)
-        for item in items:
+        for i, item in enumerate(items):
             answers = item.get("answers", [])
             email = get_field(answers, WELCOME_EMAIL_FIELD)
             date  = get_field(answers, WELCOME_DATE_FIELD)
-            if not email or not date:
+            
+            if not email:
+                skipped.append({"form": "welcome", "reason": "missing email", "index": i})
                 continue
+            if not date:
+                skipped.append({"form": "welcome", "reason": "missing date", "email": email, "index": i})
+                continue
+            
             date = str(date)[:10]
             try:
                 d = datetime.fromisoformat(date).replace(tzinfo=timezone.utc)
             except ValueError:
+                skipped.append({"form": "welcome", "reason": f"invalid date format: {date}", "email": email, "index": i})
                 continue
-            if d < NOW or d > HORIZON:
+            
+            if d < NOW:
+                skipped.append({"form": "welcome", "reason": f"past date: {date}", "email": email, "index": i})
                 continue
+            if d > HORIZON:
+                skipped.append({"form": "welcome", "reason": f"beyond 180-day horizon: {date}", "email": email, "index": i})
+                continue
+            
             email = email.lower().strip()
             if email not in students or date < students[email]["date"]:
                 students[email] = {"email": email, "date": date, "name": None}
+        
         print(f"Welcome form: {len(students)} future entries")
+        if skipped:
+            print(f"  (Skipped {len([s for s in skipped if s['form'] == 'welcome'])} submissions from welcome form)")
     except Exception as e:
         print(f"Warning: welcome form fetch failed: {e}")
 
     # Exam date form (overrides if more recent)
     try:
         items = fetch_typeform(EXAM_FORM_ID)
-        for item in items:
+        for i, item in enumerate(items):
             answers = item.get("answers", [])
             email = get_field(answers, EXAM_EMAIL_FIELD)
             date  = get_field(answers, EXAM_DATE_FIELD)
-            if not email or not date:
+            
+            if not email:
+                skipped.append({"form": "exam", "reason": "missing email", "index": i})
                 continue
+            if not date:
+                skipped.append({"form": "exam", "reason": "missing date", "email": email, "index": i})
+                continue
+            
             date = str(date)[:10]
             try:
                 d = datetime.fromisoformat(date).replace(tzinfo=timezone.utc)
             except ValueError:
+                skipped.append({"form": "exam", "reason": f"invalid date format: {date}", "email": email, "index": i})
                 continue
-            if d < NOW or d > HORIZON:
+            
+            if d < NOW:
+                skipped.append({"form": "exam", "reason": f"past date: {date}", "email": email, "index": i})
                 continue
+            if d > HORIZON:
+                skipped.append({"form": "exam", "reason": f"beyond 180-day horizon: {date}", "email": email, "index": i})
+                continue
+            
             email = email.lower().strip()
             students[email] = {"email": email, "date": date, "name": None}
+        
         print(f"After exam date form merge: {len(students)} total")
+        if skipped:
+            print(f"  (Skipped {len([s for s in skipped if s['form'] == 'exam'])} submissions from exam form)")
     except Exception as e:
         print(f"Warning: exam date form fetch failed: {e}")
+    
+    # Report skipped submissions
+    if skipped:
+        print(f"\n⚠️  SKIPPED SUBMISSIONS ({len(skipped)} total):")
+        for s in skipped:
+            email_str = f" · {s.get('email', 'N/A')}" if s.get('email') else ""
+            print(f"  - {s['form'].upper()}: {s['reason']}{email_str}")
+        print()
 
     # Enrich names from Kit
     for email, s in students.items():
@@ -141,10 +182,10 @@ def build_students():
         s["name"] = name or email.split("@")[0].replace(".", " ").title()
 
     result = sorted(students.values(), key=lambda x: x["date"])
-    return result
+    return result, skipped
 
 
-def inject_into_html(students):
+def inject_into_html(students, skipped):
     template_path = os.path.join(SCRIPT_DIR, "exams-template.html")
     with open(template_path, "r") as f:
         html = f.read()
@@ -162,10 +203,18 @@ def inject_into_html(students):
     print(f"Written: {out_path}")
     print(f"Generated at: {generated_time}")
     print(f"Students: {len(students)}")
+    
+    # Alert if any submissions were skipped
+    if skipped:
+        print(f"\n⚠️  ALERT: {len(skipped)} submission(s) skipped during build")
+        return False
+    return True
 
 
 if __name__ == "__main__":
     print("Fetching student exam dates…")
-    students = build_students()
-    inject_into_html(students)
+    students, skipped = build_students()
+    success = inject_into_html(students, skipped)
+    if not success:
+        exit(1)
     print("Done.")
