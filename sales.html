@@ -201,7 +201,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Mar 28)</div>
-                <div><strong>Updated:</strong> Mar 28, 2026 at 09:05 AM</div>
+                <div><strong>Updated:</strong> Mar 28, 2026 at 10:03 AM</div>
             </div>
         </header>
 
@@ -211,15 +211,15 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
-                    <div class="metric-value" style="color: white;">$21,934</div>
+                    <div class="metric-value" style="color: white;">$22,333</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
-                    <div class="metric-value" style="color: white;">$826</div>
+                    <div class="metric-value" style="color: white;">$827</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
-                    <div class="metric-value" style="color: white;">16 <span style='font-size:0.5em; font-weight:400;'>vs 18.9 avg</span></div>
+                    <div class="metric-value" style="color: white;">17 <span style='font-size:0.5em; font-weight:400;'>vs 19.0 avg</span></div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -227,11 +227,11 @@
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$24,412</div>
+                    <div class="metric-value" style="color: #fff;">$24,815</div>
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on trailing 12-month daily average ($826/day · $301,530 over 365 days)
+                Based on trailing 12-month daily average ($827/day · $301,929 over 365 days)
             </div>
         </div>
 
@@ -283,6 +283,7 @@
                         <tr data-product="TFS"><td>2026-03-16</td><td>TFS</td><td style="text-align: center;">$1,999</td></tr>
                         <tr data-product="FE"><td>2026-03-17</td><td>FE</td><td style="text-align: center;">$999</td></tr>
                         <tr data-product="FE"><td>2026-03-22</td><td>FE</td><td style="text-align: center;">$249</td></tr>
+                        <tr data-product="Other"><td>2026-03-28</td><td>Other</td><td style="text-align: center;">$399</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -315,8 +316,8 @@
         }
         
         // Pie Chart
-        const pieData = {"HVAC": 13893, "FE": 2144, "TFS": 5897};
-        const piePct = {"HVAC": 63, "FE": 10, "TFS": 27};
+        const pieData = {"HVAC": 13893, "FE": 2144, "TFS": 5897, "Other": 399};
+        const piePct = {"HVAC": 62, "FE": 10, "TFS": 26, "Other": 2};
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
         const pieColors = pieLabels.map(label => getProductColor(label));
@@ -360,7 +361,7 @@
         // Bar Chart
         const barMonths = ["2026-01", "2026-02", "2026-03"];
         const barProducts = ["FE", "HVAC", "Other", "TFS"];
-        const barDatasets = {"FE": [1495, 2094, 2144], "HVAC": [35730, 11894, 13893], "Other": [798, 99, 0], "TFS": [3898, 12543, 5897]};
+        const barDatasets = {"FE": [1495, 2094, 2144], "HVAC": [35730, 11894, 13893], "Other": [798, 99, 399], "TFS": [3898, 12543, 5897]};
         
         const datasets = barProducts.map((product, idx) => ({
             label: product,
@@ -379,7 +380,7 @@
         
         const marchIdx = barMonths.length - 1;
         const marchCurrent = monthlyTotals[marchIdx];
-        const marchProjected = 24412;
+        const marchProjected = 24815;
         const marchMax = Math.max(marchCurrent, marchProjected);
         
         // Plugin to draw labels
