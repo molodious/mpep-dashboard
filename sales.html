@@ -201,7 +201,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Mar 28)</div>
-                <div><strong>Updated:</strong> Mar 28, 2026 at 09:03 PM</div>
+                <div><strong>Updated:</strong> Mar 28, 2026 at 09:36 PM</div>
             </div>
         </header>
 
@@ -283,7 +283,7 @@
                         <tr data-product="TFS"><td>2026-03-16</td><td>TFS</td><td style="text-align: center;">$1,999</td></tr>
                         <tr data-product="FE"><td>2026-03-17</td><td>FE</td><td style="text-align: center;">$999</td></tr>
                         <tr data-product="FE"><td>2026-03-22</td><td>FE</td><td style="text-align: center;">$249</td></tr>
-                        <tr data-product="Other"><td>2026-03-28</td><td>Other</td><td style="text-align: center;">$399</td></tr>
+                        <tr data-product="Fundamentals"><td>2026-03-28</td><td>Fundamentals</td><td style="text-align: center;">$399</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -305,10 +305,15 @@
         function onAuthenticated() {
         // Color mapping for products
         const productColors = {
-            'HVAC': '#FFD700',    // Yellow
-            'TFS': '#3498DB',      // Blue
-            'FE': '#E74C3C',       // Red
-            'Other': '#95A5A6'     // Gray
+            'HVAC': '#FFD700',              // Yellow
+            'TFS': '#3498DB',               // Blue
+            'FE': '#E74C3C',                // Red
+            'Fundamentals': '#27AE60',      // Green
+            'CSE': '#8E44AD',               // Purple
+            'DailyInsightsPremium': '#F39C12', // Orange
+            'HVACBook': '#F1C40F',          // Gold
+            'TFSBook': '#2980B9',           // Dark blue
+            'Other': '#95A5A6'              // Gray
         };
         
         function getProductColor(product) {
@@ -316,8 +321,8 @@
         }
         
         // Pie Chart
-        const pieData = {"HVAC": 13893, "FE": 2144, "TFS": 5897, "Other": 399};
-        const piePct = {"HVAC": 62, "FE": 10, "TFS": 26, "Other": 2};
+        const pieData = {"HVAC": 13893, "FE": 2144, "TFS": 5897, "Fundamentals": 399};
+        const piePct = {"HVAC": 62, "FE": 10, "TFS": 26, "Fundamentals": 2};
         const pieLabels = Object.keys(pieData);
         const pieValues = Object.values(pieData);
         const pieColors = pieLabels.map(label => getProductColor(label));
@@ -360,8 +365,8 @@
 
         // Bar Chart
         const barMonths = ["2026-01", "2026-02", "2026-03"];
-        const barProducts = ["FE", "HVAC", "Other", "TFS"];
-        const barDatasets = {"FE": [1495, 2094, 2144], "HVAC": [35730, 11894, 13893], "Other": [798, 99, 399], "TFS": [3898, 12543, 5897]};
+        const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "TFS"];
+        const barDatasets = {"CSE": [399, 0, 0], "DailyInsightsPremium": [0, 99, 0], "FE": [1495, 2094, 2144], "Fundamentals": [399, 0, 399], "HVAC": [35730, 11894, 13893], "TFS": [3898, 12543, 5897]};
         
         const datasets = barProducts.map((product, idx) => ({
             label: product,
