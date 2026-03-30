@@ -111,12 +111,18 @@ MANUAL_DATA_JAN_FEB = [
 ]
 
 # Manual data: Thinkific-era sales for March 2026 (pre-cutover).
-# Dan supplies these. Only add sales that did NOT go through Stripe/BTC.
+# All confirmed from Thinkific transactions export (2026-03-30).
+# Only add sales that went through Thinkific Payments — NOT through Stripe/BTC (double-count risk).
 MANUAL_DATA_MARCH = [
-    ("2026-03-13", "FE", 149),   # FE Mechanical Exam Prep Course 1mo (missing from API)
-    ("2026-03-12", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
-    ("2026-03-05", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
-    ("2026-03-22", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
+    # Existing FE subscription renewals (old subscribers through Thinkific billing)
+    ("2026-03-05",  "FE",            249.00),   # Khaled Jawabreh — FE monthly renewal
+    ("2026-03-12",  "FE",            268.92),   # Tyler Sommer — FE monthly renewal (corrected from 249)
+    ("2026-03-13",  "FE",            149.00),   # Patrick McNally — FE monthly renewal
+    ("2026-03-22",  "FE",            249.00),   # Jason Rezell — FE monthly renewal
+    # New Thinkific orders placed before cutover
+    ("2026-03-14",  "FE",            249.00),   # Ryan Perusse — new FE monthly sub
+    ("2026-03-17",  "FE",           1051.45),   # MAURICIO Fierro — FE 6 Months Access
+    ("2026-03-28",  "Fundamentals",  399.00),   # Osvaldo Medina — Mechanical PE Fundamentals
 ]
 
 # Accurate historical monthly data (Dan's verified numbers)
