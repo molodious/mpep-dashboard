@@ -72,8 +72,8 @@ MANUAL_DATA_MARCH = [
     # sub_type: "new" = first purchase, "renewal" = recurring subscription charge
 
     # BTC order — John Giannopoulos — invoiceId: LHfWFy13MVPQiydoBYtDYS
-    # 0.02031964 BTC settled, base invoice price $1,799 (bundle_hvac BTC rate)
-    ("2026-03-25",  "HVAC",          1799,  "new",     "btcpay"),
+    # 0.02031964 BTC settled; upgrade price $1,440 (base $1,799 − $359 discount)
+    ("2026-03-25",  "HVAC",          1440,  "new",     "btcpay"),
 
     # Thinkific Payments — NOT in Stripe/BTC (confirmed 2026-03-30 export)
     ("2026-03-05",  "FE",            249,  "renewal"),   # Khaled Jawabreh — FE monthly renewal
