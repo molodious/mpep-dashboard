@@ -25,8 +25,9 @@ if not STRIPE_KEY:
     print("ERROR: Missing STRIPE_READONLY_KEY env var.")
     exit(1)
 
-# Earliest date to pull from Stripe API (full 2026 history)
-DASHBOARD_START_DATE = datetime(2026, 1, 1)
+# Earliest date to pull from Stripe API (live reporting starts March 1, 2026)
+# Jan/Feb are closed months — their data lives in MONTHLY_HISTORY + HISTORICAL_MONTHLY_BREAKDOWN
+DASHBOARD_START_DATE = datetime(2026, 3, 1)
 
 # ── Product ID → dashboard label ──────────────────────────────────────────────
 # Mirrors salesWebhookServer.js PRODUCT_MAP. Add new products here when they launch.
@@ -55,60 +56,13 @@ STRIPE_PRICE_TO_PRODUCT_MAP = {
     'price_1TGTVcLeBhBRYzk4D7njfg5S': 'FE',   # fe_12mo
 }
 
-# Manual data: Thinkific-era sales only (Jan/Feb 2026).
-# These went through Thinkific checkout — NOT in Stripe API.
-# DO NOT add anything here that went through Stripe (it will double-count).
-MANUAL_DATA_JAN_FEB = [
-    ("2026-02-26", "FE", 599),
-    ("2026-02-22", "FE", 249),
-    ("2026-02-21", "HVAC", 1999),
-    ("2026-02-20", "TFS", 1999),
-    ("2026-02-20", "TFS", 649),
-    ("2026-02-20", "DailyInsightsPremium", 99),  # Daily Insights Premium
-    ("2026-02-17", "TFS", 1899),
-    ("2026-02-17", "TFS", 1999),
-    ("2026-02-15", "FE", 599),
-    ("2026-02-13", "FE", 149),
-    ("2026-02-11", "FE", 249),
-    ("2026-02-06", "FE", 249),
-    ("2026-02-06", "HVAC", 1899),
-    ("2026-02-05", "TFS", 1999),
-    ("2026-02-03", "HVAC", 1999),
-    ("2026-02-02", "HVAC", 1999),
-    ("2026-02-02", "TFS", 1999),
-    ("2026-02-02", "HVAC", 1999),
-    ("2026-02-01", "TFS", 1999),
-    ("2026-02-01", "HVAC", 1999),
-    ("2026-01-30", "HVAC", 1999),
-    ("2026-01-26", "HVAC", 1999),
-    ("2026-01-25", "HVAC", 1999),
-    ("2026-01-24", "HVAC", 1999),
-    ("2026-01-22", "FE", 249),
-    ("2026-01-21", "HVAC", 1899),
-    ("2026-01-21", "HVAC", 1899),
-    ("2026-01-20", "HVAC", 649),
-    ("2026-01-17", "HVAC", 1999),
-    ("2026-01-16", "HVAC", 1999),
-    ("2026-01-15", "HVAC", 1999),
-    ("2026-01-14", "HVAC", 1999),
-    ("2026-01-14", "HVAC", 1999),
-    ("2026-01-14", "HVAC", 1999),
-    ("2026-01-14", "Fundamentals", 399),  # Mechanical PE Fundamentals
-    ("2026-01-13", "FE", 149),
-    ("2026-01-11", "FE", 249),
-    ("2026-01-08", "CSE", 399),  # Critical Systems Engineering
-    ("2026-01-07", "HVAC", 649),
-    ("2026-01-06", "HVAC", 649),
-    ("2026-01-05", "HVAC", 1999),
-    ("2026-01-05", "FE", 249),
-    ("2026-01-05", "TFS", 1899),
-    ("2026-01-05", "TFS", 1999),
-    ("2026-01-05", "HVAC", 1999),
-    ("2026-01-04", "FE", 599),
-    ("2026-01-04", "HVAC", 1999),
-    ("2026-01-04", "HVAC", 1999),
-    ("2026-01-03", "HVAC", 1999),
-]
+# Product breakdown for closed months — used only for the bar chart.
+# These totals match MONTHLY_HISTORY exactly (verified 2026-03-30 from Thinkific export).
+# Jan/Feb reporting is complete; live API pulls start March 1.
+HISTORICAL_MONTHLY_BREAKDOWN = {
+    "2026-01": {"HVAC": 33783, "TFS": 3898, "HVACBook": 1947, "FE": 1495, "Fundamentals": 399, "CSE": 399},
+    "2026-02": {"HVAC": 11894, "TFS": 11894, "TFSBook": 649, "FE": 2094, "DailyInsightsPremium": 99},
+}
 
 # Manual data: Thinkific-era sales for March 2026 (pre-cutover).
 # All confirmed from Thinkific transactions export (2026-03-30).
@@ -393,11 +347,9 @@ def build_dashboard():
     # API cutoff: first day of the current month
     api_cutoff = datetime(today.year, today.month, 1)
 
-    # Manual data: Jan/Feb 2026 history + any manually-tracked entries (e.g. FE renewals
-    # not captured by checkout.session.completed — a known gap until Phase 3)
-    all_manual_data = MANUAL_DATA_JAN_FEB + MANUAL_DATA_MARCH
+    # Manual data: Thinkific-era March 2026 sales only (Jan/Feb moved to HISTORICAL_MONTHLY_BREAKDOWN)
     manual_orders = []
-    for row in all_manual_data:
+    for row in MANUAL_DATA_MARCH:
         date, product, amount = row[0], row[1], row[2]
         sub_type = row[3] if len(row) > 3 else None
         manual_orders.append({
@@ -461,11 +413,17 @@ def build_dashboard():
     days_remaining = max(0, (month_end - today).days + 1)
     projected_current = current_revenue + (avg_daily * days_remaining)
 
-    # Monthly breakdown
+    # Monthly breakdown (live orders)
     monthly_data = defaultdict(lambda: defaultdict(float))
     for o in all_orders:
         month_key = o["timestamp"].strftime("%Y-%m")
         monthly_data[month_key][o["product"]] += o["amount"]
+
+    # Inject closed-month product breakdown for bar chart (Jan/Feb from verified Thinkific data)
+    for month_key, breakdown in HISTORICAL_MONTHLY_BREAKDOWN.items():
+        if month_key not in monthly_data:  # don't overwrite if live data exists
+            for product, amount in breakdown.items():
+                monthly_data[month_key][product] += amount
 
     sorted_months = sorted(monthly_data.keys())
 
