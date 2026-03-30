@@ -114,15 +114,17 @@ MANUAL_DATA_JAN_FEB = [
 # All confirmed from Thinkific transactions export (2026-03-30).
 # Only add sales that went through Thinkific Payments — NOT through Stripe/BTC (double-count risk).
 MANUAL_DATA_MARCH = [
-    # Existing FE subscription renewals (old subscribers through Thinkific billing)
-    ("2026-03-05",  "FE",            249.00),   # Khaled Jawabreh — FE monthly renewal
-    ("2026-03-12",  "FE",            268.92),   # Tyler Sommer — FE monthly renewal (corrected from 249)
-    ("2026-03-13",  "FE",            149.00),   # Patrick McNally — FE monthly renewal
-    ("2026-03-22",  "FE",            249.00),   # Jason Rezell — FE monthly renewal
+    # Tuple format: (date, product, amount, sub_type)
+    # sub_type: "new" = first purchase, "renewal" = recurring subscription charge
+    # All went through Thinkific Payments — NOT in Stripe/BTC (confirmed 2026-03-30 export)
+    ("2026-03-05",  "FE",            249,  "renewal"),   # Khaled Jawabreh — FE monthly renewal
+    ("2026-03-12",  "FE",            249,  "renewal"),   # Tyler Sommer — FE monthly renewal (ex-tax)
+    ("2026-03-13",  "FE",            149,  "renewal"),   # Patrick McNally — FE monthly renewal
+    ("2026-03-22",  "FE",            249,  "renewal"),   # Jason Rezell — FE monthly renewal
     # New Thinkific orders placed before cutover
-    ("2026-03-14",  "FE",            249.00),   # Ryan Perusse — new FE monthly sub
-    ("2026-03-17",  "FE",           1051.45),   # MAURICIO Fierro — FE 6 Months Access
-    ("2026-03-28",  "Fundamentals",  399.00),   # Osvaldo Medina — Mechanical PE Fundamentals
+    ("2026-03-14",  "FE",            249,  "new"),       # Ryan Perusse — new FE monthly sub
+    ("2026-03-17",  "FE",           1051,  "new"),       # MAURICIO Fierro — FE 6 Months Access
+    ("2026-03-28",  "Fundamentals",  399,  "new"),       # Osvaldo Medina — Mechanical PE Fundamentals
 ]
 
 # Accurate historical monthly data (Dan's verified numbers)
@@ -217,6 +219,7 @@ def fetch_stripe_all_data(cutoff_date=None):
                 "amount": stripe_clean_amount(s.get("amount_total", 0)),
                 "session_id": session_id,
                 "source": "stripe_checkout",
+                "sub_type": "new",
             })
 
         if stop or not data.get("has_more") or not sessions:
@@ -258,6 +261,7 @@ def fetch_stripe_all_data(cutoff_date=None):
                 "amount": stripe_clean_amount(inv.get("amount_paid", 0)),
                 "session_id": inv.get("id"),   # invoice ID used for dedup
                 "source": "stripe_invoice",
+                "sub_type": "renewal",
             })
 
         if stop or not data.get("has_more") or not invoices:
@@ -392,17 +396,20 @@ def build_dashboard():
     # Manual data: Jan/Feb 2026 history + any manually-tracked entries (e.g. FE renewals
     # not captured by checkout.session.completed — a known gap until Phase 3)
     all_manual_data = MANUAL_DATA_JAN_FEB + MANUAL_DATA_MARCH
-    manual_orders = [
-        {
+    manual_orders = []
+    for row in all_manual_data:
+        date, product, amount = row[0], row[1], row[2]
+        sub_type = row[3] if len(row) > 3 else None
+        manual_orders.append({
             "date": date,
             "timestamp": datetime.strptime(date, "%Y-%m-%d"),
             "customer": "Manual",
             "product": product,
             "amount": amount,
             "order_id": None,
-        }
-        for date, product, amount in all_manual_data
-    ]
+            "source": "thinkific",
+            "sub_type": sub_type,
+        })
 
     # Stripe: full history from DASHBOARD_START_DATE (paginated, includes renewals)
     print(f"Fetching Stripe data (from {DASHBOARD_START_DATE.strftime('%Y-%m-%d')})...")
@@ -764,7 +771,7 @@ def build_dashboard():
                 </table>
             </div>
 
-            <!-- Transactions Table (March) -->
+            <!-- Transactions Table (current month) -->
             <div class="card">
                 <h2>Orders this Month</h2>
                 <table>
@@ -772,15 +779,34 @@ def build_dashboard():
                         <tr>
                             <th>Date</th>
                             <th>Product</th>
+                            <th>Source</th>
                             <th style="text-align: center;">Revenue</th>
                         </tr>
                     </thead>
                     <tbody id="marchOrdersBody">
 """
-    
-    # Add March orders to table (will use JavaScript for row coloring)
+
+    def order_product_label(o):
+        label = o['product']
+        if label == 'FE' and o.get('sub_type'):
+            label = f"FE · {o['sub_type']}"
+        return label
+
+    def order_source_label(o):
+        src = o.get('source', '')
+        if src == 'thinkific':
+            return 'Thinkific'
+        elif src in ('stripe_checkout', 'stripe_invoice'):
+            return 'Stripe'
+        elif src == 'btcpay_webhook':
+            return 'BTC'
+        return '—'
+
+    # Add current-month orders to table
     for o in current_orders:
-        html_top += f"                        <tr data-product=\"{o['product']}\"><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: center;\">${round(o['amount']):,}</td></tr>\n"
+        prod_label = order_product_label(o)
+        src_label = order_source_label(o)
+        html_top += f"                        <tr data-product=\"{o['product']}\"><td>{o['date']}</td><td>{prod_label}</td><td>{src_label}</td><td style=\"text-align: center;\">${round(o['amount']):,}</td></tr>\n"
     
     html_middle = """                    </tbody>
                 </table>
