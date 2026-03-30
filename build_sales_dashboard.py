@@ -456,6 +456,10 @@ def build_dashboard():
     bar_products = set()
     for o in all_orders:
         bar_products.add(o["product"])
+    # Also include products from historical breakdown (e.g. HVACBook, CSE, TFSBook)
+    # that don't appear in live orders but need a bar segment in Jan/Feb
+    for breakdown in HISTORICAL_MONTHLY_BREAKDOWN.values():
+        bar_products.update(breakdown.keys())
 
     bar_products = sorted(list(bar_products))
     bar_datasets = {}
