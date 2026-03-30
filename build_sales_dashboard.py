@@ -68,9 +68,14 @@ HISTORICAL_MONTHLY_BREAKDOWN = {
 # All confirmed from Thinkific transactions export (2026-03-30).
 # Only add sales that went through Thinkific Payments — NOT through Stripe/BTC (double-count risk).
 MANUAL_DATA_MARCH = [
-    # Tuple format: (date, product, amount, sub_type)
+    # Tuple format: (date, product, amount, sub_type, source)  ← source optional (default: thinkific)
     # sub_type: "new" = first purchase, "renewal" = recurring subscription charge
-    # All went through Thinkific Payments — NOT in Stripe/BTC (confirmed 2026-03-30 export)
+
+    # BTC order — John Giannopoulos — invoiceId: LHfWFy13MVPQiydoBYtDYS
+    # 0.02031964 BTC settled, base invoice price $1,799 (bundle_hvac BTC rate)
+    ("2026-03-25",  "HVAC",          1799,  "new",     "btcpay"),
+
+    # Thinkific Payments — NOT in Stripe/BTC (confirmed 2026-03-30 export)
     ("2026-03-05",  "FE",            249,  "renewal"),   # Khaled Jawabreh — FE monthly renewal
     ("2026-03-12",  "FE",            249,  "renewal"),   # Tyler Sommer — FE monthly renewal (ex-tax)
     ("2026-03-13",  "FE",            149,  "renewal"),   # Patrick McNally — FE monthly renewal
@@ -352,6 +357,7 @@ def build_dashboard():
     for row in MANUAL_DATA_MARCH:
         date, product, amount = row[0], row[1], row[2]
         sub_type = row[3] if len(row) > 3 else None
+        source   = row[4] if len(row) > 4 else "thinkific"
         manual_orders.append({
             "date": date,
             "timestamp": datetime.strptime(date, "%Y-%m-%d"),
@@ -359,7 +365,7 @@ def build_dashboard():
             "product": product,
             "amount": amount,
             "order_id": None,
-            "source": "thinkific",
+            "source": source,
             "sub_type": sub_type,
         })
 
