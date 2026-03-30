@@ -236,11 +236,12 @@ def fetch_thinkific_data(cutoff_date=None):
                 "product": product,
                 "amount": product_price,
                 "subscription": is_subscription,
+                "order_id": str(o.get("id", "")),  # needed for dedup against webhook log
             })
     
     return orders
 
-WEBHOOK_LOG_URL = "http://btc.mechanicalpeexamprep.com:3002/orders-log?secret=exJJYXW2UebdDgJWicFr"
+WEBHOOK_LOG_URL = "https://btc.mechanicalpeexamprep.com/orders-log?secret=exJJYXW2UebdDgJWicFr"
 
 def fetch_webhook_log(cutoff_date=None):
     """Fetch orders from the webhook log on the droplet.
@@ -321,17 +322,46 @@ def build_dashboard():
     stripe_orders = fetch_stripe_data(api_cutoff)
     print(f"  Stripe: {len(stripe_orders)} orders")
 
+    # Thinkific API — kept for historical March 2026 data only (pre-cutover sales).
+    # Cutover to Stripe/BTC happened mid-March 2026. Remove this once March closes
+    # and those sales are captured in MANUAL_DATA_MARCH.
+    thinkific_orders = []
+    if today.year == 2026 and today.month == 3:
+        thinkific_orders = fetch_thinkific_data(api_cutoff)
+        print(f"  Thinkific (historical): {len(thinkific_orders)} orders")
+
     # Webhook log — catches BTC sales + anything the Stripe API misses
     print("Fetching webhook log...")
     webhook_orders_raw, _ = fetch_webhook_log(api_cutoff)
 
-    # Deduplicate: drop webhook entries already covered by Stripe API
-    api_session_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
-    webhook_orders = [o for o in webhook_orders_raw if o.get("order_id") not in api_session_ids]
-    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} new (not in Stripe API)")
+    # Deduplicate: drop webhook entries already covered by Stripe or Thinkific API
+    api_order_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
+    for o in thinkific_orders:
+        if o.get("order_id"):
+            api_order_ids.add(str(o["order_id"]))
+
+    # Also filter webhook entries:
+    # - Skip $0 entries (enrollments, not payments)
+    # - Skip obvious test entries by customer name
+    TEST_NAMES = {'test customer', 'test tunnel', 'telegram works'}
+    webhook_orders = [
+        o for o in webhook_orders_raw
+        if o.get("order_id") not in api_order_ids
+        and (o.get("amount") or 0) > 0
+        and (o.get("customer") or '').lower() not in TEST_NAMES
+    ]
+    # Deduplicate within webhook log: same order_id, keep highest-amount entry
+    # (handles Thinkific order.created + order_transaction.succeeded double-logging)
+    seen_wh_orders = {}
+    for o in webhook_orders:
+        key = str(o.get("order_id") or o.get("received_at", ""))
+        if key not in seen_wh_orders or o.get("amount", 0) > seen_wh_orders[key].get("amount", 0):
+            seen_wh_orders[key] = o
+    webhook_orders = list(seen_wh_orders.values())
+    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} after dedup/filter")
 
     # Combine and sort
-    all_orders = manual_orders + stripe_orders + webhook_orders
+    all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
 
     # Current-month orders (live)
