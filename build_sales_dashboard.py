@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Build sales dashboard with real Stripe + Thinkific data.
-Uses manual data for Jan/Feb 2026, API data for March 2026+.
+Sales dashboard data sources (in priority order):
+  1. Stripe API  — all Stripe payments, full history, paginated (checkout sessions + renewals)
+  2. BTCPay webhook log — BTC sales only (Stripe entries excluded)
+  3. Manual Thinkific data — sales from before Stripe/BTC cutover (supplied by Dan)
+
+Adding a new product: update STRIPE_PRODUCT_MAP (and salesWebhookServer.js PRODUCT_MAP).
+Closing a month: add verified totals to MONTHLY_HISTORY and clear manual entries for that month.
 """
 
 import json
@@ -20,9 +25,11 @@ if not STRIPE_KEY:
     print("ERROR: Missing STRIPE_READONLY_KEY env var.")
     exit(1)
 
-# ── Product ID → dashboard label mapping ──────────────────────────────────────
-# Mirrors salesWebhookServer.js PRODUCT_MAP.
-# Add new products here when they launch.
+# Earliest date to pull from Stripe API (full 2026 history)
+DASHBOARD_START_DATE = datetime(2026, 1, 1)
+
+# ── Product ID → dashboard label ──────────────────────────────────────────────
+# Mirrors salesWebhookServer.js PRODUCT_MAP. Add new products here when they launch.
 STRIPE_PRODUCT_MAP = {
     # Legacy bundles (metadata.bundleId)
     'bundle_hvac':            'HVAC',
@@ -39,7 +46,18 @@ STRIPE_PRODUCT_MAP = {
     'fe_12mo':                'FE',
 }
 
-# Manual data for Jan/Feb 2026
+# Stripe price ID → product label (for subscription renewal invoices which carry
+# no checkout metadata — only the recurring price ID identifies the product)
+STRIPE_PRICE_TO_PRODUCT_MAP = {
+    'price_1TGTVbLeBhBRYzk45CkYcyXK': 'FE',   # fe_monthly
+    'price_1TGTVbLeBhBRYzk4ie0Us1dF': 'FE',   # fe_3mo
+    'price_1TGTVbLeBhBRYzk4PHmctoet': 'FE',   # fe_6mo
+    'price_1TGTVcLeBhBRYzk4D7njfg5S': 'FE',   # fe_12mo
+}
+
+# Manual data: Thinkific-era sales only (Jan/Feb 2026).
+# These went through Thinkific checkout — NOT in Stripe API.
+# DO NOT add anything here that went through Stripe (it will double-count).
 MANUAL_DATA_JAN_FEB = [
     ("2026-02-26", "FE", 599),
     ("2026-02-22", "FE", 249),
@@ -92,7 +110,8 @@ MANUAL_DATA_JAN_FEB = [
     ("2026-01-03", "HVAC", 1999),
 ]
 
-# Manual data for March 2026 (FE subscriptions missing from Thinkific API)
+# Manual data: Thinkific-era sales for March 2026 (pre-cutover).
+# Dan supplies these. Only add sales that did NOT go through Stripe/BTC.
 MANUAL_DATA_MARCH = [
     ("2026-03-13", "FE", 149),   # FE Mechanical Exam Prep Course 1mo (missing from API)
     ("2026-03-12", "FE", 249),   # FE Mechanical Exam Prep Course 1mo (missing from API)
@@ -140,45 +159,107 @@ STRIPE_LABEL_CORRECTIONS = {
     "cs_live_b1pxlS6mUa0zwyCMvqhVJerjUM3MwG78nQzG2ihiiBAAGmVCnYQiVO886B": "TFS",  # 2026-03-06 $1899 — TFS with 5% promo code
 }
 
-def fetch_stripe_data(cutoff_date=None):
-    """Fetch Stripe checkout sessions (all products)."""
-    if cutoff_date is None:
-        cutoff_date = datetime(datetime.now().year, datetime.now().month, 1)
+def fetch_stripe_all_data(cutoff_date=None):
+    """Fetch ALL Stripe payments with full pagination.
 
-    response = requests.get(
-        "https://api.stripe.com/v1/checkout/sessions",
-        headers={"Authorization": f"Bearer {STRIPE_KEY}"},
-        params={"limit": 100}
-    )
-    sessions = response.json().get("data", [])
+    Two sources:
+      - checkout/sessions: initial purchases for all products
+      - invoices (billing_reason=subscription_cycle): FE subscription renewals
+
+    Stripe returns newest-first, so we stop paginating once we pass cutoff_date.
+    Replaces the old fetch_stripe_data() which was capped at 100 sessions and
+    missed subscription renewals entirely.
+    """
+    if cutoff_date is None:
+        cutoff_date = DASHBOARD_START_DATE
 
     orders = []
-    for s in sessions:
-        ts = datetime.fromtimestamp(s["created"])
-        if ts < cutoff_date or s.get("payment_status") != "paid":
-            continue
 
-        customer_details = s.get("customer_details") or {}
-        metadata = s.get("metadata") or {}
+    # ── Part 1: Checkout sessions (initial purchases) ─────────────────────────
+    params = {"limit": 100}
+    while True:
+        resp = requests.get(
+            "https://api.stripe.com/v1/checkout/sessions",
+            headers={"Authorization": f"Bearer {STRIPE_KEY}"},
+            params=params
+        )
+        data = resp.json()
+        sessions = data.get("data", [])
+        stop = False
 
-        # Prefer productId (Phase 1+), fall back to bundleId (legacy bundles)
-        raw_id = metadata.get("productId") or metadata.get("bundleId") or ""
-        product = STRIPE_PRODUCT_MAP.get(raw_id, "Unknown")
+        for s in sessions:
+            ts = datetime.fromtimestamp(s["created"])
+            if ts < cutoff_date:
+                stop = True
+                break
+            if s.get("payment_status") != "paid":
+                continue
 
-        session_id = s.get("id")
-        # Apply manual corrections for sessions with wrong metadata
-        if session_id in STRIPE_LABEL_CORRECTIONS:
-            product = STRIPE_LABEL_CORRECTIONS[session_id]
+            metadata = s.get("metadata") or {}
+            raw_id = metadata.get("productId") or metadata.get("bundleId") or ""
+            product = STRIPE_PRODUCT_MAP.get(raw_id, "Unknown")
 
-        orders.append({
-            "date": ts.strftime("%Y-%m-%d"),
-            "timestamp": ts,
-            "customer": customer_details.get("name", "Unknown"),
-            "product": product,
-            "amount": stripe_clean_amount(s.get("amount_total", 0)),
-            "session_id": session_id,  # used for webhook dedup
-        })
+            session_id = s.get("id")
+            if session_id in STRIPE_LABEL_CORRECTIONS:
+                product = STRIPE_LABEL_CORRECTIONS[session_id]
 
+            orders.append({
+                "date": ts.strftime("%Y-%m-%d"),
+                "timestamp": ts,
+                "customer": (s.get("customer_details") or {}).get("name", "Unknown"),
+                "product": product,
+                "amount": stripe_clean_amount(s.get("amount_total", 0)),
+                "session_id": session_id,
+                "source": "stripe_checkout",
+            })
+
+        if stop or not data.get("has_more") or not sessions:
+            break
+        params["starting_after"] = sessions[-1]["id"]
+
+    # ── Part 2: Subscription renewal invoices (FE Monthly / multi-month) ──────
+    params = {"limit": 100, "status": "paid"}
+    while True:
+        resp = requests.get(
+            "https://api.stripe.com/v1/invoices",
+            headers={"Authorization": f"Bearer {STRIPE_KEY}"},
+            params=params
+        )
+        data = resp.json()
+        invoices = data.get("data", [])
+        stop = False
+
+        for inv in invoices:
+            # subscription_create = initial charge, already in checkout sessions
+            # subscription_cycle  = renewal — this is what we want
+            if inv.get("billing_reason") != "subscription_cycle":
+                continue
+
+            ts = datetime.fromtimestamp(inv["created"])
+            if ts < cutoff_date:
+                stop = True
+                break
+
+            lines = (inv.get("lines") or {}).get("data", [])
+            price_id = lines[0].get("price", {}).get("id") if lines else None
+            product = STRIPE_PRICE_TO_PRODUCT_MAP.get(price_id, "FE")
+
+            orders.append({
+                "date": ts.strftime("%Y-%m-%d"),
+                "timestamp": ts,
+                "customer": inv.get("customer_name") or inv.get("customer_email") or "Unknown",
+                "product": product,
+                "amount": stripe_clean_amount(inv.get("amount_paid", 0)),
+                "session_id": inv.get("id"),   # invoice ID used for dedup
+                "source": "stripe_invoice",
+            })
+
+        if stop or not data.get("has_more") or not invoices:
+            break
+        params["starting_after"] = invoices[-1]["id"]
+
+    print(f"    Checkout sessions: {sum(1 for o in orders if o.get('source')=='stripe_checkout')}")
+    print(f"    Renewal invoices:  {sum(1 for o in orders if o.get('source')=='stripe_invoice')}")
     return orders
 
 def fetch_thinkific_data(cutoff_date=None):
@@ -317,51 +398,28 @@ def build_dashboard():
         for date, product, amount in all_manual_data
     ]
 
-    # Live data: Stripe API (all products) — Thinkific checkout is disabled
-    print(f"Fetching Stripe data ({current_month_label}+)...")
-    stripe_orders = fetch_stripe_data(api_cutoff)
-    print(f"  Stripe: {len(stripe_orders)} orders")
+    # Stripe: full history from DASHBOARD_START_DATE (paginated, includes renewals)
+    print(f"Fetching Stripe data (from {DASHBOARD_START_DATE.strftime('%Y-%m-%d')})...")
+    stripe_orders = fetch_stripe_all_data(DASHBOARD_START_DATE)
+    print(f"  Stripe total: {len(stripe_orders)} orders")
 
-    # Thinkific API — kept for historical March 2026 data only (pre-cutover sales).
-    # Cutover to Stripe/BTC happened mid-March 2026. Remove this once March closes
-    # and those sales are captured in MANUAL_DATA_MARCH.
-    thinkific_orders = []
-    if today.year == 2026 and today.month == 3:
-        thinkific_orders = fetch_thinkific_data(api_cutoff)
-        print(f"  Thinkific (historical): {len(thinkific_orders)} orders")
-
-    # Webhook log — catches BTC sales + anything the Stripe API misses
-    print("Fetching webhook log...")
-    webhook_orders_raw, _ = fetch_webhook_log(api_cutoff)
-
-    # Deduplicate: drop webhook entries already covered by Stripe or Thinkific API
-    api_order_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
-    for o in thinkific_orders:
-        if o.get("order_id"):
-            api_order_ids.add(str(o["order_id"]))
-
-    # Also filter webhook entries:
-    # - Skip $0 entries (enrollments, not payments)
-    # - Skip obvious test entries by customer name
+    # Webhook log: BTC sales only — Stripe entries are now pulled directly from API
+    print("Fetching webhook log (BTC only)...")
+    webhook_orders_raw, _ = fetch_webhook_log(DASHBOARD_START_DATE)
+    stripe_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
     TEST_NAMES = {'test customer', 'test tunnel', 'telegram works'}
     webhook_orders = [
         o for o in webhook_orders_raw
-        if o.get("order_id") not in api_order_ids
+        if o.get("source") == "btcpay_webhook"           # BTC only — Stripe pulled from API
         and (o.get("amount") or 0) > 0
-        and (o.get("customer") or '').lower() not in TEST_NAMES
+        and (o.get("customer") or "").lower() not in TEST_NAMES
+        and o.get("order_id") not in stripe_ids          # safety dedup
     ]
-    # Deduplicate within webhook log: same order_id, keep highest-amount entry
-    # (handles Thinkific order.created + order_transaction.succeeded double-logging)
-    seen_wh_orders = {}
-    for o in webhook_orders:
-        key = str(o.get("order_id") or o.get("received_at", ""))
-        if key not in seen_wh_orders or o.get("amount", 0) > seen_wh_orders[key].get("amount", 0):
-            seen_wh_orders[key] = o
-    webhook_orders = list(seen_wh_orders.values())
-    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} after dedup/filter")
+    print(f"  Webhook BTC: {len(webhook_orders)} entries")
 
-    # Combine and sort
-    all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
+    # Combine: manual Thinkific + Stripe API + BTC webhook
+    # Manual data must be Thinkific-only (no Stripe overlap) — see MANUAL_DATA comments
+    all_orders = manual_orders + stripe_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
 
     # Current-month orders (live)
