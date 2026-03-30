@@ -7,6 +7,7 @@ Uses manual data for Jan/Feb 2026, API data for March 2026+.
 import json
 import requests
 import os
+import calendar
 from datetime import datetime, timedelta
 from collections import defaultdict
 
@@ -15,9 +16,28 @@ STRIPE_KEY = os.environ.get("STRIPE_READONLY_KEY", "")
 THINKIFIC_KEY = os.environ.get("THINKIFIC_API_KEY", "")
 THINKIFIC_SUBDOMAIN = "mechanicalpeexamprep"
 
-if not STRIPE_KEY or not THINKIFIC_KEY:
-    print("ERROR: Missing API keys. Set STRIPE_READONLY_KEY and THINKIFIC_API_KEY env vars.")
+if not STRIPE_KEY:
+    print("ERROR: Missing STRIPE_READONLY_KEY env var.")
     exit(1)
+
+# ── Product ID → dashboard label mapping ──────────────────────────────────────
+# Mirrors salesWebhookServer.js PRODUCT_MAP.
+# Add new products here when they launch.
+STRIPE_PRODUCT_MAP = {
+    # Legacy bundles (metadata.bundleId)
+    'bundle_hvac':            'HVAC',
+    'bundle_tfs':             'TFS',
+    # Phase 1 standalone products (metadata.productId)
+    'hvac_ebook':             'HVACBook',
+    'tfs_ebook':              'TFSBook',
+    'fundamentals':           'Fundamentals',
+    'critical_systems':       'CSE',
+    'daily_insights_premium': 'DailyInsightsPremium',
+    'fe_monthly':             'FE',
+    'fe_3mo':                 'FE',
+    'fe_6mo':                 'FE',
+    'fe_12mo':                'FE',
+}
 
 # Manual data for Jan/Feb 2026
 MANUAL_DATA_JAN_FEB = [
@@ -26,7 +46,7 @@ MANUAL_DATA_JAN_FEB = [
     ("2026-02-21", "HVAC", 1999),
     ("2026-02-20", "TFS", 1999),
     ("2026-02-20", "TFS", 649),
-    ("2026-02-20", "Other", 99),  # Daily Insights Premium
+    ("2026-02-20", "DailyInsightsPremium", 99),  # Daily Insights Premium
     ("2026-02-17", "TFS", 1899),
     ("2026-02-17", "TFS", 1999),
     ("2026-02-15", "FE", 599),
@@ -55,10 +75,10 @@ MANUAL_DATA_JAN_FEB = [
     ("2026-01-14", "HVAC", 1999),
     ("2026-01-14", "HVAC", 1999),
     ("2026-01-14", "HVAC", 1999),
-    ("2026-01-14", "Other", 399),  # Mechanical PE Fundamentals
+    ("2026-01-14", "Fundamentals", 399),  # Mechanical PE Fundamentals
     ("2026-01-13", "FE", 149),
     ("2026-01-11", "FE", 249),
-    ("2026-01-08", "Other", 399),  # Critical Systems Engineering
+    ("2026-01-08", "CSE", 399),  # Critical Systems Engineering
     ("2026-01-07", "HVAC", 649),
     ("2026-01-06", "HVAC", 649),
     ("2026-01-05", "HVAC", 1999),
@@ -97,7 +117,8 @@ MONTHLY_HISTORY = [
     ("2025-12", 11, 15189),
     ("2026-01", 29, 41921),
     ("2026-02", 20, 26630),
-    ("2026-03", 15, 21685),  # complete manual data
+    # NOTE: Do not add the current month here — it is computed live from API + webhook log.
+    # When a month closes, add its final verified numbers and it will roll into trailing stats.
 ]
 
 def stripe_clean_amount(amount_cents):
@@ -120,43 +141,44 @@ STRIPE_LABEL_CORRECTIONS = {
 }
 
 def fetch_stripe_data(cutoff_date=None):
-    """Fetch Stripe checkout sessions."""
+    """Fetch Stripe checkout sessions (all products)."""
+    if cutoff_date is None:
+        cutoff_date = datetime(datetime.now().year, datetime.now().month, 1)
+
     response = requests.get(
         "https://api.stripe.com/v1/checkout/sessions",
         headers={"Authorization": f"Bearer {STRIPE_KEY}"},
         params={"limit": 100}
     )
     sessions = response.json().get("data", [])
-    
-    if cutoff_date is None:
-        cutoff_date = datetime(2026, 3, 1)  # Only March onwards from API
-    
+
     orders = []
     for s in sessions:
         ts = datetime.fromtimestamp(s["created"])
-        if ts >= cutoff_date and s.get("payment_status") == "paid":
-            customer_details = s.get("customer_details") or {}
-            product = s.get("metadata", {}).get("bundleId", "").replace("bundle_", "").upper() or "Unknown"
-            # Normalize
-            if "HVAC" in product:
-                product = "HVAC"
-            elif "TFS" in product:
-                product = "TFS"
-            
-            session_id = s.get("id")
-            # Apply manual corrections for wrong metadata
-            if session_id in STRIPE_LABEL_CORRECTIONS:
-                product = STRIPE_LABEL_CORRECTIONS[session_id]
+        if ts < cutoff_date or s.get("payment_status") != "paid":
+            continue
 
-            orders.append({
-                "date": ts.strftime("%Y-%m-%d"),
-                "timestamp": ts,
-                "customer": customer_details.get("name", "Unknown"),
-                "product": product,
-                "amount": stripe_clean_amount(s.get("amount_total", 0)),
-                "session_id": session_id,  # used for webhook dedup
-            })
-    
+        customer_details = s.get("customer_details") or {}
+        metadata = s.get("metadata") or {}
+
+        # Prefer productId (Phase 1+), fall back to bundleId (legacy bundles)
+        raw_id = metadata.get("productId") or metadata.get("bundleId") or ""
+        product = STRIPE_PRODUCT_MAP.get(raw_id, "Unknown")
+
+        session_id = s.get("id")
+        # Apply manual corrections for sessions with wrong metadata
+        if session_id in STRIPE_LABEL_CORRECTIONS:
+            product = STRIPE_LABEL_CORRECTIONS[session_id]
+
+        orders.append({
+            "date": ts.strftime("%Y-%m-%d"),
+            "timestamp": ts,
+            "customer": customer_details.get("name", "Unknown"),
+            "product": product,
+            "amount": stripe_clean_amount(s.get("amount_total", 0)),
+            "session_id": session_id,  # used for webhook dedup
+        })
+
     return orders
 
 def fetch_thinkific_data(cutoff_date=None):
@@ -177,12 +199,23 @@ def fetch_thinkific_data(cutoff_date=None):
         if ts >= cutoff_date and o.get("amount_cents", 0) > 0:
             product_name = o.get("product_name", "Unknown")
             # Normalize product name
-            if "FE" in product_name.upper():
+            if "FE MECHANICAL" in product_name.upper() or "FE EXAM" in product_name.upper():
                 product = "FE"
             elif "HVAC" in product_name.upper():
                 product = "HVAC"
             elif "Thermal" in product_name or "Fluids" in product_name or "TFS" in product_name:
                 product = "TFS"
+            elif "FUNDAMENTALS" in product_name.upper():
+                product = "Fundamentals"
+            elif "CRITICAL SYSTEMS" in product_name.upper() or "CSE" in product_name.upper():
+                product = "CSE"
+            elif "DAILY INSIGHTS" in product_name.upper():
+                product = "DailyInsightsPremium"
+            elif "PRACTICE PROBLEMS" in product_name.upper() or "EBOOK" in product_name.upper():
+                if "HVAC" in product_name.upper():
+                    product = "HVACBook"
+                else:
+                    product = "TFSBook"
             else:
                 product = "Other"
             
@@ -258,8 +291,18 @@ def fetch_webhook_log(cutoff_date=None):
 def build_dashboard():
     """Build the sales dashboard HTML with live data."""
     today = datetime.now()
-    
-    # Manual data for Jan/Feb + March (missing API entries — legacy, webhook replaces going forward)
+
+    # Dynamic current-month helpers
+    current_month_key   = today.strftime("%Y-%m")          # e.g. "2026-03"
+    current_month_label = today.strftime("%B %Y")           # e.g. "March 2026"
+    month_last_day      = calendar.monthrange(today.year, today.month)[1]
+    month_end           = datetime(today.year, today.month, month_last_day)
+
+    # API cutoff: first day of the current month
+    api_cutoff = datetime(today.year, today.month, 1)
+
+    # Manual data: Jan/Feb 2026 history + any manually-tracked entries (e.g. FE renewals
+    # not captured by checkout.session.completed — a known gap until Phase 3)
     all_manual_data = MANUAL_DATA_JAN_FEB + MANUAL_DATA_MARCH
     manual_orders = [
         {
@@ -272,77 +315,70 @@ def build_dashboard():
         }
         for date, product, amount in all_manual_data
     ]
-    
-    # API data for March onwards
-    print("Fetching API data (March 2026+)...")
-    stripe_orders = fetch_stripe_data(datetime(2026, 3, 1))
-    thinkific_orders = fetch_thinkific_data(datetime(2026, 3, 1))
+
+    # Live data: Stripe API (all products) — Thinkific checkout is disabled
+    print(f"Fetching Stripe data ({current_month_label}+)...")
+    stripe_orders = fetch_stripe_data(api_cutoff)
     print(f"  Stripe: {len(stripe_orders)} orders")
-    print(f"  Thinkific: {len(thinkific_orders)} orders")
 
-    # Webhook log — adds subscription renewals and anything the API missed
+    # Webhook log — catches BTC sales + anything the Stripe API misses
     print("Fetching webhook log...")
-    webhook_orders_raw, webhook_order_ids = fetch_webhook_log(datetime(2026, 3, 1))
+    webhook_orders_raw, _ = fetch_webhook_log(api_cutoff)
 
-    # Collect order IDs already known from API to avoid double-counting
-    api_order_ids = set()
-    for o in thinkific_orders:
-        if o.get("order_id"):
-            api_order_ids.add(o["order_id"])
-    for o in stripe_orders:
-        if o.get("session_id"):
-            api_order_ids.add(o["session_id"])
+    # Deduplicate: drop webhook entries already covered by Stripe API
+    api_session_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
+    webhook_orders = [o for o in webhook_orders_raw if o.get("order_id") not in api_session_ids]
+    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} new (not in Stripe API)")
 
-    # Only keep webhook entries not already in API data
-    webhook_orders = [o for o in webhook_orders_raw if o.get("order_id") not in api_order_ids]
-    print(f"  Webhook: {len(webhook_orders_raw)} total, {len(webhook_orders)} new (not in API)")
-
-    # Combine all
-    all_orders = manual_orders + stripe_orders + thinkific_orders + webhook_orders
+    # Combine and sort
+    all_orders = manual_orders + stripe_orders + webhook_orders
     all_orders.sort(key=lambda x: x["timestamp"])
-    
-    # March 2026 data calculated live from all_orders (includes API + manual entries)
-    march_orders = [o for o in all_orders if o["timestamp"].month == 3 and o["timestamp"].year == 2026]
-    march_orders.sort(key=lambda x: x["timestamp"])
-    march_revenue = sum(o["amount"] for o in march_orders)
-    current_month_orders = len(march_orders)
-    current_month_revenue = march_revenue
 
-    # --- Trailing 12-month stats: 11 complete months from history + March live ---
-    trailing_12 = MONTHLY_HISTORY[-12:-1]  # 11 completed months (2025-04 through 2026-02)
-    trailing_revenue = sum(r for _, _, r in trailing_12) + march_revenue
-    trailing_orders = sum(o for _, o, _ in trailing_12) + len(march_orders)
+    # Current-month orders (live)
+    current_orders = [
+        o for o in all_orders
+        if o["timestamp"].year == today.year and o["timestamp"].month == today.month
+    ]
+    current_orders.sort(key=lambda x: x["timestamp"])
+    current_revenue = sum(o["amount"] for o in current_orders)
+
+    # Trailing 12-month stats: 11 complete months from MONTHLY_HISTORY + current month live
+    trailing_11 = MONTHLY_HISTORY[-11:]
+    trailing_revenue = sum(r for _, _, r in trailing_11) + current_revenue
+    trailing_orders_count = sum(o for _, o, _ in trailing_11) + len(current_orders)
     avg_daily = trailing_revenue / 365
-    avg_orders_per_month = trailing_orders / 12
+    avg_orders_per_month = trailing_orders_count / 12
 
-    # YTD 2026: Jan + Feb from MONTHLY_HISTORY (complete months) + March live
-    ytd_completed = [(m, o, r) for m, o, r in MONTHLY_HISTORY if m.startswith("2026") and m < "2026-03"]
-    total_revenue_ytd = sum(r for _, _, r in ytd_completed) + march_revenue
+    # YTD: completed months from MONTHLY_HISTORY + current month live
+    ytd_completed = [
+        (m, o, r) for m, o, r in MONTHLY_HISTORY
+        if m.startswith(str(today.year)) and m < current_month_key
+    ]
+    total_revenue_ytd = sum(r for _, _, r in ytd_completed) + current_revenue
 
-    # Days remaining in March
-    march_end = datetime(2026, 3, 31)
-    days_remaining = max(0, (march_end - today).days + 1)
-    projected_march = march_revenue + (avg_daily * days_remaining)
-    
+    # Days remaining in current month
+    days_remaining = max(0, (month_end - today).days + 1)
+    projected_current = current_revenue + (avg_daily * days_remaining)
+
     # Monthly breakdown
     monthly_data = defaultdict(lambda: defaultdict(float))
     for o in all_orders:
         month_key = o["timestamp"].strftime("%Y-%m")
         monthly_data[month_key][o["product"]] += o["amount"]
-    
+
     sorted_months = sorted(monthly_data.keys())
-    
-    print(f"\nStatistics (2026 YTD):")
+
+    print(f"\nStatistics ({today.year} YTD):")
     print(f"  YTD revenue: ${round(total_revenue_ytd):,}")
-    print(f"  Days elapsed (2026 YTD): {(today - datetime(2026, 1, 1)).days + 1}")
+    print(f"  Days elapsed ({today.year} YTD): {(today - datetime(today.year, 1, 1)).days + 1}")
     print(f"  Daily average: ${round(avg_daily):,}")
-    print(f"  March revenue so far: ${round(march_revenue):,}")
-    print(f"  Days remaining in March: {days_remaining}")
-    print(f"  Projected March total: ${round(projected_march):,}")
+    print(f"  {current_month_label} revenue so far: ${round(current_revenue):,}")
+    print(f"  Days remaining in {today.strftime('%B')}: {days_remaining}")
+    print(f"  Projected {today.strftime('%B')} total: ${round(projected_current):,}")
     
-    # Pie chart data (March only)
+    # Pie chart data (current month only)
     pie_data = {}
-    for o in march_orders:
+    for o in current_orders:
         pie_data[o["product"]] = pie_data.get(o["product"], 0) + o["amount"]
     pie_data = {k: round(v) for k, v in pie_data.items()}
     
@@ -374,6 +410,9 @@ def build_dashboard():
     y_axis_max = math.ceil(max_monthly / 5000) * 5000
 
     # Build HTML
+    # Build current-month stats for the projection card
+    current_month_orders_count = len(current_orders)
+
     html_top = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -576,18 +615,18 @@ def build_dashboard():
         <header>
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
-                <div><strong>Period:</strong> 2026 YTD (Jan - Mar 21)</div>
+                <div><strong>Period:</strong> """ + str(today.year) + """ YTD (Jan - """ + today.strftime('%b %d') + """)</div>
                 <div><strong>Updated:</strong> """ + today.strftime('%b %d, %Y at %I:%M %p') + """</div>
             </div>
         </header>
 
         <!-- Projection Box -->
         <div class="card full-width" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <h2 style="color: white; margin-bottom: 15px;">📊 March 2026 Projection</h2>
+            <h2 style="color: white; margin-bottom: 15px;">📊 """ + current_month_label + """ Projection</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
-                    <div class="metric-value" style="color: white;">$""" + f"{round(march_revenue):,}" + """</div>
+                    <div class="metric-value" style="color: white;">$""" + f"{round(current_revenue):,}" + """</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
@@ -595,7 +634,7 @@ def build_dashboard():
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
-                    <div class="metric-value" style="color: white;">""" + f"{current_month_orders} <span style='font-size:0.5em; font-weight:400;'>vs {round(avg_orders_per_month, 1)} avg</span>" + """</div>
+                    <div class="metric-value" style="color: white;">""" + f"{current_month_orders_count} <span style='font-size:0.5em; font-weight:400;'>vs {round(avg_orders_per_month, 1)} avg</span>" + """</div>
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
@@ -603,7 +642,7 @@ def build_dashboard():
                 </div>
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$""" + f"{round(projected_march):,}" + """</div>
+                    <div class="metric-value" style="color: #fff;">$""" + f"{round(projected_current):,}" + """</div>
                 </div>
             </div>
             <div class="projection-note" style="color: rgba(255,255,255,0.8);">
@@ -614,7 +653,7 @@ def build_dashboard():
         <div class="dashboard-grid">
             <!-- Pie Chart + Table -->
             <div class="card">
-                <h2>March Revenue by Product</h2>
+                <h2>""" + current_month_label + """ Revenue by Product</h2>
                 <div class="chart-container">
                     <canvas id="pieChart"></canvas>
                 </div>
@@ -646,7 +685,7 @@ def build_dashboard():
 """
     
     # Add March orders to table (will use JavaScript for row coloring)
-    for o in march_orders:
+    for o in current_orders:
         html_top += f"                        <tr data-product=\"{o['product']}\"><td>{o['date']}</td><td>{o['product']}</td><td style=\"text-align: center;\">${round(o['amount']):,}</td></tr>\n"
     
     html_middle = """                    </tbody>
@@ -670,10 +709,15 @@ def build_dashboard():
         function onAuthenticated() {
         // Color mapping for products
         const productColors = {
-            'HVAC': '#FFD700',    // Yellow
-            'TFS': '#3498DB',      // Blue
-            'FE': '#E74C3C',       // Red
-            'Other': '#95A5A6'     // Gray
+            'HVAC': '#FFD700',              // Yellow
+            'TFS': '#3498DB',               // Blue
+            'FE': '#E74C3C',                // Red
+            'Fundamentals': '#27AE60',      // Green
+            'CSE': '#8E44AD',               // Purple
+            'DailyInsightsPremium': '#F39C12', // Orange
+            'HVACBook': '#F1C40F',          // Gold
+            'TFSBook': '#2980B9',           // Dark blue
+            'Other': '#95A5A6'              // Gray
         };
         
         function getProductColor(product) {
@@ -745,7 +789,7 @@ def build_dashboard():
         
         const marchIdx = barMonths.length - 1;
         const marchCurrent = monthlyTotals[marchIdx];
-        const marchProjected = """ + json.dumps(round(projected_march)) + """;
+        const marchProjected = """ + json.dumps(round(projected_current)) + """;
         const marchMax = Math.max(marchCurrent, marchProjected);
         
         // Plugin to draw labels
