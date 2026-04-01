@@ -28,6 +28,7 @@ if not STRIPE_KEY:
 # Earliest date to pull from Stripe API (live reporting starts March 1, 2026)
 # Jan/Feb are closed months — their data lives in MONTHLY_HISTORY + HISTORICAL_MONTHLY_BREAKDOWN
 DASHBOARD_START_DATE = datetime(2026, 3, 1)
+THINKIFIC_START_DATE = datetime(2026, 4, 1)   # March covered by MANUAL_DATA_MARCH; April+ from API
 
 # ── Product ID → dashboard label ──────────────────────────────────────────────
 # Mirrors salesWebhookServer.js PRODUCT_MAP. Add new products here when they launch.
@@ -237,8 +238,13 @@ def fetch_thinkific_data(cutoff_date=None):
         "X-Auth-API-Key": THINKIFIC_KEY,
         "X-Auth-Subdomain": THINKIFIC_SUBDOMAIN,
     }
-    response = requests.get(f"https://{THINKIFIC_SUBDOMAIN}.thinkific.com/api/public/v1/orders?limit=500", headers=headers)
-    orders_data = response.json().get("items", [])
+    try:
+        response = requests.get(f"https://{THINKIFIC_SUBDOMAIN}.thinkific.com/api/public/v1/orders?limit=500", headers=headers, timeout=10)
+        response.raise_for_status()
+        orders_data = response.json().get("items", [])
+    except Exception as e:
+        print(f"  Warning: Could not fetch Thinkific data: {e}")
+        return []
     
     if cutoff_date is None:
         cutoff_date = datetime(2026, 3, 1)  # Only March onwards from API
@@ -287,6 +293,7 @@ def fetch_thinkific_data(cutoff_date=None):
                 "amount": product_price,
                 "subscription": is_subscription,
                 "order_id": str(o.get("id", "")),  # needed for dedup against webhook log
+                "source": "thinkific",
             })
     
     return orders
@@ -388,9 +395,23 @@ def build_dashboard():
     ]
     print(f"  Webhook BTC: {len(webhook_orders)} entries")
 
-    # Combine: manual Thinkific + Stripe API + BTC webhook
-    # Manual data must be Thinkific-only (no Stripe overlap) — see MANUAL_DATA comments
-    all_orders = manual_orders + stripe_orders + webhook_orders
+    # Thinkific: legacy FE subscription renewals (April 2026+)
+    # New enrollments disabled; only recurring FE monthly subs remain on Thinkific.
+    # March 2026 FE renewals are covered by MANUAL_DATA_MARCH — start from April to avoid double-count.
+    print(f"Fetching Thinkific data (FE renewals, from {THINKIFIC_START_DATE.strftime('%Y-%m-%d')})...")
+    thinkific_orders_raw = fetch_thinkific_data(THINKIFIC_START_DATE)
+    thinkific_seen_ids = {o["order_id"] for o in manual_orders if o.get("order_id")}
+    thinkific_orders = [
+        o for o in thinkific_orders_raw
+        if o.get("product") == "FE"                      # FE only — other products moved to Stripe/BTC
+        and (o.get("amount") or 0) > 0
+        and o.get("order_id") not in stripe_ids          # safety dedup vs Stripe
+        and o.get("order_id") not in thinkific_seen_ids  # safety dedup vs manual entries
+    ]
+    print(f"  Thinkific FE renewals: {len(thinkific_orders)} entries")
+
+    # Combine: manual (March legacy) + Stripe API + BTC webhook + Thinkific FE renewals
+    all_orders = manual_orders + stripe_orders + webhook_orders + thinkific_orders
     all_orders.sort(key=lambda x: x["timestamp"])
 
     # Current-month orders (live)
