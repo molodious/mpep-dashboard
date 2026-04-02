@@ -109,17 +109,8 @@ MONTHLY_HISTORY = [
 ]
 
 def stripe_clean_amount(amount_cents):
-    """Round Stripe amount to nearest standard price point (strips sales tax).
-    Known price points: 1999, 1899, 999, 649, 599, 399, 249, 149, 99
-    Note: 1899 = 5% promo code applied at purchase (not installment). Revenue = 1899.
-    Snaps to the CLOSEST price point within $200; otherwise keeps raw value.
-    """
-    price_points = [1999, 1899, 999, 649, 599, 399, 249, 149, 99]
-    amount = amount_cents / 100
-    candidates = [(abs(amount - p), p) for p in price_points if abs(amount - p) <= 200]
-    if candidates:
-        return min(candidates)[1]
-    return round(amount)
+    """Return exact Stripe amount in dollars (no tax collected, no snapping needed)."""
+    return round(amount_cents / 100, 2)
 
 # Manual product label corrections (session_id → correct product)
 # Use when Stripe metadata has wrong bundleId
