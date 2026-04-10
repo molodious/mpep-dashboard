@@ -43,23 +43,6 @@
       text-align: center;
       width: 320px;
     }
-    .auth-box .logo { font-size: 2rem; margin-bottom: 1rem; }
-    .auth-box h2 { font-size: 1.1rem; color: var(--text2); margin-bottom: 1.5rem; font-weight: 400; }
-    .auth-box input {
-      width: 100%; padding: 0.75rem 1rem;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 8px; color: var(--text); font-size: 1rem;
-      margin-bottom: 1rem; outline: none;
-    }
-    .auth-box input:focus { border-color: var(--accent); }
-    .auth-box button {
-      width: 100%; padding: 0.75rem;
-      background: var(--accent); color: #fff;
-      border: none; border-radius: 8px; font-size: 1rem;
-      cursor: pointer; font-weight: 600;
-    }
-    .auth-box button:hover { opacity: 0.9; }
-
     /* MAIN */
     #main-content { display: none; }
     header {
@@ -187,10 +170,14 @@
 <!-- AUTH OVERLAY -->
 <div id="auth-overlay">
   <div class="auth-box">
-    <div class="logo">♠️</div>
-    <h2>MPEP Dashboard · Internal use only</h2>
-    <input type="password" id="auth-input" placeholder="Password" onkeydown="if(event.key==='Enter')handleLogin()">
-    <button onclick="handleLogin()">Unlock</button>
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only — enter your password to continue</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
   </div>
 </div>
 
