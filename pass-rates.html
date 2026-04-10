@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pass Rates · MPEP Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg: #0f1117;
@@ -162,6 +163,18 @@
 
     .loading { text-align: center; padding: 3rem; color: var(--text2); }
     .error-msg { text-align: center; padding: 3rem; color: var(--fail); }
+
+    .chart-wrap {
+      display: flex; align-items: center; gap: 2rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem; width: fit-content;
+    }
+    .chart-legend { display: flex; flex-direction: column; gap: 0.75rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text2); }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .dot-pass { background: var(--pass); }
+    .dot-fail { background: var(--fail); }
   </style>
 </head>
 <body>
@@ -207,6 +220,14 @@
       <div class="stat-card"><div class="stat-label">Total Students</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub" id="stat-total-sub"></div></div>
     </div>
 
+    <div class="chart-wrap">
+      <canvas id="pass-chart" width="220" height="220"></canvas>
+      <div class="chart-legend">
+        <div class="legend-item"><span class="dot dot-pass"></span>Pass</div>
+        <div class="legend-item"><span class="dot dot-fail"></span>Fail</div>
+      </div>
+    </div>
+
     <div class="filters">
       <div class="filter-group">
         <label>Program</label>
@@ -248,6 +269,7 @@
 <script>
   const API_URL = 'https://btc.mechanicalpeexamprep.com/api/pass-rates';
   let allRecords = [];
+  let passChart = null;
 
   function onAuthenticated() {
     loadData();
@@ -304,6 +326,35 @@
     document.getElementById('stat-tfs-sub').textContent = `${tfsP} of ${tfs.length} passed`;
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-total-sub').textContent = `${hvac.length} HVAC · ${tfs.length} TFS`;
+    updateChart(passes, total - passes);
+  }
+
+  function updateChart(passes, fails) {
+    const ctx = document.getElementById('pass-chart').getContext('2d');
+    if (passChart) {
+      passChart.data.datasets[0].data = [passes, fails];
+      passChart.update();
+      return;
+    }
+    passChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Pass', 'Fail'],
+        datasets: [{
+          data: [passes, fails],
+          backgroundColor: ['#38c98a', '#f75c5c'],
+          borderWidth: 0,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        cutout: '65%',
+        plugins: { legend: { display: false }, tooltip: {
+          callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}` }
+        }},
+        animation: { duration: 400 }
+      }
+    });
   }
 
   function renderTable(records) {
