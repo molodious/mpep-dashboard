@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pass Rates · MPEP Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #4f8ef7;
+      --accent2: #38c98a;
+      --danger: #f75c5c;
+      --text: #e8eaf6;
+      --text2: #8b90b0;
+      --hvac: #4f8ef7;
+      --tfs: #a78bfa;
+      --pass: #38c98a;
+      --fail: #f75c5c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* AUTH */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      width: 320px;
+    }
+    .auth-box .logo { font-size: 2rem; margin-bottom: 1rem; }
+    .auth-box h2 { font-size: 1.1rem; color: var(--text2); margin-bottom: 1.5rem; font-weight: 400; }
+    .auth-box input {
+      width: 100%; padding: 0.75rem 1rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text); font-size: 1rem;
+      margin-bottom: 1rem; outline: none;
+    }
+    .auth-box input:focus { border-color: var(--accent); }
+    .auth-box button {
+      width: 100%; padding: 0.75rem;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 8px; font-size: 1rem;
+      cursor: pointer; font-weight: 600;
+    }
+    .auth-box button:hover { opacity: 0.9; }
+
+    /* MAIN */
+    #main-content { display: none; }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .header-logo { font-size: 1.4rem; }
+    .header-title { font-size: 1rem; font-weight: 700; letter-spacing: 0.02em; }
+    .header-sub { font-size: 0.75rem; color: var(--text2); }
+    .header-right { display: flex; gap: 1rem; align-items: center; }
+    .btn-back {
+      color: var(--text2); text-decoration: none; font-size: 0.85rem;
+      padding: 0.4rem 0.9rem; border: 1px solid var(--border);
+      border-radius: 6px; transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--text); }
+    .btn-signout {
+      background: none; border: 1px solid var(--border);
+      color: var(--text2); padding: 0.4rem 0.9rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    }
+    .btn-signout:hover { color: var(--text); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+    h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .page-sub { color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem; }
+
+    /* STAT CARDS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+    .stat-value { font-size: 2rem; font-weight: 700; line-height: 1; }
+    .stat-value.green { color: var(--pass); }
+    .stat-value.blue { color: var(--hvac); }
+    .stat-value.purple { color: var(--tfs); }
+    .stat-value.red { color: var(--fail); }
+    .stat-sub { font-size: 0.8rem; color: var(--text2); margin-top: 0.3rem; }
+
+    /* FILTERS */
+    .filters {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;
+      margin-bottom: 1.5rem;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .filter-group label { font-size: 0.75rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
+    .filter-group select,
+    .filter-group input {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); padding: 0.5rem 0.75rem;
+      border-radius: 6px; font-size: 0.9rem; outline: none;
+      min-width: 140px;
+    }
+    .filter-group select:focus,
+    .filter-group input:focus { border-color: var(--accent); }
+    .btn-reset {
+      background: none; border: 1px solid var(--border);
+      color: var(--text2); padding: 0.5rem 1rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+      align-self: flex-end;
+    }
+    .btn-reset:hover { color: var(--text); border-color: var(--text2); }
+
+    /* TABLE */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .table-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .table-header h2 { font-size: 0.95rem; font-weight: 600; }
+    .table-count { font-size: 0.8rem; color: var(--text2); }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; padding: 0.75rem 1.5rem;
+      font-size: 0.72rem; color: var(--text2);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    td {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+    .badge {
+      display: inline-block; padding: 0.2rem 0.6rem;
+      border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+    }
+    .badge-hvac { background: rgba(79,142,247,0.15); color: var(--hvac); }
+    .badge-tfs  { background: rgba(167,139,250,0.15); color: var(--tfs); }
+    .badge-pass { background: rgba(56,201,138,0.15); color: var(--pass); }
+    .badge-fail { background: rgba(247,92,92,0.15); color: var(--fail); }
+
+    .loading { text-align: center; padding: 3rem; color: var(--text2); }
+    .error-msg { text-align: center; padding: 3rem; color: var(--fail); }
+  </style>
+</head>
+<body>
+
+<!-- AUTH OVERLAY -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="logo">♠️</div>
+    <h2>MPEP Dashboard · Internal use only</h2>
+    <input type="password" id="auth-input" placeholder="Password" onkeydown="if(event.key==='Enter')handleLogin()">
+    <button onclick="handleLogin()">Unlock</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
+  <header>
+    <div class="header-left">
+      <span class="header-logo">♠️</span>
+      <div>
+        <div class="header-title">MPEP Dashboard</div>
+        <div class="header-sub">Mechanical PE Exam Prep · Internal</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="index.html" class="btn-back">← Dashboard</a>
+      <button class="btn-signout" onclick="signOut()">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>📊 Pass Rates</h1>
+    <p class="page-sub">PE exam outcomes by program. Updates automatically when results are logged.</p>
+
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-label">Overall Pass Rate</div><div class="stat-value green" id="stat-overall">—</div><div class="stat-sub" id="stat-overall-sub"></div></div>
+      <div class="stat-card"><div class="stat-label">HVAC Pass Rate</div><div class="stat-value blue" id="stat-hvac">—</div><div class="stat-sub" id="stat-hvac-sub"></div></div>
+      <div class="stat-card"><div class="stat-label">TFS Pass Rate</div><div class="stat-value purple" id="stat-tfs">—</div><div class="stat-sub" id="stat-tfs-sub"></div></div>
+      <div class="stat-card"><div class="stat-label">Total Students</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub" id="stat-total-sub"></div></div>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>Program</label>
+        <select id="filter-program" onchange="applyFilters()">
+          <option value="">All Programs</option>
+          <option value="HVAC">HVAC</option>
+          <option value="TFS">TFS</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Result</label>
+        <select id="filter-result" onchange="applyFilters()">
+          <option value="">Pass &amp; Fail</option>
+          <option value="Pass">Pass only</option>
+          <option value="Fail">Fail only</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>From</label>
+        <input type="date" id="filter-from" onchange="applyFilters()">
+      </div>
+      <div class="filter-group">
+        <label>To</label>
+        <input type="date" id="filter-to" onchange="applyFilters()">
+      </div>
+      <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header">
+        <h2>Student Results</h2>
+        <span class="table-count" id="table-count"></span>
+      </div>
+      <div id="table-container"><div class="loading">Loading...</div></div>
+    </div>
+  </main>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  const API_URL = 'https://btc.mechanicalpeexamprep.com/api/pass-rates';
+  let allRecords = [];
+
+  function onAuthenticated() {
+    loadData();
+  }
+
+  async function loadData() {
+    try {
+      const res = await fetch(API_URL);
+      const json = await res.json();
+      allRecords = json.records || [];
+      applyFilters();
+    } catch (e) {
+      document.getElementById('table-container').innerHTML =
+        '<div class="error-msg">Failed to load data. Check that the droplet is running.</div>';
+    }
+  }
+
+  function applyFilters() {
+    const program = document.getElementById('filter-program').value;
+    const result  = document.getElementById('filter-result').value;
+    const from    = document.getElementById('filter-from').value;
+    const to      = document.getElementById('filter-to').value;
+
+    let filtered = allRecords.filter(r => {
+      if (program && r.exam !== program) return false;
+      if (result  && r.result !== result) return false;
+      if (from    && r.date < from) return false;
+      if (to      && r.date > to) return false;
+      return true;
+    });
+
+    updateStats(filtered);
+    renderTable(filtered);
+  }
+
+  function updateStats(records) {
+    const passes = records.filter(r => r.result === 'Pass').length;
+    const total  = records.length;
+    const pct    = total > 0 ? Math.round((passes / total) * 100) : 0;
+
+    const hvac   = records.filter(r => r.exam === 'HVAC');
+    const hvacP  = hvac.filter(r => r.result === 'Pass').length;
+    const hvacPct= hvac.length > 0 ? Math.round((hvacP / hvac.length) * 100) : 0;
+
+    const tfs    = records.filter(r => r.exam === 'TFS');
+    const tfsP   = tfs.filter(r => r.result === 'Pass').length;
+    const tfsPct = tfs.length > 0 ? Math.round((tfsP / tfs.length) * 100) : 0;
+
+    document.getElementById('stat-overall').textContent = total > 0 ? `${pct}%` : '—';
+    document.getElementById('stat-overall-sub').textContent = `${passes} of ${total} passed`;
+    document.getElementById('stat-hvac').textContent = hvac.length > 0 ? `${hvacPct}%` : '—';
+    document.getElementById('stat-hvac-sub').textContent = `${hvacP} of ${hvac.length} passed`;
+    document.getElementById('stat-tfs').textContent = tfs.length > 0 ? `${tfsPct}%` : '—';
+    document.getElementById('stat-tfs-sub').textContent = `${tfsP} of ${tfs.length} passed`;
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-total-sub').textContent = `${hvac.length} HVAC · ${tfs.length} TFS`;
+  }
+
+  function renderTable(records) {
+    document.getElementById('table-count').textContent = `${records.length} record${records.length !== 1 ? 's' : ''}`;
+
+    if (records.length === 0) {
+      document.getElementById('table-container').innerHTML =
+        '<div class="loading">No records match the current filters.</div>';
+      return;
+    }
+
+    const rows = records.map(r => `
+      <tr>
+        <td>${formatDate(r.date)}</td>
+        <td>${escHtml(r.name)}</td>
+        <td><span class="badge badge-${r.exam.toLowerCase()}">${r.exam}</span></td>
+        <td><span class="badge badge-${r.result.toLowerCase()}">${r.result}</span></td>
+      </tr>
+    `).join('');
+
+    document.getElementById('table-container').innerHTML = `
+      <table>
+        <thead><tr><th>Date</th><th>Name</th><th>Program</th><th>Result</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  }
+
+  function formatDate(d) {
+    if (!d) return '—';
+    const [y, m, day] = d.split('-');
+    return `${parseInt(m)}/${parseInt(day)}/${y}`;
+  }
+
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function resetFilters() {
+    document.getElementById('filter-program').value = '';
+    document.getElementById('filter-result').value  = '';
+    document.getElementById('filter-from').value    = '';
+    document.getElementById('filter-to').value      = '';
+    applyFilters();
+  }
+
+  function signOut() {
+    localStorage.removeItem('mpep_auth_v1');
+    location.reload();
+  }
+</script>
+</body>
+</html>
