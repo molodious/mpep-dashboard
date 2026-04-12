@@ -53,6 +53,20 @@ function snapToPrice(dollars) {
   return PRICE_POINTS.find(p => Math.abs(dollars - p) <= 200) || Math.round(dollars);
 }
 
+// ── Dashboard rebuild trigger ────────────────────────────────────────────────
+
+const { execFile } = require('child_process');
+const REBUILD_SCRIPT = path.join(__dirname, 'rebuild_sales.sh');
+
+function triggerRebuild(reason) {
+  console.log(`[rebuild] Triggering dashboard rebuild: ${reason}`);
+  execFile(REBUILD_SCRIPT, { timeout: 120_000 }, (err, stdout, stderr) => {
+    if (err) console.error(`[rebuild] Failed:`, err.message);
+    if (stdout) console.log(stdout.trimEnd());
+    if (stderr) console.error(stderr.trimEnd());
+  });
+}
+
 // ── GET /orders-log (polled by dashboard build script) ────────────────────────
 
 app.get('/orders-log', (req, res) => {
@@ -129,6 +143,7 @@ app.post('/thinkific-webhook', (req, res) => {
   if (entry) {
     const added = appendEntry(entry);
     console.log(`[Thinkific] ${added ? '✓ logged' : '⚠ duplicate'}: ${topic} order_id=${entry.order_id} $${entry.amount}`);
+    if (added && entry.amount > 0) triggerRebuild(`Thinkific ${topic} $${entry.amount}`);
   } else {
     console.log(`[Thinkific] ignored: ${topic}`);
   }
@@ -187,6 +202,7 @@ app.post('/stripe-webhook', (req, res) => {
 
     const added = appendEntry(entry);
     console.log(`[Stripe] ${added ? '✓ logged' : '⚠ duplicate'}: ${session.id} $${amount}`);
+    if (added) triggerRebuild(`Stripe checkout $${amount}`);
   }
 
   res.json({ status: 'ok' });
