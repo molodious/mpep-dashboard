@@ -55,16 +55,33 @@ function snapToPrice(dollars) {
 
 // ── Dashboard rebuild trigger ────────────────────────────────────────────────
 
-const { execFile } = require('child_process');
-const REBUILD_SCRIPT = path.join(__dirname, 'rebuild_sales.sh');
+const https = require('https');
+const GH_PAT = process.env.GITHUB_PAT;
 
 function triggerRebuild(reason) {
+  if (!GH_PAT) {
+    console.error('[rebuild] GITHUB_PAT not set, skipping dispatch');
+    return;
+  }
   console.log(`[rebuild] Triggering dashboard rebuild: ${reason}`);
-  execFile(REBUILD_SCRIPT, { timeout: 120_000 }, (err, stdout, stderr) => {
-    if (err) console.error(`[rebuild] Failed:`, err.message);
-    if (stdout) console.log(stdout.trimEnd());
-    if (stderr) console.error(stderr.trimEnd());
+  const body = JSON.stringify({ event_type: 'new-order', client_payload: { reason } });
+  const req = https.request({
+    hostname: 'api.github.com',
+    path: '/repos/molodious/mpep-dashboard/dispatches',
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${GH_PAT}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'mpep-webhook-server',
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(body),
+    },
+  }, (res) => {
+    console.log(`[rebuild] GitHub dispatch: ${res.statusCode}`);
   });
+  req.on('error', (err) => console.error(`[rebuild] Dispatch failed:`, err.message));
+  req.write(body);
+  req.end();
 }
 
 // ── GET /orders-log (polled by dashboard build script) ────────────────────────
