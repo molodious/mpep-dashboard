@@ -53,6 +53,37 @@ function snapToPrice(dollars) {
   return PRICE_POINTS.find(p => Math.abs(dollars - p) <= 200) || Math.round(dollars);
 }
 
+// ── Dashboard rebuild trigger ────────────────────────────────────────────────
+
+const https = require('https');
+const GH_PAT = process.env.GITHUB_PAT;
+
+function triggerRebuild(reason) {
+  if (!GH_PAT) {
+    console.error('[rebuild] GITHUB_PAT not set, skipping dispatch');
+    return;
+  }
+  console.log(`[rebuild] Triggering dashboard rebuild: ${reason}`);
+  const body = JSON.stringify({ event_type: 'new-order', client_payload: { reason } });
+  const req = https.request({
+    hostname: 'api.github.com',
+    path: '/repos/molodious/mpep-dashboard/dispatches',
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${GH_PAT}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'mpep-webhook-server',
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(body),
+    },
+  }, (res) => {
+    console.log(`[rebuild] GitHub dispatch: ${res.statusCode}`);
+  });
+  req.on('error', (err) => console.error(`[rebuild] Dispatch failed:`, err.message));
+  req.write(body);
+  req.end();
+}
+
 // ── GET /orders-log (polled by dashboard build script) ────────────────────────
 
 app.get('/orders-log', (req, res) => {
@@ -85,6 +116,7 @@ app.post('/thinkific-webhook', (req, res) => {
       customer: payload.billing_name || `${user.first_name || ''} ${user.last_name || ''}`.trim(),
       email: user.email || '',
       amount, payment_type: payload.payment_type || 'one-time',
+      sub_type: 'new',
       received_at: new Date().toISOString(),
     };
 
@@ -104,6 +136,7 @@ app.post('/thinkific-webhook', (req, res) => {
       customer: order.billing_name || `${user.first_name || ''} ${user.last_name || ''}`.trim(),
       email: user.email || '',
       amount, payment_type: order.payment_type || 'subscription',
+      sub_type: 'renewal',
       received_at: new Date().toISOString(),
     };
 
@@ -127,6 +160,7 @@ app.post('/thinkific-webhook', (req, res) => {
   if (entry) {
     const added = appendEntry(entry);
     console.log(`[Thinkific] ${added ? '✓ logged' : '⚠ duplicate'}: ${topic} order_id=${entry.order_id} $${entry.amount}`);
+    if (added && entry.amount > 0) triggerRebuild(`Thinkific ${topic} $${entry.amount}`);
   } else {
     console.log(`[Thinkific] ignored: ${topic}`);
   }
@@ -185,6 +219,7 @@ app.post('/stripe-webhook', (req, res) => {
 
     const added = appendEntry(entry);
     console.log(`[Stripe] ${added ? '✓ logged' : '⚠ duplicate'}: ${session.id} $${amount}`);
+    if (added) triggerRebuild(`Stripe checkout $${amount}`);
   }
 
   res.json({ status: 'ok' });
