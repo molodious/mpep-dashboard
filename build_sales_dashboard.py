@@ -324,6 +324,16 @@ def fetch_webhook_log(cutoff_date=None):
         order_id = e.get("order_id")
         seen_order_ids.add(order_id)
 
+        # Derive sub_type: use explicit field if present (new entries),
+        # otherwise infer from event/payment_type for older log entries
+        sub_type = e.get("sub_type")
+        if not sub_type:
+            event = e.get("event", "")
+            if event == "order_transaction.succeeded" or e.get("payment_type") == "subscription":
+                sub_type = "renewal"
+            else:
+                sub_type = "new"
+
         orders.append({
             "date": e["date"],
             "timestamp": ts,
@@ -332,6 +342,7 @@ def fetch_webhook_log(cutoff_date=None):
             "amount": e.get("amount", 0),
             "order_id": order_id,
             "source": e.get("source", "webhook"),
+            "sub_type": sub_type,
         })
 
     return orders, seen_order_ids
@@ -372,19 +383,25 @@ def build_dashboard():
     stripe_orders = fetch_stripe_all_data(DASHBOARD_START_DATE)
     print(f"  Stripe total: {len(stripe_orders)} orders")
 
-    # Webhook log: BTC sales only — Stripe entries are now pulled directly from API
-    print("Fetching webhook log (BTC only)...")
+    # Webhook log: BTC + Thinkific renewal transactions
+    # Stripe checkout/invoice orders come from the Stripe API directly.
+    # Thinkific renewal transactions (order_transaction.succeeded) are NOT returned
+    # by the Thinkific Orders API (which filters by original order created_at), so
+    # the webhook log is the only source for these.
+    print("Fetching webhook log (BTC + Thinkific renewals)...")
     webhook_orders_raw, _ = fetch_webhook_log(DASHBOARD_START_DATE)
     stripe_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
     TEST_NAMES = {'test customer', 'test tunnel', 'telegram works'}
+    manual_order_ids = {str(o.get("order_id")) for o in manual_orders if o.get("order_id")}
     webhook_orders = [
         o for o in webhook_orders_raw
-        if o.get("source") == "btcpay_webhook"           # BTC only — Stripe pulled from API
+        if o.get("source") in ("btcpay_webhook", "thinkific_webhook")
         and (o.get("amount") or 0) > 0
         and (o.get("customer") or "").lower() not in TEST_NAMES
-        and o.get("order_id") not in stripe_ids          # safety dedup
+        and o.get("order_id") not in stripe_ids          # safety dedup vs Stripe API
+        and str(o.get("order_id")) not in manual_order_ids  # safety dedup vs manual entries
     ]
-    print(f"  Webhook BTC: {len(webhook_orders)} entries")
+    print(f"  Webhook (BTC + Thinkific): {len(webhook_orders)} entries")
 
     # Thinkific: legacy FE subscription renewals (April 2026+)
     # New enrollments disabled; only recurring FE monthly subs remain on Thinkific.
@@ -392,16 +409,18 @@ def build_dashboard():
     print(f"Fetching Thinkific data (FE renewals, from {THINKIFIC_START_DATE.strftime('%Y-%m-%d')})...")
     thinkific_orders_raw = fetch_thinkific_data(THINKIFIC_START_DATE)
     thinkific_seen_ids = {o["order_id"] for o in manual_orders if o.get("order_id")}
+    webhook_order_ids = {str(o.get("order_id")) for o in webhook_orders}
     thinkific_orders = [
         o for o in thinkific_orders_raw
         if o.get("product") == "FE"                      # FE only — other products moved to Stripe/BTC
         and (o.get("amount") or 0) > 0
         and o.get("order_id") not in stripe_ids          # safety dedup vs Stripe
         and o.get("order_id") not in thinkific_seen_ids  # safety dedup vs manual entries
+        and str(o.get("order_id")) not in webhook_order_ids  # safety dedup vs webhook log
     ]
     print(f"  Thinkific FE renewals: {len(thinkific_orders)} entries")
 
-    # Combine: manual (March legacy) + Stripe API + BTC webhook + Thinkific FE renewals
+    # Combine: manual (March legacy) + Stripe API + webhook log + Thinkific API
     all_orders = manual_orders + stripe_orders + webhook_orders + thinkific_orders
     all_orders.sort(key=lambda x: x["timestamp"])
 
@@ -774,7 +793,7 @@ def build_dashboard():
 
     def order_source_label(o):
         src = o.get('source', '')
-        if src == 'thinkific':
+        if src in ('thinkific', 'thinkific_webhook'):
             return 'Thinkific'
         elif src in ('stripe_checkout', 'stripe_invoice'):
             return 'Stripe'
@@ -976,8 +995,8 @@ def build_dashboard():
     
     html = html_top + html_middle
     
-    # Write output
-    output_path = "/home/mpepagent/.openclaw/workspace/projects/mpep-dashboard/sales.html"
+    # Write output — use repo-relative path so this works in both local and CI environments
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sales.html")
     with open(output_path, "w") as f:
         f.write(html)
     

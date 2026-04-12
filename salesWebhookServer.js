@@ -85,6 +85,7 @@ app.post('/thinkific-webhook', (req, res) => {
       customer: payload.billing_name || `${user.first_name || ''} ${user.last_name || ''}`.trim(),
       email: user.email || '',
       amount, payment_type: payload.payment_type || 'one-time',
+      sub_type: 'new',
       received_at: new Date().toISOString(),
     };
 
@@ -104,6 +105,7 @@ app.post('/thinkific-webhook', (req, res) => {
       customer: order.billing_name || `${user.first_name || ''} ${user.last_name || ''}`.trim(),
       email: user.email || '',
       amount, payment_type: order.payment_type || 'subscription',
+      sub_type: 'renewal',
       received_at: new Date().toISOString(),
     };
 
