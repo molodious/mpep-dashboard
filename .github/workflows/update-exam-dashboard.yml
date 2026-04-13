@@ -24,7 +24,16 @@ jobs:
         env:
           TYPEFORM_TOKEN: ${{ secrets.TYPEFORM_TOKEN }}
           KIT_API_SECRET: ${{ secrets.KIT_API_SECRET }}
-        run: python build_exam_page.py
+        run: |
+          rc=0
+          python build_exam_page.py || rc=$?
+          if [ "$rc" -eq 0 ] || [ "$rc" -eq 1 ]; then
+            echo "build_exam_page.py exited $rc (exit 1 = skipped submissions, not a failure)"
+            exit 0
+          else
+            echo "build_exam_page.py exited $rc — real failure"
+            exit "$rc"
+          fi
 
       - name: Commit and push if changed
         run: |
