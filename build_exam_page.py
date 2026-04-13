@@ -8,9 +8,14 @@ import os, json, re, requests
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
-TYPEFORM_TOKEN      = open(os.path.expanduser(
-    "~/.openclaw/workspace/office-hours-config.json")).read()
-TYPEFORM_TOKEN      = json.loads(TYPEFORM_TOKEN).get("typeform_token", "")
+TYPEFORM_TOKEN = os.environ.get("TYPEFORM_TOKEN", "")
+if not TYPEFORM_TOKEN:
+    try:
+        _cfg = json.loads(open(os.path.expanduser(
+            "~/.openclaw/workspace/office-hours-config.json")).read())
+        TYPEFORM_TOKEN = _cfg.get("typeform_token", "")
+    except FileNotFoundError:
+        pass
 
 WELCOME_FORM_ID     = "mbKafiOp"
 WELCOME_EMAIL_FIELD = "5J91OTPz6NuN"
