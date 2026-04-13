@@ -1,0 +1,49 @@
+name: Update Exam Dashboard
+
+on:
+  repository_dispatch:
+    types: [exam-date-updated]
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build exam dashboard
+        env:
+          TYPEFORM_TOKEN: ${{ secrets.TYPEFORM_TOKEN }}
+          KIT_API_SECRET: ${{ secrets.KIT_API_SECRET }}
+        run: python build_exam_page.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add exams.html
+          if git diff --cached --quiet; then
+            echo "No changes to exams.html"
+          else
+            git commit -m "Auto-update exam dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
+            git push
+          fi
+
+      - name: Notify Telegram on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d text="⚠️ Exam dashboard rebuild failed. Check: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
