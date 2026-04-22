@@ -395,7 +395,7 @@ def build_dashboard():
     manual_order_ids = {str(o.get("order_id")) for o in manual_orders if o.get("order_id")}
     webhook_orders = [
         o for o in webhook_orders_raw
-        if o.get("source") in ("btcpay_webhook", "thinkific_webhook")
+        if o.get("source") in ("btcpay_webhook", "thinkific_webhook", "manual")
         and (o.get("amount") or 0) > 0
         and (o.get("customer") or "").lower() not in TEST_NAMES
         and o.get("order_id") not in stripe_ids          # safety dedup vs Stripe API
@@ -799,6 +799,8 @@ def build_dashboard():
             return 'Stripe'
         elif src == 'btcpay_webhook':
             return 'BTC'
+        elif src == 'manual':
+            return 'Manual'
         return '—'
 
     # Add current-month orders to table
