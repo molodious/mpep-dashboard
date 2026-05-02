@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM — MPEP Dashboard</title>
+  <style>
+    :root {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --surface2: #1c2330;
+      --border:   #21262d;
+      --border2:  #30363d;
+      --text:     #e6edf3;
+      --muted:    #8b949e;
+      --dim:      #484f58;
+      --blue:     #58a6ff;
+      --green:    #3fb950;
+      --purple:   #a371f7;
+      --yellow:   #d29922;
+      --orange:   #e3b341;
+      --red:      #f85149;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── Auth overlay ───────────────────────────────────────────── */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 40px 36px;
+      width: 100%; max-width: 360px;
+      text-align: center;
+    }
+    .auth-logo  { font-size: 40px; margin-bottom: 12px; }
+    .auth-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+    .auth-sub   { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+    #auth-form input[type="password"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 10px 14px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      outline: none;
+    }
+    #auth-form input[type="password"]:focus { border-color: var(--blue); }
+    #pwd-error {
+      color: var(--red); font-size: 13px; min-height: 20px; margin-bottom: 8px;
+    }
+    #auth-form button {
+      width: 100%;
+      background: var(--blue); color: #0d1117;
+      border: none; border-radius: 6px;
+      padding: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+    #auth-form button:hover { opacity: 0.9; }
+
+    /* ── Main layout ────────────────────────────────────────────── */
+    #main-content { display: none; }
+
+    /* ── Header ─────────────────────────────────────────────────── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .header-logo { font-size: 22px; }
+    .header-title { font-size: 15px; font-weight: 600; }
+    .header-sub   { font-size: 12px; color: var(--muted); }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .btn-back {
+      color: var(--muted); text-decoration: none;
+      font-size: 13px; padding: 5px 10px;
+      border: 1px solid var(--border2); border-radius: 6px;
+    }
+    .btn-back:hover { color: var(--text); border-color: var(--blue); text-decoration: none; }
+    .btn-signout {
+      background: none; border: 1px solid var(--border2);
+      color: var(--muted); border-radius: 6px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn-signout:hover { color: var(--red); border-color: var(--red); }
+
+    /* ── Tab bar ─────────────────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      position: sticky; top: 57px; z-index: 90;
+      overflow-x: auto;
+    }
+    .tab {
+      padding: 12px 18px;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+      user-select: none;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .tab-badge {
+      background: var(--blue); color: #0d1117;
+      border-radius: 10px; padding: 1px 7px;
+      font-size: 11px; font-weight: 700;
+    }
+
+    /* ── Tab panels ─────────────────────────────────────────────── */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    .tab-panel { display: none; padding: 20px 0; }
+    .tab-panel.active { display: block; }
+
+    /* ── Toolbar / filters ──────────────────────────────────────── */
+    .toolbar {
+      display: flex; align-items: center; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .status-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+    .pill {
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: 500;
+      cursor: pointer; border: 1px solid var(--border);
+      background: var(--surface2); color: var(--muted);
+      transition: background 0.12s, border-color 0.12s;
+      user-select: none;
+    }
+    .pill:hover { color: var(--text); }
+    .pill.on.p-all      { color: var(--text);   border-color: var(--border2); }
+    .pill.on.p-hot      { color: var(--red);    background: #2d0f0e; border-color: var(--red); }
+    .pill.on.p-warm     { color: var(--orange); background: #2d1f03; border-color: var(--orange); }
+    .pill.on.p-cold     { color: var(--blue);   background: #0d2030; border-color: var(--blue); }
+    .pill.on.p-new      { color: var(--purple); background: #1e1230; border-color: var(--purple); }
+    .pill.on.p-inactive { color: var(--dim);    border-color: var(--dim); }
+    .pill.on.p-enrolled { color: var(--green);  background: #0d2e1a; border-color: var(--green); }
+
+    select.f-select {
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 6px;
+      padding: 5px 10px; font-size: 13px; outline: none; cursor: pointer;
+    }
+    select.f-select:focus { border-color: var(--blue); }
+
+    .overdue-toggle {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--muted);
+      cursor: pointer; user-select: none;
+    }
+    .overdue-toggle input { cursor: pointer; accent-color: var(--orange); }
+    .overdue-toggle.lit { color: var(--orange); }
+
+    .count-lbl { margin-left: auto; font-size: 13px; color: var(--muted); }
+
+    /* ── Contacts table ──────────────────────────────────────────── */
+    .tbl-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      background: var(--surface);
+      color: var(--muted); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      padding: 10px 14px; text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tr.c-row { cursor: pointer; transition: background 0.1s; }
+    tr.c-row:hover  { background: var(--surface2); }
+    tr.c-row.open   { background: var(--surface2); }
+    tbody td { padding: 10px 14px; vertical-align: middle; }
+
+    /* ── Status / type badges ────────────────────────────────────── */
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 12px;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .b-hot      { background: #2d0f0e; color: var(--red); }
+    .b-warm     { background: #2d1f03; color: var(--orange); }
+    .b-cold     { background: #0d2030; color: var(--blue); }
+    .b-new      { background: #1e1230; color: var(--purple); }
+    .b-inactive { background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+    .b-enrolled { background: #0d2e1a; color: var(--green); }
+    .b-b2b      { background: #1e2d10; color: #7ee787; }
+    .b-b2c      { background: var(--surface2); color: var(--muted); }
+    .b-pending  { background: #2d2200; color: var(--yellow); }
+    .b-approved { background: #0d2e1a; color: var(--green); }
+    .b-discarded{ background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+
+    .overdue-dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--orange);
+      margin-right: 4px; vertical-align: middle;
+    }
+
+    /* ── Expand row ─────────────────────────────────────────────── */
+    tr.x-row td { padding: 0; }
+    .x-inner {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .x-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted); font-weight: 600; margin-bottom: 10px;
+    }
+    .int-list { display: flex; flex-direction: column; gap: 8px; }
+    .int-item {
+      background: var(--surface2); border-radius: 6px;
+      padding: 10px 14px; border-left: 3px solid var(--border2);
+    }
+    .int-meta { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+    .int-body { font-size: 13px; }
+    .no-int   { color: var(--muted); font-size: 13px; font-style: italic; }
+    .x-notes  { margin-top: 12px; }
+    .x-notes-body {
+      background: var(--surface2); border-radius: 6px;
+      padding: 10px 14px; font-size: 13px; color: var(--muted);
+      white-space: pre-wrap;
+    }
+    .x-footer {
+      margin-top: 12px; display: flex; gap: 10px;
+      flex-wrap: wrap; font-size: 12px; color: var(--muted);
+    }
+    .x-footer a { color: var(--blue); }
+
+    /* ── Drafts ─────────────────────────────────────────────────── */
+    .drafts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 16px;
+    }
+    .draft-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .dc-head {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 8px;
+    }
+    .dc-name { font-size: 15px; font-weight: 600; }
+    .dc-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .dc-subject { font-size: 13px; font-weight: 600; color: var(--blue); }
+    .dc-body {
+      background: var(--surface2); border-radius: 6px;
+      padding: 12px; font-size: 13px; color: var(--text);
+      white-space: pre-wrap; max-height: 200px; overflow-y: auto;
+      border: 1px solid var(--border); line-height: 1.55;
+    }
+    textarea.dc-body {
+      width: 100%; min-height: 200px; resize: vertical;
+      font-family: inherit; font-size: 13px;
+      background: #0d1f2d; color: var(--text);
+      border: 1px solid var(--blue); border-radius: 6px;
+      padding: 12px; outline: none; line-height: 1.55;
+    }
+    .dc-rationale {
+      font-size: 12px; color: var(--muted); font-style: italic;
+      padding: 8px 12px; background: var(--surface2);
+      border-radius: 6px; border-left: 3px solid var(--dim);
+    }
+    .dc-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    .btn {
+      padding: 5px 12px; border-radius: 6px;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer; border: 1px solid transparent;
+    }
+    .btn:hover   { opacity: 0.85; }
+    .btn:disabled{ opacity: 0.4; cursor: not-allowed; }
+    .btn-approve { background: var(--green);  color: #0d1117; border-color: var(--green); }
+    .btn-discard { background: none; border-color: var(--red);    color: var(--red); }
+    .btn-neutral { background: none; border-color: var(--border2); color: var(--muted); }
+    .btn-primary { background: var(--blue);   color: #0d1117; }
+    .btn-fb-open { background: none; border-color: var(--border2); color: var(--muted); margin-left: auto; }
+
+    .dc-feedback { display: none; margin-top: 4px; }
+    .dc-feedback.open { display: block; }
+    .fb-row {
+      display: flex; gap: 10px; align-items: center;
+      flex-wrap: wrap; margin-bottom: 8px;
+    }
+    .fb-lbl { font-size: 12px; color: var(--muted); min-width: 110px; }
+    select.fb-sel {
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 6px;
+      padding: 4px 8px; font-size: 12px;
+    }
+    textarea.fb-notes {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border2); border-radius: 6px;
+      color: var(--text); padding: 8px; font-size: 12px;
+      resize: vertical; min-height: 56px; font-family: inherit;
+    }
+
+    /* ── Formula table ──────────────────────────────────────────── */
+    .formula-intro { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+    .ftbl-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .ftbl { width: 100%; border-collapse: collapse; }
+    .ftbl th {
+      background: var(--surface);
+      color: var(--muted); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      text-align: left; white-space: nowrap;
+    }
+    .ftbl td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .ftbl tr:last-child td { border-bottom: none; }
+    .f-input {
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: 4px; color: var(--text);
+      padding: 4px 8px; font-size: 13px; width: 80px; outline: none;
+    }
+    .f-input:focus { border-color: var(--blue); }
+    .f-sel {
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: 4px; color: var(--text);
+      padding: 4px 8px; font-size: 13px; outline: none;
+    }
+    .f-sel:focus { border-color: var(--blue); }
+    .btn-fsave {
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: 4px; color: var(--blue);
+      padding: 4px 12px; font-size: 12px; cursor: pointer;
+    }
+    .btn-fsave:hover { border-color: var(--blue); }
+    .f-saved { color: var(--green); font-size: 12px; margin-left: 6px; }
+
+    /* ── Loading / empty ────────────────────────────────────────── */
+    .loading { text-align: center; padding: 40px 20px; color: var(--muted); }
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid var(--border2); border-top-color: var(--blue);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty {
+      text-align: center; padding: 60px 20px; color: var(--muted);
+    }
+    .empty-icon { font-size: 34px; margin-bottom: 12px; }
+    .empty-msg  { font-size: 15px; }
+    .empty-sub  { font-size: 12px; color: var(--dim); margin-top: 6px; }
+
+    /* ── Toast ──────────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 12px 18px;
+      font-size: 13px; z-index: 9999;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none; max-width: 320px;
+    }
+    #toast.show          { opacity: 1; transform: translateY(0); }
+    #toast.t-success     { border-left: 3px solid var(--green); }
+    #toast.t-error       { border-left: 3px solid var(--red); }
+
+    /* ── Misc ───────────────────────────────────────────────────── */
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .muted { color: var(--muted); }
+    .dim   { color: var(--dim); }
+    code   { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 700px) {
+      .drafts-grid { grid-template-columns: 1fr; }
+      .toolbar { gap: 8px; }
+      thead th:nth-child(4),
+      thead th:nth-child(5),
+      tbody td:nth-child(4),
+      tbody td:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth overlay ─────────────────────────────────────────────────────── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only — enter your password to continue</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Main content ──────────────────────────────────────────────────────── -->
+<div id="main-content">
+
+  <header>
+    <div class="header-left">
+      <span class="header-logo">♠️</span>
+      <div>
+        <div class="header-title">MPEP Dashboard</div>
+        <div class="header-sub">Mechanical PE Exam Prep · Internal</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="index.html" class="btn-back">← Dashboard</a>
+      <button class="btn-signout" onclick="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <div class="tab-bar">
+    <div class="tab active" data-tab="contacts" onclick="switchTab('contacts')">Contacts</div>
+    <div class="tab" data-tab="drafts" onclick="switchTab('drafts')">
+      Drafts
+      <span class="tab-badge" id="pending-badge" style="display:none"></span>
+    </div>
+    <div class="tab" data-tab="formula" onclick="switchTab('formula')">Formula</div>
+    <div class="tab" data-tab="templates" onclick="switchTab('templates')">Templates</div>
+  </div>
+
+  <div class="container">
+
+    <!-- ── Contacts tab ──────────────────────────────────────────────────── -->
+    <div class="tab-panel active" id="panel-contacts">
+      <div class="toolbar">
+        <div class="status-pills" id="status-pills">
+          <span class="pill p-all"      data-s="All"      onclick="togglePill(this)">All</span>
+          <span class="pill p-new on"   data-s="New"      onclick="togglePill(this)">New</span>
+          <span class="pill p-hot on"   data-s="Hot"      onclick="togglePill(this)">Hot</span>
+          <span class="pill p-warm on"  data-s="Warm"     onclick="togglePill(this)">Warm</span>
+          <span class="pill p-cold on"  data-s="Cold"     onclick="togglePill(this)">Cold</span>
+          <span class="pill p-enrolled" data-s="Enrolled" onclick="togglePill(this)">Enrolled</span>
+          <span class="pill p-inactive" data-s="Inactive" onclick="togglePill(this)">Inactive</span>
+        </div>
+        <select class="f-select" id="type-filter" onchange="applyFilters()">
+          <option value="">All Types</option>
+          <option value="B2C">B2C</option>
+          <option value="B2B">B2B</option>
+        </select>
+        <select class="f-select" id="source-filter" onchange="applyFilters()">
+          <option value="">All Sources</option>
+        </select>
+        <label class="overdue-toggle" id="overdue-lbl">
+          <input type="checkbox" id="overdue-chk" onchange="applyFilters()" />
+          Overdue only
+        </label>
+        <span class="count-lbl" id="contact-count"></span>
+      </div>
+
+      <div class="tbl-wrap">
+        <table id="contacts-tbl">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>Source</th>
+              <th style="text-align:center">Outreach</th>
+              <th>Next Followup</th>
+            </tr>
+          </thead>
+          <tbody id="contacts-tbody">
+            <tr><td colspan="7"><div class="loading"><span class="spinner"></span>Loading contacts…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Drafts tab ─────────────────────────────────────────────────────── -->
+    <div class="tab-panel" id="panel-drafts">
+      <div class="toolbar">
+        <div class="status-pills" id="draft-pills">
+          <span class="pill on" style="color:var(--yellow);border-color:var(--yellow);background:#2d2200"
+                data-ds="Pending"   onclick="switchDraftFilter(this)">Pending</span>
+          <span class="pill"    style="color:var(--muted)"
+                data-ds="Approved"  onclick="switchDraftFilter(this)">Approved</span>
+          <span class="pill"    style="color:var(--muted)"
+                data-ds="Discarded" onclick="switchDraftFilter(this)">Discarded</span>
+        </div>
+        <span class="count-lbl" id="draft-count"></span>
+      </div>
+      <div class="drafts-grid" id="drafts-grid">
+        <div class="loading"><span class="spinner"></span>Loading drafts…</div>
+      </div>
+    </div>
+
+    <!-- ── Formula tab ────────────────────────────────────────────────────── -->
+    <div class="tab-panel" id="panel-formula">
+      <p class="formula-intro">
+        The followup formula maps outreach count to status transitions and next follow‑up timing.
+        Each row covers a range of outreach counts and defines which status to apply before/after sending,
+        plus how many days until the next scheduled follow‑up.
+      </p>
+      <div class="ftbl-wrap">
+        <table class="ftbl">
+          <thead>
+            <tr>
+              <th>Outreach Min</th>
+              <th>Outreach Max</th>
+              <th>Status Before</th>
+              <th>Status After</th>
+              <th>Followup Days</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="formula-tbody">
+            <tr><td colspan="6"><div class="loading"><span class="spinner"></span>Loading…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Templates tab ─────────────────────────────────────────────────── -->
+    <div class="tab-panel" id="panel-templates">
+      <div class="empty">
+        <div class="empty-icon">📝</div>
+        <div class="empty-msg">Template library coming soon.</div>
+        <div class="empty-sub">
+          Templates are currently defined in the server-side sales playbook at
+          <code>/root/crm/sales_playbook.md</code>.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /main-content -->
+
+<div id="toast"></div>
+
+<script src="auth.js"></script>
+<script>
+'use strict';
+
+const API_BASE = 'https://btc.mechanicalpeexamprep.com/api/crm';
+const API_KEY  = 'xQJo3Bj_VRm@P!wVUFqR';
+
+// auth.js calls this when the password is correct
+function onAuthenticated() {
+  loadContacts();
+  loadDraftCount();
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+
+let _toastTimer;
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show t-${type}`;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 3200);
+}
+
+// ── API ───────────────────────────────────────────────────────────────────
+
+async function api(method, path, body) {
+  const opts = {
+    method,
+    headers: {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type':  'application/json',
+    },
+  };
+  if (body !== undefined) opts.body = JSON.stringify(body);
+  const r = await fetch(`${API_BASE}${path}`, opts);
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({ error: r.statusText }));
+    throw new Error(e.error || r.statusText);
+  }
+  return r.json();
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────
+
+let _currentTab = 'contacts';
+let _draftsLoaded  = false;
+let _formulaLoaded = false;
+
+function switchTab(tab) {
+  _currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p =>
+    p.classList.toggle('active', p.id === `panel-${tab}`));
+  if (tab === 'drafts'  && !_draftsLoaded)  loadDrafts();
+  if (tab === 'formula' && !_formulaLoaded) loadFormula();
+}
+
+// ── Util ──────────────────────────────────────────────────────────────────
+
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function statusBadge(status) {
+  const k = (status || '').toLowerCase().replace(/\s+/g, '');
+  return `<span class="badge b-${k}">${esc(status) || '—'}</span>`;
+}
+
+function typeBadge(t) {
+  if (!t) return '<span class="dim">—</span>';
+  return `<span class="badge b-${t.toLowerCase()}">${esc(t)}</span>`;
+}
+
+// ── Contacts ──────────────────────────────────────────────────────────────
+
+let _contacts      = [];
+let _activePills   = new Set(['New', 'Hot', 'Warm', 'Cold']);
+let _expandedId    = null;
+
+function togglePill(el) {
+  const s = el.dataset.s;
+  if (s === 'All') {
+    _activePills.clear();
+    document.querySelectorAll('#status-pills .pill').forEach(p => p.classList.remove('on'));
+    el.classList.add('on');
+    _activePills.add('All');
+  } else {
+    const allEl = document.querySelector('#status-pills .pill.p-all');
+    allEl.classList.remove('on');
+    _activePills.delete('All');
+    if (_activePills.has(s)) {
+      _activePills.delete(s);
+      el.classList.remove('on');
+    } else {
+      _activePills.add(s);
+      el.classList.add('on');
+    }
+    if (_activePills.size === 0) {
+      allEl.classList.add('on');
+      _activePills.add('All');
+    }
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  const type    = document.getElementById('type-filter').value;
+  const source  = document.getElementById('source-filter').value;
+  const overdue = document.getElementById('overdue-chk').checked;
+  const today   = new Date().toISOString().slice(0, 10);
+
+  document.getElementById('overdue-lbl').classList.toggle('lit', overdue);
+
+  let rows = _contacts;
+  if (!_activePills.has('All')) {
+    rows = rows.filter(c => _activePills.has(c.status));
+  }
+  if (type)   rows = rows.filter(c => c.contact_type === type);
+  if (source) rows = rows.filter(c => c.source === source);
+  if (overdue) rows = rows.filter(c => c.next_followup_date && c.next_followup_date <= today);
+
+  renderContacts(rows);
+  document.getElementById('contact-count').textContent =
+    `${rows.length} contact${rows.length !== 1 ? 's' : ''}`;
+}
+
+async function loadContacts() {
+  try {
+    _contacts = await api('GET', '/contacts');
+
+    // Populate source dropdown
+    const srcs = [...new Set(_contacts.map(c => c.source).filter(Boolean))].sort();
+    const sel = document.getElementById('source-filter');
+    srcs.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      sel.appendChild(o);
+    });
+
+    applyFilters();
+  } catch (e) {
+    document.getElementById('contacts-tbody').innerHTML =
+      `<tr><td colspan="7" style="color:var(--red);padding:20px">Error: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+function renderContacts(rows) {
+  const tbody = document.getElementById('contacts-tbody');
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-msg">No contacts match these filters.</div>
+    </div></td></tr>`;
+    return;
+  }
+  const today = new Date().toISOString().slice(0, 10);
+  tbody.innerHTML = rows.map(c => {
+    const od = c.next_followup_date && c.next_followup_date <= today;
+    const fuHtml = c.next_followup_date
+      ? `${od ? '<span class="overdue-dot"></span>' : ''}${esc(c.next_followup_date)}`
+      : '<span class="dim">—</span>';
+    const isOpen = _expandedId === c.id;
+    return `<tr class="c-row${isOpen ? ' open' : ''}" data-id="${c.id}" onclick="toggleExpand(this,${c.id})">
+        <td><strong>${esc(c.name)}</strong></td>
+        <td class="muted">${c.email
+          ? `<a href="mailto:${esc(c.email)}" onclick="event.stopPropagation()">${esc(c.email)}</a>`
+          : '<span class="dim">—</span>'}</td>
+        <td>${statusBadge(c.status)}</td>
+        <td>${typeBadge(c.contact_type)}</td>
+        <td class="muted">${esc(c.source || '—')}</td>
+        <td class="muted" style="text-align:center">${c.outreach_count || 0}</td>
+        <td style="white-space:nowrap">${fuHtml}</td>
+      </tr>${isOpen
+        ? `<tr class="x-row" data-xid="${c.id}">
+            <td colspan="7"><div class="x-inner" id="x-${c.id}">
+              <span class="spinner"></span> Loading…
+            </div></td>
+          </tr>`
+        : ''}`;
+  }).join('');
+}
+
+async function toggleExpand(row, id) {
+  if (_expandedId === id) {
+    _expandedId = null;
+    applyFilters();
+    return;
+  }
+  _expandedId = id;
+  applyFilters(); // renders expand row with spinner
+
+  try {
+    const c = await api('GET', `/contacts/${id}`);
+    const el = document.getElementById(`x-${id}`);
+    if (!el) return;
+
+    const ints = (c.interactions || []).slice(0, 15);
+    const intHtml = ints.length
+      ? ints.map(i => `<div class="int-item">
+          <div class="int-meta">${esc((i.occurred_at || '').slice(0, 10))} · ${esc(i.channel || 'unknown')}</div>
+          <div class="int-body">${esc(i.summary || i.raw_content || '(no summary)')}</div>
+        </div>`).join('')
+      : '<div class="no-int">No interactions recorded.</div>';
+
+    const notesHtml = c.notes
+      ? `<div class="x-notes">
+          <div class="x-label" style="margin-top:12px">Notes</div>
+          <div class="x-notes-body">${esc(c.notes)}</div>
+        </div>`
+      : '';
+
+    el.innerHTML = `
+      <div class="x-label">Recent Interactions (${c.interactions?.length || 0})</div>
+      <div class="int-list">${intHtml}</div>
+      ${notesHtml}
+      <div class="x-footer">
+        <span>Outreach count: ${c.outreach_count || 0}</span>
+        ${c.hubspot_id ? `<span>· HubSpot ID: ${esc(c.hubspot_id)}</span>` : ''}
+        ${c.linkedin_url
+          ? `<a href="${esc(c.linkedin_url)}" target="_blank" onclick="event.stopPropagation()">LinkedIn ↗</a>`
+          : ''}
+      </div>`;
+  } catch (e) {
+    const el = document.getElementById(`x-${id}`);
+    if (el) el.innerHTML = `<span style="color:var(--red)">Error: ${esc(e.message)}</span>`;
+  }
+}
+
+// ── Drafts ────────────────────────────────────────────────────────────────
+
+let _drafts      = [];
+let _draftFilter = 'Pending';
+
+function switchDraftFilter(el) {
+  _draftFilter = el.dataset.ds;
+  document.querySelectorAll('#draft-pills .pill').forEach(p => {
+    p.classList.remove('on');
+    p.style.borderColor = '';
+    p.style.background  = '';
+  });
+  el.classList.add('on');
+  // restore accent colour for active pill
+  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)', Discarded: 'var(--dim)' };
+  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a', Discarded: '' };
+  el.style.color       = colours[_draftFilter] || 'var(--muted)';
+  el.style.borderColor = colours[_draftFilter] || 'var(--border)';
+  el.style.background  = bgs[_draftFilter] || '';
+  renderDrafts();
+}
+
+async function loadDraftCount() {
+  try {
+    const pending = await api('GET', '/drafts?status=Pending');
+    const n = pending.length;
+    const badge = document.getElementById('pending-badge');
+    badge.textContent  = n;
+    badge.style.display = n > 0 ? '' : 'none';
+  } catch (_) {}
+}
+
+async function loadDrafts() {
+  _draftsLoaded = true;
+  document.getElementById('drafts-grid').innerHTML =
+    '<div class="loading"><span class="spinner"></span>Loading drafts…</div>';
+  try {
+    _drafts = await api('GET', '/drafts');
+    renderDrafts();
+  } catch (e) {
+    document.getElementById('drafts-grid').innerHTML =
+      `<div style="color:var(--red)">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+function renderDrafts() {
+  const grid = document.getElementById('drafts-grid');
+  const list = _drafts.filter(d => d.status === _draftFilter);
+  document.getElementById('draft-count').textContent =
+    `${list.length} draft${list.length !== 1 ? 's' : ''}`;
+
+  if (list.length === 0) {
+    const icons = { Pending: '📭', Approved: '✅', Discarded: '🗑️' };
+    grid.innerHTML = `<div class="empty">
+      <div class="empty-icon">${icons[_draftFilter] || '—'}</div>
+      <div class="empty-msg">No ${_draftFilter.toLowerCase()} drafts.</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = list.map(draftCardHtml).join('');
+}
+
+function draftCardHtml(d) {
+  const cs = d.contact_status || '';
+  const pending = d.status === 'Pending';
+  const statusColor = d.status === 'Approved' ? 'var(--green)'
+                    : d.status === 'Discarded' ? 'var(--dim)'
+                    : 'var(--yellow)';
+
+  const actionHtml = pending ? `
+    <div class="dc-actions" id="dca-${d.id}">
+      <button class="btn btn-approve" onclick="approveDraft(${d.id})">✓ Approve</button>
+      <button class="btn btn-discard" onclick="discardDraft(${d.id})">Discard</button>
+      <button class="btn btn-neutral" id="edit-btn-${d.id}" onclick="toggleDraftEdit(${d.id})">Edit</button>
+      <button class="btn btn-fb-open" onclick="toggleFeedback(${d.id})">Feedback</button>
+    </div>
+    <div class="dc-feedback" id="dcf-${d.id}">
+      <div class="fb-row">
+        <span class="fb-lbl">Template rating:</span>
+        <select class="fb-sel" id="fb-rating-${d.id}">
+          <option value="">— select —</option>
+          <option value="1">1 – Poor</option>
+          <option value="2">2 – Below avg</option>
+          <option value="3">3 – Average</option>
+          <option value="4">4 – Good</option>
+          <option value="5">5 – Excellent</option>
+        </select>
+      </div>
+      <div class="fb-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span class="fb-lbl">Notes:</span>
+        <textarea class="fb-notes" id="fb-notes-${d.id}"
+          placeholder="Template selection, tone, anything that stood out…"></textarea>
+      </div>
+      <button class="btn btn-primary" style="font-size:12px" onclick="submitFeedback(${d.id})">
+        Submit Feedback
+      </button>
+    </div>` : '';
+
+  return `<div class="draft-card" id="dc-${d.id}">
+    <div class="dc-head">
+      <div>
+        <div class="dc-name">${esc(d.contact_name || 'Unknown')}</div>
+        <div class="dc-meta">
+          ${d.contact_email
+            ? `<a href="mailto:${esc(d.contact_email)}">${esc(d.contact_email)}</a>`
+            : '<span class="dim">no email</span>'}
+          ${cs ? ' · ' + statusBadge(cs) : ''}
+          ${d.template_selected
+            ? ` · <span class="muted">Tpl: ${esc(d.template_selected)}</span>`
+            : ''}
+        </div>
+      </div>
+      <span style="color:${statusColor};font-size:12px;font-weight:600;white-space:nowrap">
+        ${esc(d.status)}
+      </span>
+    </div>
+    <div class="dc-subject">${esc(d.subject || '(no subject)')}</div>
+    <div class="dc-body" id="dcb-${d.id}">${esc(d.body || '')}</div>
+    ${d.rationale ? `<div class="dc-rationale">${esc(d.rationale)}</div>` : ''}
+    ${actionHtml}
+  </div>`;
+}
+
+async function approveDraft(id) {
+  const btn = document.querySelector(`#dca-${id} .btn-approve`);
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+  try {
+    await api('POST', `/drafts/${id}/approve`);
+    toast('Draft approved — contact updated', 'success');
+    const d = _drafts.find(x => x.id === id);
+    if (d) d.status = 'Approved';
+    renderDrafts();
+    loadDraftCount();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    if (btn) { btn.disabled = false; btn.textContent = '✓ Approve'; }
+  }
+}
+
+async function discardDraft(id) {
+  if (!confirm('Discard this draft?')) return;
+  try {
+    await api('POST', `/drafts/${id}/discard`);
+    toast('Draft discarded', 'success');
+    const d = _drafts.find(x => x.id === id);
+    if (d) d.status = 'Discarded';
+    renderDrafts();
+    loadDraftCount();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  }
+}
+
+function toggleDraftEdit(id) {
+  const bodyEl = document.getElementById(`dcb-${id}`);
+  const editBtn = document.getElementById(`edit-btn-${id}`);
+  if (bodyEl.tagName === 'TEXTAREA') {
+    saveDraftEdit(id, bodyEl, editBtn);
+  } else {
+    const text = bodyEl.textContent; // preserve actual text content
+    const ta = document.createElement('textarea');
+    ta.className = 'dc-body';
+    ta.id = `dcb-${id}`;
+    ta.value = text;
+    bodyEl.replaceWith(ta);
+    ta.focus();
+    editBtn.className = 'btn btn-primary';
+    editBtn.textContent = 'Save edit';
+  }
+}
+
+async function saveDraftEdit(id, ta, editBtn) {
+  const newBody = ta.value;
+  editBtn.disabled = true;
+  try {
+    await api('PUT', `/drafts/${id}`, { body: newBody });
+    const div = document.createElement('div');
+    div.className = 'dc-body';
+    div.id = `dcb-${id}`;
+    div.textContent = newBody;
+    ta.replaceWith(div);
+    editBtn.className = 'btn btn-neutral';
+    editBtn.textContent = 'Edit';
+    editBtn.disabled = false;
+    const d = _drafts.find(x => x.id === id);
+    if (d) d.body = newBody;
+    toast('Draft body saved', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    editBtn.disabled = false;
+  }
+}
+
+function toggleFeedback(id) {
+  document.getElementById(`dcf-${id}`).classList.toggle('open');
+}
+
+async function submitFeedback(id) {
+  const rating = document.getElementById(`fb-rating-${id}`).value;
+  const notes  = document.getElementById(`fb-notes-${id}`).value;
+  try {
+    await api('POST', `/drafts/${id}/feedback`, {
+      template_rating:    rating ? parseInt(rating) : null,
+      reasoning_notes:    notes  || null,
+      final_body_matched: 1,
+    });
+    toast('Feedback recorded', 'success');
+    document.getElementById(`dcf-${id}`).classList.remove('open');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  }
+}
+
+// ── Formula ───────────────────────────────────────────────────────────────
+
+const STATUS_OPTS = ['Hot', 'Warm', 'Cold', 'Inactive', 'Enrolled', 'New'];
+
+function statusOpts(sel) {
+  return STATUS_OPTS.map(s =>
+    `<option value="${s}"${sel === s ? ' selected' : ''}>${s}</option>`
+  ).join('');
+}
+
+async function loadFormula() {
+  _formulaLoaded = true;
+  try {
+    const rows = await api('GET', '/followup-formula');
+    document.getElementById('formula-tbody').innerHTML = rows.map(r => `
+      <tr>
+        <td><input class="f-input" type="number" id="fmin-${r.id}" value="${r.outreach_count_min ?? ''}"></td>
+        <td><input class="f-input" type="number" id="fmax-${r.id}" value="${r.outreach_count_max ?? ''}" placeholder="∞"></td>
+        <td><select class="f-sel" id="fbef-${r.id}">${statusOpts(r.temp_before)}</select></td>
+        <td><select class="f-sel" id="faft-${r.id}">${statusOpts(r.temp_after)}</select></td>
+        <td><input class="f-input" type="number" id="fdays-${r.id}" value="${r.followup_days ?? ''}"></td>
+        <td>
+          <button class="btn-fsave" onclick="saveFormula(${r.id})">Save</button>
+          <span class="f-saved" id="fsaved-${r.id}" style="display:none">✓ saved</span>
+        </td>
+      </tr>`).join('');
+  } catch (e) {
+    document.getElementById('formula-tbody').innerHTML =
+      `<tr><td colspan="6" style="color:var(--red);padding:20px">Error: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+async function saveFormula(id) {
+  const min  = document.getElementById(`fmin-${id}`).value;
+  const max  = document.getElementById(`fmax-${id}`).value;
+  const bef  = document.getElementById(`fbef-${id}`).value;
+  const aft  = document.getElementById(`faft-${id}`).value;
+  const days = document.getElementById(`fdays-${id}`).value;
+  try {
+    await api('PUT', `/followup-formula/${id}`, {
+      outreach_count_min: min  !== '' ? parseInt(min)  : null,
+      outreach_count_max: max  !== '' ? parseInt(max)  : null,
+      temp_before:        bef  || null,
+      temp_after:         aft  || null,
+      followup_days:      days !== '' ? parseInt(days) : null,
+    });
+    const saved = document.getElementById(`fsaved-${id}`);
+    saved.style.display = '';
+    setTimeout(() => { saved.style.display = 'none'; }, 2500);
+    toast('Formula row saved', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  }
+}
+</script>
+</body>
+</html>
