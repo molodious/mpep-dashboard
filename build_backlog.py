@@ -120,10 +120,10 @@ html = f"""<!DOCTYPE html>
 <header>
 <h1>📋 Backlog — Deferred Work Log</h1>
 <div class="header-info">
-<span><strong class="summary-count">{open_count}</strong> open</span>
-<span><strong class="summary-count">{ip_count}</strong> in progress</span>
-<span><strong class="summary-count">{done_count}</strong> completed</span>
-<span><strong class="summary-count">{wontdo_count}</strong> will not do</span>
+<span><strong class="summary-count" id="count-open">{open_count}</strong> open</span>
+<span><strong class="summary-count" id="count-in-progress">{ip_count}</strong> in progress</span>
+<span><strong class="summary-count" id="count-done">{done_count}</strong> completed</span>
+<span><strong class="summary-count" id="count-wont-do">{wontdo_count}</strong> will not do</span>
 <div class="header-actions">
 <button class="btn btn-primary" id="btn-add-item">+ Add Item</button>
 <button class="btn btn-success" id="btn-export">📥 Export Changes</button>
