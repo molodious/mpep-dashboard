@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard - Mechanical PE Exam Prep</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --surface2: #f0f2f5;
+            --border: #dde1e7;
+            --text: #333333;
+            --muted: #777777;
+            --blue: #2563eb;
+            --red: #dc2626;
+        }
+
+        /* ── Auth overlay ── */
+        #auth-overlay {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.6);
+          display: flex; align-items: center; justify-content: center;
+          z-index: 9999;
+        }
+        .auth-box {
+          background: var(--surface); border: 1px solid var(--border);
+          border-radius: 8px; padding: 32px; width: 100%; max-width: 280px; text-align: center;
+        }
+        .auth-logo { font-size: 36px; margin-bottom: 12px; }
+        .auth-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+        .auth-box input {
+          width: 100%; padding: 8px 12px; background: var(--surface2);
+          border: 1px solid var(--border); border-radius: 4px;
+          color: var(--text); font-size: 13px; margin-bottom: 8px;
+        }
+        .auth-box input:focus { border-color: var(--blue); outline: none; }
+        .auth-box button {
+          width: 100%; padding: 8px 12px; background: var(--blue);
+          color: #fff; border: none; border-radius: 4px;
+          font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+        .auth-box button:hover  { opacity: 0.88; }
+        .auth-box button:disabled { opacity: 0.55; cursor: default; }
+        #pwd-error { display: none; color: var(--red); font-size: 11px; margin-bottom: 8px; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header-info {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #444;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+        th {
+            background: #f8f9fa;
+            padding: 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+        .projection-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        .last-updated {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+        }
+        .totals-table {
+            margin: 15px 0 0 0;
+        }
+        .totals-table td {
+            text-align: center;
+        }
+        .totals-table th {
+            text-align: center;
+        }
+        /* Row coloring by product */
+        tr[data-product="HVAC"] {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        tr[data-product="TFS"] {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        tr[data-product="FE"] {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        tr[data-product="HVAC"]:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+        tr[data-product="TFS"]:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+        tr[data-product="FE"]:hover {
+            background-color: rgba(231, 76, 60, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Auth overlay ── -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">♠️</div>
+    <div class="auth-title">MPEP Dashboard</div>
+    <div class="auth-sub">Internal use only — enter your password to continue</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<div id="main-content">
+    <div class="container">
+        <header>
+            <h1>💰 Sales Dashboard</h1>
+            <div class="header-info">
+                <div><strong>Period:</strong> 2026 YTD (Jan - May 01)</div>
+                <div><strong>Updated:</strong> May 01, 2026 at 03:28 AM</div>
+            </div>
+        </header>
+
+        <!-- Projection Box -->
+        <div class="card full-width" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; margin-bottom: 15px;">📊 May 2026 Projection</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
+                    <div class="metric-value" style="color: white;">$0</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
+                    <div class="metric-value" style="color: white;">$766</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
+                    <div class="metric-value" style="color: white;">0 <span style='font-size:0.5em; font-weight:400;'>vs 17.6 avg</span></div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
+                    <div class="metric-value" style="color: white;">30</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
+                    <div class="metric-value" style="color: #fff;">$22,980</div>
+                </div>
+            </div>
+            <div class="projection-note" style="color: rgba(255,255,255,0.8);">
+                Based on trailing 12-month daily average ($766/day · $279,596 over 365 days)
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Pie Chart + Table -->
+            <div class="card">
+                <h2>May 2026 Revenue by Product</h2>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+                <table class="totals-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Revenue</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pieTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Transactions Table (current month) -->
+            <div class="card">
+                <h2>Orders this Month</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Source</th>
+                            <th style="text-align: center;">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marchOrdersBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Stacked Bar Chart -->
+            <div class="card full-width">
+                <h2>Revenue by Product - 2026 YTD</h2>
+                <div class="chart-container" style="height: 350px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            Auto-refreshes every 30 minutes
+        </div>
+    </div>
+    <script>
+        function onAuthenticated() {
+        // Color mapping for products
+        const productColors = {
+            'HVAC': '#FFD700',              // Yellow
+            'TFS': '#3498DB',               // Blue
+            'FE': '#E74C3C',                // Red
+            'Fundamentals': '#27AE60',      // Green
+            'CSE': '#8E44AD',               // Purple
+            'DailyInsightsPremium': '#F39C12', // Orange
+            'HVACBook': '#F1C40F',          // Gold
+            'TFSBook': '#2980B9',           // Dark blue
+            'Other': '#95A5A6'              // Gray
+        };
+        
+        function getProductColor(product) {
+            return productColors[product] || '#95A5A6';
+        }
+        
+        // Pie Chart
+        const pieData = {};
+        const piePct = {};
+        const pieLabels = Object.keys(pieData);
+        const pieValues = Object.values(pieData);
+        const pieColors = pieLabels.map(label => getProductColor(label));
+        
+        // Populate totals table
+        const pieTableBody = document.getElementById('pieTableBody');
+        pieLabels.forEach(label => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${label}</td>
+                <td>$${pieData[label].toLocaleString()}</td>
+                <td>${piePct[label]}%</td>
+            `;
+            pieTableBody.appendChild(row);
+        });
+        
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: pieLabels.map(label => `${label} (${piePct[label]}%)`),
+                datasets: [{
+                    data: pieValues,
+                    backgroundColor: pieColors,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // Bar Chart
+        const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04"];
+        const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFSBook"];
+        const barDatasets = {"CSE": [399, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198], "FE": [1495, 2094, 2196, 1347], "Fundamentals": [399, 0, 399, 798], "HVAC": [33783, 11894, 15333, 11594], "HVACBook": [1947, 0, 0, 2197], "TFS": [3898, 11894, 5897, 1999], "TFSBook": [0, 649, 0, 0]};
+        
+        const datasets = barProducts.map((product, idx) => ({
+            label: product,
+            data: barDatasets[product],
+            backgroundColor: getProductColor(product),
+            borderRadius: 4,
+            borderSkipped: false
+        }));
+        
+        // Calculate monthly totals and March projection
+        const monthlyTotals = [];
+        barMonths.forEach((month, idx) => {
+            const total = barProducts.reduce((sum, product) => sum + barDatasets[product][idx], 0);
+            monthlyTotals.push(total);
+        });
+        
+        const marchIdx = barMonths.length - 1;
+        const marchCurrent = monthlyTotals[marchIdx];
+        const marchProjected = 22980;
+        const marchMax = Math.max(marchCurrent, marchProjected);
+        
+        // Plugin to draw labels
+        const totalLabelsPlugin = {
+            id: 'totalLabels',
+            afterDatasetsDraw(chart) {
+                const ctx = chart.ctx;
+                const xScale = chart.scales.x;
+                const yScale = chart.scales.y;
+                
+                ctx.textAlign = 'center';
+                
+                // Draw monthly totals above bars
+                monthlyTotals.forEach((total, idx) => {
+                    const xPos = xScale.getPixelForValue(idx);
+                    const yPos = yScale.getPixelForValue(total);
+                    
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillStyle = '#333';
+                    ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
+                });
+                
+                // Draw March projection label
+                if (marchProjected > marchCurrent) {
+                    const xPos = xScale.getPixelForValue(marchIdx);
+                    const projYPos = yScale.getPixelForValue(marchProjected);
+                    
+                    ctx.font = 'italic 11px Arial';
+                    ctx.fillStyle = '#999';
+                    ctx.fillText('$' + marchProjected.toLocaleString() + ' (proj)', xPos, projYPos - 15);
+                    
+                    // Draw dotted box for projection
+                    ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 1.5;
+                    ctx.fillStyle = 'rgba(200, 200, 200, 0.05)';
+                    
+                    const barWidth = xScale.width / barMonths.length * 0.7;
+                    const currentY = yScale.getPixelForValue(marchCurrent);
+                    const projHeight = currentY - projYPos;
+                    
+                    ctx.fillRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.strokeRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.setLineDash([]);
+                }
+            }
+        };
+        
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barMonths.map(m => {
+                    const [year, month] = m.split('-');
+                    return new Date(year, parseInt(month) - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                }),
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { 
+                        stacked: true,
+                        max: 45000
+                    }
+                }
+            },
+            plugins: [totalLabelsPlugin]
+        });
+    }
+    </script>
+</div><!-- end main-content -->
+<script src="auth.js"></script>
+</body>
+</html>

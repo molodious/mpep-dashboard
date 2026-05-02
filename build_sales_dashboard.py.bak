@@ -10,9 +10,6 @@ Closing a month: add verified totals to MONTHLY_HISTORY and clear manual entries
 """
 
 import json
-import subprocess
-import sys
-import math
 import requests
 import os
 import calendar
@@ -110,19 +107,6 @@ MONTHLY_HISTORY = [
     # NOTE: Do not add the current month here — it is computed live from API + webhook log.
     # When a month closes, add its final verified numbers and it will roll into trailing stats.
 ]
-
-PRODUCT_COLORS = {
-    'HVAC': '#FFD700',
-    'TFS': '#3498DB',
-    'FE': '#E74C3C',
-    'Fundamentals': '#27AE60',
-    'CSE': '#8E44AD',
-    'DailyInsightsPremium': '#F39C12',
-    'HVACBook': '#F1C40F',
-    'TFSBook': '#2980B9',
-    'Other': '#95A5A6',
-}
-
 
 def stripe_clean_amount(amount_cents):
     """Return exact Stripe amount in dollars (no tax collected, no snapping needed)."""
@@ -526,21 +510,8 @@ def build_dashboard():
     y_axis_max = math.ceil(max_monthly / 5000) * 5000
 
     # Build HTML
+    # Build current-month stats for the projection card
     current_month_orders_count = len(current_orders)
-
-    # Clean order data for JSON embedding (minimal fields, human-readable sources)
-    all_orders_clean = []
-    src_map = {'thinkific': 'Thinkific', 'thinkific_webhook': 'Thinkific', 'stripe_checkout': 'Stripe', 'stripe_invoice': 'Stripe', 'btcpay_webhook': 'BTC', 'manual': 'Manual'}
-    for o in all_orders:
-        src = src_map.get(o.get('source', ''), o.get('source', ''))
-        all_orders_clean.append({
-            'd': o['date'],
-            'p': o['product'],
-            'a': round(o['amount'], 2),
-            's': src,
-            't': o.get('sub_type', ''),
-            'c': o.get('customer', ''),
-        })
 
     html_top = """<!DOCTYPE html>
 <html lang="en">
@@ -721,22 +692,6 @@ def build_dashboard():
         tr[data-product="FE"]:hover {
             background-color: rgba(231, 76, 60, 0.2);
         }
-
-        /* ── Month selector ── */
-        .month-selector {
-            display: flex; align-items: center; gap: 10px; margin-top: 12px;
-        }
-        .month-selector label {
-            font-size: 14px; font-weight: 600; color: #555;
-        }
-        .month-selector select {
-            padding: 6px 12px; font-size: 14px; border: 1px solid var(--border);
-            border-radius: 4px; background: var(--surface2); color: var(--text);
-            cursor: pointer;
-        }
-        .month-selector select:focus {
-            outline: none; border-color: var(--blue);
-        }
     </style>
 </head>
 <body>
@@ -763,31 +718,42 @@ def build_dashboard():
                 <div><strong>Period:</strong> """ + str(today.year) + """ YTD (Jan - """ + today.strftime('%b %d') + """)</div>
                 <div><strong>Updated:</strong> """ + today.strftime('%b %d, %Y at %I:%M %p') + """</div>
             </div>
-            <div class="month-selector">
-                <label for="month-picker">📅 Show month:</label>
-                <select id="month-picker" onchange="renderMonth(this.value)"></select>
-            </div>
         </header>
 
-        <!-- Projection Box (dynamic) -->
-        <div class="card full-width" id="projection-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <h2 style="color: white; margin-bottom: 15px;">📊 <span id="proj-title">""" + current_month_label + """</span> Snapshot</h2>
-            <div id="proj-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- Projection Box -->
+        <div class="card full-width" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; margin-bottom: 15px;">📊 """ + current_month_label + """ Projection</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
                 <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue This Month</div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
                     <div class="metric-value" style="color: white;">$""" + f"{round(current_revenue):,}" + """</div>
                 </div>
                 <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div>
-                    <div class="metric-value" style="color: white;">""" + str(current_month_orders_count) + """</div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
+                    <div class="metric-value" style="color: white;">$""" + f"{round(avg_daily):,}" + """</div>
                 </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
+                    <div class="metric-value" style="color: white;">""" + f"{current_month_orders_count} <span style='font-size:0.5em; font-weight:400;'>vs {round(avg_orders_per_month, 1)} avg</span>" + """</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
+                    <div class="metric-value" style="color: white;">""" + str(days_remaining) + """</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
+                    <div class="metric-value" style="color: #fff;">$""" + f"{round(projected_current):,}" + """</div>
+                </div>
+            </div>
+            <div class="projection-note" style="color: rgba(255,255,255,0.8);">
+                Based on trailing 12-month daily average ($""" + f"{round(avg_daily):,}" + """/day · $""" + f"{round(trailing_revenue):,}" + """ over 365 days)
             </div>
         </div>
 
         <div class="dashboard-grid">
             <!-- Pie Chart + Table -->
             <div class="card">
-                <h2 id="pie-title">""" + current_month_label + """ Revenue by Product</h2>
+                <h2>""" + current_month_label + """ Revenue by Product</h2>
                 <div class="chart-container">
                     <canvas id="pieChart"></canvas>
                 </div>
@@ -806,7 +772,7 @@ def build_dashboard():
 
             <!-- Transactions Table (current month) -->
             <div class="card">
-                <h2 id="orders-title">Orders this Month</h2>
+                <h2>Orders this Month</h2>
                 <table>
                     <thead>
                         <tr>
@@ -816,12 +782,38 @@ def build_dashboard():
                             <th style="text-align: center;">Revenue</th>
                         </tr>
                     </thead>
-                    <tbody id="ordersBody">
-                    </tbody>
+                    <tbody id="marchOrdersBody">
+"""
+
+    def order_product_label(o):
+        label = o['product']
+        if label == 'FE' and o.get('sub_type'):
+            label = f"FE · {o['sub_type']}"
+        return label
+
+    def order_source_label(o):
+        src = o.get('source', '')
+        if src in ('thinkific', 'thinkific_webhook'):
+            return 'Thinkific'
+        elif src in ('stripe_checkout', 'stripe_invoice'):
+            return 'Stripe'
+        elif src == 'btcpay_webhook':
+            return 'BTC'
+        elif src == 'manual':
+            return 'Manual'
+        return '—'
+
+    # Add current-month orders to table
+    for o in current_orders:
+        prod_label = order_product_label(o)
+        src_label = order_source_label(o)
+        html_top += f"                        <tr data-product=\"{o['product']}\"><td>{o['date']}</td><td>{prod_label}</td><td>{src_label}</td><td style=\"text-align: center;\">${round(o['amount']):,}</td></tr>\n"
+    
+    html_middle = """                    </tbody>
                 </table>
             </div>
 
-            <!-- Stacked Bar Chart (always YTD -- not month-filtered) -->
+            <!-- Stacked Bar Chart -->
             <div class="card full-width">
                 <h2>Revenue by Product - 2026 YTD</h2>
                 <div class="chart-container" style="height: 350px;">
@@ -835,198 +827,183 @@ def build_dashboard():
         </div>
     </div>
     <script>
-        // ── Data embedded at build time ──
-        const ALL_ORDERS = ALL_ORDERS_PLACEHOLDER;
-        // ALL_ORDERS: array of {d: date, p: product, a: amount, s: source, t: sub_type, c: customer}
-
-        const CURRENT_MONTH = CURRENT_MONTH_PLACEHOLDER;
-
-        function monthLabel(key) {
-            const [y, m] = key.split('-');
-            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        }
-        function monthShort(key) {
-            const [y, m] = key.split('-');
-            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
-        }
-
-        // ── Month selector ──
-        const monthPicker = document.getElementById('month-picker');
-        const months = Array.from(new Set(ALL_ORDERS.map(o => o.d.substring(0, 7)))).sort();
-        months.forEach(m => {
-            const opt = document.createElement('option');
-            opt.value = m;
-            opt.textContent = monthLabel(m);
-            if (m === CURRENT_MONTH) opt.selected = true;
-            monthPicker.appendChild(opt);
-        });
-
-        // ── Product colors ──
-        const productColors = PRODUCT_COLORS_PLACEHOLDER;
+        function onAuthenticated() {
+        // Color mapping for products
+        const productColors = {
+            'HVAC': '#FFD700',              // Yellow
+            'TFS': '#3498DB',               // Blue
+            'FE': '#E74C3C',                // Red
+            'Fundamentals': '#27AE60',      // Green
+            'CSE': '#8E44AD',               // Purple
+            'DailyInsightsPremium': '#F39C12', // Orange
+            'HVACBook': '#F1C40F',          // Gold
+            'TFSBook': '#2980B9',           // Dark blue
+            'Other': '#95A5A6'              // Gray
+        };
+        
         function getProductColor(product) {
             return productColors[product] || '#95A5A6';
         }
-
-        // ── Globals ──
-        let pieChartInstance = null;
-        let barChartInstance = null;
-
-        // ── Bar chart (always YTD, once) ──
-        function renderBarChart() {
-            const barMonths = BAR_MONTHS_PLACEHOLDER;
-            const barProducts = BAR_PRODUCTS_PLACEHOLDER;
-            const barDatasets = BAR_DATASETS_PLACEHOLDER;
-
-            const datasets = barProducts.map(p => ({
-                label: p,
-                data: barDatasets[p],
-                backgroundColor: getProductColor(p),
-                borderRadius: 4,
-                borderSkipped: false
-            }));
-
-            const monthlyTotals = barMonths.map((_, idx) =>
-                barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
-            );
-
-            const totalLabelsPlugin = {
-                id: 'totalLabels',
-                afterDatasetsDraw(chart) {
-                    const ctx = chart.ctx;
-                    const xScale = chart.scales.x;
-                    const yScale = chart.scales.y;
-                    ctx.textAlign = 'center';
-                    monthlyTotals.forEach((total, idx) => {
-                        const xPos = xScale.getPixelForValue(idx);
-                        const yPos = yScale.getPixelForValue(total);
-                        ctx.font = 'bold 12px Arial';
-                        ctx.fillStyle = '#333';
-                        ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
-                    });
-                }
-            };
-
-            const ctxBar = document.getElementById('barChart').getContext('2d');
-            barChartInstance = new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: barMonths.map(m => monthShort(m)),
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
-                    },
-                    scales: {
-                        x: { stacked: true },
-                        y: { stacked: true, max: Y_AXIS_MAX_PLACEHOLDER }
-                    }
-                },
-                plugins: [totalLabelsPlugin]
-            });
-        }
-
-        // ── Render month: pie + orders + projection ──
-        function renderMonth(monthKey) {
-            const orders = ALL_ORDERS.filter(o => o.d.substring(0, 7) === monthKey);
-            const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
-
-            // Projection card
-            document.getElementById('proj-title').textContent = monthLabel(monthKey);
-            document.getElementById('proj-stats').innerHTML =
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color: white;">$' + totalRevenue.toLocaleString() + '</div></div>' +
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color: white;">' + orders.length + '</div></div>';
-
-            // Pie data
-            const pieData = {};
-            orders.forEach(o => { pieData[o.p] = (pieData[o.p] || 0) + o.a; });
-            Object.keys(pieData).forEach(k => pieData[k] = Math.round(pieData[k]));
-            const pieTotal = Object.values(pieData).reduce((a, b) => a + b, 0);
-            const piePct = {};
-            Object.keys(pieData).forEach(k => piePct[k] = pieTotal > 0 ? Math.round(100 * pieData[k] / pieTotal) : 0);
-            const pieLabels = Object.keys(pieData);
-            const pieValues = Object.values(pieData);
-            const pieColors = pieLabels.map(l => getProductColor(l));
-
-            // Pie table
-            const pieTableBody = document.getElementById('pieTableBody');
-            pieTableBody.innerHTML = '';
-            pieLabels.forEach(label => {
-                const row = document.createElement('tr');
-                row.innerHTML = '<td>' + label + '</td><td>$' + pieData[label].toLocaleString() + '</td><td>' + piePct[label] + '%</td>';
-                pieTableBody.appendChild(row);
-            });
-
-            // Pie chart
-            if (pieChartInstance) pieChartInstance.destroy();
-            const ctxPie = document.getElementById('pieChart').getContext('2d');
-            pieChartInstance = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: {
-                    labels: pieLabels.map(l => l + ' (' + piePct[l] + '%)'),
-                    datasets: [{
-                        data: pieValues,
-                        backgroundColor: pieColors,
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
+        
+        // Pie Chart
+        const pieData = """ + json.dumps(pie_data) + """;
+        const piePct = """ + json.dumps(pie_pct) + """;
+        const pieLabels = Object.keys(pieData);
+        const pieValues = Object.values(pieData);
+        const pieColors = pieLabels.map(label => getProductColor(label));
+        
+        // Populate totals table
+        const pieTableBody = document.getElementById('pieTableBody');
+        pieLabels.forEach(label => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${label}</td>
+                <td>$${pieData[label].toLocaleString()}</td>
+                <td>${piePct[label]}%</td>
+            `;
+            pieTableBody.appendChild(row);
+        });
+        
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: pieLabels.map(label => `${label} (${piePct[label]}%)`),
+                datasets: [{
+                    data: pieValues,
+                    backgroundColor: pieColors,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12 } }
                     }
                 }
-            });
+            }
+        });
 
-            // Orders table
-            document.getElementById('pie-title').textContent = monthLabel(monthKey) + ' Revenue by Product';
-            document.getElementById('orders-title').textContent = 'Orders in ' + monthLabel(monthKey);
-            const ordersBody = document.getElementById('ordersBody');
-            ordersBody.innerHTML = '';
-            orders.sort((a, b) => b.d.localeCompare(a.d));
-            orders.forEach(o => {
-                const prodLabel = o.p === 'FE' && o.t ? 'FE &middot; ' + o.t : o.p;
-                const tr = document.createElement('tr');
-                tr.dataset.product = o.p;
-                tr.innerHTML = '<td>' + o.d + '</td><td>' + prodLabel + '</td><td>' + o.s + '</td><td style="text-align: center;">$' + Math.round(o.a).toLocaleString() + '</td>';
-                ordersBody.appendChild(tr);
-            });
-        }
-
-        // ── Entry point ──
-        function onAuthenticated() {
-            renderBarChart();
-            renderMonth(CURRENT_MONTH);
-        }
+        // Bar Chart
+        const barMonths = """ + json.dumps(bar_months) + """;
+        const barProducts = """ + json.dumps(bar_products) + """;
+        const barDatasets = """ + json.dumps(bar_datasets) + """;
+        
+        const datasets = barProducts.map((product, idx) => ({
+            label: product,
+            data: barDatasets[product],
+            backgroundColor: getProductColor(product),
+            borderRadius: 4,
+            borderSkipped: false
+        }));
+        
+        // Calculate monthly totals and March projection
+        const monthlyTotals = [];
+        barMonths.forEach((month, idx) => {
+            const total = barProducts.reduce((sum, product) => sum + barDatasets[product][idx], 0);
+            monthlyTotals.push(total);
+        });
+        
+        const marchIdx = barMonths.length - 1;
+        const marchCurrent = monthlyTotals[marchIdx];
+        const marchProjected = """ + json.dumps(round(projected_current)) + """;
+        const marchMax = Math.max(marchCurrent, marchProjected);
+        
+        // Plugin to draw labels
+        const totalLabelsPlugin = {
+            id: 'totalLabels',
+            afterDatasetsDraw(chart) {
+                const ctx = chart.ctx;
+                const xScale = chart.scales.x;
+                const yScale = chart.scales.y;
+                
+                ctx.textAlign = 'center';
+                
+                // Draw monthly totals above bars
+                monthlyTotals.forEach((total, idx) => {
+                    const xPos = xScale.getPixelForValue(idx);
+                    const yPos = yScale.getPixelForValue(total);
+                    
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillStyle = '#333';
+                    ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
+                });
+                
+                // Draw March projection label
+                if (marchProjected > marchCurrent) {
+                    const xPos = xScale.getPixelForValue(marchIdx);
+                    const projYPos = yScale.getPixelForValue(marchProjected);
+                    
+                    ctx.font = 'italic 11px Arial';
+                    ctx.fillStyle = '#999';
+                    ctx.fillText('$' + marchProjected.toLocaleString() + ' (proj)', xPos, projYPos - 15);
+                    
+                    // Draw dotted box for projection
+                    ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 1.5;
+                    ctx.fillStyle = 'rgba(200, 200, 200, 0.05)';
+                    
+                    const barWidth = xScale.width / barMonths.length * 0.7;
+                    const currentY = yScale.getPixelForValue(marchCurrent);
+                    const projHeight = currentY - projYPos;
+                    
+                    ctx.fillRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.strokeRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
+                    ctx.setLineDash([]);
+                }
+            }
+        };
+        
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barMonths.map(m => {
+                    const [year, month] = m.split('-');
+                    return new Date(year, parseInt(month) - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                }),
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { 
+                        stacked: true,
+                        max: """ + str(y_axis_max) + """
+                    }
+                }
+            },
+            plugins: [totalLabelsPlugin]
+        });
+    }
     </script>
 </div><!-- end main-content -->
 <script src="auth.js"></script>
 </body>
 </html>"""
     
-    # Replace placeholders
-    html_top = html_top.replace('ALL_ORDERS_PLACEHOLDER', json.dumps(all_orders_clean))
-    html_top = html_top.replace('CURRENT_MONTH_PLACEHOLDER', json.dumps(current_month_key))
-    html_top = html_top.replace('PRODUCT_COLORS_PLACEHOLDER', json.dumps(PRODUCT_COLORS))
-    html_top = html_top.replace('BAR_MONTHS_PLACEHOLDER', json.dumps(months_2026))
-    html_top = html_top.replace('BAR_PRODUCTS_PLACEHOLDER', json.dumps(bar_products))
-    html_top = html_top.replace('BAR_DATASETS_PLACEHOLDER', json.dumps(bar_datasets))
-    html_top = html_top.replace('Y_AXIS_MAX_PLACEHOLDER', str(y_axis_max))
+    html = html_top + html_middle
     
-    # Write output
+    # Write output — use repo-relative path so this works in both local and CI environments
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sales.html")
     with open(output_path, "w") as f:
-        f.write(html_top)
+        f.write(html)
     
     print(f"\n✅ Dashboard built: {output_path}")
     return output_path
 
 if __name__ == "__main__":
     build_dashboard()
-
-    # --- Build backlog dashboard ---
-    subprocess.run([sys.executable, os.path.join(SCRIPT_DIR, "build_backlog.py")], check=True)

@@ -1,0 +1,224 @@
+{
+  "items": [
+    {
+      "id": "2026-04-28-001",
+      "title": "Hardcoded secrets in cron payloads backed up to GitHub",
+      "priority": "P1",
+      "area": "Security",
+      "surfaced": "2026-04-28",
+      "context": "GMAIL_APP_PASSWORD and KIT_V4_API_KEY are hardcoded in Openclaw cron payloads that get backed up to GitHub nightly. Secret leakage risk.",
+      "notes": "Move to env var references; rotate any keys that may have been exposed in commit history.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-002",
+      "title": "Stripe manual invoice script not yet deployed",
+      "priority": "P1",
+      "area": "Product",
+      "surfaced": "2026-04-28",
+      "context": "scripts/create-stripe-invoice.js written to handle future manual invoices but not yet deployed.",
+      "notes": "Deploy and validate end-to-end with a dry-run invoice.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-003",
+      "title": "Disaster recovery — commit remaining droplet config surface",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "Service code, ecosystem.config.js, and package files are now committed. Need to close remaining recovery gaps.",
+      "notes": "Commit /etc/nginx/sites-enabled/btcpay-thinkific, root crontab, helper scripts (enroll.js, enroll-manual.js, manual-taylor.js). Consider backup-droplet-configs.sh.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-004",
+      "title": "Disaster recovery — write RECOVERY.md runbook",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "No documented end-to-end recovery procedure exists. Forces discovery of unknown unknowns by writing it down.",
+      "notes": "~2-page runbook: spin up new Ubuntu 24 droplet → install Node + PM2 + nginx + certbot → clone repo → restore .env from vault → pm2 start → certbot → DNS cutover.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-19-001",
+      "title": "FE testimonials and pass rate data",
+      "priority": "P2",
+      "area": "Product",
+      "surfaced": "2026-04-19",
+      "context": "fe.html lacks FE-specific student quotes and pass rate data. Sample size too small to support a defensible claim.",
+      "notes": "Set up systematic post-completion review request for FE students. Revisit when sample size grows.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-001",
+      "title": "Hook exam dashboard rebuilds into kit-webhook approval flow",
+      "priority": "P2",
+      "area": "Dashboard",
+      "surfaced": "2026-04-01",
+      "context": "Exam dashboard currently rebuilds once daily at 6am via scheduler. Near-real-time updates would surface results faster.",
+      "notes": "Trigger dashboard rebuild from kit-webhook approval flow when pass/fail event is logged.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-002",
+      "title": "Verify sessions_send sessionKey format",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-01",
+      "context": "SessionKey format not yet verified against a live test.",
+      "notes": "Live test send, confirm or fix.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-003",
+      "title": "Disable dead Stripe webhook endpoint",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-01",
+      "context": "Webhook we_1TDkZmLeBhBRYzk45c2gbSiA points to unreachable URL. Stripe is retrying dead URL.",
+      "notes": "Disable in Stripe dashboard.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-19-002",
+      "title": "Node.js 20 deprecation in GitHub Actions",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-19",
+      "context": "GitHub Actions workflow will break June 2, 2026 when Node 20 actions are deprecated.",
+      "notes": "Update action versions before June 2, 2026.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-30-001",
+      "title": "mpep-dashboard repo is public — assess risk and consider mitigation",
+      "priority": "P2",
+      "area": "Security",
+      "surfaced": "2026-04-30",
+      "context": "molodious/mpep-dashboard is public. OH prep content and any hardcoded values are visible via GitHub search.",
+      "notes": "1) Assess OH prep folder contents for IP sensitivity 2) Evaluate upgrading GitHub plan for private repo + Pages 3) Rotate CRM API key once repo is private or key is moved server-side 4) Consider proxying CRM API calls through droplet.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-005",
+      "title": "Telegram alert on backup failure",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "Weekly app_backup.sh cron logs 'Push FAILED' but sends no alert. Silent failure mode.",
+      "notes": "Add Telegram notification on push failure.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-006",
+      "title": "Backup cadence — daily vs weekly",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "Up to 7 days of sales_webhook_log.jsonl and fulfilled-orders.json data could be lost between weekly runs.",
+      "notes": "Change cron from 0 6 * * 0 to 0 6 * * * if weekly window becomes unacceptable. Currently acceptable.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-007",
+      "title": "Monitor sales_webhook_log repo size growth",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "File grows over time; git history accumulates the full file on every weekly commit.",
+      "notes": "Check repo size periodically. Consider git-LFS or alternate backup strategy if it crosses ~50MB.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-18-001",
+      "title": "CSE module outcome statements verify",
+      "priority": "P3",
+      "area": "SEO",
+      "surfaced": "2026-04-18",
+      "context": "Marked complete in newer SEO doc revision — verify and remove from list if confirmed done.",
+      "notes": "Verify completion status.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-18-002",
+      "title": "eBook price justification copy verify",
+      "priority": "P3",
+      "area": "SEO",
+      "surfaced": "2026-04-18",
+      "context": "Marked complete in newer SEO doc revision — verify and remove from list if confirmed done.",
+      "notes": "Verify completion status.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-004",
+      "title": "Bluehost cleanup verification",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-01",
+      "context": "Conflicting notes — verify whether Bluehost still hosts WordPress.",
+      "notes": "Confirm current state. If WordPress is hosted there, this is closed. If not, consider canceling.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-005",
+      "title": "Paddle.net reviews plugin verification",
+      "priority": "P3",
+      "area": "Analytics",
+      "surfaced": "2026-04-01",
+      "context": "Conflicting notes — unknown current usage vs active paid subscription.",
+      "notes": "Confirm whether Paddle.net is actively used. If not, cancel the subscription.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-01-006",
+      "title": "cron_health.sh is dormant",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-04-01",
+      "context": "Watchdog script exists but is not scheduled in crontab and has never run. Dead code.",
+      "notes": "Either schedule it or delete the script and the /health route consideration. Decide and act.",
+      "status": "open"
+    },
+    {
+      "id": "2026-04-28-701",
+      "title": "Backup invoice bot to GitHub",
+      "priority": null,
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "Invoice bot code, ecosystem.config.js, package files committed to molodious/mpep-droplet.",
+      "notes": "Commit dad0657.",
+      "status": "done"
+    },
+    {
+      "id": "2026-04-28-702",
+      "title": "Updated mpep-droplet-backup.md to clarify scope",
+      "priority": null,
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "Doc now distinguishes cron-backed-up files from manually-committed code.",
+      "notes": "Added Disaster Recovery Gaps section.",
+      "status": "done"
+    },
+    {
+      "id": "2026-04-28-703",
+      "title": "DigitalOcean droplet backups enabled",
+      "priority": null,
+      "area": "Infrastructure",
+      "surfaced": "2026-04-28",
+      "context": "~$1-2/mo. Closes ~90% of disaster recovery gap. Single biggest recovery improvement.",
+      "notes": "Enabled in DO dashboard.",
+      "status": "done"
+    },
+    {
+      "id": "2026-04-28-704",
+      "title": ".env stored in password vault",
+      "priority": null,
+      "area": "Security",
+      "surfaced": "2026-04-28",
+      "context": "Off-droplet copy of all secrets. Closes the secret-recovery gap.",
+      "notes": "Stored in password manager.",
+      "status": "done"
+    }
+  ]
+}

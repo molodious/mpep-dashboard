@@ -12,6 +12,7 @@ FILES_TO_PROTECT = [
     'cron.html',
     'oh-prep.html',
     'sales.html',
+    'backlog.html',
 ]
 
 AUTH_OVERLAY_HTML = '''<!-- ── Auth overlay ── -->
@@ -106,13 +107,11 @@ def add_auth_styles(html_content):
     if '/* ── Auth overlay ──' in html_content:
         return html_content
     
-    # Find the closing </style> tag
     match = re.search(r'</style>', html_content, re.IGNORECASE)
     if not match:
         print("Warning: No <style> tag found, skipping CSS injection")
         return html_content
     
-    # Insert auth styles before closing </style>
     pos = match.start()
     new_html = html_content[:pos] + AUTH_STYLES + html_content[pos:]
     return new_html
@@ -122,18 +121,14 @@ def add_auth_overlay_and_wrapper(html_content):
     Add auth overlay after <body> tag opening.
     Wrap all body content with <div id="main-content">.
     """
-    # Find <body> tag
     body_match = re.search(r'<body[^>]*>', html_content, re.IGNORECASE)
     if not body_match:
         print("Warning: No <body> tag found")
         return html_content
     
-    # Insert auth overlay right after opening <body> tag
     body_end = body_match.end()
     new_html = html_content[:body_end] + '\n\n' + AUTH_OVERLAY_HTML + '<div id="main-content">' + html_content[body_end:]
     
-    # Find closing </body> tag and insert closing </div> before it
-    # Be very careful with this regex to not lose the </body> tag
     new_html = re.sub(
         r'(</body>)',
         r'</div><!-- end main-content -->\n\1',
@@ -149,7 +144,6 @@ def add_auth_script(html_content):
     if '<script src="auth.js"></script>' in html_content:
         return html_content
     
-    # Find closing </body> tag and add script right before it
     script_tag = '<script src="auth.js"></script>\n'
     new_html = re.sub(
         r'(</body>)',
@@ -168,27 +162,22 @@ def protect_file(file_path):
     with open(file_path, 'r') as f:
         html = f.read()
     
-    # Check if already protected
     if has_auth_protection(html):
         print("✅ Already protected")
         return True
     
-    # Verify </body> tag exists
     if '</body>' not in html.lower():
         print("❌ ERROR: No </body> tag found! Skipping.")
         return False
     
-    # Apply protections in order
     html = add_auth_styles(html)
     html = add_auth_overlay_and_wrapper(html)
     html = add_auth_script(html)
     
-    # Verify </body> is still there
     if '</body>' not in html.lower():
         print("❌ ERROR: </body> tag was lost during processing! Skipping write.")
         return False
     
-    # Write back
     try:
         with open(file_path, 'w') as f:
             f.write(html)
@@ -223,7 +212,6 @@ def main():
     print(f"Failed:    {failed} pages")
     print(f"\nAll pages now share the same localStorage session (mpep_auth_v1).")
     print(f"Single password unlock grants access to all dashboard pages.")
-    print(f"\nNext: git add -A && git commit -m 'Apply password protection (fixed)' && git push")
 
 if __name__ == '__main__':
     main()
