@@ -177,6 +177,22 @@
         tr[data-product="FE"]:hover {
             background-color: rgba(231, 76, 60, 0.2);
         }
+
+        /* ── Month selector ── */
+        .month-selector {
+            display: flex; align-items: center; gap: 10px; margin-top: 12px;
+        }
+        .month-selector label {
+            font-size: 14px; font-weight: 600; color: #555;
+        }
+        .month-selector select {
+            padding: 6px 12px; font-size: 14px; border: 1px solid var(--border);
+            border-radius: 4px; background: var(--surface2); color: var(--text);
+            cursor: pointer;
+        }
+        .month-selector select:focus {
+            outline: none; border-color: var(--blue);
+        }
     </style>
 </head>
 <body>
@@ -200,45 +216,34 @@
         <header>
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
-                <div><strong>Period:</strong> 2026 YTD (Jan - May 01)</div>
-                <div><strong>Updated:</strong> May 01, 2026 at 03:28 AM</div>
+                <div><strong>Period:</strong> 2026 YTD (Jan - May 02)</div>
+                <div><strong>Updated:</strong> May 02, 2026 at 10:36 AM</div>
+            </div>
+            <div class="month-selector">
+                <label for="month-picker">📅 Show month:</label>
+                <select id="month-picker" onchange="renderMonth(this.value)"></select>
             </div>
         </header>
 
-        <!-- Projection Box -->
-        <div class="card full-width" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <h2 style="color: white; margin-bottom: 15px;">📊 May 2026 Projection</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px;">
+        <!-- Projection Box (dynamic) -->
+        <div class="card full-width" id="projection-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; margin-bottom: 15px;">📊 <span id="proj-title">May 2026</span> Snapshot</h2>
+            <div id="proj-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">This Month (So Far)</div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue This Month</div>
                     <div class="metric-value" style="color: white;">$0</div>
                 </div>
                 <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Daily Average (Trailing 12mo)</div>
-                    <div class="metric-value" style="color: white;">$766</div>
+                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div>
+                    <div class="metric-value" style="color: white;">0</div>
                 </div>
-                <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders This Month</div>
-                    <div class="metric-value" style="color: white;">0 <span style='font-size:0.5em; font-weight:400;'>vs 17.6 avg</span></div>
-                </div>
-                <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Days Remaining</div>
-                    <div class="metric-value" style="color: white;">30</div>
-                </div>
-                <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Projected Total</div>
-                    <div class="metric-value" style="color: #fff;">$22,980</div>
-                </div>
-            </div>
-            <div class="projection-note" style="color: rgba(255,255,255,0.8);">
-                Based on trailing 12-month daily average ($766/day · $279,596 over 365 days)
             </div>
         </div>
 
         <div class="dashboard-grid">
             <!-- Pie Chart + Table -->
             <div class="card">
-                <h2>May 2026 Revenue by Product</h2>
+                <h2 id="pie-title">May 2026 Revenue by Product</h2>
                 <div class="chart-container">
                     <canvas id="pieChart"></canvas>
                 </div>
@@ -257,7 +262,7 @@
 
             <!-- Transactions Table (current month) -->
             <div class="card">
-                <h2>Orders this Month</h2>
+                <h2 id="orders-title">Orders this Month</h2>
                 <table>
                     <thead>
                         <tr>
@@ -267,12 +272,12 @@
                             <th style="text-align: center;">Revenue</th>
                         </tr>
                     </thead>
-                    <tbody id="marchOrdersBody">
+                    <tbody id="ordersBody">
                     </tbody>
                 </table>
             </div>
 
-            <!-- Stacked Bar Chart -->
+            <!-- Stacked Bar Chart (always YTD -- not month-filtered) -->
             <div class="card full-width">
                 <h2>Revenue by Product - 2026 YTD</h2>
                 <div class="chart-container" style="height: 350px;">
@@ -286,168 +291,173 @@
         </div>
     </div>
     <script>
-        function onAuthenticated() {
-        // Color mapping for products
-        const productColors = {
-            'HVAC': '#FFD700',              // Yellow
-            'TFS': '#3498DB',               // Blue
-            'FE': '#E74C3C',                // Red
-            'Fundamentals': '#27AE60',      // Green
-            'CSE': '#8E44AD',               // Purple
-            'DailyInsightsPremium': '#F39C12', // Orange
-            'HVACBook': '#F1C40F',          // Gold
-            'TFSBook': '#2980B9',           // Dark blue
-            'Other': '#95A5A6'              // Gray
-        };
-        
+        // ── Data embedded at build time ──
+        const ALL_ORDERS = [{"d": "2026-03-01", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Joseph Schwark"}, {"d": "2026-03-03", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Vita Pacifico"}, {"d": "2026-03-05", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-06", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Dylan M Jones"}, {"d": "2026-03-06", "p": "TFS", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Shaikh F Mahamud"}, {"d": "2026-03-10", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Steven Morinville"}, {"d": "2026-03-12", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-12", "p": "HVAC", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Justin D Ahrens"}, {"d": "2026-03-13", "p": "FE", "a": 149, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-13", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "siddarth jeripotula"}, {"d": "2026-03-14", "p": "FE", "a": 249, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-03-15", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Taylor Jones"}, {"d": "2026-03-16", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Ryan Kirkendall"}, {"d": "2026-03-16", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Anthony Brechting"}, {"d": "2026-03-17", "p": "FE", "a": 1051, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-03-22", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-25", "p": "HVAC", "a": 1440, "s": "BTC", "t": "new", "c": "Manual"}, {"d": "2026-03-28", "p": "Fundamentals", "a": 399, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-04-07", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Osvaldo Gomez"}, {"d": "2026-04-12", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Tyler Sommer"}, {"d": "2026-04-12", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": ""}, {"d": "2026-04-13", "p": "FE", "a": 149, "s": "Thinkific", "t": "renewal", "c": "Patrick McNally"}, {"d": "2026-04-13", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": ""}, {"d": "2026-04-13", "p": "DailyInsightsPremium", "a": 99.0, "s": "Stripe", "t": "new", "c": "Tyler Riddle"}, {"d": "2026-04-14", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Ryan Perusse"}, {"d": "2026-04-14", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "John Beaumont"}, {"d": "2026-04-16", "p": "FE", "a": 599.0, "s": "Stripe", "t": "new", "c": "Flemin Reji"}, {"d": "2026-04-20", "p": "FE", "a": 101, "s": "Manual", "t": "new", "c": "Ryan Perusse"}, {"d": "2026-04-21", "p": "HVAC", "a": 1799, "s": "BTC", "t": "new", "c": "Kyle Russ"}, {"d": "2026-04-22", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Sidney Hicks"}, {"d": "2026-04-26", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Faiza Abdulla"}, {"d": "2026-04-29", "p": "HVAC", "a": 1799, "s": "BTC", "t": "new", "c": "Matt Guedon"}, {"d": "2026-04-29", "p": "HVACBook", "a": 250, "s": "Manual", "t": "new", "c": "Faiza Abdulla"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Grace Thomasmeyer"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Mrs Audrey S Flowers"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "John DeVitis"}, {"d": "2026-04-29", "p": "DailyInsightsPremium", "a": 99.0, "s": "Stripe", "t": "new", "c": "Irene Vielma"}, {"d": "2026-04-30", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Joseph R Pitsko"}];
+        // ALL_ORDERS: array of {d: date, p: product, a: amount, s: source, t: sub_type, c: customer}
+
+        const CURRENT_MONTH = "2026-05";
+
+        function monthLabel(key) {
+            const [y, m] = key.split('-');
+            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
+        function monthShort(key) {
+            const [y, m] = key.split('-');
+            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        }
+
+        // ── Month selector ──
+        const monthPicker = document.getElementById('month-picker');
+        const months = Array.from(new Set(ALL_ORDERS.map(o => o.d.substring(0, 7)))).sort();
+        months.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m;
+            opt.textContent = monthLabel(m);
+            if (m === CURRENT_MONTH) opt.selected = true;
+            monthPicker.appendChild(opt);
+        });
+
+        // ── Product colors ──
+        const productColors = {"HVAC": "#FFD700", "TFS": "#3498DB", "FE": "#E74C3C", "Fundamentals": "#27AE60", "CSE": "#8E44AD", "DailyInsightsPremium": "#F39C12", "HVACBook": "#F1C40F", "TFSBook": "#2980B9", "Other": "#95A5A6"};
         function getProductColor(product) {
             return productColors[product] || '#95A5A6';
         }
-        
-        // Pie Chart
-        const pieData = {};
-        const piePct = {};
-        const pieLabels = Object.keys(pieData);
-        const pieValues = Object.values(pieData);
-        const pieColors = pieLabels.map(label => getProductColor(label));
-        
-        // Populate totals table
-        const pieTableBody = document.getElementById('pieTableBody');
-        pieLabels.forEach(label => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${label}</td>
-                <td>$${pieData[label].toLocaleString()}</td>
-                <td>${piePct[label]}%</td>
-            `;
-            pieTableBody.appendChild(row);
-        });
-        
-        const ctxPie = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: pieLabels.map(label => `${label} (${piePct[label]}%)`),
-                datasets: [{
-                    data: pieValues,
-                    backgroundColor: pieColors,
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { font: { size: 12 } }
-                    }
-                }
-            }
-        });
 
-        // Bar Chart
-        const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04"];
-        const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFSBook"];
-        const barDatasets = {"CSE": [399, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198], "FE": [1495, 2094, 2196, 1347], "Fundamentals": [399, 0, 399, 798], "HVAC": [33783, 11894, 15333, 11594], "HVACBook": [1947, 0, 0, 2197], "TFS": [3898, 11894, 5897, 1999], "TFSBook": [0, 649, 0, 0]};
-        
-        const datasets = barProducts.map((product, idx) => ({
-            label: product,
-            data: barDatasets[product],
-            backgroundColor: getProductColor(product),
-            borderRadius: 4,
-            borderSkipped: false
-        }));
-        
-        // Calculate monthly totals and March projection
-        const monthlyTotals = [];
-        barMonths.forEach((month, idx) => {
-            const total = barProducts.reduce((sum, product) => sum + barDatasets[product][idx], 0);
-            monthlyTotals.push(total);
-        });
-        
-        const marchIdx = barMonths.length - 1;
-        const marchCurrent = monthlyTotals[marchIdx];
-        const marchProjected = 22980;
-        const marchMax = Math.max(marchCurrent, marchProjected);
-        
-        // Plugin to draw labels
-        const totalLabelsPlugin = {
-            id: 'totalLabels',
-            afterDatasetsDraw(chart) {
-                const ctx = chart.ctx;
-                const xScale = chart.scales.x;
-                const yScale = chart.scales.y;
-                
-                ctx.textAlign = 'center';
-                
-                // Draw monthly totals above bars
-                monthlyTotals.forEach((total, idx) => {
-                    const xPos = xScale.getPixelForValue(idx);
-                    const yPos = yScale.getPixelForValue(total);
-                    
-                    ctx.font = 'bold 12px Arial';
-                    ctx.fillStyle = '#333';
-                    ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
-                });
-                
-                // Draw March projection label
-                if (marchProjected > marchCurrent) {
-                    const xPos = xScale.getPixelForValue(marchIdx);
-                    const projYPos = yScale.getPixelForValue(marchProjected);
-                    
-                    ctx.font = 'italic 11px Arial';
-                    ctx.fillStyle = '#999';
-                    ctx.fillText('$' + marchProjected.toLocaleString() + ' (proj)', xPos, projYPos - 15);
-                    
-                    // Draw dotted box for projection
-                    ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
-                    ctx.setLineDash([5, 5]);
-                    ctx.lineWidth = 1.5;
-                    ctx.fillStyle = 'rgba(200, 200, 200, 0.05)';
-                    
-                    const barWidth = xScale.width / barMonths.length * 0.7;
-                    const currentY = yScale.getPixelForValue(marchCurrent);
-                    const projHeight = currentY - projYPos;
-                    
-                    ctx.fillRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
-                    ctx.strokeRect(xPos - barWidth/2, projYPos, barWidth, projHeight);
-                    ctx.setLineDash([]);
+        // ── Globals ──
+        let pieChartInstance = null;
+        let barChartInstance = null;
+
+        // ── Bar chart (always YTD, once) ──
+        function renderBarChart() {
+            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04"];
+            const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFSBook"];
+            const barDatasets = {"CSE": [399, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198], "FE": [1495, 2094, 2196, 1347], "Fundamentals": [399, 0, 399, 798], "HVAC": [33783, 11894, 15333, 11594], "HVACBook": [1947, 0, 0, 2197], "TFS": [3898, 11894, 5897, 1999], "TFSBook": [0, 649, 0, 0]};
+
+            const datasets = barProducts.map(p => ({
+                label: p,
+                data: barDatasets[p],
+                backgroundColor: getProductColor(p),
+                borderRadius: 4,
+                borderSkipped: false
+            }));
+
+            const monthlyTotals = barMonths.map((_, idx) =>
+                barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
+            );
+
+            const totalLabelsPlugin = {
+                id: 'totalLabels',
+                afterDatasetsDraw(chart) {
+                    const ctx = chart.ctx;
+                    const xScale = chart.scales.x;
+                    const yScale = chart.scales.y;
+                    ctx.textAlign = 'center';
+                    monthlyTotals.forEach((total, idx) => {
+                        const xPos = xScale.getPixelForValue(idx);
+                        const yPos = yScale.getPixelForValue(total);
+                        ctx.font = 'bold 12px Arial';
+                        ctx.fillStyle = '#333';
+                        ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
+                    });
                 }
-            }
-        };
-        
-        const ctxBar = document.getElementById('barChart').getContext('2d');
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: barMonths.map(m => {
-                    const [year, month] = m.split('-');
-                    return new Date(year, parseInt(month) - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
-                }),
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { font: { size: 12 } }
+            };
+
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: barMonths.map(m => monthShort(m)),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, max: 45000 }
                     }
                 },
-                scales: {
-                    x: { stacked: true },
-                    y: { 
-                        stacked: true,
-                        max: 45000
+                plugins: [totalLabelsPlugin]
+            });
+        }
+
+        // ── Render month: pie + orders + projection ──
+        function renderMonth(monthKey) {
+            const orders = ALL_ORDERS.filter(o => o.d.substring(0, 7) === monthKey);
+            const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
+
+            // Projection card
+            document.getElementById('proj-title').textContent = monthLabel(monthKey);
+            document.getElementById('proj-stats').innerHTML =
+                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color: white;">$' + totalRevenue.toLocaleString() + '</div></div>' +
+                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color: white;">' + orders.length + '</div></div>';
+
+            // Pie data
+            const pieData = {};
+            orders.forEach(o => { pieData[o.p] = (pieData[o.p] || 0) + o.a; });
+            Object.keys(pieData).forEach(k => pieData[k] = Math.round(pieData[k]));
+            const pieTotal = Object.values(pieData).reduce((a, b) => a + b, 0);
+            const piePct = {};
+            Object.keys(pieData).forEach(k => piePct[k] = pieTotal > 0 ? Math.round(100 * pieData[k] / pieTotal) : 0);
+            const pieLabels = Object.keys(pieData);
+            const pieValues = Object.values(pieData);
+            const pieColors = pieLabels.map(l => getProductColor(l));
+
+            // Pie table
+            const pieTableBody = document.getElementById('pieTableBody');
+            pieTableBody.innerHTML = '';
+            pieLabels.forEach(label => {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td>' + label + '</td><td>$' + pieData[label].toLocaleString() + '</td><td>' + piePct[label] + '%</td>';
+                pieTableBody.appendChild(row);
+            });
+
+            // Pie chart
+            if (pieChartInstance) pieChartInstance.destroy();
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: pieLabels.map(l => l + ' (' + piePct[l] + '%)'),
+                    datasets: [{
+                        data: pieValues,
+                        backgroundColor: pieColors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
                     }
                 }
-            },
-            plugins: [totalLabelsPlugin]
-        });
-    }
+            });
+
+            // Orders table
+            document.getElementById('pie-title').textContent = monthLabel(monthKey) + ' Revenue by Product';
+            document.getElementById('orders-title').textContent = 'Orders in ' + monthLabel(monthKey);
+            const ordersBody = document.getElementById('ordersBody');
+            ordersBody.innerHTML = '';
+            orders.sort((a, b) => b.d.localeCompare(a.d));
+            orders.forEach(o => {
+                const prodLabel = o.p === 'FE' && o.t ? 'FE &middot; ' + o.t : o.p;
+                const tr = document.createElement('tr');
+                tr.dataset.product = o.p;
+                tr.innerHTML = '<td>' + o.d + '</td><td>' + prodLabel + '</td><td>' + o.s + '</td><td style="text-align: center;">$' + Math.round(o.a).toLocaleString() + '</td>';
+                ordersBody.appendChild(tr);
+            });
+        }
+
+        // ── Entry point ──
+        function onAuthenticated() {
+            renderBarChart();
+            renderMonth(CURRENT_MONTH);
+        }
     </script>
 </div><!-- end main-content -->
 <script src="auth.js"></script>
