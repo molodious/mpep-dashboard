@@ -174,6 +174,58 @@
 
     .count-lbl { margin-left: auto; font-size: 13px; color: var(--muted); }
 
+    .btn-add-lead {
+      background: var(--blue); color: #0d1117;
+      border: 1px solid var(--blue); border-radius: 6px;
+      padding: 5px 12px; font-size: 13px; font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-add-lead:hover { opacity: 0.9; }
+    .lead-form {
+      display: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .lead-form.open { display: block; }
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .lead-field { display: flex; flex-direction: column; gap: 4px; }
+    .lead-field.wide { grid-column: span 2; }
+    .lead-field.full { grid-column: 1 / -1; }
+    .lead-field label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted); font-weight: 600;
+    }
+    .lead-field input,
+    .lead-field select,
+    .lead-field textarea {
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 6px;
+      padding: 8px 10px; font-size: 13px; outline: none;
+      font-family: inherit;
+    }
+    .lead-field textarea { min-height: 72px; resize: vertical; }
+    .lead-field input:focus,
+    .lead-field select:focus,
+    .lead-field textarea:focus { border-color: var(--blue); }
+    .lead-actions {
+      display: flex; justify-content: flex-end; gap: 8px;
+      margin-top: 12px;
+    }
+    @media (max-width: 900px) {
+      .lead-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .lead-grid { grid-template-columns: 1fr; }
+      .lead-field.wide { grid-column: auto; }
+    }
+
     /* ── Contacts table ──────────────────────────────────────────── */
     .tbl-wrap {
       overflow-x: auto;
@@ -473,8 +525,58 @@
           <input type="checkbox" id="overdue-chk" onchange="applyFilters()" />
           Overdue only
         </label>
+        <button class="btn-add-lead" type="button" onclick="toggleLeadForm()">Add Lead</button>
         <span class="count-lbl" id="contact-count"></span>
       </div>
+
+      <form class="lead-form" id="lead-form" onsubmit="submitLead(event)">
+        <div class="lead-grid">
+          <div class="lead-field wide">
+            <label for="lead-name">Name</label>
+            <input id="lead-name" name="name" autocomplete="name" required />
+          </div>
+          <div class="lead-field wide">
+            <label for="lead-email">Email</label>
+            <input id="lead-email" name="email" type="email" autocomplete="email" />
+          </div>
+          <div class="lead-field wide">
+            <label for="lead-linkedin">LinkedIn</label>
+            <input id="lead-linkedin" name="linkedin_url" type="url" placeholder="https://www.linkedin.com/in/..." />
+          </div>
+          <div class="lead-field">
+            <label for="lead-source">Source</label>
+            <input id="lead-source" name="source" value="Manual" />
+          </div>
+          <div class="lead-field">
+            <label for="lead-type">Type</label>
+            <select id="lead-type" name="contact_type">
+              <option value="B2C">B2C</option>
+              <option value="B2B">B2B</option>
+            </select>
+          </div>
+          <div class="lead-field">
+            <label for="lead-status">Status</label>
+            <select id="lead-status" name="status">
+              <option value="Hot">Hot</option>
+              <option value="Warm">Warm</option>
+              <option value="Cold">Cold</option>
+              <option value="New">New</option>
+            </select>
+          </div>
+          <div class="lead-field">
+            <label for="lead-followup">Next Followup</label>
+            <input id="lead-followup" name="next_followup_date" type="date" />
+          </div>
+          <div class="lead-field full">
+            <label for="lead-notes">Notes</label>
+            <textarea id="lead-notes" name="notes" placeholder="Paste context, conversation summary, exam target, or anything useful."></textarea>
+          </div>
+        </div>
+        <div class="lead-actions">
+          <button class="btn btn-neutral" type="button" onclick="toggleLeadForm(false)">Cancel</button>
+          <button class="btn btn-primary" id="lead-submit" type="submit">Create Lead</button>
+        </div>
+      </form>
 
       <div class="tbl-wrap">
         <table id="contacts-tbl">
@@ -690,23 +792,74 @@ function applyFilters() {
     `${rows.length} contact${rows.length !== 1 ? 's' : ''}`;
 }
 
+function populateSourceFilter() {
+  const sel = document.getElementById('source-filter');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">All Sources</option>';
+  const srcs = [...new Set(_contacts.map(c => c.source).filter(Boolean))].sort();
+  srcs.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+  if (current && srcs.includes(current)) sel.value = current;
+}
+
 async function loadContacts() {
   try {
     _contacts = await api('GET', '/contacts');
-
-    // Populate source dropdown
-    const srcs = [...new Set(_contacts.map(c => c.source).filter(Boolean))].sort();
-    const sel = document.getElementById('source-filter');
-    srcs.forEach(s => {
-      const o = document.createElement('option');
-      o.value = s; o.textContent = s;
-      sel.appendChild(o);
-    });
-
+    populateSourceFilter();
     applyFilters();
   } catch (e) {
     document.getElementById('contacts-tbody').innerHTML =
       `<tr><td colspan="7" style="color:var(--red);padding:20px">Error: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+function toggleLeadForm(force) {
+  const form = document.getElementById('lead-form');
+  const shouldOpen = force === undefined ? !form.classList.contains('open') : force;
+  form.classList.toggle('open', shouldOpen);
+  if (shouldOpen) document.getElementById('lead-name').focus();
+}
+
+function formValue(form, name) {
+  const value = form.elements[name]?.value?.trim();
+  return value || null;
+}
+
+async function submitLead(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const btn = document.getElementById('lead-submit');
+  const payload = {
+    name: formValue(form, 'name'),
+    email: formValue(form, 'email'),
+    linkedin_url: formValue(form, 'linkedin_url'),
+    source: formValue(form, 'source') || 'Manual',
+    contact_type: formValue(form, 'contact_type') || 'B2C',
+    status: formValue(form, 'status') || 'Hot',
+    next_followup_date: formValue(form, 'next_followup_date'),
+    notes: formValue(form, 'notes'),
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+  try {
+    const created = await api('POST', '/contacts', payload);
+    _contacts.push(created);
+    _contacts.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    populateSourceFilter();
+    form.reset();
+    document.getElementById('lead-source').value = 'Manual';
+    toggleLeadForm(false);
+    applyFilters();
+    toast(`Lead created: ${created.name}`, 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Create Lead';
   }
 }
 
