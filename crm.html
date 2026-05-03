@@ -916,12 +916,15 @@ function draftCardHtml(d) {
 }
 
 async function approveDraft(id) {
+  const d = _drafts.find(x => x.id === id);
+  const to = d?.contact_email || 'this contact';
+  if (!confirm(`Send this draft to ${to} and mark it approved?`)) return;
+
   const btn = document.querySelector(`#dca-${id} .btn-approve`);
-  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
   try {
     await api('POST', `/drafts/${id}/approve`);
-    toast('Draft approved — contact updated', 'success');
-    const d = _drafts.find(x => x.id === id);
+    toast('Email sent and draft approved', 'success');
     if (d) d.status = 'Approved';
     renderDrafts();
     loadDraftCount();
@@ -930,7 +933,6 @@ async function approveDraft(id) {
     if (btn) { btn.disabled = false; btn.textContent = '✓ Approve'; }
   }
 }
-
 async function discardDraft(id) {
   if (!confirm('Discard this draft?')) return;
   try {
