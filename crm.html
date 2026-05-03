@@ -370,25 +370,20 @@
     .btn-discard { background: none; border-color: var(--red);    color: var(--red); }
     .btn-neutral { background: none; border-color: var(--border2); color: var(--muted); }
     .btn-primary { background: var(--blue);   color: #0d1117; }
-    .btn-fb-open { background: none; border-color: var(--border2); color: var(--muted); margin-left: auto; }
+    .btn-rewrite-open { background: none; border-color: var(--border2); color: var(--muted); margin-left: auto; }
 
-    .dc-feedback { display: none; margin-top: 4px; }
-    .dc-feedback.open { display: block; }
-    .fb-row {
+    .dc-rewrite { display: none; margin-top: 4px; }
+    .dc-rewrite.open { display: block; }
+    .rw-row {
       display: flex; gap: 10px; align-items: center;
       flex-wrap: wrap; margin-bottom: 8px;
     }
-    .fb-lbl { font-size: 12px; color: var(--muted); min-width: 110px; }
-    select.fb-sel {
-      background: var(--surface2); border: 1px solid var(--border2);
-      color: var(--text); border-radius: 6px;
-      padding: 4px 8px; font-size: 12px;
-    }
-    textarea.fb-notes {
+    .rw-lbl { font-size: 12px; color: var(--muted); }
+    textarea.rw-notes {
       width: 100%; background: var(--surface2);
       border: 1px solid var(--border2); border-radius: 6px;
       color: var(--text); padding: 8px; font-size: 12px;
-      resize: vertical; min-height: 56px; font-family: inherit;
+      resize: vertical; min-height: 72px; font-family: inherit;
     }
 
     /* ── Formula table ──────────────────────────────────────────── */
@@ -850,9 +845,20 @@ async function submitLead(event) {
   event.preventDefault();
   const form = event.currentTarget;
   const btn = document.getElementById('lead-submit');
+  const email = formValue(form, 'email');
+  const duplicate = email
+    ? _contacts.find(c => (c.email || '').toLowerCase() === email.toLowerCase())
+    : null;
+  if (duplicate) {
+    toast(`Lead already exists: ${duplicate.name}`, 'error');
+    _expandedId = duplicate.id;
+    applyFilters();
+    toggleLeadForm(false);
+    return;
+  }
   const payload = {
     name: formValue(form, 'name'),
-    email: formValue(form, 'email'),
+    email,
     linkedin_url: formValue(form, 'linkedin_url'),
     source: formValue(form, 'source') || 'Manual',
     contact_type: formValue(form, 'contact_type') || 'B2C',
@@ -1077,27 +1083,16 @@ function draftCardHtml(d) {
       <button class="btn btn-approve" onclick="approveDraft(${d.id})">✓ Approve</button>
       <button class="btn btn-discard" onclick="discardDraft(${d.id})">Discard</button>
       <button class="btn btn-neutral" id="edit-btn-${d.id}" onclick="toggleDraftEdit(${d.id})">Edit</button>
-      <button class="btn btn-fb-open" onclick="toggleFeedback(${d.id})">Feedback</button>
+      <button class="btn btn-rewrite-open" onclick="toggleRewrite(${d.id})">Rewrite</button>
     </div>
-    <div class="dc-feedback" id="dcf-${d.id}">
-      <div class="fb-row">
-        <span class="fb-lbl">Template rating:</span>
-        <select class="fb-sel" id="fb-rating-${d.id}">
-          <option value="">— select —</option>
-          <option value="1">1 – Poor</option>
-          <option value="2">2 – Below avg</option>
-          <option value="3">3 – Average</option>
-          <option value="4">4 – Good</option>
-          <option value="5">5 – Excellent</option>
-        </select>
+    <div class="dc-rewrite" id="dcr-${d.id}">
+      <div class="rw-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span class="rw-lbl">What should change?</span>
+        <textarea class="rw-notes" id="rw-notes-${d.id}"
+          placeholder="Example: Too long. Make it colder and more direct. Do not mention the exam date."></textarea>
       </div>
-      <div class="fb-row" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <span class="fb-lbl">Notes:</span>
-        <textarea class="fb-notes" id="fb-notes-${d.id}"
-          placeholder="Template selection, tone, anything that stood out…"></textarea>
-      </div>
-      <button class="btn btn-primary" style="font-size:12px" onclick="submitFeedback(${d.id})">
-        Submit Feedback
+      <button class="btn btn-primary" id="rw-btn-${d.id}" style="font-size:12px" onclick="rewriteDraft(${d.id})">
+        Rewrite Draft
       </button>
     </div>` : '';
 
@@ -1198,23 +1193,30 @@ async function saveDraftEdit(id, ta, editBtn) {
   }
 }
 
-function toggleFeedback(id) {
-  document.getElementById(`dcf-${id}`).classList.toggle('open');
+function toggleRewrite(id) {
+  document.getElementById(`dcr-${id}`).classList.toggle('open');
 }
 
-async function submitFeedback(id) {
-  const rating = document.getElementById(`fb-rating-${id}`).value;
-  const notes  = document.getElementById(`fb-notes-${id}`).value;
+async function rewriteDraft(id) {
+  const notes = document.getElementById(`rw-notes-${id}`).value.trim();
+  if (!notes) {
+    toast('Tell the CRM what should change first', 'error');
+    return;
+  }
+
+  const btn = document.getElementById(`rw-btn-${id}`);
+  btn.disabled = true;
+  btn.textContent = 'Rewriting...';
   try {
-    await api('POST', `/drafts/${id}/feedback`, {
-      template_rating:    rating ? parseInt(rating) : null,
-      reasoning_notes:    notes  || null,
-      final_body_matched: 1,
-    });
-    toast('Feedback recorded', 'success');
-    document.getElementById(`dcf-${id}`).classList.remove('open');
+    const result = await api('POST', `/drafts/${id}/rewrite`, { instructions: notes });
+    const i = _drafts.findIndex(x => x.id === id);
+    if (i !== -1) _drafts[i] = result.draft;
+    toast('Draft rewritten', 'success');
+    renderDrafts();
   } catch (e) {
     toast(`Error: ${e.message}`, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Rewrite Draft';
   }
 }
 
