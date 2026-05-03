@@ -846,9 +846,10 @@ async function submitLead(event) {
   const form = event.currentTarget;
   const btn = document.getElementById('lead-submit');
   const email = formValue(form, 'email');
-  const duplicate = email
-    ? _contacts.find(c => (c.email || '').toLowerCase() === email.toLowerCase())
-    : null;
+  const duplicates = email
+    ? _contacts.filter(c => (c.email || '').toLowerCase() === email.toLowerCase())
+    : [];
+  const duplicate = duplicates.find(c => c.status !== 'Inactive') || duplicates[0];
   if (duplicate) {
     toast(`Lead already exists: ${duplicate.name}`, 'error');
     _expandedId = duplicate.id;
