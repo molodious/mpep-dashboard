@@ -329,6 +329,22 @@
       display: flex; justify-content: flex-end; gap: 8px;
       margin-top: 8px;
     }
+    .x-actions {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .x-status-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .x-status-row select {
+      background: var(--bg); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 6px;
+      padding: 5px 8px; font-size: 13px; outline: none;
+    }
+    .x-status-row select:focus { border-color: var(--blue); }
     .x-footer {
       margin-top: 12px; display: flex; gap: 10px;
       flex-wrap: wrap; font-size: 12px; color: var(--muted);
@@ -786,6 +802,14 @@ function typeBadge(t) {
   return `<span class="badge b-${t.toLowerCase()}">${esc(t)}</span>`;
 }
 
+const CONTACT_STATUS_OPTS = ['New', 'Hot', 'Warm', 'Cold', 'Enrolled', 'Inactive'];
+
+function contactStatusOptions(selected) {
+  return CONTACT_STATUS_OPTS.map(s =>
+    `<option value="${s}"${selected === s ? ' selected' : ''}>${s}</option>`
+  ).join('');
+}
+
 // ── Contacts ──────────────────────────────────────────────────────────────
 
 let _contacts      = [];
@@ -1014,7 +1038,19 @@ async function toggleExpand(row, id) {
       </div>
     </div>`;
 
+    const actionsHtml = `<div class="x-actions">
+      <div class="x-status-row">
+        <span class="x-label" style="margin-bottom:0">Status</span>
+        <select id="x-status-${c.id}" onclick="event.stopPropagation()">
+          ${contactStatusOptions(c.status)}
+        </select>
+        <button class="btn btn-primary" id="x-status-btn-${c.id}" onclick="event.stopPropagation(); saveContactStatus(${c.id})">Save Status</button>
+      </div>
+      <button class="btn btn-discard" id="x-delete-btn-${c.id}" onclick="event.stopPropagation(); deleteContact(${c.id})">Delete Contact</button>
+    </div>`;
+
     el.innerHTML = `
+      ${actionsHtml}
       ${notesHtml}
       <div class="x-label" style="margin-top:16px">History (${c.interactions?.length || 0}, newest first)</div>
       <div class="int-list">${intHtml}</div>
@@ -1063,6 +1099,46 @@ async function saveContactNotes(id) {
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Notes';
+  }
+}
+
+async function saveContactStatus(id) {
+  const select = document.getElementById(`x-status-${id}`);
+  const btn = document.getElementById(`x-status-btn-${id}`);
+  const status = select.value;
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  try {
+    const updated = await api('PUT', `/contacts/${id}`, { status });
+    const c = _contacts.find(x => x.id === id);
+    if (c) c.status = updated.status;
+    toast(`${updated.name} set to ${updated.status}`, 'success');
+    applyFilters();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Status';
+  }
+}
+
+async function deleteContact(id) {
+  const c = _contacts.find(x => x.id === id);
+  const label = c ? `${c.name}${c.email ? ` (${c.email})` : ''}` : 'this contact';
+  if (!confirm(`Delete ${label}? This removes the contact and its interactions.`)) return;
+
+  const btn = document.getElementById(`x-delete-btn-${id}`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Deleting...'; }
+  try {
+    await api('DELETE', `/contacts/${id}`);
+    _contacts = _contacts.filter(x => x.id !== id);
+    if (_expandedId === id) _expandedId = null;
+    populateSourceFilter();
+    applyFilters();
+    toast('Contact deleted', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Delete Contact'; }
   }
 }
 let _drafts      = [];
