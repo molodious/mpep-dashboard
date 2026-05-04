@@ -16,6 +16,9 @@ import math
 import requests
 import os
 import calendar
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 from datetime import datetime, timedelta
 from collections import defaultdict
 
