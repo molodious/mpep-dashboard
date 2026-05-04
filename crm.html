@@ -164,6 +164,21 @@
     }
     select.f-select:focus { border-color: var(--blue); }
 
+    .contact-search {
+      min-width: 220px;
+      flex: 1 1 260px;
+      max-width: 360px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+    .contact-search:focus { border-color: var(--blue); }
+
     .overdue-toggle {
       display: flex; align-items: center; gap: 6px;
       font-size: 13px; color: var(--muted);
@@ -556,6 +571,9 @@
           <input type="checkbox" id="overdue-chk" onchange="applyFilters()" />
           Overdue only
         </label>
+        <input class="contact-search" id="contact-search" type="search"
+               placeholder="Search name or email" autocomplete="off"
+               oninput="applyFilters()" />
         <button class="btn-add-lead" type="button" onclick="toggleLeadForm()">Add Lead</button>
         <span class="count-lbl" id="contact-count"></span>
       </div>
@@ -804,6 +822,7 @@ function applyFilters() {
   const type    = document.getElementById('type-filter').value;
   const source  = document.getElementById('source-filter').value;
   const overdue = document.getElementById('overdue-chk').checked;
+  const search  = document.getElementById('contact-search').value.trim().toLowerCase();
   const today   = new Date().toISOString().slice(0, 10);
 
   document.getElementById('overdue-lbl').classList.toggle('lit', overdue);
@@ -815,6 +834,12 @@ function applyFilters() {
   if (type)   rows = rows.filter(c => c.contact_type === type);
   if (source) rows = rows.filter(c => c.source === source);
   if (overdue) rows = rows.filter(c => c.next_followup_date && c.next_followup_date <= today);
+  if (search) {
+    rows = rows.filter(c =>
+      String(c.name || '').toLowerCase().includes(search) ||
+      String(c.email || '').toLowerCase().includes(search)
+    );
+  }
 
   renderContacts(rows);
   document.getElementById('contact-count').textContent =
