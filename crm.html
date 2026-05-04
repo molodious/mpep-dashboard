@@ -287,7 +287,8 @@
       padding: 10px 14px; border-left: 3px solid var(--border2);
     }
     .int-meta { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
-    .int-body { font-size: 13px; }
+    .int-subject { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .int-body { font-size: 13px; white-space: pre-wrap; color: var(--muted); }
     .no-int   { color: var(--muted); font-size: 13px; font-style: italic; }
     .x-notes  { margin-top: 12px; }
     .x-notes-body {
@@ -325,6 +326,23 @@
       grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
       gap: 16px;
     }
+    .draft-review {
+      display: flex; flex-direction: column; gap: 12px;
+      grid-column: 1 / -1;
+    }
+    .draft-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 10px 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .draft-nav-main {
+      display: flex; align-items: center; gap: 10px; color: var(--muted);
+      font-size: 13px;
+    }
+    .draft-nav strong { color: var(--text); }
+    .draft-nav-actions { display: flex; gap: 8px; }
+    .draft-review .draft-card { width: 100%; }
     .draft-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -619,8 +637,6 @@
                 data-ds="Pending"   onclick="switchDraftFilter(this)">Pending</span>
           <span class="pill"    style="color:var(--muted)"
                 data-ds="Approved"  onclick="switchDraftFilter(this)">Approved</span>
-          <span class="pill"    style="color:var(--muted)"
-                data-ds="Discarded" onclick="switchDraftFilter(this)">Discarded</span>
         </div>
         <span class="count-lbl" id="draft-count"></span>
       </div>
@@ -924,6 +940,21 @@ function renderContacts(rows) {
   }).join('');
 }
 
+function interactionHtml(i) {
+  const summary = (i.summary || '').trim();
+  const raw = (i.raw_content || '').trim();
+  const hasDistinctBody = raw && raw !== summary;
+  const body = hasDistinctBody ? raw : (summary || '(no content)');
+  const subjectHtml = hasDistinctBody && summary
+    ? `<div class="int-subject">${esc(summary)}</div>`
+    : '';
+  return `<div class="int-item">
+    <div class="int-meta">${esc((i.occurred_at || '').slice(0, 10) || 'No date')} · ${esc(i.channel || 'unknown')}</div>
+    ${subjectHtml}
+    <div class="int-body">${esc(body)}</div>
+  </div>`;
+}
+
 async function toggleExpand(row, id) {
   if (_expandedId === id) {
     _expandedId = null;
@@ -938,13 +969,10 @@ async function toggleExpand(row, id) {
     const el = document.getElementById(`x-${id}`);
     if (!el) return;
 
-    const ints = (c.interactions || []).slice(0, 15);
+    const ints = (c.interactions || []).slice(0, 50);
     const intHtml = ints.length
-      ? ints.map(i => `<div class="int-item">
-          <div class="int-meta">${esc((i.occurred_at || '').slice(0, 10))} · ${esc(i.channel || 'unknown')}</div>
-          <div class="int-body">${esc(i.summary || i.raw_content || '(no summary)')}</div>
-        </div>`).join('')
-      : '<div class="no-int">No interactions recorded.</div>';
+      ? ints.map(interactionHtml).join('')
+      : '<div class="no-int">No history recorded.</div>';
 
     const notesHtml = `<div class="x-notes" id="xn-${c.id}">
       <div class="x-notes-head">
@@ -962,9 +990,9 @@ async function toggleExpand(row, id) {
     </div>`;
 
     el.innerHTML = `
-      <div class="x-label">Recent Interactions (${c.interactions?.length || 0})</div>
-      <div class="int-list">${intHtml}</div>
       ${notesHtml}
+      <div class="x-label" style="margin-top:16px">History (${c.interactions?.length || 0}, newest first)</div>
+      <div class="int-list">${intHtml}</div>
       <div class="x-footer">
         <span>Outreach count: ${c.outreach_count || 0}</span>
         ${c.hubspot_id ? `<span>· HubSpot ID: ${esc(c.hubspot_id)}</span>` : ''}
@@ -1014,9 +1042,11 @@ async function saveContactNotes(id) {
 }
 let _drafts      = [];
 let _draftFilter = 'Pending';
+let _draftIndex  = 0;
 
 function switchDraftFilter(el) {
   _draftFilter = el.dataset.ds;
+  _draftIndex = 0;
   document.querySelectorAll('#draft-pills .pill').forEach(p => {
     p.classList.remove('on');
     p.style.borderColor = '';
@@ -1024,8 +1054,8 @@ function switchDraftFilter(el) {
   });
   el.classList.add('on');
   // restore accent colour for active pill
-  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)', Discarded: 'var(--dim)' };
-  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a', Discarded: '' };
+  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)' };
+  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a' };
   el.style.color       = colours[_draftFilter] || 'var(--muted)';
   el.style.borderColor = colours[_draftFilter] || 'var(--border)';
   el.style.background  = bgs[_draftFilter] || '';
@@ -1069,7 +1099,31 @@ function renderDrafts() {
     </div>`;
     return;
   }
+  if (_draftFilter === 'Pending') {
+    if (_draftIndex >= list.length) _draftIndex = list.length - 1;
+    const current = list[_draftIndex];
+    grid.innerHTML = `<div class="draft-review">
+      <div class="draft-nav">
+        <div class="draft-nav-main">
+          <strong>Pending Draft ${_draftIndex + 1} of ${list.length}</strong>
+          <span>${esc(current.contact_name || 'Unknown')} ${current.contact_status ? '· ' + esc(current.contact_status) : ''}</span>
+        </div>
+        <div class="draft-nav-actions">
+          <button class="btn btn-neutral" onclick="moveDraftQueue(-1)"${_draftIndex === 0 ? ' disabled' : ''}>Previous</button>
+          <button class="btn btn-neutral" onclick="moveDraftQueue(1)"${_draftIndex === list.length - 1 ? ' disabled' : ''}>Next</button>
+        </div>
+      </div>
+      ${draftCardHtml(current)}
+    </div>`;
+    return;
+  }
   grid.innerHTML = list.map(draftCardHtml).join('');
+}
+
+function moveDraftQueue(delta) {
+  const list = _drafts.filter(d => d.status === 'Pending');
+  _draftIndex = Math.max(0, Math.min(list.length - 1, _draftIndex + delta));
+  renderDrafts();
 }
 
 function draftCardHtml(d) {
