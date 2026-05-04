@@ -435,6 +435,73 @@
       resize: vertical; min-height: 72px; font-family: inherit;
     }
 
+
+    /* Templates */
+    .templates-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .templates-table { width: 100%; border-collapse: collapse; }
+    .templates-table th {
+      background: var(--surface);
+      color: var(--muted); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      text-align: left; white-space: nowrap;
+    }
+    .templates-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .templates-table tr:last-child td { border-bottom: none; }
+    tr.tpl-row { cursor: pointer; }
+    tr.tpl-row:hover { background: var(--surface2); }
+    tr.tpl-retired { opacity: .5; }
+    .tpl-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tpl-tag {
+      display: inline-block; padding: 2px 7px; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--muted); font-size: 11px;
+    }
+    .tpl-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .tpl-form-grid {
+      display: grid;
+      grid-template-columns: 90px 1.5fr 150px 1fr;
+      gap: 10px;
+    }
+    .tpl-field { display: flex; flex-direction: column; gap: 4px; }
+    .tpl-field.wide { grid-column: span 2; }
+    .tpl-field.full { grid-column: 1 / -1; }
+    .tpl-field label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted); font-weight: 600;
+    }
+    .tpl-field input,
+    .tpl-field select,
+    .tpl-field textarea {
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 6px;
+      padding: 8px 10px; font-size: 13px; outline: none;
+      font-family: inherit;
+    }
+    .tpl-field textarea.tpl-body { min-height: 220px; resize: vertical; line-height: 1.5; }
+    .tpl-field textarea.tpl-notes { min-height: 80px; resize: vertical; }
+    .tpl-field input:focus,
+    .tpl-field select:focus,
+    .tpl-field textarea:focus { border-color: var(--blue); }
+    .tpl-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+    .tpl-badge-active { color: var(--green); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .tpl-badge-retired { color: var(--dim); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    @media (max-width: 900px) {
+      .tpl-form-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .tpl-form-grid { grid-template-columns: 1fr; }
+      .tpl-field.wide { grid-column: auto; }
+    }
     /* ── Formula table ──────────────────────────────────────────── */
     .formula-intro { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
     .ftbl-wrap {
@@ -707,16 +774,40 @@
 
     <!-- ── Templates tab ─────────────────────────────────────────────────── -->
     <div class="tab-panel" id="panel-templates">
-      <div class="empty">
-        <div class="empty-icon">📝</div>
-        <div class="empty-msg">Template library coming soon.</div>
-        <div class="empty-sub">
-          Templates are currently defined in the server-side sales playbook at
-          <code>/root/crm/sales_playbook.md</code>.
-        </div>
+      <div class="toolbar">
+        <select class="f-select" id="tpl-track-filter" onchange="renderTemplates()">
+          <option value="">All Tracks</option>
+          <option value="PE">PE</option>
+          <option value="FE">FE</option>
+          <option value="B2B">B2B</option>
+          <option value="General">General</option>
+        </select>
+        <label class="overdue-toggle" id="tpl-retired-lbl">
+          <input type="checkbox" id="tpl-show-retired" onchange="renderTemplates()" />
+          Show retired
+        </label>
+        <button class="btn-add-lead" type="button" onclick="showTemplateCreate()">Add Template</button>
+        <span class="count-lbl" id="tpl-count"></span>
+      </div>
+      <div id="tpl-create"></div>
+      <div class="templates-wrap">
+        <table class="templates-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Track</th>
+              <th>Tags</th>
+              <th>Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="templates-tbody">
+            <tr><td colspan="6"><div class="loading"><span class="spinner"></span>Loading templates...</div></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
   </div><!-- /container -->
 </div><!-- /main-content -->
 
@@ -770,6 +861,7 @@ async function api(method, path, body) {
 let _currentTab = 'contacts';
 let _draftsLoaded  = false;
 let _formulaLoaded = false;
+let _templatesLoaded = false;
 
 function switchTab(tab) {
   _currentTab = tab;
@@ -779,6 +871,7 @@ function switchTab(tab) {
     p.classList.toggle('active', p.id === `panel-${tab}`));
   if (tab === 'drafts'  && !_draftsLoaded)  loadDrafts();
   if (tab === 'formula' && !_formulaLoaded) loadFormula();
+  if (tab === 'templates' && !_templatesLoaded) loadTemplates();
 }
 
 // ── Util ──────────────────────────────────────────────────────────────────
@@ -1377,6 +1470,211 @@ async function rewriteDraft(id) {
 }
 
 // ── Formula ───────────────────────────────────────────────────────────────
+
+// Templates
+
+let _templates = [];
+let _templateExpandedId = null;
+let _templateCreating = false;
+const TEMPLATE_TRACKS = ['PE', 'FE', 'B2B', 'General'];
+
+function templateTrackOptions(selected) {
+  return TEMPLATE_TRACKS.map(t =>
+    `<option value="${t}"${selected === t ? ' selected' : ''}>${t}</option>`
+  ).join('');
+}
+
+function templateTagsHtml(tags) {
+  const list = String(tags || '').split(',').map(t => t.trim()).filter(Boolean);
+  return list.length
+    ? `<div class="tpl-tags">${list.map(t => `<span class="tpl-tag">${esc(t)}</span>`).join('')}</div>`
+    : '<span class="dim">none</span>';
+}
+
+function templateFormHtml(t = {}, isNew = false) {
+  const id = isNew ? 'new' : t.id;
+  return `<div class="tpl-form" id="tpl-form-${id}" onclick="event.stopPropagation()">
+    <div class="tpl-form-grid">
+      <div class="tpl-field">
+        <label for="tpl-number-${id}">Number</label>
+        <input id="tpl-number-${id}" type="number" value="${t.number ?? ''}">
+      </div>
+      <div class="tpl-field wide">
+        <label for="tpl-name-${id}">Name</label>
+        <input id="tpl-name-${id}" value="${esc(t.name || '')}">
+      </div>
+      <div class="tpl-field">
+        <label for="tpl-track-${id}">Track</label>
+        <select id="tpl-track-${id}">${templateTrackOptions(t.track || 'PE')}</select>
+      </div>
+      <div class="tpl-field">
+        <label for="tpl-active-${id}">Active</label>
+        <select id="tpl-active-${id}">
+          <option value="1"${Number(t.active ?? 1) === 1 ? ' selected' : ''}>Active</option>
+          <option value="0"${Number(t.active ?? 1) === 0 ? ' selected' : ''}>Retired</option>
+        </select>
+      </div>
+      <div class="tpl-field full">
+        <label for="tpl-tags-${id}">Tags</label>
+        <input id="tpl-tags-${id}" value="${esc(t.tags || '')}" placeholder="check-in, objection, zoom-followup">
+      </div>
+      <div class="tpl-field full">
+        <label for="tpl-subject-${id}">Subject</label>
+        <input id="tpl-subject-${id}" value="${esc(t.subject || '')}">
+      </div>
+      <div class="tpl-field full">
+        <label for="tpl-body-${id}">Body</label>
+        <textarea class="tpl-body" id="tpl-body-${id}">${esc(t.body || '')}</textarea>
+      </div>
+      <div class="tpl-field full">
+        <label for="tpl-notes-${id}">Notes</label>
+        <textarea class="tpl-notes" id="tpl-notes-${id}">${esc(t.notes || '')}</textarea>
+      </div>
+    </div>
+    <div class="tpl-actions">
+      ${!isNew && Number(t.active) === 0 ? `<button class="btn btn-neutral" type="button" onclick="setTemplateActive(${t.id}, 1)">Reactivate</button>` : ''}
+      <button class="btn btn-neutral" type="button" onclick="${isNew ? 'hideTemplateCreate()' : `collapseTemplate(${t.id})`}">Cancel</button>
+      <button class="btn btn-primary" type="button" id="tpl-save-${id}" onclick="${isNew ? 'createTemplate()' : `saveTemplate(${t.id})`}">${isNew ? 'Create Template' : 'Save Template'}</button>
+    </div>
+  </div>`;
+}
+
+function collectTemplatePayload(id) {
+  const get = suffix => document.getElementById(`tpl-${suffix}-${id}`).value.trim();
+  const n = get('number');
+  return {
+    number: n !== '' ? parseInt(n, 10) : null,
+    name: get('name'),
+    track: get('track') || 'PE',
+    tags: get('tags'),
+    subject: get('subject'),
+    body: get('body'),
+    active: parseInt(get('active'), 10),
+    notes: get('notes'),
+  };
+}
+
+async function loadTemplates() {
+  _templatesLoaded = true;
+  document.getElementById('templates-tbody').innerHTML =
+    '<tr><td colspan="6"><div class="loading"><span class="spinner"></span>Loading templates...</div></td></tr>';
+  try {
+    _templates = await api('GET', '/templates');
+    renderTemplates();
+  } catch (e) {
+    document.getElementById('templates-tbody').innerHTML =
+      `<tr><td colspan="6" style="color:var(--red);padding:20px">Error: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+function renderTemplates() {
+  const tbody = document.getElementById('templates-tbody');
+  if (!tbody) return;
+  const track = document.getElementById('tpl-track-filter').value;
+  const showRetired = document.getElementById('tpl-show-retired').checked;
+  document.getElementById('tpl-retired-lbl').classList.toggle('lit', showRetired);
+
+  let rows = _templates.slice();
+  if (track) rows = rows.filter(t => t.track === track);
+  if (!showRetired) rows = rows.filter(t => Number(t.active) === 1);
+  document.getElementById('tpl-count').textContent = `${rows.length} template${rows.length !== 1 ? 's' : ''}`;
+
+  if (rows.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-msg">No templates match these filters.</div></div></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(t => {
+    const active = Number(t.active) === 1;
+    const open = _templateExpandedId === t.id;
+    return `<tr class="tpl-row${active ? '' : ' tpl-retired'}" onclick="toggleTemplate(${t.id})">
+        <td>${t.number ?? ''}</td>
+        <td><strong>${esc(t.name || '(untitled)')}</strong>${t.subject ? `<div class="muted" style="font-size:12px;margin-top:3px">${esc(t.subject)}</div>` : ''}</td>
+        <td>${esc(t.track || 'General')}</td>
+        <td>${templateTagsHtml(t.tags)}</td>
+        <td>${active ? '<span class="tpl-badge-active">? Active</span>' : '<span class="tpl-badge-retired">? Retired</span>'}</td>
+        <td>
+          <button class="btn btn-neutral" onclick="event.stopPropagation(); setTemplateActive(${t.id}, ${active ? 0 : 1})">${active ? 'Retire' : 'Reactivate'}</button>
+        </td>
+      </tr>${open ? `<tr><td colspan="6">${templateFormHtml(t, false)}</td></tr>` : ''}`;
+  }).join('');
+}
+
+function toggleTemplate(id) {
+  _templateExpandedId = _templateExpandedId === id ? null : id;
+  _templateCreating = false;
+  document.getElementById('tpl-create').innerHTML = '';
+  renderTemplates();
+}
+
+function collapseTemplate(id) {
+  if (_templateExpandedId === id) _templateExpandedId = null;
+  renderTemplates();
+}
+
+function showTemplateCreate() {
+  _templateCreating = true;
+  _templateExpandedId = null;
+  document.getElementById('tpl-create').innerHTML = templateFormHtml({ active: 1, track: 'PE' }, true);
+  renderTemplates();
+}
+
+function hideTemplateCreate() {
+  _templateCreating = false;
+  document.getElementById('tpl-create').innerHTML = '';
+}
+
+async function createTemplate() {
+  const btn = document.getElementById('tpl-save-new');
+  const payload = collectTemplatePayload('new');
+  if (!payload.name) { toast('Template name is required', 'error'); return; }
+  btn.disabled = true; btn.textContent = 'Creating...';
+  try {
+    const created = await api('POST', '/templates', payload);
+    _templates.push(created);
+    _templates.sort((a, b) => (a.number ?? 9999) - (b.number ?? 9999) || a.id - b.id);
+    hideTemplateCreate();
+    renderTemplates();
+    toast('Template created', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create Template';
+  }
+}
+
+async function saveTemplate(id) {
+  const btn = document.getElementById(`tpl-save-${id}`);
+  const payload = collectTemplatePayload(id);
+  if (!payload.name) { toast('Template name is required', 'error'); return; }
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const updated = await api('PUT', `/templates/${id}`, payload);
+    const i = _templates.findIndex(t => t.id === id);
+    if (i !== -1) _templates[i] = updated;
+    _templates.sort((a, b) => (a.number ?? 9999) - (b.number ?? 9999) || a.id - b.id);
+    renderTemplates();
+    toast('Template saved', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Template';
+  }
+}
+
+async function setTemplateActive(id, active) {
+  try {
+    const updated = active
+      ? await api('PUT', `/templates/${id}`, { active: 1 })
+      : await api('DELETE', `/templates/${id}`);
+    const i = _templates.findIndex(t => t.id === id);
+    if (i !== -1) _templates[i] = updated;
+    renderTemplates();
+    toast(active ? 'Template reactivated' : 'Template retired', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  }
+}
 
 const STATUS_OPTS = ['Hot', 'Warm', 'Cold', 'Inactive', 'Enrolled', 'New'];
 
