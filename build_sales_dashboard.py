@@ -521,10 +521,10 @@ def build_dashboard():
         for product in bar_products:
             bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
 
-    # Calculate Y-axis max: highest monthly total rounded up to nearest 5000
+    # Calculate Y-axis max: highest monthly total (or projection) rounded up to nearest 5000
     import math
     monthly_totals_py = [sum(monthly_data[m].values()) for m in months_2026]
-    max_monthly = max(monthly_totals_py) if monthly_totals_py else 0
+    max_monthly = max(monthly_totals_py + [projected_current * 1.12]) if monthly_totals_py else projected_current * 1.12
     y_axis_max = math.ceil(max_monthly / 5000) * 5000
 
     # Build HTML
@@ -774,7 +774,7 @@ def build_dashboard():
         <!-- Projection Box (dynamic) -->
         <div class="card full-width" id="projection-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
             <h2 style="color: white; margin-bottom: 15px;">📊 <span id="proj-title">""" + current_month_label + """</span> Snapshot</h2>
-            <div id="proj-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div id="proj-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue This Month</div>
                     <div class="metric-value" style="color: white;">$""" + f"{round(current_revenue):,}" + """</div>
@@ -784,6 +784,7 @@ def build_dashboard():
                     <div class="metric-value" style="color: white;">""" + str(current_month_orders_count) + """</div>
                 </div>
             </div>
+            <p id="proj-note" class="projection-note" style="color: rgba(255,255,255,0.65); margin-top: 10px; display: none;"></p>
         </div>
 
         <div class="dashboard-grid">
@@ -842,6 +843,9 @@ def build_dashboard():
         // ALL_ORDERS: array of {d: date, p: product, a: amount, s: source, t: sub_type, c: customer}
 
         const CURRENT_MONTH = CURRENT_MONTH_PLACEHOLDER;
+        const PROJECTED_CURRENT = PROJECTED_CURRENT_PLACEHOLDER;
+        const AVG_DAILY = AVG_DAILY_PLACEHOLDER;
+        const DAYS_REMAINING = DAYS_REMAINING_PLACEHOLDER;
 
         function monthLabel(key) {
             const [y, m] = key.split('-');
@@ -891,9 +895,11 @@ def build_dashboard():
                 barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
             );
 
+            const currentMonthBarIdx = barMonths.indexOf(CURRENT_MONTH);
+
             const totalLabelsPlugin = {
                 id: 'totalLabels',
-                afterDatasetsDraw(chart) {
+                afterDraw(chart) {
                     const ctx = chart.ctx;
                     const xScale = chart.scales.x;
                     const yScale = chart.scales.y;
@@ -905,6 +911,29 @@ def build_dashboard():
                         ctx.fillStyle = '#333';
                         ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
                     });
+
+                    // Dotted projection box for current month
+                    if (currentMonthBarIdx >= 0 && PROJECTED_CURRENT > monthlyTotals[currentMonthBarIdx]) {
+                        const xPos = xScale.getPixelForValue(currentMonthBarIdx);
+                        const projYPos = yScale.getPixelForValue(PROJECTED_CURRENT);
+                        const currentY = yScale.getPixelForValue(monthlyTotals[currentMonthBarIdx]);
+                        const barW = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.6;
+
+                        ctx.font = 'italic 11px Arial';
+                        ctx.fillStyle = '#999';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('$' + PROJECTED_CURRENT.toLocaleString() + ' (proj)', xPos, projYPos - 20);
+
+                        ctx.strokeStyle = 'rgba(100, 100, 100, 0.65)';
+                        ctx.setLineDash([5, 5]);
+                        ctx.lineWidth = 1.5;
+                        ctx.fillStyle = 'rgba(200, 200, 200, 0.12)';
+                        ctx.beginPath();
+                        ctx.rect(xPos - barW / 2, projYPos, barW, currentY - projYPos);
+                        ctx.fill();
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
                 }
             };
 
@@ -936,10 +965,25 @@ def build_dashboard():
             const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
 
             // Projection card
+            const isCurrentMonth = monthKey === CURRENT_MONTH;
             document.getElementById('proj-title').textContent = monthLabel(monthKey);
-            document.getElementById('proj-stats').innerHTML =
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color: white;">$' + totalRevenue.toLocaleString() + '</div></div>' +
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color: white;">' + orders.length + '</div></div>';
+            let statsHtml =
+                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color:white;">$' + Math.round(totalRevenue).toLocaleString() + '</div></div>' +
+                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color:white;">' + orders.length + '</div></div>';
+            if (isCurrentMonth) {
+                statsHtml +=
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Daily Average</div><div class="metric-value" style="color:white;">$' + AVG_DAILY.toLocaleString() + '</div></div>' +
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Days Remaining</div><div class="metric-value" style="color:white;">' + DAYS_REMAINING + '</div></div>' +
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Projected Total</div><div class="metric-value" style="color:white;">$' + PROJECTED_CURRENT.toLocaleString() + '</div></div>';
+            }
+            document.getElementById('proj-stats').innerHTML = statsHtml;
+            const projNote = document.getElementById('proj-note');
+            if (isCurrentMonth) {
+                projNote.textContent = 'Projection based on trailing 12-month daily average ($' + AVG_DAILY.toLocaleString() + '/day × ' + DAYS_REMAINING + ' days remaining)';
+                projNote.style.display = '';
+            } else {
+                projNote.style.display = 'none';
+            }
 
             // Pie data
             const pieData = {};
@@ -1013,6 +1057,9 @@ def build_dashboard():
     # Replace placeholders
     html_top = html_top.replace('ALL_ORDERS_PLACEHOLDER', json.dumps(all_orders_clean))
     html_top = html_top.replace('CURRENT_MONTH_PLACEHOLDER', json.dumps(current_month_key))
+    html_top = html_top.replace('PROJECTED_CURRENT_PLACEHOLDER', str(round(projected_current)))
+    html_top = html_top.replace('AVG_DAILY_PLACEHOLDER', str(round(avg_daily)))
+    html_top = html_top.replace('DAYS_REMAINING_PLACEHOLDER', str(days_remaining))
     html_top = html_top.replace('PRODUCT_COLORS_PLACEHOLDER', json.dumps(PRODUCT_COLORS))
     html_top = html_top.replace('BAR_MONTHS_PLACEHOLDER', json.dumps(months_2026))
     html_top = html_top.replace('BAR_PRODUCTS_PLACEHOLDER', json.dumps(bar_products))
