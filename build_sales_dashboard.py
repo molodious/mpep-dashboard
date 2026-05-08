@@ -450,12 +450,18 @@ def build_dashboard():
     current_orders.sort(key=lambda x: x["timestamp"])
     current_revenue = sum(o["amount"] for o in current_orders)
 
-    # Trailing 12-month stats: 11 complete months from MONTHLY_HISTORY + current month live
-    trailing_11 = MONTHLY_HISTORY[-11:]
-    trailing_revenue = sum(r for _, _, r in trailing_11) + current_revenue
-    trailing_orders_count = sum(o for _, o, _ in trailing_11) + len(current_orders)
+    # Trailing 12-month daily average: always the 12 most recent *completed* months.
+    # MONTHLY_HISTORY supplies verified numbers for closed months; completed months not
+    # yet added there (e.g. March/April 2026) are computed from live API data.
+    completed_month_revenue = {m: r for m, _, r in MONTHLY_HISTORY}
+    history_keys = set(completed_month_revenue)
+    for o in all_orders:
+        mk = o["timestamp"].strftime("%Y-%m")
+        if mk < current_month_key and mk not in history_keys:
+            completed_month_revenue[mk] = completed_month_revenue.get(mk, 0) + o["amount"]
+    trailing_keys = sorted(completed_month_revenue)[-12:]
+    trailing_revenue = sum(completed_month_revenue[k] for k in trailing_keys)
     avg_daily = trailing_revenue / 365
-    avg_orders_per_month = trailing_orders_count / 12
 
     # YTD: completed months from MONTHLY_HISTORY + current month live
     ytd_completed = [
@@ -485,6 +491,7 @@ def build_dashboard():
     print(f"\nStatistics ({today.year} YTD):")
     print(f"  YTD revenue: ${round(total_revenue_ytd):,}")
     print(f"  Days elapsed ({today.year} YTD): {(today - datetime(today.year, 1, 1)).days + 1}")
+    print(f"  Trailing 12 months: {trailing_keys[0]} → {trailing_keys[-1]} (${round(trailing_revenue):,})")
     print(f"  Daily average: ${round(avg_daily):,}")
     print(f"  {current_month_label} revenue so far: ${round(current_revenue):,}")
     print(f"  Days remaining in {today.strftime('%B')}: {days_remaining}")
