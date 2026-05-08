@@ -217,7 +217,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - May 08)</div>
-                <div><strong>Updated:</strong> May 08, 2026 at 03:21 PM</div>
+                <div><strong>Updated:</strong> May 08, 2026 at 08:12 PM</div>
             </div>
             <div class="month-selector">
                 <label for="month-picker">📅 Show month:</label>
@@ -228,7 +228,7 @@
         <!-- Projection Box (dynamic) -->
         <div class="card full-width" id="projection-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
             <h2 style="color: white; margin-bottom: 15px;">📊 <span id="proj-title">May 2026</span> Snapshot</h2>
-            <div id="proj-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div id="proj-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px;">
                 <div>
                     <div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue This Month</div>
                     <div class="metric-value" style="color: white;">$7,996</div>
@@ -238,6 +238,7 @@
                     <div class="metric-value" style="color: white;">4</div>
                 </div>
             </div>
+            <p id="proj-note" class="projection-note" style="color: rgba(255,255,255,0.65); margin-top: 10px; display: none;"></p>
         </div>
 
         <div class="dashboard-grid">
@@ -296,6 +297,9 @@
         // ALL_ORDERS: array of {d: date, p: product, a: amount, s: source, t: sub_type, c: customer}
 
         const CURRENT_MONTH = "2026-05";
+        const PROJECTED_CURRENT = 26118;
+        const AVG_DAILY = 788;
+        const DAYS_REMAINING = 23;
 
         function monthLabel(key) {
             const [y, m] = key.split('-');
@@ -345,9 +349,11 @@
                 barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
             );
 
+            const currentMonthBarIdx = barMonths.indexOf(CURRENT_MONTH);
+
             const totalLabelsPlugin = {
                 id: 'totalLabels',
-                afterDatasetsDraw(chart) {
+                afterDraw(chart) {
                     const ctx = chart.ctx;
                     const xScale = chart.scales.x;
                     const yScale = chart.scales.y;
@@ -359,6 +365,29 @@
                         ctx.fillStyle = '#333';
                         ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
                     });
+
+                    // Dotted projection box for current month
+                    if (currentMonthBarIdx >= 0 && PROJECTED_CURRENT > monthlyTotals[currentMonthBarIdx]) {
+                        const xPos = xScale.getPixelForValue(currentMonthBarIdx);
+                        const projYPos = yScale.getPixelForValue(PROJECTED_CURRENT);
+                        const currentY = yScale.getPixelForValue(monthlyTotals[currentMonthBarIdx]);
+                        const barW = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.6;
+
+                        ctx.font = 'italic 11px Arial';
+                        ctx.fillStyle = '#999';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('$' + PROJECTED_CURRENT.toLocaleString() + ' (proj)', xPos, projYPos - 20);
+
+                        ctx.strokeStyle = 'rgba(100, 100, 100, 0.65)';
+                        ctx.setLineDash([5, 5]);
+                        ctx.lineWidth = 1.5;
+                        ctx.fillStyle = 'rgba(200, 200, 200, 0.12)';
+                        ctx.beginPath();
+                        ctx.rect(xPos - barW / 2, projYPos, barW, currentY - projYPos);
+                        ctx.fill();
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
                 }
             };
 
@@ -390,10 +419,25 @@
             const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
 
             // Projection card
+            const isCurrentMonth = monthKey === CURRENT_MONTH;
             document.getElementById('proj-title').textContent = monthLabel(monthKey);
-            document.getElementById('proj-stats').innerHTML =
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color: white;">$' + totalRevenue.toLocaleString() + '</div></div>' +
-                '<div><div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color: white;">' + orders.length + '</div></div>';
+            let statsHtml =
+                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color:white;">$' + Math.round(totalRevenue).toLocaleString() + '</div></div>' +
+                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color:white;">' + orders.length + '</div></div>';
+            if (isCurrentMonth) {
+                statsHtml +=
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Daily Average</div><div class="metric-value" style="color:white;">$' + AVG_DAILY.toLocaleString() + '</div></div>' +
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Days Remaining</div><div class="metric-value" style="color:white;">' + DAYS_REMAINING + '</div></div>' +
+                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Projected Total</div><div class="metric-value" style="color:white;">$' + PROJECTED_CURRENT.toLocaleString() + '</div></div>';
+            }
+            document.getElementById('proj-stats').innerHTML = statsHtml;
+            const projNote = document.getElementById('proj-note');
+            if (isCurrentMonth) {
+                projNote.textContent = 'Projection based on trailing 12-month daily average ($' + AVG_DAILY.toLocaleString() + '/day × ' + DAYS_REMAINING + ' days remaining)';
+                projNote.style.display = '';
+            } else {
+                projNote.style.display = 'none';
+            }
 
             // Pie data
             const pieData = {};
