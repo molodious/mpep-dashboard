@@ -1010,8 +1010,7 @@ async function submitLead(event) {
   const duplicate = duplicates.find(c => c.status !== 'Inactive') || duplicates[0];
   if (duplicate) {
     toast(`Lead already exists: ${duplicate.name}`, 'error');
-    _expandedId = duplicate.id;
-    applyFilters();
+    openContact(duplicate.id);
     toggleLeadForm(false);
     return;
   }
@@ -1061,8 +1060,7 @@ function renderContacts(rows) {
     const fuHtml = c.next_followup_date
       ? `${od ? '<span class="overdue-dot"></span>' : ''}${esc(c.next_followup_date)}`
       : '<span class="dim">—</span>';
-    const isOpen = _expandedId === c.id;
-    return `<tr class="c-row${isOpen ? ' open' : ''}" data-id="${c.id}" onclick="toggleExpand(this,${c.id})">
+    return `<tr class="c-row" data-id="${c.id}" onclick="openContact(${c.id})">
         <td><strong>${esc(c.name)}</strong></td>
         <td class="muted">${c.email
           ? `<a href="mailto:${esc(c.email)}" onclick="event.stopPropagation()">${esc(c.email)}</a>`
@@ -1072,14 +1070,12 @@ function renderContacts(rows) {
         <td class="muted">${esc(c.source || '—')}</td>
         <td class="muted" style="text-align:center">${c.outreach_count || 0}</td>
         <td style="white-space:nowrap">${fuHtml}</td>
-      </tr>${isOpen
-        ? `<tr class="x-row" data-xid="${c.id}">
-            <td colspan="7"><div class="x-inner" id="x-${c.id}">
-              <span class="spinner"></span> Loading…
-            </div></td>
-          </tr>`
-        : ''}`;
+      </tr>`;
   }).join('');
+}
+
+function openContact(id) {
+  window.location.href = `crm-contact.html?id=${encodeURIComponent(id)}`;
 }
 
 function interactionHtml(i) {

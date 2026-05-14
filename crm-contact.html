@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Contact - MPEP Dashboard</title>
+  <style>
+    :root {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --surface2: #1c2330;
+      --border:   #21262d;
+      --border2:  #30363d;
+      --text:     #e6edf3;
+      --muted:    #8b949e;
+      --dim:      #484f58;
+      --blue:     #58a6ff;
+      --green:    #3fb950;
+      --purple:   #a371f7;
+      --yellow:   #d29922;
+      --orange:   #e3b341;
+      --red:      #f85149;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 40px 36px;
+      width: 100%; max-width: 360px;
+      text-align: center;
+    }
+    .auth-logo  { font-size: 40px; margin-bottom: 12px; }
+    .auth-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+    .auth-sub   { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+    #auth-form input[type="password"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 10px 14px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      outline: none;
+    }
+    #auth-form input[type="password"]:focus { border-color: var(--blue); }
+    #pwd-error {
+      color: var(--red); font-size: 13px; min-height: 20px; margin-bottom: 8px;
+    }
+    #auth-form button {
+      width: 100%;
+      background: var(--blue); color: #0d1117;
+      border: none; border-radius: 6px;
+      padding: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+    #auth-form button:hover { opacity: 0.9; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      gap: 16px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .header-main { min-width: 0; }
+    .back-link {
+      color: var(--muted); text-decoration: none;
+      font-size: 13px; padding: 5px 10px;
+      border: 1px solid var(--border2); border-radius: 6px;
+      white-space: nowrap;
+    }
+    .back-link:hover { color: var(--text); border-color: var(--blue); text-decoration: none; }
+    .contact-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    h1 {
+      font-size: 22px; line-height: 1.2; font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .header-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .followup-chip {
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 7px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+    .followup-chip strong { display: block; color: var(--text); font-size: 13px; margin-top: 1px; }
+    .followup-chip.overdue { border-color: var(--red); color: var(--red); background: #2d0f0e; }
+    .followup-chip.overdue strong { color: var(--red); }
+    .btn-signout {
+      background: none; border: 1px solid var(--border2);
+      color: var(--muted); border-radius: 6px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn-signout:hover { color: var(--red); border-color: var(--red); }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 20px; }
+    .stack { display: flex; flex-direction: column; gap: 16px; }
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 16px;
+    }
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 14px;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; }
+    .panel-sub { color: var(--muted); font-size: 12px; }
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted); font-weight: 600; margin-bottom: 5px;
+    }
+    .value {
+      min-height: 35px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+    .dim { color: var(--dim); }
+    .muted { color: var(--muted); }
+
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 12px;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .b-hot      { background: #2d0f0e; color: var(--red); }
+    .b-warm     { background: #2d1f03; color: var(--orange); }
+    .b-cold     { background: #0d2030; color: var(--blue); }
+    .b-new      { background: #1e1230; color: var(--purple); }
+    .b-inactive { background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+    .b-enrolled { background: #0d2e1a; color: var(--green); }
+    .b-b2b      { background: #1e2d10; color: #7ee787; }
+    .b-b2c      { background: var(--surface2); color: var(--muted); }
+    .b-email    { background: #0d2030; color: var(--blue); }
+    .b-linkedin { background: #101f35; color: #79c0ff; }
+    .b-note     { background: #1e1230; color: var(--purple); }
+    .b-other    { background: var(--surface2); color: var(--muted); }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font: inherit;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue); }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    .edit-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+    .btn {
+      padding: 6px 12px; border-radius: 6px;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer; border: 1px solid transparent;
+    }
+    .btn:hover   { opacity: 0.85; }
+    .btn:disabled{ opacity: 0.4; cursor: not-allowed; }
+    .btn-primary { background: var(--blue); color: #0d1117; border-color: var(--blue); font-weight: 600; }
+    .btn-approve { background: var(--green);  color: #0d1117; border-color: var(--green); font-weight: 600; }
+    .btn-discard { background: none; border-color: var(--red); color: var(--red); }
+    .btn-neutral { background: none; border-color: var(--border2); color: var(--muted); }
+
+    .danger-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      margin-top: 14px; padding-top: 14px;
+    }
+    .danger-copy { color: var(--muted); font-size: 12px; }
+
+    .draft-card {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .draft-subject { color: var(--blue); font-weight: 700; font-size: 14px; }
+    .draft-body {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      color: var(--text);
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+    .draft-rationale {
+      background: var(--surface2);
+      border-left: 3px solid var(--dim);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 9px 12px;
+      white-space: pre-wrap;
+    }
+    .draft-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .rewrite-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .rewrite-box textarea { min-height: 76px; }
+
+    .interaction-list { display: flex; flex-direction: column; gap: 10px; }
+    .interaction-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border2);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .interaction-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; flex-wrap: wrap; margin-bottom: 7px;
+    }
+    .interaction-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .interaction-date { color: var(--muted); font-size: 12px; }
+    .interaction-summary {
+      color: var(--text);
+      line-height: 1.45;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .raw-content {
+      display: none;
+      margin-top: 10px;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.45;
+    }
+    .raw-content.open { display: block; }
+    .empty, .loading {
+      padding: 22px;
+      color: var(--muted);
+      text-align: center;
+      border: 1px dashed var(--border2);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    .spinner {
+      display: inline-block;
+      width: 13px; height: 13px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: -2px;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #toast {
+      position: fixed; right: 16px; bottom: 16px;
+      background: var(--surface); border: 1px solid var(--border2);
+      color: var(--text); padding: 10px 14px; border-radius: 8px;
+      font-size: 13px; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      opacity: 0; transform: translateY(8px); pointer-events: none;
+      transition: opacity .15s, transform .15s; z-index: 2000;
+      max-width: min(420px, calc(100vw - 32px));
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.t-error { border-color: var(--red); }
+    #toast.t-success { border-color: var(--green); }
+
+    @media (max-width: 760px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .header-left, .header-right { width: 100%; }
+      .header-right { justify-content: flex-start; }
+      .field-grid { grid-template-columns: 1fr; }
+      .rewrite-box { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">MPEP</div>
+    <div class="auth-title">Dashboard Login</div>
+    <div class="auth-sub">Enter the internal dashboard password.</div>
+    <form id="auth-form">
+      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
+      <div id="pwd-error"></div>
+      <button type="submit" id="pwd-btn">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<div id="main-content" style="display:none">
+  <header>
+    <div class="header-left">
+      <a class="back-link" href="crm.html">&larr; Back to Contacts</a>
+      <div class="header-main">
+        <div class="contact-title-row">
+          <h1 id="contact-name">Loading contact...</h1>
+          <span id="status-badge"></span>
+        </div>
+        <div class="header-sub" id="contact-sub">Mechanical PE Exam Prep CRM</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="followup-chip" id="followup-chip">
+        Next follow-up
+        <strong>Loading...</strong>
+      </div>
+      <button class="btn-signout" onclick="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main class="container stack">
+    <section class="panel" id="contact-panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Contact Fields</div>
+          <div class="panel-sub">Edit status, notes, and follow-up timing.</div>
+        </div>
+      </div>
+      <div id="contact-fields" class="loading"><span class="spinner"></span>Loading contact...</div>
+    </section>
+
+    <section class="panel" id="draft-panel" style="display:none">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Pending Draft</div>
+          <div class="panel-sub">Review the selected template and rationale before approving.</div>
+        </div>
+      </div>
+      <div id="draft-content"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Interaction History</div>
+          <div class="panel-sub" id="interaction-count">Newest first.</div>
+        </div>
+      </div>
+      <div id="interactions-content" class="loading"><span class="spinner"></span>Loading interactions...</div>
+    </section>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script src="auth.js"></script>
+<script>
+'use strict';
+
+const API_BASE = 'https://btc.mechanicalpeexamprep.com/api/crm';
+const API_KEY  = 'xQJo3Bj_VRm@P!wVUFqR';
+const CONTACT_STATUS_OPTS = ['New', 'Hot', 'Warm', 'Cold', 'Enrolled', 'Inactive'];
+const params = new URLSearchParams(window.location.search);
+const CONTACT_ID = params.get('id');
+
+let _contact = null;
+let _pendingDraft = null;
+let _toastTimer;
+
+function onAuthenticated() {
+  if (!CONTACT_ID) {
+    showFatal('Missing contact id in the URL.');
+    return;
+  }
+  loadPage();
+}
+
+async function api(method, path, body) {
+  const opts = {
+    method,
+    headers: {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type':  'application/json',
+    },
+  };
+  if (body !== undefined) opts.body = JSON.stringify(body);
+  const r = await fetch(`${API_BASE}${path}`, opts);
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({ error: r.statusText }));
+    throw new Error(e.error || r.statusText);
+  }
+  if (r.status === 204) return null;
+  return r.json();
+}
+
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show t-${type}`;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 3200);
+}
+
+function statusBadge(status) {
+  const k = (status || '').toLowerCase().replace(/\s+/g, '');
+  return `<span class="badge b-${k}">${esc(status) || '-'}</span>`;
+}
+
+function typeBadge(t) {
+  if (!t) return '<span class="dim">-</span>';
+  return `<span class="badge b-${String(t).toLowerCase()}">${esc(t)}</span>`;
+}
+
+function channelBadge(channel) {
+  const key = (channel || 'Other').toLowerCase().replace(/\s+/g, '');
+  const cls = ['email', 'linkedin', 'note'].includes(key) ? key : 'other';
+  return `<span class="badge b-${cls}">${esc(channel || 'Other')}</span>`;
+}
+
+function formatDate(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function formatDateOnly(value) {
+  if (!value) return '-';
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function isOverdue(value) {
+  if (!value) return false;
+  const today = new Date().toISOString().slice(0, 10);
+  return value < today;
+}
+
+function contactStatusOptions(selected) {
+  return CONTACT_STATUS_OPTS.map(s =>
+    `<option value="${s}"${selected === s ? ' selected' : ''}>${s}</option>`
+  ).join('');
+}
+
+function showFatal(message) {
+  document.getElementById('contact-name').textContent = 'Contact unavailable';
+  document.getElementById('contact-fields').innerHTML = `<div style="color:var(--red)">Error: ${esc(message)}</div>`;
+  document.getElementById('interactions-content').innerHTML = '<div class="empty">Interaction history could not be loaded.</div>';
+}
+
+async function loadPage() {
+  try {
+    await loadContact();
+  } catch (e) {
+    showFatal(e.message);
+    return;
+  }
+  const [draftResult, interactionResult] = await Promise.allSettled([loadDraft(), loadInteractions()]);
+  if (draftResult.status === 'rejected') {
+    document.getElementById('draft-panel').style.display = 'none';
+    toast(`Draft lookup failed: ${draftResult.reason.message}`, 'error');
+  }
+  if (interactionResult.status === 'rejected') {
+    document.getElementById('interactions-content').className = '';
+    document.getElementById('interactions-content').innerHTML =
+      `<div style="color:var(--red)">Error loading interactions: ${esc(interactionResult.reason.message)}</div>`;
+  }
+}
+
+async function loadContact() {
+  _contact = await api('GET', `/contacts/${encodeURIComponent(CONTACT_ID)}`);
+  renderHeader();
+  renderContactFields();
+}
+
+function renderHeader() {
+  document.getElementById('contact-name').textContent = _contact.name || 'Unnamed Contact';
+  document.getElementById('status-badge').innerHTML = statusBadge(_contact.status);
+  document.getElementById('contact-sub').textContent = _contact.email || 'No email on record';
+
+  const chip = document.getElementById('followup-chip');
+  const overdue = isOverdue(_contact.next_followup_date);
+  chip.classList.toggle('overdue', overdue);
+  chip.innerHTML = `Next follow-up<strong>${esc(formatDateOnly(_contact.next_followup_date))}</strong>`;
+}
+
+function renderContactFields() {
+  document.getElementById('contact-fields').className = '';
+  document.getElementById('contact-fields').innerHTML = `
+    <div class="field-grid">
+      <div class="field">
+        <div class="label">Email</div>
+        <div class="value">${_contact.email ? `<a href="mailto:${esc(_contact.email)}">${esc(_contact.email)}</a>` : '<span class="dim">-</span>'}</div>
+      </div>
+      <div class="field">
+        <div class="label">LinkedIn</div>
+        <div class="value">${_contact.linkedin_url ? `<a href="${esc(_contact.linkedin_url)}" target="_blank" rel="noopener">${esc(_contact.linkedin_url)}</a>` : '<span class="dim">-</span>'}</div>
+      </div>
+      <div class="field">
+        <div class="label">Source</div>
+        <div class="value">${esc(_contact.source || '-')}</div>
+      </div>
+      <div class="field">
+        <div class="label">Type</div>
+        <div class="value">${typeBadge(_contact.contact_type)}</div>
+      </div>
+      <div class="field">
+        <div class="label">Outreach Count</div>
+        <div class="value">${Number(_contact.outreach_count || 0)}</div>
+      </div>
+      <div class="field">
+        <div class="label">Created</div>
+        <div class="value">${esc(formatDate(_contact.created_at))}</div>
+      </div>
+      <div class="field">
+        <div class="label">Status</div>
+        <select id="status-input" onchange="saveField('status', this.value)">${contactStatusOptions(_contact.status)}</select>
+      </div>
+      <div class="field">
+        <div class="label">Next Follow-up Date</div>
+        <input id="followup-input" type="date" value="${esc(_contact.next_followup_date || '')}" onchange="saveField('next_followup_date', this.value || null)" />
+      </div>
+      <div class="field full">
+        <div class="label">Notes</div>
+        <textarea id="notes-input">${esc(_contact.notes || '')}</textarea>
+        <div class="edit-row">
+          <button class="btn btn-primary" id="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+        </div>
+      </div>
+    </div>
+    <div class="danger-row">
+      <div>
+        <div class="label">Delete Contact</div>
+        <div class="danger-copy">This removes the contact record from the CRM.</div>
+      </div>
+      <button class="btn btn-discard" id="delete-btn" onclick="deleteContact()">Delete Contact</button>
+    </div>`;
+}
+
+async function saveField(field, value) {
+  try {
+    const updated = await api('PUT', `/contacts/${encodeURIComponent(CONTACT_ID)}`, { [field]: value });
+    _contact = { ..._contact, ...updated };
+    renderHeader();
+    toast('Contact updated', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    renderContactFields();
+  }
+}
+
+async function saveNotes() {
+  const btn = document.getElementById('notes-save-btn');
+  const notes = document.getElementById('notes-input').value.trim();
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  try {
+    const updated = await api('PUT', `/contacts/${encodeURIComponent(CONTACT_ID)}`, { notes });
+    _contact = { ..._contact, ...updated };
+    toast('Notes saved', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Notes';
+  }
+}
+
+async function deleteContact() {
+  if (!confirm(`Delete ${_contact?.name || 'this contact'}? This cannot be undone.`)) return;
+  const btn = document.getElementById('delete-btn');
+  btn.disabled = true;
+  btn.textContent = 'Deleting...';
+  try {
+    await api('DELETE', `/contacts/${encodeURIComponent(CONTACT_ID)}`);
+    window.location.href = 'crm.html';
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Delete Contact';
+  }
+}
+
+async function loadDraft() {
+  const drafts = await api('GET', '/drafts?status=Pending');
+  _pendingDraft = (drafts || []).find(d => String(d.contact_id) === String(CONTACT_ID)) || null;
+  renderDraft();
+}
+
+function renderDraft() {
+  const panel = document.getElementById('draft-panel');
+  const content = document.getElementById('draft-content');
+  if (!_pendingDraft) {
+    panel.style.display = 'none';
+    content.innerHTML = '';
+    return;
+  }
+  panel.style.display = '';
+  content.innerHTML = `
+    <div class="draft-card">
+      <div class="draft-subject">${esc(_pendingDraft.subject || '(no subject)')}</div>
+      <div class="draft-body">${esc(_pendingDraft.body || '')}</div>
+      <div>
+        <div class="label">Template Selected</div>
+        <div class="value">${esc(_pendingDraft.template_selected || '-')}</div>
+      </div>
+      <div>
+        <div class="label">Rationale</div>
+        <div class="draft-rationale">${esc(_pendingDraft.rationale || 'No rationale saved.')}</div>
+      </div>
+      <div class="draft-actions">
+        <button class="btn btn-approve" id="approve-btn" onclick="approveDraft()">Approve</button>
+        <button class="btn btn-discard" id="discard-btn" onclick="discardDraft()">Discard</button>
+      </div>
+      <div class="rewrite-box">
+        <div>
+          <div class="label">Rewrite Instructions</div>
+          <textarea id="rewrite-instructions" placeholder="Tell Claude what should change in this draft."></textarea>
+        </div>
+        <button class="btn btn-primary" id="rewrite-btn" onclick="rewriteDraft()">Submit Rewrite</button>
+      </div>
+    </div>`;
+}
+
+async function approveDraft() {
+  if (!_pendingDraft) return;
+  if (!confirm('Approve and send this draft?')) return;
+  const btn = document.getElementById('approve-btn');
+  btn.disabled = true;
+  btn.textContent = 'Approving...';
+  try {
+    await api('POST', `/drafts/${_pendingDraft.id}/approve`);
+    toast('Draft approved', 'success');
+    await loadDraft();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Approve';
+  }
+}
+
+async function discardDraft() {
+  if (!_pendingDraft) return;
+  if (!confirm('Discard this draft?')) return;
+  const btn = document.getElementById('discard-btn');
+  btn.disabled = true;
+  btn.textContent = 'Discarding...';
+  try {
+    await api('POST', `/drafts/${_pendingDraft.id}/discard`);
+    toast('Draft discarded', 'success');
+    await loadDraft();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Discard';
+  }
+}
+
+async function rewriteDraft() {
+  if (!_pendingDraft) return;
+  const notes = document.getElementById('rewrite-instructions').value.trim();
+  if (!notes) {
+    toast('Add rewrite instructions first', 'error');
+    return;
+  }
+  const btn = document.getElementById('rewrite-btn');
+  btn.disabled = true;
+  btn.textContent = 'Rewriting...';
+  try {
+    const result = await api('POST', `/drafts/${_pendingDraft.id}/rewrite`, { instructions: notes });
+    _pendingDraft = result.draft || result;
+    toast('Draft rewritten', 'success');
+    renderDraft();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Submit Rewrite';
+  }
+}
+
+async function loadInteractions() {
+  const interactions = await api('GET', `/contacts/${encodeURIComponent(CONTACT_ID)}/interactions`);
+  renderInteractions(interactions || []);
+}
+
+function renderInteractions(interactions) {
+  document.getElementById('interaction-count').textContent =
+    `${interactions.length} interaction${interactions.length !== 1 ? 's' : ''}, newest first.`;
+  const el = document.getElementById('interactions-content');
+  el.className = '';
+  if (interactions.length === 0) {
+    el.innerHTML = '<div class="empty">No interaction history on record.</div>';
+    return;
+  }
+  const sorted = interactions.slice().sort((a, b) => new Date(b.occurred_at) - new Date(a.occurred_at));
+  el.innerHTML = `<div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`;
+}
+
+function interactionHtml(i) {
+  const raw = (i.raw_content || '').trim();
+  const id = `raw-${i.id || Math.random().toString(36).slice(2)}`;
+  return `<div class="interaction-item">
+    <div class="interaction-head">
+      <div class="interaction-meta">
+        ${channelBadge(i.channel)}
+        <span class="interaction-date">${esc(formatDate(i.occurred_at))}</span>
+      </div>
+      ${raw ? `<button class="btn btn-neutral" onclick="toggleRaw('${id}', this)">Show full</button>` : ''}
+    </div>
+    <div class="interaction-summary">${esc(i.summary || '(no summary)')}</div>
+    ${raw ? `<div class="raw-content" id="${id}">${esc(raw)}</div>` : ''}
+  </div>`;
+}
+
+function toggleRaw(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('open');
+  btn.textContent = open ? 'Hide full' : 'Show full';
+}
+</script>
+</body>
+</html>
