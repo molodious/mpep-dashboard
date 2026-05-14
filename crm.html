@@ -407,6 +407,7 @@
       border-radius: 6px; border-left: 3px solid var(--dim);
     }
     .dc-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dc-body a { color: var(--blue); text-decoration: underline; }
 
     .btn {
       padding: 5px 12px; border-radius: 6px;
@@ -885,6 +886,52 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+function safeHref(url) {
+  try {
+    const parsed = new URL(String(url || '').trim(), window.location.href);
+    if (!['http:', 'https:', 'mailto:'].includes(parsed.protocol)) return null;
+    return parsed.href;
+  } catch (_) {
+    return null;
+  }
+}
+
+function renderSafeBody(body) {
+  const doc = new DOMParser().parseFromString(`<div>${body || ''}</div>`, 'text/html');
+  function walk(node) {
+    if (node.nodeType === Node.TEXT_NODE) return esc(node.textContent);
+    if (node.nodeType !== Node.ELEMENT_NODE) return '';
+    if (node.tagName === 'A') {
+      const href = safeHref(node.getAttribute('href'));
+      const label = Array.from(node.childNodes).map(walk).join('') || esc(node.textContent || node.getAttribute('href') || '');
+      if (!href) return label;
+      return `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    }
+    if (node.tagName === 'BR') return '\n';
+    return Array.from(node.childNodes).map(walk).join('');
+  }
+  return Array.from(doc.body.firstChild.childNodes).map(walk).join('');
+}
+
+function insertLinkIntoTextarea(textarea) {
+  const start = textarea.selectionStart || 0;
+  const end = textarea.selectionEnd || start;
+  const selected = textarea.value.slice(start, end).trim();
+  const text = prompt('Link text', selected || '');
+  if (!text) return false;
+  const rawUrl = prompt('URL', 'https://');
+  const href = safeHref(rawUrl);
+  if (!href) {
+    toast('Enter a valid http, https, or mailto link', 'error');
+    return false;
+  }
+  const link = `<a href="${href.replace(/"/g, '&quot;')}">${esc(text)}</a>`;
+  textarea.value = textarea.value.slice(0, start) + link + textarea.value.slice(end);
+  textarea.focus();
+  textarea.selectionStart = textarea.selectionEnd = start + link.length;
+  return true;
+}
+
 function statusBadge(status) {
   const k = (status || '').toLowerCase().replace(/\s+/g, '');
   return `<span class="badge b-${k}">${esc(status) || '—'}</span>`;
@@ -1328,6 +1375,7 @@ function draftCardHtml(d) {
       <button class="btn btn-approve" onclick="approveDraft(${d.id})">✓ Approve</button>
       <button class="btn btn-discard" onclick="discardDraft(${d.id})">Discard</button>
       <button class="btn btn-neutral" id="edit-btn-${d.id}" onclick="toggleDraftEdit(${d.id})">Edit</button>
+      <button class="btn btn-neutral" onclick="insertDraftLink(${d.id})">Insert Link</button>
       <button class="btn btn-rewrite-open" onclick="toggleRewrite(${d.id})">Rewrite</button>
     </div>
     <div class="dc-rewrite" id="dcr-${d.id}">
@@ -1360,7 +1408,7 @@ function draftCardHtml(d) {
       </span>
     </div>
     <div class="dc-subject">${esc(d.subject || '(no subject)')}</div>
-    <div class="dc-body" id="dcb-${d.id}">${esc(d.body || '')}</div>
+    <div class="dc-body" id="dcb-${d.id}">${renderSafeBody(d.body || '')}</div>
     ${d.rationale ? `<div class="dc-rationale">${esc(d.rationale)}</div>` : ''}
     ${actionHtml}
   </div>`;
@@ -1404,16 +1452,31 @@ function toggleDraftEdit(id) {
   if (bodyEl.tagName === 'TEXTAREA') {
     saveDraftEdit(id, bodyEl, editBtn);
   } else {
-    const text = bodyEl.textContent; // preserve actual text content
-    const ta = document.createElement('textarea');
-    ta.className = 'dc-body';
-    ta.id = `dcb-${id}`;
-    ta.value = text;
-    bodyEl.replaceWith(ta);
-    ta.focus();
+    makeDraftEditable(id).focus();
     editBtn.className = 'btn btn-primary';
     editBtn.textContent = 'Save edit';
   }
+}
+
+function makeDraftEditable(id) {
+  const bodyEl = document.getElementById(`dcb-${id}`);
+  if (bodyEl.tagName === 'TEXTAREA') return bodyEl;
+  const d = _drafts.find(x => x.id === id);
+  const ta = document.createElement('textarea');
+  ta.className = 'dc-body';
+  ta.id = `dcb-${id}`;
+  ta.value = d?.body || bodyEl.textContent || '';
+  bodyEl.replaceWith(ta);
+  const editBtn = document.getElementById(`edit-btn-${id}`);
+  if (editBtn) {
+    editBtn.className = 'btn btn-primary';
+    editBtn.textContent = 'Save edit';
+  }
+  return ta;
+}
+
+function insertDraftLink(id) {
+  insertLinkIntoTextarea(makeDraftEditable(id));
 }
 
 async function saveDraftEdit(id, ta, editBtn) {
@@ -1424,7 +1487,7 @@ async function saveDraftEdit(id, ta, editBtn) {
     const div = document.createElement('div');
     div.className = 'dc-body';
     div.id = `dcb-${id}`;
-    div.textContent = newBody;
+    div.innerHTML = renderSafeBody(newBody);
     ta.replaceWith(div);
     editBtn.className = 'btn btn-neutral';
     editBtn.textContent = 'Edit';
