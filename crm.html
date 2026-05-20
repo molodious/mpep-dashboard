@@ -1396,7 +1396,9 @@ function draftCardHtml(d) {
         <div class="dc-meta">
           ${d.contact_email
             ? `<a href="mailto:${esc(d.contact_email)}">${esc(d.contact_email)}</a>`
-            : '<span class="dim">no email</span>'}
+            : d.contact_linkedin_url
+              ? `<a href="${esc(d.contact_linkedin_url)}" target="_blank">LinkedIn</a> <span class="dim">no email</span>`
+              : '<span class="dim">no email</span>'}
           ${cs ? ' · ' + statusBadge(cs) : ''}
           ${d.template_selected
             ? ` · <span class="muted">Tpl: ${esc(d.template_selected)}</span>`
@@ -1416,14 +1418,20 @@ function draftCardHtml(d) {
 
 async function approveDraft(id) {
   const d = _drafts.find(x => x.id === id);
-  const to = d?.contact_email || 'this contact';
-  if (!confirm(`Send this draft to ${to} and mark it approved?`)) return;
+  const isLinkedIn = !d?.contact_email && !!d?.contact_linkedin_url;
+  const to = d?.contact_email || d?.contact_name || 'this contact';
+  const message = isLinkedIn
+    ? `Mark this LinkedIn draft for ${to} as manually sent and approved?`
+    : `Send this draft to ${to} and mark it approved?`;
+  if (!confirm(message)) return;
 
   const btn = document.querySelector(`#dca-${id} .btn-approve`);
-  if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+  if (btn) { btn.disabled = true; btn.textContent = isLinkedIn ? 'Approving...' : 'Sending...'; }
   try {
-    await api('POST', `/drafts/${id}/approve`);
-    toast('Email sent and draft approved', 'success');
+    const result = await api('POST', `/drafts/${id}/approve`);
+    toast(result.channel === 'LinkedIn'
+      ? 'LinkedIn message logged and draft approved'
+      : 'Email sent and draft approved', 'success');
     if (d) d.status = 'Approved';
     renderDrafts();
     loadDraftCount();
