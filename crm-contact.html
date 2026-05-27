@@ -399,6 +399,7 @@
 const API_BASE = 'https://btc.mechanicalpeexamprep.com/api/crm';
 const API_KEY  = 'xQJo3Bj_VRm@P!wVUFqR';
 const CONTACT_STATUS_OPTS = ['New', 'Hot', 'Warm', 'Cold', 'Enrolled', 'Inactive'];
+const EXAM_DISCIPLINE_OPTS = ['Unknown', 'HVAC', 'TFS', 'FE', 'Undecided'];
 const params = new URLSearchParams(window.location.search);
 const CONTACT_ID = params.get('id');
 
@@ -543,6 +544,12 @@ function contactStatusOptions(selected) {
   ).join('');
 }
 
+function examDisciplineOptions(selected) {
+  return EXAM_DISCIPLINE_OPTS.map(s =>
+    `<option value="${s}"${selected === s ? ' selected' : ''}>${s}</option>`
+  ).join('');
+}
+
 function showFatal(message) {
   document.getElementById('contact-name').textContent = 'Contact unavailable';
   document.getElementById('contact-fields').innerHTML = `<div style="color:var(--red)">Error: ${esc(message)}</div>`;
@@ -604,6 +611,10 @@ function renderContactFields() {
       <div class="field">
         <div class="label">Type</div>
         <div class="value">${typeBadge(_contact.contact_type)}</div>
+      </div>
+      <div class="field">
+        <div class="label">Exam</div>
+        <select id="exam-input" onchange="saveField('exam_discipline', this.value)">${examDisciplineOptions(_contact.exam_discipline || 'Unknown')}</select>
       </div>
       <div class="field">
         <div class="label">Outreach Count</div>

@@ -688,6 +688,16 @@
             </select>
           </div>
           <div class="lead-field">
+            <label for="lead-exam">Exam</label>
+            <select id="lead-exam" name="exam_discipline">
+              <option value="Unknown">Unknown</option>
+              <option value="HVAC">HVAC</option>
+              <option value="TFS">TFS</option>
+              <option value="FE">FE</option>
+              <option value="Undecided">Undecided</option>
+            </select>
+          </div>
+          <div class="lead-field">
             <label for="lead-status">Status</label>
             <select id="lead-status" name="status">
               <option value="Hot">Hot</option>
@@ -718,6 +728,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
+              <th>Exam</th>
               <th>Type</th>
               <th>Source</th>
               <th style="text-align:center">Outreach</th>
@@ -945,6 +956,7 @@ function typeBadge(t) {
 }
 
 const CONTACT_STATUS_OPTS = ['New', 'Hot', 'Warm', 'Cold', 'Enrolled', 'Inactive'];
+const EXAM_DISCIPLINE_OPTS = ['Unknown', 'HVAC', 'TFS', 'FE', 'Undecided'];
 
 function contactStatusOptions(selected) {
   return CONTACT_STATUS_OPTS.map(s =>
@@ -1069,6 +1081,7 @@ async function submitLead(event) {
     linkedin_url: formValue(form, 'linkedin_url'),
     source: formValue(form, 'source') || 'Manual',
     contact_type: formValue(form, 'contact_type') || 'B2C',
+    exam_discipline: formValue(form, 'exam_discipline') || 'Unknown',
     status: formValue(form, 'status') || 'Hot',
     next_followup_date: formValue(form, 'next_followup_date'),
     notes: formValue(form, 'notes'),
@@ -1083,6 +1096,7 @@ async function submitLead(event) {
     populateSourceFilter();
     form.reset();
     document.getElementById('lead-source').value = 'Manual';
+    document.getElementById('lead-exam').value = 'Unknown';
     toggleLeadForm(false);
     applyFilters();
     toast(`Lead created: ${created.name}`, 'success');
@@ -1097,7 +1111,7 @@ async function submitLead(event) {
 function renderContacts(rows) {
   const tbody = document.getElementById('contacts-tbody');
   if (rows.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7"><div class="empty">
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty">
       <div class="empty-icon">🔍</div>
       <div class="empty-msg">No contacts match these filters.</div>
     </div></td></tr>`;
@@ -1115,6 +1129,7 @@ function renderContacts(rows) {
           ? `<a href="mailto:${esc(c.email)}" onclick="event.stopPropagation()">${esc(c.email)}</a>`
           : '<span class="dim">—</span>'}</td>
         <td>${statusBadge(c.status)}</td>
+        <td class="muted">${esc(c.exam_discipline || 'Unknown')}</td>
         <td>${typeBadge(c.contact_type)}</td>
         <td class="muted">${esc(c.source || '—')}</td>
         <td class="muted" style="text-align:center">${c.outreach_count || 0}</td>
