@@ -712,6 +712,7 @@ async function loadDraft() {
   const contactDrafts = (drafts || []).filter(d => String(d.contact_id) === String(CONTACT_ID));
   _pendingDraft = contactDrafts.find(d => d.status === 'Pending')
     || contactDrafts.find(d => d.status === 'Failed')
+    || contactDrafts.find(d => d.status === 'Discarded')
     || null;
   renderDraft();
 }
@@ -726,21 +727,17 @@ function renderDraft() {
   }
   panel.style.display = '';
   const failed = _pendingDraft.status === 'Failed';
-  document.querySelector('#draft-panel .panel-title').textContent = failed ? 'Draft Generation Failed' : 'Pending Draft';
-  content.innerHTML = `
-    <div class="draft-card">
-      ${failed ? '<div class="badge b-inactive" style="margin-bottom:10px">Failed</div>' : ''}
-      <div class="draft-subject">${esc(_pendingDraft.subject || '(no subject)')}</div>
-      <div class="draft-body" id="draft-body">${renderSafeBody(_pendingDraft.body || '')}</div>
-      <div>
-        <div class="label">Template Selected</div>
-        <div class="value">${esc(_pendingDraft.template_selected || '-')}</div>
+  const discarded = _pendingDraft.status === 'Discarded';
+  document.querySelector('#draft-panel .panel-title').textContent = failed
+    ? 'Draft Generation Failed'
+    : discarded
+      ? 'Discarded Draft'
+      : 'Pending Draft';
+  const actionsHtml = failed ? '' : discarded ? `
+      <div class="draft-actions">
+        <button class="btn btn-primary" id="restore-btn" onclick="restoreDraft()">Restore</button>
       </div>
-      <div>
-        <div class="label">Rationale</div>
-        <div class="draft-rationale">${esc(_pendingDraft.rationale || 'No rationale saved.')}</div>
-      </div>
-      ${failed ? '' : `
+      ` : `
       <div class="draft-actions">
         <button class="btn btn-approve" id="approve-btn" onclick="approveDraft()">Approve</button>
         <button class="btn btn-discard" id="discard-btn" onclick="discardDraft()">Discard</button>
@@ -754,7 +751,22 @@ function renderDraft() {
         </div>
         <button class="btn btn-primary" id="rewrite-btn" onclick="rewriteDraft()">Submit Rewrite</button>
       </div>
-      `}
+      `;
+  content.innerHTML = `
+    <div class="draft-card">
+      ${failed ? '<div class="badge b-inactive" style="margin-bottom:10px">Failed</div>' : ''}
+      ${discarded ? '<div class="badge b-inactive" style="margin-bottom:10px">Discarded</div>' : ''}
+      <div class="draft-subject">${esc(_pendingDraft.subject || '(no subject)')}</div>
+      <div class="draft-body" id="draft-body">${renderSafeBody(_pendingDraft.body || '')}</div>
+      <div>
+        <div class="label">Template Selected</div>
+        <div class="value">${esc(_pendingDraft.template_selected || '-')}</div>
+      </div>
+      <div>
+        <div class="label">Rationale</div>
+        <div class="draft-rationale">${esc(_pendingDraft.rationale || 'No rationale saved.')}</div>
+      </div>
+      ${actionsHtml}
     </div>`;
 }
 
@@ -795,6 +807,26 @@ async function discardDraft() {
     toast(`Error: ${e.message}`, 'error');
     btn.disabled = false;
     btn.textContent = 'Discard';
+  }
+}
+
+async function restoreDraft() {
+  if (!_pendingDraft) return;
+  const btn = document.getElementById('restore-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Restoring...';
+  }
+  try {
+    await api('POST', `/drafts/${_pendingDraft.id}/restore`);
+    toast('Draft restored', 'success');
+    await loadDraft();
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Restore';
+    }
   }
 }
 

@@ -752,6 +752,8 @@
                 data-ds="Approved"  onclick="switchDraftFilter(this)">Approved</span>
           <span class="pill"    style="color:var(--muted)"
                 data-ds="Failed"  onclick="switchDraftFilter(this)">Failed</span>
+          <span class="pill"    style="color:var(--muted)"
+                data-ds="Discarded"  onclick="switchDraftFilter(this)">Discarded</span>
         </div>
         <span class="count-lbl" id="draft-count"></span>
       </div>
@@ -1322,8 +1324,8 @@ function switchDraftFilter(el) {
   });
   el.classList.add('on');
   // restore accent colour for active pill
-  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)', Failed: 'var(--red)' };
-  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a', Failed: '#2b1111' };
+  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)', Failed: 'var(--red)', Discarded: 'var(--muted)' };
+  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a', Failed: '#2b1111', Discarded: 'var(--surface2)' };
   el.style.color       = colours[_draftFilter] || 'var(--muted)';
   el.style.borderColor = colours[_draftFilter] || 'var(--border)';
   el.style.background  = bgs[_draftFilter] || '';
@@ -1397,6 +1399,7 @@ function moveDraftQueue(delta) {
 function draftCardHtml(d) {
   const cs = d.contact_status || '';
   const pending = d.status === 'Pending';
+  const discarded = d.status === 'Discarded';
   const statusColor = d.status === 'Approved' ? 'var(--green)'
                     : d.status === 'Discarded' ? 'var(--dim)'
                     : d.status === 'Failed' ? 'var(--red)'
@@ -1419,6 +1422,9 @@ function draftCardHtml(d) {
       <button class="btn btn-primary" id="rw-btn-${d.id}" style="font-size:12px" onclick="rewriteDraft(${d.id})">
         Rewrite Draft
       </button>
+    </div>` : discarded ? `
+    <div class="dc-actions" id="dca-${d.id}">
+      <button class="btn btn-primary" onclick="restoreDraft(${d.id})">Restore</button>
     </div>` : '';
 
   return `<div class="draft-card" id="dc-${d.id}">
@@ -1492,6 +1498,23 @@ async function discardDraft(id) {
       loadDraftCount();
       toast('Draft restored', 'success');
     });
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  }
+}
+
+async function restoreDraft(id) {
+  try {
+    const restored = await api('POST', `/drafts/${id}/restore`);
+    const i = _drafts.findIndex(x => x.id === restored.id);
+    if (i !== -1) _drafts[i] = restored;
+    else _drafts.unshift(restored);
+    _draftFilter = 'Pending';
+    const pill = document.querySelector('#draft-pills .pill[data-ds="Pending"]');
+    if (pill) switchDraftFilter(pill);
+    else renderDrafts();
+    loadDraftCount();
+    toast('Draft restored', 'success');
   } catch (e) {
     toast(`Error: ${e.message}`, 'error');
   }
