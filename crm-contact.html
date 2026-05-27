@@ -683,8 +683,11 @@ async function deleteContact() {
 }
 
 async function loadDraft() {
-  const drafts = await api('GET', '/drafts?status=Pending');
-  _pendingDraft = (drafts || []).find(d => String(d.contact_id) === String(CONTACT_ID)) || null;
+  const drafts = await api('GET', '/drafts');
+  const contactDrafts = (drafts || []).filter(d => String(d.contact_id) === String(CONTACT_ID));
+  _pendingDraft = contactDrafts.find(d => d.status === 'Pending')
+    || contactDrafts.find(d => d.status === 'Failed')
+    || null;
   renderDraft();
 }
 
@@ -697,8 +700,11 @@ function renderDraft() {
     return;
   }
   panel.style.display = '';
+  const failed = _pendingDraft.status === 'Failed';
+  document.querySelector('#draft-panel .panel-title').textContent = failed ? 'Draft Generation Failed' : 'Pending Draft';
   content.innerHTML = `
     <div class="draft-card">
+      ${failed ? '<div class="badge b-inactive" style="margin-bottom:10px">Failed</div>' : ''}
       <div class="draft-subject">${esc(_pendingDraft.subject || '(no subject)')}</div>
       <div class="draft-body" id="draft-body">${renderSafeBody(_pendingDraft.body || '')}</div>
       <div>
@@ -709,6 +715,7 @@ function renderDraft() {
         <div class="label">Rationale</div>
         <div class="draft-rationale">${esc(_pendingDraft.rationale || 'No rationale saved.')}</div>
       </div>
+      ${failed ? '' : `
       <div class="draft-actions">
         <button class="btn btn-approve" id="approve-btn" onclick="approveDraft()">Approve</button>
         <button class="btn btn-discard" id="discard-btn" onclick="discardDraft()">Discard</button>
@@ -722,6 +729,7 @@ function renderDraft() {
         </div>
         <button class="btn btn-primary" id="rewrite-btn" onclick="rewriteDraft()">Submit Rewrite</button>
       </div>
+      `}
     </div>`;
 }
 

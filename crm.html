@@ -739,6 +739,8 @@
                 data-ds="Pending"   onclick="switchDraftFilter(this)">Pending</span>
           <span class="pill"    style="color:var(--muted)"
                 data-ds="Approved"  onclick="switchDraftFilter(this)">Approved</span>
+          <span class="pill"    style="color:var(--muted)"
+                data-ds="Failed"  onclick="switchDraftFilter(this)">Failed</span>
         </div>
         <span class="count-lbl" id="draft-count"></span>
       </div>
@@ -1291,8 +1293,8 @@ function switchDraftFilter(el) {
   });
   el.classList.add('on');
   // restore accent colour for active pill
-  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)' };
-  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a' };
+  const colours = { Pending: 'var(--yellow)', Approved: 'var(--green)', Failed: 'var(--red)' };
+  const bgs     = { Pending: '#2d2200', Approved: '#0d2e1a', Failed: '#2b1111' };
   el.style.color       = colours[_draftFilter] || 'var(--muted)';
   el.style.borderColor = colours[_draftFilter] || 'var(--border)';
   el.style.background  = bgs[_draftFilter] || '';
@@ -1368,6 +1370,7 @@ function draftCardHtml(d) {
   const pending = d.status === 'Pending';
   const statusColor = d.status === 'Approved' ? 'var(--green)'
                     : d.status === 'Discarded' ? 'var(--dim)'
+                    : d.status === 'Failed' ? 'var(--red)'
                     : 'var(--yellow)';
 
   const actionHtml = pending ? `
