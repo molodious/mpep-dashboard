@@ -851,6 +851,20 @@ function toast(msg, type = 'success') {
   _toastTimer = setTimeout(() => { el.className = ''; }, 3200);
 }
 
+function actionToast(msg, actionLabel, action, type = 'success') {
+  const el = document.getElementById('toast');
+  el.innerHTML = `${esc(msg)} <button type="button" style="margin-left:10px;background:none;border:0;color:var(--blue);font-weight:700;cursor:pointer">${esc(actionLabel)}</button>`;
+  el.className = `show t-${type}`;
+  const button = el.querySelector('button');
+  button.onclick = async () => {
+    button.disabled = true;
+    await action();
+    el.className = '';
+  };
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 7000);
+}
+
 // ── API ───────────────────────────────────────────────────────────────────
 
 async function api(method, path, body) {
@@ -1461,12 +1475,23 @@ async function approveDraft(id) {
 async function discardDraft(id) {
   if (!confirm('Discard this draft?')) return;
   try {
-    await api('POST', `/drafts/${id}/discard`);
-    toast('Draft discarded', 'success');
+    const discarded = await api('POST', `/drafts/${id}/discard`);
     const d = _drafts.find(x => x.id === id);
     if (d) d.status = 'Discarded';
     renderDrafts();
     loadDraftCount();
+    actionToast('Draft discarded.', 'Undo', async () => {
+      const restored = await api('POST', `/drafts/${discarded.id}/restore`);
+      const i = _drafts.findIndex(x => x.id === restored.id);
+      if (i !== -1) _drafts[i] = restored;
+      else _drafts.unshift(restored);
+      _draftFilter = 'Pending';
+      const pill = document.querySelector('#draft-pills .pill[data-ds="Pending"]');
+      if (pill) switchDraftFilter(pill);
+      else renderDrafts();
+      loadDraftCount();
+      toast('Draft restored', 'success');
+    });
   } catch (e) {
     toast(`Error: ${e.message}`, 'error');
   }

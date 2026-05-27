@@ -496,6 +496,20 @@ function toast(msg, type = 'success') {
   _toastTimer = setTimeout(() => { el.className = ''; }, 3200);
 }
 
+function actionToast(msg, actionLabel, action, type = 'success') {
+  const el = document.getElementById('toast');
+  el.innerHTML = `${esc(msg)} <button type="button" style="margin-left:10px;background:none;border:0;color:var(--blue);font-weight:700;cursor:pointer">${esc(actionLabel)}</button>`;
+  el.className = `show t-${type}`;
+  const button = el.querySelector('button');
+  button.onclick = async () => {
+    button.disabled = true;
+    await action();
+    el.className = '';
+  };
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 7000);
+}
+
 function statusBadge(status) {
   const k = (status || '').toLowerCase().replace(/\s+/g, '');
   return `<span class="badge b-${k}">${esc(status) || '-'}</span>`;
@@ -770,9 +784,13 @@ async function discardDraft() {
   btn.disabled = true;
   btn.textContent = 'Discarding...';
   try {
-    await api('POST', `/drafts/${_pendingDraft.id}/discard`);
-    toast('Draft discarded', 'success');
+    const discarded = await api('POST', `/drafts/${_pendingDraft.id}/discard`);
     await loadDraft();
+    actionToast('Draft discarded.', 'Undo', async () => {
+      await api('POST', `/drafts/${discarded.id}/restore`);
+      toast('Draft restored', 'success');
+      await loadDraft();
+    });
   } catch (e) {
     toast(`Error: ${e.message}`, 'error');
     btn.disabled = false;
