@@ -255,6 +255,20 @@
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+    th.sortable:hover { color: var(--text); }
+    .sort-ind {
+      display: inline-block;
+      min-width: 12px;
+      margin-left: 4px;
+      color: var(--dim);
+      font-size: 10px;
+      text-align: center;
+    }
+    th.sorted .sort-ind { color: var(--blue); }
     tbody tr { border-bottom: 1px solid var(--border); }
     tbody tr:last-child { border-bottom: none; }
     tr.c-row { cursor: pointer; transition: background 0.1s; }
@@ -725,14 +739,14 @@
         <table id="contacts-tbl">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Exam</th>
-              <th>Type</th>
-              <th>Source</th>
-              <th style="text-align:center">Outreach</th>
-              <th>Next Followup</th>
+              <th class="sortable" data-sort-key="name" onclick="setContactSort('name')">Name <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="email" onclick="setContactSort('email')">Email <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="status" onclick="setContactSort('status')">Status <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="exam_discipline" onclick="setContactSort('exam_discipline')">Exam <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="contact_type" onclick="setContactSort('contact_type')">Type <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="source" onclick="setContactSort('source')">Source <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="outreach_count" onclick="setContactSort('outreach_count')" style="text-align:center">Outreach <span class="sort-ind"></span></th>
+              <th class="sortable" data-sort-key="next_followup_date" onclick="setContactSort('next_followup_date')">Next Followup <span class="sort-ind"></span></th>
             </tr>
           </thead>
           <tbody id="contacts-tbody">
@@ -985,6 +999,8 @@ function contactStatusOptions(selected) {
 let _contacts      = [];
 let _activePills   = new Set(['New', 'Hot', 'Warm', 'Cold']);
 let _expandedId    = null;
+let _contactSort   = { key: 'next_followup_date', dir: 'asc' };
+const CONTACT_STATUS_SORT = { New: 1, Hot: 2, Warm: 3, Cold: 4, Enrolled: 5, Inactive: 6 };
 
 function togglePill(el) {
   const s = el.dataset.s;
@@ -1035,9 +1051,78 @@ function applyFilters() {
     );
   }
 
+  rows = sortContacts(rows);
   renderContacts(rows);
+  updateContactSortHeaders();
   document.getElementById('contact-count').textContent =
     `${rows.length} contact${rows.length !== 1 ? 's' : ''}`;
+}
+
+function setContactSort(key) {
+  if (_contactSort.key === key) {
+    _contactSort.dir = _contactSort.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    _contactSort = { key, dir: 'asc' };
+  }
+  applyFilters();
+}
+
+function sortContacts(rows) {
+  const sorted = rows.slice();
+  const { key, dir } = _contactSort;
+  const factor = dir === 'desc' ? -1 : 1;
+  sorted.sort((a, b) => {
+    if (key === 'next_followup_date') {
+      const blankCompare = compareBlankDates(a[key], b[key]);
+      if (blankCompare !== 0) return blankCompare;
+    }
+    return compareContacts(a, b, key) * factor;
+  });
+  return sorted;
+}
+
+function compareContacts(a, b, key) {
+  if (key === 'next_followup_date') return compareDatesLast(a[key], b[key]);
+  if (key === 'status') return compareNumbers(
+    CONTACT_STATUS_SORT[a.status] || 99,
+    CONTACT_STATUS_SORT[b.status] || 99
+  ) || compareText(a.status, b.status);
+  if (key === 'outreach_count') return compareNumbers(a.outreach_count || 0, b.outreach_count || 0);
+  return compareText(a[key], b[key]);
+}
+
+function compareDatesLast(a, b) {
+  const av = a ? Date.parse(a) : null;
+  const bv = b ? Date.parse(b) : null;
+  return av - bv;
+}
+
+function compareBlankDates(a, b) {
+  const av = a ? Date.parse(a) : null;
+  const bv = b ? Date.parse(b) : null;
+  const aBlank = !Number.isFinite(av);
+  const bBlank = !Number.isFinite(bv);
+  if (aBlank && bBlank) return 0;
+  if (aBlank) return 1;
+  if (bBlank) return -1;
+  return 0;
+}
+
+function compareNumbers(a, b) {
+  return Number(a || 0) - Number(b || 0);
+}
+
+function compareText(a, b) {
+  return String(a || '').localeCompare(String(b || ''), undefined, { sensitivity: 'base' });
+}
+
+function updateContactSortHeaders() {
+  document.querySelectorAll('#contacts-tbl th.sortable').forEach(th => {
+    const active = th.dataset.sortKey === _contactSort.key;
+    th.classList.toggle('sorted', active);
+    const ind = th.querySelector('.sort-ind');
+    if (ind) ind.textContent = active ? (_contactSort.dir === 'asc' ? '↑' : '↓') : '';
+  });
 }
 
 function populateSourceFilter() {
@@ -1108,7 +1193,6 @@ async function submitLead(event) {
   try {
     const created = await api('POST', '/contacts', payload);
     _contacts.push(created);
-    _contacts.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
     populateSourceFilter();
     form.reset();
     document.getElementById('lead-source').value = 'Manual';
