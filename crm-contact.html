@@ -362,7 +362,7 @@
       <div class="panel-head">
         <div>
           <div class="panel-title">Contact Fields</div>
-          <div class="panel-sub">Edit status, notes, and follow-up timing.</div>
+          <div class="panel-sub">Edit contact identity, status, notes, and follow-up timing.</div>
         </div>
       </div>
       <div id="contact-fields" class="loading"><span class="spinner"></span>Loading contact...</div>
@@ -564,6 +564,12 @@ function examDisciplineOptions(selected) {
   ).join('');
 }
 
+function contactTypeOptions(selected) {
+  return ['B2C', 'B2B'].map(s =>
+    `<option value="${s}"${selected === s ? ' selected' : ''}>${s}</option>`
+  ).join('');
+}
+
 function showFatal(message) {
   document.getElementById('contact-name').textContent = 'Contact unavailable';
   document.getElementById('contact-fields').innerHTML = `<div style="color:var(--red)">Error: ${esc(message)}</div>`;
@@ -611,20 +617,24 @@ function renderContactFields() {
   document.getElementById('contact-fields').innerHTML = `
     <div class="field-grid">
       <div class="field">
+        <div class="label">Name</div>
+        <input id="name-input" value="${esc(_contact.name || '')}" />
+      </div>
+      <div class="field">
         <div class="label">Email</div>
-        <div class="value">${_contact.email ? `<a href="mailto:${esc(_contact.email)}">${esc(_contact.email)}</a>` : '<span class="dim">-</span>'}</div>
+        <input id="email-input" type="email" value="${esc(_contact.email || '')}" />
       </div>
       <div class="field">
         <div class="label">LinkedIn</div>
-        <div class="value">${_contact.linkedin_url ? `<a href="${esc(_contact.linkedin_url)}" target="_blank" rel="noopener">${esc(_contact.linkedin_url)}</a>` : '<span class="dim">-</span>'}</div>
+        <input id="linkedin-input" type="url" value="${esc(_contact.linkedin_url || '')}" placeholder="https://www.linkedin.com/in/..." />
       </div>
       <div class="field">
         <div class="label">Source</div>
-        <div class="value">${esc(_contact.source || '-')}</div>
+        <input id="source-input" value="${esc(_contact.source || '')}" />
       </div>
       <div class="field">
         <div class="label">Type</div>
-        <div class="value">${typeBadge(_contact.contact_type)}</div>
+        <select id="type-input">${contactTypeOptions(_contact.contact_type || 'B2C')}</select>
       </div>
       <div class="field">
         <div class="label">Exam</div>
@@ -647,6 +657,11 @@ function renderContactFields() {
         <input id="followup-input" type="date" value="${esc(_contact.next_followup_date || '')}" onchange="saveField('next_followup_date', this.value || null)" />
       </div>
       <div class="field full">
+        <div class="edit-row">
+          <button class="btn btn-primary" id="identity-save-btn" onclick="saveIdentity()">Save Contact Fields</button>
+        </div>
+      </div>
+      <div class="field full">
         <div class="label">Notes</div>
         <textarea id="notes-input">${esc(_contact.notes || '')}</textarea>
         <div class="edit-row">
@@ -661,6 +676,36 @@ function renderContactFields() {
       </div>
       <button class="btn btn-discard" id="delete-btn" onclick="deleteContact()">Delete Contact</button>
     </div>`;
+}
+
+async function saveIdentity() {
+  const btn = document.getElementById('identity-save-btn');
+  const payload = {
+    name: document.getElementById('name-input').value.trim() || null,
+    email: document.getElementById('email-input').value.trim() || null,
+    linkedin_url: document.getElementById('linkedin-input').value.trim() || null,
+    source: document.getElementById('source-input').value.trim() || null,
+    contact_type: document.getElementById('type-input').value || 'B2C',
+  };
+  if (!payload.name) {
+    toast('Contact name is required', 'error');
+    document.getElementById('name-input').focus();
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  try {
+    const updated = await api('PUT', `/contacts/${encodeURIComponent(CONTACT_ID)}`, payload);
+    _contact = { ..._contact, ...updated };
+    renderHeader();
+    renderContactFields();
+    toast('Contact fields saved', 'success');
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Contact Fields';
+  }
 }
 
 async function saveField(field, value) {
