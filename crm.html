@@ -140,6 +140,7 @@
       flex-wrap: wrap; margin-bottom: 16px;
     }
     .status-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+    .draft-run-status { font-size: 13px; color: var(--muted); }
     .pill {
       padding: 4px 12px; border-radius: 20px;
       font-size: 12px; font-weight: 500;
@@ -769,6 +770,8 @@
           <span class="pill"    style="color:var(--muted)"
                 data-ds="Discarded"  onclick="switchDraftFilter(this)">Discarded</span>
         </div>
+        <button class="btn btn-primary" id="draft-run-btn" onclick="triggerDraftRun()">Run Drafts</button>
+        <span class="draft-run-status" id="draft-run-status"></span>
         <span class="count-lbl" id="draft-count"></span>
       </div>
       <div class="drafts-grid" id="drafts-grid">
@@ -892,9 +895,19 @@ async function api(method, path, body) {
     },
   };
   if (body !== undefined) opts.body = JSON.stringify(body);
-  const r = await fetch(`${API_BASE}${path}`, opts);
+  let r;
+  try {
+    r = await fetch(`${API_BASE}${path}`, opts);
+  } catch (err) {
+    throw new Error(
+      `Could not reach the CRM API. Open this dashboard from https://dashboard.mechanicalpeexamprep.com and check your connection.`
+    );
+  }
   if (!r.ok) {
-    const e = await r.json().catch(() => ({ error: r.statusText }));
+    const e = await r.json().catch(async () => {
+      const text = await r.text().catch(() => '');
+      return { error: text || r.statusText };
+    });
     throw new Error(e.error || r.statusText);
   }
   return r.json();
@@ -1436,6 +1449,27 @@ async function loadDrafts() {
   } catch (e) {
     document.getElementById('drafts-grid').innerHTML =
       `<div style="color:var(--red)">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function triggerDraftRun() {
+  const btn = document.getElementById('draft-run-btn');
+  const status = document.getElementById('draft-run-status');
+  btn.disabled = true;
+  status.textContent = 'Starting draft run...';
+  try {
+    await api('POST', '/draft-runs');
+    status.textContent = 'Draft run started.';
+    toast('Draft run started', 'success');
+    setTimeout(() => {
+      if (_currentTab === 'drafts') loadDrafts();
+      loadDraftCount();
+    }, 30000);
+  } catch (e) {
+    status.textContent = '';
+    toast(`Error: ${e.message}`, 'error');
+  } finally {
+    btn.disabled = false;
   }
 }
 
