@@ -116,6 +116,7 @@ MONTHLY_HISTORY = [
 PRODUCT_COLORS = {
     'HVAC': '#FFD700',
     'TFS': '#3498DB',
+    'TFS+CSE': '#5B8DEF',
     'FE': '#E74C3C',
     'Fundamentals': '#27AE60',
     'CSE': '#8E44AD',
@@ -129,6 +130,13 @@ PRODUCT_COLORS = {
 def stripe_clean_amount(amount_cents):
     """Return exact Stripe amount in dollars (no tax collected, no snapping needed)."""
     return round(amount_cents / 100, 2)
+
+def normalize_dashboard_product(product, product_name):
+    """Apply dashboard-only labels for legacy/nonstandard products."""
+    name = (product_name or "").upper()
+    if "THERMAL" in name and "CRITICAL SYSTEMS" in name:
+        return "TFS+CSE"
+    return product
 
 # Manual product label corrections (session_id → correct product)
 # Use when Stripe metadata has wrong bundleId
@@ -268,12 +276,12 @@ def fetch_thinkific_data(cutoff_date=None):
                 product = "FE"
             elif "HVAC" in product_name.upper():
                 product = "HVAC"
+            elif "CRITICAL SYSTEMS" in product_name.upper() or "CSE" in product_name.upper():
+                product = "CSE"
             elif "Thermal" in product_name or "Fluids" in product_name or "TFS" in product_name:
                 product = "TFS"
             elif "FUNDAMENTALS" in product_name.upper():
                 product = "Fundamentals"
-            elif "CRITICAL SYSTEMS" in product_name.upper() or "CSE" in product_name.upper():
-                product = "CSE"
             elif "DAILY INSIGHTS" in product_name.upper():
                 product = "DailyInsightsPremium"
             elif "PRACTICE PROBLEMS" in product_name.upper() or "EBOOK" in product_name.upper():
@@ -283,6 +291,7 @@ def fetch_thinkific_data(cutoff_date=None):
                     product = "TFSBook"
             else:
                 product = "Other"
+            product = normalize_dashboard_product(product, product_name)
             
             # Use item-level product price (excludes sales tax collected for govt)
             # order-level amount_cents includes tax; items[].amount_dollars is the product price
@@ -356,14 +365,43 @@ def fetch_webhook_log(cutoff_date=None):
             "date": e["date"],
             "timestamp": ts,
             "customer": e.get("customer", "Unknown"),
-            "product": e.get("product", "Other"),
+            "product": normalize_dashboard_product(e.get("product", "Other"), e.get("product_name", "")),
             "amount": e.get("amount", 0),
             "order_id": order_id,
+            "event": e.get("event", ""),
             "source": e.get("source", "webhook"),
             "sub_type": sub_type,
         })
 
     return orders, seen_order_ids
+
+def dedupe_webhook_orders(orders):
+    """Collapse duplicate webhook rows that represent the same sale."""
+    best_by_key = {}
+    event_priority = {
+        "order_transaction.succeeded": 3,
+        "order.created": 2,
+    }
+
+    for order in orders:
+        source = order.get("source")
+        order_id = order.get("order_id")
+        if source == "thinkific_webhook" and order_id:
+            key = (source, str(order_id))
+        else:
+            key = (source, str(order_id), order.get("date"), order.get("amount"))
+
+        current = best_by_key.get(key)
+        if current is None:
+            best_by_key[key] = order
+            continue
+
+        current_score = event_priority.get(current.get("event", ""), 0)
+        order_score = event_priority.get(order.get("event", ""), 0)
+        if order_score >= current_score:
+            best_by_key[key] = order
+
+    return list(best_by_key.values())
 
 
 def build_dashboard():
@@ -411,14 +449,14 @@ def build_dashboard():
     stripe_ids = {o["session_id"] for o in stripe_orders if o.get("session_id")}
     TEST_NAMES = {'test customer', 'test tunnel', 'telegram works'}
     manual_order_ids = {str(o.get("order_id")) for o in manual_orders if o.get("order_id")}
-    webhook_orders = [
+    webhook_orders = dedupe_webhook_orders([
         o for o in webhook_orders_raw
         if o.get("source") in ("btcpay_webhook", "thinkific_webhook", "manual")
         and (o.get("amount") or 0) > 0
         and (o.get("customer") or "").lower() not in TEST_NAMES
         and o.get("order_id") not in stripe_ids          # safety dedup vs Stripe API
         and str(o.get("order_id")) not in manual_order_ids  # safety dedup vs manual entries
-    ]
+    ])
     print(f"  Webhook (BTC + Thinkific): {len(webhook_orders)} entries")
 
     # Thinkific: legacy FE subscription renewals (April 2026+)
@@ -718,6 +756,9 @@ def build_dashboard():
         tr[data-product="TFS"] {
             background-color: rgba(52, 152, 219, 0.1);
         }
+        tr[data-product="TFS+CSE"] {
+            background-color: rgba(91, 141, 239, 0.1);
+        }
         tr[data-product="FE"] {
             background-color: rgba(231, 76, 60, 0.1);
         }
@@ -726,6 +767,9 @@ def build_dashboard():
         }
         tr[data-product="TFS"]:hover {
             background-color: rgba(52, 152, 219, 0.2);
+        }
+        tr[data-product="TFS+CSE"]:hover {
+            background-color: rgba(91, 141, 239, 0.2);
         }
         tr[data-product="FE"]:hover {
             background-color: rgba(231, 76, 60, 0.2);
