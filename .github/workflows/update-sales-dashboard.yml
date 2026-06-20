@@ -5,6 +5,10 @@ on:
     types: [new-order]
   workflow_dispatch: # Manual trigger from GitHub UI
 
+concurrency:
+  group: sales-dashboard
+  cancel-in-progress: false
+
 jobs:
   rebuild:
     runs-on: ubuntu-latest
@@ -35,6 +39,5 @@ jobs:
             echo "No changes to sales.html"
           else
             git commit -m "Auto-update sales dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
-            git pull --rebase origin main
             git push
           fi
