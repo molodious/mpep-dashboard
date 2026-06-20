@@ -356,7 +356,7 @@ def fetch_webhook_log(cutoff_date=None):
         sub_type = e.get("sub_type")
         if not sub_type:
             event = e.get("event", "")
-            if event == "order_transaction.succeeded" or e.get("payment_type") == "subscription":
+            if e.get("payment_type") == "subscription":
                 sub_type = "renewal"
             else:
                 sub_type = "new"
