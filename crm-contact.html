@@ -767,6 +767,7 @@ function renderDraft() {
         </div>
         <button class="btn btn-primary" id="rewrite-btn" onclick="rewriteDraft()">Submit Rewrite</button>
       </div>
+      <div class="draft-rationale" id="rewrite-error" style="display:none;color:#b91c1c"></div>
     </div>`;
 }
 
@@ -860,6 +861,11 @@ async function rewriteDraft() {
     return;
   }
   const btn = document.getElementById('rewrite-btn');
+  const errorEl = document.getElementById('rewrite-error');
+  if (errorEl) {
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+  }
   btn.disabled = true;
   btn.textContent = 'Rewriting...';
   try {
@@ -868,7 +874,12 @@ async function rewriteDraft() {
     toast('Draft rewritten', 'success');
     renderDraft();
   } catch (e) {
-    toast(`Error: ${e.message}`, 'error');
+    const message = `Rewrite failed: ${e.message}`;
+    toast(message, 'error');
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.style.display = '';
+    }
     btn.disabled = false;
     btn.textContent = 'Submit Rewrite';
   }

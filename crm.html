@@ -1387,6 +1387,7 @@ function draftCardHtml(d) {
       <button class="btn btn-primary" id="rw-btn-${d.id}" style="font-size:12px" onclick="rewriteDraft(${d.id})">
         Rewrite Draft
       </button>
+      <div class="dc-rationale" id="rw-error-${d.id}" style="display:none;color:#b91c1c"></div>
     </div>` : '';
 
   return `<div class="draft-card" id="dc-${d.id}">
@@ -1521,6 +1522,11 @@ async function rewriteDraft(id) {
   }
 
   const btn = document.getElementById(`rw-btn-${id}`);
+  const errorEl = document.getElementById(`rw-error-${id}`);
+  if (errorEl) {
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+  }
   btn.disabled = true;
   btn.textContent = 'Rewriting...';
   try {
@@ -1530,7 +1536,12 @@ async function rewriteDraft(id) {
     toast('Draft rewritten', 'success');
     renderDrafts();
   } catch (e) {
-    toast(`Error: ${e.message}`, 'error');
+    const message = `Rewrite failed: ${e.message}`;
+    toast(message, 'error');
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.style.display = '';
+    }
     btn.disabled = false;
     btn.textContent = 'Rewrite Draft';
   }
