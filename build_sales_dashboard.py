@@ -138,6 +138,18 @@ FORECAST_HISTORY = {
     "2025-09": 15780, "2025-10": 21076, "2025-11": 22479, "2025-12": 11291,
 }
 
+# Quarterly comparison history supplied by Dan. Current-year quarters are built
+# dynamically from dashboard actuals and the revenue forecast below.
+QUARTERLY_REFERENCE = {
+    2019: [6138, 1908, 5859, 4060],
+    2020: [10211, 9278, 15057, 14176],
+    2021: [27227, 30232, 24673, 27088],
+    2022: [28979, 27471, 30088, 40667],
+    2023: [64983, 44707, 42331, 51711],
+    2024: [48957, 30364, 41470, 29217],
+    2025: [59100, 74218, 79844, 57558],
+}
+
 
 def calculate_revenue_forecast(monthly_data, today):
     """Return conservative/baseline/optimistic forecasts through year-end.
@@ -711,6 +723,27 @@ def build_dashboard():
             running[scenario] += revenue_forecast["months"][month_key][scenario]
             values[month_index] = running[scenario]
 
+    # Quarterly comparison: historical reference through 2025, then a dynamic
+    # current year. Closed months use actual revenue; the current and future
+    # months use the baseline forecast, so the active quarter updates as sales land.
+    quarterly_years = [str(year) for year in sorted(QUARTERLY_REFERENCE)] + [str(today.year)]
+    quarterly_values = {
+        f"q{quarter}": [QUARTERLY_REFERENCE[year][quarter - 1] for year in sorted(QUARTERLY_REFERENCE)]
+        for quarter in range(1, 5)
+    }
+    quarterly_projected = {}
+    for quarter in range(1, 5):
+        quarter_total = 0
+        quarter_months = range((quarter - 1) * 3 + 1, quarter * 3 + 1)
+        for month_number in quarter_months:
+            month_key = f"{today.year}-{month_number:02d}"
+            if month_number < today.month:
+                quarter_total += round(sum(monthly_data[month_key].values()))
+            else:
+                quarter_total += revenue_forecast["months"][month_key]["baseline"]
+        quarterly_values[f"q{quarter}"].append(quarter_total)
+        quarterly_projected[f"q{quarter}"] = quarter * 3 >= today.month
+
     # Build HTML
     current_month_orders_count = len(current_orders)
 
@@ -965,9 +998,66 @@ def build_dashboard():
         }
         .forecast-whisker-icon::before { top: 0; background: #16a34a; }
         .forecast-whisker-icon::after { bottom: 0; background: #d97706; }
+        .quarterly-topline {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            gap: 20px; margin-bottom: 18px;
+        }
+        .quarterly-legend {
+            display: flex; flex-wrap: wrap; justify-content: flex-end;
+            align-items: center; gap: 8px 13px; color: #64748b; font-size: 11px;
+        }
+        .quarterly-legend-item { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .quarterly-swatch { width: 13px; height: 10px; border-radius: 2px; background: var(--year-color); }
+        .quarterly-swatch.projected { background: rgba(37,99,235,.15); border: 2px dashed #2563eb; }
+        .quarterly-grid {
+            display: grid; grid-template-columns: 48px repeat(4, minmax(0,1fr));
+            gap: 9px; align-items: end;
+        }
+        .quarter-panel {
+            height: 292px; padding: 12px 7px 8px; border: 1px solid #e5e7eb;
+            border-radius: 9px; background: #fff; min-width: 0; overflow: hidden;
+        }
+        .quarter-panel h3 { margin: 0 0 4px; text-align: center; color: #475569; font-size: 15px; }
+        .quarter-chart {
+            height: 210px; margin-top: 25px; border-bottom: 1px solid #94a3b8;
+            background:
+                linear-gradient(rgba(148,163,184,.30),rgba(148,163,184,.30)) top/100% 1px no-repeat,
+                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 25%/100% 1px no-repeat,
+                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 50%/100% 1px no-repeat,
+                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 75%/100% 1px no-repeat;
+        }
+        .quarter-bars {
+            position: relative; height: 100%; display: grid;
+            grid-template-columns: repeat(8, minmax(0,1fr)); gap: 3px; padding: 0 1px;
+        }
+        .quarter-bar-cell { position: relative; height: 100%; min-width: 0; }
+        .quarter-value {
+            position: absolute; left: 50%; bottom: calc(var(--bar-height) + 5px);
+            transform: translateX(-50%); color: #475569; font-size: 10px;
+            font-weight: 700; white-space: nowrap;
+        }
+        .quarter-bar {
+            position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+            width: min(24px, 78%); height: var(--bar-height); min-height: 3px;
+            border-radius: 3px 3px 0 0; background: var(--year-color);
+        }
+        .quarter-bar.projected {
+            background: rgba(37,99,235,.12); border: 2px dashed var(--year-color); border-bottom: 0;
+        }
+        .quarter-year {
+            position: absolute; left: 50%; top: calc(100% + 8px);
+            transform: translateX(-50%) rotate(-48deg); transform-origin: center;
+            color: #64748b; font-size: 9px;
+        }
+        .quarter-axis { height: 266px; padding: 56px 4px 0 0; }
+        .quarter-axis-scale { position: relative; height: 210px; color: #64748b; font-size: 10px; }
+        .quarter-axis-scale span { position: absolute; right: 0; transform: translateY(50%); }
         @media (max-width: 800px) {
             .forecast-summary { grid-template-columns: 1fr; }
             .forecast-range-legend { justify-content: flex-start; }
+            .quarterly-topline { flex-direction: column; }
+            .quarterly-legend { justify-content: flex-start; }
+            .quarterly-grid { grid-template-columns: 42px repeat(4, 205px); overflow-x: auto; padding-bottom: 8px; }
         }
     </style>
 </head>
@@ -1087,6 +1177,24 @@ def build_dashboard():
                 <h2>Cumulative Revenue Projection</h2>
                 <div class="chart-container" style="height: 380px;">
                     <canvas id="cumulativeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <div class="quarterly-topline">
+                    <h2>Revenue by Quarter</h2>
+                    <div class="quarterly-legend" id="quarterlyLegend"></div>
+                </div>
+                <div class="quarterly-grid">
+                    <div class="quarter-axis"><div class="quarter-axis-scale">
+                        <span style="bottom:100%">$100k</span><span style="bottom:75%">$75k</span>
+                        <span style="bottom:50%">$50k</span><span style="bottom:25%">$25k</span>
+                        <span style="bottom:0">$0</span>
+                    </div></div>
+                    <div class="quarter-panel"><h3>Q1</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ1"></div></div></div>
+                    <div class="quarter-panel"><h3>Q2</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ2"></div></div></div>
+                    <div class="quarter-panel"><h3>Q3</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ3"></div></div></div>
+                    <div class="quarter-panel"><h3>Q4</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ4"></div></div></div>
                 </div>
             </div>
         </div>
@@ -1381,6 +1489,32 @@ def build_dashboard():
         }
 
         // ── Render month: pie + orders + projection ──
+        function renderQuarterlyRevenue() {
+            const years = QUARTERLY_YEARS_PLACEHOLDER;
+            const quarters = QUARTERLY_VALUES_PLACEHOLDER;
+            const projected = QUARTERLY_PROJECTED_PLACEHOLDER;
+            const colors = ['#64748b','#0f766e','#0891b2','#7c3aed','#4f46e5','#d97706','#16a34a','#2563eb'];
+
+            document.getElementById('quarterlyLegend').innerHTML = years.map((year, idx) =>
+                '<span class="quarterly-legend-item"><span class="quarterly-swatch" style="--year-color:' + colors[idx] + '"></span>' + year + '</span>'
+            ).join('') + '<span class="quarterly-legend-item"><span class="quarterly-swatch projected"></span>Projected</span>';
+
+            Object.entries(quarters).forEach(([quarterKey, values]) => {
+                const target = document.getElementById('quarter' + quarterKey.toUpperCase());
+                const isProjected = projected[quarterKey];
+                target.innerHTML = values.map((value, idx) => {
+                    const currentYear = idx === years.length - 1;
+                    const projectedClass = currentYear && isProjected ? ' projected' : '';
+                    const note = currentYear && isProjected ? ' projected' : '';
+                    const barHeight = Math.max(3, Math.min(210, value / 100000 * 210));
+                    return '<div class="quarter-bar-cell" title="$' + value.toLocaleString() + note + '">' +
+                        '<span class="quarter-value" style="--bar-height:' + barHeight + 'px">$' + Math.round(value / 1000) + 'k</span>' +
+                        '<span class="quarter-bar' + projectedClass + '" style="--year-color:' + colors[idx] + ';--bar-height:' + barHeight + 'px"></span>' +
+                        '<span class="quarter-year">' + years[idx] + '</span></div>';
+                }).join('');
+            });
+        }
+
         function renderMonth(monthKey) {
             const orders = ALL_ORDERS.filter(o => o.d.substring(0, 7) === monthKey);
             const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
@@ -1468,6 +1602,7 @@ def build_dashboard():
         function onAuthenticated() {
             renderBarChart();
             renderCumulativeChart();
+            renderQuarterlyRevenue();
             renderMonth(CURRENT_MONTH);
         }
     </script>
@@ -1493,6 +1628,9 @@ AUTH_BOOTSTRAP_PLACEHOLDER
     html_top = html_top.replace('CUMULATIVE_CONSERVATIVE_PLACEHOLDER', json.dumps(cumulative_scenarios["conservative"]))
     html_top = html_top.replace('CUMULATIVE_BASELINE_PLACEHOLDER', json.dumps(cumulative_scenarios["baseline"]))
     html_top = html_top.replace('CUMULATIVE_OPTIMISTIC_PLACEHOLDER', json.dumps(cumulative_scenarios["optimistic"]))
+    html_top = html_top.replace('QUARTERLY_YEARS_PLACEHOLDER', json.dumps(quarterly_years))
+    html_top = html_top.replace('QUARTERLY_VALUES_PLACEHOLDER', json.dumps(quarterly_values))
+    html_top = html_top.replace('QUARTERLY_PROJECTED_PLACEHOLDER', json.dumps(quarterly_projected))
     html_top = html_top.replace('Y_AXIS_MAX_PLACEHOLDER', str(y_axis_max))
     auth_bootstrap = (
         "<script>document.getElementById('auth-overlay').remove(); onAuthenticated();</script>"

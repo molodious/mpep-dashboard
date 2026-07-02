@@ -28,6 +28,8 @@ The full-year cards combine completed current-year actuals with the forecasts fo
 
 The cumulative chart uses the same model output. It plots completed-month actual revenue through the latest closed month, then branches into conservative, baseline, and optimistic cumulative paths through December.
 
+The Revenue by Quarter section uses Dan's supplied quarterly totals for 2019-2025. The current year is dynamic: closed months use dashboard actuals, while the current and future months use the baseline forecast. This means the active quarter's projected total changes as new sales arrive and each dashboard rebuild runs.
+
 ## Update behavior
 
 The forecast is build-time dynamic, not hardcoded into `sales.html`. A new sale triggers the existing dashboard GitHub Action, which fetches current data and regenerates the forecast. Future-month momentum changes primarily as months close; the current-month estimate responds gradually as new revenue arrives and more of the month elapses.
