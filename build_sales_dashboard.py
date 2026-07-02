@@ -113,6 +113,105 @@ MONTHLY_HISTORY = [
     # When a month closes, add its final verified numbers and it will roll into trailing stats.
 ]
 
+# Revenue history used only by the forecast model. Dan supplied these monthly
+# totals for 2020-2025. Dashboard-derived product totals remain authoritative
+# for 2026 actuals and are never replaced by this table.
+FORECAST_HISTORY = {
+    "2020-01": 2956, "2020-02": 3714, "2020-03": 2420, "2020-04": 1749,
+    "2020-05": 5309, "2020-06": 2457, "2020-07": 2106, "2020-08": 1220,
+    "2020-09": 10768, "2020-10": 3948, "2020-11": 4017, "2020-12": 7307,
+    "2021-01": 2316, "2021-02": 11573, "2021-03": 12554, "2021-04": 11214,
+    "2021-05": 8194, "2021-06": 9019, "2021-07": 9018, "2021-08": 6991,
+    "2021-09": 8270, "2021-10": 3711, "2021-11": 8587, "2021-12": 13974,
+    "2022-01": 11061, "2022-02": 6556, "2022-03": 11683, "2022-04": 7259,
+    "2022-05": 11486, "2022-06": 7759, "2022-07": 8029, "2022-08": 14056,
+    "2022-09": 7125, "2022-10": 13166, "2022-11": 11752, "2022-12": 12695,
+    "2023-01": 22695, "2023-02": 17776, "2023-03": 20948, "2023-04": 17542,
+    "2023-05": 13948, "2023-06": 13122, "2023-07": 13376, "2023-08": 16063,
+    "2023-09": 13028, "2023-10": 14773, "2023-11": 20009, "2023-12": 11774,
+    "2024-01": 24497, "2024-02": 14274, "2024-03": 28782, "2024-04": 18886,
+    "2024-05": 12742, "2024-06": 9086, "2024-07": 17607, "2024-08": 15684,
+    "2024-09": 8265, "2024-10": 4100, "2024-11": 10350, "2024-12": 13537,
+    "2025-01": 12859, "2025-02": 17664, "2025-03": 19874, "2025-04": 32472,
+    "2025-05": 22336, "2025-06": 17297, "2025-07": 31807, "2025-08": 31788,
+    "2025-09": 15780, "2025-10": 21076, "2025-11": 22479, "2025-12": 11291,
+}
+
+
+def calculate_revenue_forecast(monthly_data, today):
+    """Return conservative/baseline/optimistic forecasts through year-end.
+
+    Model:
+      * Same-calendar-month history captures seasonality.
+      * The five latest prior years receive exponentially declining weights
+        (half-life 1.25 years), so recent years dominate without discarding old data.
+      * Current-year momentum compares completed months with the same 2025 months.
+        Square-root damping applies roughly half the observed growth/decline, capped
+        at +/-20% to prevent an unusual partial year from overwhelming seasonality.
+      * The current month's run rate is blended in according to month progress.
+      * Conservative/optimistic planning cases are baseline -/+20%.
+    """
+    completed_months = range(1, today.month)
+    current_completed = sum(
+        sum(monthly_data.get(f"{today.year}-{month:02d}", {}).values())
+        for month in completed_months
+    )
+    prior_completed = sum(
+        FORECAST_HISTORY.get(f"{today.year - 1}-{month:02d}", 0)
+        for month in completed_months
+    )
+    raw_ratio = current_completed / prior_completed if prior_completed else 1.0
+    momentum = min(1.20, max(0.80, math.sqrt(raw_ratio)))
+
+    forecasts = {}
+    for month in range(today.month, 13):
+        observations = []
+        for year in range(today.year - 1, today.year - 6, -1):
+            value = FORECAST_HISTORY.get(f"{year}-{month:02d}")
+            if value is not None:
+                observations.append(value)
+
+        weighted_total = 0.0
+        weight_total = 0.0
+        for age, value in enumerate(observations):
+            weight = 0.5 ** (age / 1.25)
+            weighted_total += value * weight
+            weight_total += weight
+        seasonal_baseline = (weighted_total / weight_total) * momentum
+
+        if month == today.month:
+            current_key = f"{today.year}-{month:02d}"
+            current_actual = sum(monthly_data.get(current_key, {}).values())
+            days_in_month = calendar.monthrange(today.year, month)[1]
+            pace_projection = (current_actual / max(1, today.day)) * days_in_month
+            progress = today.day / days_in_month
+            seasonal_baseline = (
+                seasonal_baseline * (1 - progress) + pace_projection * progress
+            )
+            seasonal_baseline = max(current_actual, seasonal_baseline)
+
+        baseline = round(seasonal_baseline)
+        forecasts[f"{today.year}-{month:02d}"] = {
+            "conservative": round(baseline * 0.80),
+            "baseline": baseline,
+            "optimistic": round(baseline * 1.20),
+        }
+
+    forecast_sums = {
+        scenario: sum(month[scenario] for month in forecasts.values())
+        for scenario in ("conservative", "baseline", "optimistic")
+    }
+    full_year = {
+        scenario: round(current_completed + forecast_sums[scenario])
+        for scenario in forecast_sums
+    }
+    return {
+        "months": forecasts,
+        "remaining": forecast_sums,
+        "full_year": full_year,
+        "momentum": momentum,
+    }
+
 PRODUCT_COLORS = {
     'HVAC': '#FFD700',
     'TFS': '#3498DB',
@@ -525,6 +624,7 @@ def build_dashboard():
                 monthly_data[month_key][product] += amount
 
     sorted_months = sorted(monthly_data.keys())
+    revenue_forecast = calculate_revenue_forecast(monthly_data, today)
 
     print(f"\nStatistics ({today.year} YTD):")
     print(f"  YTD revenue: ${round(total_revenue_ytd):,}")
@@ -545,8 +645,9 @@ def build_dashboard():
     pie_total = sum(pie_data.values())
     pie_pct = {k: round(100 * v / pie_total) if pie_total > 0 else 0 for k, v in pie_data.items()}
     
-    # Bar chart data — 2026 only (product stacking available for all 2026 months)
-    bar_months = []
+    # Bar chart data — actual product stacks through the last completed month,
+    # followed by baseline forecast bars and conservative/optimistic whiskers.
+    bar_months = [f"{today.year}-{month:02d}" for month in range(1, 13)]
     bar_products = set()
     for o in all_orders:
         bar_products.add(o["product"])
@@ -560,16 +661,27 @@ def build_dashboard():
     for product in bar_products:
         bar_datasets[product] = []
 
-    months_2026 = [m for m in sorted_months if m.startswith("2026")]
-    for month in months_2026:
-        bar_months.append(month)
+    for month in bar_months:
         for product in bar_products:
-            bar_datasets[product].append(round(monthly_data[month].get(product, 0)))
+            value = monthly_data[month].get(product, 0) if month < current_month_key else 0
+            bar_datasets[product].append(round(value))
 
-    # Calculate Y-axis max: highest monthly total (or projection) rounded up to nearest 5000
-    import math
-    monthly_totals_py = [sum(monthly_data[m].values()) for m in months_2026]
-    max_monthly = max(monthly_totals_py + [projected_current * 1.12]) if monthly_totals_py else projected_current * 1.12
+    forecast_baseline = []
+    forecast_conservative = []
+    forecast_optimistic = []
+    for month in bar_months:
+        month_forecast = revenue_forecast["months"].get(month)
+        forecast_baseline.append(month_forecast["baseline"] if month_forecast else None)
+        forecast_conservative.append(month_forecast["conservative"] if month_forecast else None)
+        forecast_optimistic.append(month_forecast["optimistic"] if month_forecast else None)
+
+    # Calculate Y-axis max from actual totals and optimistic forecast values.
+    actual_monthly_totals = [
+        sum(monthly_data[m].values()) if m < current_month_key else 0
+        for m in bar_months
+    ]
+    forecast_highs = [v for v in forecast_optimistic if v is not None]
+    max_monthly = max(actual_monthly_totals + forecast_highs)
     y_axis_max = math.ceil(max_monthly / 5000) * 5000
 
     # Build HTML
@@ -790,6 +902,46 @@ def build_dashboard():
         .month-selector select:focus {
             outline: none; border-color: var(--blue);
         }
+        .forecast-summary {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin: 15px 0 20px;
+        }
+        .forecast-scenario {
+            position: relative; overflow: hidden; border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px;
+        }
+        .forecast-scenario::before {
+            content: ""; position: absolute; inset: 0 auto 0 0;
+            width: 4px; background: var(--scenario-color);
+        }
+        .forecast-name {
+            color: var(--scenario-color); font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .forecast-total { margin-top: 6px; font-size: 27px; font-weight: 700; color: #1e293b; }
+        .forecast-period { margin-top: 3px; color: var(--muted); font-size: 12px; }
+        .forecast-secondary {
+            display: flex; justify-content: space-between; gap: 10px;
+            margin-top: 12px; padding-top: 10px; border-top: 1px solid #eef0f3;
+            color: #475569; font-size: 12px;
+        }
+        .forecast-range-legend {
+            display: flex; justify-content: flex-end; align-items: center;
+            gap: 8px; margin: -2px 0 8px; color: #555; font-size: 12px;
+        }
+        .forecast-whisker-icon {
+            position: relative; width: 18px; height: 15px;
+            border-left: 2px solid #475569; margin-left: 8px;
+        }
+        .forecast-whisker-icon::before, .forecast-whisker-icon::after {
+            content: ""; position: absolute; left: -6px; width: 10px; height: 2px;
+        }
+        .forecast-whisker-icon::before { top: 0; background: #16a34a; }
+        .forecast-whisker-icon::after { bottom: 0; background: #d97706; }
+        @media (max-width: 800px) {
+            .forecast-summary { grid-template-columns: 1fr; }
+            .forecast-range-legend { justify-content: flex-start; }
+        }
     </style>
 </head>
 <body>
@@ -875,9 +1027,30 @@ def build_dashboard():
                 </table>
             </div>
 
-            <!-- Stacked Bar Chart (always YTD -- not month-filtered) -->
+            <!-- Revenue forecast: actual product stacks + forecast baseline/range -->
             <div class="card full-width">
-                <h2>Revenue by Product - 2026 YTD</h2>
+                <h2>Revenue Forecast</h2>
+                <div class="forecast-summary">
+                    <div class="forecast-scenario" style="--scenario-color:#d97706">
+                        <div class="forecast-name">Conservative</div>
+                        <div class="forecast-total">$""" + f"{revenue_forecast['full_year']['conservative']:,}" + """</div>
+                        <div class="forecast-period">Projected full-year """ + str(today.year) + """ revenue</div>
+                        <div class="forecast-secondary"><span>""" + today.strftime('%B') + """–December projection</span><strong>$""" + f"{revenue_forecast['remaining']['conservative']:,}" + """</strong></div>
+                    </div>
+                    <div class="forecast-scenario" style="--scenario-color:#2563eb">
+                        <div class="forecast-name">Baseline</div>
+                        <div class="forecast-total">$""" + f"{revenue_forecast['full_year']['baseline']:,}" + """</div>
+                        <div class="forecast-period">Projected full-year """ + str(today.year) + """ revenue</div>
+                        <div class="forecast-secondary"><span>""" + today.strftime('%B') + """–December projection</span><strong>$""" + f"{revenue_forecast['remaining']['baseline']:,}" + """</strong></div>
+                    </div>
+                    <div class="forecast-scenario" style="--scenario-color:#16a34a">
+                        <div class="forecast-name">Optimistic</div>
+                        <div class="forecast-total">$""" + f"{revenue_forecast['full_year']['optimistic']:,}" + """</div>
+                        <div class="forecast-period">Projected full-year """ + str(today.year) + """ revenue</div>
+                        <div class="forecast-secondary"><span>""" + today.strftime('%B') + """–December projection</span><strong>$""" + f"{revenue_forecast['remaining']['optimistic']:,}" + """</strong></div>
+                    </div>
+                </div>
+                <div class="forecast-range-legend"><i class="forecast-whisker-icon"></i>Conservative–optimistic range</div>
                 <div class="chart-container" style="height: 350px;">
                     <canvas id="barChart"></canvas>
                 </div>
@@ -928,11 +1101,14 @@ def build_dashboard():
         let pieChartInstance = null;
         let barChartInstance = null;
 
-        // ── Bar chart (always YTD, once) ──
+        // ── Revenue chart: completed-month product stacks + year-end forecast ──
         function renderBarChart() {
             const barMonths = BAR_MONTHS_PLACEHOLDER;
             const barProducts = BAR_PRODUCTS_PLACEHOLDER;
             const barDatasets = BAR_DATASETS_PLACEHOLDER;
+            const forecastBaseline = FORECAST_BASELINE_PLACEHOLDER;
+            const forecastConservative = FORECAST_CONSERVATIVE_PLACEHOLDER;
+            const forecastOptimistic = FORECAST_OPTIMISTIC_PLACEHOLDER;
 
             const datasets = barProducts.map(p => ({
                 label: p,
@@ -941,50 +1117,81 @@ def build_dashboard():
                 borderRadius: 4,
                 borderSkipped: false
             }));
+            datasets.push({
+                label: 'Forecast baseline',
+                data: forecastBaseline,
+                backgroundColor: 'rgba(100, 116, 139, 0.72)',
+                borderRadius: 4,
+                borderSkipped: false
+            });
 
-            const monthlyTotals = barMonths.map((_, idx) =>
-                barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
-            );
-
+            const monthlyTotals = barMonths.map((_, idx) => {
+                if (forecastBaseline[idx] !== null) return forecastBaseline[idx];
+                return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
+            });
             const currentMonthBarIdx = barMonths.indexOf(CURRENT_MONTH);
 
-            const totalLabelsPlugin = {
-                id: 'totalLabels',
-                afterDraw(chart) {
+            const forecastPlugin = {
+                id: 'forecastDisplay',
+                beforeDatasetsDraw(chart) {
+                    if (currentMonthBarIdx < 0) return;
+                    const ctx = chart.ctx;
+                    const xScale = chart.scales.x;
+                    const chartArea = chart.chartArea;
+                    const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
+                    const startX = xScale.getPixelForValue(currentMonthBarIdx) - step / 2;
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
+                    ctx.fillRect(startX, chartArea.top, chartArea.right - startX, chartArea.bottom - chartArea.top);
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(startX, chartArea.top);
+                    ctx.lineTo(startX, chartArea.bottom);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.font = '10px Arial';
+                    ctx.fillStyle = '#64748b';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FORECAST →', startX + 7, chartArea.top + 12);
+                    ctx.restore();
+                },
+                afterDatasetsDraw(chart) {
                     const ctx = chart.ctx;
                     const xScale = chart.scales.x;
                     const yScale = chart.scales.y;
-                    ctx.textAlign = 'center';
                     monthlyTotals.forEach((total, idx) => {
+                        if (!total) return;
                         const xPos = xScale.getPixelForValue(idx);
-                        const yPos = yScale.getPixelForValue(total);
-                        ctx.font = 'bold 12px Arial';
+                        const isForecast = forecastBaseline[idx] !== null;
+                        const labelX = isForecast ? xPos + 12 : xPos;
+                        const labelY = yScale.getPixelForValue(total) - 8;
+                        ctx.font = 'bold 11px Arial';
                         ctx.fillStyle = '#333';
-                        ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
-                    });
+                        ctx.textAlign = isForecast ? 'left' : 'center';
+                        ctx.fillText('$' + total.toLocaleString(), labelX, labelY);
 
-                    // Dotted projection box for current month
-                    if (currentMonthBarIdx >= 0 && PROJECTED_CURRENT > monthlyTotals[currentMonthBarIdx]) {
-                        const xPos = xScale.getPixelForValue(currentMonthBarIdx);
-                        const projYPos = yScale.getPixelForValue(PROJECTED_CURRENT);
-                        const currentY = yScale.getPixelForValue(monthlyTotals[currentMonthBarIdx]);
-                        const barW = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.6;
-
-                        ctx.font = 'italic 11px Arial';
-                        ctx.fillStyle = '#999';
-                        ctx.textAlign = 'center';
-                        ctx.fillText('$' + PROJECTED_CURRENT.toLocaleString() + ' (proj)', xPos, projYPos - 20);
-
-                        ctx.strokeStyle = 'rgba(100, 100, 100, 0.65)';
-                        ctx.setLineDash([5, 5]);
-                        ctx.lineWidth = 1.5;
-                        ctx.fillStyle = 'rgba(200, 200, 200, 0.12)';
+                        if (!isForecast) return;
+                        const lowY = yScale.getPixelForValue(forecastConservative[idx]);
+                        const highY = yScale.getPixelForValue(forecastOptimistic[idx]);
+                        ctx.strokeStyle = '#475569';
+                        ctx.lineWidth = 2;
                         ctx.beginPath();
-                        ctx.rect(xPos - barW / 2, projYPos, barW, currentY - projYPos);
-                        ctx.fill();
+                        ctx.moveTo(xPos, highY);
+                        ctx.lineTo(xPos, lowY);
                         ctx.stroke();
-                        ctx.setLineDash([]);
-                    }
+                        ctx.strokeStyle = '#16a34a';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(xPos - 8, highY);
+                        ctx.lineTo(xPos + 8, highY);
+                        ctx.stroke();
+                        ctx.strokeStyle = '#d97706';
+                        ctx.beginPath();
+                        ctx.moveTo(xPos - 8, lowY);
+                        ctx.lineTo(xPos + 8, lowY);
+                        ctx.stroke();
+                    });
                 }
             };
 
@@ -1006,7 +1213,7 @@ def build_dashboard():
                         y: { stacked: true, max: Y_AXIS_MAX_PLACEHOLDER }
                     }
                 },
-                plugins: [totalLabelsPlugin]
+                plugins: [forecastPlugin]
             });
         }
 
@@ -1101,7 +1308,7 @@ def build_dashboard():
         }
     </script>
 </div><!-- end main-content -->
-<script src="auth.js"></script>
+AUTH_BOOTSTRAP_PLACEHOLDER
 </body>
 </html>"""
     
@@ -1112,13 +1319,25 @@ def build_dashboard():
     html_top = html_top.replace('AVG_DAILY_PLACEHOLDER', str(round(avg_daily)))
     html_top = html_top.replace('DAYS_REMAINING_PLACEHOLDER', str(days_remaining))
     html_top = html_top.replace('PRODUCT_COLORS_PLACEHOLDER', json.dumps(PRODUCT_COLORS))
-    html_top = html_top.replace('BAR_MONTHS_PLACEHOLDER', json.dumps(months_2026))
+    html_top = html_top.replace('BAR_MONTHS_PLACEHOLDER', json.dumps(bar_months))
     html_top = html_top.replace('BAR_PRODUCTS_PLACEHOLDER', json.dumps(bar_products))
     html_top = html_top.replace('BAR_DATASETS_PLACEHOLDER', json.dumps(bar_datasets))
+    html_top = html_top.replace('FORECAST_BASELINE_PLACEHOLDER', json.dumps(forecast_baseline))
+    html_top = html_top.replace('FORECAST_CONSERVATIVE_PLACEHOLDER', json.dumps(forecast_conservative))
+    html_top = html_top.replace('FORECAST_OPTIMISTIC_PLACEHOLDER', json.dumps(forecast_optimistic))
     html_top = html_top.replace('Y_AXIS_MAX_PLACEHOLDER', str(y_axis_max))
+    auth_bootstrap = (
+        "<script>document.getElementById('auth-overlay').remove(); onAuthenticated();</script>"
+        if os.environ.get("SALES_PREVIEW_MODE") == "1"
+        else '<script src="auth.js"></script>'
+    )
+    html_top = html_top.replace('AUTH_BOOTSTRAP_PLACEHOLDER', auth_bootstrap)
     
     # Write output
-    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sales.html")
+    output_path = os.environ.get(
+        "SALES_OUTPUT_PATH",
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "sales.html"),
+    )
     with open(output_path, "w") as f:
         f.write(html_top)
     
