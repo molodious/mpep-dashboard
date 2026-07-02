@@ -113,6 +113,7 @@ MONTHLY_HISTORY = [
     # When a month closes, add its final verified numbers and it will roll into trailing stats.
 ]
 
+# Forecast model details: see REVENUE_FORECAST_MODEL.md.
 # Revenue history used only by the forecast model. Dan supplied these monthly
 # totals for 2020-2025. Dashboard-derived product totals remain authoritative
 # for 2026 actuals and are never replaced by this table.
