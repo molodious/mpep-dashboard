@@ -263,7 +263,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Jul 02)</div>
-                <div><strong>Updated:</strong> Jul 02, 2026 at 07:58 PM</div>
+                <div><strong>Updated:</strong> Jul 02, 2026 at 08:14 PM</div>
             </div>
             <div class="month-selector">
                 <label for="month-picker">📅 Show month:</label>
@@ -330,19 +330,19 @@
                 <div class="forecast-summary">
                     <div class="forecast-scenario" style="--scenario-color:#d97706">
                         <div class="forecast-name">Conservative</div>
-                        <div class="forecast-total">$244,223</div>
+                        <div class="forecast-total">$244k</div>
                         <div class="forecast-period">Projected full-year 2026 revenue</div>
                         <div class="forecast-secondary"><span>July–December projection</span><strong>$90,113</strong></div>
                     </div>
                     <div class="forecast-scenario" style="--scenario-color:#2563eb">
                         <div class="forecast-name">Baseline</div>
-                        <div class="forecast-total">$266,751</div>
+                        <div class="forecast-total">$267k</div>
                         <div class="forecast-period">Projected full-year 2026 revenue</div>
                         <div class="forecast-secondary"><span>July–December projection</span><strong>$112,641</strong></div>
                     </div>
                     <div class="forecast-scenario" style="--scenario-color:#16a34a">
                         <div class="forecast-name">Optimistic</div>
-                        <div class="forecast-total">$289,279</div>
+                        <div class="forecast-total">$289k</div>
                         <div class="forecast-period">Projected full-year 2026 revenue</div>
                         <div class="forecast-secondary"><span>July–December projection</span><strong>$135,169</strong></div>
                     </div>
@@ -350,6 +350,13 @@
                 <div class="forecast-range-legend"><i class="forecast-whisker-icon"></i>Conservative–optimistic range</div>
                 <div class="chart-container" style="height: 350px;">
                     <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2>Cumulative Revenue Projection</h2>
+                <div class="chart-container" style="height: 380px;">
+                    <canvas id="cumulativeChart"></canvas>
                 </div>
             </div>
         </div>
@@ -397,12 +404,13 @@
         // ── Globals ──
         let pieChartInstance = null;
         let barChartInstance = null;
+        let cumulativeChartInstance = null;
 
         // ── Revenue chart: completed-month product stacks + year-end forecast ──
         function renderBarChart() {
             const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
             const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFS+CSE", "TFSBook"];
-            const barDatasets = {"CSE": [399, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198, 99, 85, 0, 0, 0, 0, 0, 0], "FE": [1495, 2094, 2196, 949, 2297, 1296, 0, 0, 0, 0, 0, 0], "Fundamentals": [399, 0, 399, 798, 798, 798, 0, 0, 0, 0, 0, 0], "HVAC": [33783, 11894, 15333, 11594, 13893, 5897, 0, 0, 0, 0, 0, 0], "HVACBook": [1947, 0, 0, 2197, 1947, 649, 0, 0, 0, 0, 0, 0], "TFS": [3898, 11894, 5897, 1999, 11794, 0, 0, 0, 0, 0, 0, 0], "TFS+CSE": [0, 0, 0, 0, 0, 2499, 0, 0, 0, 0, 0, 0], "TFSBook": [0, 649, 0, 0, 0, 1947, 0, 0, 0, 0, 0, 0]};
+            const barDatasets = {"CSE": [399, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198, 99, 85, 0, 0, 0, 0, 0, 0], "FE": [1495, 2094, 2196, 949, 2297, 1296, 0, 0, 0, 0, 0, 0], "Fundamentals": [399, 0, 399, 798, 798, 798, 0, 0, 0, 0, 0, 0], "HVAC": [33783, 11894, 15333, 11594, 13893, 5897, 0, 0, 0, 0, 0, 0], "HVACBook": [1947, 0, 0, 2197, 1947, 649, 0, 0, 0, 0, 0, 0], "TFS": [3898, 11894, 5897, 1999, 11794, 0, 1350, 0, 0, 0, 0, 0], "TFS+CSE": [0, 0, 0, 0, 0, 2499, 0, 0, 0, 0, 0, 0], "TFSBook": [0, 649, 0, 0, 0, 1947, 0, 0, 0, 0, 0, 0]};
             const forecastBaseline = [null, null, null, null, null, null, 24614, 25217, 13788, 15890, 19446, 13686];
             const forecastConservative = [null, null, null, null, null, null, 19691, 20174, 11030, 12712, 15557, 10949];
             const forecastOptimistic = [null, null, null, null, null, null, 29537, 30260, 16546, 19068, 23335, 16423];
@@ -416,13 +424,16 @@
             }));
             datasets.push({
                 label: 'Forecast baseline',
-                data: forecastBaseline,
+                data: forecastBaseline.map((value, idx) => barMonths[idx] === CURRENT_MONTH ? null : value),
                 backgroundColor: 'rgba(100, 116, 139, 0.72)',
                 borderRadius: 4,
                 borderSkipped: false
             });
 
             const monthlyTotals = barMonths.map((_, idx) => {
+                if (barMonths[idx] === CURRENT_MONTH) {
+                    return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
+                }
                 if (forecastBaseline[idx] !== null) return forecastBaseline[idx];
                 return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
             });
@@ -436,21 +447,27 @@
                     const xScale = chart.scales.x;
                     const chartArea = chart.chartArea;
                     const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
-                    const startX = xScale.getPixelForValue(currentMonthBarIdx) - step / 2;
+                    const currentStart = xScale.getPixelForValue(currentMonthBarIdx) - step / 2;
+                    const futureStart = xScale.getPixelForValue(currentMonthBarIdx) + step / 2;
                     ctx.save();
+                    ctx.fillStyle = 'rgba(219, 234, 254, 0.38)';
+                    ctx.fillRect(currentStart, chartArea.top, step, chartArea.bottom - chartArea.top);
                     ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
-                    ctx.fillRect(startX, chartArea.top, chartArea.right - startX, chartArea.bottom - chartArea.top);
+                    ctx.fillRect(futureStart, chartArea.top, chartArea.right - futureStart, chartArea.bottom - chartArea.top);
                     ctx.strokeStyle = '#94a3b8';
                     ctx.setLineDash([4, 4]);
                     ctx.beginPath();
-                    ctx.moveTo(startX, chartArea.top);
-                    ctx.lineTo(startX, chartArea.bottom);
+                    ctx.moveTo(currentStart, chartArea.top);
+                    ctx.lineTo(currentStart, chartArea.bottom);
+                    ctx.moveTo(futureStart, chartArea.top);
+                    ctx.lineTo(futureStart, chartArea.bottom);
                     ctx.stroke();
                     ctx.setLineDash([]);
                     ctx.font = '10px Arial';
                     ctx.fillStyle = '#64748b';
                     ctx.textAlign = 'left';
-                    ctx.fillText('FORECAST →', startX + 7, chartArea.top + 12);
+                    ctx.fillText('PRESENT', currentStart + 6, chartArea.top + 12);
+                    ctx.fillText('FORECAST →', futureStart + 7, chartArea.top + 12);
                     ctx.restore();
                 },
                 afterDatasetsDraw(chart) {
@@ -460,17 +477,40 @@
                     monthlyTotals.forEach((total, idx) => {
                         if (!total) return;
                         const xPos = xScale.getPixelForValue(idx);
-                        const isForecast = forecastBaseline[idx] !== null;
-                        const labelX = isForecast ? xPos + 12 : xPos;
+                        const isCurrent = idx === currentMonthBarIdx;
+                        const isFuture = forecastBaseline[idx] !== null && !isCurrent;
+                        const labelX = isFuture ? xPos + 12 : xPos;
                         const labelY = yScale.getPixelForValue(total) - 8;
                         ctx.font = 'bold 11px Arial';
                         ctx.fillStyle = '#333';
-                        ctx.textAlign = isForecast ? 'left' : 'center';
-                        ctx.fillText('$' + total.toLocaleString(), labelX, labelY);
+                        ctx.textAlign = isFuture ? 'left' : 'center';
+                        ctx.fillText(
+                            '$' + total.toLocaleString() + (isCurrent ? ' actual' : ''),
+                            labelX,
+                            labelY
+                        );
 
-                        if (!isForecast) return;
+                        if (forecastBaseline[idx] === null) return;
                         const lowY = yScale.getPixelForValue(forecastConservative[idx]);
                         const highY = yScale.getPixelForValue(forecastOptimistic[idx]);
+                        const baselineY = yScale.getPixelForValue(forecastBaseline[idx]);
+
+                        if (isCurrent && forecastBaseline[idx] > total) {
+                            const actualY = yScale.getPixelForValue(total);
+                            const barWidth = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.58;
+                            ctx.save();
+                            ctx.strokeStyle = 'rgba(71, 85, 105, 0.8)';
+                            ctx.lineWidth = 2;
+                            ctx.setLineDash([5, 4]);
+                            ctx.strokeRect(xPos - barWidth / 2, baselineY, barWidth, actualY - baselineY);
+                            ctx.setLineDash([]);
+                            ctx.font = 'bold 11px Arial';
+                            ctx.fillStyle = '#334155';
+                            ctx.textAlign = 'left';
+                            ctx.fillText('$' + forecastBaseline[idx].toLocaleString() + ' proj', xPos + 12, baselineY - 8);
+                            ctx.restore();
+                        }
+
                         ctx.strokeStyle = '#475569';
                         ctx.lineWidth = 2;
                         ctx.beginPath();
@@ -511,6 +551,102 @@
                     }
                 },
                 plugins: [forecastPlugin]
+            });
+        }
+
+        function renderCumulativeChart() {
+            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
+            const cumulativeActual = [41921, 68551, 92376, 110111, 140939, 154110, null, null, null, null, null, null];
+            const cumulativeConservative = [null, null, null, null, null, 154110, 173801, 193975, 205005, 217717, 233274, 244223];
+            const cumulativeBaseline = [null, null, null, null, null, 154110, 178724, 203941, 217729, 233619, 253065, 266751];
+            const cumulativeOptimistic = [null, null, null, null, null, 154110, 183647, 213907, 230453, 249521, 272856, 289279];
+            const currentIdx = barMonths.indexOf(CURRENT_MONTH);
+
+            const cumulativePlugin = {
+                id: 'cumulativeForecastDisplay',
+                beforeDatasetsDraw(chart) {
+                    if (currentIdx < 0) return;
+                    const ctx = chart.ctx;
+                    const xScale = chart.scales.x;
+                    const area = chart.chartArea;
+                    const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
+                    const startX = xScale.getPixelForValue(currentIdx) - step / 2;
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
+                    ctx.fillRect(startX, area.top, area.right - startX, area.bottom - area.top);
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(startX, area.top);
+                    ctx.lineTo(startX, area.bottom);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.font = '10px Arial';
+                    ctx.fillStyle = '#64748b';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FORECAST →', startX + 7, area.top + 12);
+                    ctx.restore();
+                },
+                afterDatasetsDraw(chart) {
+                    const ctx = chart.ctx;
+                    const yScale = chart.scales.y;
+                    const xScale = chart.scales.x;
+                    const actualIdx = currentIdx - 1;
+                    if (actualIdx >= 0 && cumulativeActual[actualIdx] !== null) {
+                        ctx.font = 'bold 11px Arial';
+                        ctx.fillStyle = '#334155';
+                        ctx.textAlign = 'right';
+                        ctx.fillText(
+                            '$' + Math.round(cumulativeActual[actualIdx] / 1000) + 'k YTD',
+                            xScale.getPixelForValue(actualIdx) - 10,
+                            yScale.getPixelForValue(cumulativeActual[actualIdx]) - 12
+                        );
+                    }
+                    [
+                        { values: cumulativeConservative, color: '#d97706', label: 'Conservative' },
+                        { values: cumulativeBaseline, color: '#2563eb', label: 'Baseline' },
+                        { values: cumulativeOptimistic, color: '#16a34a', label: 'Optimistic' }
+                    ].forEach(series => {
+                        const value = series.values[11];
+                        if (value === null) return;
+                        ctx.font = 'bold 11px Arial';
+                        ctx.fillStyle = series.color;
+                        ctx.textAlign = 'left';
+                        ctx.fillText(
+                            series.label + ' $' + Math.round(value / 1000) + 'k',
+                            xScale.getPixelForValue(11) + 10,
+                            yScale.getPixelForValue(value) + 4
+                        );
+                    });
+                }
+            };
+
+            const ctx = document.getElementById('cumulativeChart').getContext('2d');
+            cumulativeChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: barMonths.map(m => monthShort(m)),
+                    datasets: [
+                        { label: 'Actual', data: cumulativeActual, borderColor: '#475569', backgroundColor: '#475569', borderWidth: 4, pointRadius: 4, tension: 0.18, spanGaps: false },
+                        { label: 'Conservative', data: cumulativeConservative, borderColor: '#d97706', backgroundColor: '#d97706', borderWidth: 2.5, pointRadius: 2, tension: 0.18, spanGaps: false },
+                        { label: 'Baseline', data: cumulativeBaseline, borderColor: '#2563eb', backgroundColor: '#2563eb', borderWidth: 4, pointRadius: 2, tension: 0.18, spanGaps: false },
+                        { label: 'Optimistic', data: cumulativeOptimistic, borderColor: '#16a34a', backgroundColor: '#16a34a', borderWidth: 2.5, pointRadius: 2, tension: 0.18, spanGaps: false }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { right: 130 } },
+                    plugins: { legend: { position: 'top', align: 'end' } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: Math.ceil(cumulativeOptimistic[11] / 50000) * 50000,
+                            ticks: { callback: value => value === 0 ? '$0' : '$' + (value / 1000) + 'k' }
+                        }
+                    }
+                },
+                plugins: [cumulativePlugin]
             });
         }
 
@@ -601,6 +737,7 @@
         // ── Entry point ──
         function onAuthenticated() {
             renderBarChart();
+            renderCumulativeChart();
             renderMonth(CURRENT_MONTH);
         }
     </script>
