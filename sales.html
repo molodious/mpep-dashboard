@@ -199,6 +199,46 @@
         .month-selector select:focus {
             outline: none; border-color: var(--blue);
         }
+        .forecast-summary {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin: 15px 0 20px;
+        }
+        .forecast-scenario {
+            position: relative; overflow: hidden; border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px;
+        }
+        .forecast-scenario::before {
+            content: ""; position: absolute; inset: 0 auto 0 0;
+            width: 4px; background: var(--scenario-color);
+        }
+        .forecast-name {
+            color: var(--scenario-color); font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .forecast-total { margin-top: 6px; font-size: 27px; font-weight: 700; color: #1e293b; }
+        .forecast-period { margin-top: 3px; color: var(--muted); font-size: 12px; }
+        .forecast-secondary {
+            display: flex; justify-content: space-between; gap: 10px;
+            margin-top: 12px; padding-top: 10px; border-top: 1px solid #eef0f3;
+            color: #475569; font-size: 12px;
+        }
+        .forecast-range-legend {
+            display: flex; justify-content: flex-end; align-items: center;
+            gap: 8px; margin: -2px 0 8px; color: #555; font-size: 12px;
+        }
+        .forecast-whisker-icon {
+            position: relative; width: 18px; height: 15px;
+            border-left: 2px solid #475569; margin-left: 8px;
+        }
+        .forecast-whisker-icon::before, .forecast-whisker-icon::after {
+            content: ""; position: absolute; left: -6px; width: 10px; height: 2px;
+        }
+        .forecast-whisker-icon::before { top: 0; background: #16a34a; }
+        .forecast-whisker-icon::after { bottom: 0; background: #d97706; }
+        @media (max-width: 800px) {
+            .forecast-summary { grid-template-columns: 1fr; }
+            .forecast-range-legend { justify-content: flex-start; }
+        }
     </style>
 </head>
 <body>
@@ -223,7 +263,7 @@
             <h1>💰 Sales Dashboard</h1>
             <div class="header-info">
                 <div><strong>Period:</strong> 2026 YTD (Jan - Jul 02)</div>
-                <div><strong>Updated:</strong> Jul 02, 2026 at 03:15 AM</div>
+                <div><strong>Updated:</strong> Jul 02, 2026 at 07:58 PM</div>
             </div>
             <div class="month-selector">
                 <label for="month-picker">📅 Show month:</label>
@@ -284,9 +324,30 @@
                 </table>
             </div>
 
-            <!-- Stacked Bar Chart (always YTD -- not month-filtered) -->
+            <!-- Revenue forecast: actual product stacks + forecast baseline/range -->
             <div class="card full-width">
-                <h2>Revenue by Product - 2026 YTD</h2>
+                <h2>Revenue Forecast</h2>
+                <div class="forecast-summary">
+                    <div class="forecast-scenario" style="--scenario-color:#d97706">
+                        <div class="forecast-name">Conservative</div>
+                        <div class="forecast-total">$244,223</div>
+                        <div class="forecast-period">Projected full-year 2026 revenue</div>
+                        <div class="forecast-secondary"><span>July–December projection</span><strong>$90,113</strong></div>
+                    </div>
+                    <div class="forecast-scenario" style="--scenario-color:#2563eb">
+                        <div class="forecast-name">Baseline</div>
+                        <div class="forecast-total">$266,751</div>
+                        <div class="forecast-period">Projected full-year 2026 revenue</div>
+                        <div class="forecast-secondary"><span>July–December projection</span><strong>$112,641</strong></div>
+                    </div>
+                    <div class="forecast-scenario" style="--scenario-color:#16a34a">
+                        <div class="forecast-name">Optimistic</div>
+                        <div class="forecast-total">$289,279</div>
+                        <div class="forecast-period">Projected full-year 2026 revenue</div>
+                        <div class="forecast-secondary"><span>July–December projection</span><strong>$135,169</strong></div>
+                    </div>
+                </div>
+                <div class="forecast-range-legend"><i class="forecast-whisker-icon"></i>Conservative–optimistic range</div>
                 <div class="chart-container" style="height: 350px;">
                     <canvas id="barChart"></canvas>
                 </div>
@@ -337,11 +398,14 @@
         let pieChartInstance = null;
         let barChartInstance = null;
 
-        // ── Bar chart (always YTD, once) ──
+        // ── Revenue chart: completed-month product stacks + year-end forecast ──
         function renderBarChart() {
-            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07"];
+            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
             const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFS+CSE", "TFSBook"];
-            const barDatasets = {"CSE": [399, 0, 0, 0, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198, 99, 85, 0], "FE": [1495, 2094, 2196, 949, 2297, 1296, 0], "Fundamentals": [399, 0, 399, 798, 798, 798, 0], "HVAC": [33783, 11894, 15333, 11594, 13893, 5897, 0], "HVACBook": [1947, 0, 0, 2197, 1947, 649, 0], "TFS": [3898, 11894, 5897, 1999, 11794, 0, 1350], "TFS+CSE": [0, 0, 0, 0, 0, 2499, 0], "TFSBook": [0, 649, 0, 0, 0, 1947, 0]};
+            const barDatasets = {"CSE": [399, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198, 99, 85, 0, 0, 0, 0, 0, 0], "FE": [1495, 2094, 2196, 949, 2297, 1296, 0, 0, 0, 0, 0, 0], "Fundamentals": [399, 0, 399, 798, 798, 798, 0, 0, 0, 0, 0, 0], "HVAC": [33783, 11894, 15333, 11594, 13893, 5897, 0, 0, 0, 0, 0, 0], "HVACBook": [1947, 0, 0, 2197, 1947, 649, 0, 0, 0, 0, 0, 0], "TFS": [3898, 11894, 5897, 1999, 11794, 0, 0, 0, 0, 0, 0, 0], "TFS+CSE": [0, 0, 0, 0, 0, 2499, 0, 0, 0, 0, 0, 0], "TFSBook": [0, 649, 0, 0, 0, 1947, 0, 0, 0, 0, 0, 0]};
+            const forecastBaseline = [null, null, null, null, null, null, 24614, 25217, 13788, 15890, 19446, 13686];
+            const forecastConservative = [null, null, null, null, null, null, 19691, 20174, 11030, 12712, 15557, 10949];
+            const forecastOptimistic = [null, null, null, null, null, null, 29537, 30260, 16546, 19068, 23335, 16423];
 
             const datasets = barProducts.map(p => ({
                 label: p,
@@ -350,50 +414,81 @@
                 borderRadius: 4,
                 borderSkipped: false
             }));
+            datasets.push({
+                label: 'Forecast baseline',
+                data: forecastBaseline,
+                backgroundColor: 'rgba(100, 116, 139, 0.72)',
+                borderRadius: 4,
+                borderSkipped: false
+            });
 
-            const monthlyTotals = barMonths.map((_, idx) =>
-                barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0)
-            );
-
+            const monthlyTotals = barMonths.map((_, idx) => {
+                if (forecastBaseline[idx] !== null) return forecastBaseline[idx];
+                return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
+            });
             const currentMonthBarIdx = barMonths.indexOf(CURRENT_MONTH);
 
-            const totalLabelsPlugin = {
-                id: 'totalLabels',
-                afterDraw(chart) {
+            const forecastPlugin = {
+                id: 'forecastDisplay',
+                beforeDatasetsDraw(chart) {
+                    if (currentMonthBarIdx < 0) return;
+                    const ctx = chart.ctx;
+                    const xScale = chart.scales.x;
+                    const chartArea = chart.chartArea;
+                    const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
+                    const startX = xScale.getPixelForValue(currentMonthBarIdx) - step / 2;
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
+                    ctx.fillRect(startX, chartArea.top, chartArea.right - startX, chartArea.bottom - chartArea.top);
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(startX, chartArea.top);
+                    ctx.lineTo(startX, chartArea.bottom);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.font = '10px Arial';
+                    ctx.fillStyle = '#64748b';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FORECAST →', startX + 7, chartArea.top + 12);
+                    ctx.restore();
+                },
+                afterDatasetsDraw(chart) {
                     const ctx = chart.ctx;
                     const xScale = chart.scales.x;
                     const yScale = chart.scales.y;
-                    ctx.textAlign = 'center';
                     monthlyTotals.forEach((total, idx) => {
+                        if (!total) return;
                         const xPos = xScale.getPixelForValue(idx);
-                        const yPos = yScale.getPixelForValue(total);
-                        ctx.font = 'bold 12px Arial';
+                        const isForecast = forecastBaseline[idx] !== null;
+                        const labelX = isForecast ? xPos + 12 : xPos;
+                        const labelY = yScale.getPixelForValue(total) - 8;
+                        ctx.font = 'bold 11px Arial';
                         ctx.fillStyle = '#333';
-                        ctx.fillText('$' + total.toLocaleString(), xPos, yPos - 15);
-                    });
+                        ctx.textAlign = isForecast ? 'left' : 'center';
+                        ctx.fillText('$' + total.toLocaleString(), labelX, labelY);
 
-                    // Dotted projection box for current month
-                    if (currentMonthBarIdx >= 0 && PROJECTED_CURRENT > monthlyTotals[currentMonthBarIdx]) {
-                        const xPos = xScale.getPixelForValue(currentMonthBarIdx);
-                        const projYPos = yScale.getPixelForValue(PROJECTED_CURRENT);
-                        const currentY = yScale.getPixelForValue(monthlyTotals[currentMonthBarIdx]);
-                        const barW = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.6;
-
-                        ctx.font = 'italic 11px Arial';
-                        ctx.fillStyle = '#999';
-                        ctx.textAlign = 'center';
-                        ctx.fillText('$' + PROJECTED_CURRENT.toLocaleString() + ' (proj)', xPos, projYPos - 20);
-
-                        ctx.strokeStyle = 'rgba(100, 100, 100, 0.65)';
-                        ctx.setLineDash([5, 5]);
-                        ctx.lineWidth = 1.5;
-                        ctx.fillStyle = 'rgba(200, 200, 200, 0.12)';
+                        if (!isForecast) return;
+                        const lowY = yScale.getPixelForValue(forecastConservative[idx]);
+                        const highY = yScale.getPixelForValue(forecastOptimistic[idx]);
+                        ctx.strokeStyle = '#475569';
+                        ctx.lineWidth = 2;
                         ctx.beginPath();
-                        ctx.rect(xPos - barW / 2, projYPos, barW, currentY - projYPos);
-                        ctx.fill();
+                        ctx.moveTo(xPos, highY);
+                        ctx.lineTo(xPos, lowY);
                         ctx.stroke();
-                        ctx.setLineDash([]);
-                    }
+                        ctx.strokeStyle = '#16a34a';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(xPos - 8, highY);
+                        ctx.lineTo(xPos + 8, highY);
+                        ctx.stroke();
+                        ctx.strokeStyle = '#d97706';
+                        ctx.beginPath();
+                        ctx.moveTo(xPos - 8, lowY);
+                        ctx.lineTo(xPos + 8, lowY);
+                        ctx.stroke();
+                    });
                 }
             };
 
@@ -415,7 +510,7 @@
                         y: { stacked: true, max: 45000 }
                     }
                 },
-                plugins: [totalLabelsPlugin]
+                plugins: [forecastPlugin]
             });
         }
 
