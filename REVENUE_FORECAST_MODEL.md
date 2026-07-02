@@ -24,7 +24,9 @@ For each remaining calendar month:
 - Baseline: recency-weighted seasonal estimate with damped momentum.
 - Optimistic: baseline × 1.20.
 
-The full-year cards combine completed current-year actuals with the forecasts for the current and remaining months. Completed months retain their product-level stacked bars; forecast months use a baseline bar with conservative and optimistic whiskers.
+The full-year cards combine completed current-year actuals with the forecasts for the current and remaining months and display rounded thousands. Completed months retain their product-level stacked bars; forecast months use a baseline bar with conservative and optimistic whiskers. The current partial month is treated separately: its collected revenue remains product-stacked, a dotted extension marks the baseline projection, and the whisker shows the scenario range.
+
+The cumulative chart uses the same model output. It plots completed-month actual revenue through the latest closed month, then branches into conservative, baseline, and optimistic cumulative paths through December.
 
 ## Update behavior
 
