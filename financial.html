@@ -32,35 +32,24 @@
     .header-actions { display:flex; align-items:center; gap:8px; }
     .nav-link { color:var(--muted); text-decoration:none; border:1px solid var(--border2); border-radius:6px; padding:7px 11px; font-size:12px; white-space:nowrap; }
     .nav-link:hover { color:var(--blue); border-color:var(--blue); }
-    main { max-width:1480px; margin:auto; padding:38px 24px 64px; }
-    .intro { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:24px; }
-    h1 { font-size:28px; letter-spacing:-.02em; margin-bottom:6px; }
-    .intro-copy { color:var(--muted); font-size:13px; line-height:1.5; max-width:780px; }
+    main { max-width:1600px; margin:auto; padding:28px 24px 64px; }
+    .period-row { display:flex; justify-content:flex-end; margin-bottom:20px; }
     .period { color:var(--muted); font-size:12px; background:var(--surface); border:1px solid var(--border); padding:8px 12px; border-radius:8px; white-space:nowrap; }
-    .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:34px; }
-    .kpi { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:17px 18px; min-width:0; }
-    .kpi-label { color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-size:10px; font-weight:700; margin-bottom:8px; }
-    .kpi-value { font-size:25px; line-height:1.1; font-weight:750; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
-    .kpi-note { color:var(--muted); font-size:11px; margin-top:7px; }
     section { margin-top:40px; }
-    .section-heading { display:flex; align-items:center; gap:11px; margin-bottom:6px; }
+    section:first-child { margin-top:0; }
+    .section-heading { display:flex; align-items:center; gap:11px; margin-bottom:15px; }
     .section-number { width:25px; height:25px; display:grid; place-items:center; border-radius:7px; color:var(--blue); background:rgba(88,166,255,.1); font-size:12px; font-weight:700; }
     h2 { font-size:18px; }
-    .section-copy { color:var(--muted); font-size:12px; margin:0 0 16px 36px; }
     .table-card, .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
     .table-scroll { overflow-x:auto; scrollbar-color:var(--border2) var(--surface); }
-    table { width:100%; min-width:1690px; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; }
-    th { position:sticky; top:0; z-index:2; background:var(--surface2); color:var(--muted); text-transform:uppercase; letter-spacing:.045em; font-size:9px; line-height:1.25; text-align:right; padding:12px 11px; border-bottom:1px solid var(--border2); white-space:normal; }
-    td { text-align:right; padding:11px; border-bottom:1px solid var(--border); white-space:nowrap; }
+    table { width:100%; min-width:1120px; table-layout:fixed; border-collapse:separate; border-spacing:0; font-size:11px; font-variant-numeric:tabular-nums; }
+    th { position:sticky; top:0; z-index:2; background:var(--surface2); color:var(--muted); text-transform:uppercase; letter-spacing:.025em; font-size:8px; line-height:1.2; text-align:right; padding:10px 5px; border-bottom:1px solid var(--border2); white-space:normal; }
+    td { color:var(--text); text-align:right; padding:9px 6px; border-bottom:1px solid var(--border); white-space:nowrap; }
     tbody tr:last-child td { border-bottom:0; }
-    tbody tr:hover td { background:rgba(88,166,255,.035); }
-    th:first-child, td:first-child { position:sticky; left:0; z-index:1; text-align:left; background:var(--surface); min-width:92px; }
+    tbody tr:hover td { box-shadow:inset 0 1px rgba(255,255,255,.06), inset 0 -1px rgba(255,255,255,.06); }
+    th:first-child, td:first-child { position:sticky; left:0; z-index:1; width:76px; text-align:left; background:var(--surface); }
     th:first-child { z-index:3; background:var(--surface2); }
-    .subtotal { color:#c9d1d9; background:rgba(255,255,255,.018); }
     .profit { font-weight:650; }
-    .positive { color:var(--green); }
-    .negative { color:#ff7b72; }
-    .distribution { color:#d2a8ff; }
     .scroll-note { color:var(--dim); font-size:10px; padding:9px 12px; border-top:1px solid var(--border); display:none; }
     .chart-card { margin-top:16px; padding:20px; }
     .card-title { font-size:14px; font-weight:700; margin-bottom:3px; }
@@ -68,13 +57,11 @@
     .chart-wrap { position:relative; height:320px; min-width:0; }
     .data-error { display:none; background:rgba(248,81,73,.08); border:1px solid rgba(248,81,73,.35); color:#ffb4af; border-radius:12px; padding:18px; line-height:1.5; }
     footer { color:var(--dim); text-align:center; font-size:11px; margin-top:48px; }
-    @media (max-width:900px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } .scroll-note { display:block; } }
+    @media (max-width:900px) { .scroll-note { display:block; } }
     @media (max-width:620px) {
       header { padding:15px 16px; } main { padding:28px 14px 48px; }
       .brand-name { font-size:15px; } .header-actions .nav-link:first-child { display:none; }
-      .intro { display:block; } .period { display:inline-block; margin-top:13px; }
-      h1 { font-size:24px; } .kpi-grid { gap:8px; } .kpi { padding:14px; }
-      .kpi-value { font-size:21px; } .section-copy { margin-left:0; }
+      .period-row { margin-bottom:18px; }
       .chart-card { padding:16px 12px; } .chart-wrap { height:275px; }
     }
   </style>
@@ -99,29 +86,17 @@
       </div>
     </header>
     <main>
-      <div class="intro">
-        <div><h1>Business financials</h1><div class="intro-copy">Monthly revenue, expenses, taxes, profit, and owner distributions. Distributions are shown for context and are not subtracted from profit.</div></div>
-        <span class="period" id="periodLabel">Loading live data…</span>
-      </div>
+      <div class="period-row"><span class="period" id="periodLabel">Loading live data…</span></div>
       <div class="data-error" id="dataError"></div>
       <div id="dashboardBody">
-        <div class="kpi-grid">
-          <div class="kpi"><div class="kpi-label">Latest revenue</div><div class="kpi-value" id="latestRevenue">—</div><div class="kpi-note" id="latestMonth">Most recent month</div></div>
-          <div class="kpi"><div class="kpi-label">Pre-tax profit</div><div class="kpi-value" id="latestPretax">—</div><div class="kpi-note" id="latestPretaxPct">Before taxes</div></div>
-          <div class="kpi"><div class="kpi-label">After-tax profit</div><div class="kpi-value" id="latestAftertax">—</div><div class="kpi-note" id="latestAftertaxPct">After taxes paid</div></div>
-          <div class="kpi"><div class="kpi-label">Rolling 12 after-tax</div><div class="kpi-value" id="rollingAftertax">—</div><div class="kpi-note" id="rollingAftertaxPct">Monthly average</div></div>
-        </div>
-
         <section>
           <div class="section-heading"><span class="section-number">1</span><h2>Monthly actuals</h2></div>
-          <div class="section-copy">Most recent month first. Currency is displayed to the nearest dollar; calculations retain cents.</div>
           <div class="table-card"><div class="table-scroll"><table><thead id="actualHead"></thead><tbody id="actualBody"></tbody></table></div><div class="scroll-note">Swipe or scroll horizontally to see all financial columns.</div></div>
           <div class="chart-card"><div class="card-title">Revenue and profit over time</div><div class="card-subtitle">Monthly revenue, pre-tax profit, and after-tax profit</div><div class="chart-wrap"><canvas id="actualChart"></canvas></div></div>
         </section>
 
         <section>
           <div class="section-heading"><span class="section-number">2</span><h2>Rolling 12-month average</h2></div>
-          <div class="section-copy">Each row averages the trailing 12 months of raw inputs, then calculates profit and margins from those averaged dollars.</div>
           <div class="table-card"><div class="table-scroll"><table><thead id="rollingHead"></thead><tbody id="rollingBody"></tbody></table></div><div class="scroll-note">Swipe or scroll horizontally to see all financial columns.</div></div>
           <div class="chart-card"><div class="card-title">Smoothed financial trend</div><div class="card-subtitle">Rolling average revenue and after-tax profit</div><div class="chart-wrap"><canvas id="rollingChart"></canvas></div></div>
         </section>
@@ -148,7 +123,21 @@
     const shortMonth = value => new Intl.DateTimeFormat('en-US',{month:'short',year:'2-digit',timeZone:'UTC'}).format(new Date(`${value}-01T12:00:00Z`));
     const percent = value => value == null ? '—' : `${(value * 100).toFixed(1)}%`;
     const put = (id, value) => { document.getElementById(id).textContent = value; };
-    const signClass = value => value < 0 ? 'negative' : value > 0 ? 'positive' : '';
+    const DOLLAR_KEYS = COLUMNS.map(([key]) => key).filter(key => key !== 'month' && !key.startsWith('profit_pct'));
+
+    function heatStyle(key, value, values) {
+      const maxDollar = Math.max(1, ...DOLLAR_KEYS.map(field => Math.abs(values[field] || 0)));
+      const ratio = key.startsWith('profit_pct')
+        ? Math.sqrt(Math.min(1, Math.abs(value || 0)))
+        : Math.sqrt(Math.abs(value || 0) / maxDollar);
+      const alpha = (0.035 + ratio * 0.24).toFixed(3);
+      let rgb = '88,166,255';
+      if (value < 0) rgb = '248,81,73';
+      else if (key.includes('profit')) rgb = '63,185,80';
+      else if (key === 'owner_distributions') rgb = '163,113,247';
+      else if (key !== 'revenue') rgb = '227,179,65';
+      return `background-color:rgba(${rgb},${alpha})`;
+    }
 
     async function onAuthenticated() {
       try {
@@ -173,29 +162,20 @@
         return `<tr>${COLUMNS.map(([key]) => {
           if (key === 'month') return `<td>${monthName(row.month)}</td>`;
           const value = values[key];
-          if (key.startsWith('profit_pct')) return `<td class="profit ${signClass(value)}">${percent(value)}</td>`;
+          const style = heatStyle(key, value, values);
+          if (key.startsWith('profit_pct')) return `<td class="profit" style="${style}">${percent(value)}</td>`;
           const classNames = [
-            key.startsWith('total_expenses') ? 'subtotal' : '',
-            key === 'pretax_profit' || key === 'aftertax_profit' ? `profit ${signClass(value)}` : '',
-            key === 'owner_distributions' ? `distribution ${value < 0 ? 'negative' : ''}` : ''
+            key === 'pretax_profit' || key === 'aftertax_profit' ? 'profit' : ''
           ].filter(Boolean).join(' ');
-          return `<td class="${classNames}">${money.format(value)}</td>`;
+          return `<td class="${classNames}" style="${style}">${money.format(value)}</td>`;
         }).join('')}</tr>`;
       }).join('');
     }
 
     function renderDashboard(data) {
       const latest = data.at(-1);
-      const rollingRows = data.filter(row => row.rolling_12_month);
-      const latestRolling = rollingRows.at(-1).rolling_12_month;
+      const rollingRows = data.filter(row => row.rolling_12_month).slice(-12);
       put('periodLabel', `${monthName(data[0].month)} – ${monthName(latest.month)}`);
-      put('latestRevenue', money.format(latest.revenue)); put('latestMonth', monthName(latest.month));
-      put('latestPretax', money.format(latest.pretax_profit)); document.getElementById('latestPretax').classList.add(signClass(latest.pretax_profit));
-      put('latestPretaxPct', `${percent(latest.profit_pct_pretax)} of revenue`);
-      put('latestAftertax', money.format(latest.aftertax_profit)); document.getElementById('latestAftertax').classList.add(signClass(latest.aftertax_profit));
-      put('latestAftertaxPct', `${percent(latest.profit_pct_aftertax)} of revenue`);
-      put('rollingAftertax', money.format(latestRolling.aftertax_profit)); document.getElementById('rollingAftertax').classList.add(signClass(latestRolling.aftertax_profit));
-      put('rollingAftertaxPct', `${percent(latestRolling.profit_pct_aftertax)} margin · monthly avg`);
 
       buildTable('actualHead','actualBody',data,row => row);
       buildTable('rollingHead','rollingBody',rollingRows,row => row.rolling_12_month);
