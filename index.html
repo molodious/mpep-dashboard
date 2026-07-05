@@ -122,9 +122,9 @@
     .logout-btn:hover { border-color: var(--red); color: var(--red); }
 
     main {
-      max-width: 1000px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 48px 24px;
+      padding: 32px 24px;
     }
 
     .welcome {
@@ -149,21 +149,21 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--dim);
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 48px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
     }
 
     .dash-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 26px;
+      padding: 18px;
       text-decoration: none;
       color: inherit;
       display: block;
@@ -191,9 +191,9 @@
     .card-orange::before { background: var(--orange); }
     .card-red::before    { background: var(--red); }
 
-    .card-icon  { font-size: 28px; margin-bottom: 14px; }
+    .card-icon  { font-size: 24px; margin-bottom: 9px; }
     .card-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .card-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+    .card-desc  { font-size: 12px; color: var(--muted); line-height: 1.45; margin-bottom: 12px; }
 
     .card-meta {
       display: flex;
@@ -213,19 +213,14 @@
 
     .status-live    { background: #0d2e1a; color: #3fb950; border: 1px solid #173d23; }
     .status-soon    { background: #2d1f03; color: #d29922; border: 1px solid #4a3400; }
-    .status-planned { background: #1a1a2e; color: #818cf8; border: 1px solid #2a2a4e; }
 
     .card-arrow { font-size: 18px; color: var(--dim); }
 
-    .coming-soon-card {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    .divider { height: 1px; background: var(--border); margin: 0 0 32px; }
-
     #clock { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+    @media (max-width: 1000px) {
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     @media (max-width: 600px) {
       header { padding: 14px 16px; }
@@ -267,54 +262,12 @@
   </header>
 
   <main>
-    <!-- Live dashboards -->
-    <div class="section-title">Live Dashboards</div>
+    <div class="section-title">Business &amp; Finance</div>
     <div class="card-grid">
-
-      <a href="cron.html" class="dash-card card-blue">
-        <div class="card-icon">🤖</div>
-        <div class="card-title">Cron Jobs &amp; Automations</div>
-        <div class="card-desc">All 12 scheduled automations + 4 on-demand workflows. Shows schedule, last run, health status, and notification targets.</div>
-        <div class="card-meta">
-          <span class="card-status status-live">● Live</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </a>
-
-      <a href="exams.html" class="dash-card card-green">
-        <div class="card-icon">📅</div>
-        <div class="card-title">Student Exam Dates</div>
-        <div class="card-desc">180-day lookahead of upcoming PE exam dates from enrolled students. Sorted by soonest first. Refreshes Monday mornings.</div>
-        <div class="card-meta">
-          <span class="card-status status-live">● Live</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </a>
-
-      <a href="oh-prep.html" class="dash-card card-purple">
-        <div class="card-icon">♠️</div>
-        <div class="card-title">OH Prep Notes</div>
-        <div class="card-desc">Query problem summaries, solution approaches, and past student questions for any problem. Prep your sessions quickly.</div>
-        <div class="card-meta">
-          <span class="card-status status-live">● Live</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </a>
-
       <a href="sales.html" class="dash-card card-yellow">
         <div class="card-icon">💰</div>
         <div class="card-title">Sales Dashboard</div>
         <div class="card-desc">Revenue tracking: Stripe bundles + Thinkific products. March projection, 12-month trends, and auto-refresh every 30 minutes.</div>
-        <div class="card-meta">
-          <span class="card-status status-live">● Live</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </a>
-
-      <a href="scorecard.html" class="dash-card card-purple">
-        <div class="card-icon">📈</div>
-        <div class="card-title">MPEP Scorecard</div>
-        <div class="card-desc">Subscriber growth, partner-program momentum, and Full Access Bundle actuals with seasonally adjusted projections.</div>
         <div class="card-meta">
           <span class="card-status status-live">● Live</span>
           <span class="card-arrow">→</span>
@@ -341,6 +294,52 @@
         </div>
       </a>
 
+      <a href="scorecard.html" class="dash-card card-purple">
+        <div class="card-icon">📈</div>
+        <div class="card-title">MPEP Scorecard</div>
+        <div class="card-desc">Subscriber growth, partner-program momentum, and Full Access Bundle actuals with seasonally adjusted projections.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title">Operations</div>
+    <div class="card-grid">
+      <a href="cron.html" class="dash-card card-blue">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Cron Jobs &amp; Automations</div>
+        <div class="card-desc">All 12 scheduled automations + 4 on-demand workflows. Shows schedule, last run, health status, and notification targets.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="backlog.html" class="dash-card card-red">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Backlog</div>
+        <div class="card-desc">Deferred action items and triage queue. Add, edit, filter, and export items. Mark items complete or wont-do and view archive.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title">Students &amp; Support</div>
+    <div class="card-grid">
+      <a href="exams.html" class="dash-card card-green">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Student Exam Dates</div>
+        <div class="card-desc">180-day lookahead of upcoming PE exam dates from enrolled students. Sorted by soonest first. Refreshes Monday mornings.</div>
+        <div class="card-meta">
+          <span class="card-status status-live">● Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
       <a href="pass-rates.html" class="dash-card card-green">
         <div class="card-icon">📊</div>
         <div class="card-title">Pass Rates</div>
@@ -361,44 +360,15 @@
         </div>
       </a>
 
-      <a href="backlog.html" class="dash-card card-red">
-        <div class="card-icon">📋</div>
-        <div class="card-title">Backlog</div>
-        <div class="card-desc">Deferred action items and triage queue. Add, edit, filter, and export items. Mark items complete or wont-do and view archive.</div>
+      <a href="oh-prep.html" class="dash-card card-purple">
+        <div class="card-icon">♠️</div>
+        <div class="card-title">OH Prep Notes</div>
+        <div class="card-desc">Query problem summaries, solution approaches, and past student questions for any problem. Prep your sessions quickly.</div>
         <div class="card-meta">
           <span class="card-status status-live">● Live</span>
           <span class="card-arrow">→</span>
         </div>
       </a>
-
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Coming soon -->
-    <div class="section-title">Coming Soon</div>
-    <div class="card-grid">
-
-      <div class="dash-card card-purple coming-soon-card">
-        <div class="card-icon">🎓</div>
-        <div class="card-title">Student Progress</div>
-        <div class="card-desc">Engagement and progress tracking across active students in the HVAC, TFS, and FE programs.</div>
-        <div class="card-meta">
-          <span class="card-status status-planned">◌ Planned</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="dash-card card-red coming-soon-card">
-        <div class="card-icon">📹</div>
-        <div class="card-title">Content Pipeline</div>
-        <div class="card-desc">MDM problem tracker, YouTube upload queue, Office Hours archive status, and production milestones.</div>
-        <div class="card-meta">
-          <span class="card-status status-planned">◌ Planned</span>
-          <span class="card-arrow">→</span>
-        </div>
-      </div>
-
     </div>
   </main>
 </div>
