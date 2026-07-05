@@ -13,11 +13,14 @@ concurrency:
   group: sales-dashboard
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   rebuild:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -45,3 +48,29 @@ jobs:
             git commit -m "Auto-update sales dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
             git push
           fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+  deploy:
+    needs: rebuild
+    runs-on: ubuntu-latest
+    concurrency:
+      group: mpep-pages-deployment
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
