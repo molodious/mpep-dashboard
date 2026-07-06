@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard v2 — Staging</title>
+  <script src="auth.js"></script>
+  <style>
+    :root { --navy:#1a1a2e; --red:#dd2743; --gold:#f0b429; --bg:#f4f6f8; --muted:#64748b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:#182230; font-family:Inter,system-ui,-apple-system,sans-serif; }
+    header { background:var(--navy); color:#fff; padding:26px max(20px,calc((100% - 1180px)/2)); }
+    header h1 { margin:0 0 6px; font-size:28px; }
+    header p { margin:0; color:#cbd5e1; }
+    main { max-width:1180px; margin:24px auto; padding:0 20px 50px; }
+    .notice { background:#fff8e7; border:1px solid #f6d77b; border-left:5px solid var(--gold); padding:14px 16px; border-radius:8px; margin-bottom:20px; }
+    .status { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; color:var(--muted); font-size:14px; }
+    .status span { background:#fff; padding:8px 12px; border-radius:999px; box-shadow:0 1px 3px #0001; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:24px; }
+    .card { background:#fff; border-radius:10px; padding:18px; box-shadow:0 2px 8px #0000000d; }
+    .card .label { color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+    .card .value { font-size:27px; font-weight:750; margin-top:5px; }
+    section { background:#fff; border-radius:10px; padding:20px; box-shadow:0 2px 8px #0000000d; }
+    section h2 { margin:0 0 16px; }
+    select,button { font:inherit; padding:9px 12px; border:1px solid #cbd5e1; border-radius:7px; background:#fff; }
+    button { background:var(--red); color:#fff; border-color:var(--red); cursor:pointer; }
+    .controls { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+    .table-wrap { overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { padding:11px 10px; border-bottom:1px solid #e5e7eb; text-align:left; white-space:nowrap; }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; }
+    td.amount { text-align:right; font-variant-numeric:tabular-nums; font-weight:650; }
+    .error { color:#991b1b; background:#fee2e2; padding:14px; border-radius:8px; }
+    @media(max-width:600px){ header h1{font-size:23px} th:nth-child(4),td:nth-child(4){display:none} }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sales Dashboard v2</h1>
+    <p>Live API staging — not the production sales dashboard</p>
+  </header>
+  <main>
+    <div class="notice"><strong>Parallel validation only.</strong> This page reads SQLite through the staging API. The existing sales dashboard and GitHub rebuild workflow remain active.</div>
+    <div id="error"></div>
+    <div class="status"><span id="freshness">Loading live data…</span><span>Timezone: America/New_York</span><span id="sourceStatus">API: connecting</span></div>
+    <div class="grid" id="summary"></div>
+    <section>
+      <div class="controls">
+        <label for="month">Month</label><select id="month"></select>
+        <button id="refresh" type="button">Refresh live data</button>
+      </div>
+      <h2 id="ordersTitle">Orders</h2>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Customer</th><th>Source</th><th>Type</th><th style="text-align:right">Amount</th></tr></thead><tbody id="orders"></tbody></table></div>
+    </section>
+  </main>
+  <script>
+    const API_URL = location.hostname === '127.0.0.1' || location.hostname === 'localhost'
+      ? 'http://127.0.0.1:3010/sales-dashboard'
+      : 'https://btc.mechanicalpeexamprep.com/sales-v2-staging';
+    let data;
+    const money = value => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value);
+    const label = month => new Date(month+'-02T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+    async function load() {
+      document.getElementById('error').innerHTML='';
+      document.getElementById('sourceStatus').textContent='API: loading';
+      try {
+        const response=await fetch(API_URL+'?t='+Date.now(),{cache:'no-store'});
+        if(!response.ok) throw new Error('API returned '+response.status);
+        data=await response.json();
+        document.getElementById('freshness').textContent='Fetched: '+new Date(data.generated_at).toLocaleString('en-US',{timeZone:data.timezone});
+        document.getElementById('sourceStatus').textContent='API: live';
+        const picker=document.getElementById('month');
+        const previous=picker.value;
+        picker.innerHTML=Object.keys(data.monthly).sort().reverse().map(m=>`<option value="${m}">${label(m)}</option>`).join('');
+        if(previous && data.monthly[previous]) picker.value=previous;
+        render();
+      } catch(error) {
+        document.getElementById('sourceStatus').textContent='API: unavailable';
+        document.getElementById('error').innerHTML=`<p class="error"><strong>Live sales data unavailable.</strong> ${error.message}</p>`;
+      }
+    }
+    function render(){
+      const month=document.getElementById('month').value;
+      const summary=data.monthly[month]||{revenue:0,orders:0,products:{}};
+      document.getElementById('summary').innerHTML=`<div class="card"><div class="label">${label(month)} revenue</div><div class="value">${money(summary.revenue)}</div></div><div class="card"><div class="label">Orders</div><div class="value">${summary.orders}</div></div><div class="card"><div class="label">Products</div><div class="value">${Object.keys(summary.products).length}</div></div>`;
+      const orders=data.orders.filter(o=>o.date.startsWith(month)).sort((a,b)=>b.occurred_at.localeCompare(a.occurred_at));
+      document.getElementById('ordersTitle').textContent='Orders in '+label(month);
+      document.getElementById('orders').innerHTML=orders.map(o=>`<tr><td>${o.date}</td><td>${o.product}</td><td>${o.customer}</td><td>${o.source.replace('_webhook','')}</td><td>${o.type}</td><td class="amount">${money(o.amount)}</td></tr>`).join('');
+    }
+    document.getElementById('month').addEventListener('change',render);
+    document.getElementById('refresh').addEventListener('click',load);
+    load();
+  </script>
+</body>
+</html>
