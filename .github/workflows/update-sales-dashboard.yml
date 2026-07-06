@@ -1,13 +1,10 @@
-name: Update Sales Dashboard
+name: Update Legacy Sales Dashboard
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - build_sales_dashboard.py
-  repository_dispatch:
-    types: [new-order]
-  workflow_dispatch: # Manual trigger from GitHub UI
+  # The production sales dashboard is now API-backed and does not use this
+  # legacy static rebuild path. Keep this workflow available only for manual
+  # rollback/reference maintenance so order webhooks cannot overwrite sales.html.
+  workflow_dispatch:
 
 concurrency:
   group: sales-dashboard
@@ -31,21 +28,24 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Build sales dashboard
+      - name: Build legacy sales dashboard
         env:
           STRIPE_READONLY_KEY: ${{ secrets.STRIPE_READONLY_KEY }}
           THINKIFIC_API_KEY: ${{ secrets.THINKIFIC_API_KEY }}
-        run: python build_sales_dashboard.py
+        run: |
+          python build_sales_dashboard.py
+          mv sales.html sales-legacy.html
+          git checkout -- sales.html
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sales.html
+          git add sales-legacy.html
           if git diff --cached --quiet; then
-            echo "No changes to sales.html"
+            echo "No changes to sales-legacy.html"
           else
-            git commit -m "Auto-update sales dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
+            git commit -m "Auto-update legacy sales dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
             git push
           fi
 

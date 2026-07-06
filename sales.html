@@ -1,849 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Dashboard - Mechanical PE Exam Prep</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --bg: #f5f7fa;
-            --surface: #ffffff;
-            --surface2: #f0f2f5;
-            --border: #dde1e7;
-            --text: #333333;
-            --muted: #777777;
-            --blue: #2563eb;
-            --red: #dc2626;
-        }
-
-        /* ── Auth overlay ── */
-        #auth-overlay {
-          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.6);
-          display: flex; align-items: center; justify-content: center;
-          z-index: 9999;
-        }
-        .auth-box {
-          background: var(--surface); border: 1px solid var(--border);
-          border-radius: 8px; padding: 32px; width: 100%; max-width: 280px; text-align: center;
-        }
-        .auth-logo { font-size: 36px; margin-bottom: 12px; }
-        .auth-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-        .auth-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-        .auth-box input {
-          width: 100%; padding: 8px 12px; background: var(--surface2);
-          border: 1px solid var(--border); border-radius: 4px;
-          color: var(--text); font-size: 13px; margin-bottom: 8px;
-        }
-        .auth-box input:focus { border-color: var(--blue); outline: none; }
-        .auth-box button {
-          width: 100%; padding: 8px 12px; background: var(--blue);
-          color: #fff; border: none; border-radius: 4px;
-          font-size: 14px; font-weight: 600; cursor: pointer;
-        }
-        .auth-box button:hover  { opacity: 0.88; }
-        .auth-box button:disabled { opacity: 0.55; cursor: default; }
-        #pwd-error { display: none; color: var(--red); font-size: 11px; margin-bottom: 8px; }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .header-info {
-            display: flex;
-            gap: 30px;
-            font-size: 14px;
-            color: #666;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .card h2 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #444;
-            font-weight: 600;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            margin-top: 15px;
-        }
-        th {
-            background: #f8f9fa;
-            padding: 8px;
-            text-align: left;
-            font-weight: 600;
-            color: #555;
-            border-bottom: 2px solid #e0e0e0;
-        }
-        td {
-            padding: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        tr:hover {
-            background: #f9f9f9;
-        }
-        .metric-label {
-            font-size: 12px;
-            color: #777;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .metric-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-top: 5px;
-        }
-        .projection-note {
-            font-size: 12px;
-            color: #999;
-            margin-top: 10px;
-            font-style: italic;
-        }
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-        .full-width {
-            grid-column: 1 / -1;
-        }
-        .last-updated {
-            text-align: right;
-            font-size: 12px;
-            color: #999;
-            margin-top: 15px;
-        }
-        .totals-table {
-            margin: 15px 0 0 0;
-        }
-        .totals-table td {
-            text-align: center;
-        }
-        .totals-table th {
-            text-align: center;
-        }
-        /* Row coloring by product */
-        tr[data-product="HVAC"] {
-            background-color: rgba(255, 215, 0, 0.1);
-        }
-        tr[data-product="TFS"] {
-            background-color: rgba(52, 152, 219, 0.1);
-        }
-        tr[data-product="TFS+CSE"] {
-            background-color: rgba(91, 141, 239, 0.1);
-        }
-        tr[data-product="FE"] {
-            background-color: rgba(231, 76, 60, 0.1);
-        }
-        tr[data-product="HVAC"]:hover {
-            background-color: rgba(255, 215, 0, 0.2);
-        }
-        tr[data-product="TFS"]:hover {
-            background-color: rgba(52, 152, 219, 0.2);
-        }
-        tr[data-product="TFS+CSE"]:hover {
-            background-color: rgba(91, 141, 239, 0.2);
-        }
-        tr[data-product="FE"]:hover {
-            background-color: rgba(231, 76, 60, 0.2);
-        }
-
-        /* ── Month selector ── */
-        .month-selector {
-            display: flex; align-items: center; gap: 10px; margin-top: 12px;
-        }
-        .month-selector label {
-            font-size: 14px; font-weight: 600; color: #555;
-        }
-        .month-selector select {
-            padding: 6px 12px; font-size: 14px; border: 1px solid var(--border);
-            border-radius: 4px; background: var(--surface2); color: var(--text);
-            cursor: pointer;
-        }
-        .month-selector select:focus {
-            outline: none; border-color: var(--blue);
-        }
-        .forecast-summary {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 14px; margin: 15px 0 20px;
-        }
-        .forecast-scenario {
-            position: relative; overflow: hidden; border: 1px solid var(--border);
-            border-radius: 8px; padding: 16px;
-        }
-        .forecast-scenario::before {
-            content: ""; position: absolute; inset: 0 auto 0 0;
-            width: 4px; background: var(--scenario-color);
-        }
-        .forecast-name {
-            color: var(--scenario-color); font-size: 12px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.06em;
-        }
-        .forecast-total { margin-top: 6px; font-size: 27px; font-weight: 700; color: #1e293b; }
-        .forecast-period { margin-top: 3px; color: var(--muted); font-size: 12px; }
-        .forecast-secondary {
-            display: flex; justify-content: space-between; gap: 10px;
-            margin-top: 12px; padding-top: 10px; border-top: 1px solid #eef0f3;
-            color: #475569; font-size: 12px;
-        }
-        .forecast-range-legend {
-            display: flex; justify-content: flex-end; align-items: center;
-            gap: 8px; margin: -2px 0 8px; color: #555; font-size: 12px;
-        }
-        .forecast-whisker-icon {
-            position: relative; width: 18px; height: 15px;
-            border-left: 2px solid #475569; margin-left: 8px;
-        }
-        .forecast-whisker-icon::before, .forecast-whisker-icon::after {
-            content: ""; position: absolute; left: -6px; width: 10px; height: 2px;
-        }
-        .forecast-whisker-icon::before { top: 0; background: #16a34a; }
-        .forecast-whisker-icon::after { bottom: 0; background: #d97706; }
-        .quarterly-topline {
-            display: flex; align-items: flex-start; justify-content: space-between;
-            gap: 20px; margin-bottom: 18px;
-        }
-        .quarterly-legend {
-            display: flex; flex-wrap: wrap; justify-content: flex-end;
-            align-items: center; gap: 8px 13px; color: #64748b; font-size: 11px;
-        }
-        .quarterly-legend-item { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .quarterly-swatch { width: 13px; height: 10px; border-radius: 2px; background: var(--year-color); }
-        .quarterly-swatch.projected { background: rgba(37,99,235,.15); border: 2px dashed #2563eb; }
-        .quarterly-grid {
-            display: grid; grid-template-columns: 48px repeat(4, minmax(0,1fr));
-            gap: 9px; align-items: end;
-        }
-        .quarter-panel {
-            height: 292px; padding: 12px 7px 8px; border: 1px solid #e5e7eb;
-            border-radius: 9px; background: #fff; min-width: 0; overflow: hidden;
-        }
-        .quarter-panel h3 { margin: 0 0 4px; text-align: center; color: #475569; font-size: 15px; }
-        .quarter-chart {
-            height: 210px; margin-top: 25px; border-bottom: 1px solid #94a3b8;
-            background:
-                linear-gradient(rgba(148,163,184,.30),rgba(148,163,184,.30)) top/100% 1px no-repeat,
-                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 25%/100% 1px no-repeat,
-                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 50%/100% 1px no-repeat,
-                linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 75%/100% 1px no-repeat;
-        }
-        .quarter-bars {
-            position: relative; height: 100%; display: grid;
-            grid-template-columns: repeat(8, minmax(0,1fr)); gap: 3px; padding: 0 1px;
-        }
-        .quarter-bar-cell { position: relative; height: 100%; min-width: 0; }
-        .quarter-value {
-            position: absolute; left: 50%; bottom: calc(var(--bar-height) + 5px);
-            transform: translateX(-50%); color: #475569; font-size: 10px;
-            font-weight: 700; white-space: nowrap;
-        }
-        .quarter-bar {
-            position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
-            width: min(24px, 78%); height: var(--bar-height); min-height: 3px;
-            border-radius: 3px 3px 0 0; background: var(--year-color);
-        }
-        .quarter-bar.projected {
-            background: rgba(37,99,235,.12); border: 2px dashed var(--year-color); border-bottom: 0;
-        }
-        .quarter-year {
-            position: absolute; left: 50%; top: calc(100% + 8px);
-            transform: translateX(-50%) rotate(-48deg); transform-origin: center;
-            color: #64748b; font-size: 9px;
-        }
-        .quarter-axis { height: 266px; padding: 56px 4px 0 0; }
-        .quarter-axis-scale { position: relative; height: 210px; color: #64748b; font-size: 10px; }
-        .quarter-axis-scale span { position: absolute; right: 0; transform: translateY(50%); }
-        @media (max-width: 800px) {
-            .forecast-summary { grid-template-columns: 1fr; }
-            .forecast-range-legend { justify-content: flex-start; }
-            .quarterly-topline { flex-direction: column; }
-            .quarterly-legend { justify-content: flex-start; }
-            .quarterly-grid { grid-template-columns: 42px repeat(4, 205px); overflow-x: auto; padding-bottom: 8px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard - Mechanical PE Exam Prep</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { --bg:#f5f7fa;--surface:#fff;--border:#dde1e7;--text:#333;--muted:#667085;--blue:#2563eb;--red:#dc2626; }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    #auth-overlay{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;z-index:9999}
+    .auth-box{background:#fff;border-radius:9px;padding:30px;width:min(290px,calc(100% - 36px));text-align:center}.auth-logo{font-size:34px}.auth-title{font-size:20px;font-weight:700;margin:8px}.auth-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+    .auth-box input,.auth-box button{width:100%;padding:10px 12px;border-radius:5px;font:inherit}.auth-box input{border:1px solid var(--border);margin-bottom:8px}.auth-box button{border:0;background:var(--blue);color:#fff;font-weight:650}#pwd-error{display:none;color:var(--red);font-size:12px;margin-bottom:7px}
+    .container{max-width:1400px;margin:auto;padding:20px}header,.card{background:var(--surface);padding:20px;border-radius:8px;box-shadow:0 2px 4px #00000018}header{margin-bottom:20px}h1{font-size:28px;margin:0 0 10px}.header-info{display:flex;gap:28px;flex-wrap:wrap;color:#666;font-size:14px}
+    .staging{margin-top:14px;padding:10px 12px;background:#fff8e7;border-left:4px solid #f0b429;font-size:13px}.month-selector{display:flex;gap:10px;align-items:center;margin-top:14px}.month-selector select,.refresh{padding:7px 10px;border:1px solid var(--border);border-radius:5px;background:#fff}.refresh{cursor:pointer;color:#fff;background:var(--blue);border-color:var(--blue)}
+    .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.full-width{grid-column:1/-1}.card h2{font-size:16px;margin:0 0 15px}.metric-label{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#ffffffcc;font-weight:650}.metric-value{font-size:25px;font-weight:750;margin-top:5px}.snapshot{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;margin-bottom:20px}.snapshot h2{color:#fff}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:20px}.projection-note{font-size:12px;color:#ffffffb3}
+    .chart-container{height:310px;position:relative}table{width:100%;border-collapse:collapse;font-size:13px}th{background:#f8f9fa;text-align:left;color:#555;border-bottom:2px solid #e0e0e0}th,td{padding:8px;border-bottom:1px solid #f0f0f0}.table-wrap{overflow:auto}.amount{text-align:right;font-variant-numeric:tabular-nums}.forecast-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:15px 0 20px}.forecast-scenario{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:8px;padding:16px}.forecast-scenario::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--scenario-color)}.forecast-name{color:var(--scenario-color);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.forecast-total{margin-top:6px;font-size:27px;font-weight:700;color:#1e293b}.forecast-period{margin-top:3px;color:var(--muted);font-size:12px}.forecast-secondary{display:flex;justify-content:space-between;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #eef0f3;color:#475569;font-size:12px}.forecast-range-legend{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:-2px 0 8px;color:#555;font-size:12px}.forecast-whisker-icon{position:relative;width:18px;height:15px;border-left:2px solid #475569;margin-left:8px}.forecast-whisker-icon::before,.forecast-whisker-icon::after{content:"";position:absolute;left:-6px;width:10px;height:2px}.forecast-whisker-icon::before{top:0;background:#16a34a}.forecast-whisker-icon::after{bottom:0;background:#d97706}
+    .quarterly-topline{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px}.quarterly-legend{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:8px 13px;color:#64748b;font-size:11px}.quarterly-legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap}.quarterly-swatch{width:13px;height:10px;border-radius:2px;background:var(--year-color)}.quarterly-swatch.projected{background:rgba(37,99,235,.15);border:2px dashed #2563eb}.quarterly-grid{display:grid;grid-template-columns:48px repeat(4,minmax(0,1fr));gap:9px;align-items:end}.quarter-panel{height:292px;padding:12px 7px 8px;border:1px solid #e5e7eb;border-radius:9px;background:#fff;min-width:0;overflow:hidden}.quarter-panel h3{margin:0 0 4px;text-align:center;color:#475569;font-size:15px}.quarter-chart{height:210px;margin-top:25px;border-bottom:1px solid #94a3b8;background:linear-gradient(rgba(148,163,184,.30),rgba(148,163,184,.30)) top/100% 1px no-repeat,linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 25%/100% 1px no-repeat,linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 50%/100% 1px no-repeat,linear-gradient(rgba(148,163,184,.24),rgba(148,163,184,.24)) 0 75%/100% 1px no-repeat}.quarter-bars{position:relative;height:100%;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;padding:0 1px}.quarter-bar-cell{position:relative;height:100%;min-width:0}.quarter-value{position:absolute;left:50%;bottom:calc(var(--bar-height) + 5px);transform:translateX(-50%);color:#475569;font-size:10px;font-weight:700;white-space:nowrap}.quarter-bar{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(24px,78%);height:var(--bar-height);min-height:3px;border-radius:3px 3px 0 0;background:var(--year-color)}.quarter-bar.projected{background:rgba(37,99,235,.12);border:2px dashed var(--year-color);border-bottom:0}.quarter-year{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%) rotate(-48deg);transform-origin:center;color:#64748b;font-size:9px}.quarter-axis{height:266px;padding:56px 4px 0 0}.quarter-axis-scale{position:relative;height:210px;color:#64748b;font-size:10px}.quarter-axis-scale span{position:absolute;right:0;transform:translateY(50%)}.status-error{padding:12px;background:#fee2e2;color:#991b1b;border-radius:6px;margin-bottom:15px}.last-updated{text-align:right;color:#888;font-size:12px;margin-top:15px}
+    tr[data-product="HVAC"]{background:#ffd70018}tr[data-product="TFS"]{background:#3498db18}tr[data-product="FE"]{background:#e74c3c18}
+    @media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}.full-width{grid-column:auto}.forecast-summary{grid-template-columns:1fr}.forecast-range-legend{justify-content:flex-start}.quarterly-topline{flex-direction:column}.quarterly-legend{justify-content:flex-start}.quarterly-grid{grid-template-columns:42px repeat(4,205px);overflow-x:auto;padding-bottom:8px}.container{padding:12px}.card,header{padding:15px}.header-info{gap:7px;flex-direction:column}.chart-container{height:270px}}
+  </style>
 </head>
 <body>
-
-<!-- ── Auth overlay ── -->
-<div id="auth-overlay">
-  <div class="auth-box">
-    <div class="auth-logo">♠️</div>
-    <div class="auth-title">MPEP Dashboard</div>
-    <div class="auth-sub">Internal use only — enter your password to continue</div>
-    <form id="auth-form">
-      <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password" />
-      <div id="pwd-error"></div>
-      <button type="submit" id="pwd-btn">Unlock</button>
-    </form>
+<div id="auth-overlay"><div class="auth-box"><div class="auth-logo">♠️</div><div class="auth-title">MPEP Dashboard</div><div class="auth-sub">Internal use only — enter your password</div><form id="auth-form"><input type="password" id="pwd-input" autocomplete="current-password" placeholder="Password"><div id="pwd-error"></div><button id="pwd-btn">Unlock</button></form></div></div>
+<div id="main-content">
+  <div class="container">
+    <header>
+      <h1>💰 Sales Dashboard</h1>
+      <div class="header-info"><div id="period">Period: loading…</div><div id="updated">Updated: loading…</div><div id="api-status">API: connecting…</div></div>
+      <div class="staging"><strong>Live dashboard:</strong> API-backed sales metrics refresh automatically. Customer names, emails, and payment IDs are not displayed.</div>
+      <div class="month-selector"><label for="month-picker"><strong>Show month:</strong></label><select id="month-picker"></select><button class="refresh" id="refresh">Refresh</button></div>
+    </header>
+    <div id="error"></div>
+    <div class="card snapshot full-width"><h2><span id="snapshot-title">Current Month</span> Snapshot</h2><div class="stats" id="stats"></div><p class="projection-note" id="projection-note"></p></div>
+    <div class="dashboard-grid">
+      <div class="card"><h2 id="pie-title">Revenue by Product</h2><div class="chart-container"><canvas id="pieChart"></canvas></div><table><thead><tr><th>Product</th><th class="amount">Revenue</th><th class="amount">%</th></tr></thead><tbody id="pie-body"></tbody></table></div>
+      <div class="card"><h2 id="orders-title">Orders</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Source</th><th>Type</th><th class="amount">Revenue</th></tr></thead><tbody id="orders-body"></tbody></table></div></div>
+      <div class="card full-width"><h2>Revenue Forecast</h2><div class="forecast-summary" id="forecast-summary"></div><div class="forecast-range-legend"><i class="forecast-whisker-icon"></i>Conservative–optimistic range</div><div class="chart-container" style="height:350px"><canvas id="barChart"></canvas></div></div>
+      <div class="card full-width"><h2>Cumulative Revenue Projection</h2><div class="chart-container" style="height:380px"><canvas id="cumulativeChart"></canvas></div></div>
+      <div class="card full-width"><div class="quarterly-topline"><h2>Revenue by Quarter</h2><div class="quarterly-legend" id="quarterlyLegend"></div></div><div class="quarterly-grid"><div class="quarter-axis"><div class="quarter-axis-scale"><span style="bottom:100%">$100k</span><span style="bottom:75%">$75k</span><span style="bottom:50%">$50k</span><span style="bottom:25%">$25k</span><span style="bottom:0">$0</span></div></div><div class="quarter-panel"><h3>Q1</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ1"></div></div></div><div class="quarter-panel"><h3>Q2</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ2"></div></div></div><div class="quarter-panel"><h3>Q3</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ3"></div></div></div><div class="quarter-panel"><h3>Q4</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ4"></div></div></div></div></div>
+    </div>
+    <div class="last-updated">Live data is fetched on page load, every 5 minutes, and whenever Refresh is pressed.</div>
   </div>
 </div>
+<script>
+  const API_URL=(location.hostname==='127.0.0.1'||location.hostname==='localhost')?'http://127.0.0.1:3010/sales-dashboard':'https://btc.mechanicalpeexamprep.com/sales-v2-staging';
+  const LEGACY_2026={
+    '2026-01':{CSE:399,FE:1495,Fundamentals:399,HVAC:33783,HVACBook:1947,TFS:3898},
+    '2026-02':{DailyInsightsPremium:99,FE:2094,HVAC:11894,TFS:11894,TFSBook:649}
+  };
+  const HISTORY={
+    Q1:[6138,10211,27227,28979,64983,48957,59100],
+    Q2:[1908,9278,30232,27471,44707,30364,74218],
+    Q3:[5859,15057,24673,30088,42331,41470,79844],
+    Q4:[4060,14176,27088,40667,51711,29217,57558]
+  };
+  const YEARS=['2019','2020','2021','2022','2023','2024','2025','2026'];
+  const FORECAST_BASE=[null,null,null,null,null,null,27402,25217,13788,15890,19446,13686];
+  const FORECAST_CONSERVATIVE=[null,null,null,null,null,null,21922,20174,11030,12712,15557,10949];
+  const FORECAST_OPTIMISTIC=[null,null,null,null,null,null,32882,30260,16546,19068,23335,16423];
+  const PRODUCT_COLORS={HVAC:'#FFD700',TFS:'#3498DB','TFS+CSE':'#5B8DEF',FE:'#E74C3C',Fundamentals:'#27AE60',CSE:'#8E44AD',DailyInsightsPremium:'#F39C12',HVACBook:'#F1C40F',TFSBook:'#2980B9',Other:'#95A5A6'};
+  const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v);
+  const moneyK=v=>'$'+Math.round(v/1000).toLocaleString()+'k';
+  const monthLabel=k=>new Date(k+'-02T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const monthShort=k=>new Date(k+'-02T12:00:00').toLocaleDateString('en-US',{month:'short',year:'2-digit'});
+  const sourceLabel=s=>({stripe_webhook:'Stripe',btcpay_webhook:'BTC',thinkific_webhook:'Thinkific',manual:'Manual'})[s]||'Other';
+  let apiData,orders=[],monthly={},currentMonth='',pieChart,barChart,cumulativeChart;
 
-<div id="main-content">
-    <div class="container">
-        <header>
-            <h1>💰 Sales Dashboard</h1>
-            <div class="header-info">
-                <div><strong>Period:</strong> 2026 YTD (Jan - Jul 06)</div>
-                <div><strong>Updated:</strong> Jul 06, 2026 at 12:43 AM</div>
-            </div>
-            <div class="month-selector">
-                <label for="month-picker">📅 Show month:</label>
-                <select id="month-picker" onchange="renderMonth(this.value)"></select>
-            </div>
-        </header>
-
-        <!-- Projection Box (dynamic) -->
-        <div class="card full-width" id="projection-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <h2 style="color: white; margin-bottom: 15px;">📊 <span id="proj-title">July 2026</span> Snapshot</h2>
-            <div id="proj-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px;">
-                <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Revenue This Month</div>
-                    <div class="metric-value" style="color: white;">$7,347</div>
-                </div>
-                <div>
-                    <div class="metric-label" style="color: rgba(255,255,255,0.8);">Orders</div>
-                    <div class="metric-value" style="color: white;">4</div>
-                </div>
-            </div>
-            <p id="proj-note" class="projection-note" style="color: rgba(255,255,255,0.65); margin-top: 10px; display: none;"></p>
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Pie Chart + Table -->
-            <div class="card">
-                <h2 id="pie-title">July 2026 Revenue by Product</h2>
-                <div class="chart-container">
-                    <canvas id="pieChart"></canvas>
-                </div>
-                <table class="totals-table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Revenue</th>
-                            <th>%</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pieTableBody">
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Transactions Table (current month) -->
-            <div class="card">
-                <h2 id="orders-title">Orders this Month</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Source</th>
-                            <th style="text-align: center;">Revenue</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersBody">
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Revenue forecast: actual product stacks + forecast baseline/range -->
-            <div class="card full-width">
-                <h2>Revenue Forecast</h2>
-                <div class="forecast-summary">
-                    <div class="forecast-scenario" style="--scenario-color:#d97706">
-                        <div class="forecast-name">Conservative</div>
-                        <div class="forecast-total">$246k</div>
-                        <div class="forecast-period">Projected full-year 2026 revenue</div>
-                        <div class="forecast-secondary"><span>July–December projection</span><strong>$92,344</strong></div>
-                    </div>
-                    <div class="forecast-scenario" style="--scenario-color:#2563eb">
-                        <div class="forecast-name">Baseline</div>
-                        <div class="forecast-total">$270k</div>
-                        <div class="forecast-period">Projected full-year 2026 revenue</div>
-                        <div class="forecast-secondary"><span>July–December projection</span><strong>$115,429</strong></div>
-                    </div>
-                    <div class="forecast-scenario" style="--scenario-color:#16a34a">
-                        <div class="forecast-name">Optimistic</div>
-                        <div class="forecast-total">$293k</div>
-                        <div class="forecast-period">Projected full-year 2026 revenue</div>
-                        <div class="forecast-secondary"><span>July–December projection</span><strong>$138,514</strong></div>
-                    </div>
-                </div>
-                <div class="forecast-range-legend"><i class="forecast-whisker-icon"></i>Conservative–optimistic range</div>
-                <div class="chart-container" style="height: 350px;">
-                    <canvas id="barChart"></canvas>
-                </div>
-            </div>
-
-            <div class="card full-width">
-                <h2>Cumulative Revenue Projection</h2>
-                <div class="chart-container" style="height: 380px;">
-                    <canvas id="cumulativeChart"></canvas>
-                </div>
-            </div>
-
-            <div class="card full-width">
-                <div class="quarterly-topline">
-                    <h2>Revenue by Quarter</h2>
-                    <div class="quarterly-legend" id="quarterlyLegend"></div>
-                </div>
-                <div class="quarterly-grid">
-                    <div class="quarter-axis"><div class="quarter-axis-scale">
-                        <span style="bottom:100%">$100k</span><span style="bottom:75%">$75k</span>
-                        <span style="bottom:50%">$50k</span><span style="bottom:25%">$25k</span>
-                        <span style="bottom:0">$0</span>
-                    </div></div>
-                    <div class="quarter-panel"><h3>Q1</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ1"></div></div></div>
-                    <div class="quarter-panel"><h3>Q2</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ2"></div></div></div>
-                    <div class="quarter-panel"><h3>Q3</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ3"></div></div></div>
-                    <div class="quarter-panel"><h3>Q4</h3><div class="quarter-chart"><div class="quarter-bars" id="quarterQ4"></div></div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="last-updated">
-            Auto-refreshes every 30 minutes
-        </div>
-    </div>
-    <script>
-        // ── Data embedded at build time ──
-        const ALL_ORDERS = [{"d": "2026-03-01", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Joseph Schwark"}, {"d": "2026-03-03", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Vita Pacifico"}, {"d": "2026-03-05", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-06", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Dylan M Jones"}, {"d": "2026-03-06", "p": "TFS", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Shaikh F Mahamud"}, {"d": "2026-03-10", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Steven Morinville"}, {"d": "2026-03-12", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-12", "p": "HVAC", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Justin D Ahrens"}, {"d": "2026-03-13", "p": "FE", "a": 149, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-13", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "siddarth jeripotula"}, {"d": "2026-03-14", "p": "FE", "a": 249, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-03-15", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Taylor Jones"}, {"d": "2026-03-16", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Ryan Kirkendall"}, {"d": "2026-03-16", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Anthony Brechting"}, {"d": "2026-03-17", "p": "FE", "a": 1051, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-03-22", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Manual"}, {"d": "2026-03-25", "p": "HVAC", "a": 1440, "s": "BTC", "t": "new", "c": "Manual"}, {"d": "2026-03-28", "p": "Fundamentals", "a": 399, "s": "Thinkific", "t": "new", "c": "Manual"}, {"d": "2026-04-07", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Osvaldo Gomez"}, {"d": "2026-04-12", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": ""}, {"d": "2026-04-13", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": ""}, {"d": "2026-04-13", "p": "DailyInsightsPremium", "a": 99.0, "s": "Stripe", "t": "new", "c": "Tyler Riddle"}, {"d": "2026-04-14", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Ryan Perusse"}, {"d": "2026-04-14", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "John Beaumont"}, {"d": "2026-04-16", "p": "FE", "a": 599.0, "s": "Stripe", "t": "new", "c": "Flemin Reji"}, {"d": "2026-04-20", "p": "FE", "a": 101, "s": "Manual", "t": "new", "c": "Ryan Perusse"}, {"d": "2026-04-21", "p": "HVAC", "a": 1799, "s": "BTC", "t": "new", "c": "Kyle Russ"}, {"d": "2026-04-22", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Sidney Hicks"}, {"d": "2026-04-26", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Faiza Abdulla"}, {"d": "2026-04-29", "p": "HVAC", "a": 1799, "s": "BTC", "t": "new", "c": "Matt Guedon"}, {"d": "2026-04-29", "p": "HVACBook", "a": 250, "s": "Manual", "t": "new", "c": "Faiza Abdulla"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Grace Thomasmeyer"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Mrs Audrey S Flowers"}, {"d": "2026-04-29", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "John DeVitis"}, {"d": "2026-04-29", "p": "DailyInsightsPremium", "a": 99.0, "s": "Stripe", "t": "new", "c": "Irene Vielma"}, {"d": "2026-04-30", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Joseph R Pitsko"}, {"d": "2026-05-07", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "IDOWU OGUNJOBI"}, {"d": "2026-05-07", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Lakhvir Sandhar"}, {"d": "2026-05-07", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Jordan  Edwards"}, {"d": "2026-05-07", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Bryan Tiamson"}, {"d": "2026-05-12", "p": "FE", "a": 249, "s": "Thinkific", "t": "renewal", "c": "Tyler Sommer"}, {"d": "2026-05-14", "p": "TFS", "a": 1899.05, "s": "Stripe", "t": "new", "c": "RAMON G REYES CINTRON"}, {"d": "2026-05-16", "p": "DailyInsightsPremium", "a": 99.0, "s": "Stripe", "t": "new", "c": "Mark Rabinovich"}, {"d": "2026-05-18", "p": "HVAC", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Rachel Winingear"}, {"d": "2026-05-19", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "TIMOTHY J SCHMIDT"}, {"d": "2026-05-19", "p": "FE", "a": 249.0, "s": "Stripe", "t": "new", "c": "Garret Cortese"}, {"d": "2026-05-19", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Luke Kauerauf"}, {"d": "2026-05-21", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Tyler G Stich"}, {"d": "2026-05-25", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Phillip Reid"}, {"d": "2026-05-25", "p": "TFS", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Christopher Marrero"}, {"d": "2026-05-25", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Matthew Ryan"}, {"d": "2026-05-26", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Romeo Balais"}, {"d": "2026-05-27", "p": "FE", "a": 1799.0, "s": "Stripe", "t": "new", "c": "Joey Kishpaugh"}, {"d": "2026-05-27", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "John Sengco"}, {"d": "2026-05-28", "p": "TFS", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Jenna Silva"}, {"d": "2026-05-29", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Saleem Saad"}, {"d": "2026-05-30", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Emmanuel Flores"}, {"d": "2026-05-31", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Fardad Haratian"}, {"d": "2026-06-04", "p": "TFSBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Jaxon Bean"}, {"d": "2026-06-04", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Jaxon Bean"}, {"d": "2026-06-08", "p": "FE", "a": 249.0, "s": "Stripe", "t": "new", "c": "Abhishek Ajansondkar"}, {"d": "2026-06-11", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Shivanthi Canaganayagam"}, {"d": "2026-06-13", "p": "FE", "a": 149, "s": "Thinkific", "t": "renewal", "c": "Patrick McNally"}, {"d": "2026-06-13", "p": "DailyInsightsPremium", "a": 85, "s": "BTC", "t": "new", "c": "Lorna Holt"}, {"d": "2026-06-15", "p": "FE", "a": 400, "s": "Manual", "t": "new", "c": "Ryan Perusse"}, {"d": "2026-06-19", "p": "TFS+CSE", "a": 2499, "s": "Thinkific", "t": "new", "c": "Donna L Owen"}, {"d": "2026-06-19", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Ryan J Wanko"}, {"d": "2026-06-19", "p": "FE", "a": 249.0, "s": "Stripe", "t": "renewal", "c": "Garret Cortese"}, {"d": "2026-06-21", "p": "HVACBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Michael Wheeler"}, {"d": "2026-06-22", "p": "FE", "a": 249.0, "s": "Stripe", "t": "new", "c": "Alec B Seifert"}, {"d": "2026-06-24", "p": "TFSBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "A A"}, {"d": "2026-06-27", "p": "Fundamentals", "a": 399.0, "s": "Stripe", "t": "new", "c": "Hafsa Wasim"}, {"d": "2026-06-27", "p": "TFSBook", "a": 649.0, "s": "Stripe", "t": "new", "c": "Hafsa Wasim"}, {"d": "2026-06-28", "p": "HVAC", "a": 1899.05, "s": "Stripe", "t": "new", "c": "Marlon C Bocauto Pasag"}, {"d": "2026-07-02", "p": "TFS", "a": 1350, "s": "Manual", "t": "new", "c": "Allison Boaz"}, {"d": "2026-07-03", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Alyssa M Packard"}, {"d": "2026-07-05", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Mark Rabinovich"}, {"d": "2026-07-06", "p": "HVAC", "a": 1999.0, "s": "Stripe", "t": "new", "c": "Grant Riera"}];
-        // ALL_ORDERS: array of {d: date, p: product, a: amount, s: source, t: sub_type, c: customer}
-
-        const CURRENT_MONTH = "2026-07";
-        const PROJECTED_CURRENT = 27314;
-        const AVG_DAILY = 799;
-        const DAYS_REMAINING = 25;
-
-        function monthLabel(key) {
-            const [y, m] = key.split('-');
-            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        }
-        function monthShort(key) {
-            const [y, m] = key.split('-');
-            return new Date(parseInt(y), parseInt(m)-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
-        }
-
-        // ── Month selector ──
-        const monthPicker = document.getElementById('month-picker');
-        const months = Array.from(new Set(ALL_ORDERS.map(o => o.d.substring(0, 7)))).sort();
-        months.forEach(m => {
-            const opt = document.createElement('option');
-            opt.value = m;
-            opt.textContent = monthLabel(m);
-            if (m === CURRENT_MONTH) opt.selected = true;
-            monthPicker.appendChild(opt);
-        });
-
-        // ── Product colors ──
-        const productColors = {"HVAC": "#FFD700", "TFS": "#3498DB", "TFS+CSE": "#5B8DEF", "FE": "#E74C3C", "Fundamentals": "#27AE60", "CSE": "#8E44AD", "DailyInsightsPremium": "#F39C12", "HVACBook": "#F1C40F", "TFSBook": "#2980B9", "Other": "#95A5A6"};
-        function getProductColor(product) {
-            return productColors[product] || '#95A5A6';
-        }
-
-        // ── Globals ──
-        let pieChartInstance = null;
-        let barChartInstance = null;
-        let cumulativeChartInstance = null;
-
-        // ── Revenue chart: completed-month product stacks + year-end forecast ──
-        function renderBarChart() {
-            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
-            const barProducts = ["CSE", "DailyInsightsPremium", "FE", "Fundamentals", "HVAC", "HVACBook", "TFS", "TFS+CSE", "TFSBook"];
-            const barDatasets = {"CSE": [399, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "DailyInsightsPremium": [0, 99, 0, 198, 99, 85, 0, 0, 0, 0, 0, 0], "FE": [1495, 2094, 2196, 949, 2297, 1296, 0, 0, 0, 0, 0, 0], "Fundamentals": [399, 0, 399, 798, 798, 798, 0, 0, 0, 0, 0, 0], "HVAC": [33783, 11894, 15333, 11594, 13893, 5897, 5997, 0, 0, 0, 0, 0], "HVACBook": [1947, 0, 0, 2197, 1947, 649, 0, 0, 0, 0, 0, 0], "TFS": [3898, 11894, 5897, 1999, 11794, 0, 1350, 0, 0, 0, 0, 0], "TFS+CSE": [0, 0, 0, 0, 0, 2499, 0, 0, 0, 0, 0, 0], "TFSBook": [0, 649, 0, 0, 0, 1947, 0, 0, 0, 0, 0, 0]};
-            const forecastBaseline = [null, null, null, null, null, null, 27402, 25217, 13788, 15890, 19446, 13686];
-            const forecastConservative = [null, null, null, null, null, null, 21922, 20174, 11030, 12712, 15557, 10949];
-            const forecastOptimistic = [null, null, null, null, null, null, 32882, 30260, 16546, 19068, 23335, 16423];
-
-            const datasets = barProducts.map(p => ({
-                label: p,
-                data: barDatasets[p],
-                backgroundColor: getProductColor(p),
-                borderRadius: 4,
-                borderSkipped: false
-            }));
-            datasets.push({
-                label: 'Forecast baseline',
-                data: forecastBaseline.map((value, idx) => barMonths[idx] === CURRENT_MONTH ? null : value),
-                backgroundColor: 'rgba(100, 116, 139, 0.72)',
-                borderRadius: 4,
-                borderSkipped: false
-            });
-
-            const monthlyTotals = barMonths.map((_, idx) => {
-                if (barMonths[idx] === CURRENT_MONTH) {
-                    return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
-                }
-                if (forecastBaseline[idx] !== null) return forecastBaseline[idx];
-                return barProducts.reduce((sum, p) => sum + barDatasets[p][idx], 0);
-            });
-            const currentMonthBarIdx = barMonths.indexOf(CURRENT_MONTH);
-
-            const forecastPlugin = {
-                id: 'forecastDisplay',
-                beforeDatasetsDraw(chart) {
-                    if (currentMonthBarIdx < 0) return;
-                    const ctx = chart.ctx;
-                    const xScale = chart.scales.x;
-                    const chartArea = chart.chartArea;
-                    const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
-                    const currentStart = xScale.getPixelForValue(currentMonthBarIdx) - step / 2;
-                    const futureStart = xScale.getPixelForValue(currentMonthBarIdx) + step / 2;
-                    ctx.save();
-                    ctx.fillStyle = 'rgba(219, 234, 254, 0.38)';
-                    ctx.fillRect(currentStart, chartArea.top, step, chartArea.bottom - chartArea.top);
-                    ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
-                    ctx.fillRect(futureStart, chartArea.top, chartArea.right - futureStart, chartArea.bottom - chartArea.top);
-                    ctx.strokeStyle = '#94a3b8';
-                    ctx.setLineDash([4, 4]);
-                    ctx.beginPath();
-                    ctx.moveTo(currentStart, chartArea.top);
-                    ctx.lineTo(currentStart, chartArea.bottom);
-                    ctx.moveTo(futureStart, chartArea.top);
-                    ctx.lineTo(futureStart, chartArea.bottom);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                    ctx.font = '10px Arial';
-                    ctx.fillStyle = '#64748b';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('PRESENT', currentStart + 6, chartArea.top + 12);
-                    ctx.fillText('FORECAST →', futureStart + 7, chartArea.top + 12);
-                    ctx.restore();
-                },
-                afterDatasetsDraw(chart) {
-                    const ctx = chart.ctx;
-                    const xScale = chart.scales.x;
-                    const yScale = chart.scales.y;
-                    monthlyTotals.forEach((total, idx) => {
-                        if (!total) return;
-                        const xPos = xScale.getPixelForValue(idx);
-                        const isCurrent = idx === currentMonthBarIdx;
-                        const isFuture = forecastBaseline[idx] !== null && !isCurrent;
-                        const labelX = isFuture ? xPos + 12 : xPos;
-                        const labelY = yScale.getPixelForValue(total) - 8;
-                        ctx.font = 'bold 11px Arial';
-                        ctx.fillStyle = '#333';
-                        ctx.textAlign = isFuture ? 'left' : 'center';
-                        ctx.fillText(
-                            '$' + total.toLocaleString() + (isCurrent ? ' actual' : ''),
-                            labelX,
-                            labelY
-                        );
-
-                        if (forecastBaseline[idx] === null) return;
-                        const lowY = yScale.getPixelForValue(forecastConservative[idx]);
-                        const highY = yScale.getPixelForValue(forecastOptimistic[idx]);
-                        const baselineY = yScale.getPixelForValue(forecastBaseline[idx]);
-
-                        if (isCurrent && forecastBaseline[idx] > total) {
-                            const actualY = yScale.getPixelForValue(total);
-                            const barWidth = (xScale.getPixelForValue(1) - xScale.getPixelForValue(0)) * 0.58;
-                            ctx.save();
-                            ctx.strokeStyle = 'rgba(71, 85, 105, 0.8)';
-                            ctx.lineWidth = 2;
-                            ctx.setLineDash([5, 4]);
-                            ctx.strokeRect(xPos - barWidth / 2, baselineY, barWidth, actualY - baselineY);
-                            ctx.setLineDash([]);
-                            ctx.font = 'bold 11px Arial';
-                            ctx.fillStyle = '#334155';
-                            ctx.textAlign = 'left';
-                            ctx.fillText('$' + forecastBaseline[idx].toLocaleString() + ' proj', xPos + 12, baselineY - 8);
-                            ctx.restore();
-                        }
-
-                        ctx.strokeStyle = '#475569';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.moveTo(xPos, highY);
-                        ctx.lineTo(xPos, lowY);
-                        ctx.stroke();
-                        ctx.strokeStyle = '#16a34a';
-                        ctx.lineWidth = 3;
-                        ctx.beginPath();
-                        ctx.moveTo(xPos - 8, highY);
-                        ctx.lineTo(xPos + 8, highY);
-                        ctx.stroke();
-                        ctx.strokeStyle = '#d97706';
-                        ctx.beginPath();
-                        ctx.moveTo(xPos - 8, lowY);
-                        ctx.lineTo(xPos + 8, lowY);
-                        ctx.stroke();
-                    });
-                }
-            };
-
-            const ctxBar = document.getElementById('barChart').getContext('2d');
-            barChartInstance = new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: barMonths.map(m => monthShort(m)),
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
-                    },
-                    scales: {
-                        x: { stacked: true },
-                        y: { stacked: true, max: 45000 }
-                    }
-                },
-                plugins: [forecastPlugin]
-            });
-        }
-
-        function renderCumulativeChart() {
-            const barMonths = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"];
-            const cumulativeActual = [41921, 68551, 92376, 110111, 140939, 154110, null, null, null, null, null, null];
-            const cumulativeConservative = [null, null, null, null, null, 154110, 176032, 196206, 207236, 219948, 235505, 246454];
-            const cumulativeBaseline = [null, null, null, null, null, 154110, 181512, 206729, 220517, 236407, 255853, 269539];
-            const cumulativeOptimistic = [null, null, null, null, null, 154110, 186992, 217252, 233798, 252866, 276201, 292624];
-            const currentIdx = barMonths.indexOf(CURRENT_MONTH);
-
-            const cumulativePlugin = {
-                id: 'cumulativeForecastDisplay',
-                beforeDatasetsDraw(chart) {
-                    if (currentIdx < 0) return;
-                    const ctx = chart.ctx;
-                    const xScale = chart.scales.x;
-                    const area = chart.chartArea;
-                    const step = xScale.getPixelForValue(1) - xScale.getPixelForValue(0);
-                    const startX = xScale.getPixelForValue(currentIdx) - step / 2;
-                    ctx.save();
-                    ctx.fillStyle = 'rgba(254, 243, 199, 0.34)';
-                    ctx.fillRect(startX, area.top, area.right - startX, area.bottom - area.top);
-                    ctx.strokeStyle = '#94a3b8';
-                    ctx.setLineDash([4, 4]);
-                    ctx.beginPath();
-                    ctx.moveTo(startX, area.top);
-                    ctx.lineTo(startX, area.bottom);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                    ctx.font = '10px Arial';
-                    ctx.fillStyle = '#64748b';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('FORECAST →', startX + 7, area.top + 12);
-                    ctx.restore();
-                },
-                afterDatasetsDraw(chart) {
-                    const ctx = chart.ctx;
-                    const yScale = chart.scales.y;
-                    const xScale = chart.scales.x;
-                    const actualIdx = currentIdx - 1;
-                    if (actualIdx >= 0 && cumulativeActual[actualIdx] !== null) {
-                        ctx.font = 'bold 11px Arial';
-                        ctx.fillStyle = '#334155';
-                        ctx.textAlign = 'right';
-                        ctx.fillText(
-                            '$' + Math.round(cumulativeActual[actualIdx] / 1000) + 'k YTD',
-                            xScale.getPixelForValue(actualIdx) - 10,
-                            yScale.getPixelForValue(cumulativeActual[actualIdx]) - 12
-                        );
-                    }
-                    [
-                        { values: cumulativeConservative, color: '#d97706', label: 'Conservative' },
-                        { values: cumulativeBaseline, color: '#2563eb', label: 'Baseline' },
-                        { values: cumulativeOptimistic, color: '#16a34a', label: 'Optimistic' }
-                    ].forEach(series => {
-                        const value = series.values[11];
-                        if (value === null) return;
-                        ctx.font = 'bold 11px Arial';
-                        ctx.fillStyle = series.color;
-                        ctx.textAlign = 'left';
-                        ctx.fillText(
-                            series.label + ' $' + Math.round(value / 1000) + 'k',
-                            xScale.getPixelForValue(11) + 10,
-                            yScale.getPixelForValue(value) + 4
-                        );
-                    });
-                }
-            };
-
-            const ctx = document.getElementById('cumulativeChart').getContext('2d');
-            cumulativeChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: barMonths.map(m => monthShort(m)),
-                    datasets: [
-                        { label: 'Actual', data: cumulativeActual, borderColor: '#475569', backgroundColor: '#475569', borderWidth: 4, pointRadius: 4, tension: 0.18, spanGaps: false },
-                        { label: 'Conservative', data: cumulativeConservative, borderColor: '#d97706', backgroundColor: '#d97706', borderWidth: 2.5, pointRadius: 2, tension: 0.18, spanGaps: false },
-                        { label: 'Baseline', data: cumulativeBaseline, borderColor: '#2563eb', backgroundColor: '#2563eb', borderWidth: 4, pointRadius: 2, tension: 0.18, spanGaps: false },
-                        { label: 'Optimistic', data: cumulativeOptimistic, borderColor: '#16a34a', backgroundColor: '#16a34a', borderWidth: 2.5, pointRadius: 2, tension: 0.18, spanGaps: false }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    layout: { padding: { right: 130 } },
-                    plugins: { legend: { position: 'top', align: 'end' } },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMax: Math.ceil(cumulativeOptimistic[11] / 50000) * 50000,
-                            ticks: { callback: value => value === 0 ? '$0' : '$' + (value / 1000) + 'k' }
-                        }
-                    }
-                },
-                plugins: [cumulativePlugin]
-            });
-        }
-
-        // ── Render month: pie + orders + projection ──
-        function renderQuarterlyRevenue() {
-            const years = ["2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
-            const quarters = {"q1": [6138, 10211, 27227, 28979, 64983, 48957, 59100, 92376], "q2": [1908, 9278, 30232, 27471, 44707, 30364, 74218, 61734], "q3": [5859, 15057, 24673, 30088, 42331, 41470, 79844, 66407], "q4": [4060, 14176, 27088, 40667, 51711, 29217, 57558, 49022]};
-            const projected = {"q1": false, "q2": false, "q3": true, "q4": true};
-            const colors = ['#64748b','#0f766e','#0891b2','#7c3aed','#4f46e5','#d97706','#16a34a','#2563eb'];
-
-            document.getElementById('quarterlyLegend').innerHTML = years.map((year, idx) =>
-                '<span class="quarterly-legend-item"><span class="quarterly-swatch" style="--year-color:' + colors[idx] + '"></span>' + year + '</span>'
-            ).join('') + '<span class="quarterly-legend-item"><span class="quarterly-swatch projected"></span>Projected</span>';
-
-            Object.entries(quarters).forEach(([quarterKey, values]) => {
-                const target = document.getElementById('quarter' + quarterKey.toUpperCase());
-                const isProjected = projected[quarterKey];
-                target.innerHTML = values.map((value, idx) => {
-                    const currentYear = idx === years.length - 1;
-                    const projectedClass = currentYear && isProjected ? ' projected' : '';
-                    const note = currentYear && isProjected ? ' projected' : '';
-                    const barHeight = Math.max(3, Math.min(210, value / 100000 * 210));
-                    return '<div class="quarter-bar-cell" title="$' + value.toLocaleString() + note + '">' +
-                        '<span class="quarter-value" style="--bar-height:' + barHeight + 'px">$' + Math.round(value / 1000) + 'k</span>' +
-                        '<span class="quarter-bar' + projectedClass + '" style="--year-color:' + colors[idx] + ';--bar-height:' + barHeight + 'px"></span>' +
-                        '<span class="quarter-year">' + years[idx] + '</span></div>';
-                }).join('');
-            });
-        }
-
-        function renderMonth(monthKey) {
-            const orders = ALL_ORDERS.filter(o => o.d.substring(0, 7) === monthKey);
-            const totalRevenue = orders.reduce((sum, o) => sum + o.a, 0);
-
-            // Projection card
-            const isCurrentMonth = monthKey === CURRENT_MONTH;
-            document.getElementById('proj-title').textContent = monthLabel(monthKey);
-            let statsHtml =
-                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Revenue</div><div class="metric-value" style="color:white;">$' + Math.round(totalRevenue).toLocaleString() + '</div></div>' +
-                '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Orders</div><div class="metric-value" style="color:white;">' + orders.length + '</div></div>';
-            if (isCurrentMonth) {
-                statsHtml +=
-                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Daily Average</div><div class="metric-value" style="color:white;">$' + AVG_DAILY.toLocaleString() + '</div></div>' +
-                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Days Remaining</div><div class="metric-value" style="color:white;">' + DAYS_REMAINING + '</div></div>' +
-                    '<div><div class="metric-label" style="color:rgba(255,255,255,0.8);">Projected Total</div><div class="metric-value" style="color:white;">$' + PROJECTED_CURRENT.toLocaleString() + '</div></div>';
-            }
-            document.getElementById('proj-stats').innerHTML = statsHtml;
-            const projNote = document.getElementById('proj-note');
-            if (isCurrentMonth) {
-                projNote.textContent = 'Projection based on trailing 12-month daily average ($' + AVG_DAILY.toLocaleString() + '/day × ' + DAYS_REMAINING + ' days remaining)';
-                projNote.style.display = '';
-            } else {
-                projNote.style.display = 'none';
-            }
-
-            // Pie data
-            const pieData = {};
-            orders.forEach(o => { pieData[o.p] = (pieData[o.p] || 0) + o.a; });
-            Object.keys(pieData).forEach(k => pieData[k] = Math.round(pieData[k]));
-            const pieTotal = Object.values(pieData).reduce((a, b) => a + b, 0);
-            const piePct = {};
-            Object.keys(pieData).forEach(k => piePct[k] = pieTotal > 0 ? Math.round(100 * pieData[k] / pieTotal) : 0);
-            const pieLabels = Object.keys(pieData);
-            const pieValues = Object.values(pieData);
-            const pieColors = pieLabels.map(l => getProductColor(l));
-
-            // Pie table
-            const pieTableBody = document.getElementById('pieTableBody');
-            pieTableBody.innerHTML = '';
-            pieLabels.forEach(label => {
-                const row = document.createElement('tr');
-                row.innerHTML = '<td>' + label + '</td><td>$' + pieData[label].toLocaleString() + '</td><td>' + piePct[label] + '%</td>';
-                pieTableBody.appendChild(row);
-            });
-
-            // Pie chart
-            if (pieChartInstance) pieChartInstance.destroy();
-            const ctxPie = document.getElementById('pieChart').getContext('2d');
-            pieChartInstance = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: {
-                    labels: pieLabels.map(l => l + ' (' + piePct[l] + '%)'),
-                    datasets: [{
-                        data: pieValues,
-                        backgroundColor: pieColors,
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { size: 12 } } }
-                    }
-                }
-            });
-
-            // Orders table
-            document.getElementById('pie-title').textContent = monthLabel(monthKey) + ' Revenue by Product';
-            document.getElementById('orders-title').textContent = 'Orders in ' + monthLabel(monthKey);
-            const ordersBody = document.getElementById('ordersBody');
-            ordersBody.innerHTML = '';
-            orders.sort((a, b) => b.d.localeCompare(a.d));
-            orders.forEach(o => {
-                const prodLabel = o.p === 'FE' && o.t ? 'FE &middot; ' + o.t : o.p;
-                const tr = document.createElement('tr');
-                tr.dataset.product = o.p;
-                tr.innerHTML = '<td>' + o.d + '</td><td>' + prodLabel + '</td><td>' + o.s + '</td><td style="text-align: center;">$' + Math.round(o.a).toLocaleString() + '</td>';
-                ordersBody.appendChild(tr);
-            });
-        }
-
-        // ── Entry point ──
-        function onAuthenticated() {
-            renderBarChart();
-            renderCumulativeChart();
-            renderQuarterlyRevenue();
-            renderMonth(CURRENT_MONTH);
-        }
-    </script>
-</div><!-- end main-content -->
+  function mergedMonthly(){
+    const result={};
+    for(const [month,products] of Object.entries(LEGACY_2026)) result[month]={revenue:Object.values(products).reduce((a,b)=>a+b,0),orders:0,products:{...products}};
+    for(const [month,value] of Object.entries(apiData.monthly)) result[month]={revenue:value.revenue,orders:value.orders,products:{...value.products}};
+    return result;
+  }
+  function currentProjection(){
+    const actual=monthly[currentMonth]?.revenue||0;
+    const now=new Date();
+    const [year,month]=currentMonth.split('-').map(Number);
+    const today=now.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    const elapsed=today.startsWith(currentMonth)?Number(today.slice(8,10)):new Date(year,month,0).getDate();
+    const daysInMonth=new Date(year,month,0).getDate();
+    const remaining=Math.max(0,daysInMonth-elapsed);
+    return {actual,remaining,projected:Math.round(actual+799*remaining)};
+  }
+  function projectionSeries(kind='base'){
+    const source=kind==='low'?FORECAST_CONSERVATIVE:kind==='high'?FORECAST_OPTIMISTIC:FORECAST_BASE;
+    const result=[...source];
+    const idx=Number(currentMonth.slice(5))-1;
+    const current=currentProjection().projected;
+    result[idx]=kind==='low'?Math.round(current*.8):kind==='high'?Math.round(current*1.2):current;
+    return result;
+  }
+  function actualByMonth(){
+    return Array.from({length:12},(_,i)=>monthly[`2026-${String(i+1).padStart(2,'0')}`]?.revenue||0);
+  }
+  function totalsByScenario(kind){
+    const actual=actualByMonth(),forecast=projectionSeries(kind),currentIndex=Number(currentMonth.slice(5))-1;
+    return actual.reduce((sum,v,i)=>sum+(i<currentIndex?v:(forecast[i]||v)),0);
+  }
+  function scenarioFutureTotal(kind){
+    const forecast=projectionSeries(kind),currentIndex=Number(currentMonth.slice(5))-1;
+    return forecast.reduce((sum,v,i)=>sum+(i>=currentIndex?(v||0):0),0);
+  }
+  function renderPicker(){
+    const picker=document.getElementById('month-picker'),prior=picker.value;
+    picker.replaceChildren(...Object.keys(monthly).sort().reverse().map(month=>{const option=document.createElement('option');option.value=month;option.textContent=monthLabel(month);return option}));
+    picker.value=monthly[prior]?prior:currentMonth;
+  }
+  function renderMonth(month){
+    const summary=monthly[month]||{revenue:0,orders:0,products:{}};
+    const monthOrders=orders.filter(o=>o.date.startsWith(month)).sort((a,b)=>b.occurred_at.localeCompare(a.occurred_at));
+    document.getElementById('snapshot-title').textContent=monthLabel(month);
+    let stats=[['Revenue',money(summary.revenue)],['Orders',summary.orders||monthOrders.length]];
+    if(month===currentMonth){const p=currentProjection();stats.push(['Daily Forecast Basis',money(799)],['Days Remaining',p.remaining],['Projected Total',money(p.projected)]);document.getElementById('projection-note').textContent='Projection uses the existing trailing-12-month daily forecast basis for the remaining days.'}
+    else document.getElementById('projection-note').textContent='';
+    document.getElementById('stats').innerHTML=stats.map(([label,value])=>`<div><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`).join('');
+    document.getElementById('pie-title').textContent=monthLabel(month)+' Revenue by Product';
+    document.getElementById('orders-title').textContent='Orders in '+monthLabel(month);
+    const products=Object.entries(summary.products).sort((a,b)=>b[1]-a[1]),total=products.reduce((s,p)=>s+p[1],0);
+    const pieBody=document.getElementById('pie-body');pieBody.replaceChildren(...products.map(([product,value])=>{const tr=document.createElement('tr');for(const text of [product,money(value),total?Math.round(value/total*100)+'%':'0%']){const td=document.createElement('td');td.textContent=text;if(text!==product)td.className='amount';tr.appendChild(td)}return tr}));
+    if(pieChart)pieChart.destroy();pieChart=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:products.map(p=>p[0]),datasets:[{data:products.map(p=>p[1]),backgroundColor:products.map(p=>PRODUCT_COLORS[p[0]]||PRODUCT_COLORS.Other)}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+    const body=document.getElementById('orders-body');body.replaceChildren(...monthOrders.map(order=>{const tr=document.createElement('tr');tr.dataset.product=order.product;for(const [text,cls] of [[order.date,''],[order.product,''],[sourceLabel(order.source),''],[order.type,''],[money(order.amount),'amount']]){const td=document.createElement('td');td.textContent=text;td.className=cls;tr.appendChild(td)}return tr}));
+  }
+  function renderForecast(){
+    const actual=actualByMonth(),base=projectionSeries('base'),low=projectionSeries('low'),high=projectionSeries('high'),currentIndex=Number(currentMonth.slice(5))-1;
+    const scenarios=[['Conservative','low','#d97706'],['Baseline','base','#2563eb'],['Optimistic','high','#16a34a']];
+    document.getElementById('forecast-summary').innerHTML=scenarios.map(([name,kind,color])=>`<div class="forecast-scenario" style="--scenario-color:${color}"><div class="forecast-name">${name}</div><div class="forecast-total">${moneyK(totalsByScenario(kind))}</div><div class="forecast-period">Projected full-year 2026 revenue</div><div class="forecast-secondary"><span>${monthLabel(currentMonth).split(' ')[0]}–December projection</span><strong>${moneyK(scenarioFutureTotal(kind))}</strong></div></div>`).join('');
+    const barMonths=Array.from({length:12},(_,i)=>`2026-${String(i+1).padStart(2,'0')}`);
+    const labels=barMonths.map(monthShort);
+    const products=[...new Set(Object.values(monthly).flatMap(m=>Object.keys(m.products)))].sort();
+    const datasets=products.map(product=>({label:product,data:barMonths.map(month=>monthly[month]?.products[product]||0),backgroundColor:PRODUCT_COLORS[product]||PRODUCT_COLORS.Other,borderRadius:4,borderSkipped:false}));
+    datasets.push({label:'Forecast baseline',data:base.map((v,i)=>i<=currentIndex?null:v),backgroundColor:'rgba(100,116,139,.72)',borderRadius:4,borderSkipped:false});
+    const monthlyTotals=barMonths.map((_,i)=>i===currentIndex?actual[i]:(base[i]!==null?base[i]:actual[i]));
+    const forecastPlugin={id:'forecastDisplay',beforeDatasetsDraw(chart){const ctx=chart.ctx,x=chart.scales.x,area=chart.chartArea,step=x.getPixelForValue(1)-x.getPixelForValue(0),currentStart=x.getPixelForValue(currentIndex)-step/2,futureStart=x.getPixelForValue(currentIndex)+step/2;ctx.save();ctx.fillStyle='rgba(219,234,254,.38)';ctx.fillRect(currentStart,area.top,step,area.bottom-area.top);ctx.fillStyle='rgba(254,243,199,.34)';ctx.fillRect(futureStart,area.top,area.right-futureStart,area.bottom-area.top);ctx.strokeStyle='#94a3b8';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(currentStart,area.top);ctx.lineTo(currentStart,area.bottom);ctx.moveTo(futureStart,area.top);ctx.lineTo(futureStart,area.bottom);ctx.stroke();ctx.setLineDash([]);ctx.font='10px Arial';ctx.fillStyle='#64748b';ctx.textAlign='left';ctx.fillText('PRESENT',currentStart+6,area.top+12);ctx.fillText('FORECAST →',futureStart+7,area.top+12);ctx.restore();},afterDatasetsDraw(chart){const ctx=chart.ctx,x=chart.scales.x,y=chart.scales.y;monthlyTotals.forEach((total,i)=>{if(!total)return;const xPos=x.getPixelForValue(i),isCurrent=i===currentIndex,isFuture=base[i]!==null&&!isCurrent,labelX=isFuture?xPos+12:xPos,labelY=y.getPixelForValue(total)-8;ctx.font='bold 11px Arial';ctx.fillStyle='#333';ctx.textAlign=isFuture?'left':'center';ctx.fillText('$'+Math.round(total).toLocaleString()+(isCurrent?' actual':''),labelX,labelY);if(base[i]===null)return;const lowY=y.getPixelForValue(low[i]),highY=y.getPixelForValue(high[i]),baseY=y.getPixelForValue(base[i]);if(isCurrent&&base[i]>total){const actualY=y.getPixelForValue(total),barWidth=(x.getPixelForValue(1)-x.getPixelForValue(0))*.58;ctx.save();ctx.strokeStyle='rgba(71,85,105,.8)';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.strokeRect(xPos-barWidth/2,baseY,barWidth,actualY-baseY);ctx.setLineDash([]);ctx.font='bold 11px Arial';ctx.fillStyle='#334155';ctx.textAlign='left';ctx.fillText('$'+Math.round(base[i]).toLocaleString()+' proj',xPos+12,baseY-8);ctx.restore();}ctx.strokeStyle='#475569';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(xPos,highY);ctx.lineTo(xPos,lowY);ctx.stroke();ctx.strokeStyle='#16a34a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(xPos-8,highY);ctx.lineTo(xPos+8,highY);ctx.stroke();ctx.strokeStyle='#d97706';ctx.beginPath();ctx.moveTo(xPos-8,lowY);ctx.lineTo(xPos+8,lowY);ctx.stroke();});}};
+    if(barChart)barChart.destroy();barChart=new Chart(document.getElementById('barChart'),{type:'bar',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:12}}}},scales:{x:{stacked:true},y:{stacked:true,max:45000,beginAtZero:true}}},plugins:[forecastPlugin]});
+    renderCumulativeChart(labels,actual,low,base,high,currentIndex);
+  }
+  function renderCumulativeChart(labels,actual,low,base,high,currentIndex){
+    const priorIndex=Math.max(0,currentIndex-1);
+    const cumulativeActual=[];let actualSum=0;actual.forEach((v,i)=>{if(i>priorIndex)cumulativeActual.push(null);else{actualSum+=v;cumulativeActual.push(actualSum);}});
+    const priorYtd=cumulativeActual[priorIndex]||0;
+    const cumulative=(series)=>{let sum=0;return actual.map((v,i)=>{if(i<priorIndex)return null;if(i===priorIndex){sum=priorYtd;return sum;}sum+=series[i]||v;return sum;});};
+    const cumulativeLow=cumulative(low),cumulativeBase=cumulative(base),cumulativeHigh=cumulative(high);
+    const cumulativePlugin={id:'cumulativeForecastDisplay',beforeDatasetsDraw(chart){const ctx=chart.ctx,x=chart.scales.x,area=chart.chartArea,step=x.getPixelForValue(1)-x.getPixelForValue(0),start=x.getPixelForValue(currentIndex)-step/2;ctx.save();ctx.fillStyle='rgba(254,243,199,.34)';ctx.fillRect(start,area.top,area.right-start,area.bottom-area.top);ctx.strokeStyle='#94a3b8';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(start,area.top);ctx.lineTo(start,area.bottom);ctx.stroke();ctx.setLineDash([]);ctx.font='10px Arial';ctx.fillStyle='#64748b';ctx.textAlign='left';ctx.fillText('FORECAST →',start+7,area.top+12);ctx.restore();},afterDatasetsDraw(chart){const ctx=chart.ctx,y=chart.scales.y,x=chart.scales.x;if(cumulativeActual[priorIndex]){ctx.font='bold 11px Arial';ctx.fillStyle='#334155';ctx.textAlign='right';ctx.fillText('$'+Math.round(cumulativeActual[priorIndex]/1000)+'k YTD',x.getPixelForValue(priorIndex)-10,y.getPixelForValue(cumulativeActual[priorIndex])-12);}[[cumulativeLow,'#d97706','Conservative'],[cumulativeBase,'#2563eb','Baseline'],[cumulativeHigh,'#16a34a','Optimistic']].forEach(([values,color,label])=>{const value=values[11];if(value===null)return;ctx.font='bold 11px Arial';ctx.fillStyle=color;ctx.textAlign='left';ctx.fillText(label+' $'+Math.round(value/1000)+'k',x.getPixelForValue(11)+10,y.getPixelForValue(value)+4);});}};
+    if(cumulativeChart)cumulativeChart.destroy();cumulativeChart=new Chart(document.getElementById('cumulativeChart'),{type:'line',data:{labels,datasets:[{label:'Actual',data:cumulativeActual,borderColor:'#475569',backgroundColor:'#475569',borderWidth:4,pointRadius:4,tension:.18,spanGaps:false},{label:'Conservative',data:cumulativeLow,borderColor:'#d97706',backgroundColor:'#d97706',borderWidth:2.5,pointRadius:2,tension:.18,spanGaps:false},{label:'Baseline',data:cumulativeBase,borderColor:'#2563eb',backgroundColor:'#2563eb',borderWidth:4,pointRadius:2,tension:.18,spanGaps:false},{label:'Optimistic',data:cumulativeHigh,borderColor:'#16a34a',backgroundColor:'#16a34a',borderWidth:2.5,pointRadius:2,tension:.18,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:130}},plugins:{legend:{position:'top',align:'end'}},scales:{y:{beginAtZero:true,suggestedMax:Math.ceil(cumulativeHigh[11]/50000)*50000,ticks:{callback:value=>value===0?'$0':'$'+(value/1000)+'k'}}}},plugins:[cumulativePlugin]});
+  }
+  function renderQuarters(){
+    const actual=actualByMonth(),forecast=projectionSeries('base'),currentIndex=Number(currentMonth.slice(5))-1;
+    const q2026=[0,1,2,3].map(q=>[0,1,2].reduce((sum,offset)=>{const i=q*3+offset;return sum+(i<currentIndex?actual[i]:(forecast[i]||actual[i]))},0));
+    const colors=['#64748b','#0f766e','#0891b2','#7c3aed','#4f46e5','#d97706','#16a34a','#2563eb'];
+    document.getElementById('quarterlyLegend').innerHTML=YEARS.map((year,idx)=>`<span class="quarterly-legend-item"><span class="quarterly-swatch" style="--year-color:${colors[idx]}"></span>${year}</span>`).join('')+'<span class="quarterly-legend-item"><span class="quarterly-swatch projected"></span>Projected</span>';
+    ['Q1','Q2','Q3','Q4'].forEach((quarter,q)=>{const target=document.getElementById('quarter'+quarter);const values=[...HISTORY[quarter],q2026[q]];const isProjected=q*3+2>currentIndex;target.innerHTML=values.map((value,idx)=>{const currentYear=idx===YEARS.length-1,projectedClass=currentYear&&isProjected?' projected':'',note=currentYear&&isProjected?' projected':'',barHeight=Math.max(3,Math.min(210,value/100000*210));return `<div class="quarter-bar-cell" title="$${Math.round(value).toLocaleString()}${note}"><span class="quarter-value" style="--bar-height:${barHeight}px">$${Math.round(value/1000)}k</span><span class="quarter-bar${projectedClass}" style="--year-color:${colors[idx]};--bar-height:${barHeight}px"></span><span class="quarter-year">${YEARS[idx]}</span></div>`;}).join('');});
+  }
+  async function load(){
+    document.getElementById('api-status').textContent='API: loading…';document.getElementById('error').replaceChildren();
+    try{
+      const response=await fetch(API_URL+'?t='+Date.now(),{cache:'no-store'});if(!response.ok)throw new Error('API returned '+response.status);
+      apiData=await response.json();orders=apiData.orders;monthly=mergedMonthly();currentMonth=new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'}).slice(0,7);
+      document.getElementById('api-status').textContent='API: live';document.getElementById('updated').textContent='Fetched: '+new Date(apiData.generated_at).toLocaleString('en-US',{timeZone:apiData.timezone});document.getElementById('period').textContent='Period: 2026 YTD through '+new Date().toLocaleDateString('en-US',{timeZone:'America/New_York',month:'short',day:'2-digit'});
+      renderPicker();renderMonth(document.getElementById('month-picker').value);renderForecast();renderQuarters();
+    }catch(error){document.getElementById('api-status').textContent='API: unavailable';const notice=document.createElement('div');notice.className='status-error';notice.textContent='Live sales data unavailable: '+error.message;document.getElementById('error').appendChild(notice)}
+  }
+  document.getElementById('month-picker').addEventListener('change',event=>renderMonth(event.target.value));document.getElementById('refresh').addEventListener('click',load);
+  function onAuthenticated(){load();setInterval(load,300000)}
+</script>
 <script src="auth.js"></script>
 </body>
 </html>
