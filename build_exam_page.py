@@ -32,6 +32,19 @@ NOW = datetime.now(tz=timezone.utc)
 HORIZON = NOW + timedelta(days=180)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OVERRIDES_PATH = os.path.join(SCRIPT_DIR, "exam-dashboard-overrides.json")
+
+
+def load_suppressed_emails():
+    if not os.path.exists(OVERRIDES_PATH):
+        return set()
+    with open(OVERRIDES_PATH, "r") as f:
+        overrides = json.load(f)
+    return {
+        str(email).lower().strip()
+        for email in overrides.get("suppressed_emails", [])
+        if str(email).strip()
+    }
 
 
 def fetch_typeform(form_id, page_size=250):
@@ -180,6 +193,15 @@ def build_students():
             email_str = f" · {s.get('email', 'N/A')}" if s.get('email') else ""
             print(f"  - {s['form'].upper()}: {s['reason']}{email_str}")
         print()
+
+    # Apply durable exceptions after both Typeform sources have been merged.
+    suppressed_emails = load_suppressed_emails()
+    suppressed_count = 0
+    for email in suppressed_emails:
+        if students.pop(email, None):
+            suppressed_count += 1
+    if suppressed_count:
+        print(f"Suppressed by dashboard overrides: {suppressed_count}")
 
     # Enrich names from Kit
     for email, s in students.items():
