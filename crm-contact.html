@@ -280,6 +280,44 @@
       line-height: 1.45;
     }
     .raw-content.open { display: block; }
+    .email-thread-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .email-thread-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 12px;
+      margin: 2px 0 4px;
+    }
+    .turn-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface2);
+      padding: 11px 12px;
+    }
+    .turn-card.internal { border-left: 3px solid var(--blue); }
+    .turn-card.student { border-left: 3px solid var(--green); }
+    .turn-card.unknown { border-left: 3px solid var(--border2); }
+    .turn-meta {
+      display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .turn-speaker { font-weight: 700; color: var(--text); }
+    .turn-role { color: var(--muted); font-size: 12px; text-transform: capitalize; }
+    .turn-date { color: var(--muted); font-size: 12px; margin-left: auto; }
+    .turn-body {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.48;
+      color: var(--text);
+    }
+    .history-divider {
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
     .empty, .loading {
       padding: 22px;
       color: var(--muted);
@@ -944,21 +982,57 @@ async function rewriteDraft() {
 }
 
 async function loadInteractions() {
-  const interactions = await api('GET', `/contacts/${encodeURIComponent(CONTACT_ID)}/interactions`);
-  renderInteractions(interactions || []);
+  const [interactionResult, turnResult] = await Promise.allSettled([
+    api('GET', `/contacts/${encodeURIComponent(CONTACT_ID)}/interactions`),
+    api('GET', `/contacts/${encodeURIComponent(CONTACT_ID)}/email-turns`),
+  ]);
+  if (interactionResult.status === 'rejected') throw interactionResult.reason;
+  const turns = turnResult.status === 'fulfilled' ? (turnResult.value || []) : [];
+  renderInteractions(interactionResult.value || [], turns);
 }
 
-function renderInteractions(interactions) {
+function renderInteractions(interactions, emailTurns = []) {
+  const emailTurnCount = emailTurns.length;
   document.getElementById('interaction-count').textContent =
-    `${interactions.length} interaction${interactions.length !== 1 ? 's' : ''}, newest first.`;
+    `${interactions.length} interaction${interactions.length !== 1 ? 's' : ''}${emailTurnCount ? `, ${emailTurnCount} email turn${emailTurnCount !== 1 ? 's' : ''}` : ''}.`;
   const el = document.getElementById('interactions-content');
   el.className = '';
-  if (interactions.length === 0) {
+  if (interactions.length === 0 && emailTurnCount === 0) {
     el.innerHTML = '<div class="empty">No interaction history on record.</div>';
     return;
   }
   const sorted = interactions.slice().sort((a, b) => new Date(b.occurred_at) - new Date(a.occurred_at));
-  el.innerHTML = `<div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`;
+  const sortedTurns = emailTurns.slice().sort((a, b) =>
+    new Date(b.sent_at || b.created_at) - new Date(a.sent_at || a.created_at)
+  );
+  const turnsHtml = sortedTurns.length
+    ? `<div class="email-thread-list">
+        <div class="email-thread-head">
+          <span>Parsed email conversation</span>
+          <span>Newest first</span>
+        </div>
+        ${sortedTurns.map(emailTurnHtml).join('')}
+      </div>`
+    : '';
+  const rawHtml = sorted.length
+    ? `<div class="history-divider">Source interactions</div><div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`
+    : '';
+  el.innerHTML = `${turnsHtml}${rawHtml}`;
+}
+
+function emailTurnHtml(turn) {
+  const role = (turn.speaker_role || 'unknown').toLowerCase();
+  const safeRole = ['internal', 'student'].includes(role) ? role : 'unknown';
+  const speaker = turn.speaker_name || turn.speaker_email || 'Unknown';
+  const date = turn.sent_at || turn.created_at;
+  return `<div class="turn-card ${safeRole}">
+    <div class="turn-meta">
+      <span class="turn-speaker">${esc(speaker)}</span>
+      <span class="turn-role">${esc(safeRole)}</span>
+      <span class="turn-date">${esc(formatDate(date))}</span>
+    </div>
+    <div class="turn-body">${esc(turn.body_text || '')}</div>
+  </div>`;
 }
 
 function interactionHtml(i) {
