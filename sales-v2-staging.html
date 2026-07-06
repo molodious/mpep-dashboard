@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard v2 — Parallel Staging</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { --bg:#f5f7fa;--surface:#fff;--border:#dde1e7;--text:#333;--muted:#667085;--blue:#2563eb;--red:#dc2626; }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    #auth-overlay{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;z-index:9999}
+    .auth-box{background:#fff;border-radius:9px;padding:30px;width:min(290px,calc(100% - 36px));text-align:center}.auth-logo{font-size:34px}.auth-title{font-size:20px;font-weight:700;margin:8px}.auth-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+    .auth-box input,.auth-box button{width:100%;padding:10px 12px;border-radius:5px;font:inherit}.auth-box input{border:1px solid var(--border);margin-bottom:8px}.auth-box button{border:0;background:var(--blue);color:#fff;font-weight:650}#pwd-error{display:none;color:var(--red);font-size:12px;margin-bottom:7px}
+    .container{max-width:1400px;margin:auto;padding:20px}header,.card{background:var(--surface);padding:20px;border-radius:8px;box-shadow:0 2px 4px #00000018}header{margin-bottom:20px}h1{font-size:28px;margin:0 0 10px}.header-info{display:flex;gap:28px;flex-wrap:wrap;color:#666;font-size:14px}
+    .staging{margin-top:14px;padding:10px 12px;background:#fff8e7;border-left:4px solid #f0b429;font-size:13px}.month-selector{display:flex;gap:10px;align-items:center;margin-top:14px}.month-selector select,.refresh{padding:7px 10px;border:1px solid var(--border);border-radius:5px;background:#fff}.refresh{cursor:pointer;color:#fff;background:var(--blue);border-color:var(--blue)}
+    .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.full-width{grid-column:1/-1}.card h2{font-size:16px;margin:0 0 15px}.metric-label{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#ffffffcc;font-weight:650}.metric-value{font-size:25px;font-weight:750;margin-top:5px}.snapshot{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;margin-bottom:20px}.snapshot h2{color:#fff}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:20px}.projection-note{font-size:12px;color:#ffffffb3}
+    .chart-container{height:310px;position:relative}table{width:100%;border-collapse:collapse;font-size:13px}th{background:#f8f9fa;text-align:left;color:#555;border-bottom:2px solid #e0e0e0}th,td{padding:8px;border-bottom:1px solid #f0f0f0}.table-wrap{overflow:auto}.amount{text-align:right;font-variant-numeric:tabular-nums}.forecast-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.scenario{border:1px solid var(--border);border-left:4px solid var(--color);border-radius:8px;padding:14px}.scenario-name{color:var(--color);font-size:12px;font-weight:750;text-transform:uppercase}.scenario-total{font-size:27px;font-weight:750;margin-top:5px}.scenario-detail{font-size:12px;color:var(--muted);margin-top:5px}
+    .quarter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.quarter{border:1px solid var(--border);border-radius:8px;padding:12px}.quarter h3{text-align:center;margin:0 0 10px}.quarter-row{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:4px}.quarter-row.current{font-weight:750;color:var(--blue)}.status-error{padding:12px;background:#fee2e2;color:#991b1b;border-radius:6px;margin-bottom:15px}.last-updated{text-align:right;color:#888;font-size:12px;margin-top:15px}
+    tr[data-product="HVAC"]{background:#ffd70018}tr[data-product="TFS"]{background:#3498db18}tr[data-product="FE"]{background:#e74c3c18}
+    @media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}.full-width{grid-column:auto}.forecast-summary,.quarter-grid{grid-template-columns:1fr}.container{padding:12px}.card,header{padding:15px}.header-info{gap:7px;flex-direction:column}.chart-container{height:270px}}
+  </style>
+</head>
+<body>
+<div id="auth-overlay"><div class="auth-box"><div class="auth-logo">♠️</div><div class="auth-title">MPEP Dashboard</div><div class="auth-sub">Internal use only — enter your password</div><form id="auth-form"><input type="password" id="pwd-input" autocomplete="current-password" placeholder="Password"><div id="pwd-error"></div><button id="pwd-btn">Unlock</button></form></div></div>
+<div id="main-content">
+  <div class="container">
+    <header>
+      <h1>💰 Sales Dashboard v2</h1>
+      <div class="header-info"><div id="period">Period: loading…</div><div id="updated">Updated: loading…</div><div id="api-status">API: connecting…</div></div>
+      <div class="staging"><strong>Parallel staging:</strong> live SQLite data, anonymous API, and no customer information. The production sales dashboard remains unchanged.</div>
+      <div class="month-selector"><label for="month-picker"><strong>Show month:</strong></label><select id="month-picker"></select><button class="refresh" id="refresh">Refresh</button></div>
+    </header>
+    <div id="error"></div>
+    <div class="card snapshot full-width"><h2><span id="snapshot-title">Current Month</span> Snapshot</h2><div class="stats" id="stats"></div><p class="projection-note" id="projection-note"></p></div>
+    <div class="dashboard-grid">
+      <div class="card"><h2 id="pie-title">Revenue by Product</h2><div class="chart-container"><canvas id="pieChart"></canvas></div><table><thead><tr><th>Product</th><th class="amount">Revenue</th><th class="amount">%</th></tr></thead><tbody id="pie-body"></tbody></table></div>
+      <div class="card"><h2 id="orders-title">Orders</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Source</th><th>Type</th><th class="amount">Revenue</th></tr></thead><tbody id="orders-body"></tbody></table></div></div>
+      <div class="card full-width"><h2>Revenue Forecast</h2><div class="forecast-summary" id="forecast-summary"></div><div class="chart-container" style="height:350px"><canvas id="barChart"></canvas></div></div>
+      <div class="card full-width"><h2>Cumulative Revenue Projection</h2><div class="chart-container" style="height:360px"><canvas id="cumulativeChart"></canvas></div></div>
+      <div class="card full-width"><h2>Revenue by Quarter</h2><div class="quarter-grid" id="quarter-grid"></div></div>
+    </div>
+    <div class="last-updated">Live data is fetched on page load, every 5 minutes, and whenever Refresh is pressed.</div>
+  </div>
+</div>
+<script>
+  const API_URL=(location.hostname==='127.0.0.1'||location.hostname==='localhost')?'http://127.0.0.1:3010/sales-dashboard':'https://btc.mechanicalpeexamprep.com/sales-v2-staging';
+  const LEGACY_2026={
+    '2026-01':{CSE:399,FE:1495,Fundamentals:399,HVAC:33783,HVACBook:1947,TFS:3898},
+    '2026-02':{DailyInsightsPremium:99,FE:2094,HVAC:11894,TFS:11894,TFSBook:649}
+  };
+  const HISTORY={
+    Q1:[6138,10211,27227,28979,64983,48957,59100],
+    Q2:[1908,9278,30232,27471,44707,30364,74218],
+    Q3:[5859,15057,24673,30088,42331,41470,79844],
+    Q4:[4060,14176,27088,40667,51711,29217,57558]
+  };
+  const YEARS=['2019','2020','2021','2022','2023','2024','2025','2026'];
+  const FORECAST_BASE=[null,null,null,null,null,null,27402,25217,13788,15890,19446,13686];
+  const PRODUCT_COLORS={HVAC:'#FFD700',TFS:'#3498DB','TFS+CSE':'#5B8DEF',FE:'#E74C3C',Fundamentals:'#27AE60',CSE:'#8E44AD',DailyInsightsPremium:'#F39C12',HVACBook:'#F1C40F',TFSBook:'#2980B9',Other:'#95A5A6'};
+  const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v);
+  const monthLabel=k=>new Date(k+'-02T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const sourceLabel=s=>({stripe_webhook:'Stripe',btcpay_webhook:'BTC',thinkific_webhook:'Thinkific',manual:'Manual'})[s]||'Other';
+  let apiData,orders=[],monthly={},currentMonth='',pieChart,barChart,cumulativeChart;
+
+  function mergedMonthly(){
+    const result={};
+    for(const [month,products] of Object.entries(LEGACY_2026)) result[month]={revenue:Object.values(products).reduce((a,b)=>a+b,0),orders:0,products:{...products}};
+    for(const [month,value] of Object.entries(apiData.monthly)) result[month]={revenue:value.revenue,orders:value.orders,products:{...value.products}};
+    return result;
+  }
+  function currentProjection(){
+    const actual=monthly[currentMonth]?.revenue||0;
+    const now=new Date();
+    const [year,month]=currentMonth.split('-').map(Number);
+    const today=now.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    const elapsed=today.startsWith(currentMonth)?Number(today.slice(8,10)):new Date(year,month,0).getDate();
+    const daysInMonth=new Date(year,month,0).getDate();
+    const remaining=Math.max(0,daysInMonth-elapsed);
+    return {actual,remaining,projected:Math.round(actual+799*remaining)};
+  }
+  function projectionSeries(multiplier=1){
+    const result=FORECAST_BASE.map(v=>v===null?null:Math.round(v*multiplier));
+    result[Number(currentMonth.slice(5))-1]=Math.round(currentProjection().projected*multiplier);
+    return result;
+  }
+  function actualByMonth(){
+    return Array.from({length:12},(_,i)=>monthly[`2026-${String(i+1).padStart(2,'0')}`]?.revenue||0);
+  }
+  function totalsByScenario(multiplier){
+    const actual=actualByMonth(),forecast=projectionSeries(multiplier),currentIndex=Number(currentMonth.slice(5))-1;
+    return actual.reduce((sum,v,i)=>sum+(i<currentIndex?v:(forecast[i]||v)),0);
+  }
+  function renderPicker(){
+    const picker=document.getElementById('month-picker'),prior=picker.value;
+    picker.replaceChildren(...Object.keys(monthly).sort().reverse().map(month=>{const option=document.createElement('option');option.value=month;option.textContent=monthLabel(month);return option}));
+    picker.value=monthly[prior]?prior:currentMonth;
+  }
+  function renderMonth(month){
+    const summary=monthly[month]||{revenue:0,orders:0,products:{}};
+    const monthOrders=orders.filter(o=>o.date.startsWith(month)).sort((a,b)=>b.occurred_at.localeCompare(a.occurred_at));
+    document.getElementById('snapshot-title').textContent=monthLabel(month);
+    let stats=[['Revenue',money(summary.revenue)],['Orders',summary.orders||monthOrders.length]];
+    if(month===currentMonth){const p=currentProjection();stats.push(['Daily Forecast Basis',money(799)],['Days Remaining',p.remaining],['Projected Total',money(p.projected)]);document.getElementById('projection-note').textContent='Projection uses the existing trailing-12-month daily forecast basis for the remaining days.'}
+    else document.getElementById('projection-note').textContent='';
+    document.getElementById('stats').innerHTML=stats.map(([label,value])=>`<div><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`).join('');
+    document.getElementById('pie-title').textContent=monthLabel(month)+' Revenue by Product';
+    document.getElementById('orders-title').textContent='Orders in '+monthLabel(month);
+    const products=Object.entries(summary.products).sort((a,b)=>b[1]-a[1]),total=products.reduce((s,p)=>s+p[1],0);
+    const pieBody=document.getElementById('pie-body');pieBody.replaceChildren(...products.map(([product,value])=>{const tr=document.createElement('tr');for(const text of [product,money(value),total?Math.round(value/total*100)+'%':'0%']){const td=document.createElement('td');td.textContent=text;if(text!==product)td.className='amount';tr.appendChild(td)}return tr}));
+    if(pieChart)pieChart.destroy();pieChart=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:products.map(p=>p[0]),datasets:[{data:products.map(p=>p[1]),backgroundColor:products.map(p=>PRODUCT_COLORS[p[0]]||PRODUCT_COLORS.Other)}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+    const body=document.getElementById('orders-body');body.replaceChildren(...monthOrders.map(order=>{const tr=document.createElement('tr');tr.dataset.product=order.product;for(const [text,cls] of [[order.date,''],[order.product,''],[sourceLabel(order.source),''],[order.type,''],[money(order.amount),'amount']]){const td=document.createElement('td');td.textContent=text;td.className=cls;tr.appendChild(td)}return tr}));
+  }
+  function renderForecast(){
+    const actual=actualByMonth(),base=projectionSeries(1),low=projectionSeries(.8),high=projectionSeries(1.2),currentIndex=Number(currentMonth.slice(5))-1;
+    const scenarios=[['Conservative',.8,'#d97706'],['Baseline',1,'#2563eb'],['Optimistic',1.2,'#16a34a']];
+    document.getElementById('forecast-summary').innerHTML=scenarios.map(([name,mult,color])=>`<div class="scenario" style="--color:${color}"><div class="scenario-name">${name}</div><div class="scenario-total">${money(totalsByScenario(mult))}</div><div class="scenario-detail">Projected full-year 2026 revenue</div></div>`).join('');
+    const labels=Array.from({length:12},(_,i)=>new Date(2026,i,2).toLocaleDateString('en-US',{month:'short'}));
+    const products=[...new Set(Object.values(monthly).flatMap(m=>Object.keys(m.products)))].sort();
+    const datasets=products.map(product=>({label:product,data:Array.from({length:12},(_,i)=>monthly[`2026-${String(i+1).padStart(2,'0')}`]?.products[product]||0),backgroundColor:PRODUCT_COLORS[product]||PRODUCT_COLORS.Other,stack:'actual'}));
+    datasets.push({label:'Forecast baseline',data:base.map((v,i)=>i<=currentIndex?null:v),backgroundColor:'#64748bb8'});
+    if(barChart)barChart.destroy();barChart=new Chart(document.getElementById('barChart'),{type:'bar',data:{labels,datasets},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
+    let running=0;const cumulativeActual=actual.map((v,i)=>{if(i>currentIndex)return null;running+=v;return running});const cumulative=(series)=>{let sum=0;return actual.map((v,i)=>{sum+=i<currentIndex?v:(series[i]||v);return i<currentIndex?null:sum})};
+    if(cumulativeChart)cumulativeChart.destroy();cumulativeChart=new Chart(document.getElementById('cumulativeChart'),{type:'line',data:{labels,datasets:[{label:'Actual',data:cumulativeActual,borderColor:'#475569',borderWidth:4},{label:'Conservative',data:cumulative(low),borderColor:'#d97706'},{label:'Baseline',data:cumulative(base),borderColor:'#2563eb',borderWidth:4},{label:'Optimistic',data:cumulative(high),borderColor:'#16a34a'}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
+  }
+  function renderQuarters(){
+    const actual=actualByMonth(),forecast=projectionSeries(1),currentIndex=Number(currentMonth.slice(5))-1;
+    const q2026=[0,1,2,3].map(q=>[0,1,2].reduce((sum,offset)=>{const i=q*3+offset;return sum+(i<currentIndex?actual[i]:(forecast[i]||actual[i]))},0));
+    document.getElementById('quarter-grid').replaceChildren(...['Q1','Q2','Q3','Q4'].map((quarter,q)=>{const box=document.createElement('div');box.className='quarter';const heading=document.createElement('h3');heading.textContent=quarter;box.appendChild(heading);const values=[...HISTORY[quarter],q2026[q]];values.forEach((value,i)=>{const row=document.createElement('div');row.className='quarter-row'+(i===7?' current':'');const year=document.createElement('span');year.textContent=YEARS[i]+(i===7&&q*3>currentIndex?' projected':'');const amount=document.createElement('strong');amount.textContent=money(value);row.append(year,amount);box.appendChild(row)});return box}));
+  }
+  async function load(){
+    document.getElementById('api-status').textContent='API: loading…';document.getElementById('error').replaceChildren();
+    try{
+      const response=await fetch(API_URL+'?t='+Date.now(),{cache:'no-store'});if(!response.ok)throw new Error('API returned '+response.status);
+      apiData=await response.json();orders=apiData.orders;monthly=mergedMonthly();currentMonth=new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'}).slice(0,7);
+      document.getElementById('api-status').textContent='API: live';document.getElementById('updated').textContent='Fetched: '+new Date(apiData.generated_at).toLocaleString('en-US',{timeZone:apiData.timezone});document.getElementById('period').textContent='Period: 2026 YTD through '+new Date().toLocaleDateString('en-US',{timeZone:'America/New_York',month:'short',day:'2-digit'});
+      renderPicker();renderMonth(document.getElementById('month-picker').value);renderForecast();renderQuarters();
+    }catch(error){document.getElementById('api-status').textContent='API: unavailable';const notice=document.createElement('div');notice.className='status-error';notice.textContent='Live sales data unavailable: '+error.message;document.getElementById('error').appendChild(notice)}
+  }
+  document.getElementById('month-picker').addEventListener('change',event=>renderMonth(event.target.value));document.getElementById('refresh').addEventListener('click',load);
+  function onAuthenticated(){load();setInterval(load,300000)}
+</script>
+<script src="auth.js"></script>
+</body>
+</html>
