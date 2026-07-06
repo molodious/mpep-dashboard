@@ -267,6 +267,19 @@
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
+    .interaction-subject {
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .interaction-preview {
+      color: var(--muted);
+      line-height: 1.45;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin-top: 6px;
+    }
     .raw-content {
       display: none;
       margin-top: 10px;
@@ -1015,7 +1028,7 @@ function renderInteractions(interactions, emailTurns = []) {
       </div>`
     : '';
   const rawHtml = sorted.length
-    ? `<div class="history-divider">Source interactions</div><div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`
+    ? `${sortedTurns.length ? '<div class="history-divider">Source interactions</div>' : ''}<div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`
     : '';
   el.innerHTML = `${turnsHtml}${rawHtml}`;
 }
@@ -1038,6 +1051,10 @@ function emailTurnHtml(turn) {
 function interactionHtml(i) {
   const raw = (i.raw_content || '').trim();
   const id = `raw-${i.id || Math.random().toString(36).slice(2)}`;
+  const emailPreview = emailInteractionPreview(i, raw);
+  const summaryHtml = emailPreview
+    ? `<div class="interaction-subject">${esc(emailPreview.subject)}</div>${emailPreview.preview ? `<div class="interaction-preview">${esc(emailPreview.preview)}</div>` : ''}`
+    : `<div class="interaction-summary">${esc(i.summary || '(no summary)')}</div>`;
   return `<div class="interaction-item">
     <div class="interaction-head">
       <div class="interaction-meta">
@@ -1046,9 +1063,35 @@ function interactionHtml(i) {
       </div>
       ${raw ? `<button class="btn btn-neutral" onclick="toggleRaw('${id}', this)">Show full</button>` : ''}
     </div>
-    <div class="interaction-summary">${esc(i.summary || '(no summary)')}</div>
+    ${summaryHtml}
     ${raw ? `<div class="raw-content" id="${id}">${esc(raw)}</div>` : ''}
   </div>`;
+}
+
+function emailInteractionPreview(interaction, raw) {
+  if (String(interaction.channel || '').toLowerCase() !== 'email') return null;
+  const subject = String(interaction.summary || '').trim() || 'Email';
+  const text = String(raw || '').replace(/\r\n/g, '\n').trim();
+  if (!text) return { subject, preview: '' };
+  let body = text;
+  const marker = body.match(/\n\s*(?:New conversation turn\(s\):|Full raw source is stored in inbound_email_events\.raw_payload\.)\s*\n/i);
+  if (marker) {
+    body = body.slice(marker.index + marker[0].length);
+  } else {
+    const blank = body.indexOf('\n\n');
+    if (blank !== -1 && /^CRM inbound email capture|^Sent by CRM|^Sent manually in LinkedIn/i.test(body)) {
+      body = body.slice(blank + 2);
+    }
+  }
+  body = body
+    .split('\n')
+    .filter(line => !/^(From|To|Cc|Bcc|Subject|Message ID|Inbound Event ID|Conversation turns):/i.test(line.trim()))
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  if (!body) return { subject, preview: '' };
+  const preview = body.length > 420 ? `${body.slice(0, 420).trim()}...` : body;
+  return { subject, preview };
 }
 
 function toggleRaw(id, btn) {
