@@ -247,7 +247,40 @@
     }
     .rewrite-box textarea { min-height: 76px; }
 
-    .interaction-list { display: flex; flex-direction: column; gap: 10px; }
+    .history-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .history-tabs {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    .history-tab {
+      border: 0;
+      border-right: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 7px 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    .history-tab:last-child { border-right: 0; }
+    .history-tab.active {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 700;
+    }
+    .history-note { color: var(--muted); font-size: 12px; }
+    .history-view.hidden { display: none; }
+    .interaction-list, .timeline-list { display: flex; flex-direction: column; gap: 10px; }
     .interaction-item {
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -293,13 +326,15 @@
       line-height: 1.45;
     }
     .raw-content.open { display: block; }
-    .email-thread-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-    .email-thread-head {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 12px;
-      margin: 2px 0 4px;
+    .timeline-date {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin: 8px 0 0;
     }
-    .turn-card {
+    .turn-card, .note-card {
       border: 1px solid var(--border);
       border-radius: 6px;
       background: var(--surface2);
@@ -321,16 +356,26 @@
       line-height: 1.48;
       color: var(--text);
     }
-    .history-divider {
-      border-top: 1px solid var(--border);
-      margin: 14px 0;
-      padding-top: 12px;
+    .turn-body.collapsed {
+      max-height: 13.5em;
+      overflow: hidden;
+    }
+    .turn-source {
       color: var(--muted);
       font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .05em;
     }
+    .show-more {
+      margin-top: 8px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .note-card { border-left: 3px solid var(--border2); }
     .empty, .loading {
       padding: 22px;
       color: var(--muted);
@@ -1015,36 +1060,123 @@ function renderInteractions(interactions, emailTurns = []) {
     return;
   }
   const sorted = interactions.slice().sort((a, b) => new Date(b.occurred_at) - new Date(a.occurred_at));
-  const sortedTurns = emailTurns.slice().sort((a, b) =>
-    new Date(b.sent_at || b.created_at) - new Date(a.sent_at || a.created_at)
-  );
-  const turnsHtml = sortedTurns.length
-    ? `<div class="email-thread-list">
-        <div class="email-thread-head">
-          <span>Parsed email conversation</span>
-          <span>Newest first</span>
-        </div>
-        ${sortedTurns.map(emailTurnHtml).join('')}
-      </div>`
-    : '';
-  const rawHtml = sorted.length
-    ? `${sortedTurns.length ? '<div class="history-divider">Source interactions</div>' : ''}<div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`
-    : '';
-  el.innerHTML = `${turnsHtml}${rawHtml}`;
+  const timeline = buildTimelineItems(sorted, emailTurns);
+  const timelineHtml = timeline.length
+    ? `<div class="timeline-list">${timelineItemsHtml(timeline)}</div>`
+    : '<div class="empty">No clean timeline items on record.</div>';
+  const sourceHtml = sorted.length
+    ? `<div class="interaction-list">${sorted.map(interactionHtml).join('')}</div>`
+    : '<div class="empty">No source records on file.</div>';
+
+  if (emailTurnCount) {
+    el.innerHTML = `<div class="history-toolbar">
+      <div class="history-tabs" role="tablist" aria-label="History views">
+        <button class="history-tab active" type="button" data-history-tab="timeline" onclick="setHistoryView('timeline')">Timeline</button>
+        <button class="history-tab" type="button" data-history-tab="source" onclick="setHistoryView('source')">Source records</button>
+      </div>
+      <div class="history-note">Email source records are retained for audit detail.</div>
+    </div>
+    <div class="history-view" data-history-view="timeline">${timelineHtml}</div>
+    <div class="history-view hidden" data-history-view="source">${sourceHtml}</div>`;
+  } else {
+    el.innerHTML = timelineHtml;
+  }
+}
+
+function buildTimelineItems(interactions, emailTurns) {
+  const hasParsedEmail = emailTurns.length > 0;
+  const turnItems = emailTurns.map(turn => ({
+    type: 'turn',
+    date: turn.sent_at || turn.created_at,
+    item: turn,
+  }));
+  const interactionItems = interactions
+    .filter(interaction => !hasParsedEmail || String(interaction.channel || '').toLowerCase() !== 'email')
+    .map(interaction => ({
+      type: 'interaction',
+      date: interaction.occurred_at || interaction.created_at,
+      item: interaction,
+    }));
+  return [...turnItems, ...interactionItems]
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+}
+
+function timelineItemsHtml(items) {
+  let lastGroup = '';
+  return items.map(entry => {
+    const group = timelineDateGroup(entry.date);
+    const heading = group !== lastGroup ? `<div class="timeline-date">${esc(group)}</div>` : '';
+    lastGroup = group;
+    const body = entry.type === 'turn' ? emailTurnHtml(entry.item) : timelineInteractionHtml(entry.item);
+    return `${heading}${body}`;
+  }).join('');
+}
+
+function timelineDateGroup(value) {
+  if (!value) return 'Undated';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Undated';
+  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function setHistoryView(view) {
+  document.querySelectorAll('[data-history-view]').forEach(el => {
+    el.classList.toggle('hidden', el.dataset.historyView !== view);
+  });
+  document.querySelectorAll('[data-history-tab]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.historyTab === view);
+  });
 }
 
 function emailTurnHtml(turn) {
   const role = (turn.speaker_role || 'unknown').toLowerCase();
   const safeRole = ['internal', 'student'].includes(role) ? role : 'unknown';
-  const speaker = turn.speaker_name || turn.speaker_email || 'Unknown';
+  const isLegacy = String(turn.source_mode || '').startsWith('legacy_');
+  const speaker = turn.speaker_name || turn.speaker_email || (isLegacy ? 'Legacy email text' : 'Unknown');
+  const roleLabel = safeRole === 'unknown' && isLegacy ? 'legacy' : safeRole;
+  const source = sourceModeLabel(turn.source_mode);
   const date = turn.sent_at || turn.created_at;
+  const body = turn.body_text || '';
+  const bodyId = `turn-body-${turn.id || Math.random().toString(36).slice(2)}`;
+  const isLong = body.length > 1200;
   return `<div class="turn-card ${safeRole}">
     <div class="turn-meta">
       <span class="turn-speaker">${esc(speaker)}</span>
-      <span class="turn-role">${esc(safeRole)}</span>
+      <span class="turn-role">${esc(roleLabel)}</span>
+      ${source ? `<span class="turn-source">${esc(source)}</span>` : ''}
       <span class="turn-date">${esc(formatDate(date))}</span>
     </div>
-    <div class="turn-body">${esc(turn.body_text || '')}</div>
+    <div class="turn-body${isLong ? ' collapsed' : ''}" id="${esc(bodyId)}">${esc(body)}</div>
+    ${isLong ? `<button class="show-more" type="button" onclick="toggleLongBody('${esc(bodyId)}', this)">Show more</button>` : ''}
+  </div>`;
+}
+
+function sourceModeLabel(mode) {
+  const value = String(mode || '');
+  if (value.includes('legacy')) return 'Legacy backfill';
+  if (value === 'bcc') return 'BCC capture';
+  if (value === 'forward') return 'Forwarded capture';
+  if (value === 'direct') return 'Direct email';
+  return '';
+}
+
+function timelineInteractionHtml(i) {
+  const raw = (i.raw_content || '').trim();
+  const id = `timeline-raw-${i.id || Math.random().toString(36).slice(2)}`;
+  const emailPreview = emailInteractionPreview(i, raw);
+  const summaryHtml = emailPreview
+    ? `<div class="interaction-subject">${esc(emailPreview.subject)}</div>${emailPreview.preview ? `<div class="interaction-preview">${esc(emailPreview.preview)}</div>` : ''}`
+    : `<div class="interaction-summary">${esc(i.summary || '(no summary)')}</div>`;
+  return `<div class="note-card">
+    <div class="interaction-head">
+      <div class="interaction-meta">
+        ${channelBadge(i.channel)}
+        <span class="interaction-date">${esc(formatDate(i.occurred_at))}</span>
+      </div>
+      ${raw ? `<button class="btn btn-neutral" onclick="toggleRaw('${id}', this)">Show full</button>` : ''}
+    </div>
+    ${summaryHtml}
+    ${raw ? `<div class="raw-content" id="${id}">${esc(raw)}</div>` : ''}
   </div>`;
 }
 
@@ -1098,6 +1230,12 @@ function toggleRaw(id, btn) {
   const el = document.getElementById(id);
   const open = el.classList.toggle('open');
   btn.textContent = open ? 'Hide full' : 'Show full';
+}
+
+function toggleLongBody(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('collapsed') === false;
+  btn.textContent = open ? 'Show less' : 'Show more';
 }
 </script>
 </body>
