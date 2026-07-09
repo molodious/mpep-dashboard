@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cron V2 - MPEP Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1216;
+      --panel: #171b21;
+      --panel-2: #20262f;
+      --border: #303844;
+      --text: #edf2f7;
+      --muted: #9aa7b5;
+      --blue: #58a6ff;
+      --green: #42c36d;
+      --yellow: #e0b341;
+      --red: #ff6961;
+      --gray: #758195;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 1480px; margin: 0 auto; padding: 24px; }
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    h1 { margin: 0 0 4px; font-size: 24px; font-weight: 650; letter-spacing: 0; }
+    .sub { color: var(--muted); font-size: 13px; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 18px; }
+    nav a, button {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 8px 11px;
+      text-decoration: none;
+      cursor: pointer;
+      font: inherit;
+    }
+    button:hover, nav a:hover { border-color: var(--blue); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .stat {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .stat strong { display: block; font-size: 24px; line-height: 1.1; }
+    .stat span { color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .source {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .source b { display: block; margin-bottom: 3px; }
+    .source span { color: var(--muted); font-size: 12px; }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 1180px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th {
+      text-align: left;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--panel-2);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .name { font-weight: 650; }
+    .desc, .small { color: var(--muted); font-size: 12px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .ok { color: var(--green); }
+    .warn { color: var(--yellow); }
+    .error { color: var(--red); }
+    .disabled, .idle, .unknown { color: var(--gray); }
+    .location { text-transform: capitalize; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    select {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+    }
+    @media (max-width: 820px) {
+      .wrap { padding: 16px; }
+      header { display: block; }
+      .stats, .source-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Cron Jobs V2</h1>
+        <div class="sub" id="generated">Loading status...</div>
+      </div>
+      <button id="refresh" type="button">Refresh</button>
+    </header>
+    <nav>
+      <a href="/cron.html">Cron Jobs</a>
+      <a href="/cron-v2.html">Cron V2</a>
+      <a href="/crm.html">CRM</a>
+      <a href="/sales.html">Sales</a>
+    </nav>
+
+    <section class="stats" id="stats"></section>
+    <section class="source-grid" id="sources"></section>
+
+    <div class="filters">
+      <select id="locationFilter">
+        <option value="">All locations</option>
+        <option value="main">Main droplet</option>
+        <option value="studycoach">Study Coach droplet</option>
+        <option value="openclaw">OpenClaw</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option value="ok">OK</option>
+        <option value="warn">Warn</option>
+        <option value="error">Error</option>
+        <option value="disabled">Disabled</option>
+        <option value="idle">Idle</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Job</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Migration</th>
+            <th>Next</th>
+            <th>Last</th>
+            <th>Intended State</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const API = "https://btc.mechanicalpeexamprep.com/api/cron-monitor/v1";
+    let latest = null;
+
+    function fmt(value) {
+      if (!value || value === "n/a" || value === "[not set]") return "-";
+      return String(value).replace(" UTC", "Z");
+    }
+
+    function sourceLabel(key) {
+      return key === "main" ? "Main droplet" : key === "studycoach" ? "Study Coach" : "OpenClaw";
+    }
+
+    function nextTime(job) {
+      if (job.timer_state) return fmt(job.timer_state.NextElapseUSecRealtime);
+      return fmt(job.openclaw?.state?.nextRunAtMs ? new Date(job.openclaw.state.nextRunAtMs).toISOString() : null);
+    }
+
+    function lastTime(job) {
+      if (job.timer_state) return fmt(job.timer_state.LastTriggerUSec);
+      return fmt(job.openclaw?.state?.lastRunAtMs ? new Date(job.openclaw.state.lastRunAtMs).toISOString() : null);
+    }
+
+    function render(data) {
+      latest = data;
+      document.getElementById("generated").innerHTML = `Generated ${new Date(data.generated_at).toLocaleString()} &middot; ${data.stats.total_rows} observed rows`;
+      const stats = [
+        ["Total", data.stats.total_rows, ""],
+        ["OK", data.stats.ok, "ok"],
+        ["Warn", data.stats.warn, "warn"],
+        ["Error", data.stats.error, "error"],
+        ["Disabled", data.stats.disabled, "disabled"],
+        ["Idle/Unknown", data.stats.unknown, "unknown"],
+      ];
+      document.getElementById("stats").innerHTML = stats.map(([label, value, cls]) => `
+        <div class="stat"><strong class="${cls}">${value}</strong><span>${label}</span></div>
+      `).join("");
+      document.getElementById("sources").innerHTML = Object.entries(data.sources).map(([key, source]) => `
+        <div class="source">
+          <b>${sourceLabel(key)}</b>
+          <span>${source.count} jobs &middot; generated ${source.generated_at ? new Date(source.generated_at).toLocaleString() : "-"}</span>
+          ${source.received_at ? `<br><span>received ${new Date(source.received_at).toLocaleString()}</span>` : ""}
+        </div>
+      `).join("");
+      renderRows();
+    }
+
+    function renderRows() {
+      if (!latest) return;
+      const locationFilter = document.getElementById("locationFilter").value;
+      const statusFilter = document.getElementById("statusFilter").value;
+      const jobs = latest.jobs.filter(job => {
+        return (!locationFilter || job.location === locationFilter) && (!statusFilter || job.status === statusFilter);
+      }).sort((a, b) => `${a.location}-${a.display_name}`.localeCompare(`${b.location}-${b.display_name}`));
+      document.getElementById("rows").innerHTML = jobs.map(job => `
+        <tr>
+          <td>
+            <div class="name">${job.display_name || job.canonical_id}</div>
+            <div class="desc">${job.purpose || ""}</div>
+            <div class="small">${job.service || job.openclaw?.id || ""}</div>
+          </td>
+          <td><span class="pill location">${job.location}</span></td>
+          <td><span class="pill ${job.status}">${job.status}</span></td>
+          <td>${job.migration_status || ""}</td>
+          <td class="small">${nextTime(job)}</td>
+          <td class="small">${lastTime(job)}</td>
+          <td class="small">${job.intended_state || ""}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="7">No jobs match these filters.</td></tr>`;
+    }
+
+    async function load() {
+      const response = await fetch(`${API}/status`, { cache: "no-store" });
+      render(await response.json());
+    }
+
+    async function refresh() {
+      document.getElementById("refresh").disabled = true;
+      try {
+        const response = await fetch(`${API}/refresh`, { method: "POST", cache: "no-store" });
+        render(await response.json());
+      } finally {
+        document.getElementById("refresh").disabled = false;
+      }
+    }
+
+    document.getElementById("refresh").addEventListener("click", refresh);
+    document.getElementById("locationFilter").addEventListener("change", renderRows);
+    document.getElementById("statusFilter").addEventListener("change", renderRows);
+    load().catch(error => {
+      document.getElementById("generated").textContent = `Could not load cron status: ${error}`;
+    });
+  </script>
+</body>
+</html>
