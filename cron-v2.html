@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cron V2 - MPEP Dashboard</title>
+  <title>Cron Jobs - MPEP Dashboard</title>
   <style>
     :root {
       --bg: #0f1216;
@@ -128,18 +128,11 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>Cron Jobs V2</h1>
+        <h1>Cron Jobs</h1>
         <div class="sub" id="generated">Loading status...</div>
       </div>
       <button id="refresh" type="button">Refresh</button>
     </header>
-    <nav>
-      <a href="/cron.html">Cron Jobs</a>
-      <a href="/cron-v2.html">Cron V2</a>
-      <a href="/crm.html">CRM</a>
-      <a href="/sales.html">Sales</a>
-    </nav>
-
     <section class="stats" id="stats"></section>
     <section class="source-grid" id="sources"></section>
 
@@ -168,7 +161,7 @@
             <th>Location</th>
             <th>Status</th>
             <th>Migration</th>
-            <th>Next</th>
+            <th>Next Run</th>
             <th>Last</th>
             <th>Intended State</th>
           </tr>
@@ -211,14 +204,38 @@
       return key === "main" ? "Main droplet" : key === "studycoach" ? "Study Coach" : "OpenClaw";
     }
 
+    function nextDate(job) {
+      if (job.timer_state) return parseTime(job.timer_state.NextElapseUSecRealtime);
+      return job.openclaw?.state?.nextRunAtMs ? new Date(job.openclaw.state.nextRunAtMs) : null;
+    }
+
+    function lastDate(job) {
+      if (job.timer_state) return parseTime(job.timer_state.LastTriggerUSec);
+      return job.openclaw?.state?.lastRunAtMs ? new Date(job.openclaw.state.lastRunAtMs) : null;
+    }
+
     function nextTime(job) {
-      if (job.timer_state) return fmt(job.timer_state.NextElapseUSecRealtime);
-      return fmt(job.openclaw?.state?.nextRunAtMs ? new Date(job.openclaw.state.nextRunAtMs).toISOString() : null);
+      const date = nextDate(job);
+      return date ? fmt(date.toISOString()) : "-";
     }
 
     function lastTime(job) {
-      if (job.timer_state) return fmt(job.timer_state.LastTriggerUSec);
-      return fmt(job.openclaw?.state?.lastRunAtMs ? new Date(job.openclaw.state.lastRunAtMs).toISOString() : null);
+      const date = lastDate(job);
+      return date ? fmt(date.toISOString()) : "-";
+    }
+
+    function timeUntil(job) {
+      const date = nextDate(job);
+      if (!date) return "";
+      const ms = date.getTime() - Date.now();
+      if (ms < -60000) return "overdue";
+      if (ms < 60000) return "due now";
+      const minutes = Math.round(ms / 60000);
+      if (minutes < 90) return `in ${minutes} min`;
+      const hours = Math.round(minutes / 60);
+      if (hours < 48) return `in ${hours} hr`;
+      const days = Math.round(hours / 24);
+      return `in ${days} days`;
     }
 
     function render(data) {
@@ -251,7 +268,12 @@
       const statusFilter = document.getElementById("statusFilter").value;
       const jobs = latest.jobs.filter(job => {
         return (!locationFilter || job.location === locationFilter) && (!statusFilter || job.status === statusFilter);
-      }).sort((a, b) => `${a.location}-${a.display_name}`.localeCompare(`${b.location}-${b.display_name}`));
+      }).sort((a, b) => {
+        const aNext = nextDate(a)?.getTime() ?? Number.POSITIVE_INFINITY;
+        const bNext = nextDate(b)?.getTime() ?? Number.POSITIVE_INFINITY;
+        if (aNext !== bNext) return aNext - bNext;
+        return `${a.location}-${a.display_name}`.localeCompare(`${b.location}-${b.display_name}`);
+      });
       document.getElementById("rows").innerHTML = jobs.map(job => `
         <tr>
           <td>
@@ -262,7 +284,7 @@
           <td><span class="pill location">${job.location}</span></td>
           <td><span class="pill ${job.status}">${job.status}</span></td>
           <td>${job.migration_status || ""}</td>
-          <td class="small">${nextTime(job)}</td>
+          <td class="small">${nextTime(job)}<br><span class="desc">${timeUntil(job)}</span></td>
           <td class="small">${lastTime(job)}</td>
           <td class="small">${job.intended_state || ""}</td>
         </tr>
