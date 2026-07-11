@@ -182,9 +182,29 @@
     const API = "https://btc.mechanicalpeexamprep.com/api/cron-monitor/v1";
     let latest = null;
 
+    function parseTime(value) {
+      if (!value || value === "n/a" || value === "[not set]") return null;
+      const raw = String(value).trim();
+      if (!raw) return null;
+      if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) return new Date(raw);
+      const systemd = raw.match(/^(?:\w+ )?(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}) UTC$/);
+      if (systemd) return new Date(`${systemd[1]}T${systemd[2]}Z`);
+      const parsed = new Date(raw.replace(" UTC", "Z"));
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
     function fmt(value) {
-      if (!value || value === "n/a" || value === "[not set]") return "-";
-      return String(value).replace(" UTC", "Z");
+      const date = parseTime(value);
+      if (!date) return "-";
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      }).format(date);
     }
 
     function sourceLabel(key) {
@@ -203,7 +223,7 @@
 
     function render(data) {
       latest = data;
-      document.getElementById("generated").innerHTML = `Generated ${new Date(data.generated_at).toLocaleString()} &middot; ${data.stats.total_rows} observed rows`;
+      document.getElementById("generated").innerHTML = `Generated ${fmt(data.generated_at)} &middot; ${data.stats.total_rows} observed rows`;
       const stats = [
         ["Total", data.stats.total_rows, ""],
         ["OK", data.stats.ok, "ok"],
@@ -218,8 +238,8 @@
       document.getElementById("sources").innerHTML = Object.entries(data.sources).map(([key, source]) => `
         <div class="source">
           <b>${sourceLabel(key)}</b>
-          <span>${source.count} jobs &middot; generated ${source.generated_at ? new Date(source.generated_at).toLocaleString() : "-"}</span>
-          ${source.received_at ? `<br><span>received ${new Date(source.received_at).toLocaleString()}</span>` : ""}
+          <span>${source.count} jobs &middot; generated ${fmt(source.generated_at)}</span>
+          ${source.received_at ? `<br><span>received ${fmt(source.received_at)}</span>` : ""}
         </div>
       `).join("");
       renderRows();
