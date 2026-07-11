@@ -75,6 +75,27 @@
     }
     .source b { display: block; margin-bottom: 3px; }
     .source span { color: var(--muted); font-size: 12px; }
+    .alerts {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 18px;
+    }
+    .alerts h2 { margin: 0 0 8px; font-size: 15px; font-weight: 650; }
+    .alert-list { display: grid; gap: 8px; }
+    .alert {
+      border: 1px solid var(--border);
+      border-left-width: 4px;
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: var(--panel-2);
+    }
+    .alert.critical { border-left-color: var(--red); }
+    .alert.error { border-left-color: var(--red); }
+    .alert.warning { border-left-color: var(--yellow); }
+    .alert-title { font-weight: 650; }
+    .alert-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
     .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--border);
@@ -135,6 +156,7 @@
     </header>
     <section class="stats" id="stats"></section>
     <section class="source-grid" id="sources"></section>
+    <section class="alerts" id="alerts"></section>
 
     <div class="filters">
       <select id="locationFilter">
@@ -259,7 +281,32 @@
           ${source.received_at ? `<br><span>received ${fmt(source.received_at)}</span>` : ""}
         </div>
       `).join("");
+      renderAlerts(data.alerts);
       renderRows();
+    }
+
+    function renderAlerts(alerts) {
+      const active = alerts?.active || [];
+      const mode = alerts?.mode ? ` · ${alerts.mode} mode` : "";
+      if (!active.length) {
+        document.getElementById("alerts").innerHTML = `
+          <h2>Alerts</h2>
+          <div class="small">No active alerts${mode}.</div>
+        `;
+        return;
+      }
+      document.getElementById("alerts").innerHTML = `
+        <h2>Alerts <span class="small">${active.length} active${mode}</span></h2>
+        <div class="alert-list">
+          ${active.map(alert => `
+            <div class="alert ${alert.severity || "warning"}">
+              <div class="alert-title">${alert.title}</div>
+              <div>${alert.detail || ""}</div>
+              <div class="alert-meta">${alert.location || ""} · ${alert.impact || "unknown"} impact · ${alert.severity || "warning"} · first seen ${fmt(alert.first_seen)}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
     function renderRows() {
