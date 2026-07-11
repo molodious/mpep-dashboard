@@ -266,7 +266,12 @@
       return job.openclaw?.state?.lastRunAtMs ? new Date(job.openclaw.state.lastRunAtMs) : null;
     }
 
+    function isContinuous(job) {
+      return job.canonical_id === "cron-dashboard-v2" || String(job.cadence || "").toLowerCase().startsWith("continuous");
+    }
+
     function nextTime(job) {
+      if (isContinuous(job)) return "Continuous";
       const date = nextDate(job);
       return date ? fmt(date.toISOString()) : "-";
     }
@@ -277,6 +282,7 @@
     }
 
     function timeUntil(job) {
+      if (isContinuous(job)) return "always running";
       const date = nextDate(job);
       if (!date) return "";
       const ms = date.getTime() - Date.now();
