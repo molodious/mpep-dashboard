@@ -102,7 +102,7 @@
       border-radius: 8px;
       background: var(--panel);
     }
-    table { width: 100%; border-collapse: collapse; min-width: 1180px; }
+    table { width: 100%; border-collapse: collapse; min-width: 1320px; }
     th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
     th {
       text-align: left;
@@ -133,6 +133,9 @@
     .error { color: var(--red); }
     .disabled, .idle, .unknown { color: var(--gray); }
     .location { text-transform: capitalize; }
+    .priority.high { border-color: rgba(255, 105, 97, 0.8); color: var(--red); }
+    .priority.medium { border-color: rgba(224, 179, 65, 0.8); color: var(--yellow); }
+    .priority.low { border-color: rgba(117, 129, 149, 0.8); color: var(--muted); }
     .legend {
       display: flex;
       align-items: center;
@@ -206,12 +209,13 @@
         <thead>
           <tr>
             <th>Job</th>
+            <th>Description</th>
             <th>Location</th>
             <th>Status</th>
-            <th>Migration</th>
+            <th>Alert Priority</th>
+            <th>Cadence</th>
             <th>Next Run</th>
-            <th>Last</th>
-            <th>Intended State</th>
+            <th>Last Successful Run</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -335,6 +339,10 @@
       `;
     }
 
+    function priorityClass(value) {
+      return String(value || "medium").toLowerCase();
+    }
+
     function renderRows() {
       if (!latest) return;
       const locationFilter = document.getElementById("locationFilter").value;
@@ -349,19 +357,16 @@
       });
       document.getElementById("rows").innerHTML = jobs.map(job => `
         <tr>
-          <td>
-            <div class="name">${job.display_name || job.canonical_id}</div>
-            <div class="desc">${job.purpose || ""}</div>
-            <div class="small">${job.service || job.openclaw?.id || ""}</div>
-          </td>
+          <td><div class="name">${job.display_name || job.canonical_id}</div></td>
+          <td class="small">${job.description || job.purpose || ""}</td>
           <td><span class="pill location ${job.location}">${job.location}</span></td>
           <td><span class="pill ${job.status}">${job.status}</span></td>
-          <td>${job.migration_status || ""}</td>
+          <td><span class="pill priority ${priorityClass(job.alert_priority)}">${job.alert_priority || "Medium"}</span></td>
+          <td class="small">${job.cadence || "See schedule"}</td>
           <td class="small">${nextTime(job)}<br><span class="desc">${timeUntil(job)}</span></td>
           <td class="small">${lastTime(job)}</td>
-          <td class="small">${job.intended_state || ""}</td>
         </tr>
-      `).join("") || `<tr><td colspan="7">No jobs match these filters.</td></tr>`;
+      `).join("") || `<tr><td colspan="8">No jobs match these filters.</td></tr>`;
     }
 
     async function load() {
