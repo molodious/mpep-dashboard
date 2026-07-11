@@ -113,6 +113,15 @@
       white-space: nowrap;
     }
     tr:last-child td { border-bottom: 0; }
+    tbody tr.loc-main td { background: rgba(86, 115, 146, 0.16); }
+    tbody tr.loc-studycoach td { background: rgba(124, 104, 159, 0.18); }
+    tbody tr.loc-openclaw td { background: rgba(77, 132, 132, 0.17); }
+    tbody tr.loc-main:hover td { background: rgba(86, 115, 146, 0.25); }
+    tbody tr.loc-studycoach:hover td { background: rgba(124, 104, 159, 0.28); }
+    tbody tr.loc-openclaw:hover td { background: rgba(77, 132, 132, 0.27); }
+    .location.main { border-color: rgba(120, 151, 184, 0.75); background: rgba(86, 115, 146, 0.26); }
+    .location.studycoach { border-color: rgba(153, 132, 190, 0.75); background: rgba(124, 104, 159, 0.28); }
+    .location.openclaw { border-color: rgba(102, 166, 166, 0.75); background: rgba(77, 132, 132, 0.27); }
     .name { font-weight: 650; }
     .desc, .small { color: var(--muted); font-size: 12px; }
     .pill {
@@ -322,13 +331,13 @@
         return `${a.location}-${a.display_name}`.localeCompare(`${b.location}-${b.display_name}`);
       });
       document.getElementById("rows").innerHTML = jobs.map(job => `
-        <tr>
+        <tr class="loc-${job.location}">
           <td>
             <div class="name">${job.display_name || job.canonical_id}</div>
             <div class="desc">${job.purpose || ""}</div>
             <div class="small">${job.service || job.openclaw?.id || ""}</div>
           </td>
-          <td><span class="pill location">${job.location}</span></td>
+          <td><span class="pill location ${job.location}">${job.location}</span></td>
           <td><span class="pill ${job.status}">${job.status}</span></td>
           <td>${job.migration_status || ""}</td>
           <td class="small">${nextTime(job)}<br><span class="desc">${timeUntil(job)}</span></td>
