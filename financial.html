@@ -42,7 +42,7 @@
     h2 { font-size:18px; }
     .table-card, .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
     .table-scroll { overflow-x:auto; scrollbar-color:var(--border2) var(--surface); }
-    table { width:100%; min-width:1120px; table-layout:fixed; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; }
+    table { width:100%; min-width:1280px; table-layout:fixed; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; }
     th { position:sticky; top:0; z-index:2; background:var(--surface2); color:var(--muted); text-transform:uppercase; letter-spacing:.01em; font-size:13px; line-height:1.15; text-align:center; padding:10px 3px; border-bottom:1px solid var(--border2); white-space:normal; overflow-wrap:anywhere; }
     td { color:var(--text); text-align:center; padding:9px 4px; border-bottom:1px solid var(--border); white-space:nowrap; }
     tbody tr:last-child td { border-bottom:0; }
@@ -111,11 +111,12 @@
       : 'https://btc.mechanicalpeexamprep.com/financials';
     const COLUMNS = [
       ['month','Month'], ['revenue','Revenue'], ['operating_expenses','Opex'],
-      ['wages_net_pay','Wages'], ['employee_401k_deferral','401k'],
-      ['total_expenses_excl_tax','Total Exp<br>(excl Tax)'], ['state_federal_tax_paid','Tax Paid'],
+      ['total_payroll_cost','Total<br>Payroll<br>Cost'],
+      ['total_expenses_excl_tax','Total Exp<br>(excl Tax)'], ['tax_estimates_paid','Tax Estimates<br>Paid'],
       ['total_expenses_incl_tax','Total Exp<br>(incl Tax)'], ['pretax_profit','Pre-Tax<br>Profit'],
-      ['aftertax_profit','After-Tax<br>Profit'], ['profit_pct_pretax','Profit %<br>(pretax)'],
-      ['profit_pct_aftertax','Profit %<br>(aftertax)'], ['owner_distributions','Distributions'],
+      ['profit_pct_pretax','Profit %<br>(pretax)'], ['aftertax_profit','After-Tax<br>Profit'],
+      ['profit_pct_aftertax','Profit %<br>(aftertax)'], ['net_pay','Net Pay'], ['employee_401k_deferral','401k'],
+      ['owner_distributions','Distributions'],
       ['owner_benefit','Owner<br>Benefit']
     ];
     const money = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 });
@@ -125,6 +126,16 @@
     const percent = value => value == null ? '—' : `${(value * 100).toFixed(1)}%`;
     const put = (id, value) => { document.getElementById(id).textContent = value; };
     const DOLLAR_KEYS = COLUMNS.map(([key]) => key).filter(key => key !== 'month' && !key.startsWith('profit_pct'));
+
+    function normalizeFinancialRow(row) {
+      if (!row) return row;
+      return {
+        ...row,
+        total_payroll_cost: row.total_payroll_cost ?? ((row.wages_net_pay || 0) + (row.employee_401k_deferral || 0)),
+        net_pay: row.net_pay ?? row.wages_net_pay ?? 0,
+        tax_estimates_paid: row.tax_estimates_paid ?? row.state_federal_tax_paid ?? 0
+      };
+    }
 
     function heatStyle(key, value, values) {
       const maxDollar = Math.max(1, ...DOLLAR_KEYS.map(field => Math.abs(values[field] || 0)));
@@ -159,7 +170,7 @@
     function buildTable(headId, bodyId, rows, selector) {
       document.getElementById(headId).innerHTML = `<tr>${COLUMNS.map(([,label]) => `<th>${label}</th>`).join('')}</tr>`;
       document.getElementById(bodyId).innerHTML = [...rows].reverse().map(row => {
-        const values = selector(row);
+        const values = normalizeFinancialRow(selector(row));
         return `<tr>${COLUMNS.map(([key]) => {
           if (key === 'month') return `<td>${monthName(row.month)}</td>`;
           const value = values[key];
