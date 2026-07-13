@@ -150,7 +150,9 @@
 
       const categories = Object.keys(data.categories || {});
       document.getElementById('summaryHead').innerHTML = `<tr><th>Month</th>${categories.map(key => `<th>${data.categories[key]}</th>`).join('')}<th>Indirect</th><th>Direct</th><th>Mileage</th><th>Total</th><th>Status</th></tr>`;
-      document.getElementById('summaryBody').innerHTML = [...months].reverse().map(row => {
+      const tableMonths = months.filter(row => row.month >= currentMonth);
+      const visibleMonths = tableMonths.length ? tableMonths : months;
+      document.getElementById('summaryBody').innerHTML = visibleMonths.map(row => {
         const isCurrent = row.month === currentMonth ? ' class="current"' : '';
         const catCells = categories.map(key => `<td>${money.format(row.indirect[key].reimbursable)}</td>`).join('');
         const status = row.pending_categories.length ? `<span class="pending">${row.pending_categories.length} pending</span>` : 'Complete';
