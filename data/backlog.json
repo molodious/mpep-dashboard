@@ -1,6 +1,76 @@
 {
   "items": [
     {
+      "id": "2026-07-13-001",
+      "title": "Monitor droplet resources for main and Study Coach",
+      "priority": "P1",
+      "area": "Infrastructure",
+      "surfaced": "2026-07-13",
+      "context": "Cron migration moved business-critical automations onto the main droplet and Study Coach droplet. Zoom transcript ingestion also stores raw transcript text on disk, so disk, inode, memory, and service-resource issues could break operations before an individual job alert explains the root cause.",
+      "notes": "Add lightweight resource monitoring for both droplets. Surface warning/error state on Cron Dashboard V2 and alert Dan when thresholds are crossed. Consider checking disk %, inode %, memory/swap, systemd failed units, and transcript storage growth.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-002",
+      "title": "Put cron monitor and dashboard deployment under version control",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-07-13",
+      "context": "Cron Dashboard V2 and the central monitor were built during the migration and patched directly on the main droplet. The monitor now aggregates main droplet, Study Coach, and OpenClaw status, powers Telegram/email alerts, and is monitored by UptimeRobot.",
+      "notes": "Move the droplet-side monitor code, deployment files, systemd units, and dashboard publish path into a clear repo or deployment package. Document how to rebuild/redeploy so future fixes are not trapped as ad hoc droplet edits.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-003",
+      "title": "Quiet Exam Good Luck Scheduler routine emails",
+      "priority": "P2",
+      "area": "Infrastructure",
+      "surfaced": "2026-07-13",
+      "context": "After migration to the main droplet, the Exam Good Luck Scheduler sent a routine weekly email even when no good-luck broadcasts were scheduled and no cleanup action happened. Dan wants this job to run silently when there is no action.",
+      "notes": "Update notification behavior so email is sent only when a meaningful action occurs or an error occurs: new exam-date tag creates/schedules a good-luck email, old exam-date tags are cleaned up, or the job fails. No-action runs should complete silently.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-004",
+      "title": "Decide long-term token health check strategy",
+      "priority": "P2",
+      "area": "Security",
+      "surfaced": "2026-07-13",
+      "context": "OpenClaw still has a Token Health Check for Google, Kit, HubSpot, Zoom, and Typeform. During migration we decided direct token monitoring may be optional because central job-health monitoring will often reveal stale-token failures indirectly.",
+      "notes": "Decide whether to keep token health as a separate layer, split checks by environment, or retire it in favor of job-health alerts. If kept, inventory which tokens matter on main droplet, Study Coach, and OpenClaw, and keep checks silent unless action is needed.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-005",
+      "title": "Add CRM data-quality flags surfaced by student briefs",
+      "priority": "P2",
+      "area": "CRM",
+      "surfaced": "2026-07-13",
+      "context": "The new candidate/student briefing workflow exposed CRM data-quality issues, such as enrolled students marked as cold leads. Brief quality depends on accurate enrollment status, program, discipline, and interaction history.",
+      "notes": "Create a way to flag likely CRM mismatches discovered during briefing generation or transcript ingestion. Examples: enrolled-language in interactions but cold status, missing program for active student, stale prospect status after enrollment, or duplicate/minimal contacts created for historical transcripts.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-006",
+      "title": "Create unmatched Zoom transcript review queue",
+      "priority": "P3",
+      "area": "CRM",
+      "surfaced": "2026-07-13",
+      "context": "Zoom transcript ingestion downloads all transcript text but only summarizes and stores CRM interactions when the transcript can be matched to a CRM contact. Some calls may be vendors, friends, group sessions, or legitimate students/prospects missing from CRM.",
+      "notes": "Add a lightweight review queue for unmatched transcripts so Dan can decide whether to ignore, map to an existing contact, or create a minimal contact. This avoids unnecessary LLM calls while keeping useful student/prospect conversations from being lost.",
+      "status": "open"
+    },
+    {
+      "id": "2026-07-13-007",
+      "title": "Document final cron automation architecture and runbook",
+      "priority": "P3",
+      "area": "Infrastructure",
+      "surfaced": "2026-07-13",
+      "context": "The cron migration moved automations across main droplet, Study Coach droplet, and OpenClaw, with Cron Dashboard V2 now acting as the operations board and central alerting layer. The final state is clear in the dashboard but not yet captured as a durable runbook.",
+      "notes": "Write a concise runbook covering where each automation lives, how status reaches Cron Dashboard V2, how alerts work, how OpenClaw exports enabled-job JSON, how to disable old copies, and how to debug a failed job by location.",
+      "status": "open"
+    },
+    {
       "id": "2026-04-28-001",
       "title": "Hardcoded secrets in cron payloads backed up to GitHub",
       "priority": "P1",
@@ -117,7 +187,7 @@
       "area": "Infrastructure",
       "surfaced": "2026-04-28",
       "context": "Up to 7 days of sales_webhook_log.jsonl and fulfilled-orders.json data could be lost between weekly runs.",
-      "notes": "Change cron from 0 6 * * 0 to 0 6 * * * if weekly window becomes unacceptable. Currently acceptable.",
+      "notes": "Decision updated during cron migration: OpenClaw workspace backup intentionally runs weekly on Sundays because it backs up the OpenClaw workspace itself. Revisit only if the weekly loss window becomes unacceptable.",
       "status": "open"
     },
     {
@@ -177,8 +247,8 @@
       "area": "Infrastructure",
       "surfaced": "2026-04-01",
       "context": "Watchdog script exists but is not scheduled in crontab and has never run. Dead code.",
-      "notes": "Either schedule it or delete the script and the /health route consideration. Decide and act.",
-      "status": "open"
+      "notes": "Superseded by Cron Dashboard V2 and the central cron monitor, which now aggregate job status across main droplet, Study Coach, and OpenClaw and provide Telegram/email alerting.",
+      "status": "wont_do"
     },
     {
       "id": "2026-04-28-701",
