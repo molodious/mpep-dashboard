@@ -59,6 +59,13 @@
     .report table { min-width:0; font-size:11px; border-collapse:collapse; }
     .report th, .report td { color:#111; background:#fff; border-bottom:1px solid #ddd; padding:4px 6px; text-align:left; position:static; }
     .report .money { text-align:right; }
+    .report-note { margin-top:6px; color:#333; }
+    .approval-block { margin-top:16px; border:1px solid #bbb; padding:10px 12px; page-break-inside:avoid; }
+    .approval-block p { margin:0 0 8px; }
+    .approval-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 18px; }
+    .approval-line { display:flex; align-items:flex-end; gap:8px; min-height:24px; }
+    .approval-label { white-space:nowrap; font-weight:700; }
+    .approval-value { flex:1; border-bottom:1px solid #111; min-height:16px; padding:0 3px 1px; }
     footer { color:var(--dim); text-align:center; font-size:11px; margin-top:48px; }
     @media (max-width:900px) { .top-grid { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:620px) { header { padding:15px 16px; } main { padding:24px 14px 48px; } .top-grid { grid-template-columns:1fr 1fr; gap:8px; } .kpi { padding:14px; } .kpi-value { font-size:20px; } .header-actions .nav-link:first-child { display:none; } }
@@ -102,7 +109,7 @@
         <section>
           <div class="section-heading">
             <div class="section-title"><span class="section-number">1</span><h2>Monthly reimbursement totals</h2></div>
-            <button class="secondary" type="button" onclick="printCurrentReport()">Print current report</button>
+            <button class="secondary" type="button" onclick="printCurrentReport()">Print approval report</button>
           </div>
           <div class="table-card"><div class="table-scroll"><table><thead id="summaryHead"></thead><tbody id="summaryBody"></tbody></table></div></div>
         </section>
@@ -163,12 +170,18 @@
       document.getElementById('dataFooter').textContent = months.length ? `Live accountable plan data through ${monthLabel(months.at(-1).month)}` : 'No accountable plan entries yet';
     }
 
+    function approvalReportMonth(months) {
+      const completed = months.filter(row => row.month < currentMonth);
+      return completed.at(-1) || months.find(row => row.month === currentMonth) || months.at(-1);
+    }
+
     function renderReport(row, categories) {
       const itemRows = (items, cols, empty) => items.length ? items.map(item => `<tr>${cols.map(col => `<td class="${col.money ? 'money' : ''}">${col.value(item)}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${cols.length}">${empty}</td></tr>`;
       const indirectRows = Object.keys(categories).map(key => `<tr><td>${categories[key]}</td><td class="money">${money.format(row.indirect[key].gross)}</td><td class="money">${money.format(row.indirect[key].reimbursable)}</td></tr>`).join('');
       document.getElementById('report').innerHTML = `
         <h1>MPEP Accountable Plan Reimbursement</h1>
         <div>${monthLabel(row.month)} · Business use ${((row.business_use_pct || 0) * 100).toFixed(2)}% · Mileage rate $${Number(row.mileage_rate || 0).toFixed(3)}/mi</div>
+        <div class="report-note">Prepared for company approval before reimbursement payment. Payment date and transaction reference are retained in the bookkeeping system.</div>
         <h2>Category subtotals</h2>
         <table><tbody>${indirectRows}<tr><th>Direct expenses</th><td></td><td class="money">${money.format(row.direct_expenses)}</td></tr><tr><th>Mileage</th><td></td><td class="money">${money.format(row.mileage_reimbursement)}</td></tr><tr><th>Total reimbursement</th><td></td><td class="money"><strong>${money.format(row.total_reimbursement)}</strong></td></tr></tbody></table>
         <h2>Repairs and maintenance</h2>
@@ -176,13 +189,23 @@
         <h2>Direct expenses</h2>
         <table><tbody>${itemRows(row.direct_items, [{value:i=>i.date},{value:i=>i.description},{value:i=>money.format(i.amount), money:true}], 'No direct expenses logged for this month.')}</tbody></table>
         <h2>Mileage log</h2>
-        <table><tbody>${itemRows(row.mileage_items, [{value:i=>i.date},{value:i=>i.destination},{value:i=>i.business_purpose},{value:i=>`${i.miles} mi @ $${Number(i.rate_used).toFixed(3)}`},{value:i=>money.format(i.reimbursement), money:true}], 'No mileage logged for this month.')}</tbody></table>`;
+        <table><tbody>${itemRows(row.mileage_items, [{value:i=>i.date},{value:i=>i.destination},{value:i=>i.business_purpose},{value:i=>`${i.miles} mi @ $${Number(i.rate_used).toFixed(3)}`},{value:i=>money.format(i.reimbursement), money:true}], 'No mileage logged for this month.')}</tbody></table>
+        <div class="approval-block">
+          <p>Reviewed and approved for reimbursement under the company accountable plan.</p>
+          <div class="approval-grid">
+            <div class="approval-line"><span class="approval-label">Approved reimbursement amount:</span><span class="approval-value">${money.format(row.total_reimbursement)}</span></div>
+            <div class="approval-line"><span class="approval-label">Date approved:</span><span class="approval-value"></span></div>
+            <div class="approval-line"><span class="approval-label">Approved by:</span><span class="approval-value">Daniel Molloy</span></div>
+            <div class="approval-line"><span class="approval-label">Title:</span><span class="approval-value">President</span></div>
+            <div class="approval-line"><span class="approval-label">Signature:</span><span class="approval-value"></span></div>
+          </div>
+        </div>`;
     }
 
     function printCurrentReport() {
       if (!state) return;
-      const current = (state.months || []).find(row => row.month === currentMonth) || (state.months || []).at(-1);
-      if (current) renderReport(current, state.categories || {});
+      const reportMonth = approvalReportMonth(state.months || []);
+      if (reportMonth) renderReport(reportMonth, state.categories || {});
       window.print();
     }
   </script>
