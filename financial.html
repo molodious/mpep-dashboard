@@ -42,7 +42,7 @@
     h2 { font-size:18px; }
     .table-card, .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
     .table-scroll { overflow-x:auto; scrollbar-color:var(--border2) var(--surface); }
-    table { width:100%; min-width:1280px; table-layout:fixed; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; }
+    table { width:100%; min-width:1360px; table-layout:fixed; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; }
     th { position:sticky; top:0; z-index:2; background:var(--surface2); color:var(--muted); text-transform:uppercase; letter-spacing:.01em; font-size:13px; line-height:1.15; text-align:center; padding:10px 3px; border-bottom:1px solid var(--border2); white-space:normal; overflow-wrap:anywhere; }
     td { color:var(--text); text-align:center; padding:9px 4px; border-bottom:1px solid var(--border); white-space:nowrap; }
     tbody tr:last-child td { border-bottom:0; }
@@ -117,6 +117,7 @@
       ['profit_pct_pretax','Profit %<br>(pretax)'], ['aftertax_profit','After-Tax<br>Profit'],
       ['profit_pct_aftertax','Profit %<br>(aftertax)'], ['net_pay','Net Pay'], ['employee_401k_deferral','401k'],
       ['owner_distributions','Distributions'],
+      ['owner_reimbursements','Owner<br>Reimb'],
       ['owner_benefit','Owner<br>Benefit']
     ];
     const money = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 });
@@ -133,7 +134,10 @@
         ...row,
         total_payroll_cost: row.total_payroll_cost ?? ((row.wages_net_pay || 0) + (row.employee_401k_deferral || 0)),
         net_pay: row.net_pay ?? row.wages_net_pay ?? 0,
-        tax_estimates_paid: row.tax_estimates_paid ?? row.state_federal_tax_paid ?? 0
+        tax_estimates_paid: row.tax_estimates_paid ?? row.state_federal_tax_paid ?? 0,
+        accountable_plan_reimbursements: row.accountable_plan_reimbursements ?? 0,
+        augusta_rule_reimbursements: row.augusta_rule_reimbursements ?? 0,
+        owner_reimbursements: row.owner_reimbursements ?? ((row.accountable_plan_reimbursements || 0) + (row.augusta_rule_reimbursements || 0))
       };
     }
 
@@ -146,7 +150,7 @@
       let rgb = '88,166,255';
       if (value < 0) rgb = '248,81,73';
       else if (key.includes('profit')) rgb = '63,185,80';
-      else if (key === 'owner_distributions' || key === 'owner_benefit') rgb = '163,113,247';
+      else if (key === 'owner_distributions' || key === 'owner_reimbursements' || key === 'owner_benefit') rgb = '163,113,247';
       else if (key !== 'revenue') rgb = '227,179,65';
       return `background-color:rgba(${rgb},${alpha})`;
     }
