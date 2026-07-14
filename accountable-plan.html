@@ -156,14 +156,14 @@
       document.getElementById('latestMonth').textContent = months.length ? `Through ${monthLabel(months.at(-1).month)}` : 'Waiting for entries';
 
       const categories = Object.keys(data.categories || {});
-      document.getElementById('summaryHead').innerHTML = `<tr><th>Month</th>${categories.map(key => `<th>${data.categories[key]}</th>`).join('')}<th>Indirect</th><th>Direct</th><th>Mileage</th><th>Total</th><th>Status</th></tr>`;
+      document.getElementById('summaryHead').innerHTML = `<tr><th>Month</th>${categories.map(key => `<th>${data.categories[key]}</th>`).join('')}<th>Indirect</th><th>Direct</th><th>Mileage</th><th>Depreciation</th><th>Total</th><th>Status</th></tr>`;
       const tableMonths = months.filter(row => row.month >= currentMonth);
       const visibleMonths = tableMonths.length ? tableMonths : months;
       document.getElementById('summaryBody').innerHTML = visibleMonths.map(row => {
         const isCurrent = row.month === currentMonth ? ' class="current"' : '';
         const catCells = categories.map(key => `<td>${money.format(row.indirect[key].reimbursable)}</td>`).join('');
         const status = row.pending_categories.length ? `<span class="pending">${row.pending_categories.length} pending</span>` : 'Complete';
-        return `<tr${isCurrent}><td>${monthLabel(row.month)}</td>${catCells}<td>${money.format(row.indirect_reimbursable)}</td><td>${money.format(row.direct_expenses)}</td><td>${money.format(row.mileage_reimbursement)}</td><td class="total">${money.format(row.total_reimbursement)}</td><td>${status}</td></tr>`;
+        return `<tr${isCurrent}><td>${monthLabel(row.month)}</td>${catCells}<td>${money.format(row.indirect_reimbursable)}</td><td>${money.format(row.direct_expenses)}</td><td>${money.format(row.mileage_reimbursement)}</td><td>${money.format(row.depreciation_reimbursement || 0)}</td><td class="total">${money.format(row.total_reimbursement)}</td><td>${status}</td></tr>`;
       }).join('');
 
       if (current) renderReport(current, data.categories);
@@ -183,7 +183,7 @@
         <div>${monthLabel(row.month)} · Business use ${((row.business_use_pct || 0) * 100).toFixed(2)}% · Mileage rate $${Number(row.mileage_rate || 0).toFixed(3)}/mi</div>
         <div class="report-note">Prepared for company approval before reimbursement payment. Payment date and transaction reference are retained in the bookkeeping system.</div>
         <h2>Category subtotals</h2>
-        <table><tbody>${indirectRows}<tr><th>Direct expenses</th><td></td><td class="money">${money.format(row.direct_expenses)}</td></tr><tr><th>Mileage</th><td></td><td class="money">${money.format(row.mileage_reimbursement)}</td></tr><tr><th>Total reimbursement</th><td></td><td class="money"><strong>${money.format(row.total_reimbursement)}</strong></td></tr></tbody></table>
+        <table><tbody>${indirectRows}<tr><th>Direct expenses</th><td></td><td class="money">${money.format(row.direct_expenses)}</td></tr><tr><th>Mileage</th><td></td><td class="money">${money.format(row.mileage_reimbursement)}</td></tr><tr><th>Home office depreciation</th><td></td><td class="money">${money.format(row.depreciation_reimbursement || 0)}</td></tr><tr><th>Total reimbursement</th><td></td><td class="money"><strong>${money.format(row.total_reimbursement)}</strong></td></tr></tbody></table>
         <h2>Repairs and maintenance</h2>
         <table><tbody>${itemRows(row.repairs, [{value:i=>i.date},{value:i=>i.description},{value:i=>money.format(i.amount), money:true}], 'No repairs logged for this month.')}</tbody></table>
         <h2>Direct expenses</h2>
