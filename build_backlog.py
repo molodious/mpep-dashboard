@@ -63,6 +63,7 @@ h1{font-size:26px;margin-bottom:12px}
 .priority-p2{background:#f39c12;color:#fff}
 .priority-p3{background:#95a5a6;color:#fff}
 .priority-none{background:#e0e0e0;color:#999}
+.ref-badge{padding:3px 7px;border-radius:4px;font-size:11px;font-weight:700;background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;min-width:54px;text-align:center;flex-shrink:0}
 .item-title{flex:1;font-size:14px;font-weight:500;line-height:1.4}
 .item-title.strikethrough{text-decoration:line-through;color:#999}
 .area-badge{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:#f0f2f5;color:#666;flex-shrink:0}
@@ -176,7 +177,7 @@ html = f"""<!DOCTYPE html>
 <select id="sort-select"><option value="priority">Priority</option><option value="date">Date</option><option value="area">Area</option></select>
 </div>
 <div class="search-box">
-<input type="text" id="search-input" placeholder="Search title or context...">
+<input type="text" id="search-input" placeholder="Search ref, title, ID, or context...">
 </div>
 </div>
 
@@ -209,6 +210,14 @@ const PRIORITY_ORDER = {{ P1: 1, P2: 2, P3: 3 }};
 function pv(p) {{ return PRIORITY_ORDER[p] || 4 }}
 function esc(s) {{ return s ? String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;") : "" }}
 function fmtDate(d) {{ try {{ const dt = new Date(d+"T12:00:00"); return dt.toLocaleDateString("en-US",{{month:"short",day:"numeric",year:"numeric"}}) }} catch(e) {{ return d }} }}
+function nextBacklogRef() {{
+  const nums = items.map(i => {{
+    const m = String(i.ref || "").match(/^BL-(\\d+)$/);
+    return m ? parseInt(m[1], 10) : 0;
+  }});
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return "BL-" + String(next).padStart(3, "0");
+}}
 
 function updateCounts() {{
   const o=items.filter(i=>i.status==="open").length;
@@ -237,6 +246,8 @@ function getFiltered() {{
   if (q) {{
     result = result.filter(i =>
       (i.title && i.title.toLowerCase().includes(q)) ||
+      (i.ref && i.ref.toLowerCase().includes(q)) ||
+      (i.id && i.id.toLowerCase().includes(q)) ||
       (i.context && i.context.toLowerCase().includes(q)) ||
       (i.area && i.area.toLowerCase().includes(q))
     );
@@ -292,6 +303,7 @@ function renderItem(item) {{
   return '<div class="backlog-item" data-id="'+esc(item.id)+'">'+
     '<div class="item-header '+unsaved+'">'+
       '<span class="priority-badge '+pClass+'">'+pLabel+'</span>'+
+      (item.ref ? '<span class="ref-badge">'+esc(item.ref)+'</span>' : '')+
       '<span class="item-title '+strike+'">'+esc(item.title)+'</span>'+
       (item.area ? '<span class="area-badge">'+esc(item.area)+'</span>' : '')+
       '<span class="status-badge '+sClass+'">'+sLabel+'</span>'+
@@ -320,6 +332,7 @@ function renderItem(item) {{
       '</div>'+
       (item.context ? '<div class="detail-label">Context</div><div class="detail-value">'+esc(item.context)+'</div>' : '')+
       (item.notes ? '<div class="detail-label">Notes</div><div class="detail-value">'+esc(item.notes)+'</div>' : '')+
+      '<div class="detail-label">IDs</div><div class="detail-value">'+(item.ref ? esc(item.ref)+' / ' : '')+esc(item.id)+'</div>'+
     '</div></div>';
 }}
 
@@ -433,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function() {{
     const id = prefix + String(seq).padStart(3, "0");
 
     const newItem = {{
-      id: id, title: title, priority: priority, area: area || null,
+      id: id, ref: nextBacklogRef(), title: title, priority: priority, area: area || null,
       surfaced: today, context: context, notes: notes, status: status
     }};
     items.push(newItem);
