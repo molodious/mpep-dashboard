@@ -82,6 +82,65 @@
       padding: 12px;
       margin-bottom: 18px;
     }
+    .resources {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 18px;
+    }
+    .resources h2 { margin: 0 0 8px; font-size: 15px; font-weight: 650; }
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .resource-card {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 8px;
+      padding: 11px;
+    }
+    .resource-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .resource-head b { font-size: 14px; }
+    .resource-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .metric {
+      border-top: 1px solid var(--border);
+      padding-top: 7px;
+      min-width: 0;
+    }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .metric strong {
+      display: block;
+      font-size: 15px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .resource-foot {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
     .alerts h2 { margin: 0 0 8px; font-size: 15px; font-weight: 650; }
     .alert-list { display: grid; gap: 8px; }
     .alert {
@@ -164,7 +223,11 @@
     @media (max-width: 820px) {
       .wrap { padding: 16px; }
       header { display: block; }
-      .stats, .source-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats, .source-grid, .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .resource-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .resource-grid, .resource-metrics { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -179,6 +242,7 @@
     </header>
     <section class="stats" id="stats"></section>
     <section class="source-grid" id="sources"></section>
+    <section class="resources" id="resources"></section>
     <section class="alerts" id="alerts"></section>
 
     <div class="legend" aria-label="Location colors">
@@ -256,6 +320,51 @@
       return key === "main" ? "Main droplet" : key === "studycoach" ? "Study Coach" : "OpenClaw";
     }
 
+    function fmtBytes(value) {
+      if (value === null || value === undefined || Number.isNaN(Number(value))) return "-";
+      const units = ["B", "KB", "MB", "GB", "TB"];
+      let amount = Number(value);
+      let unit = 0;
+      while (amount >= 1024 && unit < units.length - 1) {
+        amount /= 1024;
+        unit += 1;
+      }
+      const digits = amount >= 10 || unit === 0 ? 0 : 1;
+      return `${amount.toFixed(digits)} ${units[unit]}`;
+    }
+
+    function fmtDelta(value) {
+      if (value === null || value === undefined) return "-";
+      const prefix = value > 0 ? "+" : value < 0 ? "-" : "";
+      return `${prefix}${fmtBytes(Math.abs(value))}`;
+    }
+
+    function rootRow(rows) {
+      return (rows || []).find(row => row.mount === "/") || (rows || [])[0] || {};
+    }
+
+    function statusForHost(host) {
+      if (!host || host.error) return "error";
+      const rootDisk = rootRow(host.disk);
+      const rootInodes = rootRow(host.inodes);
+      const failed = host.failed_units || [];
+      const inactive = Object.values(host.services || {}).filter(value => value !== "active");
+      if ((rootDisk.used_pct || 0) >= 85 || (rootInodes.used_pct || 0) >= 85) return "error";
+      if ((rootDisk.used_pct || 0) >= 75 || (rootInodes.used_pct || 0) >= 70 || failed.length || inactive.length) return "warn";
+      return "ok";
+    }
+
+    function trendLine(trends, location, path) {
+      const locationTrends = trends?.[location] || {};
+      const item = path ? locationTrends.directories?.[path] : locationTrends.root_disk_used_bytes;
+      if (!item) return "";
+      const parts = [];
+      if (item.delta_24h !== null && item.delta_24h !== undefined) parts.push(`24h ${fmtDelta(item.delta_24h)}`);
+      if (item.delta_7d !== null && item.delta_7d !== undefined) parts.push(`7d ${fmtDelta(item.delta_7d)}`);
+      if (!path && locationTrends.root_disk_runway_days) parts.push(`${locationTrends.root_disk_runway_days}d runway`);
+      return parts.join(" · ");
+    }
+
     function nextDate(job) {
       if (job.timer_state) return parseTime(job.timer_state.NextElapseUSecRealtime);
       return job.openclaw?.state?.nextRunAtMs ? new Date(job.openclaw.state.nextRunAtMs) : null;
@@ -317,8 +426,61 @@
           ${source.received_at ? `<br><span>received ${fmt(source.received_at)}</span>` : ""}
         </div>
       `).join("");
+      renderResources(data.resources);
       renderAlerts(data.alerts);
       renderRows();
+    }
+
+    function renderResources(resources) {
+      if (!resources || !resources.locations) {
+        document.getElementById("resources").innerHTML = `
+          <h2>Infrastructure Health</h2>
+          <div class="small">Resource-health data is not available yet.</div>
+        `;
+        return;
+      }
+      const order = ["main", "studycoach"];
+      document.getElementById("resources").innerHTML = `
+        <h2>Infrastructure Health <span class="small">generated ${fmt(resources.generated_at)}</span></h2>
+        <div class="resource-grid">
+          ${order.map(location => {
+            const host = resources.locations[location] || {};
+            const rootDisk = rootRow(host.disk);
+            const rootInodes = rootRow(host.inodes);
+            const mem = host.memory?.mem || {};
+            const swap = host.memory?.swap || {};
+            const load = host.load || {};
+            const journal = host.journal || {};
+            const status = statusForHost(host);
+            const inactive = Object.entries(host.services || {}).filter(([, value]) => value !== "active").map(([name]) => name);
+            return `
+              <div class="resource-card">
+                <div class="resource-head">
+                  <b>${sourceLabel(location)}</b>
+                  <span class="pill ${status}">${status}</span>
+                </div>
+                ${host.error ? `<div class="small error">${host.error}</div>` : `
+                  <div class="resource-metrics">
+                    <div class="metric"><span>Disk</span><strong>${rootDisk.used_pct ?? "-"}%</strong></div>
+                    <div class="metric"><span>Free</span><strong>${fmtBytes(rootDisk.available_bytes)}</strong></div>
+                    <div class="metric"><span>Inodes</span><strong>${rootInodes.used_pct ?? "-"}%</strong></div>
+                    <div class="metric"><span>Memory Avail</span><strong>${mem.available_pct ?? "-"}%</strong></div>
+                    <div class="metric"><span>Swap Used</span><strong>${swap.used_pct ?? "-"}%</strong></div>
+                    <div class="metric"><span>Load / CPU</span><strong>${load.load5_per_cpu ?? "-"}</strong></div>
+                    <div class="metric"><span>Journal</span><strong>${fmtBytes(journal.size_bytes)}</strong></div>
+                    <div class="metric"><span>Failed Units</span><strong>${(host.failed_units || []).length}</strong></div>
+                    <div class="metric"><span>Inactive</span><strong>${inactive.length}</strong></div>
+                  </div>
+                  <div class="resource-foot">
+                    Root growth: ${trendLine(resources.trends, location) || "waiting for history"}
+                    ${inactive.length ? `<br>Inactive: ${inactive.slice(0, 4).join(", ")}` : ""}
+                  </div>
+                `}
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
     }
 
     function renderAlerts(alerts) {
