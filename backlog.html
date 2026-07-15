@@ -92,10 +92,10 @@ h1{font-size:26px;margin-bottom:12px}
 <header>
 <h1>📋 Backlog — Deferred Work Log</h1>
 <div class="header-info">
-<span><strong class="summary-count" id="count-open">113</strong> open</span>
+<span><strong class="summary-count" id="count-open">112</strong> open</span>
 <span><strong class="summary-count" id="count-in-progress">0</strong> in progress</span>
 <span><strong class="summary-count" id="count-done">5</strong> completed</span>
-<span><strong class="summary-count" id="count-wont-do">2</strong> will not do</span>
+<span><strong class="summary-count" id="count-wont-do">3</strong> will not do</span>
 <div class="header-actions">
 <button class="btn btn-primary" id="btn-add-item">+ Add Item</button>
 <button class="btn btn-success" id="btn-export">📥 Export Changes</button>
@@ -153,14 +153,14 @@ h1{font-size:26px;margin-bottom:12px}
 </div>
 
 <div class="archive-bar">
-<span class="archive-link" id="archive-toggle">📦 View Archive (7 items)</span>
+<span class="archive-link" id="archive-toggle">📦 View Archive (8 items)</span>
 </div>
 
 <div class="backlog-list" id="backlog-list">
 <div class="empty-state">Loading...</div>
 </div>
 
-<div class="footer">Last updated: July 15, 2026 at 07:38 AM</div>
+<div class="footer">Last updated: July 15, 2026 at 08:06 AM</div>
 </div>
 </div>
 <script src="auth.js"></script>
@@ -193,8 +193,8 @@ const BACKLOG_ITEMS = [
     "area": "Infrastructure",
     "surfaced": "2026-07-13",
     "context": "After migration to the main droplet, the Exam Good Luck Scheduler sent a routine weekly email even when no good-luck broadcasts were scheduled and no cleanup action happened. Dan wants this job to run silently when there is no action.",
-    "notes": "Update notification behavior so email is sent only when a meaningful action occurs or an error occurs: new exam-date tag creates/schedules a good-luck email, old exam-date tags are cleaned up, or the job fails. No-action runs should complete silently.",
-    "status": "open"
+    "notes": "Audited 2026-07-15. Live scheduler already skips email on pure no-action runs. It sends only when broadcasts are created, expired tags are cleaned up, cleanup errors occur, or the job fails. Current behavior is acceptable, so no implementation change planned.",
+    "status": "wont_do"
   },
   {
     "id": "2026-07-13-004",
