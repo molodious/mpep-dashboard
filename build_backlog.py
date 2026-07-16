@@ -21,6 +21,7 @@ open_count = len([i for i in items if i["status"] == "open"])
 ip_count = len([i for i in items if i["status"] == "in_progress"])
 done_count = len([i for i in items if i["status"] == "done"])
 wontdo_count = len([i for i in items if i["status"] == "wont_do"])
+someday_count = len([i for i in items if i["status"] == "someday"])
 area_options = sorted({i["area"] for i in items if i.get("area")})
 
 CSS = r""":root{--bg:#f5f7fa;--surface:#fff;--text:#333;--muted:#666;--border:#e5e7eb;--blue:#2563eb;--red:#e74c3c;--amber:#f39c12;--gray:#95a5a6;--light-gray:#f3f4f6;--green:#16a34a}
@@ -72,6 +73,7 @@ h1{font-size:26px;margin-bottom:12px}
 .status-in_progress{background:#d1fae5;color:#065f46}
 .status-done{background:#f3f4f6;color:#6b7280;text-decoration:line-through;opacity:.7}
 .status-wont_do{background:#f3f4f6;color:#9ca3af}
+.status-someday{background:#fef3c7;color:#92400e}
 .item-date{font-size:11px;color:#999;min-width:85px;text-align:right;flex-shrink:0}
 .item-expand{font-size:11px;color:#bbb;flex-shrink:0;transition:transform .2s;user-select:none}
 .item-expand.expanded{transform:rotate(180deg)}
@@ -125,6 +127,7 @@ html = f"""<!DOCTYPE html>
 <span><strong class="summary-count" id="count-in-progress">{ip_count}</strong> in progress</span>
 <span><strong class="summary-count" id="count-done">{done_count}</strong> completed</span>
 <span><strong class="summary-count" id="count-wont-do">{wontdo_count}</strong> will not do</span>
+<span><strong class="summary-count" id="count-someday">{someday_count}</strong> someday</span>
 <div class="header-actions">
 <button class="btn btn-primary" id="btn-add-item">+ Add Item</button>
 <button class="btn btn-success" id="btn-export">📥 Export Changes</button>
@@ -149,7 +152,7 @@ html = f"""<!DOCTYPE html>
 </div>
 <div class="form-group">
 <label>Status</label>
-<select id="new-status"><option value="open" selected>open</option><option value="in_progress">in_progress</option><option value="done">done</option><option value="wont_do">wont_do</option></select>
+<select id="new-status"><option value="open" selected>open</option><option value="in_progress">in_progress</option><option value="done">done</option><option value="wont_do">wont_do</option><option value="someday">someday</option></select>
 </div>
 <div class="form-group full-width">
 <label>Context</label>
@@ -171,6 +174,7 @@ html = f"""<!DOCTYPE html>
 <button class="view-tab active" data-view="all">All</button>
 <button class="view-tab" data-view="p1">P1</button>
 <button class="view-tab" data-view="area">By Area</button>
+<button class="view-tab" data-view="someday">Someday</button>
 </div>
 <div class="sort-control">
 <label>Sort:</label>
@@ -224,10 +228,12 @@ function updateCounts() {{
   const ip=items.filter(i=>i.status==="in_progress").length;
   const d=items.filter(i=>i.status==="done").length;
   const w=items.filter(i=>i.status==="wont_do").length;
+  const s=items.filter(i=>i.status==="someday").length;
   document.getElementById("count-open").textContent=o;
   document.getElementById("count-in-progress").textContent=ip;
   document.getElementById("count-done").textContent=d;
   document.getElementById("count-wont-do").textContent=w;
+  document.getElementById("count-someday").textContent=s;
 }}
 
 function markUnsaved(id) {{ unsavedSet.add(id); render(); }}
@@ -237,8 +243,10 @@ function getFiltered() {{
   // archive filter
   if (showArchive) {{
     result = result.filter(i => i.status === "done" || i.status === "wont_do");
+  }} else if (currentView === "someday") {{
+    result = result.filter(i => i.status === "someday");
   }} else {{
-    result = result.filter(i => i.status !== "done" && i.status !== "wont_do");
+    result = result.filter(i => i.status !== "done" && i.status !== "wont_do" && i.status !== "someday");
     if (currentView === "p1") result = result.filter(i => i.priority === "P1");
   }}
   // search
@@ -324,6 +332,7 @@ function renderItem(item) {{
           '<option value="in_progress"'+(item.status==="in_progress"?" selected":"")+'>in_progress</option>'+
           '<option value="done"'+(item.status==="done"?" selected":"")+'>done</option>'+
           '<option value="wont_do"'+(item.status==="wont_do"?" selected":"")+'>wont_do</option>'+
+          '<option value="someday"'+(item.status==="someday"?" selected":"")+'>someday</option>'+
         '</select></div>'+
         '<div class="editor-group"><label>Area</label>'+
         '<select class="ed-area" data-id="'+esc(item.id)+'">'+

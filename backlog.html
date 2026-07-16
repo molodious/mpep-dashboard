@@ -53,6 +53,7 @@ h1{font-size:26px;margin-bottom:12px}
 .status-in_progress{background:#d1fae5;color:#065f46}
 .status-done{background:#f3f4f6;color:#6b7280;text-decoration:line-through;opacity:.7}
 .status-wont_do{background:#f3f4f6;color:#9ca3af}
+.status-someday{background:#fef3c7;color:#92400e}
 .item-date{font-size:11px;color:#999;min-width:85px;text-align:right;flex-shrink:0}
 .item-expand{font-size:11px;color:#bbb;flex-shrink:0;transition:transform .2s;user-select:none}
 .item-expand.expanded{transform:rotate(180deg)}
@@ -93,10 +94,11 @@ h1{font-size:26px;margin-bottom:12px}
 <header>
 <h1>📋 Backlog — Deferred Work Log</h1>
 <div class="header-info">
-<span><strong class="summary-count" id="count-open">107</strong> open</span>
+<span><strong class="summary-count" id="count-open">106</strong> open</span>
 <span><strong class="summary-count" id="count-in-progress">0</strong> in progress</span>
 <span><strong class="summary-count" id="count-done">8</strong> completed</span>
 <span><strong class="summary-count" id="count-wont-do">5</strong> will not do</span>
+<span><strong class="summary-count" id="count-someday">1</strong> someday</span>
 <div class="header-actions">
 <button class="btn btn-primary" id="btn-add-item">+ Add Item</button>
 <button class="btn btn-success" id="btn-export">📥 Export Changes</button>
@@ -121,7 +123,7 @@ h1{font-size:26px;margin-bottom:12px}
 </div>
 <div class="form-group">
 <label>Status</label>
-<select id="new-status"><option value="open" selected>open</option><option value="in_progress">in_progress</option><option value="done">done</option><option value="wont_do">wont_do</option></select>
+<select id="new-status"><option value="open" selected>open</option><option value="in_progress">in_progress</option><option value="done">done</option><option value="wont_do">wont_do</option><option value="someday">someday</option></select>
 </div>
 <div class="form-group full-width">
 <label>Context</label>
@@ -143,6 +145,7 @@ h1{font-size:26px;margin-bottom:12px}
 <button class="view-tab active" data-view="all">All</button>
 <button class="view-tab" data-view="p1">P1</button>
 <button class="view-tab" data-view="area">By Area</button>
+<button class="view-tab" data-view="someday">Someday</button>
 </div>
 <div class="sort-control">
 <label>Sort:</label>
@@ -161,7 +164,7 @@ h1{font-size:26px;margin-bottom:12px}
 <div class="empty-state">Loading...</div>
 </div>
 
-<div class="footer">Last updated: July 16, 2026 at 06:43 AM</div>
+<div class="footer">Last updated: July 16, 2026 at 07:04 AM</div>
 </div>
 </div>
 <script src="auth.js"></script>
@@ -291,8 +294,8 @@ const BACKLOG_ITEMS = [
     "area": "Product",
     "surfaced": "2026-04-19",
     "context": "fe.html lacks FE-specific student quotes and pass rate data. Sample size too small to support a defensible claim.",
-    "notes": "Set up systematic post-completion review request for FE students. Revisit when sample size grows.",
-    "status": "open"
+    "notes": "Someday 2026-07-16. Keep as a Product Proof opportunity. Revisit when FE sample size grows enough for defensible testimonials or pass-rate proof; no active implementation until enough FE completions/pass reports exist.",
+    "status": "someday"
   },
   {
     "id": "2026-04-01-001",
@@ -1507,10 +1510,12 @@ function updateCounts() {
   const ip=items.filter(i=>i.status==="in_progress").length;
   const d=items.filter(i=>i.status==="done").length;
   const w=items.filter(i=>i.status==="wont_do").length;
+  const s=items.filter(i=>i.status==="someday").length;
   document.getElementById("count-open").textContent=o;
   document.getElementById("count-in-progress").textContent=ip;
   document.getElementById("count-done").textContent=d;
   document.getElementById("count-wont-do").textContent=w;
+  document.getElementById("count-someday").textContent=s;
 }
 
 function markUnsaved(id) { unsavedSet.add(id); render(); }
@@ -1520,8 +1525,10 @@ function getFiltered() {
   // archive filter
   if (showArchive) {
     result = result.filter(i => i.status === "done" || i.status === "wont_do");
+  } else if (currentView === "someday") {
+    result = result.filter(i => i.status === "someday");
   } else {
-    result = result.filter(i => i.status !== "done" && i.status !== "wont_do");
+    result = result.filter(i => i.status !== "done" && i.status !== "wont_do" && i.status !== "someday");
     if (currentView === "p1") result = result.filter(i => i.priority === "P1");
   }
   // search
@@ -1607,6 +1614,7 @@ function renderItem(item) {
           '<option value="in_progress"'+(item.status==="in_progress"?" selected":"")+'>in_progress</option>'+
           '<option value="done"'+(item.status==="done"?" selected":"")+'>done</option>'+
           '<option value="wont_do"'+(item.status==="wont_do"?" selected":"")+'>wont_do</option>'+
+          '<option value="someday"'+(item.status==="someday"?" selected":"")+'>someday</option>'+
         '</select></div>'+
         '<div class="editor-group"><label>Area</label>'+
         '<select class="ed-area" data-id="'+esc(item.id)+'">'+
