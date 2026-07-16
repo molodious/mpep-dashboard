@@ -38,8 +38,8 @@
       "area": "Security",
       "surfaced": "2026-07-13",
       "context": "OpenClaw still has a Token Health Check for Google, Kit, HubSpot, Zoom, and Typeform. During migration we decided direct token monitoring may be optional because central job-health monitoring will often reveal stale-token failures indirectly.",
-      "notes": "Decide whether to keep token health as a separate layer, split checks by environment, or retire it in favor of job-health alerts. If kept, inventory which tokens matter on main droplet, Study Coach, and OpenClaw, and keep checks silent unless action is needed.",
-      "status": "open"
+      "notes": "Completed 2026-07-15. Audited token-dependent automations across main droplet, Study Coach, OpenClaw, and relevant GitHub Actions. Retired the OpenClaw Token Health Check scheduled job and kept the sanitized OpenClaw workspace backup enabled. Rely on real job-health monitoring from migrated droplet and Study Coach automations rather than broad token heartbeat checks. Add narrow direct token checks only if a future incident exposes a real blind spot.",
+      "status": "done"
     },
     {
       "id": "2026-07-13-005",
