@@ -57,12 +57,12 @@ jobs:
             fi
           done
 
-      - name: Verify main dashboard is only a public shell
+      - name: Verify public root is only a moved stub
         run: |
           set -euo pipefail
           ! grep -Eiq 'auth\.js|id="auth-overlay"|pwd-input|logout\(' index.html
-          grep -q 'https://internal.mechanicalpeexamprep.com/crm/' index.html
-          grep -q 'https://internal.mechanicalpeexamprep.com/backlog/' index.html
+          grep -q 'https://internal.mechanicalpeexamprep.com/' index.html
+          ! grep -Eiq 'dash-card|Business &amp; Finance|Cron Jobs|Backlog' index.html
 
       - name: Verify public data stubs stay sanitized
         run: |
