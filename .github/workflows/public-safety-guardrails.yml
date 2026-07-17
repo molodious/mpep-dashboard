@@ -1,0 +1,92 @@
+name: Public Dashboard Safety Guardrails
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Verify public dashboard pages stay non-indexable
+        run: |
+          set -euo pipefail
+          test -f robots.txt
+          grep -Eq '^User-agent: \*$' robots.txt
+          grep -Eq '^Disallow: /$' robots.txt
+          while IFS= read -r file; do
+            grep -Eiq '<meta name="robots" content="noindex, nofollow">' "$file" || {
+              echo "$file is missing noindex/nofollow"
+              exit 1
+            }
+          done < <(find . -maxdepth 1 -name '*.html' -type f | sort)
+
+      - name: Verify moved public dashboard stubs
+        run: |
+          set -euo pipefail
+          declare -A moved=(
+            [crm.html]='https://internal.mechanicalpeexamprep.com/crm/'
+            [crm-contact.html]='https://internal.mechanicalpeexamprep.com/crm/'
+            [sales.html]='https://internal.mechanicalpeexamprep.com/sales/'
+            [sales-v2-staging.html]='https://internal.mechanicalpeexamprep.com/sales/'
+            [sales-legacy.html]='https://internal.mechanicalpeexamprep.com/sales/'
+            [financial.html]='https://internal.mechanicalpeexamprep.com/financial/'
+            [accountable-plan.html]='https://internal.mechanicalpeexamprep.com/accountable-plan/'
+            [scorecard.html]='https://internal.mechanicalpeexamprep.com/scorecard/'
+            [exams.html]='https://internal.mechanicalpeexamprep.com/exams/'
+            [pass-rates.html]='https://internal.mechanicalpeexamprep.com/pass-rates/'
+            [cron.html]='https://internal.mechanicalpeexamprep.com/cron/'
+            [cron-v2.html]='https://internal.mechanicalpeexamprep.com/cron/'
+            [backlog.html]='https://internal.mechanicalpeexamprep.com/backlog/'
+          )
+          for file in "${!moved[@]}"; do
+            grep -q "${moved[$file]}" "$file" || {
+              echo "$file does not point at ${moved[$file]}"
+              exit 1
+            }
+            if grep -Eiq 'auth\.js|id="auth-overlay"|https://btc\.mechanicalpeexamprep\.com/(scorecard|api/pass-rates|api/cron-monitor|financials|accountable-plan|orders-log|sales-v2-staging)' "$file"; then
+              echo "$file contains retired public dashboard logic or public sensitive API URLs"
+              exit 1
+            fi
+          done
+
+      - name: Verify main dashboard is only a public shell
+        run: |
+          set -euo pipefail
+          ! grep -Eiq 'auth\.js|id="auth-overlay"|pwd-input|logout\(' index.html
+          grep -q 'https://internal.mechanicalpeexamprep.com/crm/' index.html
+          grep -q 'https://internal.mechanicalpeexamprep.com/backlog/' index.html
+
+      - name: Verify public data stubs stay sanitized
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("data/backlog.json").read_text())
+          items = data.get("items", [])
+          if len(items) > 5:
+              raise SystemExit("data/backlog.json contains too many public items")
+          text = Path("data/backlog.json").read_text().lower()
+          banned = ["@", "gmail.com", "student", "customer", "stripe", "token", "secret", "password"]
+          found = [term for term in banned if term in text]
+          if found:
+              raise SystemExit(f"data/backlog.json contains banned public terms: {found}")
+          PY
+
+      - name: Verify obvious secrets and old public password are absent
+        run: |
+          set -euo pipefail
+          ! grep -RInE \
+            --exclude-dir=__pycache__ \
+            --exclude-dir=.git \
+            --exclude=public-safety-guardrails.yml \
+            'mpep2026|Password:\s*mpep|sk_live_|rk_live_|ghp_|github_pat_|xox[baprs]-|SG\.[A-Za-z0-9_-]+\.' .
