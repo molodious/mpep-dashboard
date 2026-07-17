@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const API_BASE = process.env.CRM_API_BASE || "https://btc.mechanicalpeexamprep.com/api/crm";
+const API_BASE = process.env.CRM_API_BASE || "http://localhost:3005";
 const API_KEY = process.env.CRM_API_KEY;
 const APPLY = process.argv.includes("--apply");
 const INTERNAL_DOMAIN_RE = /(?:^|\.)mechanicalpeexamprep\.com$/i;
 
 if (!API_KEY) {
   console.error("Missing CRM_API_KEY. Example:");
-  console.error("  $env:CRM_API_KEY='...'; node scripts/crm-email-contact-repair.js --apply");
+  console.error("  $env:CRM_API_KEY='...'; $env:CRM_API_BASE='http://localhost:3005'; node scripts/crm-email-contact-repair.js --apply");
   process.exit(1);
 }
 
