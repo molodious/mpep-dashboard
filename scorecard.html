@@ -1,184 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPEP Scorecard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=https://internal.mechanicalpeexamprep.com/scorecard/">
+  <title>Scorecard Moved</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:#0d1117; --surface:#161b22; --surface2:#1c2330; --border:#21262d;
-      --border2:#30363d; --text:#e6edf3; --muted:#8b949e; --dim:#484f58;
-      --blue:#58a6ff; --green:#3fb950; --purple:#a371f7; --yellow:#d29922;
-      --orange:#e3b341; --red:#f85149;
-    }
-    html { min-height:100%; overflow-x:hidden; overflow-y:scroll; scroll-behavior:smooth; }
-    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow:visible; touch-action:pan-y; }
-    #auth-overlay { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999; }
-    .auth-box { background:var(--surface); border:1px solid var(--border2); border-radius:14px; padding:40px 36px; width:100%; max-width:380px; text-align:center; }
-    .auth-logo { font-size:36px; margin-bottom:12px; }
-    .auth-title { font-size:20px; font-weight:700; margin-bottom:4px; }
-    .auth-sub { font-size:13px; color:var(--muted); margin-bottom:28px; }
-    .auth-box input { width:100%; background:var(--bg); border:1px solid var(--border2); color:var(--text); border-radius:8px; padding:11px 14px; font-size:15px; margin-bottom:12px; outline:none; }
-    .auth-box input:focus { border-color:var(--blue); }
-    .auth-box button { width:100%; background:var(--blue); color:var(--bg); border:0; border-radius:8px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; }
-    .auth-box button:disabled { opacity:.55; cursor:default; }
-    #pwd-error { display:none; color:var(--red); font-size:12px; margin-bottom:10px; }
-    header { background:var(--surface); border-bottom:1px solid var(--border); padding:18px 32px; }
-    .header-inner { max-width:1280px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:18px; }
-    .brand { display:flex; align-items:center; gap:12px; }
-    .brand-icon { font-size:28px; }
-    .brand-name { font-size:18px; font-weight:700; }
-    .header-actions { display:flex; align-items:center; gap:10px; }
-    .back-link { color:var(--muted); text-decoration:none; border:1px solid var(--border2); border-radius:6px; padding:7px 12px; font-size:12px; }
-    .back-link:hover { color:var(--blue); border-color:var(--blue); }
-    main { max-width:1280px; margin:auto; padding:42px 24px 64px; }
-    .period { color:var(--muted); font-size:12px; background:var(--surface); border:1px solid var(--border); padding:8px 12px; border-radius:8px; white-space:nowrap; }
-    section { margin-top:38px; }
-    section:first-child { margin-top:0; }
-    .section-heading { display:flex; align-items:center; gap:11px; margin-bottom:15px; }
-    .section-number { width:25px; height:25px; display:grid; place-items:center; border-radius:7px; color:var(--blue); background:rgba(88,166,255,.1); font-size:12px; font-weight:700; }
-    h2 { font-size:18px; }
-    .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
-    .kpi { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:17px 18px; min-width:0; }
-    .kpi-label { color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-size:10px; font-weight:700; margin-bottom:8px; }
-    .kpi-value { font-size:25px; line-height:1.1; font-weight:750; letter-spacing:-.02em; }
-    .kpi-note { color:var(--muted); font-size:11px; margin-top:7px; }
-    .positive { color:var(--green); }
-    .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; min-width:0; overflow:hidden; }
-    .card-title { font-size:14px; font-weight:700; margin-bottom:3px; }
-    .card-subtitle { font-size:11px; color:var(--muted); margin-bottom:17px; }
-    .chart-wrap { position:relative; height:285px; min-width:0; }
-    canvas { max-width:100%; }
-    .full { grid-column:1/-1; }
-    .insight { margin-top:14px; padding:12px 14px; background:var(--surface2); border-left:3px solid var(--purple); border-radius:0 8px 8px 0; color:var(--muted); font-size:12px; line-height:1.5; }
-    .data-error { display:none; background:rgba(248,81,73,.08); border:1px solid rgba(248,81,73,.35); color:#ffb4af; border-radius:12px; padding:18px; line-height:1.5; }
-    footer { color:var(--dim); text-align:center; font-size:11px; margin-top:52px; }
-    @media (max-width:900px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } .chart-grid { grid-template-columns:1fr; } .full { grid-column:auto; } }
-    @media (max-width:560px) { header { padding:15px 18px; } main { padding:30px 16px 50px; } .header-actions { gap:6px; } .back-link { display:none; } .period { font-size:10px; padding:7px 8px; } .kpi-grid { grid-template-columns:1fr 1fr; gap:8px; } .kpi { padding:14px; } .kpi-value { font-size:21px; } .chart-wrap { height:260px; } }
+    body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f6f8fb; color: #172033; }
+    main { width: min(520px, calc(100vw - 32px)); background: #fff; border: 1px solid #dde3ee; border-radius: 8px; padding: 28px; box-shadow: 0 12px 32px rgba(20, 34, 60, .08); }
+    h1 { margin: 0 0 10px; font-size: 22px; }
+    p { margin: 0 0 18px; line-height: 1.5; color: #4d5a70; }
+    a { color: #1f5fbf; font-weight: 650; }
   </style>
 </head>
 <body>
-  <div id="auth-overlay">
-    <div class="auth-box">
-      <div class="auth-logo">♠️</div>
-      <div class="auth-title">MPEP Dashboard</div>
-      <div class="auth-sub">Enter the dashboard password to continue</div>
-      <form id="auth-form">
-        <input id="pwd-input" type="password" placeholder="Password" autocomplete="current-password">
-        <div id="pwd-error"></div>
-        <button id="pwd-btn" type="submit">Unlock</button>
-      </form>
-    </div>
-  </div>
-  <div id="main-content" style="display:none">
-  <header>
-    <div class="header-inner">
-      <div class="brand"><div class="brand-icon">📈</div><div class="brand-name">MPEP Scorecard</div></div>
-      <div class="header-actions"><span class="period" id="periodLabel"></span><a class="back-link" href="https://internal.mechanicalpeexamprep.com/financial/">Financials</a><a class="back-link" href="index.html">← Main dashboard</a></div>
-    </div>
-  </header>
   <main>
-    <div class="data-error" id="dataError"></div>
-    <section>
-      <div class="section-heading"><div class="section-number">1</div><h2>Subscriber Growth</h2></div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Kit subscribers</div><div class="kpi-value" id="kitCurrent"></div><div class="kpi-note" id="kitDate"></div></div>
-        <div class="kpi"><div class="kpi-label">Kit · annual change</div><div class="kpi-value positive" id="kitChange"></div><div class="kpi-note" id="kitPct"></div></div>
-        <div class="kpi"><div class="kpi-label">YouTube subscribers</div><div class="kpi-value" id="ytCurrent"></div><div class="kpi-note" id="ytChange"></div></div>
-        <div class="kpi"><div class="kpi-label">YouTube · annual change</div><div class="kpi-value positive" id="ytAnnualChange"></div><div class="kpi-note" id="ytAnnualPct"></div></div>
-      </div>
-      <div class="chart-grid">
-        <div class="card"><div class="card-title">Kit subscribers</div><div class="card-subtitle">Monthly subscriber total</div><div class="chart-wrap"><canvas id="kitChart"></canvas></div></div>
-        <div class="card"><div class="card-title">YouTube subscribers</div><div class="card-subtitle">Monthly channel subscriber total</div><div class="chart-wrap"><canvas id="ytChart"></canvas></div></div>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-heading"><div class="section-number">2</div><h2>Partner Program</h2></div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Total partners</div><div class="kpi-value" id="partnerTotal"></div><div class="kpi-note">All-time cumulative</div></div>
-        <div class="kpi"><div class="kpi-label">Added this month</div><div class="kpi-value" id="partnerLatest"></div><div class="kpi-note" id="partnerLatestDate"></div></div>
-        <div class="kpi"><div class="kpi-label">Added · rolling 12</div><div class="kpi-value" id="partnerRolling"></div><div class="kpi-note">Last 12 reported months</div></div>
-        <div class="kpi"><div class="kpi-label">Monthly average</div><div class="kpi-value" id="partnerAverage"></div><div class="kpi-note">Rolling 12 months</div></div>
-      </div>
-      <div class="card"><div class="card-title">New and cumulative partners</div><div class="card-subtitle">Monthly additions (bars) and all-time partner count (line)</div><div class="chart-wrap"><canvas id="partnerChart"></canvas></div></div>
-    </section>
-
-    <section>
-      <div class="section-heading"><div class="section-number">3</div><h2>Full Access Bundle Projections</h2></div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Sold · rolling 12</div><div class="kpi-value" id="fabTotal"></div><div class="kpi-note">Actual bundles</div></div>
-        <div class="kpi"><div class="kpi-label">Monthly average</div><div class="kpi-value" id="fabAverage"></div><div class="kpi-note">Trailing 12 months</div></div>
-        <div class="kpi"><div class="kpi-label">Projected · next 3</div><div class="kpi-value" id="fabProjection3"></div><div class="kpi-note">Seasonally adjusted</div></div>
-        <div class="kpi"><div class="kpi-label">Projected · next 6</div><div class="kpi-value" id="fabProjection6"></div><div class="kpi-note">Seasonally adjusted</div></div>
-      </div>
-      <div class="card"><div class="card-title">Actual sales and six-month projection</div><div class="card-subtitle">Actual monthly sales (bars), projection (line), and ±4 range (shaded)</div><div class="chart-wrap"><canvas id="fabChart"></canvas></div><div class="insight">Projection based on the trailing 12-month average. Historical seasonal effects are reduced by 50% to reflect the limited sample. Range shown: ±4 bundles/month.</div></div>
-    </section>
-
-    <footer id="dataFooter">Loading live Scorecard data…</footer>
+    <h1>Scorecard moved</h1>
+    <p>The Scorecard now runs behind server-side authentication on the internal dashboard.</p>
+    <a href="https://internal.mechanicalpeexamprep.com/scorecard/">Open Scorecard</a>
   </main>
-  </div>
-  <script>
-    const SCORECARD_API = 'https://btc.mechanicalpeexamprep.com/scorecard';
-    const PARTNER_BASELINE = 129;
-
-    async function onAuthenticated() {
-      try {
-        const response = await fetch(SCORECARD_API, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`API returned ${response.status}`);
-        const data = await response.json();
-        if (!Array.isArray(data) || data.length < 13) throw new Error('Scorecard history is incomplete');
-        renderScorecard(data);
-      } catch (err) {
-        const errorBox = document.getElementById('dataError');
-        errorBox.textContent = `Scorecard data could not be loaded. ${err.message}. Please try refreshing the page.`;
-        errorBox.style.display = 'block';
-        document.querySelectorAll('section').forEach(section => section.style.display = 'none');
-        document.getElementById('dataFooter').textContent = 'Live data unavailable';
-      }
-    }
-
-    function renderScorecard(DATA) {
-    const historicalFabAverage = DATA.reduce((sum,row)=>sum+row.fab_sold,0)/DATA.length;
-    const RAW_SEASONAL_FACTORS = Array.from({length:12},(_,monthIndex)=>{
-      const values=DATA.filter(row=>Number(row.month.slice(5))-1===monthIndex).map(row=>row.fab_sold);
-      return values.length ? (values.reduce((sum,value)=>sum+value,0)/values.length)/historicalFabAverage : 1;
-    });
-    const FACTORS = RAW_SEASONAL_FACTORS.map(factor => 1 + 0.5 * (factor - 1));
-    const historicalFabStdDev = Math.sqrt(DATA.reduce((sum,row)=>sum+(row.fab_sold-historicalFabAverage)**2,0)/DATA.length);
-    const window12 = DATA.slice(-12), latest = DATA.at(-1), prior = DATA.find(d=>d.month===`${+latest.month.slice(0,4)-1}${latest.month.slice(4)}`);
-    const nf = new Intl.NumberFormat('en-US');
-    const monthName = m => new Date(`${m}-02T12:00:00`).toLocaleDateString('en-US',{month:'short',year:'numeric'});
-    const shortMonth = m => new Date(`${m}-02T12:00:00`).toLocaleDateString('en-US',{month:'short',year:'2-digit'});
-    const put = (id,value)=>document.getElementById(id).textContent=value;
-    const change = (now,before)=>({net:now-before,pct:(now-before)/before*100});
-    const kitDelta=change(latest.kit_subscribers,prior.kit_subscribers), ytDelta=change(latest.youtube_subscribers,prior.youtube_subscribers);
-    put('periodLabel',`${monthName(window12[0].month)} – ${monthName(latest.month)}`); put('kitCurrent',nf.format(latest.kit_subscribers)); put('kitDate',monthName(latest.month));
-    put('kitChange',`+${nf.format(kitDelta.net)}`); put('kitPct',`+${kitDelta.pct.toFixed(1)}% vs ${monthName(prior.month)}`);
-    put('ytCurrent',nf.format(latest.youtube_subscribers)); put('ytChange',monthName(latest.month)); put('ytAnnualChange',`+${nf.format(ytDelta.net)}`); put('ytAnnualPct',`+${ytDelta.pct.toFixed(1)}% vs ${monthName(prior.month)}`);
-    const totalPartners=PARTNER_BASELINE+DATA.reduce((s,d)=>s+d.partners_added,0), rollingPartners=window12.reduce((s,d)=>s+d.partners_added,0);
-    put('partnerTotal',nf.format(totalPartners)); put('partnerLatest',`+${latest.partners_added}`); put('partnerLatestDate',monthName(latest.month)); put('partnerRolling',`+${rollingPartners}`); put('partnerAverage',(rollingPartners/12).toFixed(1));
-    const fabTotal=window12.reduce((s,d)=>s+d.fab_sold,0), fabAvg=fabTotal/12;
-    const future=[]; let cursor=new Date(`${latest.month}-02T12:00:00`); for(let i=0;i<6;i++){cursor=new Date(cursor.getFullYear(),cursor.getMonth()+1,2,12); const month=`${cursor.getFullYear()}-${String(cursor.getMonth()+1).padStart(2,'0')}`; future.push({month,value:+(fabAvg*FACTORS[cursor.getMonth()]).toFixed(1)});}
-    const sum=n=>future.slice(0,n).reduce((s,d)=>s+d.value,0);
-    put('fabTotal',nf.format(fabTotal)); put('fabAverage',fabAvg.toFixed(1)); put('fabProjection3',sum(3).toFixed(1)); put('fabProjection6',sum(6).toFixed(1));
-    Chart.defaults.color='#8b949e'; Chart.defaults.borderColor='#30363d'; Chart.defaults.font.family='-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif'; Chart.defaults.animation=false;
-    const barValueLabels={id:'barValueLabels',afterDatasetsDraw(chart){const meta=chart.getDatasetMeta(0),ctx=chart.ctx;ctx.save();ctx.fillStyle='#e6edf3';ctx.font='600 11px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';meta.data.forEach((bar,i)=>ctx.fillText(chart.data.datasets[0].data[i],bar.x,bar.y-4));ctx.restore();}};
-    const common={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#1c2330',borderColor:'#30363d',borderWidth:1,titleColor:'#e6edf3',bodyColor:'#e6edf3',padding:10}},scales:{x:{grid:{display:false},ticks:{maxRotation:0}},y:{beginAtZero:false,grid:{color:'rgba(48,54,61,.65)'}}}};
-    const line=(id,key,color)=>new Chart(document.getElementById(id),{type:'line',data:{labels:window12.map(d=>shortMonth(d.month)),datasets:[{data:window12.map(d=>d[key]),borderColor:color,backgroundColor:color+'18',fill:true,tension:.32,pointRadius:3,pointHoverRadius:5,borderWidth:2}]},options:common});
-    line('kitChart','kit_subscribers','#58a6ff'); line('ytChart','youtube_subscribers','#a371f7');
-    let running=PARTNER_BASELINE, cumulative=DATA.map(d=>running+=d.partners_added).slice(-12);
-    new Chart(document.getElementById('partnerChart'),{plugins:[barValueLabels],data:{labels:window12.map(d=>shortMonth(d.month)),datasets:[{type:'bar',label:'New partners',data:window12.map(d=>d.partners_added),backgroundColor:'rgba(63,185,80,.55)',borderColor:'#3fb950',borderWidth:1,borderRadius:4,yAxisID:'y1'},{type:'line',label:'Cumulative partners',data:cumulative,borderColor:'#58a6ff',backgroundColor:'#58a6ff',tension:.25,pointRadius:3,borderWidth:2,yAxisID:'y'}]},options:{...common,layout:{padding:{top:12}},plugins:{...common.plugins,legend:{display:true,labels:{usePointStyle:true,boxWidth:8}}},scales:{x:{grid:{display:false}},y:{beginAtZero:false,position:'left',title:{display:true,text:'Cumulative partners'},grid:{color:'rgba(48,54,61,.65)'},ticks:{precision:0}},y1:{beginAtZero:true,position:'right',suggestedMax:12,title:{display:true,text:'New partners'},grid:{drawOnChartArea:false},ticks:{precision:0}}}}});
-    const allLabels=[...window12.map(d=>shortMonth(d.month)),...future.map(d=>shortMonth(d.month))], blanks=Array(12).fill(null);
-    new Chart(document.getElementById('fabChart'),{data:{labels:allLabels,datasets:[{type:'bar',label:'Actual',data:[...window12.map(d=>d.fab_sold),...Array(6).fill(null)],backgroundColor:'rgba(227,179,65,.58)',borderColor:'#e3b341',borderWidth:1,borderRadius:4,order:3},{type:'line',label:'Projection',data:[...blanks,...future.map(d=>d.value)],borderColor:'#a371f7',backgroundColor:'#a371f7',pointRadius:3,tension:.25,borderWidth:2,order:1},{type:'line',label:'Upper range',data:[...blanks,...future.map(d=>d.value+historicalFabStdDev)],borderColor:'transparent',backgroundColor:'rgba(163,113,247,.16)',pointRadius:0,fill:'+1',tension:.25,order:2},{type:'line',label:'Lower range',data:[...blanks,...future.map(d=>Math.max(0,d.value-historicalFabStdDev))],borderColor:'transparent',backgroundColor:'rgba(163,113,247,.16)',pointRadius:0,tension:.25,order:2}]},options:{...common,plugins:{...common.plugins,legend:{display:true,labels:{filter:item=>!item.text.includes('range'),usePointStyle:true,boxWidth:8}}},scales:{x:{grid:{display:false},ticks:{maxRotation:0}},y:{beginAtZero:true,grid:{color:'rgba(48,54,61,.65)'},ticks:{precision:0}}}}});
-    document.querySelector('#fabChart').closest('.card').querySelector('.card-subtitle').textContent=`Actual monthly sales (bars), projection (line), and ±${historicalFabStdDev.toFixed(1)} range (shaded)`;
-    document.querySelector('#fabChart').closest('.card').querySelector('.insight').textContent=`Projection based on the trailing 12-month average. Seasonal factors recalculate from all available history and are reduced by 50% toward neutral. Historical range shown: ±${historicalFabStdDev.toFixed(1)} bundles/month.`;
-    document.getElementById('dataFooter').textContent=`Live Scorecard data through ${monthName(latest.month)}`;
-    }
-  </script>
-  <script src="auth.js"></script>
 </body>
 </html>
