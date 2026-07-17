@@ -1,9 +1,9 @@
-name: Update Legacy Sales Dashboard
+name: Verify Retired Sales Dashboard
 
 on:
-  # The production sales dashboard is now API-backed and does not use this
-  # legacy static rebuild path. Keep this workflow available only for manual
-  # rollback/reference maintenance so order webhooks cannot overwrite sales.html.
+  # The sales dashboard is now hosted behind server-side auth at
+  # internal.mechanicalpeexamprep.com/sales/. This workflow is intentionally
+  # manual-only and verifies that public sales pages remain moved stubs.
   workflow_dispatch:
 
 concurrency:
@@ -11,66 +11,21 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 jobs:
-  rebuild:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Build legacy sales dashboard
-        env:
-          STRIPE_READONLY_KEY: ${{ secrets.STRIPE_READONLY_KEY }}
-          THINKIFIC_API_KEY: ${{ secrets.THINKIFIC_API_KEY }}
+      - name: Verify public sales pages are moved stubs
         run: |
-          python build_sales_dashboard.py
-          mv sales.html sales-legacy.html
-          git checkout -- sales.html
-
-      - name: Commit and push if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sales-legacy.html
-          if git diff --cached --quiet; then
-            echo "No changes to sales-legacy.html"
-          else
-            git commit -m "Auto-update legacy sales dashboard [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
-            git push
-          fi
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: .
-
-  deploy:
-    needs: rebuild
-    runs-on: ubuntu-latest
-    concurrency:
-      group: mpep-pages-deployment
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          set -euo pipefail
+          for file in sales.html sales-v2-staging.html sales-legacy.html; do
+            grep -q 'https://internal.mechanicalpeexamprep.com/sales/' "$file"
+            if grep -Eq 'sales-v2-staging|orders-log\?secret=|auth\.js|id="auth-overlay"' "$file"; then
+              echo "$file still contains retired public sales dashboard logic"
+              exit 1
+            fi
+          done

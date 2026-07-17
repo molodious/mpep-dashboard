@@ -428,7 +428,7 @@ def fetch_thinkific_data(cutoff_date=None):
     
     return orders
 
-WEBHOOK_LOG_URL = "https://btc.mechanicalpeexamprep.com/orders-log?secret=exJJYXW2UebdDgJWicFr"
+WEBHOOK_LOG_URL = os.environ.get("WEBHOOK_LOG_URL", "")
 
 def fetch_webhook_log(cutoff_date=None):
     """Fetch orders from the webhook log on the droplet.
@@ -437,6 +437,10 @@ def fetch_webhook_log(cutoff_date=None):
     """
     if cutoff_date is None:
         cutoff_date = datetime(2026, 3, 1)
+
+    if not WEBHOOK_LOG_URL:
+        print("  Warning: Missing WEBHOOK_LOG_URL env var; skipping webhook log.")
+        return [], set()
 
     try:
         response = requests.get(WEBHOOK_LOG_URL, timeout=10)
