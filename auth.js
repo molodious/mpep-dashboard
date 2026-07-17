@@ -1,6 +1,6 @@
 /**
  * MPEP Dashboard — Shared Auth Layer
- * Password: mpep2026  (change by updating HASH below + redeploying)
+ * Public dashboard shell gate. Real internal dashboard auth is enforced server-side.
  * Uses a pure-JS SHA-256 (no crypto.subtle required — works on HTTP too).
  */
 
