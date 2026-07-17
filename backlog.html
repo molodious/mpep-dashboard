@@ -94,10 +94,10 @@ h1{font-size:26px;margin-bottom:12px}
 <header>
 <h1>📋 Backlog — Deferred Work Log</h1>
 <div class="header-info">
-<span><strong class="summary-count" id="count-open">105</strong> open</span>
+<span><strong class="summary-count" id="count-open">104</strong> open</span>
 <span><strong class="summary-count" id="count-in-progress">0</strong> in progress</span>
 <span><strong class="summary-count" id="count-done">9</strong> completed</span>
-<span><strong class="summary-count" id="count-wont-do">5</strong> will not do</span>
+<span><strong class="summary-count" id="count-wont-do">6</strong> will not do</span>
 <span><strong class="summary-count" id="count-someday">1</strong> someday</span>
 <div class="header-actions">
 <button class="btn btn-primary" id="btn-add-item">+ Add Item</button>
@@ -157,14 +157,14 @@ h1{font-size:26px;margin-bottom:12px}
 </div>
 
 <div class="archive-bar">
-<span class="archive-link" id="archive-toggle">📦 View Archive (14 items)</span>
+<span class="archive-link" id="archive-toggle">📦 View Archive (15 items)</span>
 </div>
 
 <div class="backlog-list" id="backlog-list">
 <div class="empty-state">Loading...</div>
 </div>
 
-<div class="footer">Last updated: July 16, 2026 at 07:40 AM</div>
+<div class="footer">Last updated: July 17, 2026 at 06:48 AM</div>
 </div>
 </div>
 <script src="auth.js"></script>
@@ -272,8 +272,8 @@ const BACKLOG_ITEMS = [
     "area": "Infrastructure",
     "surfaced": "2026-04-28",
     "context": "Service code, ecosystem.config.js, and package files are now committed. Need to close remaining recovery gaps.",
-    "notes": "Done 2026-07-16. DigitalOcean backups confirmed for both droplets. Private GitHub recovery package created in molodious/mpep-droplet with RECOVERY.md, sanitized inventories, collector/verifier scripts, weekly automated inventory publishing to recovery/weekly-inventory, and Cron Dashboard monitoring.",
-    "status": "done"
+    "notes": "Commit /etc/nginx/sites-enabled/btcpay-thinkific, root crontab, helper scripts (enroll.js, enroll-manual.js, manual-taylor.js). Consider backup-droplet-configs.sh.",
+    "status": "open"
   },
   {
     "id": "2026-04-28-004",
@@ -349,7 +349,7 @@ const BACKLOG_ITEMS = [
     "area": "Security",
     "surfaced": "2026-04-30",
     "context": "molodious/mpep-dashboard is public. OH prep content and any hardcoded values are visible via GitHub search.",
-    "notes": "Updated 2026-07-16. IP exposure substantially remediated: OH Prep generated problem pages, solution folders, and OH Prep JSON/index data were removed from the public dashboard repo and moved behind Study Coach droplet auth. Keep this item open for remaining security work: CRM dashboard still exposes a browser-visible bearer token/client-side API access pattern, and sales/orders build scripts still contain a hardcoded orders-log shared-secret URL. Current recommendation is targeted cleanup, not GitHub paid/private Pages: move sensitive API access server-side on the droplet or behind a real authenticated proxy, remove public client-side secrets, then rotate affected tokens/secrets after removal.",
+    "notes": "Updated 2026-07-17. IP exposure substantially remediated: OH Prep generated problem pages, solution folders, and OH Prep JSON/index data were removed from the public dashboard repo and moved behind Study Coach droplet auth. CRM Phase 1 is deployed on the main droplet behind Basic Auth with shared username mpep: public CRM pages are now safe moved stubs, the dashboard card points to the protected server-hosted CRM route, and the browser no longer receives the CRM bearer token. Keep open for remaining work: add/confirm internal.mechanicalpeexamprep.com DNS, rotate the formerly public CRM token after confirming cutover, migrate sales/financial/accountable-plan/tax-planner/scorecard/exams/pass-rates/cron/backlog behind the same protected internal-dashboard pattern, and remove/rotate the sales/orders shared-secret URL.",
     "status": "open"
   },
   {
