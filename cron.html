@@ -15,10 +15,133 @@
   </style>
 </head>
 <body>
-  <main>
-    <h1>Cron Dashboard moved</h1>
-    <p>The Cron Dashboard now runs behind server-side authentication on the internal dashboard.</p>
-    <a href="https://internal.mechanicalpeexamprep.com/cron/">Open Cron Dashboard</a>
-  </main>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/cron.html" class="active">Cron Jobs</a>
+    <a href="/exams.html">Exams</a>
+    <a href="/oh-prep.html">OH Prep</a>
+  </nav>
+
+  <div class="header">
+    <div>
+      <h1>⏰ Cron Jobs</h1>
+      <div class="meta">
+        Auto-updated every 5 minutes<br>
+        Last generated: <strong>Jul 20, 2026 08:28 AM EDT</strong>
+      </div>
+    </div>
+    <button id="refreshBtn" style="background: var(--blue); color: var(--bg); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">🔄 Refresh</button>
+    <script>
+      document.getElementById('refreshBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('refreshBtn');
+        btn.textContent = '⏳ Rebuilding...';
+        btn.disabled = true;
+        try {
+          const res = await fetch('https://cron-rebuild.mechanicalpeexamprep.com/rebuild', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({token: 'rebuild-secret-12345'})
+          });
+          const data = await res.json();
+          if (data.success) {
+            btn.textContent = '✅ Done! Reloading...';
+            setTimeout(() => location.reload(true), 30000);
+          } else {
+            btn.textContent = '❌ Error — try again';
+            btn.disabled = false;
+          }
+        } catch (e) {
+          btn.textContent = '❌ Error — try again';
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </div>
+
+  <div class="stats">
+    <div class="stat stat-total">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Total Jobs</div>
+    </div>
+    <div class="stat stat-ok">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Healthy</div>
+    </div>
+    <div class="stat stat-error">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Errors</div>
+    </div>
+    <div class="stat stat-idle">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Idle</div>
+    </div>
+  </div>
+
+  <h2>Active Jobs <span class="section-badge badge-enabled">2 enabled</span></h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Schedule</th>
+        <th>Last Run</th>
+        <th>Next Run</th>
+        <th>Status</th>
+        <th>Last Error</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr class="row-error">
+  <td class="name-cell">
+    <strong>Daily workspace backup to GitHub</strong>
+    <br><span class="job-id">27913de8</span>
+    
+  </td>
+  <td class="schedule-cell">Sundays<br>2:00 AM ET</td>
+  <td class="time-cell">
+    <span class="relative">1d ago</span>
+    <br><span class="absolute">Jul 19, 2026 02:00 AM EDT</span>
+    <br><span class="duration">⏱ 1.1m</span>
+  </td>
+  <td class="time-cell">
+    <span class="relative">in 5d</span>
+    <br><span class="absolute">Jul 26, 2026 02:00 AM EDT</span>
+  </td>
+  <td class="status-cell status-error">
+    🔴 ERROR
+    <br><span class="error-count">(1 consecutive)</span>
+  </td>
+  <td class="error-cell"><span class="error-msg">cron: job execution timed out</span></td>
+</tr>
+<tr class="row-ok">
+  <td class="name-cell">
+    <strong>Cron Dashboard Auto-Update</strong>
+    <br><span class="job-id">41d44685</span>
+    <br><span class="desc">Regenerate cron.html and push to GitHub Pages every 5 minutes</span>
+  </td>
+  <td class="schedule-cell">Daily<br>3:00 AM ET</td>
+  <td class="time-cell">
+    <span class="relative">9d ago</span>
+    <br><span class="absolute">Jul 11, 2026 03:00 AM EDT</span>
+    <br><span class="duration">⏱ 37.8s</span>
+  </td>
+  <td class="time-cell">
+    <span class="relative">in 18h 31m</span>
+    <br><span class="absolute">Jul 21, 2026 03:00 AM EDT</span>
+  </td>
+  <td class="status-cell status-ok">
+    🟢 OK
+    
+  </td>
+  <td class="error-cell"><span class="no-error">—</span></td>
+</tr>
+    </tbody>
+  </table>
+
+  
+
+  <div class="footer">
+    Powered by <a href="https://openclaw.ai">OpenClaw</a> ♠️ Ace •
+    <a href="https://github.com/mpep-automation/mpep-dashboard">Source</a>
+  </div>
 </body>
 </html>
