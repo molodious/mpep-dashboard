@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Verify public dashboard safety before deploy
+        run: bash scripts/verify-public-safety.sh
+
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
